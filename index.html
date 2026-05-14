@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alumfer – Carpintería de Aluminio | Almirante Brown, Zona Sur GBA</title>
+<meta name="description" content="Fabricantes de aberturas de aluminio a medida. Colocación en seco. 15 años de experiencia. Zona Sur GBA. Presupuesto sin cargo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f1e3d;
+    --navy-mid: #1a3360;
+    --blue: #1e50a2;
+    --blue-light: #2e6fd4;
+    --accent: #4a9fd4;
+    --steel: #8ca0b8;
+    --white: #f5f7fa;
+    --off-white: #dde4ed;
+    --gray-dark: #1c2535;
+    --gray-mid: #2d3a4f;
+    --gray-light: #3d4f68;
+    --text-muted: #8898aa;
+    --gold: #c8a84b;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ===== NOISE TEXTURE OVERLAY ===== */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    height: 72px;
+    background: rgba(15,30,61,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: background 0.3s;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+
+  .logo-text strong {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--white);
+  }
+
+  .logo-text span {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--off-white);
+    text-decoration: none;
+    opacity: 0.75;
+    transition: opacity 0.2s, color 0.2s;
+  }
+
+  .nav-links a:hover { opacity: 1; color: var(--accent); }
+
+  .nav-cta {
+    background: var(--blue);
+    color: #fff !important;
+    opacity: 1 !important;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--blue-light) !important; }
+
+  /* ===== HERO ===== */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 120px 5% 80px;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 40%, var(--gray-dark) 100%);
+    z-index: -2;
+  }
+
+  .hero-grid-lines {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+      linear-gradient(rgba(46,111,212,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(46,111,212,0.07) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+  }
+
+  .hero-diagonal {
+    position: absolute;
+    right: -10%;
+    top: 0;
+    width: 55%;
+    height: 100%;
+    background: linear-gradient(160deg, var(--blue) 0%, var(--navy-mid) 60%);
+    clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
+    z-index: -1;
+    opacity: 0.35;
+  }
+
+  .hero-accent-line {
+    position: absolute;
+    left: 5%;
+    bottom: 30%;
+    width: 3px;
+    height: 140px;
+    background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+  }
+
+  .hero-content {
+    max-width: 680px;
+    animation: fadeUp 0.9s ease both;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(46,111,212,0.18);
+    border: 1px solid rgba(74,159,212,0.3);
+    border-radius: 2px;
+    padding: 6px 14px;
+    margin-bottom: 28px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.4); }
+  }
+
+  .hero-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 900;
+    line-height: 0.92;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .hero-title .line-blue { color: var(--accent); display: block; }
+  .hero-title .line-white { color: #fff; display: block; }
+
+  .hero-sub {
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--off-white);
+    opacity: 0.8;
+    max-width: 480px;
+    margin-bottom: 44px;
+  }
+
+  .hero-sub strong {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--blue);
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 16px 32px;
+    border-radius: 4px;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--blue-light); transform: translateY(-2px); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    color: var(--off-white);
+    text-decoration: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 16px 28px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 4px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-stats {
+    position: absolute;
+    bottom: 60px;
+    right: 5%;
+    display: flex;
+    gap: 48px;
+    animation: fadeUp 1.1s 0.3s ease both;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 4px;
+  }
+
+  /* ===== SECTIONS COMMON ===== */
+  section { position: relative; overflow: hidden; }
+
+  .section-label {
+    display: inline-block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    padding-left: 36px;
+    position: relative;
+  }
+
+  .section-label::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(36px, 5vw, 58px);
+    font-weight: 800;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+  }
+
+  .section-desc {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--off-white);
+    opacity: 0.75;
+    max-width: 560px;
+  }
+
+  /* ===== SERVICIOS ===== */
+  #servicios {
+    background: var(--gray-dark);
+    padding: 110px 5%;
+  }
+
+  .services-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 64px;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2px;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .service-card {
+    background: var(--gray-dark);
+    padding: 44px 36px;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: background 0.3s, border-color 0.3s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 0;
+    background: var(--accent);
+    transition: height 0.4s ease;
+  }
+
+  .service-card:hover { background: var(--gray-mid); border-color: rgba(74,159,212,0.2); }
+  .service-card:hover::before { height: 100%; }
+
+  .service-icon {
+    width: 52px;
+    height: 52px;
+    background: rgba(46,111,212,0.15);
+    border: 1px solid rgba(46,111,212,0.25);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    font-size: 24px;
+  }
+
+  .service-num {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 64px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.03);
+    line-height: 1;
+  }
+
+  .service-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    color: #fff;
+  }
+
+  .service-desc {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text-muted);
+  }
+
+  /* ===== GALERÍA ===== */
+  #galeria {
+    background: var(--navy);
+    padding: 110px 5%;
+  }
+
+  .gallery-header {
+    margin-bottom: 56px;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto;
+    gap: 6px;
+  }
+
+  .gallery-item {
+    background: var(--gray-mid);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    min-height: 220px;
+    display: flex;
+    align-items: flex-end;
+    padding: 24px;
+    transition: transform 0.3s;
+  }
+
+  .gallery-item:hover { transform: scale(1.01); z-index: 2; }
+
+  .gallery-item:nth-child(1) { grid-column: span 7; min-height: 300px; }
+  .gallery-item:nth-child(2) { grid-column: span 5; min-height: 300px; }
+  .gallery-item:nth-child(3) { grid-column: span 4; }
+  .gallery-item:nth-child(4) { grid-column: span 4; }
+  .gallery-item:nth-child(5) { grid-column: span 4; }
+
+  .gallery-fill {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* SVG illustrations for gallery items */
+  .gallery-svg { width: 80%; max-width: 280px; opacity: 0.15; }
+
+  .gallery-label {
+    position: relative;
+    z-index: 1;
+    background: rgba(15,30,61,0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(74,159,212,0.2);
+    border-radius: 3px;
+    padding: 8px 16px;
+  }
+
+  .gallery-label span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--off-white);
+  }
+
+  .gallery-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .gallery-placeholder svg { opacity: 0.12; }
+  .gallery-placeholder p {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    opacity: 0.6;
+  }
+
+  /* ===== POR QUÉ ELEGIRNOS ===== */
+  #elegirnos {
+    background: var(--navy-mid);
+    padding: 110px 5%;
+    position: relative;
+  }
+
+  #elegirnos::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(46,111,212,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(46,111,212,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .elegirnos-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+  }
+
+  .elegirnos-left .section-title { margin-bottom: 24px; }
+
+  .tagline-block {
+    border-left: 3px solid var(--gold);
+    padding: 16px 24px;
+    margin: 36px 0;
+    background: rgba(200,168,75,0.06);
+  }
+
+  .tagline-block p {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .reasons-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .reason-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 24px;
+    background: rgba(15,30,61,0.5);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .reason-item:hover {
+    border-color: rgba(74,159,212,0.25);
+    background: rgba(46,111,212,0.08);
+  }
+
+  .reason-icon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    background: rgba(46,111,212,0.15);
+    border: 1px solid rgba(46,111,212,0.3);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+
+  .reason-content h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .reason-content p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+  /* ===== RESEÑAS ===== */
+  #resenas {
+    background: var(--gray-dark);
+    padding: 110px 5%;
+  }
+
+  .resenas-header { margin-bottom: 56px; }
+
+  .stars {
+    color: var(--gold);
+    font-size: 18px;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .resenas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .resena-card {
+    background: var(--navy);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    padding: 36px 32px;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+
+  .resena-card:hover { border-color: rgba(74,159,212,0.2); }
+
+  .resena-card::before {
+    content: '"';
+    position: absolute;
+    top: 16px;
+    right: 24px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 120px;
+    font-weight: 900;
+    color: rgba(46,111,212,0.08);
+    line-height: 1;
+  }
+
+  .resena-text {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--off-white);
+    opacity: 0.85;
+    margin-bottom: 28px;
+    font-style: italic;
+  }
+
+  .resena-author {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .author-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .author-info strong {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  .author-info span {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* ===== CONTACTO ===== */
+  #contacto {
+    background: var(--navy);
+    padding: 110px 5%;
+    position: relative;
+  }
+
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contact-info { }
+
+  .contact-info .section-title { margin-bottom: 20px; }
+  .contact-info .section-desc { margin-bottom: 48px; }
+
+  .contact-items {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .contact-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .contact-item-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(46,111,212,0.12);
+    border: 1px solid rgba(46,111,212,0.25);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .contact-item-text strong {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .contact-item-text p, .contact-item-text a {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--off-white);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-item-text a:hover { color: var(--accent); }
+
+  .contact-form-wrapper {
+    background: var(--gray-dark);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 48px 44px;
+  }
+
+  .form-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 32px;
+    color: #fff;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    background: rgba(15,30,61,0.8);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 5px;
+    padding: 14px 16px;
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--blue-light);
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: var(--text-muted);
+    opacity: 0.5;
+  }
+
+  .form-group select option { background: var(--navy); }
+
+  .form-group textarea { resize: vertical; min-height: 110px; }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .btn-whatsapp {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: #25D366;
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 18px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-whatsapp:hover { background: #1ebe57; transform: translateY(-2px); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: #080f1e;
+    padding: 60px 5% 36px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 60px;
+  }
+
+  .footer-brand .logo-text strong { font-size: 28px; }
+
+  .footer-desc {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text-muted);
+    margin: 20px 0 28px;
+    max-width: 280px;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 12px;
+  }
+
+  .social-btn {
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .social-btn:hover { border-color: var(--accent); background: rgba(74,159,212,0.1); }
+
+  .footer-col h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 12px; }
+  .footer-col ul li a {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-col ul li a:hover { color: var(--off-white); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-bottom p {
+    font-size: 13px;
+    color: var(--text-muted);
+    opacity: 0.6;
+  }
+
+  .footer-tagline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.7;
+  }
+
+  /* ===== FLOATING WHATSAPP ===== */
+  .floating-wa {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 999;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #25D366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 24px rgba(37,211,102,0.4);
+    text-decoration: none;
+    font-size: 28px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: fadeUp 1s 1s ease both;
+  }
+  .floating-wa:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 32px rgba(37,211,102,0.6);
+  }
+
+  .floating-wa::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid rgba(37,211,102,0.4);
+    animation: ringPulse 2s infinite;
+  }
+
+  @keyframes ringPulse {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; }
+  }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .elegirnos-layout { grid-template-columns: 1fr; gap: 48px; }
+    .contact-layout { grid-template-columns: 1fr; gap: 48px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .hero-stats { position: static; margin-top: 48px; justify-content: flex-start; }
+    #hero { flex-direction: column; align-items: flex-start; }
+    .gallery-item:nth-child(1) { grid-column: span 12; }
+    .gallery-item:nth-child(2) { grid-column: span 12; }
+    .gallery-item:nth-child(3) { grid-column: span 12; }
+    .gallery-item:nth-child(4) { grid-column: span 6; }
+    .gallery-item:nth-child(5) { grid-column: span 6; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .footer-grid { grid-template-columns: 1fr; }
+    .hero-stats { flex-wrap: wrap; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">
+    <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="40" height="40" rx="6" fill="#1e50a2"/>
+      <path d="M8 30L20 10L32 30" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M12 22L28 22" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M20 10L14 30" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+    </svg>
+    <div class="logo-text">
+      <strong>ALUMFER</strong>
+      <span>Carpintería de Aluminio</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#galeria">Trabajos</a></li>
+    <li><a href="#elegirnos">Nosotros</a></li>
+    <li><a href="#resenas">Reseñas</a></li>
+    <li><a href="#contacto" class="nav-cta">Presupuesto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-diagonal"></div>
+  <div class="hero-accent-line"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">Zona Sur GBA · Almirante Brown</div>
+    <h1 class="hero-title">
+      <span class="line-blue">Aberturas</span>
+      <span class="line-white">de aluminio</span>
+      <span class="line-white">a medida</span>
+    </h1>
+    <p class="hero-sub">
+      Somos <strong>fabricantes directos</strong> con más de 15 años de experiencia. Colocación en seco, sin romper. Todas las líneas disponibles. <strong>Presupuesto sin cargo.</strong>
+    </p>
+    <div class="hero-actions">
+      <a href="https://wa.me/541163368643?text=Hola%20Alumfer%2C%20quiero%20solicitar%20un%20presupuesto" target="_blank" class="btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.552 4.116 1.52 5.845L0 24l6.335-1.496A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 01-5.003-1.368l-.36-.214-3.76.887.923-3.657-.234-.376A9.815 9.815 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+        Pedir presupuesto
+      </a>
+      <a href="#galeria" class="btn-secondary">
+        Ver trabajos
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">15+</span>
+      <span class="stat-label">Años en el rubro</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">100%</span>
+      <span class="stat-label">Fabricantes directos</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">GBA</span>
+      <span class="stat-label">Zona Sur · Cobertura</span>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="services-header reveal">
+    <div>
+      <div class="section-label">Servicios</div>
+      <h2 class="section-title">Todo en aluminio,<br>todo a medida</h2>
+    </div>
+    <p class="section-desc">Fabricamos y colocamos cualquier abertura de aluminio. Sin intermediarios, con materiales de primera calidad y tiempos de entrega cumplidos.</p>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <span class="service-num">01</span>
+      <div class="service-icon">🪟</div>
+      <h3 class="service-title">Ventanas</h3>
+      <p class="service-desc">Corredizas, batientes, proyectantes y de guillotina. Todas las líneas: Módena, Herrero, A30. Con o sin DVH (doble vidrio hermético).</p>
+    </div>
+    <div class="service-card">
+      <span class="service-num">02</span>
+      <div class="service-icon">🚪</div>
+      <h3 class="service-title">Puertas</h3>
+      <p class="service-desc">Puertas de entrada, interiores y de seguridad. Corredizas y plegadizas. Fabricadas a medida exacta para cada abertura.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-num">03</span>
+      <div class="service-icon">🏗️</div>
+      <h3 class="service-title">Cerramientos</h3>
+      <p class="service-desc">Cerramientos de balcones, patios y quinchos. Techos fijos y corredizos. Jardines de invierno con perfiles de alta prestación.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-num">04</span>
+      <div class="service-icon">🔲</div>
+      <h3 class="service-title">Mamparas</h3>
+      <p class="service-desc">Mamparas de baño fijas y corredizas. Divisores de ambientes y oficinas. Vidrio templado y laminado disponibles.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-num">05</span>
+      <div class="service-icon">🦟</div>
+      <h3 class="service-title">Mosquiteros</h3>
+      <p class="service-desc">Mosquiteros fijos, corredizos y enrollables. Fabricados a medida para cualquier tipo de abertura existente.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-num">06</span>
+      <div class="service-icon">🔧</div>
+      <h3 class="service-title">Colocación en seco</h3>
+      <p class="service-desc">Instalamos sin romper ni dañar paredes. Técnica profesional que garantiza terminación impecable y ahorro de tiempo de obra.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALERÍA -->
+<section id="galeria">
+  <div class="gallery-header reveal">
+    <div class="section-label">Trabajos realizados</div>
+    <h2 class="section-title">Cada trabajo,<br>una obra propia</h2>
+  </div>
+  <div class="gallery-grid reveal">
+
+    <div class="gallery-item">
+      <div class="gallery-placeholder">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="72" height="72" rx="4" stroke="white" stroke-width="2"/>
+          <rect x="4" y="4" width="34" height="34" rx="4" stroke="white" stroke-width="1.5" fill="none"/>
+          <rect x="42" y="4" width="34" height="34" rx="4" stroke="white" stroke-width="1.5" fill="none"/>
+          <rect x="4" y="42" width="34" height="34" rx="4" stroke="white" stroke-width="1.5" fill="none"/>
+          <rect x="42" y="42" width="34" height="34" rx="4" stroke="white" stroke-width="1.5" fill="none"/>
+        </svg>
+        <p>Ventana corrediza DVH</p>
+      </div>
+      <div class="gallery-label"><span>Ventanas · DVH</span></div>
+    </div>
+
+    <div class="gallery-item">
+      <div class="gallery-placeholder">
+        <svg width="60" height="80" viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="56" height="76" rx="4" stroke="white" stroke-width="2"/>
+          <rect x="8" y="10" width="44" height="56" rx="2" stroke="white" stroke-width="1.5" fill="none"/>
+          <circle cx="48" cy="38" r="4" stroke="white" stroke-width="1.5"/>
+          <line x1="30" y1="10" x2="30" y2="66" stroke="white" stroke-width="1" opacity="0.5"/>
+        </svg>
+        <p>Puerta de entrada</p>
+      </div>
+      <div class="gallery-label"><span>Puertas</span></div>
+    </div>
+
+    <div class="gallery-item">
+      <div class="gallery-placeholder">
+        <svg width="80" height="60" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="76" height="56" rx="4" stroke="white" stroke-width="2"/>
+          <path d="M2 20 L78 20" stroke="white" stroke-width="1.5" opacity="0.6"/>
+          <path d="M40 20 L40 58" stroke="white" stroke-width="1" opacity="0.4"/>
+          <rect x="8" y="26" width="28" height="26" rx="2" stroke="white" stroke-width="1.5" fill="none"/>
+          <rect x="44" y="26" width="28" height="26" rx="2" stroke="white" stroke-width="1.5" fill="none"/>
+        </svg>
+        <p>Cerramiento de balcón</p>
+      </div>
+      <div class="gallery-label"><span>Cerramientos</span></div>
+    </div>
+
+    <div class="gallery-item">
+      <div class="gallery-placeholder">
+        <svg width="70" height="60" viewBox="0 0 70 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="10" width="66" height="48" rx="3" stroke="white" stroke-width="2"/>
+          <path d="M2 10 L35 2 L68 10" stroke="white" stroke-width="1.5" fill="none"/>
+          <line x1="35" y1="10" x2="35" y2="58" stroke="white" stroke-width="1" opacity="0.5"/>
+        </svg>
+        <p>Techo corredizo</p>
+      </div>
+      <div class="gallery-label"><span>Techos</span></div>
+    </div>
+
+    <div class="gallery-item">
+      <div class="gallery-placeholder">
+        <svg width="50" height="80" viewBox="0 0 50 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="46" height="76" rx="3" stroke="white" stroke-width="2"/>
+          <line x1="2" y1="40" x2="48" y2="40" stroke="white" stroke-width="1.5" opacity="0.6"/>
+          <circle cx="40" cy="40" r="3" stroke="white" stroke-width="1.5"/>
+        </svg>
+        <p>Mampara de baño</p>
+      </div>
+      <div class="gallery-label"><span>Mamparas</span></div>
+    </div>
+
+  </div>
+  <div style="text-align:center; margin-top: 48px;" class="reveal">
+    <a href="https://www.instagram.com/alumfercarpinteria/" target="_blank" class="btn-secondary">
+      Ver más trabajos en Instagram
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- POR QUÉ ELEGIRNOS -->
+<section id="elegirnos">
+  <div class="elegirnos-layout">
+    <div class="elegirnos-left reveal">
+      <div class="section-label">Por qué elegirnos</div>
+      <h2 class="section-title">Empresa<br>familiar con<br>trayectoria</h2>
+      <div class="tagline-block">
+        <p>Construyendo con calidad,<br>trabajando con pasión</p>
+      </div>
+      <p class="section-desc">Somos fabricantes directos. Esto significa que cada abertura sale de nuestro taller hacia tu obra, sin intermediarios que encarecen el precio y alargan los tiempos.</p>
+    </div>
+    <div class="reasons-list reveal">
+      <div class="reason-item">
+        <div class="reason-icon">🏭</div>
+        <div class="reason-content">
+          <h4>Fábrica propia</h4>
+          <p>Fabricamos cada pieza en nuestro taller. Control total del proceso, materiales de primera calidad y precios sin intermediarios.</p>
+        </div>
+      </div>
+      <div class="reason-item">
+        <div class="reason-icon">📅</div>
+        <div class="reason-content">
+          <h4>15 años de experiencia</h4>
+          <p>Más de una década trabajando en Zona Sur GBA. Miles de obras residenciales y comerciales que nos respaldan.</p>
+        </div>
+      </div>
+      <div class="reason-item">
+        <div class="reason-icon">🔩</div>
+        <div class="reason-content">
+          <h4>Colocación en seco</h4>
+          <p>Instalamos sin romper paredes ni generar escombros. Técnica limpia, rápida y con terminación perfecta desde el primer día.</p>
+        </div>
+      </div>
+      <div class="reason-item">
+        <div class="reason-icon">🚚</div>
+        <div class="reason-content">
+          <h4>Envíos a toda la zona</h4>
+          <p>Llegamos a toda la Zona Sur del GBA. Presupuesto sin cargo y asesoramiento personalizado en cada proyecto.</p>
+        </div>
+      </div>
+      <div class="reason-item">
+        <div class="reason-icon">🛡️</div>
+        <div class="reason-content">
+          <h4>Garantía y post-venta</h4>
+          <p>Respaldamos cada trabajo con garantía real. Ante cualquier inconveniente, estamos presentes para resolverlo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEÑAS -->
+<section id="resenas">
+  <div class="resenas-header reveal">
+    <div class="section-label">Clientes</div>
+    <h2 class="section-title">Lo que dicen<br>quienes nos eligieron</h2>
+  </div>
+  <div class="resenas-grid reveal">
+    <div class="resena-card">
+      <span class="stars">★★★★★</span>
+      <p class="resena-text">Excelente trabajo en todo sentido. Vinieron a tomar las medidas, me asesoraron sobre qué línea convenía para mi caso y la colocación fue impecable. Sin romper nada, limpio y rápido.</p>
+      <div class="resena-author">
+        <div class="author-avatar">MG</div>
+        <div class="author-info">
+          <strong>Marcela G.</strong>
+          <span>Lomas de Zamora · Renovación de ventanas</span>
+        </div>
+      </div>
+    </div>
+    <div class="resena-card">
+      <span class="stars">★★★★★</span>
+      <p class="resena-text">Los contraté para cerrar el balcón completo. El resultado superó todas mis expectativas. El cerramiento quedó muy prolijo, sin filtraciones y se notó de inmediato la diferencia térmica.</p>
+      <div class="resena-author">
+        <div class="author-avatar">RV</div>
+        <div class="author-info">
+          <strong>Roberto V.</strong>
+          <span>Almirante Brown · Cerramiento de balcón</span>
+        </div>
+      </div>
+    </div>
+    <div class="resena-card">
+      <span class="stars">★★★★★</span>
+      <p class="resena-text">Muy buena relación calidad-precio. Son fabricantes ellos mismos, entonces el precio es mejor que en cualquier otro lado. Cumplieron los tiempos y la instalación fue muy profesional.</p>
+      <div class="resena-author">
+        <div class="author-avatar">LF</div>
+        <div class="author-info">
+          <strong>Laura F.</strong>
+          <span>Quilmes · Puertas y ventanas completas</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="contact-layout">
+    <div class="contact-info reveal">
+      <div class="section-label">Contacto</div>
+      <h2 class="section-title">Pedí tu<br>presupuesto<br>sin cargo</h2>
+      <p class="section-desc">Respondemos por WhatsApp en el día. Sin costos ocultos, sin compromiso.</p>
+
+      <div class="contact-items">
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div class="contact-item-text">
+            <strong>Dirección</strong>
+            <p>Av. San Martín 734, Almirante Brown<br>Zona Sur GBA, Buenos Aires</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📱</div>
+          <div class="contact-item-text">
+            <strong>WhatsApp</strong>
+            <a href="https://wa.me/541163368643" target="_blank">+54 11 6336-8643</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📷</div>
+          <div class="contact-item-text">
+            <strong>Instagram</strong>
+            <a href="https://www.instagram.com/alumfercarpinteria/" target="_blank">@alumfercarpinteria</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">🕐</div>
+          <div class="contact-item-text">
+            <strong>Horarios</strong>
+            <p>Lunes a viernes: 8:00 – 18:00<br>Sábados: 8:00 – 13:00</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form-wrapper reveal">
+      <h3 class="form-title">Solicitar presupuesto</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" id="fname" placeholder="Tu nombre">
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input type="tel" id="fphone" placeholder="Tu WhatsApp">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>¿Qué necesitás?</label>
+        <select id="fservice">
+          <option value="">Seleccioná un servicio...</option>
+          <option>Ventanas</option>
+          <option>Puertas</option>
+          <option>Cerramiento de balcón / patio</option>
+          <option>Mamparas de baño</option>
+          <option>Mosquiteros</option>
+          <option>Techo corredizo</option>
+          <option>Otro / Consulta general</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Detalle (opcional)</label>
+        <textarea id="fmsg" placeholder="Contanos brevemente qué obra tenés en mente, medidas aproximadas, barrio, etc."></textarea>
+      </div>
+      <a href="#" class="btn-whatsapp" id="sendBtn" onclick="sendWA(event)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.552 4.116 1.52 5.845L0 24l6.335-1.496A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 01-5.003-1.368l-.36-.214-3.76.887.923-3.657-.234-.376A9.815 9.815 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+        Enviar por WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="nav-logo" style="display:inline-flex;">
+        <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="40" height="40" rx="6" fill="#1e50a2"/>
+          <path d="M8 30L20 10L32 30" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <path d="M12 22L28 22" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M20 10L14 30" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+        </svg>
+        <div class="logo-text" style="margin-left:12px;">
+          <strong>ALUMFER</strong>
+          <span>Carpintería de Aluminio</span>
+        </div>
+      </div>
+      <p class="footer-desc">Fabricantes de aberturas de aluminio a medida. Más de 15 años trabajando en Zona Sur del GBA con calidad, experiencia y compromiso.</p>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/alumfercarpinteria/" target="_blank" class="social-btn" title="Instagram">📷</a>
+        <a href="https://www.facebook.com/alumfercarpinteria/" target="_blank" class="social-btn" title="Facebook">👤</a>
+        <a href="https://wa.me/541163368643" target="_blank" class="social-btn" title="WhatsApp">💬</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Servicios</h4>
+      <ul>
+        <li><a href="#servicios">Ventanas</a></li>
+        <li><a href="#servicios">Puertas</a></li>
+        <li><a href="#servicios">Cerramientos</a></li>
+        <li><a href="#servicios">Mamparas</a></li>
+        <li><a href="#servicios">Mosquiteros</a></li>
+        <li><a href="#servicios">Colocación en seco</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Empresa</h4>
+      <ul>
+        <li><a href="#elegirnos">Nosotros</a></li>
+        <li><a href="#galeria">Trabajos realizados</a></li>
+        <li><a href="#resenas">Reseñas</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+        <li><a href="https://wa.me/541163368643" target="_blank">Presupuesto sin cargo</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Alumfer Carpintería de Aluminio · Av. San Martín 734, Almirante Brown, Buenos Aires</p>
+    <span class="footer-tagline">Construyendo con calidad · Trabajando con pasión</span>
+  </div>
+</footer>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/541163368643?text=Hola%20Alumfer%2C%20quiero%20pedir%20un%20presupuesto" target="_blank" class="floating-wa" title="Contactar por WhatsApp">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.552 4.116 1.52 5.845L0 24l6.335-1.496A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 01-5.003-1.368l-.36-.214-3.76.887.923-3.657-.234-.376A9.815 9.815 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+</a>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // WhatsApp form sender
+  function sendWA(e) {
+    e.preventDefault();
+    const name = document.getElementById('fname').value.trim();
+    const phone = document.getElementById('fphone').value.trim();
+    const service = document.getElementById('fservice').value;
+    const msg = document.getElementById('fmsg').value.trim();
+    let text = 'Hola Alumfer, quiero solicitar un presupuesto.';
+    if (name) text += `\n\nNombre: ${name}`;
+    if (phone) text += `\nTeléfono: ${phone}`;
+    if (service) text += `\nServicio: ${service}`;
+    if (msg) text += `\nDetalle: ${msg}`;
+    window.open(`https://wa.me/541163368643?text=${encodeURIComponent(text)}`, '_blank');
+  }
+
+  // Nav scroll effect
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.background = window.scrollY > 50
+      ? 'rgba(15,30,61,0.98)'
+      : 'rgba(15,30,61,0.92)';
+  });
+</script>
+</body>
+</html>
