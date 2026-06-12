@@ -454,6 +454,12 @@
     color: var(--text-2);
   }
 
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(20,19,18,0.7) 0%, transparent 50%);
+  }
+
   /* ===== GALERÍA ===== */
   #galeria {
     background: var(--bg-alt);
@@ -472,7 +478,7 @@
   }
 
   .gallery-item {
-    background: var(--border);
+    background: var(--dark);
     border: 1px solid var(--border);
     border-radius: 2px;
     overflow: hidden;
@@ -641,7 +647,7 @@
   .resenas-header { margin-bottom: 56px; }
 
   .stars {
-    color: var(--gold);
+    color: var(--accent);
     font-size: 14px;
     letter-spacing: 3px;
     margin-bottom: 20px;
@@ -773,7 +779,7 @@
     font-size: 10px;
     letter-spacing: 2.5px;
     text-transform: uppercase;
-    color: var(--gold);
+    color: rgba(255,255,255,0.5);
     margin-bottom: 4px;
   }
 
@@ -837,7 +843,7 @@
   .form-group input:focus,
   .form-group select:focus,
   .form-group textarea:focus {
-    border-color: var(--gold);
+    border-color: var(--accent);
   }
 
   .form-group input::placeholder,
@@ -902,6 +908,58 @@
   }
   .btn-email:hover { border-color: rgba(255,255,255,0.4); color: var(--white); }
 
+  /* ===== FRANJA FABRICANTES ===== */
+  .fab-strip {
+    background: var(--accent);
+    padding: 0 5%;
+    border-top: none;
+  }
+
+  .fab-strip-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0;
+    padding: 20px 0;
+  }
+
+  .fab-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255,255,255,0.85);
+    flex: 1;
+    min-width: 160px;
+    justify-content: center;
+  }
+
+  .fab-item svg { opacity: 0.8; }
+
+  .fab-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+  }
+
+  .fab-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+  }
+
+  .fab-divider {
+    width: 1px;
+    height: 32px;
+    background: rgba(255,255,255,0.2);
+    flex-shrink: 0;
+  }
+
   /* ===== FOOTER ===== */
   footer {
     background: var(--dark-2);
@@ -952,7 +1010,7 @@
     font-weight: 400;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: var(--gold);
+    color: rgba(255,255,255,0.5);
     margin-bottom: 24px;
   }
 
@@ -1098,7 +1156,7 @@
       <span class="line-white">a medida</span>
     </h1>
     <p class="hero-sub">
-      Somos <strong>fabricantes directos</strong> con más de 15 años de experiencia. Colocación en seco, sin romper. Todas las líneas disponibles. <strong>Presupuesto sin cargo.</strong>
+      Somos <strong>fabricantes directos</strong> desde hace 16 años. Colocación en seco, sin romper. Todas las líneas disponibles. <strong>Presupuesto sin cargo.</strong>
     </p>
     <div class="hero-actions">
       <a href="https://wa.me/541163368643?text=Hola%20Alumfer%2C%20quiero%20solicitar%20un%20presupuesto" target="_blank" class="btn-primary">
@@ -1132,6 +1190,36 @@
     </div>
   </div>
 </section>
+
+<!-- FRANJA FABRICANTES -->
+<div class="fab-strip">
+  <div class="fab-strip-inner">
+    <div class="fab-item">
+      <span class="fab-num">16</span>
+      <span class="fab-label">años fabricando</span>
+    </div>
+    <div class="fab-divider"></div>
+    <div class="fab-item">
+      <span class="fab-num">100%</span>
+      <span class="fab-label">fabricación propia</span>
+    </div>
+    <div class="fab-divider"></div>
+    <div class="fab-item fab-highlight">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span class="fab-label">Sin intermediarios</span>
+    </div>
+    <div class="fab-divider"></div>
+    <div class="fab-item">
+      <span class="fab-num">∞</span>
+      <span class="fab-label">líneas disponibles</span>
+    </div>
+    <div class="fab-divider"></div>
+    <div class="fab-item">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      <span class="fab-label">Colocación en seco</span>
+    </div>
+  </div>
+</div>
 
 <!-- SERVICIOS -->
 <section id="servicios">
@@ -1185,78 +1273,39 @@
 <!-- GALERÍA -->
 <section id="galeria">
   <div class="gallery-header reveal">
-    <div class="section-label">Trabajos realizados</div>
-    <h2 class="section-title">Cada trabajo,<br>una obra propia</h2>
+    <div class="section-label">Nuestros trabajos</div>
+    <h2 class="section-title">Fabricamos y colocamos<br>en toda la Zona Sur</h2>
+    <p class="section-desc" style="margin-top:16px;">Cada proyecto es único. Trabajamos con todas las líneas de aluminio y vidrios DVH, doble contacto y simple.</p>
   </div>
   <div class="gallery-grid reveal">
 
-    <div class="gallery-item">
-      <div class="gallery-placeholder">
-        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" y="4" width="72" height="72" rx="4" stroke="white" stroke-width="2"/>
-          <rect x="4" y="4" width="34" height="34" rx="4" stroke="white" stroke-width="1.5" fill="none"/>
-          <rect x="42" y="4" width="34" height="34" rx="4" stroke="white" stroke-width="1.5" fill="none"/>
-          <rect x="4" y="42" width="34" height="34" rx="4" stroke="white" stroke-width="1.5" fill="none"/>
-          <rect x="42" y="42" width="34" height="34" rx="4" stroke="white" stroke-width="1.5" fill="none"/>
-        </svg>
-        <p>Ventana corrediza DVH</p>
-      </div>
-      <div class="gallery-label"><span>Ventanas · DVH</span></div>
+    <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=80&auto=format&fit=crop'); background-size:cover; background-position:center;">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label"><span>Ventanas corredizas · DVH</span></div>
     </div>
 
-    <div class="gallery-item">
-      <div class="gallery-placeholder">
-        <svg width="60" height="80" viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" y="2" width="56" height="76" rx="4" stroke="white" stroke-width="2"/>
-          <rect x="8" y="10" width="44" height="56" rx="2" stroke="white" stroke-width="1.5" fill="none"/>
-          <circle cx="48" cy="38" r="4" stroke="white" stroke-width="1.5"/>
-          <line x1="30" y1="10" x2="30" y2="66" stroke="white" stroke-width="1" opacity="0.5"/>
-        </svg>
-        <p>Puerta de entrada</p>
-      </div>
-      <div class="gallery-label"><span>Puertas</span></div>
+    <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80&auto=format&fit=crop'); background-size:cover; background-position:center;">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label"><span>Puertas de aluminio</span></div>
     </div>
 
-    <div class="gallery-item">
-      <div class="gallery-placeholder">
-        <svg width="80" height="60" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" y="2" width="76" height="56" rx="4" stroke="white" stroke-width="2"/>
-          <path d="M2 20 L78 20" stroke="white" stroke-width="1.5" opacity="0.6"/>
-          <path d="M40 20 L40 58" stroke="white" stroke-width="1" opacity="0.4"/>
-          <rect x="8" y="26" width="28" height="26" rx="2" stroke="white" stroke-width="1.5" fill="none"/>
-          <rect x="44" y="26" width="28" height="26" rx="2" stroke="white" stroke-width="1.5" fill="none"/>
-        </svg>
-        <p>Cerramiento de balcón</p>
-      </div>
-      <div class="gallery-label"><span>Cerramientos</span></div>
+    <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&q=80&auto=format&fit=crop'); background-size:cover; background-position:center;">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label"><span>Cerramientos de balcón</span></div>
     </div>
 
-    <div class="gallery-item">
-      <div class="gallery-placeholder">
-        <svg width="70" height="60" viewBox="0 0 70 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" y="10" width="66" height="48" rx="3" stroke="white" stroke-width="2"/>
-          <path d="M2 10 L35 2 L68 10" stroke="white" stroke-width="1.5" fill="none"/>
-          <line x1="35" y1="10" x2="35" y2="58" stroke="white" stroke-width="1" opacity="0.5"/>
-        </svg>
-        <p>Techo corredizo</p>
-      </div>
-      <div class="gallery-label"><span>Techos</span></div>
+    <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80&auto=format&fit=crop'); background-size:cover; background-position:center;">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label"><span>Frentes y fachadas</span></div>
     </div>
 
-    <div class="gallery-item">
-      <div class="gallery-placeholder">
-        <svg width="50" height="80" viewBox="0 0 50 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" y="2" width="46" height="76" rx="3" stroke="white" stroke-width="2"/>
-          <line x1="2" y1="40" x2="48" y2="40" stroke="white" stroke-width="1.5" opacity="0.6"/>
-          <circle cx="40" cy="40" r="3" stroke="white" stroke-width="1.5"/>
-        </svg>
-        <p>Mampara de baño</p>
-      </div>
-      <div class="gallery-label"><span>Mamparas</span></div>
+    <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&q=80&auto=format&fit=crop'); background-size:cover; background-position:center;">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label"><span>Mamparas de baño</span></div>
     </div>
 
   </div>
-  <div style="text-align:center; margin-top: 48px;" class="reveal">
+  <div style="text-align:center; margin-top: 56px;" class="reveal">
     <a href="https://www.instagram.com/alumfercarpinteria/" target="_blank" class="btn-secondary">
       Ver más trabajos en Instagram
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
