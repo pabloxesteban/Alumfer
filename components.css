@@ -288,8 +288,8 @@
   letter-spacing: -0.03em;
   color: var(--text-on-dark);
   line-height: 1.05;
-  max-width: 14ch;
   margin-bottom: var(--space-6);
+  text-align: center;
 }
 
 /* "ALUMFER" destacado en bold dentro del título */
