@@ -379,6 +379,17 @@
   transform: scale(1.04);
 }
 
+/* Variante con ícono SVG en lugar de foto (estilo Branch) */
+.product-card__icon {
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--carbon);
+  color: var(--concrete);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
 .product-card__body {
   padding: var(--space-6);
   display: flex;
@@ -528,18 +539,15 @@
   gap: var(--space-4);
 }
 
-/* Ícono de feature con acento azul */
+/* Ícono de feature — minimalista, sin caja (estilo Branch) */
 .feature__icon {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(27, 108, 200, 0.12);
-  border: 1px solid rgba(27, 108, 200, 0.20);
-  border-radius: var(--radius-md);
-  color: var(--blue-light);
-  font-size: 1.25rem;
+  color: var(--concrete);
+  margin-bottom: var(--space-2);
   flex-shrink: 0;
 }
 
