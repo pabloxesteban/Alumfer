@@ -6,7 +6,7 @@
 <title>Alumfer – Carpintería de Aluminio | Almirante Brown, Zona Sur GBA</title>
 <meta name="description" content="Fabricantes de aberturas de aluminio a medida. Colocación en seco. 15 años de experiencia. Zona Sur GBA. Presupuesto sin cargo.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Cormorant+Garamond:ital,wght@1,400;1,500&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg:        #F5F3EF;
@@ -19,7 +19,7 @@
     --text-muted:#9B958F;
     --accent:    #1A3F8C;
     --accent-lt: #2251B0;
-    --gold:      #B8965A;
+    --gold:      #1A3F8C;
     --border:    #DDD9D3;
     --white:     #FFFFFF;
     /* legacy aliases so nothing breaks */
@@ -194,15 +194,15 @@
     align-items: center;
     gap: 10px;
     background: transparent;
-    border: 1px solid rgba(184,150,90,0.5);
+    border: 1px solid rgba(255,255,255,0.3);
     border-radius: 1px;
     padding: 7px 16px;
     margin-bottom: 36px;
-    font-family: 'DM Mono', monospace;
+    font-family: 'Montserrat', monospace;
     font-size: 11px;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: var(--gold);
+    color: rgba(255,255,255,0.8);
   }
 
   .hero-badge::before {
@@ -210,7 +210,7 @@
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background: var(--gold);
+    background: rgba(255,255,255,0.8);
     animation: pulse 2s infinite;
   }
 
@@ -220,16 +220,16 @@
   }
 
   .hero-title {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: clamp(62px, 9vw, 112px);
-    font-weight: 900;
+    font-weight: 800;
     line-height: 0.88;
     letter-spacing: -1px;
     text-transform: uppercase;
     margin-bottom: 36px;
   }
 
-  .hero-title .line-blue { color: var(--gold); display: block; }
+  .hero-title .line-blue { color: rgba(255,255,255,0.9); display: block; }
   .hero-title .line-white { color: #fff; display: block; }
 
   .hero-sub {
@@ -260,7 +260,7 @@
     background: var(--accent);
     color: #fff;
     text-decoration: none;
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     font-size: 14px;
     letter-spacing: 2px;
@@ -288,7 +288,7 @@
     border-radius: 2px;
     transition: border-color 0.2s, color 0.2s;
   }
-  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-secondary:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
 
   .hero-stats {
     position: absolute;
@@ -304,9 +304,9 @@
   }
 
   .stat-num {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 64px;
-    font-weight: 900;
+    font-weight: 800;
     color: var(--white);
     line-height: 1;
     display: block;
@@ -319,7 +319,7 @@
     color: rgba(255,255,255,0.35);
     display: block;
     margin-top: 6px;
-    font-family: 'DM Mono', monospace;
+    font-family: 'Montserrat', monospace;
   }
 
   /* ===== SECTIONS COMMON ===== */
@@ -327,7 +327,7 @@
 
   .section-label {
     display: inline-block;
-    font-family: 'DM Mono', monospace;
+    font-family: 'Montserrat', monospace;
     font-size: 10px;
     font-weight: 400;
     letter-spacing: 4px;
@@ -346,11 +346,11 @@
     transform: translateY(-50%);
     width: 20px;
     height: 1px;
-    background: var(--gold);
+    background: var(--accent);
   }
 
   .section-title {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: clamp(42px, 5vw, 68px);
     font-weight: 800;
     line-height: 0.95;
@@ -406,7 +406,7 @@
     bottom: 0; left: 0;
     width: 0;
     height: 2px;
-    background: var(--gold);
+    background: var(--accent);
     transition: width 0.4s ease;
   }
 
@@ -430,7 +430,7 @@
     position: absolute;
     top: 24px;
     right: 28px;
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Montserrat', serif;
     font-size: 80px;
     font-weight: 500;
     color: rgba(0,0,0,0.04);
@@ -516,7 +516,7 @@
   }
 
   .gallery-label span {
-    font-family: 'DM Mono', monospace;
+    font-family: 'Montserrat', monospace;
     font-size: 11px;
     font-weight: 400;
     letter-spacing: 2px;
@@ -563,14 +563,14 @@
   .elegirnos-left .section-title { margin-bottom: 24px; }
 
   .tagline-block {
-    border-left: 2px solid var(--gold);
+    border-left: 2px solid var(--accent);
     padding: 20px 28px;
     margin: 40px 0;
     background: transparent;
   }
 
   .tagline-block p {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 26px;
     font-weight: 700;
     font-style: normal;
@@ -598,7 +598,7 @@
   }
 
   .reason-item:hover {
-    border-color: var(--gold);
+    border-color: var(--accent);
     background: var(--white);
   }
 
@@ -670,7 +670,7 @@
     position: absolute;
     top: 20px;
     right: 32px;
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Montserrat', serif;
     font-size: 140px;
     font-weight: 400;
     color: rgba(0,0,0,0.04);
@@ -678,7 +678,7 @@
   }
 
   .resena-text {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Montserrat', serif;
     font-size: 18px;
     font-weight: 400;
     line-height: 1.7;
@@ -710,7 +710,7 @@
 
   .author-info strong {
     display: block;
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 16px;
     font-weight: 700;
     letter-spacing: 1px;
@@ -769,7 +769,7 @@
 
   .contact-item-text strong {
     display: block;
-    font-family: 'DM Mono', monospace;
+    font-family: 'Montserrat', monospace;
     font-size: 10px;
     letter-spacing: 2.5px;
     text-transform: uppercase;
@@ -794,7 +794,7 @@
   }
 
   .form-title {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 32px;
     font-weight: 800;
     text-transform: uppercase;
@@ -809,7 +809,7 @@
 
   .form-group label {
     display: block;
-    font-family: 'DM Mono', monospace;
+    font-family: 'Montserrat', monospace;
     font-size: 10px;
     font-weight: 400;
     letter-spacing: 2.5px;
@@ -864,7 +864,7 @@
     background: #25D366;
     color: #fff;
     text-decoration: none;
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     font-size: 16px;
     letter-spacing: 1.5px;
@@ -947,7 +947,7 @@
   .social-btn:hover { border-color: var(--accent); background: rgba(74,159,212,0.1); }
 
   .footer-col h4 {
-    font-family: 'DM Mono', monospace;
+    font-family: 'Montserrat', monospace;
     font-size: 10px;
     font-weight: 400;
     letter-spacing: 3px;
@@ -984,7 +984,7 @@
   }
 
   .footer-tagline {
-    font-family: 'DM Mono', monospace;
+    font-family: 'Montserrat', monospace;
     font-size: 10px;
     letter-spacing: 3px;
     text-transform: uppercase;
