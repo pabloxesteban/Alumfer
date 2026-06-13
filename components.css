@@ -1676,6 +1676,6 @@
 /* ─── Features title: una línea en mobile ────────────────── */
 @media (max-width: 768px) {
   #features-title {
-    font-size: var(--text-xl);
+    font-size: var(--text-2xl);
   }
 }
