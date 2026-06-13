@@ -13,6 +13,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'BatmanForeverOutline';
+  src: url('batman-forever-outline.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ─── Paleta ─────────────────────────────────────────────── */
 :root {
   /* Oscuros */
