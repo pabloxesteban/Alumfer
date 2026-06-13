@@ -422,6 +422,27 @@
   flex-shrink: 0;
 }
 
+.info-card__img--profile {
+  aspect-ratio: 4/3;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-card__img--profile img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: none;
+  padding: 1rem;
+}
+
+.info-card:hover .info-card__img--profile img {
+  transform: scale(1.03);
+  filter: none;
+}
+
 .info-card__img img {
   width: 100%;
   height: 100%;
