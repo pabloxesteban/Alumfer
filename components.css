@@ -446,13 +446,12 @@
 .info-card__img img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  background-color: var(--carbon);
+  object-fit: cover;
   transition: transform 400ms var(--ease);
 }
 
 .info-card:hover .info-card__img img {
-  transform: scale(1.03);
+  transform: scale(1.04);
 }
 
 .info-card__swatch {
