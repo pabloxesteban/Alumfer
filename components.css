@@ -1075,7 +1075,7 @@
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: var(--space-3);
   max-width: 560px;
 }
 
@@ -1097,8 +1097,8 @@
 .form-select,
 .form-textarea {
   width: 100%;
-  padding: 0.875rem 1rem;
-  font-size: var(--text-base);
+  padding: 0.5rem 0.75rem;
+  font-size: var(--text-sm);
   font-family: var(--font);
   color: var(--text-on-dark);
   background-color: var(--steel-light);
