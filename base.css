@@ -95,7 +95,8 @@ button { cursor: pointer; }
 
 /* ─── Secciones ──────────────────────────────────────────── */
 .section {
-  padding-block: var(--section-y);
+  padding-block-start: clamp(1.5rem, 3vw, 2.5rem);
+  padding-block-end: var(--section-y);
 }
 
 .section--dark {
