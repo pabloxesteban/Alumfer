@@ -74,10 +74,10 @@
 }
 
 .navbar__logo-name {
-  font-family: 'Orbitron', sans-serif;
-  font-size: var(--text-md);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: var(--text-xl);
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   color: var(--text-on-dark);
 }
 
