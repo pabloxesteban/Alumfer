@@ -1580,16 +1580,22 @@
     flex: 0 0 72vw;
     max-width: 280px;
     scroll-snap-align: start;
+    align-items: center;
+    text-align: center;
   }
 
   .feature__icon {
-    width: 52px;
-    height: 52px;
+    width: 72px;
+    height: 72px;
   }
 
   .feature__icon svg {
-    width: 26px;
-    height: 26px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .feature__desc {
+    max-width: 100%;
   }
 }
 
