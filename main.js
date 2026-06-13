@@ -122,6 +122,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     menuBtn.addEventListener('click', toggleMenu);
 
+    const closeBtn = mobileNav.querySelector('.mobile-nav__close');
+    if (closeBtn) closeBtn.addEventListener('click', toggleMenu);
+
     // Cerrar al hacer click en un link del menú
     mobileNav.querySelectorAll('.mobile-nav__link').forEach(link => {
       link.addEventListener('click', () => {
