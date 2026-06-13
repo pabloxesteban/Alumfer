@@ -1444,6 +1444,7 @@
   .contact-info   { order: 3; }
   .contact-data   { margin-top: var(--space-3) !important; }
   .contact-map iframe { height: 160px; }
+  .contact-submit { width: 50%; }
   .contact-form .btn--lg { padding: 0.6rem 1.25rem; font-size: var(--text-sm); }
 
   /* ─── Footer ───────────────────────────────────────────── */
