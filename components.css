@@ -311,7 +311,7 @@
   font-size: var(--text-md);
   font-weight: 400;
   color: var(--text-on-dark-2);
-  max-width: 68ch;
+  max-width: 90ch;
   line-height: 1.55;
   margin-bottom: var(--space-10);
 }
