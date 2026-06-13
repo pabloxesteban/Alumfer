@@ -889,6 +889,11 @@
   -webkit-appearance: none;
 }
 
+.form-select option {
+  background-color: var(--steel);
+  color: var(--text-on-dark);
+}
+
 .form-input::placeholder,
 .form-textarea::placeholder {
   color: var(--text-on-dark-3);
