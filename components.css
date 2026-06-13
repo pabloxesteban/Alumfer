@@ -957,16 +957,26 @@
   gap: var(--space-4);
 }
 
-/* Ícono de feature — minimalista, sin caja (estilo Branch) */
+/* Ícono de feature */
 .feature__icon {
-  width: 40px;
-  height: 40px;
+  width: 64px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--concrete);
-  margin-bottom: var(--space-2);
+  color: var(--blue-light);
+  background: rgba(27, 108, 200, 0.12);
+  border: 1px solid rgba(27, 108, 200, 0.20);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-5);
   flex-shrink: 0;
+  transition: background var(--duration) var(--ease),
+              border-color var(--duration) var(--ease);
+}
+
+.feature:hover .feature__icon {
+  background: rgba(27, 108, 200, 0.22);
+  border-color: rgba(74, 157, 232, 0.40);
 }
 
 .feature__title {
@@ -1502,5 +1512,29 @@
 
   #carousel-dots {
     margin-top: var(--space-3);
+  }
+}
+
+/* ─── Features: responsive ───────────────────────────────── */
+@media (max-width: 768px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+
+  .feature__icon {
+    width: 52px;
+    height: 52px;
+  }
+
+  .feature__icon svg {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+@media (max-width: 400px) {
+  .features-grid {
+    grid-template-columns: 1fr;
   }
 }
