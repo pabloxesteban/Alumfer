@@ -449,6 +449,94 @@
   gap: var(--space-3);
 }
 
+/* ─── CATÁLOGO: etiqueta de grupo ──────────────────────────── */
+.catalog-group-label {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--concrete);
+  margin-top: var(--space-14);
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border-dark);
+}
+
+/* ─── SPEC CARDS (vidrios) ──────────────────────────────────── */
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-4);
+}
+
+.spec-card {
+  background-color: var(--bg-dark);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  transition: border-color var(--duration) var(--ease);
+}
+
+.spec-card:hover {
+  border-color: rgba(74, 157, 232, 0.25);
+}
+
+.spec-card__icon {
+  flex-shrink: 0;
+  color: var(--concrete);
+  margin-top: 2px;
+}
+
+.spec-card__name {
+  font-size: var(--text-md);
+  font-weight: 500;
+  color: var(--text-on-dark);
+  margin-bottom: var(--space-2);
+}
+
+.spec-card__desc {
+  font-size: var(--text-sm);
+  color: var(--text-on-dark-2);
+  line-height: 1.6;
+}
+
+/* ─── FINISH CARDS (terminaciones) ─────────────────────────── */
+.finish-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--space-4);
+}
+
+.finish-card {
+  background-color: var(--bg-dark);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color var(--duration) var(--ease), transform var(--duration) var(--ease);
+}
+
+.finish-card:hover {
+  border-color: rgba(74, 157, 232, 0.25);
+  transform: translateY(-2px);
+}
+
+.finish-card__swatch {
+  height: 72px;
+  width: 100%;
+}
+
+.finish-card__name {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-on-dark-2);
+  letter-spacing: var(--tracking-wide);
+  padding: var(--space-3) var(--space-4);
+  text-align: center;
+}
+
 /* ─── CARD DE TRABAJO / GALERÍA ───────────────────────────── */
 .work-grid {
   display: grid;
