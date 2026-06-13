@@ -1546,3 +1546,31 @@
     height: 26px;
   }
 }
+
+/* ─── Tarjeta de color con círculo ───────────────────────── */
+.info-card--color {
+  align-items: center;
+  text-align: center;
+}
+
+.info-card__circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin: var(--space-4) auto var(--space-2);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+.info-card--color .info-card__body {
+  align-items: center;
+  padding: var(--space-2) var(--space-2) var(--space-4);
+}
+
+.info-card--color .info-card__name {
+  text-align: center;
+}
+
+.info-card--color .info-card__desc {
+  text-align: center;
+}
