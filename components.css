@@ -398,28 +398,30 @@
 .info-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: var(--space-4);
+  gap: var(--space-6);
+  justify-items: center;
 }
 
 .info-card {
   position: relative;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  border: 1px solid var(--border-dark);
+  border: none;
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  transition: border-color var(--duration) var(--ease), transform var(--duration) var(--ease);
+  width: 100%;
+  transition: transform 350ms var(--ease), opacity 350ms var(--ease);
 }
 
 .info-card:hover {
-  border-color: rgba(74,157,232,0.4);
-  transform: translateY(-2px);
+  transform: translateY(-4px);
 }
 
 .info-card__img {
   aspect-ratio: 1/1;
   overflow: hidden;
+  border-radius: var(--radius-lg);
 }
 
 .info-card__img--profile {
@@ -453,12 +455,14 @@
 
 /* Info siempre visible debajo de la imagen */
 .info-card__body {
-  background: var(--bg-dark);
-  padding: var(--space-4) var(--space-5);
+  background: transparent;
+  padding: var(--space-4) var(--space-2);
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
   flex: 1;
+  text-align: center;
+  align-items: center;
 }
 
 .info-card__swatch {
@@ -466,18 +470,15 @@
   width: 100%;
 }
 
-/* Para las terminaciones (swatch + body siempre visible) */
+/* Para las terminaciones */
 .info-card--finish .info-card__body {
-  position: relative;
-  inset: auto;
-  background: var(--bg-dark);
-  opacity: 1;
-  padding: var(--space-3) var(--space-4);
-  border-top: 1px solid var(--border-dark);
+  background: transparent;
+  padding: var(--space-3) var(--space-2);
 }
 
 .info-card--finish .info-card__swatch {
   aspect-ratio: 3/1;
+  border-radius: var(--radius-lg);
 }
 
 .info-card__label {
