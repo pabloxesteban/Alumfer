@@ -236,6 +236,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // ─── Poliestireno Fantasía toggle ────────────────────────
+  const fantasiaToggle = document.querySelector('.fantasia-toggle');
+  if (fantasiaToggle) {
+    fantasiaToggle.addEventListener('click', () => {
+      const wrap = fantasiaToggle.closest('.fantasia-wrap');
+      const isOpen = wrap.classList.toggle('is-open');
+      fantasiaToggle.setAttribute('aria-expanded', isOpen);
+      wrap.querySelector('.fantasia-grid').setAttribute('aria-hidden', !isOpen);
+      fantasiaToggle.querySelector('.fantasia-toggle__arrow').style.transform = isOpen ? 'rotate(90deg)' : '';
+    });
+  }
+
   // ─── Smooth anchor links ──────────────────────────────────
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
