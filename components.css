@@ -1597,3 +1597,39 @@
   background: var(--border-dark);
   margin-block: var(--space-6);
 }
+
+/* ─── Grupos de colores ──────────────────────────────────── */
+.color-group-label {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--text-on-dark-2);
+  margin-bottom: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.color-group-label:first-of-type {
+  margin-top: 0;
+}
+
+@media (max-width: 768px) {
+  .info-grid--colors {
+    display: flex !important;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: var(--space-3);
+    padding-bottom: var(--space-3);
+    scrollbar-width: none;
+  }
+
+  .info-grid--colors::-webkit-scrollbar { display: none; }
+
+  .info-grid--colors .info-card--color {
+    flex: 0 0 40vw;
+    max-width: 160px;
+    scroll-snap-align: start;
+  }
+}
