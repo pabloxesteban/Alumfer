@@ -1134,6 +1134,18 @@
   outline: none;
 }
 
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--text-on-dark-2);
+}
+.contact-item svg {
+  flex-shrink: 0;
+  color: var(--blue-light);
+}
+
 .form-file {
   cursor: pointer;
   padding: var(--space-3);
