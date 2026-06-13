@@ -135,6 +135,69 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ─── Works carousel ───────────────────────────────────────
+  const track      = document.getElementById('carousel-track');
+  const dotsWrap   = document.getElementById('carousel-dots');
+  const worksTabs  = document.querySelectorAll('.works-tab');
+
+  if (track) {
+    let allSlides = Array.from(track.querySelectorAll('.carousel__slide'));
+    let visibleSlides = allSlides;
+    let current = 0;
+
+    function buildDots() {
+      dotsWrap.innerHTML = '';
+      visibleSlides.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.className = 'carousel__dot' + (i === current ? ' is-active' : '');
+        d.setAttribute('aria-label', `Slide ${i + 1}`);
+        d.addEventListener('click', () => goTo(i));
+        dotsWrap.appendChild(d);
+      });
+    }
+
+    function goTo(index) {
+      current = (index + visibleSlides.length) % visibleSlides.length;
+      const offset = visibleSlides[current].offsetLeft;
+      track.style.transform = `translateX(-${offset}px)`;
+      dotsWrap.querySelectorAll('.carousel__dot').forEach((d, i) =>
+        d.classList.toggle('is-active', i === current)
+      );
+    }
+
+    function filterCat(cat) {
+      current = 0;
+      allSlides.forEach(s => {
+        const show = s.dataset.cat === cat;
+        s.style.display = show ? 'block' : 'none';
+      });
+      // reset track so offsetLeft recalculates
+      track.style.transition = 'none';
+      track.style.transform = 'translateX(0)';
+      requestAnimationFrame(() => {
+        track.style.transition = '';
+        visibleSlides = allSlides.filter(s => s.dataset.cat === cat);
+        buildDots();
+      });
+    }
+
+    document.querySelector('.carousel__btn--prev')
+      .addEventListener('click', () => goTo(current - 1));
+    document.querySelector('.carousel__btn--next')
+      .addEventListener('click', () => goTo(current + 1));
+
+    worksTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        worksTabs.forEach(t => t.classList.remove('is-active'));
+        tab.classList.add('is-active');
+        filterCat(tab.dataset.cat);
+      });
+    });
+
+    // init
+    filterCat('ventanas');
+  }
+
   // ─── Catalog tabs ─────────────────────────────────────────
   document.querySelectorAll('.catalog-tab').forEach(tab => {
     tab.addEventListener('click', () => {

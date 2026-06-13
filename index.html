@@ -426,49 +426,89 @@
         <h2 id="works-title">Trabajos recientes</h2>
       </div>
 
-      <div class="work-grid">
-        <!-- Reemplazá las imágenes con fotos reales de obras -->
-        <div class="work-item reveal">
-          <img src="obra-1.jpg" alt="Instalación de ventanas en casa en Adrogué">
-          <div class="work-item__overlay" aria-hidden="true"></div>
-          <div class="work-item__info">
-            <p class="work-item__tag">Ventanas corredizas</p>
-            <p class="work-item__title">Casa en Adrogué — Línea Módena</p>
-          </div>
+      <!-- Tabs de categorías -->
+      <div class="works-tabs reveal">
+        <div class="works-tabs__nav" role="tablist">
+          <button class="works-tab is-active" role="tab" data-cat="ventanas">Ventanas</button>
+          <button class="works-tab" role="tab" data-cat="puertas">Puertas</button>
+          <button class="works-tab" role="tab" data-cat="postigones">Postigones</button>
+          <button class="works-tab" role="tab" data-cat="portones">Portones</button>
+          <button class="works-tab" role="tab" data-cat="mosquiteros">Mosquiteros</button>
         </div>
-        <div class="work-item reveal reveal-delay-1">
-          <img src="obra-2.jpg" alt="Mampara de baño instalada">
-          <div class="work-item__overlay" aria-hidden="true"></div>
-          <div class="work-item__info">
-            <p class="work-item__tag">Mampara de baño</p>
-            <p class="work-item__title">Departamento — Modelo Gaviota</p>
-          </div>
-        </div>
-        <div class="work-item reveal reveal-delay-1">
-          <img src="obra-3.jpg" alt="Puerta de aluminio instalada">
-          <div class="work-item__overlay" aria-hidden="true"></div>
-          <div class="work-item__info">
-            <p class="work-item__tag">Puerta exterior</p>
-            <p class="work-item__title">Local comercial — Línea Herrero</p>
-          </div>
-        </div>
-        <div class="work-item reveal reveal-delay-2">
-          <img src="obra-4.jpg" alt="Cerramiento de aluminio">
-          <div class="work-item__overlay" aria-hidden="true"></div>
-          <div class="work-item__info">
-            <p class="work-item__tag">Cerramiento</p>
-            <p class="work-item__title">Galería — Burzaco</p>
-          </div>
-        </div>
-        <div class="work-item reveal reveal-delay-2">
-          <img src="obra-5.jpg" alt="Ventanas a medida colocadas">
-          <div class="work-item__overlay" aria-hidden="true"></div>
-          <div class="work-item__info">
-            <p class="work-item__tag">Ventanas a medida</p>
-            <p class="work-item__title">Casa en Monte Grande</p>
-          </div>
-        </div>
-      </div>
+
+        <!-- Carrusel -->
+        <div class="carousel" id="works-carousel">
+          <div class="carousel__track" id="carousel-track">
+
+            <!-- VENTANAS -->
+            <div class="carousel__slide" data-cat="ventanas">
+              <img src="obra-ventanas-1.jpg" alt="Ventanas" class="carousel__img">
+              <div class="carousel__overlay"><p class="carousel__label">Ventanas corredizas — Línea Módena</p></div>
+            </div>
+            <div class="carousel__slide" data-cat="ventanas">
+              <img src="obra-ventanas-2.jpg" alt="Ventanas" class="carousel__img">
+              <div class="carousel__overlay"><p class="carousel__label">Ventanas a medida — Línea Herrero</p></div>
+            </div>
+            <div class="carousel__slide" data-cat="ventanas">
+              <img src="obra-ventanas-3.jpg" alt="Ventanas" class="carousel__img">
+              <div class="carousel__overlay"><p class="carousel__label">Ventanas — A30 New</p></div>
+            </div>
+
+            <!-- PUERTAS -->
+            <div class="carousel__slide" data-cat="puertas">
+              <img src="obra-puertas-1.jpg" alt="Puertas" class="carousel__img">
+              <div class="carousel__overlay"><p class="carousel__label">Puerta exterior — Línea Herrero</p></div>
+            </div>
+            <div class="carousel__slide" data-cat="puertas">
+              <img src="obra-puertas-2.jpg" alt="Puertas" class="carousel__img">
+              <div class="carousel__overlay"><p class="carousel__label">Puerta corrediza — Rotonda 640</p></div>
+            </div>
+
+            <!-- POSTIGONES -->
+            <div class="carousel__slide" data-cat="postigones">
+              <img src="obra-postigones-1.jpg" alt="Postigones" class="carousel__img">
+              <div class="carousel__overlay"><p class="carousel__label">Postigones a medida</p></div>
+            </div>
+            <div class="carousel__slide" data-cat="postigones">
+              <img src="obra-postigones-2.jpg" alt="Postigones" class="carousel__img">
+              <div class="carousel__overlay"><p class="carousel__label">Postigones — terminación negro</p></div>
+            </div>
+
+            <!-- PORTONES -->
+            <div class="carousel__slide" data-cat="portones">
+              <img src="obra-portones-1.jpg" alt="Portones" class="carousel__img">
+              <div class="carousel__overlay"><p class="carousel__label">Portón de aluminio</p></div>
+            </div>
+            <div class="carousel__slide" data-cat="portones">
+              <img src="obra-portones-2.jpg" alt="Portones" class="carousel__img">
+              <div class="carousel__overlay"><p class="carousel__label">Portón — simil madera</p></div>
+            </div>
+
+            <!-- MOSQUITEROS -->
+            <div class="carousel__slide" data-cat="mosquiteros">
+              <img src="obra-mosquiteros-1.jpg" alt="Mosquiteros" class="carousel__img">
+              <div class="carousel__overlay"><p class="carousel__label">Mosquiteros a medida</p></div>
+            </div>
+            <div class="carousel__slide" data-cat="mosquiteros">
+              <img src="obra-mosquiteros-2.jpg" alt="Mosquiteros" class="carousel__img">
+              <div class="carousel__overlay"><p class="carousel__label">Mosquitero retráctil</p></div>
+            </div>
+
+          </div><!-- /.carousel__track -->
+
+          <!-- Controles -->
+          <button class="carousel__btn carousel__btn--prev" aria-label="Anterior">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="carousel__btn carousel__btn--next" aria-label="Siguiente">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+
+          <!-- Dots -->
+          <div class="carousel__dots" id="carousel-dots"></div>
+        </div><!-- /.carousel -->
+
+      </div><!-- /.works-tabs -->
 
       <div style="text-align:center; margin-top:3rem">
         <a href="https://www.instagram.com/alumfercarpinteria/" class="btn btn--outline"
