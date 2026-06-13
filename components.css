@@ -75,7 +75,7 @@
 
 .navbar__logo-name {
   font-family: 'Montserrat', sans-serif;
-  font-size: var(--text-lg);
+  font-size: 1.05rem;
   font-weight: 600;
   letter-spacing: 4px;
   color: var(--text-on-dark);
