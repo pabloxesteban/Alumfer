@@ -51,10 +51,11 @@
 }
 
 .navbar__logo-img {
-  height: 36px;
+  height: 32px;
   width: auto;
   display: block;
   object-fit: contain;
+  align-self: center;
 }
 
 /* La barra vertical azul como parte del logo */
