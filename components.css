@@ -74,10 +74,10 @@
 }
 
 .navbar__logo-name {
-  font-family: 'Exo 2', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: var(--text-lg);
-  font-weight: 800;
-  letter-spacing: 3px;
+  font-weight: 600;
+  letter-spacing: 4px;
   color: var(--text-on-dark);
 }
 
