@@ -50,6 +50,13 @@
   flex-shrink: 0;
 }
 
+.navbar__logo-img {
+  height: 36px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
 /* La barra vertical azul como parte del logo */
 .navbar__logo-rule {
   width: 3px;
