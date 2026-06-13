@@ -1450,3 +1450,30 @@
     scroll-snap-align: start;
   }
 }
+
+/* ─── Hero: oculta botones en mobile (WhatsApp flotante los reemplaza) ── */
+@media (max-width: 768px) {
+  .hero__actions { display: none; }
+}
+
+/* ─── Clientes: scroll horizontal en mobile ──────────────── */
+@media (max-width: 768px) {
+  .reviews-grid {
+    display: flex !important;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: var(--space-4);
+    padding-bottom: var(--space-4);
+    scrollbar-width: none;
+  }
+
+  .reviews-grid::-webkit-scrollbar { display: none; }
+
+  .reviews-grid .review-card {
+    flex: 0 0 80vw;
+    max-width: 320px;
+    scroll-snap-align: start;
+  }
+}
