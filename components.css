@@ -1476,17 +1476,48 @@
   /* ─── Catálogo ─────────────────────────────────────────── */
   .catalog-tabs__nav {
     gap: var(--space-2);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    padding-bottom: var(--space-1);
+    flex-wrap: nowrap;
+    touch-action: pan-x pan-y;
   }
+  .catalog-tabs__nav::-webkit-scrollbar { display: none; }
 
   .catalog-tab {
     padding: var(--space-2) var(--space-4);
     font-size: var(--text-sm);
     font-weight: 500;
+    flex-shrink: 0;
   }
 
   .info-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-4);
+  }
+
+  /* Policarbonato mobile */
+  .fantasia-wrap.is-open {
+    display: block !important;
+    grid-column: 1 / -1;
+  }
+  .fantasia-wrap.is-open .fantasia-card {
+    width: 100%;
+    margin-bottom: var(--space-4);
+  }
+  .fantasia-wrap.is-open .fantasia-grid {
+    display: block;
+  }
+  .fantasia-wrap.is-open .fantasia-grid__inner {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+  }
+  .fantasia-wrap.is-open .fantasia-tile img {
+    border-radius: var(--radius-sm);
+  }
+  .fantasia-wrap.is-open .fantasia-tile span {
+    font-size: 0.6rem;
   }
 
   /* ─── Works / Carousel ─────────────────────────────────── */
