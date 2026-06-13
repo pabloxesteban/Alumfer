@@ -1443,7 +1443,7 @@
 }
 
 .mobile-nav__link {
-  font-size: var(--text-md);
+  font-size: var(--text-base);
   font-weight: 300;
   color: var(--text-on-dark-2);
   text-decoration: none;
