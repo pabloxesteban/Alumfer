@@ -74,10 +74,10 @@
 }
 
 .navbar__logo-name {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: var(--text-xl);
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  font-family: 'BatmanForever', sans-serif;
+  font-size: var(--text-md);
+  font-weight: normal;
+  letter-spacing: 0.04em;
   color: var(--text-on-dark);
 }
 

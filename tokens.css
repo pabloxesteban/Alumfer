@@ -3,7 +3,15 @@
    Estilo: Moderno industrial (hormigón + azul)
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@700&family=Exo+2:wght@800&display=swap');
+
+@font-face {
+  font-family: 'BatmanForever';
+  src: url('batman-forever.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 /* ─── Paleta ─────────────────────────────────────────────── */
 :root {
