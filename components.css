@@ -1574,3 +1574,11 @@
 .info-card--color .info-card__desc {
   text-align: center;
 }
+
+/* ─── Separador entre grupos de colores ──────────────────── */
+.color-section-divider {
+  grid-column: 1 / -1;
+  height: 1px;
+  background: var(--border-dark);
+  margin-block: var(--space-6);
+}
