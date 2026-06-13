@@ -456,6 +456,7 @@
   aspect-ratio: 1/1;
   overflow: hidden;
   border-radius: var(--radius-lg);
+  position: relative;
 }
 
 .info-card__img--profile {
@@ -1519,12 +1520,16 @@
   .fantasia-wrap.is-open .fantasia-tile span {
     font-size: 0.6rem;
   }
+  .fantasia-wrap {
+    grid-column: 1 / -1;
+    max-width: 50%;
+  }
   .fantasia-hint {
     opacity: 1 !important;
     transform: translateX(-50%) translateY(0) !important;
     font-size: 0.6rem;
     padding: 2px var(--space-2);
-    background: rgba(26,28,30,0.55);
+    background: rgba(26,28,30,0.60);
   }
 
   /* ─── Works / Carousel ─────────────────────────────────── */
