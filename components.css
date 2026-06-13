@@ -1325,6 +1325,11 @@
   .hero__stats {
     justify-content: center;
     gap: var(--space-6);
+    margin-top: var(--space-8);
+  }
+
+  .hero {
+    padding-block-end: var(--space-10);
   }
 
   /* ─── Nosotros / About ─────────────────────────────────── */
@@ -1659,5 +1664,12 @@
     flex: 0 0 40vw;
     max-width: 160px;
     scroll-snap-align: start;
+  }
+}
+
+/* ─── Features title: una línea en mobile ────────────────── */
+@media (max-width: 768px) {
+  #features-title {
+    font-size: var(--text-xl);
   }
 }
