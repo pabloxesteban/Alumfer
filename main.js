@@ -205,6 +205,19 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
+    // Sincroniza dots con swipe nativo en mobile
+    track.addEventListener('scroll', () => {
+      if (!isMobile()) return;
+      const slideWidth = track.clientWidth;
+      const newIndex = Math.round(track.scrollLeft / slideWidth);
+      if (newIndex !== current && newIndex < visibleSlides.length) {
+        current = newIndex;
+        dotsWrap.querySelectorAll('.carousel__dot').forEach((d, i) =>
+          d.classList.toggle('is-active', i === current)
+        );
+      }
+    }, { passive: true });
+
     // init
     filterCat('ventanas');
   }
