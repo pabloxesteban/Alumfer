@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Preview Hero Images</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1A1C1E; font-family: Inter, sans-serif; color: #fff; padding: 2rem; }
+  h1 { font-size: 1rem; font-weight: 400; color: #B0A99A; margin-bottom: 2rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .card { position: relative; border-radius: 4px; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: border-color 0.2s; }
+  .card:hover { border-color: #1B6CC8; }
+  .card__img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.45);
+  }
+  .card__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(26,28,30,0.9) 0%, rgba(26,28,30,0.3) 60%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.25rem;
+  }
+  .card__label { font-size: 1.4rem; font-weight: 300; letter-spacing: -0.02em; }
+  .card__label strong { font-weight: 600; }
+  .card__sub { font-size: 0.75rem; color: #B0A99A; margin-top: 0.25rem; }
+  .card__num { position: absolute; top: 1rem; left: 1rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; background: #1B6CC8; padding: 0.2rem 0.5rem; border-radius: 2px; }
+</style>
+</head>
+<body>
+<h1>Preview · Opciones de fondo hero</h1>
+<div class="grid">
+
+  <div class="card">
+    <img class="card__img" src="https://images.unsplash.com/photo-DdxY0rZq5ao?w=800&q=80&auto=format&fit=crop"
+         onerror="this.src='https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80&auto=format&fit=crop'">
+    <div class="card__overlay">
+      <div class="card__num">A</div>
+      <div class="card__label">Aberturas de aluminio<br><strong>a medida</strong></div>
+      <div class="card__sub">aluminum-window · DdxY0rZq5ao</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <img class="card__img" src="https://images.unsplash.com/photo-w-_iZqdviAo?w=800&q=80&auto=format&fit=crop"
+         onerror="this.src='https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80&auto=format&fit=crop'">
+    <div class="card__overlay">
+      <div class="card__num">B</div>
+      <div class="card__label">Aberturas de aluminio<br><strong>a medida</strong></div>
+      <div class="card__sub">aluminum-window · w-_iZqdviAo</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <img class="card__img" src="https://images.unsplash.com/photo-EFoTVFPH0sU?w=800&q=80&auto=format&fit=crop"
+         onerror="this.src='https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80&auto=format&fit=crop'">
+    <div class="card__overlay">
+      <div class="card__num">C</div>
+      <div class="card__label">Aberturas de aluminio<br><strong>a medida</strong></div>
+      <div class="card__sub">aluminium-facade · EFoTVFPH0sU</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <img class="card__img" src="https://images.unsplash.com/photo-Sc5RKXLBjGg?w=800&q=80&auto=format&fit=crop"
+         onerror="this.src='https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80&auto=format&fit=crop'">
+    <div class="card__overlay">
+      <div class="card__num">D</div>
+      <div class="card__label">Aberturas de aluminio<br><strong>a medida</strong></div>
+      <div class="card__sub">aluminium-facade · Sc5RKXLBjGg</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <img class="card__img" src="https://images.unsplash.com/photo-2EJB_8BuS-I?w=800&q=80&auto=format&fit=crop"
+         onerror="this.src='https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80&auto=format&fit=crop'">
+    <div class="card__overlay">
+      <div class="card__num">E</div>
+      <div class="card__label">Aberturas de aluminio<br><strong>a medida</strong></div>
+      <div class="card__sub">aluminum-window · 2EJB_8BuS-I</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <img class="card__img" src="https://images.unsplash.com/photo-5aeA0im_SsI?w=800&q=80&auto=format&fit=crop"
+         onerror="this.src='https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80&auto=format&fit=crop'">
+    <div class="card__overlay">
+      <div class="card__num">F</div>
+      <div class="card__label">Aberturas de aluminio<br><strong>a medida</strong></div>
+      <div class="card__sub">aluminium-facade · 5aeA0im_SsI</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <img class="card__img" src="https://images.unsplash.com/photo-U0DCIjllkMs?w=800&q=80&auto=format&fit=crop"
+         onerror="this.src='https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80&auto=format&fit=crop'">
+    <div class="card__overlay">
+      <div class="card__num">G</div>
+      <div class="card__label">Aberturas de aluminio<br><strong>a medida</strong></div>
+      <div class="card__sub">aluminium-facade · U0DCIjllkMs</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <img class="card__img" src="https://images.unsplash.com/photo-lDkvHbJotmo?w=800&q=80&auto=format&fit=crop"
+         onerror="this.src='https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80&auto=format&fit=crop'">
+    <div class="card__overlay">
+      <div class="card__num">H</div>
+      <div class="card__label">Aberturas de aluminio<br><strong>a medida</strong></div>
+      <div class="card__sub">aluminium-facade · lDkvHbJotmo</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
