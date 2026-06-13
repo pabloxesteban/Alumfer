@@ -1400,8 +1400,10 @@
   /* ─── Contacto ─────────────────────────────────────────── */
   .contact-grid {
     grid-template-columns: 1fr !important;
-    gap: var(--space-8);
+    gap: var(--space-6);
   }
+  .contact-grid > div:first-child { order: 2; }
+  .contact-form { order: 1; }
   .contact-map iframe { height: 160px; }
 
   /* ─── Footer ───────────────────────────────────────────── */
