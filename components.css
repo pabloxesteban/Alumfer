@@ -74,9 +74,9 @@
 }
 
 .navbar__logo-name {
-  font-family: 'Rajdhani', sans-serif;
+  font-family: 'Exo 2', sans-serif;
   font-size: var(--text-lg);
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 3px;
   color: var(--text-on-dark);
 }
