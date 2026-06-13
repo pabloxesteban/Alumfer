@@ -1134,6 +1134,25 @@
   outline: none;
 }
 
+.form-file {
+  cursor: pointer;
+  padding: var(--space-3);
+}
+.form-file::file-selector-button {
+  background: rgba(27, 108, 200, 0.15);
+  border: 1px solid rgba(27, 108, 200, 0.30);
+  border-radius: var(--radius-sm);
+  color: var(--text-on-dark);
+  font-size: var(--text-xs);
+  padding: var(--space-1) var(--space-3);
+  cursor: pointer;
+  margin-right: var(--space-3);
+  transition: background var(--duration) var(--ease);
+}
+.form-file::file-selector-button:hover {
+  background: rgba(27, 108, 200, 0.28);
+}
+
 .form-textarea {
   resize: vertical;
   min-height: 120px;
