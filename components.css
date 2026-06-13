@@ -534,15 +534,32 @@
   line-height: 1.6;
 }
 
-/* ─── Poliestireno Fantasía expandible ──────────────────── */
-.fantasia-wrap {
-  display: contents;
+/* ─── Policarbonato grid: 2 arriba + fantasía abajo ─────── */
+.polycarbonato-grid {
+  grid-template-columns: repeat(2, 1fr);
 }
-.fantasia-wrap.is-open {
+.polycarbonato-fantasia {
+  grid-column: 1 / -1;
   display: flex;
   align-items: flex-start;
   gap: var(--space-4);
+}
+.polycarbonato-fantasia .fantasia-card {
+  flex: 0 0 calc(50% - var(--space-2));
+}
+.polycarbonato-fantasia .fantasia-grid {
+  flex: 1;
+}
+.polycarbonato-fantasia.is-open {
+  display: flex !important;
   grid-column: 1 / -1;
+}
+
+/* Poliestireno Fantasía expandible ──────────────────── */
+.fantasia-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
 }
 .fantasia-card {
   flex-shrink: 0;
