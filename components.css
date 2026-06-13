@@ -75,9 +75,9 @@
 
 .navbar__logo-name {
   font-family: 'BatmanForever', sans-serif;
-  font-size: var(--text-md);
+  font-size: var(--text-2xl);
   font-weight: normal;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   color: var(--text-on-dark);
 }
 
