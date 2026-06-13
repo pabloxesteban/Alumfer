@@ -406,6 +406,8 @@
   border-radius: var(--radius-lg);
   overflow: hidden;
   border: 1px solid var(--border-dark);
+  display: flex;
+  flex-direction: column;
   cursor: pointer;
   transition: border-color var(--duration) var(--ease), transform var(--duration) var(--ease);
 }
@@ -449,22 +451,14 @@
   transform: scale(1.06);
 }
 
-/* Overlay con info visible solo en hover */
+/* Info siempre visible debajo de la imagen */
 .info-card__body {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(26,28,30,0.97) 0%, rgba(26,28,30,0.6) 55%, transparent 100%);
-  padding: var(--space-5);
+  background: var(--bg-dark);
+  padding: var(--space-4) var(--space-5);
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   gap: var(--space-1);
-  opacity: 0;
-  transition: opacity 300ms var(--ease);
-}
-
-.info-card:hover .info-card__body {
-  opacity: 1;
+  flex: 1;
 }
 
 .info-card__swatch {
@@ -503,7 +497,7 @@
 
 .info-card__desc {
   font-size: var(--text-xs);
-  color: rgba(255,255,255,0.75);
+  color: var(--text-on-dark-2);
   line-height: 1.6;
 }
 
