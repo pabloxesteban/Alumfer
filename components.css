@@ -1496,7 +1496,6 @@
   .carousel__slide {
     flex: 0 0 100%;
     scroll-snap-align: start;
-    display: block !important;
   }
 
   .carousel__btn { display: none; }
