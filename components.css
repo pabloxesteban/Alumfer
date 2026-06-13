@@ -1534,7 +1534,7 @@
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     overflow-y: hidden;
-    touch-action: pan-y;
+    touch-action: pan-x pan-y;
     -webkit-overflow-scrolling: touch;
     gap: var(--space-4);
     padding-bottom: var(--space-4);
@@ -1579,7 +1579,7 @@
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     overflow-y: hidden;
-    touch-action: pan-y;
+    touch-action: pan-x pan-y;
     -webkit-overflow-scrolling: touch;
     gap: var(--space-4);
     padding-bottom: var(--space-4);
@@ -1610,7 +1610,7 @@
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
     overflow-y: hidden;
-    touch-action: pan-y;
+    touch-action: pan-x pan-y;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     width: 100%;
@@ -1641,7 +1641,7 @@
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
-    touch-action: pan-y;
+    touch-action: pan-x pan-y;
     gap: var(--space-3);
     padding-bottom: var(--space-4);
     padding-inline: var(--space-4);
@@ -1732,7 +1732,7 @@
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     overflow-y: hidden;
-    touch-action: pan-y;
+    touch-action: pan-x pan-y;
     -webkit-overflow-scrolling: touch;
     gap: var(--space-3);
     padding-bottom: var(--space-3);
