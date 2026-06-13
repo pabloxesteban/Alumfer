@@ -1452,6 +1452,21 @@
     max-width: 280px;
     scroll-snap-align: start;
   }
+
+  .catalog-panel.is-active .info-grid .info-card--color {
+    flex: 0 0 44vw;
+    max-width: 180px;
+  }
+
+  .catalog-panel.is-active .info-grid .color-section-divider {
+    flex: 0 0 2px;
+    height: auto;
+    min-height: 120px;
+    width: 1px;
+    background: var(--border-dark);
+    margin-block: 0;
+    align-self: stretch;
+  }
 }
 
 @media (max-width: 768px) {
