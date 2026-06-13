@@ -1679,3 +1679,10 @@
     font-size: var(--text-2xl);
   }
 }
+
+/* ─── Headings uniformes en mobile ───────────────────────── */
+@media (max-width: 768px) {
+  h2 {
+    font-size: var(--text-2xl);
+  }
+}
