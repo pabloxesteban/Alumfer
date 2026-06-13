@@ -1442,7 +1442,7 @@
   .contact-desc { margin-bottom: 0 !important; }
   .contact-form   { order: 2; margin-top: var(--space-3); }
   .contact-info   { order: 3; }
-  .contact-data   { margin-top: var(--space-3) !important; margin-bottom: 0 !important; }
+  .contact-data   { margin-top: var(--space-3) !important; }
   .contact-map iframe { height: 160px; }
   .contact-form .btn--lg { padding: 0.6rem 1.25rem; font-size: var(--text-sm); }
 
