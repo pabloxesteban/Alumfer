@@ -460,16 +460,16 @@
 }
 
 .info-card__img--profile {
-  aspect-ratio: 1/1;
-  background-color: #fff;
+  aspect-ratio: 4/3;
+  background-color: #f0f0ee;
 }
 
 .info-card__img--profile img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   filter: none;
-  padding: 1.25rem;
+  padding: 0;
   transition: transform 400ms var(--ease);
 }
 
