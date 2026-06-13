@@ -1469,3 +1469,39 @@
     scroll-snap-align: start;
   }
 }
+
+/* ─── Galería: carrusel mobile con swipe nativo ──────────── */
+@media (max-width: 768px) {
+
+  .carousel {
+    aspect-ratio: 4/3;
+    border-radius: var(--radius-md);
+  }
+
+  .carousel__track {
+    display: flex !important;
+    transform: none !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    width: 100%;
+    height: 100%;
+    transition: none !important;
+  }
+
+  .carousel__track::-webkit-scrollbar { display: none; }
+
+  .carousel__slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    display: block !important;
+  }
+
+  .carousel__btn { display: none; }
+
+  #carousel-dots {
+    margin-top: var(--space-3);
+  }
+}
