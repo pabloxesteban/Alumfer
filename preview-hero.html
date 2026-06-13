@@ -6,15 +6,17 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: #111; font-family: Inter, sans-serif; color: #fff; padding: 2rem; }
-  h1 { font-size: 0.75rem; font-weight: 400; color: #B0A99A; margin-bottom: 2rem; letter-spacing: 0.12em; text-transform: uppercase; }
+  h1 { font-size: 0.75rem; font-weight: 400; color: #B0A99A; margin-bottom: 0.5rem; letter-spacing: 0.12em; text-transform: uppercase; }
+  p { font-size: 0.75rem; color: #555; margin-bottom: 2rem; }
   .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
   .card { position: relative; border-radius: 3px; overflow: hidden; border: 2px solid transparent; transition: border-color 0.2s; }
   .card:hover { border-color: #1B6CC8; }
-  .card__img { width: 100%; height: 260px; object-fit: cover; display: block; filter: brightness(0.4); }
+  .card__img { width: 100%; height: 260px; object-fit: cover; display: block; filter: brightness(0.38); }
   .card__overlay {
     position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(26,28,30,0.92) 0%, rgba(26,28,30,0.35) 55%, transparent 100%);
-    display: flex; flex-direction: column; justify-content: flex-end; padding: 1.25rem; text-align: center; align-items: center;
+    background: linear-gradient(to top, rgba(26,28,30,0.92) 0%, rgba(26,28,30,0.3) 55%, transparent 100%);
+    display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+    padding: 1.25rem; text-align: center;
   }
   .card__title { font-size: 1.3rem; font-weight: 300; letter-spacing: -0.02em; line-height: 1.1; }
   .card__title strong { font-weight: 600; }
@@ -22,47 +24,23 @@
   .badge {
     position: absolute; top: 0.75rem; left: 0.75rem;
     font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em;
-    background: #1B6CC8; padding: 0.15rem 0.45rem; border-radius: 2px;
+    background: #1B6CC8; padding: 0.2rem 0.5rem; border-radius: 2px;
   }
+  .section-label { font-size: 0.65rem; color: #444; text-transform: uppercase; letter-spacing: 0.1em; margin: 2rem 0 1rem; grid-column: 1/-1; }
 </style>
 </head>
 <body>
-<h1>Alumfer · Preview opciones de fondo hero — elegí una letra</h1>
+<h1>Alumfer · Opciones de fondo hero</h1>
+<p>Elegí la letra y te la aplico</p>
 <div class="grid">
 
-  <div class="card">
-    <img class="card__img" src="https://images.unsplash.com/photo-1501045337096-542a73dafa4f?w=900&q=75&auto=format&fit=crop" alt="">
-    <div class="card__overlay">
-      <span class="badge">A</span>
-      <div class="card__title">Aberturas de aluminio<br><strong>a medida</strong></div>
-      <div class="card__sub">ventana aluminio</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <img class="card__img" src="https://images.unsplash.com/photo-1569216961559-fd512349ebba?w=900&q=75&auto=format&fit=crop" alt="">
-    <div class="card__overlay">
-      <span class="badge">B</span>
-      <div class="card__title">Aberturas de aluminio<br><strong>a medida</strong></div>
-      <div class="card__sub">ventana aluminio</div>
-    </div>
-  </div>
+  <div class="section-label">— Referencia anterior (C y E) —</div>
 
   <div class="card">
     <img class="card__img" src="https://images.unsplash.com/photo-1522195491553-dbda973beac4?w=900&q=75&auto=format&fit=crop" alt="">
     <div class="card__overlay">
       <span class="badge">C</span>
       <div class="card__title">Aberturas de aluminio<br><strong>a medida</strong></div>
-      <div class="card__sub">ventana aluminio</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <img class="card__img" src="https://images.unsplash.com/photo-1546628484-186b26f3e572?w=900&q=75&auto=format&fit=crop" alt="">
-    <div class="card__overlay">
-      <span class="badge">D</span>
-      <div class="card__title">Aberturas de aluminio<br><strong>a medida</strong></div>
-      <div class="card__sub">ventana aluminio</div>
     </div>
   </div>
 
@@ -71,70 +49,104 @@
     <div class="card__overlay">
       <span class="badge">E</span>
       <div class="card__title">Aberturas de aluminio<br><strong>a medida</strong></div>
-      <div class="card__sub">ventana aluminio</div>
+    </div>
+  </div>
+
+  <div class="section-label">— Nuevas opciones (fachadas / ventanas modernas) —</div>
+
+  <div class="card">
+    <img class="card__img" src="https://images.unsplash.com/photo-1614595737476-42487331b8a1?w=900&q=75&auto=format&fit=crop" alt="">
+    <div class="card__overlay">
+      <span class="badge">1</span>
+      <div class="card__title">Aberturas de aluminio<br><strong>a medida</strong></div>
     </div>
   </div>
 
   <div class="card">
-    <img class="card__img" src="https://images.unsplash.com/photo-1514994792087-578fe80d0ff9?w=900&q=75&auto=format&fit=crop" alt="">
+    <img class="card__img" src="https://images.unsplash.com/photo-1619218070141-bcfeb8b93074?w=900&q=75&auto=format&fit=crop" alt="">
     <div class="card__overlay">
-      <span class="badge">F</span>
+      <span class="badge">2</span>
       <div class="card__title">Aberturas de aluminio<br><strong>a medida</strong></div>
-      <div class="card__sub">ventana aluminio</div>
     </div>
   </div>
 
   <div class="card">
-    <img class="card__img" src="https://images.unsplash.com/photo-1624775105686-f757aeddcfab?w=900&q=75&auto=format&fit=crop" alt="">
+    <img class="card__img" src="https://images.unsplash.com/photo-1536501483244-925da0b87089?w=900&q=75&auto=format&fit=crop" alt="">
     <div class="card__overlay">
-      <span class="badge">G</span>
+      <span class="badge">3</span>
       <div class="card__title">Aberturas de aluminio<br><strong>a medida</strong></div>
-      <div class="card__sub">perfilería aluminio</div>
     </div>
   </div>
 
   <div class="card">
-    <img class="card__img" src="https://images.unsplash.com/photo-1738966523829-5d3c195abce3?w=900&q=75&auto=format&fit=crop" alt="">
+    <img class="card__img" src="https://images.unsplash.com/photo-1448630360428-65456885c650?w=900&q=75&auto=format&fit=crop" alt="">
     <div class="card__overlay">
-      <span class="badge">H</span>
+      <span class="badge">4</span>
       <div class="card__title">Aberturas de aluminio<br><strong>a medida</strong></div>
-      <div class="card__sub">perfilería aluminio</div>
     </div>
   </div>
 
   <div class="card">
-    <img class="card__img" src="https://images.unsplash.com/photo-1656858561890-b9005baff276?w=900&q=75&auto=format&fit=crop" alt="">
+    <img class="card__img" src="https://images.unsplash.com/photo-1533682671526-d1eb9f0c65f3?w=900&q=75&auto=format&fit=crop" alt="">
     <div class="card__overlay">
-      <span class="badge">I</span>
+      <span class="badge">5</span>
       <div class="card__title">Aberturas de aluminio<br><strong>a medida</strong></div>
-      <div class="card__sub">perfilería aluminio</div>
     </div>
   </div>
 
   <div class="card">
-    <img class="card__img" src="https://images.unsplash.com/photo-1739105329094-70e964758e05?w=900&q=75&auto=format&fit=crop" alt="">
+    <img class="card__img" src="https://images.unsplash.com/photo-1523477593243-78bbf626fd3b?w=900&q=75&auto=format&fit=crop" alt="">
     <div class="card__overlay">
-      <span class="badge">J</span>
+      <span class="badge">6</span>
       <div class="card__title">Aberturas de aluminio<br><strong>a medida</strong></div>
-      <div class="card__sub">perfilería aluminio</div>
     </div>
   </div>
 
   <div class="card">
-    <img class="card__img" src="https://images.unsplash.com/photo-1658472326330-2e7bea174f75?w=900&q=75&auto=format&fit=crop" alt="">
+    <img class="card__img" src="https://images.unsplash.com/photo-1490351267196-b7a67e26e41b?w=900&q=75&auto=format&fit=crop" alt="">
     <div class="card__overlay">
-      <span class="badge">K</span>
+      <span class="badge">7</span>
       <div class="card__title">Aberturas de aluminio<br><strong>a medida</strong></div>
-      <div class="card__sub">perfilería aluminio</div>
     </div>
   </div>
 
   <div class="card">
-    <img class="card__img" src="https://images.unsplash.com/photo-1550814669-8d924a4ec743?w=900&q=75&auto=format&fit=crop" alt="">
+    <img class="card__img" src="https://images.unsplash.com/photo-1469981283837-561b3779462f?w=900&q=75&auto=format&fit=crop" alt="">
     <div class="card__overlay">
-      <span class="badge">L</span>
+      <span class="badge">8</span>
       <div class="card__title">Aberturas de aluminio<br><strong>a medida</strong></div>
-      <div class="card__sub">perfilería aluminio</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <img class="card__img" src="https://images.unsplash.com/photo-1481026469463-66327c86e544?w=900&q=75&auto=format&fit=crop" alt="">
+    <div class="card__overlay">
+      <span class="badge">9</span>
+      <div class="card__title">Aberturas de aluminio<br><strong>a medida</strong></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <img class="card__img" src="https://images.unsplash.com/photo-1621831337128-35676ca30868?w=900&q=75&auto=format&fit=crop" alt="">
+    <div class="card__overlay">
+      <span class="badge">10</span>
+      <div class="card__title">Aberturas de aluminio<br><strong>a medida</strong></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <img class="card__img" src="https://images.unsplash.com/photo-1462396240927-52058a6a84ec?w=900&q=75&auto=format&fit=crop" alt="">
+    <div class="card__overlay">
+      <span class="badge">11</span>
+      <div class="card__title">Aberturas de aluminio<br><strong>a medida</strong></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <img class="card__img" src="https://images.unsplash.com/photo-1691425700573-5e2e6e4f6157?w=900&q=75&auto=format&fit=crop" alt="">
+    <div class="card__overlay">
+      <span class="badge">12</span>
+      <div class="card__title">Aberturas de aluminio<br><strong>a medida</strong></div>
     </div>
   </div>
 
