@@ -1427,11 +1427,14 @@
   }
   .contact-left { display: contents; }
   .contact-header { order: 1; }
-  .contact-header .ruled { margin-bottom: var(--space-4); }
-  .contact-form   { order: 2; margin-block: 0; }
+  .contact-header .section-header { margin-bottom: var(--space-3); }
+  .contact-header .ruled { margin-bottom: 0; }
+  .contact-header .ruled p { margin: 0; }
+  .contact-form   { order: 2; margin-block: var(--space-4) 0; }
   .contact-info   { order: 3; }
-  .contact-info > div { margin-top: var(--space-4); }
+  .contact-info > div { margin-top: var(--space-4); margin-bottom: 0; }
   .contact-map iframe { height: 160px; }
+  .contact-form .btn--lg { padding: 0.6rem 1.25rem; font-size: var(--text-sm); }
 
   /* ─── Footer ───────────────────────────────────────────── */
   .footer__inner {
