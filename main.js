@@ -237,15 +237,16 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ─── Poliestireno Fantasía toggle ────────────────────────
-  const fantasiaToggle = document.querySelector('.fantasia-toggle');
-  if (fantasiaToggle) {
-    fantasiaToggle.addEventListener('click', () => {
-      const wrap = fantasiaToggle.closest('.fantasia-wrap');
+  const fantasiaCard = document.querySelector('.fantasia-card');
+  if (fantasiaCard) {
+    const toggle = () => {
+      const wrap = fantasiaCard.closest('.fantasia-wrap');
       const isOpen = wrap.classList.toggle('is-open');
-      fantasiaToggle.setAttribute('aria-expanded', isOpen);
+      fantasiaCard.setAttribute('aria-expanded', isOpen);
       wrap.querySelector('.fantasia-grid').setAttribute('aria-hidden', !isOpen);
-      fantasiaToggle.querySelector('.fantasia-toggle__arrow').style.transform = isOpen ? 'rotate(90deg)' : '';
-    });
+    };
+    fantasiaCard.addEventListener('click', toggle);
+    fantasiaCard.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
   }
 
   // ─── Smooth anchor links ──────────────────────────────────
