@@ -536,16 +536,22 @@
 
 /* ─── Poliestireno Fantasía expandible ──────────────────── */
 .fantasia-wrap {
+  display: contents;
+}
+.fantasia-wrap.is-open {
   display: flex;
   align-items: flex-start;
   gap: var(--space-4);
-}
-.fantasia-wrap.is-open {
   grid-column: 1 / -1;
 }
 .fantasia-card {
   flex-shrink: 0;
+  min-width: 0;
+  width: 100%;
+}
+.fantasia-wrap.is-open .fantasia-card {
   width: 260px;
+  flex-shrink: 0;
 }
 
 .fantasia-grid {
