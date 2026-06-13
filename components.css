@@ -139,7 +139,7 @@
 
 @media (max-width: 768px) {
   .navbar__links { display: none; }
-  .navbar__cta   { display: none; }
+  .navbar__cta   { display: none !important; }
   .navbar__menu-btn { display: flex; }
 }
 
