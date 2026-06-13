@@ -1284,14 +1284,7 @@
   }
 
   .hero__actions {
-    justify-content: center;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .hero__actions .btn {
-    width: 100%;
-    justify-content: center;
+    display: none;
   }
 
   .hero__stats {
@@ -1451,9 +1444,8 @@
   }
 }
 
-/* ─── Hero: oculta botones en mobile (WhatsApp flotante los reemplaza) ── */
 @media (max-width: 768px) {
-  .hero__actions { display: none; }
+  .hero__actions { display: none !important; }
 }
 
 /* ─── Clientes: scroll horizontal en mobile ──────────────── */
