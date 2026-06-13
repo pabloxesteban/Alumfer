@@ -1403,7 +1403,7 @@
   }
 
   .navbar__logo-sub {
-    display: none;
+    font-size: 0.55rem;
   }
 
   .navbar__logo-img {
