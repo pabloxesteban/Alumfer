@@ -749,13 +749,13 @@
             </p>
           </div>
           <div style="display:flex; flex-direction:column; gap:0.75rem; margin-top:1.5rem; margin-bottom:1.5rem">
-            <p style="font-size:var(--text-sm); color:var(--text-on-dark-2)">
+            <p style="font-size:var(--text-md); color:var(--text-on-dark-2)">
               📍 Av. San Martín 734, Adrogué, Buenos Aires
             </p>
-            <p style="font-size:var(--text-md); font-weight:500; color:var(--text-on-dark)">
+            <p style="font-size:var(--text-md); color:var(--text-on-dark-2)">
               📞 <a href="tel:+5491163368643" style="color:inherit; text-decoration:none">(011) 6336-8643</a>
             </p>
-            <p style="font-size:var(--text-md); font-weight:500; color:var(--text-on-dark)">
+            <p style="font-size:var(--text-md); color:var(--text-on-dark-2)">
               📧 <a href="mailto:alumfer@live.com" style="color:inherit; text-decoration:none">alumfer@live.com</a>
             </p>
           </div>
@@ -797,15 +797,8 @@
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="producto">Producto de interés</label>
-              <select class="form-select" id="producto" name="producto" required>
-                <option value="" disabled selected>Seleccioná un producto</option>
-                <option value="ventanas">Ventanas</option>
-                <option value="puertas">Puertas</option>
-                <option value="mamparas">Mamparas de baño</option>
-                <option value="cerramientos">Cerramientos</option>
-                <option value="mosquiteros">Mosquiteros</option>
-                <option value="otro">Otro</option>
-              </select>
+              <input class="form-input" type="text" id="producto" name="producto"
+                     placeholder="Ej: ventanas, puertas, mamparas..." required>
             </div>
             <div class="form-group">
               <label class="form-label" for="localidad">Localidad</label>
