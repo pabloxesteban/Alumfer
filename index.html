@@ -955,8 +955,13 @@
           </div>
         </div>
 
-        <form class="contact-form reveal" name="cotizacion" method="POST" action="/gracias"
+        <form class="contact-form reveal" name="cotizacion" method="POST" action="https://api.web3forms.com/submit"
               aria-label="Formulario de cotización">
+          <input type="hidden" name="access_key" value="1d07eaf2-b5a6-41ac-9161-9ce8b353c358">
+          <input type="hidden" name="to" value="alumfercarpinteria@gmail.com">
+          <input type="hidden" name="subject" value="Nueva consulta desde alumfer.com.ar">
+          <input type="hidden" name="redirect" value="https://pabloxesteban.github.io/Alumfer/gracias.html">
+          <input type="checkbox" name="botcheck" style="display:none">
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="nombre">Nombre</label>

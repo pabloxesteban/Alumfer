@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gracias — Alumfer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="base.css">
+  <style>
+    body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: var(--bg); }
+    .gracias {
+      text-align: center;
+      padding: 3rem 2rem;
+      max-width: 480px;
+    }
+    .gracias__icon {
+      width: 64px; height: 64px;
+      background: var(--blue-light);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+    .gracias__title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-on-dark);
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+    }
+    .gracias__text {
+      color: var(--text-on-dark-2);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+    .gracias__btn {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      background: var(--blue-light);
+      color: #fff;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.875rem;
+      letter-spacing: 1px;
+      transition: opacity 0.2s;
+    }
+    .gracias__btn:hover { opacity: 0.85; }
+  </style>
+</head>
+<body>
+  <div class="gracias">
+    <div class="gracias__icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+    <h1 class="gracias__title">¡Consulta enviada!</h1>
+    <p class="gracias__text">Recibimos tu mensaje. Nos comunicaremos con vos en menos de 24 horas.</p>
+    <a href="/" class="gracias__btn">Volver al inicio</a>
+  </div>
+</body>
+</html>
