@@ -395,7 +395,12 @@
 
 .catalog-tab__label {
   font-size: var(--text-sm);
-  white-space: nowrap;
+  white-space: normal;
+  text-align: center;
+  min-height: 2.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .catalog-tab:hover .catalog-tab__icon { color: var(--text-on-dark-2); }
