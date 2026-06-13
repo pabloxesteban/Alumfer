@@ -345,6 +345,56 @@
 }
 
 /* ─── CARDS DE PRODUCTO ───────────────────────────────────── */
+/* ─── CATALOG TABS ──────────────────────────────────────────── */
+.catalog-tabs {
+  margin-top: var(--space-10);
+}
+
+.catalog-tabs__nav {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border-dark);
+  margin-bottom: var(--space-8);
+}
+
+.catalog-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-on-dark-2);
+  cursor: pointer;
+  letter-spacing: var(--tracking-wide);
+  transition: color var(--duration) var(--ease), border-color var(--duration) var(--ease);
+}
+
+.catalog-tab:hover {
+  color: var(--text-on-dark);
+}
+
+.catalog-tab.is-active {
+  color: var(--text-on-dark);
+  border-bottom-color: var(--blue);
+}
+
+.catalog-panel {
+  display: none;
+}
+
+.catalog-panel.is-active {
+  display: block;
+  animation: fadeIn 200ms var(--ease);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── PRODUCT GRID ──────────────────────────────────────────── */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));

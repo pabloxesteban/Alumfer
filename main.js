@@ -135,6 +135,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ─── Catalog tabs ─────────────────────────────────────────
+  document.querySelectorAll('.catalog-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+      document.querySelectorAll('.catalog-tab').forEach(t => t.classList.remove('is-active'));
+      document.querySelectorAll('.catalog-panel').forEach(p => p.classList.remove('is-active'));
+      tab.classList.add('is-active');
+      document.querySelector(`.catalog-panel[data-panel="${target}"]`).classList.add('is-active');
+    });
+  });
+
   // ─── Smooth anchor links ──────────────────────────────────
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
