@@ -10,59 +10,109 @@
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="components.css">
   <style>
-    body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: var(--bg); }
+    html, body { height: 100%; }
+    body { display: flex; flex-direction: column; }
+
+    .gracias-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-12) var(--space-6);
+    }
+
     .gracias {
       text-align: center;
-      padding: 3rem 2rem;
       max-width: 480px;
     }
+
     .gracias__icon {
-      width: 64px; height: 64px;
-      background: var(--blue-light);
+      width: 72px; height: 72px;
+      border: 2px solid var(--blue-light);
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 1.5rem;
+      margin: 0 auto var(--space-8);
     }
+
+    .gracias__eyebrow {
+      font-size: var(--text-xs);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--blue-light);
+      margin-bottom: var(--space-3);
+    }
+
     .gracias__title {
       font-family: 'Montserrat', sans-serif;
-      font-size: 1.5rem;
+      font-size: clamp(1.5rem, 4vw, 2rem);
       font-weight: 600;
       color: var(--text-on-dark);
       letter-spacing: 2px;
-      margin-bottom: 1rem;
+      text-transform: uppercase;
+      margin-bottom: var(--space-4);
     }
+
     .gracias__text {
       color: var(--text-on-dark-2);
-      font-size: 0.95rem;
-      line-height: 1.7;
-      margin-bottom: 2rem;
+      font-size: var(--text-sm);
+      line-height: 1.8;
+      margin-bottom: var(--space-10);
     }
-    .gracias__btn {
-      display: inline-block;
-      padding: 0.75rem 2rem;
+
+    .gracias__divider {
+      width: 40px;
+      height: 2px;
       background: var(--blue-light);
-      color: #fff;
-      border-radius: 4px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.875rem;
-      letter-spacing: 1px;
-      transition: opacity 0.2s;
+      margin: 0 auto var(--space-8);
     }
-    .gracias__btn:hover { opacity: 0.85; }
+
+    .gracias-footer {
+      padding: var(--space-6);
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+    .gracias-footer p {
+      font-size: var(--text-xs);
+      color: var(--text-on-dark-3);
+      letter-spacing: 1px;
+    }
   </style>
 </head>
 <body>
-  <div class="gracias">
-    <div class="gracias__icon">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="20 6 9 17 4 12"/>
-      </svg>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar--scrolled" role="navigation" aria-label="Navegación principal">
+    <div class="navbar__inner">
+      <a href="/" class="navbar__logo" aria-label="Alumfer — inicio" style="text-decoration:none">
+        <img src="solologo.png" alt="" class="navbar__logo-img" aria-hidden="true">
+        <div class="navbar__logo-text">
+          <span class="navbar__logo-name">ALUMFER</span>
+          <span class="navbar__logo-sub">Carpintería de aluminio</span>
+        </div>
+      </a>
     </div>
-    <h1 class="gracias__title">¡Consulta enviada!</h1>
-    <p class="gracias__text">Recibimos tu mensaje. Nos comunicaremos con vos en menos de 24 horas.</p>
-    <a href="/" class="gracias__btn">Volver al inicio</a>
+  </nav>
+
+  <div class="gracias-wrap">
+    <div class="gracias">
+      <div class="gracias__icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--blue-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <p class="gracias__eyebrow">Mensaje recibido</p>
+      <h1 class="gracias__title">¡Gracias por contactarnos!</h1>
+      <div class="gracias__divider"></div>
+      <p class="gracias__text">Recibimos tu consulta y nos comunicaremos con vos en menos de 24 horas.</p>
+      <a href="/" class="btn btn--primary">Volver al inicio</a>
+    </div>
   </div>
+
+  <footer class="gracias-footer">
+    <p>© 2026 Alumfer · Adrogué, Buenos Aires</p>
+  </footer>
+
 </body>
 </html>
