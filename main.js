@@ -249,6 +249,15 @@ document.addEventListener('DOMContentLoaded', () => {
     fantasiaCard.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
   }
 
+  // ─── Formulario: replyto dinámico ────────────────────────
+  const emailInput  = document.getElementById('email');
+  const replytoField = document.getElementById('replyto-field');
+  if (emailInput && replytoField) {
+    emailInput.addEventListener('input', () => {
+      replytoField.value = emailInput.value;
+    });
+  }
+
   // ─── Smooth anchor links ──────────────────────────────────
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
