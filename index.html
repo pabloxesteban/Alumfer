@@ -589,105 +589,81 @@
 
         <!-- Panel: Vidrios -->
         <div class="catalog-panel" data-panel="vidrios">
-          <div class="info-grid info-grid--open">
-
-            <article class="info-card info-card--open">
-              <div class="info-card__img">
-                <img loading="lazy" src="transparente.jpg" alt="Vidrio transparente">
-              </div>
-              <div class="info-card__header">
-                <div class="info-card__titles">
-                  <span class="info-card__label">Transparente</span>
-                  <h3 class="info-card__name">Claridad total</h3>
-                </div>
-              </div>
-              <div class="info-card__body">
-                <p class="info-card__desc">La opción estándar. Alta transmisión de luz natural, bajo costo. Compatible con todas las líneas de perfil. Ideal para la mayoría de las obras residenciales.</p>
-              </div>
-            </article>
-
-            <article class="info-card info-card--open">
-              <div class="info-card__img">
-                <img loading="lazy" src="esmerilado.png" alt="Vidrio esmerilado">
-              </div>
-              <div class="info-card__header">
-                <div class="info-card__titles">
-                  <span class="info-card__label">Esmerilado</span>
-                  <h3 class="info-card__name">Privacidad con luz</h3>
-                </div>
-              </div>
-              <div class="info-card__body">
-                <p class="info-card__desc">Superficie tratada que difumina la visión sin bloquear la luz natural. Ideal para baños, puertas interiores y divisorios. Disponible en distintos grados de opacidad.</p>
-              </div>
-            </article>
-
-            <article class="info-card info-card--open">
-              <div class="info-card__img">
-                <img loading="lazy" src="https://images.unsplash.com/photo-1583405751003-9e2fd7677c0d?w=600&q=80&auto=format&fit=crop" alt="Vidrio espejado">
-              </div>
-              <div class="info-card__header">
-                <div class="info-card__titles">
-                  <span class="info-card__label">Espejado</span>
-                  <h3 class="info-card__name">Efecto espejo exterior</h3>
-                </div>
-              </div>
-              <div class="info-card__body">
-                <p class="info-card__desc">Reflejo espejado desde el exterior durante el día, con visibilidad normal desde adentro. Muy usado en fachadas comerciales y oficinas. Aporta privacidad sin perder luminosidad interior.</p>
-              </div>
-            </article>
-
-            <article class="info-card info-card--open">
-              <div class="info-card__img">
-                <img loading="lazy" src="vidrio-dvh.jpg" alt="DVH">
-              </div>
-              <div class="info-card__header">
-                <div class="info-card__titles">
-                  <span class="info-card__label">DVH</span>
-                  <h3 class="info-card__name">Doble vidriado hermético</h3>
-                </div>
-              </div>
-              <div class="info-card__body">
-                <p class="info-card__desc">Dos vidrios separados por una cámara de aire sellada. Reduce significativamente la pérdida de calor y el ingreso de ruido exterior. Ideal para zonas frías, departamentos en avenidas o proyectos con alta eficiencia energética.</p>
-              </div>
-            </article>
-
+          <div class="profile-selector" role="tablist" style="--cols:4" aria-label="Seleccionar tipo de vidrio">
+            <button class="profile-sel is-active" role="tab" aria-selected="true"
+              data-img="transparente.jpg"
+              data-label="Transparente"
+              data-name="Claridad total"
+              data-desc="La opción estándar. Alta transmisión de luz natural, bajo costo. Compatible con todas las líneas de perfil. Ideal para la mayoría de las obras residenciales.">
+              <div class="profile-sel__img"><img src="transparente.jpg" alt="Transparente"></div>
+              <span class="profile-sel__name">Transparente</span>
+            </button>
+            <button class="profile-sel" role="tab" aria-selected="false"
+              data-img="esmerilado.png"
+              data-label="Esmerilado"
+              data-name="Privacidad con luz"
+              data-desc="Superficie tratada que difumina la visión sin bloquear la luz natural. Ideal para baños, puertas interiores y divisorios. Disponible en distintos grados de opacidad.">
+              <div class="profile-sel__img"><img src="esmerilado.png" alt="Esmerilado"></div>
+              <span class="profile-sel__name">Esmerilado</span>
+            </button>
+            <button class="profile-sel" role="tab" aria-selected="false"
+              data-img="https://images.unsplash.com/photo-1583405751003-9e2fd7677c0d?w=600&q=80&auto=format&fit=crop"
+              data-label="Espejado"
+              data-name="Efecto espejo exterior"
+              data-desc="Reflejo espejado desde el exterior durante el día, con visibilidad normal desde adentro. Muy usado en fachadas comerciales y oficinas. Aporta privacidad sin perder luminosidad interior.">
+              <div class="profile-sel__img"><img src="https://images.unsplash.com/photo-1583405751003-9e2fd7677c0d?w=600&q=80&auto=format&fit=crop" alt="Espejado"></div>
+              <span class="profile-sel__name">Espejado</span>
+            </button>
+            <button class="profile-sel" role="tab" aria-selected="false"
+              data-img="vidrio-dvh.jpg"
+              data-label="DVH"
+              data-name="Doble vidriado hermético"
+              data-desc="Dos vidrios separados por una cámara de aire sellada. Reduce significativamente la pérdida de calor y el ingreso de ruido exterior. Ideal para zonas frías, departamentos en avenidas o proyectos con alta eficiencia energética.">
+              <div class="profile-sel__img"><img src="vidrio-dvh.jpg" alt="DVH"></div>
+              <span class="profile-sel__name">DVH</span>
+            </button>
+          </div>
+          <div class="profile-detail reveal">
+            <div class="profile-detail__media">
+              <img class="profile-detail__img" src="transparente.jpg" alt="Transparente">
+            </div>
+            <div class="profile-detail__body">
+              <span class="profile-detail__tag">Transparente</span>
+              <h3 class="profile-detail__name">Claridad total</h3>
+              <p class="profile-detail__desc">La opción estándar. Alta transmisión de luz natural, bajo costo. Compatible con todas las líneas de perfil. Ideal para la mayoría de las obras residenciales.</p>
+            </div>
           </div>
         </div>
 
         <!-- Panel: Cortinas y rejas -->
         <div class="catalog-panel" data-panel="extras">
-          <div class="info-grid info-grid--open info-grid--2col">
-
-            <article class="info-card info-card--open">
-              <div class="info-card__img">
-                <img loading="lazy" src="extra-cortinas-pvc.jpg" alt="Cortinas de PVC">
-              </div>
-              <div class="info-card__header">
-                <div class="info-card__titles">
-                  <span class="info-card__label">Cortinas de PVC</span>
-                  <h3 class="info-card__name">Enrollables con guías de aluminio</h3>
-                </div>
-              </div>
-              <div class="info-card__body">
-                <p class="info-card__desc">Cortinas enrollables de PVC rígido con guías y cajón de aluminio. Excelente aislación térmica y acústica. Disponibles en blanco y distintos colores. Con o sin cajón incorporado a la abertura.</p>
-              </div>
-            </article>
-
-            <article class="info-card info-card--open">
-              <div class="info-card__img">
-                <img loading="lazy" src="extra-rejas.png" alt="Rejas de aluminio">
-              </div>
-              <div class="info-card__header">
-                <div class="info-card__titles">
-                  <span class="info-card__label">Rejas</span>
-                  <h3 class="info-card__name">Seguridad con diseño</h3>
-                </div>
-              </div>
-              <div class="info-card__body">
-                <p class="info-card__desc">Rejas de hierro redondo o cuadrado, fijas o rebatibles. Diseños rectos y decorativos. Se fabrican a medida para adaptarse a cualquier vano.</p>
-              </div>
-            </article>
-
+          <div class="profile-selector" role="tablist" style="--cols:2; max-width:500px" aria-label="Seleccionar producto adicional">
+            <button class="profile-sel is-active" role="tab" aria-selected="true"
+              data-img="extra-cortinas-pvc.jpg"
+              data-label="Cortinas de PVC"
+              data-name="Enrollables con guías de aluminio"
+              data-desc="Cortinas enrollables de PVC rígido con guías y cajón de aluminio. Excelente aislación térmica y acústica. Disponibles en blanco y distintos colores. Con o sin cajón incorporado a la abertura.">
+              <div class="profile-sel__img"><img src="extra-cortinas-pvc.jpg" alt="Cortinas de PVC"></div>
+              <span class="profile-sel__name">Cortinas PVC</span>
+            </button>
+            <button class="profile-sel" role="tab" aria-selected="false"
+              data-img="extra-rejas.png"
+              data-label="Rejas"
+              data-name="Seguridad con diseño"
+              data-desc="Rejas de hierro redondo o cuadrado, fijas o rebatibles. Diseños rectos y decorativos. Se fabrican a medida para adaptarse a cualquier vano.">
+              <div class="profile-sel__img"><img src="extra-rejas.png" alt="Rejas de aluminio"></div>
+              <span class="profile-sel__name">Rejas</span>
+            </button>
+          </div>
+          <div class="profile-detail reveal">
+            <div class="profile-detail__media">
+              <img class="profile-detail__img" src="extra-cortinas-pvc.jpg" alt="Cortinas de PVC">
+            </div>
+            <div class="profile-detail__body">
+              <span class="profile-detail__tag">Cortinas de PVC</span>
+              <h3 class="profile-detail__name">Enrollables con guías de aluminio</h3>
+              <p class="profile-detail__desc">Cortinas enrollables de PVC rígido con guías y cajón de aluminio. Excelente aislación térmica y acústica. Disponibles en blanco y distintos colores. Con o sin cajón incorporado a la abertura.</p>
+            </div>
           </div>
         </div>
 
@@ -949,85 +925,63 @@
 
         <!-- Panel: Policarbonato / Poliestireno -->
         <div class="catalog-panel" data-panel="policarbonato">
-          <div class="info-grid">
 
-            <article class="info-card">
-              <div class="info-card__img info-card__img--profile">
-                <img loading="lazy" src="policarbonato-alveolar.jpg" alt="Policarbonato Alveolar">
-              </div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Cobertura</span>
-              <h3 class="info-card__name">Policarbonato Alveolar</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <!-- Selector: 2 tipos de policarbonato -->
+          <div class="profile-selector" role="tablist" style="--cols:2; max-width:500px" aria-label="Seleccionar tipo de policarbonato">
+            <button class="profile-sel is-active" role="tab" aria-selected="true"
+              data-img="policarbonato-alveolar.jpg"
+              data-label="Policarbonato Alveolar"
+              data-name="Máxima aislación, mínimo peso"
+              data-desc="Panel liviano con cámaras de aire que ofrecen excelente aislación térmica y acústica. Ideal para techos, pérgolas y cerramientos que requieren transparencia y resistencia. Disponible en 4, 6, 8 y 10mm.">
+              <div class="profile-sel__img"><img src="policarbonato-alveolar.jpg" alt="Alveolar"></div>
+              <span class="profile-sel__name">Alveolar</span>
+            </button>
+            <button class="profile-sel" role="tab" aria-selected="false"
+              data-img="policarbonato-compacto.png"
+              data-label="Policarbonato Compacto"
+              data-name="Resistencia y transparencia"
+              data-desc="Panel sólido de alta resistencia al impacto. Alta transparencia y protección UV. Aplicaciones en claraboyas, mamparas y frentes comerciales.">
+              <div class="profile-sel__img"><img src="policarbonato-compacto.png" alt="Compacto"></div>
+              <span class="profile-sel__name">Compacto</span>
             </button>
           </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Panel liviano con cámaras de aire que ofrecen excelente aislación térmica y acústica. Ideal para techos, pérgolas y cerramientos que requieren transparencia y resistencia. Disponible en 4, 6, 8 y 10mm.</p>
-          </div>
-            </article>
-
-            <article class="info-card">
-              <div class="info-card__img info-card__img--profile">
-                <img loading="lazy" src="policarbonato-compacto.png" alt="Policarbonato Compacto">
-              </div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Cobertura</span>
-              <h3 class="info-card__name">Policarbonato Compacto</h3>
+          <div class="profile-detail reveal">
+            <div class="profile-detail__media">
+              <img class="profile-detail__img" src="policarbonato-alveolar.jpg" alt="Policarbonato Alveolar">
             </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Panel sólido de alta resistencia al impacto. Alta transparencia y protección UV. Aplicaciones en claraboyas, mamparas y frentes comerciales.</p>
-          </div>
-            </article>
-
-            <div class="fantasia-wrap">
-              <article class="info-card fantasia-card" role="button" tabindex="0" aria-expanded="false" style="cursor:pointer">
-                <div class="info-card__img info-card__img--profile">
-                  <img loading="lazy" src="fantasia.jfif" alt="Poliestireno Fantasía">
-                  <div class="fantasia-hint">Ver tipos</div>
-                </div>
-                <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Cobertura</span>
-              <h3 class="info-card__name">Poliestireno Fantasía</h3>
+            <div class="profile-detail__body">
+              <span class="profile-detail__tag">Policarbonato Alveolar</span>
+              <h3 class="profile-detail__name">Máxima aislación, mínimo peso</h3>
+              <p class="profile-detail__desc">Panel liviano con cámaras de aire que ofrecen excelente aislación térmica y acústica. Ideal para techos, pérgolas y cerramientos que requieren transparencia y resistencia. Disponible en 4, 6, 8 y 10mm.</p>
             </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
           </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Panel decorativo con texturas que difunden la luz. Ideal para divisiones interiores y cerramientos decorativos.</p>
-          </div>
-              </article>
-              <div class="fantasia-grid" aria-hidden="true">
-                <div class="fantasia-grid__inner">
-                  <div class="fantasia-tile"><img loading="lazy" src="amazonia.png" alt="Amazonia"><span>Amazonia</span></div>
-                  <div class="fantasia-tile"><img loading="lazy" src="agua-viva.png" alt="Agua Viva"><span>Agua Viva</span></div>
-                  <div class="fantasia-tile"><img loading="lazy" src="bebe.png" alt="Bebé"><span>Bebé</span></div>
-                  <div class="fantasia-tile"><img loading="lazy" src="canalado-plus.png" alt="Canalado Plus"><span>Canalado Plus</span></div>
-                  <div class="fantasia-tile"><img loading="lazy" src="niagara.png" alt="Niágara"><span>Niágara</span></div>
-                  <div class="fantasia-tile"><img loading="lazy" src="diamante.png" alt="Diamante"><span>Diamante</span></div>
-                  <div class="fantasia-tile"><img loading="lazy" src="espuma.png" alt="Espuma"><span>Espuma</span></div>
-                  <div class="fantasia-tile"><img loading="lazy" src="foresta.png" alt="Foresta"><span>Foresta</span></div>
-                  <div class="fantasia-tile"><img loading="lazy" src="gaviota.png" alt="Gaviota"><span>Gaviota</span></div>
-                  <div class="fantasia-tile"><img loading="lazy" src="iberia.png" alt="Iberia"><span>Iberia</span></div>
-                  <div class="fantasia-tile"><img loading="lazy" src="laberinto.png" alt="Laberinto"><span>Laberinto</span></div>
-                  <div class="fantasia-tile"><img loading="lazy" src="monocril.png" alt="Monocril"><span>Monocril</span></div>
-                  <div class="fantasia-tile"><img loading="lazy" src="puntillado.png" alt="Puntillado"><span>Puntillado</span></div>
-                  <div class="fantasia-tile"><img loading="lazy" src="pantanal.png" alt="Pantanal"><span>Pantanal</span></div>
-                  <div class="fantasia-tile"><img loading="lazy" src="pantanal-cristal.png" alt="Pantanal Cristal"><span>Pantanal Cristal</span></div>
-                </div>
-              </div>
-            </div>
 
+          <!-- Fantasía: mosaico siempre visible -->
+          <div class="fantasia-section">
+            <div class="fantasia-section__header">
+              <span class="fantasia-section__eyebrow">Cobertura decorativa</span>
+              <h3 class="fantasia-section__title">Poliestireno Fantasía</h3>
+              <p class="fantasia-section__desc">Paneles con texturas que difunden la luz. Ideal para divisiones interiores y cerramientos decorativos.</p>
+            </div>
+            <div class="fantasia-mosaic">
+              <div class="fantasia-tile"><img loading="lazy" src="amazonia.png" alt="Amazonia"><span>Amazonia</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="agua-viva.png" alt="Agua Viva"><span>Agua Viva</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="bebe.png" alt="Bebé"><span>Bebé</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="canalado-plus.png" alt="Canalado Plus"><span>Canalado Plus</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="niagara.png" alt="Niágara"><span>Niágara</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="diamante.png" alt="Diamante"><span>Diamante</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="espuma.png" alt="Espuma"><span>Espuma</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="foresta.png" alt="Foresta"><span>Foresta</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="gaviota.png" alt="Gaviota"><span>Gaviota</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="iberia.png" alt="Iberia"><span>Iberia</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="laberinto.png" alt="Laberinto"><span>Laberinto</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="monocril.png" alt="Monocril"><span>Monocril</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="puntillado.png" alt="Puntillado"><span>Puntillado</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="pantanal.png" alt="Pantanal"><span>Pantanal</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="pantanal-cristal.png" alt="Pantanal Cristal"><span>Pantanal Cristal</span></div>
+            </div>
           </div>
+
         </div>
 
       </div>

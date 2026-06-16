@@ -335,34 +335,37 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ─── Profile selector (lineas panel) ─────────────────────
-  const profileSels = document.querySelectorAll('.profile-sel');
-  const pdImg   = document.getElementById('profile-detail-img');
-  const pdLabel = document.getElementById('profile-detail-label');
-  const pdName  = document.getElementById('profile-detail-name');
-  const pdDesc  = document.getElementById('profile-detail-desc');
+  // ─── Profile selector (all catalog panels) ───────────────
+  document.querySelectorAll('.profile-selector').forEach(selector => {
+    const panel  = selector.closest('.catalog-panel');
+    const detail = panel?.querySelector('.profile-detail');
+    if (!detail) return;
 
-  if (profileSels.length && pdImg) {
-    profileSels.forEach(btn => {
+    const pdImg   = detail.querySelector('.profile-detail__img');
+    const pdLabel = detail.querySelector('.profile-detail__tag');
+    const pdName  = detail.querySelector('.profile-detail__name');
+    const pdDesc  = detail.querySelector('.profile-detail__desc');
+
+    selector.querySelectorAll('.profile-sel').forEach(btn => {
       btn.addEventListener('click', () => {
-        profileSels.forEach(b => { b.classList.remove('is-active'); b.setAttribute('aria-selected', 'false'); });
+        selector.querySelectorAll('.profile-sel').forEach(b => {
+          b.classList.remove('is-active');
+          b.setAttribute('aria-selected', 'false');
+        });
         btn.classList.add('is-active');
         btn.setAttribute('aria-selected', 'true');
 
-        // Crossfade the detail panel
-        const detail = document.querySelector('.profile-detail');
         detail.style.opacity = '0';
         setTimeout(() => {
-          pdImg.src = btn.dataset.img;
-          pdImg.alt = btn.dataset.label;
-          pdLabel.textContent = btn.dataset.label;
-          pdName.textContent  = btn.dataset.name;
-          pdDesc.textContent  = btn.dataset.desc;
+          if (pdImg && btn.dataset.img) { pdImg.src = btn.dataset.img; pdImg.alt = btn.dataset.label || ''; }
+          if (pdLabel) pdLabel.textContent = btn.dataset.label || '';
+          if (pdName)  pdName.textContent  = btn.dataset.name  || '';
+          if (pdDesc)  pdDesc.textContent  = btn.dataset.desc  || '';
           detail.style.opacity = '1';
         }, 150);
       });
     });
-  }
+  });
 
   // ─── Smooth anchor links ──────────────────────────────────
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {

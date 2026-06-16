@@ -600,7 +600,7 @@
 /* ── Profile selector (lineas panel) ────────────────────── */
 .profile-selector {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(var(--cols, 5), 1fr);
   gap: 8px;
   margin-bottom: 16px;
 }
@@ -662,8 +662,6 @@
   grid-template-columns: 220px 1fr;
   gap: var(--space-8);
   background: var(--steel);
-  border: 1px solid var(--border-dark);
-  border-left: 3px solid var(--blue);
   border-radius: var(--radius-lg);
   padding: var(--space-8);
   align-items: center;
@@ -2573,5 +2571,100 @@
   }
   .catalog-panel.is-active .info-grid--open .info-card--open {
     flex: 0 0 72vw;
+  }
+}
+
+/* Hide useless toggle buttons in color cards */
+.info-card--color .info-card__toggle { display: none; }
+
+/* ── Fantasía section (always visible mosaic) ────────────── */
+.fantasia-section {
+  margin-top: var(--space-10);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--border-dark);
+}
+
+.fantasia-section__header {
+  margin-bottom: var(--space-6);
+}
+
+.fantasia-section__eyebrow {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  font-size: var(--text-xs);
+  color: var(--blue-light);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+}
+
+.fantasia-section__title {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--text-on-dark);
+  margin: 0 0 var(--space-2);
+}
+
+.fantasia-section__desc {
+  font-size: var(--text-sm);
+  color: var(--text-on-dark-2);
+  margin: 0;
+}
+
+.fantasia-mosaic {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.fantasia-mosaic .fantasia-tile {
+  aspect-ratio: 1;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  position: relative;
+  background: var(--steel-light);
+}
+
+.fantasia-mosaic .fantasia-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 300ms var(--ease);
+}
+
+.fantasia-mosaic .fantasia-tile:hover img {
+  transform: scale(1.05);
+}
+
+.fantasia-mosaic .fantasia-tile span {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 6px 6px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.72));
+  font-size: var(--text-xs);
+  color: #fff;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+@media (max-width: 768px) {
+  .fantasia-mosaic {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+  }
+
+  .profile-detail {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    padding: var(--space-5);
+  }
+
+  .profile-detail__media {
+    max-width: 180px;
+    margin: 0 auto;
   }
 }
