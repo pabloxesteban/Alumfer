@@ -168,6 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function filterCat(cat) {
       currentCat = cat;
+      allItems.forEach(item => item.classList.remove('is-featured'));
       allItems.forEach(item => {
         if (item.dataset.cat === cat) {
           item.classList.remove('is-hidden');
@@ -178,6 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
       visibleItems = getVisible();
+      if (visibleItems.length) visibleItems[0].classList.add('is-featured');
       updateCount();
     }
 
@@ -334,6 +336,16 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // ─── Expandable info-cards ────────────────────────────────
+  document.querySelectorAll('.info-card').forEach(card => {
+    if (card.classList.contains('info-card--finish') || card.classList.contains('info-card--color')) return;
+    card.addEventListener('click', () => {
+      const isOpen = card.classList.toggle('is-expanded');
+      const toggle = card.querySelector('.info-card__toggle');
+      if (toggle) toggle.setAttribute('aria-expanded', isOpen);
+    });
+  });
 
   // ─── Smooth anchor links ──────────────────────────────────
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
