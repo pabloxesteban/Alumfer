@@ -4,115 +4,106 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gracias — Alumfer</title>
+  <meta name="description" content="Tu consulta fue enviada. Te respondemos en menos de 24 horas.">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
   <link rel="icon" type="image/png" href="favicon.png">
+
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="base.css">
   <link rel="stylesheet" href="components.css">
-  <style>
-    html, body { height: 100%; background: var(--carbon); }
-    body { display: flex; flex-direction: column; }
-
-    .gracias-wrap {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: var(--space-12) var(--space-6);
-    }
-
-    .gracias {
-      text-align: center;
-      max-width: 480px;
-    }
-
-    .gracias__icon {
-      width: 72px; height: 72px;
-      border: 2px solid var(--blue-light);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto var(--space-8);
-    }
-
-    .gracias__eyebrow {
-      font-size: var(--text-xs);
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--blue-light);
-      margin-bottom: var(--space-3);
-    }
-
-    .gracias__title {
-      font-family: 'Montserrat', sans-serif;
-      font-size: clamp(1.5rem, 4vw, 2rem);
-      font-weight: 600;
-      color: var(--text-on-dark);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: var(--space-4);
-    }
-
-    .gracias__text {
-      color: var(--text-on-dark-2);
-      font-size: var(--text-sm);
-      line-height: 1.8;
-      margin-bottom: var(--space-10);
-    }
-
-    .gracias__divider {
-      width: 40px;
-      height: 2px;
-      background: var(--blue-light);
-      margin: 0 auto var(--space-8);
-    }
-
-    .gracias-footer {
-      padding: var(--space-6);
-      text-align: center;
-      border-top: 1px solid var(--border);
-    }
-    .gracias-footer p {
-      font-size: var(--text-xs);
-      color: var(--text-on-dark-3);
-      letter-spacing: 1px;
-    }
-  </style>
+  <link rel="stylesheet" href="animations.css">
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar--scrolled" role="navigation" aria-label="Navegación principal">
+  <!-- ── NAVBAR ────────────────────────────────────────────── -->
+  <nav class="navbar navbar--scrolled" aria-label="Navegación principal">
     <div class="navbar__inner">
-      <a href="index.html" class="navbar__logo" aria-label="Alumfer — inicio" style="text-decoration:none">
+
+      <a href="index.html" class="navbar__logo" aria-label="Alumfer — inicio">
         <img src="solologo.png" alt="" class="navbar__logo-img" aria-hidden="true">
         <div class="navbar__logo-text">
           <span class="navbar__logo-name">ALUMFER</span>
           <span class="navbar__logo-sub">Carpintería de aluminio</span>
         </div>
       </a>
+
+      <ul class="navbar__links" role="list">
+        <li><a href="index.html#nosotros"  class="navbar__link">Nosotros</a></li>
+        <li><a href="index.html#productos" class="navbar__link">Productos</a></li>
+        <li><a href="index.html#trabajos"  class="navbar__link">Trabajos</a></li>
+        <li><a href="index.html#contacto"  class="navbar__link">Contacto</a></li>
+      </ul>
+
+      <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" class="btn btn--primary navbar__cta"
+         target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+        Pedir presupuesto
+      </a>
+
+      <button class="navbar__menu-btn" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
     </div>
   </nav>
 
-  <div class="gracias-wrap">
-    <div class="gracias">
-      <div class="gracias__icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--blue-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Menú mobile -->
+  <nav class="mobile-nav" aria-label="Menú mobile" aria-hidden="true">
+    <button class="mobile-nav__close" aria-label="Cerrar menú">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <a href="index.html#nosotros"  class="mobile-nav__link">Nosotros</a>
+    <a href="index.html#productos" class="mobile-nav__link">Productos</a>
+    <a href="index.html#trabajos"  class="mobile-nav__link">Trabajos</a>
+    <a href="index.html#contacto"  class="mobile-nav__link">Contacto</a>
+    <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" class="btn btn--primary mobile-nav__cta" target="_blank" rel="noopener">
+      Pedir presupuesto
+    </a>
+  </nav>
+
+
+  <!-- ── SECCIÓN GRACIAS ──────────────────────────────────── -->
+  <section class="thanks-section" aria-label="Consulta enviada">
+    <div class="thanks-content">
+
+      <div class="thanks-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="20 6 9 17 4 12"/>
         </svg>
       </div>
-      <p class="gracias__eyebrow">Mensaje recibido</p>
-      <h1 class="gracias__title">¡Gracias por contactarnos!</h1>
-      <div class="gracias__divider"></div>
-      <p class="gracias__text">Recibimos tu consulta y nos comunicaremos con vos en menos de 24 horas.</p>
-      <a href="index.html" class="btn btn--primary">Volver al inicio</a>
-    </div>
-  </div>
 
-  <footer class="gracias-footer">
-    <p>© 2026 Alumfer · Adrogué, Buenos Aires</p>
+      <h1 class="thanks-title">¡Consulta enviada!</h1>
+
+      <p class="thanks-subtitle">
+        Te respondemos en menos de 24 horas por teléfono o WhatsApp. Si necesitás algo urgente, escribinos directamente.
+      </p>
+
+      <div class="thanks-actions">
+        <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto"
+           class="btn btn--primary btn--lg" target="_blank" rel="noopener">
+          Escribir por WhatsApp
+        </a>
+        <a href="index.html" class="btn btn--outline btn--lg">
+          Volver al inicio
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ── FOOTER ─────────────────────────────────────────────── -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2025 Alumfer. Todos los derechos reservados.</p>
+      </div>
+    </div>
   </footer>
 
+  <script src="main.js"></script>
 </body>
 </html>
