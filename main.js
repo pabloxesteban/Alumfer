@@ -249,12 +249,29 @@ document.addEventListener('DOMContentLoaded', () => {
     fantasiaCard.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
   }
 
-  // ─── Formulario: replyto dinámico ────────────────────────
-  const emailInput  = document.getElementById('email');
+  // ─── Formulario: replyto y asunto dinámicos ──────────────
+  const contactForm  = document.querySelector('.contact-form');
+  const emailInput   = document.getElementById('email');
   const replytoField = document.getElementById('replyto-field');
+  const subjectField = document.getElementById('subject-field');
+
   if (emailInput && replytoField) {
     emailInput.addEventListener('input', () => {
       replytoField.value = emailInput.value;
+    });
+  }
+
+  // Asunto del email: "Consulta de [Nombre] — [Producto]"
+  if (contactForm && subjectField) {
+    contactForm.addEventListener('submit', () => {
+      const nombre   = (document.getElementById('nombre')?.value || '').trim();
+      const apellido = (document.getElementById('apellido')?.value || '').trim();
+      const producto = (document.getElementById('producto')?.value || '').trim();
+      const quien = [nombre, apellido].filter(Boolean).join(' ') || 'cliente web';
+      subjectField.value = producto
+        ? `Consulta de ${quien} — ${producto}`
+        : `Consulta de ${quien}`;
+      if (emailInput) replytoField.value = emailInput.value;
     });
   }
 
