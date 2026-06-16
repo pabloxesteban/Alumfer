@@ -265,13 +265,42 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Asunto del email: "Consulta de [Nombre]"
-  if (contactForm && subjectField) {
-    contactForm.addEventListener('submit', () => {
+  if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Construir asunto y replyto
       const nombre = (document.getElementById('nombre')?.value || '').trim();
-      const quien  = nombre || 'cliente web';
-      subjectField.value = `Consulta de ${quien} — alumfer.com.ar`;
-      if (emailInput) replytoField.value = emailInput.value;
+      if (subjectField) subjectField.value = `Consulta de ${nombre || 'cliente web'} — alumfer.com.ar`;
+      if (emailInput && replytoField) replytoField.value = emailInput.value;
+
+      // Loading state
+      const submitBtn = contactForm.querySelector('[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.classList.add('btn--loading');
+        submitBtn.textContent = 'Enviando…';
+      }
+
+      try {
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: new FormData(contactForm)
+        });
+        const data = await response.json();
+        if (data.success) {
+          window.location.href = 'gracias.html';
+        } else {
+          throw new Error(data.message);
+        }
+      } catch {
+        alert('Hubo un error al enviar. Por favor escribinos por WhatsApp.');
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('btn--loading');
+          submitBtn.textContent = 'Enviar consulta';
+        }
+      }
     });
   }
 
