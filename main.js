@@ -261,16 +261,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Asunto del email: "Consulta de [Nombre] — [Producto]"
+  // Asunto del email: "Consulta de [Nombre]"
   if (contactForm && subjectField) {
     contactForm.addEventListener('submit', () => {
-      const nombre   = (document.getElementById('nombre')?.value || '').trim();
-      const apellido = (document.getElementById('apellido')?.value || '').trim();
-      const producto = (document.getElementById('producto')?.value || '').trim();
-      const quien = [nombre, apellido].filter(Boolean).join(' ') || 'cliente web';
-      subjectField.value = producto
-        ? `Consulta de ${quien} — ${producto}`
-        : `Consulta de ${quien}`;
+      const nombre = (document.getElementById('nombre')?.value || '').trim();
+      const quien  = nombre || 'cliente web';
+      subjectField.value = `Consulta de ${quien} — alumfer.com.ar`;
       if (emailInput) replytoField.value = emailInput.value;
     });
   }
