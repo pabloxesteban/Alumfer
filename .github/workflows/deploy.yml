@@ -29,12 +29,13 @@ jobs:
           # Carpeta del servidor donde vive el sitio. En la mayoría de cPanel es public_html/.
           # Si tu cuenta FTP ya entra directo a public_html, dejá: ./
           server-dir: ./public_html/
-          # Archivos que NO se publican en el sitio.
-          exclude:
-            - "**/.git*"
-            - "**/.git*/**"
-            - ".github/**"
-            - ".claude/**"
-            - "README.md"
-            - "preview-hero.html"
-            - "preview-vidrios.html"
+          # Archivos que NO se publican en el sitio (uno por linea).
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            .claude/**
+            README.md
+            DEPLOY.md
+            preview-hero.html
+            preview-vidrios.html
