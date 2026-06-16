@@ -157,6 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
         d.addEventListener('click', () => goTo(i));
         dotsWrap.appendChild(d);
       });
+      const counter = document.getElementById('carousel-counter');
+      if (counter) counter.textContent = `${current + 1} / ${visibleSlides.length}`;
     }
 
     const isMobile = () => window.innerWidth <= 768;
@@ -172,6 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
       dotsWrap.querySelectorAll('.carousel__dot').forEach((d, i) =>
         d.classList.toggle('is-active', i === current)
       );
+      const counter = document.getElementById('carousel-counter');
+      if (counter) counter.textContent = `${current + 1} / ${visibleSlides.length}`;
     }
 
     function filterCat(cat) {
