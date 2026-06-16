@@ -159,7 +159,7 @@
 
       <div class="features-grid">
 
-        <div class="feature reveal reveal-delay-1">
+        <div class="feature reveal reveal--stagger-1">
           <div class="feature__icon" aria-hidden="true">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20M4 20V10l8-6 8 6v10"/><path d="M10 20v-5h4v5"/></svg>
           </div>
@@ -167,7 +167,7 @@
           <p class="feature__desc">Producimos en nuestro propio taller. Controlamos cada etapa y garantizamos calidad sin depender de terceros.</p>
         </div>
 
-        <div class="feature reveal reveal-delay-2">
+        <div class="feature reveal reveal--stagger-2">
           <div class="feature__icon" aria-hidden="true">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
           </div>
@@ -175,7 +175,7 @@
           <p class="feature__desc">Cada abertura se fabrica según las medidas exactas de tu obra. Medimos, presupuestamos y colocamos nosotros.</p>
         </div>
 
-        <div class="feature reveal reveal-delay-3">
+        <div class="feature reveal reveal--stagger-3">
           <div class="feature__icon" aria-hidden="true">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
           </div>
@@ -183,7 +183,7 @@
           <p class="feature__desc">Colocación en seco. Seguimiento posventa y garantía sobre materiales y mano de obra.</p>
         </div>
 
-        <div class="feature reveal reveal-delay-4">
+        <div class="feature reveal reveal--stagger-4">
           <div class="feature__icon" aria-hidden="true">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
           </div>
@@ -474,10 +474,10 @@
           <button class="carousel__btn carousel__btn--next" aria-label="Siguiente">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
           </button>
-
-          <!-- Dots -->
-          <div class="carousel__dots" id="carousel-dots"></div>
         </div><!-- /.carousel -->
+
+        <!-- Dots fuera del carousel para no quedar en posición absoluta -->
+        <div class="carousel__dots" id="carousel-dots"></div>
 
       </div><!-- /.works-tabs -->
 
