@@ -1166,6 +1166,14 @@
   margin-top: var(--space-1);
 }
 
+/* ─── CONTACTO GRID ───────────────────────────────────────── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+
 /* ─── FORMULARIO DE CONTACTO / COTIZACIÓN ─────────────────── */
 .contact-form {
   display: flex;
