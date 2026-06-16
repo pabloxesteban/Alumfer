@@ -2340,6 +2340,8 @@
 }
 
 .info-card--color .info-card__body {
+  max-height: none;
+  overflow: visible;
   align-items: center;
   padding: var(--space-2) var(--space-2) var(--space-4);
 }
