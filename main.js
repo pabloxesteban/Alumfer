@@ -138,72 +138,50 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ─── Works carousel ───────────────────────────────────────
-  const track      = document.getElementById('carousel-track');
-  const dotsWrap   = document.getElementById('carousel-dots');
-  const worksTabs  = document.querySelectorAll('.works-tab');
+  // ─── Works grid: filtrado + lightbox ─────────────────────
+  const worksGrid   = document.getElementById('works-grid');
+  const worksTabs   = document.querySelectorAll('.works-tab');
+  const worksCount  = document.getElementById('works-count');
+  const lightbox    = document.getElementById('lightbox');
+  const lbImg       = document.getElementById('lightbox-img');
+  const lbLabel     = document.getElementById('lightbox-label');
+  const lbCounter   = document.getElementById('lightbox-counter');
+  const lbClose     = document.getElementById('lightbox-close');
+  const lbPrev      = document.getElementById('lightbox-prev');
+  const lbNext      = document.getElementById('lightbox-next');
 
-  if (track) {
-    let allSlides = Array.from(track.querySelectorAll('.carousel__slide'));
-    let visibleSlides = allSlides;
-    let current = 0;
+  if (worksGrid) {
+    let allItems     = Array.from(worksGrid.querySelectorAll('.works-item'));
+    let currentCat   = 'ventanas';
+    let visibleItems = [];
+    let lbIndex      = 0;
 
-    function buildDots() {
-      dotsWrap.innerHTML = '';
-      visibleSlides.forEach((_, i) => {
-        const d = document.createElement('button');
-        d.className = 'carousel__dot' + (i === current ? ' is-active' : '');
-        d.setAttribute('aria-label', `Slide ${i + 1}`);
-        d.addEventListener('click', () => goTo(i));
-        dotsWrap.appendChild(d);
-      });
-      const counter = document.getElementById('carousel-counter');
-      if (counter) counter.textContent = `${current + 1} / ${visibleSlides.length}`;
+    function getVisible() {
+      return allItems.filter(item => item.dataset.cat === currentCat);
     }
 
-    const isMobile = () => window.innerWidth <= 768;
-
-    function goTo(index) {
-      current = (index + visibleSlides.length) % visibleSlides.length;
-      if (isMobile()) {
-        visibleSlides[current].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-      } else {
-        const offset = visibleSlides[current].offsetLeft;
-        track.style.transform = `translateX(-${offset}px)`;
+    function updateCount() {
+      if (worksCount) {
+        worksCount.textContent = `${visibleItems.length} ${visibleItems.length === 1 ? 'trabajo' : 'trabajos'}`;
       }
-      dotsWrap.querySelectorAll('.carousel__dot').forEach((d, i) =>
-        d.classList.toggle('is-active', i === current)
-      );
-      const counter = document.getElementById('carousel-counter');
-      if (counter) counter.textContent = `${current + 1} / ${visibleSlides.length}`;
     }
 
     function filterCat(cat) {
-      current = 0;
-      allSlides.forEach(s => {
-        const show = s.dataset.cat === cat;
-        s.style.display = show ? 'block' : 'none';
+      currentCat = cat;
+      allItems.forEach(item => {
+        if (item.dataset.cat === cat) {
+          item.classList.remove('is-hidden');
+          item.classList.add('is-entering');
+          setTimeout(() => item.classList.remove('is-entering'), 350);
+        } else {
+          item.classList.add('is-hidden');
+        }
       });
-      if (isMobile()) {
-        track.scrollLeft = 0;
-        visibleSlides = allSlides.filter(s => s.dataset.cat === cat);
-        buildDots();
-      } else {
-        track.style.transition = 'none';
-        track.style.transform = 'translateX(0)';
-        requestAnimationFrame(() => {
-          track.style.transition = '';
-          visibleSlides = allSlides.filter(s => s.dataset.cat === cat);
-          buildDots();
-        });
-      }
+      visibleItems = getVisible();
+      updateCount();
     }
 
-    document.querySelector('.carousel__btn--prev')
-      .addEventListener('click', () => goTo(current - 1));
-    document.querySelector('.carousel__btn--next')
-      .addEventListener('click', () => goTo(current + 1));
-
+    // Tabs
     worksTabs.forEach(tab => {
       tab.addEventListener('click', () => {
         worksTabs.forEach(t => t.classList.remove('is-active'));
@@ -212,26 +190,73 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Sincroniza dots con swipe nativo en mobile
-    track.addEventListener('scroll', () => {
-      if (!isMobile()) return;
-      const slideWidth = track.clientWidth;
-      const newIndex = Math.round(track.scrollLeft / slideWidth);
-      if (newIndex !== current && newIndex < visibleSlides.length) {
-        current = newIndex;
-        dotsWrap.querySelectorAll('.carousel__dot').forEach((d, i) =>
-          d.classList.toggle('is-active', i === current)
-        );
-      }
-    }, { passive: true });
-
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') goTo(current - 1);
-      if (e.key === 'ArrowRight') goTo(current + 1);
+    // Lightbox open
+    allItems.forEach(item => {
+      item.addEventListener('click', () => {
+        if (item.classList.contains('is-hidden')) return;
+        visibleItems = getVisible();
+        lbIndex = visibleItems.indexOf(item);
+        openLightbox();
+      });
     });
 
-    // init
+    function openLightbox() {
+      const item = visibleItems[lbIndex];
+      const img  = item.querySelector('.works-item__img');
+      lbImg.src  = img.src;
+      lbImg.alt  = img.alt;
+      lbLabel.textContent   = item.querySelector('.works-item__label').textContent;
+      lbCounter.textContent = `${lbIndex + 1} / ${visibleItems.length}`;
+      lightbox.hidden = false;
+      document.body.style.overflow = 'hidden';
+      requestAnimationFrame(() => lightbox.style.opacity = '1');
+    }
+
+    function closeLightbox() {
+      lightbox.style.opacity = '0';
+      setTimeout(() => {
+        lightbox.hidden = true;
+        document.body.style.overflow = '';
+      }, 250);
+    }
+
+    function lbGoTo(index) {
+      lbIndex = (index + visibleItems.length) % visibleItems.length;
+      const item = visibleItems[lbIndex];
+      lbImg.style.opacity = '0';
+      setTimeout(() => {
+        lbImg.src = item.querySelector('.works-item__img').src;
+        lbImg.alt = item.querySelector('.works-item__img').alt;
+        lbLabel.textContent   = item.querySelector('.works-item__label').textContent;
+        lbCounter.textContent = `${lbIndex + 1} / ${visibleItems.length}`;
+        lbImg.style.opacity = '1';
+      }, 150);
+    }
+
+    if (lbClose) lbClose.addEventListener('click', closeLightbox);
+    if (lbPrev)  lbPrev.addEventListener('click', () => lbGoTo(lbIndex - 1));
+    if (lbNext)  lbNext.addEventListener('click', () => lbGoTo(lbIndex + 1));
+
+    lightbox?.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (lightbox?.hidden) return;
+      if (e.key === 'Escape')     closeLightbox();
+      if (e.key === 'ArrowLeft')  lbGoTo(lbIndex - 1);
+      if (e.key === 'ArrowRight') lbGoTo(lbIndex + 1);
+    });
+
+    // Touch swipe en lightbox
+    let touchStartX = 0;
+    lightbox?.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    lightbox?.addEventListener('touchend', e => {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) lbGoTo(lbIndex + (diff > 0 ? 1 : -1));
+    }, { passive: true });
+
+    // Init
     filterCat('ventanas');
   }
 

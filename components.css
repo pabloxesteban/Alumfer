@@ -460,70 +460,54 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ─── INFO GRID (catálogo informativo) ─────────────────────── */
+/* ─── INFO CARDS — Catálogo editorial ────────────────────── */
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--space-6);
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-5);
 }
 
 .info-card {
-  position: relative;
-  border-radius: var(--radius-lg);
+  background: var(--steel);
+  border-radius: var(--radius-md);
   overflow: hidden;
-  border: none;
+  cursor: default;
+  transition: transform 300ms var(--ease), box-shadow 300ms var(--ease);
+  border: 1px solid var(--border-dark);
   display: flex;
   flex-direction: column;
-  cursor: pointer;
   width: 100%;
-  transition: transform 300ms var(--ease), box-shadow 300ms var(--ease), opacity 350ms var(--ease);
 }
-
 .info-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.4);
 }
 
 .info-card__img {
-  aspect-ratio: 1/1;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
-  border-radius: var(--radius-lg);
   position: relative;
 }
-
-.info-card__img--profile {
-  aspect-ratio: 1/1;
-  background-color: #fff;
-}
-
-.info-card__img--profile img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: none;
-  padding: 0.25rem;
-  transition: transform 400ms var(--ease);
-}
-
-.info-card:hover .info-card__img--profile img {
-  transform: scale(1.04);
-}
-
 .info-card__img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 400ms var(--ease);
+  display: block;
+  transition: transform 500ms var(--ease);
 }
-
 .info-card:hover .info-card__img img {
-  transform: scale(1.06);
+  transform: scale(1.03);
 }
 
-/* Info siempre visible debajo de la imagen */
+.info-card__img--profile img {
+  object-fit: contain;
+  background: var(--carbon);
+  padding: var(--space-4);
+}
+
 .info-card__body {
-  background: transparent;
-  padding: var(--space-4) var(--space-2);
+  padding: var(--space-5);
+  border-top: 1px solid var(--border-dark);
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
@@ -549,22 +533,29 @@
 .info-card__label {
   font-size: var(--text-xs);
   font-weight: 500;
-  letter-spacing: var(--tracking-widest);
+  letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
   color: var(--blue-light);
+  margin-bottom: var(--space-2);
+  display: block;
 }
 
 .info-card__name {
-  font-size: var(--text-base);
+  font-size: var(--text-md);
   font-weight: 500;
   color: var(--text-on-dark);
-  letter-spacing: var(--tracking-tight);
+  line-height: 1.3;
+  margin-bottom: var(--space-2);
 }
 
 .info-card__desc {
   font-size: var(--text-sm);
   color: var(--text-on-dark-2);
   line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* ─── Poliestireno Fantasía expandible ──────────────────── */
@@ -851,6 +842,203 @@
 }
 
 /* ─── CARD DE TRABAJO / GALERÍA ───────────────────────────── */
+/* ─── WORKS GRID ──────────────────────────────────────────── */
+.works-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: var(--space-8);
+}
+
+.works-item {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--steel);
+  border-radius: var(--radius-sm);
+}
+
+.works-item__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 500ms var(--ease);
+}
+
+/* NO zoom — solo el overlay aparece */
+.works-item__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 60%);
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-4);
+  opacity: 0;
+  transition: opacity 250ms var(--ease);
+}
+
+.works-item:hover .works-item__overlay { opacity: 1; }
+
+.works-item__label {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.9);
+}
+
+/* Estado hidden para filtrado */
+.works-item.is-hidden {
+  display: none;
+}
+
+/* Animación de entrada al filtrar */
+.works-item.is-entering {
+  animation: worksItemIn 300ms var(--ease) both;
+}
+
+@keyframes worksItemIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Contador */
+.works-count {
+  text-align: center;
+  font-size: var(--text-xs);
+  color: var(--text-on-dark-3);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  margin-top: var(--space-4);
+}
+
+/* ─── LIGHTBOX ────────────────────────────────────────────── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.96);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 250ms var(--ease);
+}
+
+.lightbox:not([hidden]) {
+  opacity: 1;
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox__img-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 5rem 5rem 4rem;
+}
+
+.lightbox__img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: var(--radius-sm);
+  transition: opacity 200ms var(--ease);
+}
+
+.lightbox__close {
+  position: absolute;
+  top: var(--space-6);
+  right: var(--space-6);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 200ms var(--ease), color 200ms var(--ease);
+  z-index: 3;
+}
+.lightbox__close:hover {
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+}
+
+.lightbox__btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 200ms var(--ease), color 200ms var(--ease), transform 200ms var(--ease);
+  z-index: 3;
+}
+.lightbox__btn:hover {
+  background: rgba(27,108,200,0.5);
+  color: #fff;
+  transform: translateY(-50%) scale(1.08);
+}
+.lightbox__btn--prev { left: var(--space-6); }
+.lightbox__btn--next { right: var(--space-6); }
+
+.lightbox__footer {
+  position: absolute;
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  z-index: 3;
+}
+.lightbox__label {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+.lightbox__counter {
+  font-size: var(--text-xs);
+  color: rgba(255,255,255,0.35);
+  letter-spacing: var(--tracking-wide);
+}
+
+/* Responsive grid */
+@media (max-width: 1024px) {
+  .works-grid { grid-template-columns: repeat(2, 1fr); }
+  .lightbox__img-wrap { padding: 4rem 3.5rem 3.5rem; }
+  .lightbox__btn--prev { left: var(--space-3); }
+  .lightbox__btn--next { right: var(--space-3); }
+}
+
+@media (max-width: 640px) {
+  .works-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .lightbox__img-wrap { padding: 4rem 1rem 3.5rem; }
+  .lightbox__btn { width: 40px; height: 40px; }
+  .lightbox__btn--prev { left: var(--space-2); }
+  .lightbox__btn--next { right: var(--space-2); }
+}
+
 /* ─── WORKS TABS ────────────────────────────────────────────── */
 .works-tabs__nav {
   display: flex;
@@ -1650,9 +1838,11 @@
   }
 
   .info-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: var(--space-4);
   }
+
+  .info-card__desc { -webkit-line-clamp: 2; }
 
   /* Policarbonato mobile */
   .fantasia-wrap.is-open {
