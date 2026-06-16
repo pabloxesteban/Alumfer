@@ -168,7 +168,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function filterCat(cat) {
       currentCat = cat;
-      allItems.forEach(item => item.classList.remove('is-featured'));
       allItems.forEach(item => {
         if (item.dataset.cat === cat) {
           item.classList.remove('is-hidden');
@@ -179,7 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
       visibleItems = getVisible();
-      if (visibleItems.length) visibleItems[0].classList.add('is-featured');
       updateCount();
     }
 
@@ -337,15 +335,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ─── Expandable info-cards ────────────────────────────────
-  document.querySelectorAll('.info-card').forEach(card => {
-    if (card.classList.contains('info-card--finish') || card.classList.contains('info-card--color')) return;
-    card.addEventListener('click', () => {
-      const isOpen = card.classList.toggle('is-expanded');
-      const toggle = card.querySelector('.info-card__toggle');
-      if (toggle) toggle.setAttribute('aria-expanded', isOpen);
+  // ─── Profile selector (lineas panel) ─────────────────────
+  const profileSels = document.querySelectorAll('.profile-sel');
+  const pdImg   = document.getElementById('profile-detail-img');
+  const pdLabel = document.getElementById('profile-detail-label');
+  const pdName  = document.getElementById('profile-detail-name');
+  const pdDesc  = document.getElementById('profile-detail-desc');
+
+  if (profileSels.length && pdImg) {
+    profileSels.forEach(btn => {
+      btn.addEventListener('click', () => {
+        profileSels.forEach(b => { b.classList.remove('is-active'); b.setAttribute('aria-selected', 'false'); });
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-selected', 'true');
+
+        // Crossfade the detail panel
+        const detail = document.querySelector('.profile-detail');
+        detail.style.opacity = '0';
+        setTimeout(() => {
+          pdImg.src = btn.dataset.img;
+          pdImg.alt = btn.dataset.label;
+          pdLabel.textContent = btn.dataset.label;
+          pdName.textContent  = btn.dataset.name;
+          pdDesc.textContent  = btn.dataset.desc;
+          detail.style.opacity = '1';
+        }, 150);
+      });
     });
-  });
+  }
 
   // ─── Smooth anchor links ──────────────────────────────────
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {

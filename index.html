@@ -13,7 +13,9 @@
   <meta property="og:url"         content="https://alumfer.com.ar/">
   <meta property="og:title"       content="Alumfer — Carpintería de Aluminio | Adrogué">
   <meta property="og:description" content="Fabricantes de aberturas de aluminio a medida. 15+ años en el mercado. Presupuesto sin cargo.">
-  <meta property="og:image"       content="https://alumfer.com.ar/og-image.jpg">
+  <meta property="og:image"       content="https://alumfer.com.ar/solologo.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
   <meta name="twitter:card"       content="summary_large_image">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -526,175 +528,127 @@
 
         <!-- Panel: Líneas -->
         <div class="catalog-panel is-active" data-panel="lineas">
-          <div class="info-grid">
 
-            <article class="info-card reveal reveal--stagger-1">
-              <div class="info-card__img info-card__img--profile">
-                <img loading="lazy" src="linea-herrero.png" alt="Línea Herrero">
-              </div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Línea Herrero</span>
-              <h3 class="info-card__name">La línea más popular</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <!-- Selector row: 5 compact thumbs -->
+          <div class="profile-selector" role="tablist" aria-label="Seleccionar línea de perfil">
+            <button class="profile-sel is-active" role="tab" aria-selected="true"
+              data-img="linea-herrero.png"
+              data-label="Línea Herrero"
+              data-name="La línea más popular"
+              data-desc="La más elegida por nuestros clientes. Ideal para obras que requieren mayor estabilidad estructural. Ventanas corredizas, batientes, puertas con o sin reja y celosías. Compatible con vidrio simple, esmerilado, espejado y DVH.">
+              <div class="profile-sel__img"><img src="linea-herrero.png" alt="Línea Herrero"></div>
+              <span class="profile-sel__name">Línea Herrero</span>
+            </button>
+            <button class="profile-sel" role="tab" aria-selected="false"
+              data-img="linea-rotonda640.jpg.jpg"
+              data-label="Rotonda 640"
+              data-name="Perfil resistente y versátil"
+              data-desc="Línea de gran popularidad en obras residenciales y comerciales. Excelente rigidez y estanqueidad. Apta para ventanas y puertas de grandes dimensiones. Compatible con todos los tipos de vidrio.">
+              <div class="profile-sel__img"><img src="linea-rotonda640.jpg.jpg" alt="Rotonda 640"></div>
+              <span class="profile-sel__name">Rotonda 640</span>
+            </button>
+            <button class="profile-sel" role="tab" aria-selected="false"
+              data-img="linea-modena1.png"
+              data-label="Módena 1"
+              data-name="Versátil y accesible"
+              data-desc="Excelente relación calidad-precio para viviendas. Ventanas corredizas con y sin mosquitero, en todas las medidas estándar y a medida.">
+              <div class="profile-sel__img"><img src="linea-modena1.png" alt="Módena 1"></div>
+              <span class="profile-sel__name">Módena 1</span>
+            </button>
+            <button class="profile-sel" role="tab" aria-selected="false"
+              data-img="linea-modena2.png"
+              data-label="Módena 2"
+              data-name="Mayor sección, más rigidez"
+              data-desc="Evolución de la Módena 1 con perfil reforzado para vanos más grandes. Mayor resistencia al viento y mejor aislación. Ideal para plantas bajas, frentes y obras de mayor exigencia.">
+              <div class="profile-sel__img"><img src="linea-modena2.png" alt="Módena 2"></div>
+              <span class="profile-sel__name">Módena 2</span>
+            </button>
+            <button class="profile-sel" role="tab" aria-selected="false"
+              data-img="linea-a30new.png"
+              data-label="A30 New"
+              data-name="Diseño contemporáneo"
+              data-desc="Perfil de 30mm con líneas limpias y geométricas. Menor perfil visible, mayor superficie de vidrio. Elegido por arquitectos para proyectos de diseño. Disponible en todas las terminaciones.">
+              <div class="profile-sel__img"><img src="linea-a30new.png" alt="A30 New"></div>
+              <span class="profile-sel__name">A30 New</span>
             </button>
           </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">La más elegida por nuestros clientes. Ideal para obras que requieren mayor estabilidad estructural. Ventanas corredizas, batientes, puertas con o sin reja y celosías. Compatible con vidrio simple, esmerilado, espejado y DVH.</p>
-          </div>
-            </article>
 
-            <article class="info-card reveal reveal--stagger-2">
-              <div class="info-card__img info-card__img--profile">
-                <img loading="lazy" src="linea-rotonda640.jpg.jpg" alt="Rotonda 640">
-              </div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Rotonda 640</span>
-              <h3 class="info-card__name">Perfil resistente y versátil</h3>
+          <!-- Detail panel: updates on click -->
+          <div class="profile-detail reveal">
+            <div class="profile-detail__media">
+              <img class="profile-detail__img" id="profile-detail-img" src="linea-herrero.png" alt="Línea Herrero">
             </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Línea de gran popularidad en obras residenciales y comerciales. Excelente rigidez y estanqueidad. Apta para ventanas y puertas de grandes dimensiones. Compatible con todos los tipos de vidrio.</p>
-          </div>
-            </article>
-
-            <article class="info-card reveal reveal--stagger-3">
-              <div class="info-card__img info-card__img--profile">
-                <img loading="lazy" src="linea-modena1.png" alt="Módena 1">
-              </div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Módena 1</span>
-              <h3 class="info-card__name">Versátil y accesible</h3>
+            <div class="profile-detail__body">
+              <span class="profile-detail__tag" id="profile-detail-label">Línea Herrero</span>
+              <h3 class="profile-detail__name" id="profile-detail-name">La línea más popular</h3>
+              <p class="profile-detail__desc" id="profile-detail-desc">La más elegida por nuestros clientes. Ideal para obras que requieren mayor estabilidad estructural. Ventanas corredizas, batientes, puertas con o sin reja y celosías. Compatible con vidrio simple, esmerilado, espejado y DVH.</p>
             </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
           </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Excelente relación calidad-precio para viviendas. Ventanas corredizas con y sin mosquitero, en todas las medidas estándar y a medida.</p>
-          </div>
-            </article>
 
-            <article class="info-card reveal reveal--stagger-4">
-              <div class="info-card__img info-card__img--profile">
-                <img loading="lazy" src="linea-modena2.png" alt="Módena 2">
-              </div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Módena 2</span>
-              <h3 class="info-card__name">Mayor sección, más rigidez</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Evolución de la Módena 1 con perfil reforzado para vanos más grandes. Mayor resistencia al viento y mejor aislación. Ideal para plantas bajas, frentes y obras de mayor exigencia.</p>
-          </div>
-            </article>
-
-            <article class="info-card reveal reveal--stagger-5">
-              <div class="info-card__img info-card__img--profile">
-                <img loading="lazy" src="linea-a30new.png" alt="A30 New">
-              </div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">A30 New</span>
-              <h3 class="info-card__name">Diseño contemporáneo</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Perfil de 30mm con líneas limpias y geométricas. Menor perfil visible, mayor superficie de vidrio. Elegido por arquitectos para proyectos de diseño. Disponible en todas las terminaciones.</p>
-          </div>
-            </article>
-
-          </div>
         </div>
 
         <!-- Panel: Vidrios -->
         <div class="catalog-panel" data-panel="vidrios">
-          <div class="info-grid">
+          <div class="info-grid info-grid--open">
 
-            <article class="info-card">
+            <article class="info-card info-card--open">
               <div class="info-card__img">
                 <img loading="lazy" src="transparente.jpg" alt="Vidrio transparente">
               </div>
               <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Transparente</span>
-              <h3 class="info-card__name">Claridad total</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">La opción estándar. Alta transmisión de luz natural, bajo costo. Compatible con todas las líneas de perfil. Ideal para la mayoría de las obras residenciales.</p>
-          </div>
+                <div class="info-card__titles">
+                  <span class="info-card__label">Transparente</span>
+                  <h3 class="info-card__name">Claridad total</h3>
+                </div>
+              </div>
+              <div class="info-card__body">
+                <p class="info-card__desc">La opción estándar. Alta transmisión de luz natural, bajo costo. Compatible con todas las líneas de perfil. Ideal para la mayoría de las obras residenciales.</p>
+              </div>
             </article>
 
-            <article class="info-card">
+            <article class="info-card info-card--open">
               <div class="info-card__img">
                 <img loading="lazy" src="esmerilado.png" alt="Vidrio esmerilado">
               </div>
               <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Esmerilado</span>
-              <h3 class="info-card__name">Privacidad con luz</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Superficie tratada que difumina la visión sin bloquear la luz natural. Ideal para baños, puertas interiores y divisorios. Disponible en distintos grados de opacidad.</p>
-          </div>
+                <div class="info-card__titles">
+                  <span class="info-card__label">Esmerilado</span>
+                  <h3 class="info-card__name">Privacidad con luz</h3>
+                </div>
+              </div>
+              <div class="info-card__body">
+                <p class="info-card__desc">Superficie tratada que difumina la visión sin bloquear la luz natural. Ideal para baños, puertas interiores y divisorios. Disponible en distintos grados de opacidad.</p>
+              </div>
             </article>
 
-            <article class="info-card">
+            <article class="info-card info-card--open">
               <div class="info-card__img">
                 <img loading="lazy" src="https://images.unsplash.com/photo-1583405751003-9e2fd7677c0d?w=600&q=80&auto=format&fit=crop" alt="Vidrio espejado">
               </div>
               <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Espejado</span>
-              <h3 class="info-card__name">Efecto espejo exterior</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Reflejo espejado desde el exterior durante el día, con visibilidad normal desde adentro. Muy usado en fachadas comerciales y oficinas. Aporta privacidad sin perder luminosidad interior.</p>
-          </div>
+                <div class="info-card__titles">
+                  <span class="info-card__label">Espejado</span>
+                  <h3 class="info-card__name">Efecto espejo exterior</h3>
+                </div>
+              </div>
+              <div class="info-card__body">
+                <p class="info-card__desc">Reflejo espejado desde el exterior durante el día, con visibilidad normal desde adentro. Muy usado en fachadas comerciales y oficinas. Aporta privacidad sin perder luminosidad interior.</p>
+              </div>
             </article>
 
-            <article class="info-card">
+            <article class="info-card info-card--open">
               <div class="info-card__img">
-                <img loading="lazy" src="dvh.jfif" alt="DVH">
+                <img loading="lazy" src="vidrio-dvh.jpg" alt="DVH">
               </div>
               <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">DVH</span>
-              <h3 class="info-card__name">Doble vidriado hermético</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Dos vidrios separados por una cámara de aire sellada. Reduce significativamente la pérdida de calor y el ingreso de ruido exterior. Ideal para zonas frías, departamentos en avenidas o proyectos con alta eficiencia energética.</p>
-          </div>
+                <div class="info-card__titles">
+                  <span class="info-card__label">DVH</span>
+                  <h3 class="info-card__name">Doble vidriado hermético</h3>
+                </div>
+              </div>
+              <div class="info-card__body">
+                <p class="info-card__desc">Dos vidrios separados por una cámara de aire sellada. Reduce significativamente la pérdida de calor y el ingreso de ruido exterior. Ideal para zonas frías, departamentos en avenidas o proyectos con alta eficiencia energética.</p>
+              </div>
             </article>
 
           </div>
@@ -702,42 +656,36 @@
 
         <!-- Panel: Cortinas y rejas -->
         <div class="catalog-panel" data-panel="extras">
-          <div class="info-grid">
+          <div class="info-grid info-grid--open info-grid--2col">
 
-            <article class="info-card">
+            <article class="info-card info-card--open">
               <div class="info-card__img">
                 <img loading="lazy" src="extra-cortinas-pvc.jpg" alt="Cortinas de PVC">
               </div>
               <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Cortinas de PVC</span>
-              <h3 class="info-card__name">Enrollables con guías de aluminio</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Cortinas enrollables de PVC rígido con guías y cajón de aluminio. Excelente aislación térmica y acústica. Disponibles en blanco y distintos colores. Con o sin cajón incorporado a la abertura.</p>
-          </div>
+                <div class="info-card__titles">
+                  <span class="info-card__label">Cortinas de PVC</span>
+                  <h3 class="info-card__name">Enrollables con guías de aluminio</h3>
+                </div>
+              </div>
+              <div class="info-card__body">
+                <p class="info-card__desc">Cortinas enrollables de PVC rígido con guías y cajón de aluminio. Excelente aislación térmica y acústica. Disponibles en blanco y distintos colores. Con o sin cajón incorporado a la abertura.</p>
+              </div>
             </article>
 
-            <article class="info-card">
+            <article class="info-card info-card--open">
               <div class="info-card__img">
                 <img loading="lazy" src="extra-rejas.png" alt="Rejas de aluminio">
               </div>
               <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Rejas</span>
-              <h3 class="info-card__name">Seguridad con diseño</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Rejas de hierro redondo o cuadrado, fijas o rebatibles. Diseños rectos y decorativos. Se fabrican a medida para adaptarse a cualquier vano.</p>
-          </div>
+                <div class="info-card__titles">
+                  <span class="info-card__label">Rejas</span>
+                  <h3 class="info-card__name">Seguridad con diseño</h3>
+                </div>
+              </div>
+              <div class="info-card__body">
+                <p class="info-card__desc">Rejas de hierro redondo o cuadrado, fijas o rebatibles. Diseños rectos y decorativos. Se fabrican a medida para adaptarse a cualquier vano.</p>
+              </div>
             </article>
 
           </div>

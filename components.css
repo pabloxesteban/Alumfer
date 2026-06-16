@@ -581,6 +581,136 @@
   width: 100%;
 }
 
+/* Always-visible cards (vidrios, extras) */
+.info-card--open {
+  cursor: default;
+}
+.info-card--open:hover { transform: none; box-shadow: none; }
+.info-card--open .info-card__toggle { display: none; }
+.info-card--open .info-card__body {
+  max-height: none;
+  padding: 0 var(--space-4) var(--space-4);
+}
+
+/* 2-column grid variant (extras panel) */
+.info-grid--2col {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* ── Profile selector (lineas panel) ────────────────────── */
+.profile-selector {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.profile-sel {
+  background: var(--steel);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-2);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 200ms var(--ease), background 200ms var(--ease);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.profile-sel:hover {
+  background: var(--steel-light);
+  border-color: rgba(74,157,232,0.4);
+}
+
+.profile-sel.is-active {
+  border-color: var(--blue);
+  background: rgba(27,108,200,0.08);
+}
+
+.profile-sel__img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: var(--bg-dark);
+}
+
+.profile-sel__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.profile-sel__name {
+  font-size: var(--text-xs);
+  color: var(--text-on-dark-2);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.profile-sel.is-active .profile-sel__name {
+  color: var(--blue-light);
+}
+
+/* ── Profile detail panel ────────────────────────────────── */
+.profile-detail {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: var(--space-8);
+  background: var(--steel);
+  border: 1px solid var(--border-dark);
+  border-left: 3px solid var(--blue);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  align-items: center;
+  transition: opacity 150ms var(--ease);
+}
+
+.profile-detail__media {
+  background: var(--bg-dark);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4/3;
+}
+
+.profile-detail__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.profile-detail__tag {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  font-size: var(--text-xs);
+  color: var(--blue-light);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+}
+
+.profile-detail__name {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--text-on-dark);
+  margin: 0 0 var(--space-4);
+  line-height: 1.3;
+}
+
+.profile-detail__desc {
+  font-size: var(--text-sm);
+  color: var(--text-on-dark-2);
+  line-height: 1.75;
+  margin: 0;
+}
+
 .info-card--finish {
   cursor: default;
 }
@@ -2398,4 +2528,50 @@
   flex-wrap: wrap;
   justify-content: center;
   margin-top: var(--space-4);
+}
+
+/* ─── Profile selector + detail: responsive ─────────────── */
+@media (max-width: 768px) {
+  .profile-selector {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .profile-selector::-webkit-scrollbar { display: none; }
+
+  .profile-sel {
+    flex: 0 0 56px;
+    min-width: 56px;
+    scroll-snap-align: start;
+    padding: var(--space-2) var(--space-1);
+  }
+
+  .profile-sel__name { display: none; }
+
+  .profile-detail {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    padding: var(--space-5);
+  }
+
+  .profile-detail__media {
+    max-width: 180px;
+    margin: 0 auto;
+  }
+
+  /* Extras 2-col → 1-col on mobile */
+  .info-grid--2col {
+    grid-template-columns: 1fr;
+  }
+
+  /* Always-open cards in horizontal scroll container */
+  .catalog-panel.is-active .info-grid--open {
+    flex-wrap: wrap;
+    overflow-x: hidden;
+  }
+  .catalog-panel.is-active .info-grid--open .info-card--open {
+    flex: 0 0 72vw;
+  }
 }
