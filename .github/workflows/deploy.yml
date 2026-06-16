@@ -1,0 +1,40 @@
+name: Deploy a cPanel (FTP)
+
+# Cada vez que se sube un cambio a la rama main, se publica el sitio en cPanel.
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # permite lanzarlo a mano desde la pestaña Actions
+
+concurrency:
+  group: deploy-cpanel
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Subir archivos por FTP a cPanel
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps            # FTPS = FTP cifrado. Si tu cPanel no lo soporta, cambiá a: ftp
+          port: 21
+          # Carpeta del servidor donde vive el sitio. En la mayoría de cPanel es public_html/.
+          # Si tu cuenta FTP ya entra directo a public_html, dejá: ./
+          server-dir: ./public_html/
+          # Archivos que NO se publican en el sitio.
+          exclude:
+            - "**/.git*"
+            - "**/.git*/**"
+            - ".github/**"
+            - ".claude/**"
+            - "README.md"
+            - "preview-hero.html"
+            - "preview-vidrios.html"
