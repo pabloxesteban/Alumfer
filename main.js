@@ -216,11 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
       lbLabel.textContent   = item.querySelector('.works-item__label').textContent;
       lbCounter.textContent = `${lbIndex + 1} / ${visibleItems.length}`;
       lightbox.hidden = false;
-      // iOS-safe scroll lock: store position, fix body
-      const scrollY = window.scrollY;
-      document.body.dataset.lbScrollY = scrollY;
-      document.body.classList.add('scroll-locked');
-      document.body.style.top = `-${scrollY}px`;
+      document.documentElement.style.overflow = 'hidden';
       requestAnimationFrame(() => lightbox.style.opacity = '1');
     }
 
@@ -228,10 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
       lightbox.style.opacity = '0';
       setTimeout(() => {
         lightbox.hidden = true;
-        const scrollY = parseInt(document.body.dataset.lbScrollY || '0');
-        document.body.classList.remove('scroll-locked');
-        document.body.style.top = '';
-        window.scrollTo(0, scrollY);
+        document.documentElement.style.overflow = '';
       }, 250);
     }
 
