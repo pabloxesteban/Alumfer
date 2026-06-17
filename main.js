@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (worksGrid) {
     let allItems     = Array.from(worksGrid.querySelectorAll('.works-item'));
-    let currentCat   = 'techos';
+    let currentCat   = 'ventanas';
     let visibleItems = [];
     let lbIndex      = 0;
 
@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     // Init
-    filterCat('techos');
+    filterCat('ventanas');
   }
 
   // ─── Catalog tabs ─────────────────────────────────────────
