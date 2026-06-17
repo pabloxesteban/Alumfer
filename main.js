@@ -25,7 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // ─── Barra de progreso de scroll ─────────────────────────
   const progressBar = document.querySelector('.scroll-progress');
 
-  if (progressBar) {
+  // Lenis drives the progress bar when cinematic.js is active
+  if (progressBar && !window.__cinematicPending) {
     window.addEventListener('scroll', () => {
       const scrolled = window.scrollY;
       const total    = document.body.scrollHeight - window.innerHeight;
@@ -34,9 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ─── Reveal al entrar en viewport ────────────────────────
+  // When cinematic.js is active, GSAP ScrollTrigger handles reveals
   const revealEls = document.querySelectorAll('.reveal, .section-header');
 
-  if (revealEls.length) {
+  if (revealEls.length && !window.__cinematicPending) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
@@ -50,6 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
     );
 
     revealEls.forEach(el => observer.observe(el));
+  } else if (revealEls.length && window.__cinematicPending) {
+    // Ensure section-header rule animation still works via class toggle
+    // (cinematic.js adds is-visible at the right time)
   }
 
   // ─── Contador animado de cifras ───────────────────────────
@@ -86,9 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ─── Parallax suave en el hero ────────────────────────────
+  // Handled by GSAP ScrollTrigger in cinematic.js when active
   const heroBg = document.querySelector('.hero__bg');
 
-  if (heroBg) {
+  if (heroBg && !window.__cinematicPending) {
     window.addEventListener('scroll', () => {
       const y = window.scrollY * 0.28;
       heroBg.style.transform = `translateY(${y}px)`;
@@ -416,15 +422,18 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ─── Smooth anchor links ──────────────────────────────────
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', (e) => {
-      const target = document.querySelector(anchor.getAttribute('href'));
-      if (!target) return;
-      e.preventDefault();
-      const offset = 72; // altura del navbar
-      const top = target.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: 'smooth' });
+  // Lenis handles anchor scrolling when cinematic.js is active
+  if (!window.__cinematicPending) {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', (e) => {
+        const target = document.querySelector(anchor.getAttribute('href'));
+        if (!target) return;
+        e.preventDefault();
+        const offset = 72; // altura del navbar
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      });
     });
-  });
+  }
 
 });

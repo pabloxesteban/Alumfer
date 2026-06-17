@@ -1,0 +1,181 @@
+/* ============================================================
+   ALUMFER — Cinematic Engine CSS
+   Applies when <html class="cinematic"> (set by cinematic.js)
+   ============================================================ */
+
+/* ── Disable legacy CSS animations when GSAP takes over ──── */
+html.cinematic .hero__title,
+html.cinematic .hero__subtitle,
+html.cinematic .hero__actions,
+html.cinematic .hero__stats,
+html.cinematic .hero__location {
+  animation: none !important;
+}
+
+/* GSAP sets inline opacity/transform — remove CSS transition fights */
+html.cinematic .reveal,
+html.cinematic .section-header,
+html.cinematic .feature {
+  transition: none !important;
+}
+
+/* GSAP controls section-header rule growth */
+html.cinematic .section-header.is-visible::after {
+  animation: none !important;
+}
+
+/* ── SplitType: word & line setup ──────────────────────────── */
+.word,
+.char {
+  display: inline-block;
+}
+
+/* Line overflow clip: each line becomes a reveal "window" */
+.line {
+  overflow: hidden;
+  display: block;
+}
+
+/* ── Gallery: GPU layer for clip-path animation ──────────── */
+.works-item {
+  will-change: clip-path, opacity;
+}
+
+/* ── Magnetic buttons: compositing layer ─────────────────── */
+.btn,
+.navbar__cta {
+  will-change: transform;
+}
+
+/* ── Scroll hint indicator in hero ──────────────────────── */
+.scroll-hint {
+  position: absolute;
+  bottom: clamp(1.5rem, 4vw, 3rem);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.625rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  pointer-events: none;
+  z-index: 3;
+  animation: scrollHintPulse 2.5s ease-in-out infinite;
+}
+
+.scroll-hint__mouse {
+  width: 22px;
+  height: 34px;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 11px;
+  position: relative;
+}
+
+.scroll-hint__dot {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 2px;
+  animation: scrollDotFall 2.5s ease-in-out infinite;
+}
+
+@keyframes scrollHintPulse {
+  0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+  50%       { opacity: 0.9; transform: translateX(-50%) translateY(4px); }
+}
+
+@keyframes scrollDotFall {
+  0%   { transform: translateX(-50%) translateY(0); opacity: 1; }
+  75%  { transform: translateX(-50%) translateY(12px); opacity: 0; }
+  100% { transform: translateX(-50%) translateY(0); opacity: 0; }
+}
+
+/* ── Parallax layers ─────────────────────────────────────── */
+.parallax-target {
+  will-change: transform;
+}
+
+/* ── Section rule: GSAP-driven scaleX from left ─────────── */
+html.cinematic .section-header::after {
+  transform-origin: left;
+}
+
+/* ── Catalog card enter animation state ──────────────────── */
+html.cinematic .catalog-panel:not(.is-active) .catalog-card {
+  /* don't pre-hide — let GSAP batch handle visible ones only */
+}
+
+/* ── Feature icon SVG stroke draw ────────────────────────── */
+html.cinematic .feature__icon svg path,
+html.cinematic .feature__icon svg rect,
+html.cinematic .feature__icon svg circle,
+html.cinematic .feature__icon svg polyline,
+html.cinematic .feature__icon svg line {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  transition: none;
+}
+
+/* ── Cinematic cursor ────────────────────────────────────── */
+@media (hover: hover) and (pointer: fine) {
+  html.cinematic {
+    cursor: none;
+  }
+
+  .cine-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s, background 0.3s, opacity 0.3s;
+    mix-blend-mode: difference;
+    will-change: transform;
+  }
+
+  .cine-cursor--ring {
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    mix-blend-mode: normal;
+  }
+
+  .cine-cursor.is-hovering {
+    width: 52px;
+    height: 52px;
+    background: rgba(27, 108, 200, 0.15);
+    border: 1.5px solid var(--blue);
+  }
+
+  /* Restore default cursor on interactive elements */
+  html.cinematic a,
+  html.cinematic button,
+  html.cinematic input,
+  html.cinematic textarea,
+  html.cinematic select,
+  html.cinematic label {
+    cursor: none;
+  }
+}
+
+/* ── Mobile: disable cursor, reduce effects ──────────────── */
+@media (max-width: 768px) {
+  .cine-cursor { display: none; }
+  html.cinematic { cursor: auto; }
+  html.cinematic a,
+  html.cinematic button { cursor: pointer; }
+  .scroll-hint { display: none; }
+}
