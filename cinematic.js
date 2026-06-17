@@ -194,7 +194,7 @@ window.__cinematicPending = true;
 
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
-            const cards = panel.querySelectorAll('.catalog-card');
+            const cards = panel.querySelectorAll('.catalog-card, .product-row');
             if (!cards.length) return;
             gsap.fromTo(cards,
               { y: 20, opacity: 0 },
