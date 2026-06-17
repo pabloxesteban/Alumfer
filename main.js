@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ─── Barra de progreso de scroll ─────────────────────────
   const progressBar = document.querySelector('.scroll-progress');
 
-  // Lenis drives the progress bar when cinematic.js is active
+  // Lenis drives the progress bar when active; fallback here
   if (progressBar && !window.__cinematicPending) {
     window.addEventListener('scroll', () => {
       const scrolled = window.scrollY;
@@ -35,16 +35,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ─── Reveal al entrar en viewport ────────────────────────
-  // When cinematic.js is active, GSAP ScrollTrigger handles reveals
   const revealEls = document.querySelectorAll('.reveal, .section-header');
 
-  if (revealEls.length && !window.__cinematicPending) {
+  if (revealEls.length) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target); // solo una vez
+            observer.unobserve(entry.target);
           }
         });
       },
@@ -52,9 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
     );
 
     revealEls.forEach(el => observer.observe(el));
-  } else if (revealEls.length && window.__cinematicPending) {
-    // Ensure section-header rule animation still works via class toggle
-    // (cinematic.js adds is-visible at the right time)
   }
 
   // ─── Contador animado de cifras ───────────────────────────
@@ -91,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ─── Parallax suave en el hero ────────────────────────────
-  // Handled by GSAP ScrollTrigger in cinematic.js when active
   const heroBg = document.querySelector('.hero__bg');
 
   if (heroBg && !window.__cinematicPending) {
@@ -422,14 +417,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ─── Smooth anchor links ──────────────────────────────────
-  // Lenis handles anchor scrolling when cinematic.js is active
+  // Lenis handles this when cinematic.js is active
   if (!window.__cinematicPending) {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', (e) => {
         const target = document.querySelector(anchor.getAttribute('href'));
         if (!target) return;
         e.preventDefault();
-        const offset = 72; // altura del navbar
+        const offset = 72;
         const top = target.getBoundingClientRect().top + window.scrollY - offset;
         window.scrollTo({ top, behavior: 'smooth' });
       });
