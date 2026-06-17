@@ -1242,9 +1242,10 @@
   display: flex;
   gap: var(--space-2);
   margin-bottom: var(--space-6);
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   overflow-x: auto;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
 .works-tabs__nav::-webkit-scrollbar { display: none; }
 
@@ -2069,6 +2070,7 @@
 
   .works-tab {
     flex-shrink: 0;
+    white-space: nowrap;
     padding: 0.4rem 0.75rem;
   }
 
@@ -3023,10 +3025,6 @@
   color: var(--text-on-dark-2);
   line-height: 1.6;
   margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 /* Mobile: carrusel horizontal con señal de más contenido */
