@@ -494,36 +494,60 @@
       <!-- Tabs de catálogo -->
       <div class="catalog-tabs reveal">
         <div class="catalog-tabs__nav" role="tablist">
-          <button class="catalog-tab is-active" role="tab" data-tab="lineas">
-            <span class="catalog-tab__icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M2 9h20M9 9v12"/></svg>
-            </span>
-            <span class="catalog-tab__label">Líneas</span>
-          </button>
-          <button class="catalog-tab" role="tab" data-tab="vidrios">
-            <span class="catalog-tab__icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8l4 10H4L8 2z"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M10 12v8"/><path d="M14 12v8"/></svg>
-            </span>
-            <span class="catalog-tab__label">Vidrios</span>
-          </button>
-          <button class="catalog-tab" role="tab" data-tab="extras">
-            <span class="catalog-tab__icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
-            </span>
-            <span class="catalog-tab__label">Cortinas y rejas</span>
-          </button>
-          <button class="catalog-tab" role="tab" data-tab="terminaciones">
-            <span class="catalog-tab__icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-            </span>
-            <span class="catalog-tab__label">Colores</span>
-          </button>
-          <button class="catalog-tab" role="tab" data-tab="policarbonato">
-            <span class="catalog-tab__icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h20M2 16h20M8 2v20M16 2v20"/></svg>
-            </span>
-            <span class="catalog-tab__label">Policarbonato</span>
-          </button>
+
+          <!-- Grupo: Abertura -->
+          <div class="catalog-tabs__group">
+            <span class="catalog-tabs__group-label">Tu abertura</span>
+            <div class="catalog-tabs__group-tabs">
+              <button class="catalog-tab is-active" role="tab" data-tab="lineas">
+                <span class="catalog-tab__icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M2 9h20M9 9v12"/></svg>
+                </span>
+                <span class="catalog-tab__label">Líneas</span>
+              </button>
+              <button class="catalog-tab" role="tab" data-tab="vidrios">
+                <span class="catalog-tab__icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8l4 10H4L8 2z"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M10 12v8"/><path d="M14 12v8"/></svg>
+                </span>
+                <span class="catalog-tab__label">Vidrios</span>
+              </button>
+              <button class="catalog-tab" role="tab" data-tab="terminaciones">
+                <span class="catalog-tab__icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                </span>
+                <span class="catalog-tab__label">Colores</span>
+              </button>
+              <button class="catalog-tab" role="tab" data-tab="extras">
+                <span class="catalog-tab__icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+                </span>
+                <span class="catalog-tab__label">Cortinas y rejas</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Separador -->
+          <div class="catalog-tabs__divider" aria-hidden="true"></div>
+
+          <!-- Grupo: Coberturas -->
+          <div class="catalog-tabs__group">
+            <span class="catalog-tabs__group-label">Coberturas</span>
+            <div class="catalog-tabs__group-tabs">
+              <button class="catalog-tab" role="tab" data-tab="policarbonato">
+                <span class="catalog-tab__icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h20M2 16h20M8 2v20M16 2v20"/></svg>
+                </span>
+                <span class="catalog-tab__label">Policarbonato</span>
+              </button>
+              <button class="catalog-tab" role="tab" data-tab="fantasia">
+                <span class="catalog-tab__icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                </span>
+                <span class="catalog-tab__label">Fantasía</span>
+              </button>
+            </div>
+          </div>
+
         </div>
 
         <!-- Panel: Líneas -->
@@ -956,12 +980,35 @@
             </div>
           </div>
 
-          <!-- Fantasía: mosaico siempre visible -->
+          <!-- Fantasía movida a su propio panel -->
+          <div class="fantasia-mosaic" style="display:none">
+              <div class="fantasia-tile"><img loading="lazy" src="amazonia.png" alt="Amazonia"><span>Amazonia</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="agua-viva.png" alt="Agua Viva"><span>Agua Viva</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="bebe.png" alt="Bebé"><span>Bebé</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="canalado-plus.png" alt="Canalado Plus"><span>Canalado Plus</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="niagara.png" alt="Niágara"><span>Niágara</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="diamante.png" alt="Diamante"><span>Diamante</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="espuma.png" alt="Espuma"><span>Espuma</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="foresta.png" alt="Foresta"><span>Foresta</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="gaviota.png" alt="Gaviota"><span>Gaviota</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="iberia.png" alt="Iberia"><span>Iberia</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="laberinto.png" alt="Laberinto"><span>Laberinto</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="monocril.png" alt="Monocril"><span>Monocril</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="puntillado.png" alt="Puntillado"><span>Puntillado</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="pantanal.png" alt="Pantanal"><span>Pantanal</span></div>
+              <div class="fantasia-tile"><img loading="lazy" src="pantanal-cristal.png" alt="Pantanal Cristal"><span>Pantanal Cristal</span></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Panel: Poliestireno Fantasía -->
+        <div class="catalog-panel" data-panel="fantasia">
           <div class="fantasia-section">
             <div class="fantasia-section__header">
               <span class="fantasia-section__eyebrow">Cobertura decorativa</span>
               <h3 class="fantasia-section__title">Poliestireno Fantasía</h3>
-              <p class="fantasia-section__desc">Paneles con texturas que difunden la luz. Ideal para divisiones interiores y cerramientos decorativos.</p>
+              <p class="fantasia-section__desc">Paneles con texturas que difunden la luz. Ideal para divisiones interiores, cerramientos decorativos y techos. 15 diseños disponibles.</p>
             </div>
             <div class="fantasia-mosaic">
               <div class="fantasia-tile"><img loading="lazy" src="amazonia.png" alt="Amazonia"><span>Amazonia</span></div>
@@ -981,7 +1028,6 @@
               <div class="fantasia-tile"><img loading="lazy" src="pantanal-cristal.png" alt="Pantanal Cristal"><span>Pantanal Cristal</span></div>
             </div>
           </div>
-
         </div>
 
       </div>
