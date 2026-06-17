@@ -1113,13 +1113,15 @@
 .lightbox {
   position: fixed;
   inset: 0;
-  z-index: 200;
-  background: rgba(0, 0, 0, 0.96);
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.98);
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   transition: opacity 250ms var(--ease);
+  touch-action: none;
+  overscroll-behavior: none;
 }
 
 .lightbox:not([hidden]) {
@@ -1582,19 +1584,19 @@
 /* ─── TESTIMONIOS ─────────────────────────────────────────── */
 .reviews-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--space-5);
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-4);
 }
 
 .review-card {
   background-color: var(--steel);
   border: 1px solid var(--border-dark);
   border-radius: var(--radius-lg);
-  padding: var(--space-6);
+  padding: var(--space-4);
   transition: transform 300ms var(--ease), box-shadow 300ms var(--ease);
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-3);
 }
 
 /* Línea de identidad en la tarjeta */
@@ -1616,7 +1618,7 @@
 }
 
 .review-card__text {
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   font-style: italic;
   color: var(--text-on-dark);
   line-height: 1.6;
@@ -2257,8 +2259,8 @@
   .reviews-grid::-webkit-scrollbar { display: none; }
 
   .reviews-grid .review-card {
-    flex: 0 0 80vw;
-    max-width: 320px;
+    flex: 0 0 72vw;
+    max-width: 260px;
     scroll-snap-align: start;
   }
 }
@@ -2344,15 +2346,42 @@
 .info-card--color {
   align-items: center;
   text-align: center;
+  border: none !important;
+  background: transparent !important;
+  cursor: default;
+}
+
+.info-card--color:hover {
+  transform: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
 }
 
 .info-card__circle {
-  width: 100px;
-  height: 100px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   flex-shrink: 0;
-  margin: var(--space-4) auto var(--space-2);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  margin: var(--space-3) auto var(--space-1);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+
+/* Grid de colores más compacto */
+.info-grid--colors {
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: var(--space-2);
+}
+
+.info-grid--colors .info-card--color .info-card__header {
+  padding: var(--space-2) var(--space-2);
+}
+
+.info-grid--colors .info-card__titles .info-card__label {
+  font-size: 0.6rem;
+}
+
+.info-grid--colors .info-card__titles .info-card__name {
+  font-size: 0.7rem;
 }
 
 .info-card--color .info-card__body {

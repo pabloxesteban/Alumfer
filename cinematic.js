@@ -186,7 +186,7 @@ window.__cinematicPending = true;
   // MAGNETIC BUTTONS
   // ────────────────────────────────────────────────────────────
   function initMagneticButtons() {
-    document.querySelectorAll('.btn--primary, .btn--whatsapp, .btn--ghost, .navbar__cta').forEach(btn => {
+    document.querySelectorAll('.navbar__cta').forEach(btn => {
       btn.addEventListener('mousemove', e => {
         const r = btn.getBoundingClientRect();
         const x = (e.clientX - r.left - r.width  * 0.5) * 0.3;

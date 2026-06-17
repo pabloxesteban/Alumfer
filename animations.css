@@ -89,6 +89,14 @@
   transition: transform 50ms linear;
 }
 
+/* ─── iOS scroll lock when lightbox is open ─────────────── */
+.scroll-locked {
+  position: fixed;
+  left: 0;
+  right: 0;
+  overflow-y: scroll;
+}
+
 /* ─── Mobile nav slide-in ────────────────────────────────── */
 .mobile-nav {
   position: fixed;
