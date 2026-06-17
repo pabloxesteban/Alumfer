@@ -372,80 +372,46 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ─── Catalog card grid + bottom sheet ────────────────────
-  const catSheet    = document.getElementById('cat-sheet');
-  const catSheetImg = document.getElementById('cat-sheet-img');
-  const catSheetTag = document.getElementById('cat-sheet-tag');
-  const catSheetName = document.getElementById('cat-sheet-name');
-  const catSheetDesc = document.getElementById('cat-sheet-desc');
-  const catSheetWa  = document.getElementById('cat-sheet-wa');
-  const catSheetClose = document.getElementById('cat-sheet-close');
-  const catSheetBackdrop = document.getElementById('cat-sheet-backdrop');
+  // ─── Catalog card grid + inline detail expand ────────────
+  document.querySelectorAll('.catalog-card-grid').forEach(grid => {
+    const detail = grid.nextElementSibling; // .catalog-inline-detail
+    if (!detail || !detail.classList.contains('catalog-inline-detail')) return;
 
-  function openCatSheet(card) {
-    catSheetImg.src  = card.dataset.img || '';
-    catSheetImg.alt  = card.dataset.label || '';
-    catSheetTag.textContent  = card.dataset.label || '';
-    catSheetName.textContent = card.dataset.name  || '';
-    catSheetDesc.textContent = card.dataset.desc  || '';
-    const waText = encodeURIComponent(`Hola, quiero consultar sobre ${card.dataset.label || 'un producto'}`);
-    catSheetWa.href = `https://wa.me/5491163368643?text=${waText}`;
+    const detailImg  = detail.querySelector('.catalog-inline-detail__img');
+    const detailTag  = detail.querySelector('.catalog-inline-detail__tag');
+    const detailName = detail.querySelector('.catalog-inline-detail__name');
+    const detailDesc = detail.querySelector('.catalog-inline-detail__desc');
 
-    catSheet.hidden = false;
-    document.body.style.overflow = 'hidden';
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => catSheet.classList.add('is-open'));
+    let activeCard = null;
+
+    grid.querySelectorAll('.catalog-card').forEach(card => {
+      card.addEventListener('click', () => {
+        // Toggle off if same card clicked again
+        if (activeCard === card) {
+          activeCard = null;
+          card.classList.remove('is-active');
+          detail.classList.remove('is-open');
+          return;
+        }
+
+        // Update active card
+        grid.querySelectorAll('.catalog-card').forEach(c => c.classList.remove('is-active'));
+        card.classList.add('is-active');
+        activeCard = card;
+
+        // Populate detail
+        if (detailImg)  { detailImg.src = card.dataset.img || ''; detailImg.alt = card.dataset.label || ''; }
+        if (detailTag)  detailTag.textContent  = card.dataset.label || '';
+        if (detailName) detailName.textContent = card.dataset.name  || '';
+        if (detailDesc) detailDesc.textContent = card.dataset.desc  || '';
+
+        // Open with animation
+        if (!detail.classList.contains('is-open')) {
+          detail.classList.add('is-open');
+        }
+      });
     });
-  }
-
-  function closeCatSheet() {
-    catSheet.classList.remove('is-open');
-    document.body.style.overflow = '';
-    catSheet.addEventListener('transitionend', () => {
-      catSheet.hidden = true;
-    }, { once: true });
-  }
-
-  if (catSheet) {
-    document.querySelectorAll('.catalog-card').forEach(card => {
-      card.addEventListener('click', () => openCatSheet(card));
-    });
-
-    catSheetClose?.addEventListener('click', closeCatSheet);
-    catSheetBackdrop?.addEventListener('click', closeCatSheet);
-
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && !catSheet.hidden) closeCatSheet();
-    });
-
-    // Drag to dismiss on mobile
-    const panel = document.getElementById('cat-sheet-panel');
-    let dragStartY = 0;
-    let dragging = false;
-
-    panel?.addEventListener('pointerdown', e => {
-      if (e.target.closest('.cat-sheet__scroll')) return;
-      dragStartY = e.clientY;
-      dragging = true;
-      panel.style.transition = 'none';
-      panel.setPointerCapture(e.pointerId);
-    });
-
-    panel?.addEventListener('pointermove', e => {
-      if (!dragging) return;
-      const dy = Math.max(0, e.clientY - dragStartY);
-      panel.style.transform = `translateY(${dy}px)`;
-    });
-
-    panel?.addEventListener('pointerup', e => {
-      if (!dragging) return;
-      dragging = false;
-      panel.style.transition = '';
-      panel.style.transform = '';
-      const dy = e.clientY - dragStartY;
-      if (dy > 100) closeCatSheet();
-    });
-  }
+  });
 
   // ─── Smooth anchor links ──────────────────────────────────
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
