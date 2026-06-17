@@ -340,9 +340,13 @@ document.addEventListener('DOMContentLoaded', () => {
     contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Construir asunto y replyto
-      const nombre = (document.getElementById('nombre')?.value || '').trim();
-      if (subjectField) subjectField.value = `Consulta de ${nombre || 'cliente web'} — alumfer.com.ar`;
+      // Construir asunto enriquecido con tipo y localidad
+      const nombre    = (document.getElementById('nombre')?.value    || '').trim();
+      const tipo      = (document.getElementById('tipo')?.value      || '').trim();
+      const localidad = (document.getElementById('localidad')?.value || '').trim();
+      const tipoStr   = tipo      ? `[${tipo}]`           : '[Consulta]';
+      const locStr    = localidad ? ` · ${localidad}`     : '';
+      if (subjectField) subjectField.value = `${tipoStr} ${nombre || 'cliente web'}${locStr} — alumfer.com.ar`;
       if (emailInput && replytoField) replytoField.value = emailInput.value;
 
       // Loading state
@@ -432,5 +436,43 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+  // ─── Info-card toggle (colores / terminaciones) ───────────
+  document.querySelectorAll('.info-card__toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.info-card');
+      if (!card) return;
+      const isOpen = card.classList.toggle('is-open');
+      btn.setAttribute('aria-label', isOpen ? 'Cerrar descripción' : 'Ver descripción');
+    });
+  });
+
+  // ─── GA4: tracking de clicks en WhatsApp ─────────────────
+  document.querySelectorAll('a[href^="https://wa.me"]').forEach(el => {
+    el.addEventListener('click', () => {
+      if (typeof gtag === 'undefined') return;
+      const section = el.closest('section')?.id
+        || (el.closest('nav') ? 'navbar' : null)
+        || (el.closest('.mobile-bar') ? 'mobile-bar' : null)
+        || (el.closest('.lightbox') ? 'lightbox' : null)
+        || (el.closest('.whatsapp-float') ? 'float-button' : null)
+        || 'other';
+      gtag('event', 'whatsapp_click', {
+        event_category: 'Contact',
+        event_label: section
+      });
+    });
+  });
+
+  // ─── GA4: tracking de click en teléfono ──────────────────
+  document.querySelectorAll('a[href^="tel:"]').forEach(el => {
+    el.addEventListener('click', () => {
+      if (typeof gtag === 'undefined') return;
+      gtag('event', 'phone_click', {
+        event_category: 'Contact',
+        event_label: 'tel_link'
+      });
+    });
+  });
 
 });
