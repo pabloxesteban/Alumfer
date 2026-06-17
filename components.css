@@ -1040,8 +1040,6 @@
 
 /* ─── CARD DE TRABAJO / GALERÍA ───────────────────────────── */
 /* ─── WORKS GRID ──────────────────────────────────────────── */
-#trabajos { overflow-x: hidden; }
-
 .works-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
