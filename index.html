@@ -555,109 +555,122 @@
         <!-- Panel: Líneas -->
         <div class="catalog-panel is-active" data-panel="lineas">
 
-          <!-- Selector row: 5 compact thumbs -->
-          <div class="profile-selector" role="tablist" aria-label="Seleccionar línea de perfil">
-            <button class="profile-sel is-active" role="tab" aria-selected="true"
+          <div class="catalog-card-grid">
+            <button class="catalog-card"
               data-img="linea-herrero.png"
               data-label="Línea Herrero"
               data-name="La línea más popular"
               data-desc="La más elegida por nuestros clientes. Ideal para obras que requieren mayor estabilidad estructural. Ventanas corredizas, batientes, puertas con o sin reja y celosías. Compatible con vidrio simple, esmerilado, espejado y DVH.">
-              <div class="profile-sel__img"><img src="linea-herrero.png" alt="Línea Herrero"></div>
-              <span class="profile-sel__name">Línea Herrero</span>
+              <div class="catalog-card__img">
+                <img src="linea-herrero.png" alt="Línea Herrero" loading="lazy">
+              </div>
+              <div class="catalog-card__info">
+                <span class="catalog-card__name">Línea Herrero</span>
+              </div>
             </button>
-            <button class="profile-sel" role="tab" aria-selected="false"
+            <button class="catalog-card"
               data-img="linea-rotonda640.jpg.jpg"
               data-label="Rotonda 640"
               data-name="Perfil resistente y versátil"
               data-desc="Línea de gran popularidad en obras residenciales y comerciales. Excelente rigidez y estanqueidad. Apta para ventanas y puertas de grandes dimensiones. Compatible con todos los tipos de vidrio.">
-              <div class="profile-sel__img"><img src="linea-rotonda640.jpg.jpg" alt="Rotonda 640"></div>
-              <span class="profile-sel__name">Rotonda 640</span>
+              <div class="catalog-card__img">
+                <img src="linea-rotonda640.jpg.jpg" alt="Rotonda 640" loading="lazy">
+              </div>
+              <div class="catalog-card__info">
+                <span class="catalog-card__name">Rotonda 640</span>
+              </div>
             </button>
-            <button class="profile-sel" role="tab" aria-selected="false"
+            <button class="catalog-card"
               data-img="linea-modena1.png"
               data-label="Módena 1"
               data-name="Versátil y accesible"
               data-desc="Excelente relación calidad-precio para viviendas. Ventanas corredizas con y sin mosquitero, en todas las medidas estándar y a medida.">
-              <div class="profile-sel__img"><img src="linea-modena1.png" alt="Módena 1"></div>
-              <span class="profile-sel__name">Módena 1</span>
+              <div class="catalog-card__img">
+                <img src="linea-modena1.png" alt="Módena 1" loading="lazy">
+              </div>
+              <div class="catalog-card__info">
+                <span class="catalog-card__name">Módena 1</span>
+              </div>
             </button>
-            <button class="profile-sel" role="tab" aria-selected="false"
+            <button class="catalog-card"
               data-img="linea-modena2.png"
               data-label="Módena 2"
               data-name="Mayor sección, más rigidez"
               data-desc="Evolución de la Módena 1 con perfil reforzado para vanos más grandes. Mayor resistencia al viento y mejor aislación. Ideal para plantas bajas, frentes y obras de mayor exigencia.">
-              <div class="profile-sel__img"><img src="linea-modena2.png" alt="Módena 2"></div>
-              <span class="profile-sel__name">Módena 2</span>
+              <div class="catalog-card__img">
+                <img src="linea-modena2.png" alt="Módena 2" loading="lazy">
+              </div>
+              <div class="catalog-card__info">
+                <span class="catalog-card__name">Módena 2</span>
+              </div>
             </button>
-            <button class="profile-sel" role="tab" aria-selected="false"
+            <button class="catalog-card"
               data-img="linea-a30new.png"
               data-label="A30 New"
               data-name="Diseño contemporáneo"
               data-desc="Perfil de 30mm con líneas limpias y geométricas. Menor perfil visible, mayor superficie de vidrio. Elegido por arquitectos para proyectos de diseño. Disponible en todas las terminaciones.">
-              <div class="profile-sel__img"><img src="linea-a30new.png" alt="A30 New"></div>
-              <span class="profile-sel__name">A30 New</span>
+              <div class="catalog-card__img">
+                <img src="linea-a30new.png" alt="A30 New" loading="lazy">
+              </div>
+              <div class="catalog-card__info">
+                <span class="catalog-card__name">A30 New</span>
+              </div>
             </button>
-          </div>
-
-          <!-- Detail panel: updates on click -->
-          <div class="profile-detail reveal">
-            <div class="profile-detail__media">
-              <img class="profile-detail__img" id="profile-detail-img" src="linea-herrero.png" alt="Línea Herrero">
-            </div>
-            <div class="profile-detail__body">
-              <span class="profile-detail__tag" id="profile-detail-label">Línea Herrero</span>
-              <h3 class="profile-detail__name" id="profile-detail-name">La línea más popular</h3>
-              <p class="profile-detail__desc" id="profile-detail-desc">La más elegida por nuestros clientes. Ideal para obras que requieren mayor estabilidad estructural. Ventanas corredizas, batientes, puertas con o sin reja y celosías. Compatible con vidrio simple, esmerilado, espejado y DVH.</p>
-            </div>
           </div>
 
         </div>
 
         <!-- Panel: Vidrios -->
         <div class="catalog-panel" data-panel="vidrios">
-          <div class="profile-selector" role="tablist" style="--cols:4" aria-label="Seleccionar tipo de vidrio">
-            <button class="profile-sel is-active" role="tab" aria-selected="true"
+          <div class="catalog-card-grid">
+            <button class="catalog-card"
               data-img="transparente.jpg"
               data-label="Transparente"
               data-name="Claridad total"
               data-desc="La opción estándar. Alta transmisión de luz natural, bajo costo. Compatible con todas las líneas de perfil. Ideal para la mayoría de las obras residenciales.">
-              <div class="profile-sel__img"><img src="transparente.jpg" alt="Transparente"></div>
-              <span class="profile-sel__name">Transparente</span>
+              <div class="catalog-card__img">
+                <img src="transparente.jpg" alt="Transparente" loading="lazy">
+              </div>
+              <div class="catalog-card__info">
+                <span class="catalog-card__name">Transparente</span>
+              </div>
             </button>
-            <button class="profile-sel" role="tab" aria-selected="false"
+            <button class="catalog-card"
               data-img="esmerilado.png"
               data-label="Esmerilado"
               data-name="Privacidad con luz"
               data-desc="Superficie tratada que difumina la visión sin bloquear la luz natural. Ideal para baños, puertas interiores y divisorios. Disponible en distintos grados de opacidad.">
-              <div class="profile-sel__img"><img src="esmerilado.png" alt="Esmerilado"></div>
-              <span class="profile-sel__name">Esmerilado</span>
+              <div class="catalog-card__img">
+                <img src="esmerilado.png" alt="Esmerilado" loading="lazy">
+              </div>
+              <div class="catalog-card__info">
+                <span class="catalog-card__name">Esmerilado</span>
+              </div>
             </button>
-            <button class="profile-sel" role="tab" aria-selected="false"
+            <button class="catalog-card"
               data-img="https://images.unsplash.com/photo-1583405751003-9e2fd7677c0d?w=600&q=80&auto=format&fit=crop"
               data-label="Espejado"
               data-name="Efecto espejo exterior"
               data-desc="Reflejo espejado desde el exterior durante el día, con visibilidad normal desde adentro. Muy usado en fachadas comerciales y oficinas. Aporta privacidad sin perder luminosidad interior.">
-              <div class="profile-sel__img"><img src="https://images.unsplash.com/photo-1583405751003-9e2fd7677c0d?w=600&q=80&auto=format&fit=crop" alt="Espejado"></div>
-              <span class="profile-sel__name">Espejado</span>
+              <div class="catalog-card__img">
+                <img src="https://images.unsplash.com/photo-1583405751003-9e2fd7677c0d?w=600&q=80&auto=format&fit=crop" alt="Espejado" loading="lazy">
+              </div>
+              <div class="catalog-card__info">
+                <span class="catalog-card__name">Espejado</span>
+              </div>
             </button>
-            <button class="profile-sel" role="tab" aria-selected="false"
+            <button class="catalog-card"
               data-img="vidrio-dvh.jpg"
               data-label="DVH"
               data-name="Doble vidriado hermético"
               data-desc="Dos vidrios separados por una cámara de aire sellada. Reduce significativamente la pérdida de calor y el ingreso de ruido exterior. Ideal para zonas frías, departamentos en avenidas o proyectos con alta eficiencia energética.">
-              <div class="profile-sel__img"><img src="vidrio-dvh.jpg" alt="DVH"></div>
-              <span class="profile-sel__name">DVH</span>
+              <div class="catalog-card__img">
+                <img src="vidrio-dvh.jpg" alt="DVH" loading="lazy">
+              </div>
+              <div class="catalog-card__info">
+                <span class="catalog-card__name">DVH</span>
+              </div>
             </button>
-          </div>
-          <div class="profile-detail reveal">
-            <div class="profile-detail__media">
-              <img class="profile-detail__img" src="transparente.jpg" alt="Transparente">
-            </div>
-            <div class="profile-detail__body">
-              <span class="profile-detail__tag">Transparente</span>
-              <h3 class="profile-detail__name">Claridad total</h3>
-              <p class="profile-detail__desc">La opción estándar. Alta transmisión de luz natural, bajo costo. Compatible con todas las líneas de perfil. Ideal para la mayoría de las obras residenciales.</p>
-            </div>
           </div>
         </div>
 
