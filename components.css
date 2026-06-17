@@ -1147,7 +1147,6 @@
   object-fit: contain;
   display: block;
   border-radius: var(--radius-sm);
-  transition: opacity 200ms var(--ease);
 }
 
 .lightbox__close {
@@ -2971,13 +2970,9 @@
 .product-row__media img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
-  transition: transform 400ms var(--ease);
-}
-
-.product-row:hover .product-row__media img {
-  transform: scale(1.04);
+  padding: var(--space-2);
 }
 
 .product-row__info {

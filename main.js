@@ -231,14 +231,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function lbGoTo(index) {
       lbIndex = (index + visibleItems.length) % visibleItems.length;
       const item = visibleItems[lbIndex];
+      // Immediately clear old image so nothing shows while loading
+      lbImg.src = '';
       lbImg.style.opacity = '0';
-      setTimeout(() => {
-        lbImg.src = item.querySelector('.works-item__img').src;
-        lbImg.alt = item.querySelector('.works-item__img').alt;
-        lbLabel.textContent   = item.querySelector('.works-item__label').textContent;
-        lbCounter.textContent = `${lbIndex + 1} / ${visibleItems.length}`;
-        lbImg.style.opacity = '1';
-      }, 150);
+      lbLabel.textContent   = item.querySelector('.works-item__label').textContent;
+      lbCounter.textContent = `${lbIndex + 1} / ${visibleItems.length}`;
+      const newSrc = item.querySelector('.works-item__img').src;
+      const tmp = new Image();
+      tmp.onload = () => { lbImg.src = newSrc; lbImg.alt = item.querySelector('.works-item__img').alt; lbImg.style.opacity = '1'; };
+      tmp.src = newSrc;
     }
 
     if (lbClose) lbClose.addEventListener('click', closeLightbox);
