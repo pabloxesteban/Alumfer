@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://alumfer.com.ar/</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://alumfer.com.ar/logo.jpg</image:loc>
+      <image:title>Alumfer — Carpintería de Aluminio en Adrogué, Zona Sur GBA</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://alumfer.com.ar/obra-ventanas-1.jpg</image:loc>
+      <image:title>Ventanas de aluminio a medida — Alumfer Adrogué</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://alumfer.com.ar/obra-puertas-1.jpg</image:loc>
+      <image:title>Puertas de aluminio a medida — Alumfer Adrogué</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://alumfer.com.ar/obra-portones-1.jpg</image:loc>
+      <image:title>Portones de aluminio — Alumfer Zona Sur</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://alumfer.com.ar/obra-quincho-1.jpeg</image:loc>
+      <image:title>Cerramiento de quincho con aluminio — Alumfer</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://alumfer.com.ar/obra-postigones-1.jpg</image:loc>
+      <image:title>Postigones de aluminio a medida — Alumfer Adrogué</image:title>
+    </image:image>
+  </url>
+</urlset>
