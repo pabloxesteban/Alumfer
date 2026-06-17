@@ -169,18 +169,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function filterCat(cat) {
       currentCat = cat;
-      let revealIdx = 0;
       allItems.forEach(item => {
-        if (item.dataset.cat === cat) {
-          item.classList.remove('is-hidden');
-          item.style.setProperty('--stagger-i', revealIdx++);
-          item.classList.remove('is-entering');
-          void item.offsetWidth; // force reflow
-          item.classList.add('is-entering');
-          setTimeout(() => item.classList.remove('is-entering'), 600);
-        } else {
-          item.classList.add('is-hidden');
-        }
+        item.classList.toggle('is-hidden', item.dataset.cat !== cat);
       });
       visibleItems = getVisible();
       updateCount();

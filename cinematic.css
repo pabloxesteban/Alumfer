@@ -29,7 +29,6 @@ html.cinematic .section-header.is-visible::after {
 .line { overflow: hidden; display: block; }
 
 /* ── GPU hints for animated elements ── */
-.works-item { will-change: clip-path; }
 .btn, .navbar__cta { will-change: transform; }
 
 /* ── Scroll hint (hero) ── */

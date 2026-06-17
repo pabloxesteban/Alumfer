@@ -66,13 +66,10 @@ window.__cinematicPending = true;
     // ── 3. Hero background parallax ──────────────────────────
     if (!prefersReduced) initHeroParallax();
 
-    // ── 4. Gallery: animación al cambiar tab ─────────────────
-    initGalleryTabAnimation();
-
-    // ── 5. Catalog: animación al cambiar categoría ───────────
+    // ── 4. Catalog: animación al cambiar categoría ───────────
     initCatalogTransitions();
 
-    // ── 6. Magnetic buttons (solo desktop) ───────────────────
+    // ── 5. Magnetic buttons (solo desktop) ───────────────────
     if (!hasTouch && !isMobile && !prefersReduced) initMagneticButtons();
   }
 
@@ -150,33 +147,6 @@ window.__cinematicPending = true;
         end:     'bottom top',
         scrub:   true,
       },
-    });
-  }
-
-  // ────────────────────────────────────────────────────────────
-  // GALLERY TAB ANIMATION — clip-path al filtrar
-  // ────────────────────────────────────────────────────────────
-  function initGalleryTabAnimation() {
-    const grid = document.querySelector('.works-grid');
-    if (!grid || prefersReduced) return;
-
-    document.querySelectorAll('.works-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        setTimeout(() => {
-          const visible = Array.from(grid.querySelectorAll('.works-item:not(.is-hidden)'));
-          if (!visible.length) return;
-          gsap.fromTo(visible,
-            { clipPath: 'inset(0 100% 0 0)' },
-            {
-              clipPath:   'inset(0 0% 0 0)',
-              duration:   0.6,
-              ease:       'power3.inOut',
-              stagger:    0.05,
-              clearProps: 'clipPath',
-            }
-          );
-        }, 60);
-      });
     });
   }
 
