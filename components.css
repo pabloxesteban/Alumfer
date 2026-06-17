@@ -2007,15 +2007,6 @@
     padding-block-end: var(--space-10);
   }
 
-  /* ─── Nosotros / About ─────────────────────────────────── */
-  .features-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .features-grid > div:first-child {
-    aspect-ratio: 16/9;
-    max-height: 260px;
-  }
 
   /* ─── Catálogo ─────────────────────────────────────────── */
   .catalog-tabs__nav {
