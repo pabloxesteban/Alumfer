@@ -139,6 +139,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ─── Features: dots indicadores de scroll ────────────────
+  const featuresGrid = document.querySelector('.features-grid');
+  const featuresDots = document.querySelectorAll('.features-dot');
+  if (featuresGrid && featuresDots.length) {
+    featuresGrid.addEventListener('scroll', () => {
+      const cardWidth = featuresGrid.querySelector('.feature')?.offsetWidth || 1;
+      const idx = Math.round(featuresGrid.scrollLeft / (cardWidth + 16));
+      featuresDots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
+    }, { passive: true });
+  }
+
   // ─── Works grid: filtrado + lightbox ─────────────────────
   const worksGrid   = document.getElementById('works-grid');
   const worksTabs   = document.querySelectorAll('.works-tab');
