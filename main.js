@@ -405,10 +405,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (detailName) detailName.textContent = card.dataset.name  || '';
         if (detailDesc) detailDesc.textContent = card.dataset.desc  || '';
 
-        // Open with animation
-        if (!detail.classList.contains('is-open')) {
-          detail.classList.add('is-open');
-        }
+        // Open with animation then scroll into view
+        detail.classList.add('is-open');
+        // Wait for grid-template-rows expansion before scrolling
+        setTimeout(() => {
+          detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 120);
       });
     });
   });
