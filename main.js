@@ -372,37 +372,80 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ─── Profile selector (all catalog panels) ───────────────
-  document.querySelectorAll('.profile-selector').forEach(selector => {
-    const panel  = selector.closest('.catalog-panel');
-    const detail = panel?.querySelector('.profile-detail');
-    if (!detail) return;
+  // ─── Catalog card grid + bottom sheet ────────────────────
+  const catSheet    = document.getElementById('cat-sheet');
+  const catSheetImg = document.getElementById('cat-sheet-img');
+  const catSheetTag = document.getElementById('cat-sheet-tag');
+  const catSheetName = document.getElementById('cat-sheet-name');
+  const catSheetDesc = document.getElementById('cat-sheet-desc');
+  const catSheetWa  = document.getElementById('cat-sheet-wa');
+  const catSheetClose = document.getElementById('cat-sheet-close');
+  const catSheetBackdrop = document.getElementById('cat-sheet-backdrop');
 
-    const pdImg   = detail.querySelector('.profile-detail__img');
-    const pdLabel = detail.querySelector('.profile-detail__tag');
-    const pdName  = detail.querySelector('.profile-detail__name');
-    const pdDesc  = detail.querySelector('.profile-detail__desc');
+  function openCatSheet(card) {
+    catSheetImg.src  = card.dataset.img || '';
+    catSheetImg.alt  = card.dataset.label || '';
+    catSheetTag.textContent  = card.dataset.label || '';
+    catSheetName.textContent = card.dataset.name  || '';
+    catSheetDesc.textContent = card.dataset.desc  || '';
+    const waText = encodeURIComponent(`Hola, quiero consultar sobre ${card.dataset.label || 'un producto'}`);
+    catSheetWa.href = `https://wa.me/5491163368643?text=${waText}`;
 
-    selector.querySelectorAll('.profile-sel').forEach(btn => {
-      btn.addEventListener('click', () => {
-        selector.querySelectorAll('.profile-sel').forEach(b => {
-          b.classList.remove('is-active');
-          b.setAttribute('aria-selected', 'false');
-        });
-        btn.classList.add('is-active');
-        btn.setAttribute('aria-selected', 'true');
-
-        detail.style.opacity = '0';
-        setTimeout(() => {
-          if (pdImg && btn.dataset.img) { pdImg.src = btn.dataset.img; pdImg.alt = btn.dataset.label || ''; }
-          if (pdLabel) pdLabel.textContent = btn.dataset.label || '';
-          if (pdName)  pdName.textContent  = btn.dataset.name  || '';
-          if (pdDesc)  pdDesc.textContent  = btn.dataset.desc  || '';
-          detail.style.opacity = '1';
-        }, 150);
-      });
+    catSheet.hidden = false;
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => catSheet.classList.add('is-open'));
     });
-  });
+  }
+
+  function closeCatSheet() {
+    catSheet.classList.remove('is-open');
+    document.body.style.overflow = '';
+    catSheet.addEventListener('transitionend', () => {
+      catSheet.hidden = true;
+    }, { once: true });
+  }
+
+  if (catSheet) {
+    document.querySelectorAll('.catalog-card').forEach(card => {
+      card.addEventListener('click', () => openCatSheet(card));
+    });
+
+    catSheetClose?.addEventListener('click', closeCatSheet);
+    catSheetBackdrop?.addEventListener('click', closeCatSheet);
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !catSheet.hidden) closeCatSheet();
+    });
+
+    // Drag to dismiss on mobile
+    const panel = document.getElementById('cat-sheet-panel');
+    let dragStartY = 0;
+    let dragging = false;
+
+    panel?.addEventListener('pointerdown', e => {
+      if (e.target.closest('.cat-sheet__scroll')) return;
+      dragStartY = e.clientY;
+      dragging = true;
+      panel.style.transition = 'none';
+      panel.setPointerCapture(e.pointerId);
+    });
+
+    panel?.addEventListener('pointermove', e => {
+      if (!dragging) return;
+      const dy = Math.max(0, e.clientY - dragStartY);
+      panel.style.transform = `translateY(${dy}px)`;
+    });
+
+    panel?.addEventListener('pointerup', e => {
+      if (!dragging) return;
+      dragging = false;
+      panel.style.transition = '';
+      panel.style.transform = '';
+      const dy = e.clientY - dragStartY;
+      if (dy > 100) closeCatSheet();
+    });
+  }
 
   // ─── Smooth anchor links ──────────────────────────────────
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
