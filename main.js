@@ -168,11 +168,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function filterCat(cat) {
       currentCat = cat;
+      let revealIdx = 0;
       allItems.forEach(item => {
         if (item.dataset.cat === cat) {
           item.classList.remove('is-hidden');
+          item.style.setProperty('--stagger-i', revealIdx++);
+          item.classList.remove('is-entering');
+          void item.offsetWidth; // force reflow
           item.classList.add('is-entering');
-          setTimeout(() => item.classList.remove('is-entering'), 350);
+          setTimeout(() => item.classList.remove('is-entering'), 600);
         } else {
           item.classList.add('is-hidden');
         }
@@ -181,11 +185,24 @@ document.addEventListener('DOMContentLoaded', () => {
       updateCount();
     }
 
+    // Sliding indicator for works tabs
+    const worksTabsNav  = document.querySelector('.works-tabs__nav');
+    const worksIndicator = document.querySelector('.works-tabs__indicator');
+
+    function moveWorksIndicator(activeTab) {
+      if (!worksIndicator || !worksTabsNav || !activeTab) return;
+      const navRect = worksTabsNav.getBoundingClientRect();
+      const tabRect = activeTab.getBoundingClientRect();
+      worksIndicator.style.left  = `${tabRect.left - navRect.left + worksTabsNav.scrollLeft}px`;
+      worksIndicator.style.width = `${tabRect.width}px`;
+    }
+
     // Tabs
     worksTabs.forEach(tab => {
       tab.addEventListener('click', () => {
         worksTabs.forEach(t => t.classList.remove('is-active'));
         tab.classList.add('is-active');
+        moveWorksIndicator(tab);
         filterCat(tab.dataset.cat);
       });
     });
@@ -258,9 +275,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Init
     filterCat('ventanas');
+    requestAnimationFrame(() => {
+      const initActive = document.querySelector('.works-tab.is-active');
+      moveWorksIndicator(initActive);
+    });
   }
 
-  // ─── Catalog tabs ─────────────────────────────────────────
+  // ─── Catalog tabs + sliding indicator ────────────────────
+  const catalogTabsNav   = document.querySelector('.catalog-tabs__nav');
+  const catalogIndicator = document.querySelector('.catalog-tabs__indicator');
+
+  function moveCatalogIndicator(activeTab) {
+    if (!catalogIndicator || !catalogTabsNav || !activeTab) return;
+    const navRect = catalogTabsNav.getBoundingClientRect();
+    const tabRect = activeTab.getBoundingClientRect();
+    catalogIndicator.style.left  = `${tabRect.left - navRect.left + catalogTabsNav.scrollLeft}px`;
+    catalogIndicator.style.width = `${tabRect.width}px`;
+  }
+
   document.querySelectorAll('.catalog-tab').forEach(tab => {
     tab.addEventListener('click', () => {
       const target = tab.dataset.tab;
@@ -268,7 +300,12 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.catalog-panel').forEach(p => p.classList.remove('is-active'));
       tab.classList.add('is-active');
       document.querySelector(`.catalog-panel[data-panel="${target}"]`).classList.add('is-active');
+      moveCatalogIndicator(tab);
     });
+  });
+
+  requestAnimationFrame(() => {
+    moveCatalogIndicator(document.querySelector('.catalog-tab.is-active'));
   });
 
   // ─── Poliestireno Fantasía toggle ────────────────────────
