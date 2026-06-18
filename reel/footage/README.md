@@ -10,6 +10,7 @@ vendorizadas) y el hero con una obra real. Importalas en CapCut / Premiere / AE.
 - `03-trabajos.mp4` — galería de obras + proceso "Así trabajamos".
 - `04-catalogo.mp4` — catálogo con cambio de tabs (líneas, vidrios, colores).
 - `05-contacto.mp4` — FAQ + formulario de cotización + footer.
+- `10-mobile-journey.mp4` — recorrido MOBILE simulando un usuario real (menú, lightbox, tabs, formulario). Layout responsive.
 
 Regenerar: `node reel/capture/capture_master.mjs` (recorrido) y
 `node reel/capture/capture.mjs` (clips por sección).
