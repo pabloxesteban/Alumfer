@@ -3152,15 +3152,27 @@
 
   .process-step {
     display: grid;
-    grid-template-columns: 2.25rem 5.5rem 1fr;
-    align-items: start;
-    gap: 0 var(--space-4);
+    grid-template-columns: 2.25rem 1fr;
+    grid-template-areas:
+      "num title"
+      "num desc";
+    column-gap: var(--space-4);
+    row-gap: var(--space-1);
     padding: var(--space-4);
   }
 
   .process-step__num {
+    grid-area: num;
     margin-bottom: 0;
     margin-top: 2px;
+  }
+
+  .process-step__title {
+    grid-area: title;
+  }
+
+  .process-step__desc {
+    grid-area: desc;
   }
 }
 
