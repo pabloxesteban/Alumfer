@@ -77,6 +77,7 @@ window.__cinematicPending = true;
   // HERO ENTRANCE — título palabra por palabra
   // ────────────────────────────────────────────────────────────
   function initHero() {
+    const heroEyebrow = document.querySelector('.hero__eyebrow');
     const heroTitle   = document.querySelector('.hero__title');
     const heroSub     = document.querySelector('.hero__subtitle');
     const heroActions = document.querySelector('.hero__actions');
@@ -85,6 +86,13 @@ window.__cinematicPending = true;
     if (!heroTitle) return;
 
     const tl = gsap.timeline({ delay: 0.1 });
+
+    if (heroEyebrow) {
+      tl.from(heroEyebrow, {
+        y: 10, opacity: 0, duration: 0.45, ease: 'power3.out',
+        clearProps: 'all',
+      });
+    }
 
     if (window.SplitType) {
       const split = new SplitType(heroTitle, { types: 'lines,words' });
@@ -98,16 +106,16 @@ window.__cinematicPending = true;
 
       tl.from(split.words, {
         yPercent:   110,
-        duration:   0.85,
+        duration:   isMobile ? 0.70 : 0.85,
         ease:       'power4.out',
-        stagger:    0.04,
+        stagger:    isMobile ? 0.025 : 0.04,
         clearProps: 'transform',
-      });
+      }, heroEyebrow ? '-=0.25' : '');
     } else {
       tl.from(heroTitle, {
         y: 36, opacity: 0, duration: 0.85, ease: 'power4.out',
         clearProps: 'all',
-      });
+      }, heroEyebrow ? '-=0.25' : '');
     }
 
     if (heroSub) {
