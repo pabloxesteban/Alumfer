@@ -3,6 +3,7 @@
    ============================================================ */
 
 /* ── Disable legacy CSS hero animations when GSAP is active ── */
+html.cinematic .hero__eyebrow,
 html.cinematic .hero__title,
 html.cinematic .hero__subtitle,
 html.cinematic .hero__actions,
