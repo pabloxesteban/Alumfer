@@ -3089,6 +3089,7 @@
 .process-section {
   padding-top: var(--space-10);
   padding-bottom: var(--space-10);
+  background-color: var(--bg-dark);
 }
 
 .process-section .eyebrow {
