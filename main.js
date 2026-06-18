@@ -447,20 +447,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ─── GA4: tracking de clicks en WhatsApp ─────────────────
+  // ─── GA4 + source tracking para links de WhatsApp ─────────
   document.querySelectorAll('a[href^="https://wa.me"]').forEach(el => {
     el.addEventListener('click', () => {
-      if (typeof gtag === 'undefined') return;
       const section = el.closest('section')?.id
         || (el.closest('nav') ? 'navbar' : null)
         || (el.closest('.mobile-bar') ? 'mobile-bar' : null)
         || (el.closest('.lightbox') ? 'lightbox' : null)
         || (el.closest('.whatsapp-float') ? 'float-button' : null)
         || 'other';
-      gtag('event', 'whatsapp_click', {
-        event_category: 'Contact',
-        event_label: section
-      });
+
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'whatsapp_click', {
+          event_category: 'Contact',
+          event_label: section
+        });
+      }
+
+      // Append source section to the WhatsApp message
+      try {
+        const url = new URL(el.href);
+        const base = url.searchParams.get('text') || '';
+        if (base && !base.includes('[desde:')) {
+          url.searchParams.set('text', `${base}\n[desde: ${section} — alumfer.com.ar]`);
+          el.href = url.toString();
+        }
+      } catch (_) {}
     });
   });
 
