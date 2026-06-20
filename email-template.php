@@ -195,8 +195,10 @@ function em_shell(string $preheader, string $content): string {
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
               <td style="vertical-align:middle;">
                 <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
-                  <td width="3" style="background:#1B6CC8;width:3px;font-size:0;line-height:0;">&nbsp;</td>
-                  <td style="padding-left:12px;">
+                  <td style="vertical-align:middle;">
+                    <img src="https://alumfer.com.ar/solologo.png" width="48" height="34" alt="" style="display:block;border:0;outline:none;height:34px;width:48px;">
+                  </td>
+                  <td style="padding-left:12px;vertical-align:middle;">
                     <div style="font-family:$font;font-size:20px;font-weight:700;letter-spacing:0.16em;color:#ffffff;line-height:1;">ALUMFER</div>
                     <div style="font-family:$font;font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:#B0A99A;line-height:1;padding-top:6px;">Carpintería de aluminio</div>
                   </td>

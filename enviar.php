@@ -130,15 +130,14 @@ if ($localidad !== '') {
 $cliContent  = em_eyebrow('Recibimos tu consulta');
 $cliContent .= em_h1('¡Gracias, ' . $nombre . '!');
 $cliContent .= em_p('Recibimos tu consulta sobre <strong style="color:' . ALF_HEADING . ';">' . e($tipo) . '</strong> y ya estamos sobre ella. '
-    . 'Un asesor te va a responder <strong style="color:' . ALF_HEADING . ';">en menos de 24 horas</strong> por teléfono o WhatsApp con tu presupuesto sin cargo.');
+    . 'Te vamos a responder <strong style="color:' . ALF_HEADING . ';">en menos de 24 horas</strong> por email o teléfono con tu presupuesto sin cargo.');
 $cliContent .= em_spacer(6);
 $cliContent .= em_section_title('Esto es lo que nos contaste');
 $cliContent .= '<div class="alf-data">' . em_data_table($resumen) . '</div>';
 $cliContent .= em_spacer(10);
 $cliContent .= '<div class="alf-quote">' . em_quote_box(e_nl($consulta)) . '</div>';
 $cliContent .= em_spacer(26);
-$cliContent .= em_p('¿Tenés fotos, planos o medidas? Es el momento ideal para enviárnoslos y agilizar tu presupuesto:', 'margin-bottom:14px;');
-$cliContent .= em_button('Enviar fotos por WhatsApp', ALF_WA_LINK, 'whatsapp');
+$cliContent .= em_p('¿Tenés fotos, planos o medidas? Respondé este mismo email y sumalas: nos ayuda a preparar tu presupuesto más rápido.', 'margin-bottom:14px;');
 $cliContent .= em_button('Ver nuestros trabajos', ALF_SITE . '/#trabajos', 'ghost');
 $cliContent .= em_spacer(28);
 $cliContent .= em_divider();
