@@ -20,8 +20,8 @@ require __DIR__ . '/email-template.php';
 
 /* ─── Configuración ─────────────────────────────────────── */
 const ADMIN_TO    = 'alumfercarpinteria@gmail.com';                  // recibe las consultas
-const FROM_EMAIL  = 'no-reply@alumfer.com.ar';                       // remitente (casilla del dominio)
-const FROM_NAME   = 'Alumfer — Web';
+const FROM_EMAIL  = 'info@alumfer.com.ar';                           // remitente (casilla del dominio)
+const FROM_NAME   = 'Alumfer';
 
 /* ─── Respuesta JSON uniforme ───────────────────────────── */
 header('Content-Type: application/json; charset=utf-8');
