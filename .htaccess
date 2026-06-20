@@ -1,0 +1,17 @@
+# ============================================================
+#  Alumfer — Cache control
+#  Evita que el navegador mezcle versiones viejas (HTML/JS) en
+#  caché. El HTML se revalida siempre; los assets versionados
+#  (?v=) se pueden cachear fuerte sin riesgo.
+# ============================================================
+<IfModule mod_headers.c>
+  # HTML: siempre revalidar (así toma los ?v= nuevos al instante)
+  <FilesMatch "\.(html|php)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+
+  # Estáticos: cacheables (el ?v= fuerza la actualización cuando cambian)
+  <FilesMatch "\.(css|js|png|jpe?g|gif|svg|webp|ico|woff2?|jfif)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>
