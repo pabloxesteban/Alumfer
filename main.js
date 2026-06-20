@@ -324,30 +324,12 @@ document.addEventListener('DOMContentLoaded', () => {
     fantasiaCard.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
   }
 
-  // ─── Formulario: replyto y asunto dinámicos ──────────────
-  const contactForm  = document.querySelector('.contact-form');
-  const emailInput   = document.getElementById('email');
-  const replytoField = document.getElementById('replyto-field');
-  const subjectField = document.getElementById('subject-field');
-
-  if (emailInput && replytoField) {
-    emailInput.addEventListener('input', () => {
-      replytoField.value = emailInput.value;
-    });
-  }
+  // ─── Formulario: envío al endpoint propio (enviar.php) ────
+  const contactForm = document.querySelector('.contact-form');
 
   if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-
-      // Construir asunto enriquecido con tipo y localidad
-      const nombre    = (document.getElementById('nombre')?.value    || '').trim();
-      const tipo      = (document.getElementById('tipo')?.value      || '').trim();
-      const localidad = (document.getElementById('localidad')?.value || '').trim();
-      const tipoStr   = tipo      ? `[${tipo}]`           : '[Consulta]';
-      const locStr    = localidad ? ` · ${localidad}`     : '';
-      if (subjectField) subjectField.value = `${tipoStr} ${nombre || 'cliente web'}${locStr} — alumfer.com.ar`;
-      if (emailInput && replytoField) replytoField.value = emailInput.value;
 
       // Loading state
       const submitBtn = contactForm.querySelector('[type="submit"]');
@@ -358,8 +340,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       try {
-        const response = await fetch('https://api.web3forms.com/submit', {
+        const response = await fetch(contactForm.action, {
           method: 'POST',
+          headers: { 'Accept': 'application/json' },
           body: new FormData(contactForm)
         });
         const data = await response.json();

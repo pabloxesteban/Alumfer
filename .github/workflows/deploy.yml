@@ -39,3 +39,5 @@ jobs:
             DEPLOY.md
             preview-hero.html
             preview-vidrios.html
+            preview-email-admin.html
+            preview-email-cliente.html
