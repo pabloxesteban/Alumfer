@@ -2393,29 +2393,31 @@
   box-shadow: 0 3px 10px rgba(0,0,0,0.3);
 }
 
-/* Grid de colores más compacto */
+/* Grid de colores: columnas anchas y filas parejas en desktop */
 .info-grid--colors {
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: var(--space-2);
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-8) var(--space-5);
+  max-width: 960px;
+  margin-inline: auto;
 }
 
 .info-grid--colors .info-card--color .info-card__header {
-  padding: var(--space-2) var(--space-2);
+  padding: var(--space-2) var(--space-1) 0;
 }
 
 .info-grid--colors .info-card__titles .info-card__label {
-  font-size: 0.6rem;
+  font-size: 0.65rem;
 }
 
 .info-grid--colors .info-card__titles .info-card__name {
-  font-size: 0.7rem;
+  font-size: 0.95rem;
 }
 
 .info-card--color .info-card__body {
   max-height: none;
   overflow: visible;
   align-items: center;
-  padding: var(--space-2) var(--space-2) var(--space-4);
+  padding: var(--space-2) var(--space-1) 0;
 }
 
 .info-card--color .info-card__name {
@@ -2424,6 +2426,10 @@
 
 .info-card--color .info-card__desc {
   text-align: center;
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  max-width: 18ch;
+  margin-inline: auto;
 }
 
 /* ─── Separador entre grupos de colores ──────────────────── */
@@ -2808,6 +2814,20 @@
 .hero .btn--ghost:hover {
   background: rgba(255,255,255,0.08);
   border-color: rgba(255,255,255,0.45);
+  color: #fff;
+}
+
+/* Ghost on dark sections (CTA secundario sobre fondo oscuro) */
+.section--dark .btn--ghost,
+.section--mid .btn--ghost {
+  background: transparent;
+  border-color: rgba(255,255,255,0.30);
+  color: rgba(255,255,255,0.90);
+}
+.section--dark .btn--ghost:hover,
+.section--mid .btn--ghost:hover {
+  background: rgba(255,255,255,0.10);
+  border-color: rgba(255,255,255,0.55);
   color: #fff;
 }
 
