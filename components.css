@@ -3434,3 +3434,11 @@ select.form-input {
   padding-right: 2.5rem;
   cursor: pointer;
 }
+
+/* Las opciones del desplegable necesitan color explicito: sin esto
+   quedan texto claro sobre fondo claro (ilegibles hasta el hover). */
+select.form-input option,
+.form-select option {
+  background-color: var(--steel);
+  color: var(--text-on-dark);
+}
