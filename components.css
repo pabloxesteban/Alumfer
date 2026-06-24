@@ -1727,7 +1727,25 @@
 
 .form-input::placeholder,
 .form-textarea::placeholder {
-  color: var(--text-on-dark-3);
+  color: var(--text-on-dark-2);
+}
+
+/* Evita el fondo blanco que el navegador aplica al autocompletar,
+   manteniendo el contraste del tema oscuro en todos los campos. */
+.form-input:-webkit-autofill,
+.form-input:-webkit-autofill:hover,
+.form-input:-webkit-autofill:focus,
+.form-select:-webkit-autofill,
+.form-select:-webkit-autofill:hover,
+.form-select:-webkit-autofill:focus,
+.form-textarea:-webkit-autofill,
+.form-textarea:-webkit-autofill:hover,
+.form-textarea:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--text-on-dark);
+  caret-color: var(--text-on-dark);
+  -webkit-box-shadow: 0 0 0 1000px var(--steel-light) inset;
+  box-shadow: 0 0 0 1000px var(--steel-light) inset;
+  transition: background-color 9999s ease-in-out 0s;
 }
 
 .form-input:hover,
