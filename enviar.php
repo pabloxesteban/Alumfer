@@ -155,22 +155,27 @@ $cliHtml = em_shell('Recibimos tu consulta — te respondemos en menos de 24 hs'
 $headersBase = [
     'MIME-Version: 1.0',
     'Content-Type: text/html; charset=UTF-8',
-    'Content-Transfer-Encoding: 8bit',
+    'Content-Transfer-Encoding: base64',
     'From: ' . FROM_NAME . ' <' . FROM_EMAIL . '>',
     'X-Mailer: Alumfer-Web',
 ];
 $envelope = '-f' . FROM_EMAIL;
 
+/* El HTML se codifica en base64 (líneas de 76 chars) para no superar el
+   límite de longitud de línea del transporte SMTP (Exim rechaza >2048). */
+$adminBody = chunk_split(base64_encode($adminHtml), 76, "\r\n");
+$cliBody   = chunk_split(base64_encode($cliHtml), 76, "\r\n");
+
 /* 1) Notificación al admin (Reply-To = cliente, para responder directo) */
 $replyTo  = $emailCliente !== '' ? $emailCliente : ADMIN_TO;
 $hAdmin   = array_merge($headersBase, ['Reply-To: ' . e($nombre) . ' <' . $replyTo . '>']);
 $asunto   = '[' . $tipo . '] ' . $nombre . ($localidad !== '' ? ' · ' . $localidad : '') . ' — alumfer.com.ar';
-$okAdmin  = @mail(ADMIN_TO, subj($asunto), $adminHtml, implode("\r\n", $hAdmin), $envelope);
+$okAdmin  = @mail(ADMIN_TO, subj($asunto), $adminBody, implode("\r\n", $hAdmin), $envelope);
 
 /* 2) Confirmación al cliente (Reply-To = Alumfer) */
 if ($emailCliente !== '') {
     $hCli = array_merge($headersBase, ['Reply-To: Alumfer <' . ADMIN_TO . '>']);
-    @mail($emailCliente, subj('Recibimos tu consulta — Alumfer'), $cliHtml, implode("\r\n", $hCli), $envelope);
+    @mail($emailCliente, subj('Recibimos tu consulta — Alumfer'), $cliBody, implode("\r\n", $hCli), $envelope);
 }
 
 /* La consulta del admin es la crítica: su resultado define el éxito. */
