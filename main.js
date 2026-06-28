@@ -334,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         const data = await response.json();
         if (data.success) {
-          window.location.href = 'gracias.html';
+          window.location.href = '/gracias.html';
         } else {
           throw new Error(data.message);
         }
