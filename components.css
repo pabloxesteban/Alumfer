@@ -304,15 +304,6 @@
   align-items: center;
 }
 
-.hero__location {
-  font-size: var(--text-xs);
-  font-weight: 400;
-  letter-spacing: var(--tracking-widest);
-  text-transform: uppercase;
-  color: var(--blue-light);
-  margin-bottom: var(--space-5);
-}
-
 .hero__title {
   font-size: clamp(2.5rem, 7vw, var(--text-4xl));
   font-weight: 300;

@@ -311,19 +311,6 @@ document.addEventListener('DOMContentLoaded', () => {
     moveCatalogIndicator(document.querySelector('.catalog-tab.is-active'));
   });
 
-  // ─── Poliestireno Fantasía toggle ────────────────────────
-  const fantasiaCard = document.querySelector('.fantasia-card');
-  if (fantasiaCard) {
-    const toggle = () => {
-      const wrap = fantasiaCard.closest('.fantasia-wrap');
-      const isOpen = wrap.classList.toggle('is-open');
-      fantasiaCard.setAttribute('aria-expanded', isOpen);
-      wrap.querySelector('.fantasia-grid').setAttribute('aria-hidden', !isOpen);
-    };
-    fantasiaCard.addEventListener('click', toggle);
-    fantasiaCard.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
-  }
-
   // ─── Formulario: envío al endpoint propio (enviar.php) ────
   const contactForm = document.querySelector('.contact-form');
 
@@ -361,49 +348,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-
-  // ─── Catalog card grid + inline detail expand ────────────
-  document.querySelectorAll('.catalog-card-grid').forEach(grid => {
-    const detail = grid.nextElementSibling; // .catalog-inline-detail
-    if (!detail || !detail.classList.contains('catalog-inline-detail')) return;
-
-    const detailImg  = detail.querySelector('.catalog-inline-detail__img');
-    const detailTag  = detail.querySelector('.catalog-inline-detail__tag');
-    const detailName = detail.querySelector('.catalog-inline-detail__name');
-    const detailDesc = detail.querySelector('.catalog-inline-detail__desc');
-
-    let activeCard = null;
-
-    grid.querySelectorAll('.catalog-card').forEach(card => {
-      card.addEventListener('click', () => {
-        // Toggle off if same card clicked again
-        if (activeCard === card) {
-          activeCard = null;
-          card.classList.remove('is-active');
-          detail.classList.remove('is-open');
-          return;
-        }
-
-        // Update active card
-        grid.querySelectorAll('.catalog-card').forEach(c => c.classList.remove('is-active'));
-        card.classList.add('is-active');
-        activeCard = card;
-
-        // Populate detail
-        if (detailImg)  { detailImg.src = card.dataset.img || ''; detailImg.alt = card.dataset.label || ''; }
-        if (detailTag)  detailTag.textContent  = card.dataset.label || '';
-        if (detailName) detailName.textContent = card.dataset.name  || '';
-        if (detailDesc) detailDesc.textContent = card.dataset.desc  || '';
-
-        // Open with animation then scroll into view
-        detail.classList.add('is-open');
-        // Wait for grid-template-rows expansion before scrolling
-        setTimeout(() => {
-          detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, 120);
-      });
-    });
-  });
 
   // ─── Smooth anchor links ──────────────────────────────────
   // Lenis handles this when cinematic.js is active
