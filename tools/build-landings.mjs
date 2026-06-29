@@ -93,7 +93,7 @@ const head = (p) => `<!DOCTYPE html>
 
   <link rel="stylesheet" href="/tokens.css?v=2">
   <link rel="stylesheet" href="/base.css?v=2">
-  <link rel="stylesheet" href="/components.css?v=4">
+  <link rel="stylesheet" href="/components.css?v=6">
   <link rel="stylesheet" href="/animations.css?v=2">
   <link rel="stylesheet" href="/cinematic.css?v=2">
 </head>
@@ -244,7 +244,7 @@ const footer = (current) => `
             ${linkList(SERVICES, current)}
           </ul>
         </div>
-        <div class="footer__links">
+        <div class="footer__links footer__links--zones">
           <p class="footer__col-title">Zonas</p>
           <ul role="list">
             ${linkList(ZONES, current)}
