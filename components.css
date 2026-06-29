@@ -3444,3 +3444,125 @@ select.form-input option,
   background-color: var(--steel);
   color: var(--text-on-dark);
 }
+
+/* ─── GARANTÍA ──────────────────────────────────────────── */
+.garantia-band {
+  padding-block: var(--space-12);
+}
+
+.garantia-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  border: 1px solid rgba(74, 157, 232, 0.20);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8) var(--space-10);
+  background: rgba(27, 108, 200, 0.06);
+}
+
+.garantia-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+  min-width: 144px;
+  color: var(--blue-light);
+}
+
+.garantia-badge div strong {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--text-on-dark);
+  display: block;
+  margin-bottom: var(--space-1);
+}
+
+.garantia-badge div span {
+  font-size: var(--text-xs);
+  color: var(--text-on-dark-2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.garantia-divider {
+  width: 1px;
+  align-self: stretch;
+  background: rgba(255, 255, 255, 0.10);
+  flex-shrink: 0;
+}
+
+.garantia-items {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+  flex: 1;
+}
+
+.garantia-item {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+}
+
+.garantia-item__icon {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(27, 108, 200, 0.14);
+  border: 1px solid rgba(27, 108, 200, 0.25);
+  border-radius: 50%;
+  flex-shrink: 0;
+  color: var(--blue-light);
+}
+
+.garantia-item strong {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-on-dark);
+  display: block;
+  margin-bottom: var(--space-1);
+}
+
+.garantia-item span {
+  font-size: var(--text-xs);
+  color: var(--text-on-dark-2);
+  line-height: 1.65;
+}
+
+@media (max-width: 900px) {
+  .garantia-items {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+}
+
+@media (max-width: 768px) {
+  .garantia-inner {
+    flex-direction: column;
+    padding: var(--space-6);
+    gap: var(--space-6);
+    align-items: flex-start;
+  }
+
+  .garantia-badge {
+    flex-direction: row;
+    text-align: left;
+    min-width: auto;
+  }
+
+  .garantia-badge svg {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+
+  .garantia-divider {
+    width: 100%;
+    height: 1px;
+    align-self: auto;
+  }
+}
