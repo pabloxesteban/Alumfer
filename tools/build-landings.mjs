@@ -33,10 +33,21 @@ const SERVICES = [
   ['Techos de policarbonato', '/techos-de-policarbonato/'],
 ];
 const ZONES = [
+  ['Capital Federal', '/aberturas-de-aluminio-capital-federal/'],
   ['Adrogué', '/aberturas-de-aluminio-adrogue/'],
+  ['Almirante Brown', '/aberturas-de-aluminio-almirante-brown/'],
   ['Lomas de Zamora', '/aberturas-de-aluminio-lomas-de-zamora/'],
-  ['Quilmes', '/aberturas-de-aluminio-quilmes/'],
+  ['Banfield', '/aberturas-de-aluminio-banfield/'],
+  ['Temperley', '/aberturas-de-aluminio-temperley/'],
   ['Lanús', '/aberturas-de-aluminio-lanus/'],
+  ['Avellaneda', '/aberturas-de-aluminio-avellaneda/'],
+  ['Quilmes', '/aberturas-de-aluminio-quilmes/'],
+  ['Berazategui', '/aberturas-de-aluminio-berazategui/'],
+  ['Florencio Varela', '/aberturas-de-aluminio-florencio-varela/'],
+  ['Burzaco', '/aberturas-de-aluminio-burzaco/'],
+  ['Glew', '/aberturas-de-aluminio-glew/'],
+  ['Monte Grande', '/aberturas-de-aluminio-monte-grande/'],
+  ['Ezeiza', '/aberturas-de-aluminio-ezeiza/'],
 ];
 const linkList = (items, current) => items.map(([label, href]) =>
   href === current

@@ -3,11 +3,11 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://alumfer.com.ar/</loc>
-    <lastmod>2026-06-28</lastmod>
+    <lastmod>2026-06-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://alumfer.com.ar/logo.jpg</image:loc>
+      <image:loc>https://alumfer.com.ar/obra-portones-1.jpg</image:loc>
       <image:title>Alumfer — Carpintería de Aluminio en Adrogué, Zona Sur GBA</image:title>
     </image:image>
     <image:image>
@@ -17,10 +17,6 @@
     <image:image>
       <image:loc>https://alumfer.com.ar/obra-puertas-1.jpg</image:loc>
       <image:title>Puertas de aluminio a medida — Alumfer Adrogué</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://alumfer.com.ar/obra-portones-1.jpg</image:loc>
-      <image:title>Portones de aluminio — Alumfer Zona Sur</image:title>
     </image:image>
     <image:image>
       <image:loc>https://alumfer.com.ar/obra-quincho-1.jpeg</image:loc>
@@ -35,64 +31,132 @@
   <!-- Páginas de servicio -->
   <url>
     <loc>https://alumfer.com.ar/ventanas-de-aluminio/</loc>
-    <lastmod>2026-06-28</lastmod>
+    <lastmod>2026-06-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://alumfer.com.ar/ventanas-dvh/</loc>
-    <lastmod>2026-06-28</lastmod>
+    <lastmod>2026-06-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://alumfer.com.ar/puertas-de-aluminio/</loc>
-    <lastmod>2026-06-28</lastmod>
+    <lastmod>2026-06-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://alumfer.com.ar/mosquiteros-a-medida/</loc>
-    <lastmod>2026-06-28</lastmod>
+    <lastmod>2026-06-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://alumfer.com.ar/cerramientos-de-aluminio/</loc>
-    <lastmod>2026-06-28</lastmod>
+    <lastmod>2026-06-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://alumfer.com.ar/techos-de-policarbonato/</loc>
-    <lastmod>2026-06-28</lastmod>
+    <lastmod>2026-06-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Páginas de localidad -->
+  <!-- Páginas de localidad — Zona Sur GBA -->
   <url>
     <loc>https://alumfer.com.ar/aberturas-de-aluminio-adrogue/</loc>
-    <lastmod>2026-06-28</lastmod>
+    <lastmod>2026-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://alumfer.com.ar/aberturas-de-aluminio-almirante-brown/</loc>
+    <lastmod>2026-06-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://alumfer.com.ar/aberturas-de-aluminio-lomas-de-zamora/</loc>
-    <lastmod>2026-06-28</lastmod>
+    <lastmod>2026-06-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://alumfer.com.ar/aberturas-de-aluminio-quilmes/</loc>
-    <lastmod>2026-06-28</lastmod>
+    <loc>https://alumfer.com.ar/aberturas-de-aluminio-banfield/</loc>
+    <lastmod>2026-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://alumfer.com.ar/aberturas-de-aluminio-temperley/</loc>
+    <lastmod>2026-06-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://alumfer.com.ar/aberturas-de-aluminio-lanus/</loc>
-    <lastmod>2026-06-28</lastmod>
+    <lastmod>2026-06-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://alumfer.com.ar/aberturas-de-aluminio-avellaneda/</loc>
+    <lastmod>2026-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://alumfer.com.ar/aberturas-de-aluminio-quilmes/</loc>
+    <lastmod>2026-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://alumfer.com.ar/aberturas-de-aluminio-berazategui/</loc>
+    <lastmod>2026-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://alumfer.com.ar/aberturas-de-aluminio-florencio-varela/</loc>
+    <lastmod>2026-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://alumfer.com.ar/aberturas-de-aluminio-burzaco/</loc>
+    <lastmod>2026-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://alumfer.com.ar/aberturas-de-aluminio-glew/</loc>
+    <lastmod>2026-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://alumfer.com.ar/aberturas-de-aluminio-monte-grande/</loc>
+    <lastmod>2026-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://alumfer.com.ar/aberturas-de-aluminio-ezeiza/</loc>
+    <lastmod>2026-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Capital Federal -->
+  <url>
+    <loc>https://alumfer.com.ar/aberturas-de-aluminio-capital-federal/</loc>
+    <lastmod>2026-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>
