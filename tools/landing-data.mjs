@@ -394,4 +394,90 @@ export const PAGES = [
     cercanias: 'Remedios de Escalada, Gerli, Valentín Alsina, Monte Chingolo',
     faqExtra: [{ q: '¿El DVH conviene en departamentos de Lanús sobre avenida?', a: 'Sí. En departamentos sobre avenidas el DVH baja notablemente el ruido del tránsito y mejora la aislación térmica. Es uno de los casos donde más se nota.' }],
   }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-banfield', name: 'Banfield', heroBg: '/obra-ventanas-4.jpg',
+    introText: 'Desde nuestra fábrica en Adrogué, llegamos a Banfield a pocos minutos. Fabricamos e instalamos ventanas, puertas, mosquiteros, cerramientos y DVH a medida para casas, PH y locales comerciales. Colocamos en seco sobre el marco existente: sin demolición, sin escombros y sin vecinos molestos.',
+    cercanias: 'Lomas de Zamora, Temperley, Llavallol, Remedios de Escalada, Gerli',
+    faqExtra: [{ q: '¿Cuánto tardan en llegar a Banfield desde el taller?', a: 'Banfield está a 10–15 minutos de nuestro taller en Adrogué. Eso nos permite coordinar medición, ajustes y colocación con más agilidad que proveedores de otras zonas.' }],
+  }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-temperley', name: 'Temperley', heroBg: '/obra-ventanas-3.jpg',
+    introText: 'Atendemos Temperley con aberturas de aluminio a medida: ventanas, puertas, mosquiteros, cerramientos y DVH. El barrio tiene muchas casas antiguas con ventanas de hierro o madera que se reemplazan perfectamente con aluminio en seco —sin romper paredes— y quedan como nuevas. La fábrica está en Adrogué, a 10 minutos.',
+    cercanias: 'Adrogué, Banfield, Turdera, Llavallol, Longchamps',
+    faqExtra: [{ q: '¿Pueden cambiar ventanas de hierro viejas en Temperley?', a: 'Sí. Es uno de los trabajos más frecuentes en la zona. Retiramos la carpintería de hierro y colocamos la nueva de aluminio en seco, sin romper la mampostería ni generar escombros.' }],
+  }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-almirante-brown', name: 'Almirante Brown', heroBg: '/obra-puertas-1.jpg',
+    introText: 'Nuestra fábrica está en Adrogué, la cabecera del partido de Almirante Brown. Eso nos da ventaja real en todo el partido: Burzaco, Longchamps, Glew, Rafael Calzada, Malvinas Argentinas, Ministro Rivadavia y San José. Fabricamos e instalamos aberturas de aluminio a medida en toda la zona, con medición y colocación propias.',
+    cercanias: 'Burzaco, Longchamps, Glew, Rafael Calzada, Malvinas Argentinas, Ministro Rivadavia',
+    faqExtra: [{ q: '¿Alumfer atiende todo el partido de Almirante Brown?', a: 'Sí. Burzaco, Longchamps, Glew, Rafael Calzada, Malvinas Argentinas y Ministro Rivadavia son parte de nuestra zona habitual. Al tener la fábrica en Adrogué, la cobertura es rápida y sin sobrecosto.' }],
+  }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-monte-grande', name: 'Monte Grande', heroBg: '/obra-portones-1.jpg',
+    introText: 'Monte Grande tiene mucha vivienda unifamiliar con jardín, y es una de las zonas donde más pedimos presupuesto para cerramientos de galería, portones y mosquiteros. Fabricamos a medida en nuestro taller de Adrogué e instalamos en Monte Grande y todo el partido de Ezeiza con colocación en seco, prolija y garantizada.',
+    cercanias: 'Ezeiza, Luis Guillón, Tristán Suárez, Canning, La Unión',
+    faqExtra: [{ q: '¿Hacen portones y cerramientos de galería en Monte Grande?', a: 'Sí, es uno de los trabajos más comunes que hacemos en la zona. Portones de aluminio corredizos y batientes, y cerramientos de galería con vidrio o policarbonato, todo a medida y con instalación incluida.' }],
+  }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-avellaneda', name: 'Avellaneda', heroBg: '/obra-puertas-4.jpg',
+    introText: 'Atendemos Avellaneda y todo su partido con aberturas de aluminio a medida: ventanas, puertas, frentes de local, cerramientos y DVH. La zona tiene mucha densidad de comercios y departamentos, y somos expertos en trabajos sobre avenidas donde el DVH marca la diferencia en ruido y temperatura. Desde Adrogué llegamos rápido a toda el área.',
+    cercanias: 'Wilde, Gerli, Sarandi, Dock Sud, Villa Domínico, Piñeyro',
+    faqExtra: [{ q: '¿Hacen frentes de local en Avellaneda?', a: 'Sí. Frentes comerciales en aluminio y vidrio, mamparas y aberturas para locales. Trabajamos tanto en renovaciones de negocios existentes como en obras nuevas de planta baja.' }],
+  }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-burzaco', name: 'Burzaco', heroBg: '/obra-postigones-1.jpg',
+    introText: 'Burzaco está a 5 minutos de nuestro taller en Adrogué, lo que nos da tiempos de respuesta difíciles de igualar. Fabricamos e instalamos ventanas, puertas, mosquiteros, postigones, cerramientos y DVH a medida para casas y PH de Burzaco. Medición sin cargo, colocación en seco y garantía de fabricación.',
+    cercanias: 'Adrogué, Longchamps, Rafael Calzada, Malvinas Argentinas, San José',
+    faqExtra: [{ q: '¿Por qué conviene elegir Alumfer en Burzaco?', a: 'Porque fabricamos en Adrogué, a 5 minutos. Eso permite medición rápida, ajuste sin demoras y colocación coordinada. No dependemos de proveedores de otras zonas ni tercerizamos la instalación.' }],
+  }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-glew', name: 'Glew', heroBg: '/obra-postigones-3.jpg',
+    introText: 'Llegamos a Glew y sus alrededores con aberturas de aluminio a medida: ventanas, puertas, mosquiteros, portones y cerramientos. Muchas casas de la zona tienen aberturas antiguas de madera o hierro que se pueden reemplazar en seco, sin demolición, en uno o dos días. Coordinamos medición y colocación desde nuestro taller en Adrogué.',
+    cercanias: 'Adrogué, Longchamps, Guernica, Tristán Suárez, Ministro Rivadavia',
+    faqExtra: [{ q: '¿Atienden también Guernica y Tristán Suárez?', a: 'Sí. Guernica, Tristán Suárez y alrededores están dentro de nuestra cobertura. Coordinamos la visita de medición y la colocación directamente con el cliente.' }],
+  }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-ezeiza', name: 'Ezeiza', heroBg: '/obra-quincho-2.jpeg',
+    introText: 'El partido de Ezeiza tiene muchas quintas, countries y casas con galería o jardín, y es una zona donde los cerramientos de galería, techos de policarbonato y portones son muy demandados. Fabricamos e instalamos a medida desde Adrogué y cubrimos Monte Grande, Canning, Tristán Suárez y toda el área de Ezeiza.',
+    cercanias: 'Monte Grande, Canning, Tristán Suárez, Luis Guillón, Moisés Ville',
+    faqExtra: [{ q: '¿Hacen cerramientos y techos para quintas en Ezeiza?', a: 'Sí. Cerramientos de galería, techos de policarbonato para patio y portones de aluminio son los trabajos más comunes que hacemos en la zona de Ezeiza y alrededores.' }],
+  }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-florencio-varela', name: 'Florencio Varela', heroBg: '/obra-puertas-3.jpg',
+    introText: 'Atendemos Florencio Varela y sus localidades con aberturas de aluminio a medida. El partido tiene mucha vivienda nueva y en construcción, y fabricamos aberturas para obra en curso o para reemplazo de aberturas viejas. Colocamos en seco —sin romper paredes— y garantizamos fabricación e instalación desde nuestro taller de Adrogué.',
+    cercanias: 'Quilmes, Berazategui, San Juan Bautista, Villa Brown, Bosques',
+    faqExtra: [{ q: '¿Trabajan en obras en construcción en Florencio Varela?', a: 'Sí. Podemos proveer aberturas para obra nueva o en refacción. Coordinamos la entrega según el avance de la obra y hacemos la medición cuando la albañilería esté terminada.' }],
+  }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-berazategui', name: 'Berazategui', heroBg: '/obra-ventanas-5.jpg',
+    introText: 'Fabricamos e instalamos aberturas de aluminio a medida en Berazategui y todo su partido: ventanas corredizas y DVH, puertas, mosquiteros y cerramientos. La zona tiene mucha vivienda familiar con aberturas de hierro o madera que se pueden renovar sin obra sucia con nuestra instalación en seco. Coordinamos desde Adrogué.',
+    cercanias: 'Quilmes, Ezpeleta, Hudson, Ranelagh, Villa España',
+    faqExtra: [{ q: '¿Llegan a Hudson y Ranelagh?', a: 'Sí. Hudson, Ranelagh y Ezpeleta están dentro de nuestra zona de cobertura. Coordinamos la medición sin cargo y luego la colocación según la disponibilidad del cliente.' }],
+  }),
+
+  {
+    ...locality({
+      slug: 'aberturas-de-aluminio-capital-federal', name: 'Capital Federal', heroBg: '/obra-puertas-2.jpg',
+      introText: 'Fabricamos e instalamos aberturas de aluminio a medida en toda la Ciudad Autónoma de Buenos Aires: ventanas con DVH, puertas, mosquiteros, cerramientos de balcón y frentes de local. Llegamos a todos los barrios porteños —Palermo, Belgrano, Caballito, Flores, San Telmo, Villa Urquiza y más— desde nuestra fábrica propia en Adrogué. Especialistas en departamentos, PH y edificios.',
+      cercanias: 'Palermo, Belgrano, Caballito, Flores, Villa Urquiza, Barracas, San Telmo',
+      faqExtra: [
+        { q: '¿Trabajan en departamentos y edificios de Capital Federal?', a: 'Sí. Tenemos experiencia en todo tipo de edificio porteño: departamentos en altura, PH y plantas bajas. En la mayoría de los casos instalamos en seco, sin permiso de obra ni modificaciones en la mampostería.' },
+        { q: '¿Vale la pena el DVH en un departamento sobre avenida en CABA?', a: 'Es la inversión que más se nota. En departamentos sobre Corrientes, Santa Fe, Rivadavia u otras arterias de alto tránsito, el DVH reduce el ruido entre un 60% y 80% según el tipo de vidrio. Además mejora la aislación térmica y baja la calefacción.' },
+      ],
+    }),
+    introEyebrow: 'Capital Federal, Buenos Aires',
+    title: 'Aberturas de Aluminio en Capital Federal — Ventanas, Puertas y DVH | Alumfer',
+    metaDesc: 'Aberturas de aluminio a medida en Capital Federal (CABA): ventanas DVH, puertas, mosquiteros y cerramientos para departamentos y casas. Fábrica propia en Adrogué. Presupuesto sin cargo.',
+    ogTitle: 'Aberturas de Aluminio en Capital Federal | Alumfer',
+  },
 ];
