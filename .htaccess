@@ -4,6 +4,10 @@
 #  caché. El HTML se revalida siempre; los assets versionados
 #  (?v=) se pueden cachear fuerte sin riesgo.
 # ============================================================
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+</IfModule>
+
 <IfModule mod_headers.c>
   # HTML: siempre revalidar (así toma los ?v= nuevos al instante)
   <FilesMatch "\.(html|php)$">
