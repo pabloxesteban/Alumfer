@@ -459,6 +459,90 @@ export const PAGES = [
   }),
 
   locality({
+    slug: 'aberturas-de-aluminio-rafael-calzada', name: 'Rafael Calzada', heroBg: '/obra-ventanas-2.jpg',
+    introText: 'Rafael Calzada es una localidad del partido de Almirante Brown con mucha vivienda familiar. Fabricamos e instalamos aberturas de aluminio a medida: ventanas corredizas, puertas, postigones y mosquiteros. Llegamos desde nuestra fábrica en Adrogué —a pocos minutos— y hacemos la instalación en seco, sin demolición ni escombros.',
+    cercanias: 'Adrogué, Burzaco, Longchamps, Claypole, Malvinas Argentinas',
+    faqExtra: [{ q: '¿Llegan a Rafael Calzada sin costo adicional?', a: 'Sí. Rafael Calzada está dentro de nuestra zona de cobertura habitual. La visita de medición y la colocación no tienen costo adicional por distancia.' }],
+  }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-claypole', name: 'Claypole', heroBg: '/obra-portones-1.jpg',
+    introText: 'Claypole es una de las localidades más activas del partido de Almirante Brown en materia de refacción y obra nueva. Instalamos ventanas de aluminio, puertas, postigones y cerramientos con fabricación propia y colocación en seco. Cubrimos todo Claypole y alrededores desde nuestra fábrica en Adrogué.',
+    cercanias: 'Longchamps, Rafael Calzada, Adrogué, Burzaco, Malvinas Argentinas',
+    faqExtra: [{ q: '¿Hacen portones y cerramientos en Claypole?', a: 'Sí. Portones de aluminio, cerramientos de galería y rejas son trabajos frecuentes en Claypole. Todo se fabrica a medida en nuestro taller y se instala en seco.' }],
+  }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-longchamps', name: 'Longchamps', heroBg: '/obra-postigones-2.jpg',
+    introText: 'Longchamps tiene muchas casas de lote grande donde el cambio de aberturas es frecuente: ventanas de hierro o madera que se reemplazan por aluminio con DVH, cerramientos de galería y techos de policarbonato. Fabricamos a medida en Adrogué y llegamos a toda la zona en pocos días.',
+    cercanias: 'Claypole, Rafael Calzada, Adrogué, Burzaco, Glew',
+    faqExtra: [{ q: '¿Hacen postigones y techos de policarbonato en Longchamps?', a: 'Sí. Postigones de aluminio y techos de policarbonato para galería son dos de los trabajos más frecuentes en Longchamps. Fabricamos a medida y coordinamos la colocación directamente.' }],
+  }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-llavallol', name: 'Llavallol', heroBg: '/obra-ventanas-3.jpg',
+    introText: 'Llavallol es una localidad del partido de Lomas de Zamora con mucha demanda de renovación de aberturas. Instalamos ventanas de aluminio corredizas y con DVH, puertas y mosquiteros a medida, con colocación en seco y sin obra. Cubrimos Llavallol y localidades vecinas desde nuestra fábrica en Adrogué.',
+    cercanias: 'Temperley, Banfield, Turdera, Longchamps, Adrogué',
+    faqExtra: [{ q: '¿Pueden renovar ventanas de hierro en Llavallol sin obra?', a: 'Sí. En la mayoría de los casos instalamos sobre el marco existente —en seco— sin romper paredes ni generar escombros. La colocación se hace en un solo día.' }],
+  }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-turdera', name: 'Turdera', heroBg: '/obra-puertas-2.jpg',
+    introText: 'Turdera es parte del partido de Lomas de Zamora, limítrofe con Almirante Brown. Atendemos fabricación e instalación de ventanas, puertas, postigones y cerramientos de aluminio a medida. Llegamos sin costo adicional y hacemos la instalación en seco para no generar obra sucia.',
+    cercanias: 'Llavallol, Temperley, Adrogué, Longchamps, Burzaco',
+    faqExtra: [{ q: '¿Atienden toda la zona de Turdera y Llavallol?', a: 'Sí. Turdera y Llavallol forman parte de nuestra cobertura regular en el partido de Lomas de Zamora. Coordinamos medición y colocación sin cargo adicional.' }],
+  }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-gerli', name: 'Gerli', heroBg: '/obra-ventanas-5.jpg',
+    introText: 'Gerli es una localidad densamente poblada del partido de Lanús, con mucha vivienda familiar y de PH. Renovamos aberturas viejas de hierro o madera por aluminio moderno, sin demolición. Fabricamos ventanas, puertas y cerramientos a medida desde Adrogué con instalación en seco.',
+    cercanias: 'Lanús, Valentín Alsina, Avellaneda, Banfield, Lomas de Zamora',
+    faqExtra: [{ q: '¿Trabajan en PH y casas antiguas en Gerli?', a: 'Sí. Tenemos mucha experiencia en PH y casas de construcción antigua donde los marcos de hierro están deteriorados. Instalamos aluminio en seco, sin romper el revoque.' }],
+  }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-valentin-alsina', name: 'Valentín Alsina', heroBg: '/obra-puertas-3.jpg',
+    introText: 'Valentín Alsina está en el límite de Lanús con Avellaneda y tiene alta densidad de viviendas y locales comerciales. Fabricamos aberturas de aluminio a medida: ventanas corredizas, puertas, cerramientos y DVH para casas, PH y frentes de local. Instalamos en seco desde Adrogué.',
+    cercanias: 'Lanús, Gerli, Avellaneda, Lomas de Zamora, Temperley',
+    faqExtra: [{ q: '¿Hacen frentes de local en Valentín Alsina?', a: 'Sí. Cerramientos y frentes de vidrio con aluminio para locales comerciales son trabajos que realizamos en Valentín Alsina y toda la zona de Lanús.' }],
+  }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-bernal', name: 'Bernal', heroBg: '/obra-quincho-3.jpeg',
+    introText: 'Bernal es una de las localidades más grandes y pobladas del partido de Quilmes. Fabricamos e instalamos ventanas, puertas, mosquiteros, postigones y cerramientos de aluminio a medida. Atendemos viviendas familiares, locales y edificios con instalación en seco y presupuesto sin cargo.',
+    cercanias: 'Quilmes, Ezpeleta, Berazategui, Wilde, Don Bosco',
+    faqExtra: [{ q: '¿Atienden Bernal Oeste y Bernal Este?', a: 'Sí. Cubrimos todo el partido de Quilmes incluyendo Bernal Oeste, Bernal Este y las localidades vecinas. La visita de medición es sin cargo y coordinamos según disponibilidad.' }],
+  }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-ezpeleta', name: 'Ezpeleta', heroBg: '/obra-ventanas-4.jpg',
+    introText: 'Ezpeleta, entre los partidos de Quilmes y Berazategui, tiene mucha vivienda familiar con necesidad de renovación de aberturas. Fabricamos ventanas corredizas, puertas, mosquiteros y cerramientos a medida. Llegamos desde Adrogué y hacemos la colocación en seco, sin romper paredes.',
+    cercanias: 'Quilmes, Bernal, Berazategui, Hudson, Ranelagh',
+    faqExtra: [{ q: '¿Cubren Ezpeleta Oeste y Este?', a: 'Sí. Atendemos todo Ezpeleta y sus zonas limítrofes. Coordinamos la visita de medición sin cargo y la colocación en el día acordado.' }],
+  }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-luis-guillon', name: 'Luis Guillón', heroBg: '/obra-quincho-1.jpeg',
+    introText: 'Luis Guillón forma parte del partido de Esteban Echeverría, zona con muchas viviendas de lote amplio y casas en barrios cerrados. Instalamos ventanas de aluminio, puertas, cerramientos de galería y techos de policarbonato a medida. Cubrimos toda la zona desde nuestra fábrica en Adrogué.',
+    cercanias: 'Monte Grande, Canning, Tristán Suárez, Ezeiza, La Unión',
+    faqExtra: [{ q: '¿Hacen cerramientos de galería en Luis Guillón?', a: 'Sí. Cerramientos de galería con aluminio y vidrio son uno de los trabajos más demandados en la zona. Fabricamos a medida y coordinamos la instalación directamente.' }],
+  }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-tristan-suarez', name: 'Tristán Suárez', heroBg: '/obra-postigones-3.jpg',
+    introText: 'Tristán Suárez es una localidad del partido de Ezeiza con muchas casas en quintas y barrios privados. Fabricamos e instalamos aberturas de aluminio a medida: ventanas DVH, puertas, portones, cerramientos de galería y techos de policarbonato para patio. Llegamos desde Adrogué y coordinamos todo sin cargo adicional.',
+    cercanias: 'Ezeiza, Monte Grande, Canning, Luis Guillón, Glew',
+    faqExtra: [{ q: '¿Trabajan en quintas y barrios privados de Tristán Suárez?', a: 'Sí. Atendemos propiedades grandes, quintas y barrios cerrados de la zona. Fabricamos puertas de acceso, portones, cerramientos y techos de policarbonato para galería o patio.' }],
+  }),
+
+  locality({
+    slug: 'aberturas-de-aluminio-canning', name: 'Canning', heroBg: '/obra-puertas-1.jpg',
+    introText: 'Canning es una de las zonas de mayor crecimiento inmobiliario del conurbano sur, con muchos barrios privados, countries y viviendas nuevas. Fabricamos aberturas de aluminio a medida para obra nueva y para reemplazo: ventanas con DVH, puertas, cerramientos y techos de policarbonato. Llegamos desde Adrogué.',
+    cercanias: 'Monte Grande, Luis Guillón, Tristán Suárez, Ezeiza, La Unión',
+    faqExtra: [{ q: '¿Atienden countries y barrios privados de Canning?', a: 'Sí. Trabajamos con regulaciones de barrios privados y countries. Podemos proveer aberturas que cumplan con los estándares estéticos del barrio, incluyendo colores y terminaciones específicas.' }],
+  }),
+
+  locality({
     slug: 'aberturas-de-aluminio-berazategui', name: 'Berazategui', heroBg: '/obra-ventanas-5.jpg',
     introText: 'Fabricamos e instalamos aberturas de aluminio a medida en Berazategui y todo su partido: ventanas corredizas y DVH, puertas, mosquiteros y cerramientos. La zona tiene mucha vivienda familiar con aberturas de hierro o madera que se pueden renovar sin obra sucia con nuestra instalación en seco. Coordinamos desde Adrogué.',
     cercanias: 'Quilmes, Ezpeleta, Hudson, Ranelagh, Villa España',
