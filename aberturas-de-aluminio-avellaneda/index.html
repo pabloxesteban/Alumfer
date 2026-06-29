@@ -46,7 +46,7 @@
   <nav class="navbar navbar--transparent" aria-label="Navegación principal">
     <div class="navbar__inner">
       <a href="/" class="navbar__logo" aria-label="Alumfer — inicio">
-        <img width="368" height="259" src="/solologo.webp" alt="" class="navbar__logo-img" aria-hidden="true">
+        <img src="/solologo.png" alt="" class="navbar__logo-img" aria-hidden="true">
         <div class="navbar__logo-text">
           <span class="navbar__logo-name">ALUMFER</span>
           <span class="navbar__logo-sub">Carpintería de aluminio</span>
@@ -75,7 +75,7 @@
   </nav>
 
   <section class="hero" aria-label="Aberturas de aluminio en Avellaneda">
-    <div class="hero__bg"><img width="900" height="900" src="/obra-puertas-4.webp" alt="" aria-hidden="true" fetchpriority="high"></div>
+    <div class="hero__bg"><img src="/obra-puertas-4.jpg" alt="" aria-hidden="true" fetchpriority="high"></div>
     <div class="hero__overlay" aria-hidden="true"></div>
     <div class="hero__content">
       <p class="hero__eyebrow hero--animate-0">Aberturas · Avellaneda</p>
@@ -199,14 +199,13 @@
         </div>
         <form class="contact-form reveal" name="cotizacion" method="POST" action="/enviar.php" aria-label="Formulario de cotización">
           <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="hidden" name="Tipo" value="Otros">
+          <input type="hidden" name="Localidad" value="Avellaneda">
           <div class="form-row">
             <div class="form-group"><label class="form-label" for="nombre">Nombre</label><input class="form-input" type="text" id="nombre" name="Nombre" placeholder="Tu nombre" required autocomplete="given-name"></div>
             <div class="form-group"><label class="form-label" for="telefono">Teléfono</label><input class="form-input" type="tel" id="telefono" name="Teléfono" placeholder="11 XXXX-XXXX" required autocomplete="tel"></div>
           </div>
-          <div class="form-group"><label class="form-label" for="email">Email <span class="form-label__optional">(opcional)</span></label><input class="form-input" type="email" id="email" name="Email" placeholder="tu@email.com" autocomplete="email"></div>
-          <div class="form-group"><label class="form-label" for="localidad">Localidad de la obra</label><input class="form-input" type="text" id="localidad" name="Localidad" placeholder="Ej: Banfield, Quilmes…" value="Avellaneda" autocomplete="address-level2"></div>
-          <input type="hidden" name="Tipo" value="Otros">
-          <div class="form-group"><label class="form-label" for="mensaje">Detalle de la consulta</label><textarea class="form-textarea" id="mensaje" name="Consulta" placeholder="Qué necesitás (ventanas, puertas, mosquiteros…), medidas aproximadas y si es obra nueva o reemplazo. Obra en Avellaneda." rows="4" required></textarea></div>
+          <div class="form-group"><label class="form-label" for="mensaje">¿Qué necesitás?</label><textarea class="form-textarea" id="mensaje" name="Consulta" placeholder="Qué necesitás (ventanas, puertas, mosquiteros…), medidas aproximadas y si es obra nueva o reemplazo. Obra en Avellaneda." rows="4" required></textarea></div>
           <p style="font-size:0.8rem; color:var(--text-on-dark-3); margin-bottom:0.5rem;">¿Tenés fotos o planos? Enviálos por <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto%20de%20aberturas%20en%20Avellaneda" target="_blank" rel="noopener" style="color:var(--blue-light); text-decoration:none;">WhatsApp</a>.</p>
           <button type="submit" class="btn btn--primary btn--lg contact-submit">Enviar consulta</button>
         </form>

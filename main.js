@@ -200,12 +200,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Tabs
+    const WA_MSGS = {
+      ventanas:    'Hola, quiero consultar por ventanas de aluminio',
+      puertas:     'Hola, quiero consultar por puertas de aluminio',
+      postigones:  'Hola, quiero consultar por postigones de aluminio',
+      quinchos:    'Hola, quiero consultar por cerramiento de quincho o galería',
+      techos:      'Hola, quiero consultar por techo de policarbonato',
+      portones:    'Hola, quiero consultar por portones de aluminio',
+      mosquiteros: 'Hola, quiero consultar por mosquiteros a medida',
+    };
+    const worksWaBtn = document.getElementById('works-wa-btn');
+    function updateWorksWa(cat) {
+      if (!worksWaBtn) return;
+      const text = WA_MSGS[cat] || 'Hola, quiero pedir un presupuesto';
+      worksWaBtn.href = `https://wa.me/5491163368643?text=${encodeURIComponent(text)}`;
+    }
+
     worksTabs.forEach(tab => {
       tab.addEventListener('click', () => {
         worksTabs.forEach(t => t.classList.remove('is-active'));
         tab.classList.add('is-active');
         moveWorksIndicator(tab);
         filterCat(tab.dataset.cat);
+        updateWorksWa(tab.dataset.cat);
       });
     });
 
@@ -278,6 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Init
     filterCat('ventanas');
+    updateWorksWa('ventanas');
     requestAnimationFrame(() => {
       const initActive = document.querySelector('.works-tab.is-active');
       moveWorksIndicator(initActive);
