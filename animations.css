@@ -42,7 +42,6 @@
   }
 }
 
-.hero__location { animation: fadeUp 700ms var(--ease) 100ms both; }
 .hero__title    { animation: fadeUp 700ms var(--ease) 200ms both; }
 .hero__subtitle { animation: fadeUp 700ms var(--ease) 320ms both; }
 .hero__actions  { animation: fadeUp 700ms var(--ease) 420ms both; }

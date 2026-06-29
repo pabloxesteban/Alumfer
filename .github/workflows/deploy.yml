@@ -35,7 +35,10 @@ jobs:
             **/.git*/**
             .github/**
             .claude/**
+            tools/**
+            docs/**
             README.md
+            CONTRIBUTING.md
             DEPLOY.md
             preview-hero.html
             preview-vidrios.html
