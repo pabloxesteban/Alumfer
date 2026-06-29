@@ -46,7 +46,7 @@
   <nav class="navbar navbar--transparent" aria-label="Navegación principal">
     <div class="navbar__inner">
       <a href="/" class="navbar__logo" aria-label="Alumfer — inicio">
-        <img width="368" height="259" src="/solologo.webp" alt="" class="navbar__logo-img" aria-hidden="true">
+        <img src="/solologo.png" alt="" class="navbar__logo-img" aria-hidden="true">
         <div class="navbar__logo-text">
           <span class="navbar__logo-name">ALUMFER</span>
           <span class="navbar__logo-sub">Carpintería de aluminio</span>
@@ -75,7 +75,7 @@
   </nav>
 
   <section class="hero" aria-label="Ventanas con DVH doble vidriado hermético">
-    <div class="hero__bg"><img width="720" height="919" src="/obra-ventanas-3.webp" alt="" aria-hidden="true" fetchpriority="high"></div>
+    <div class="hero__bg"><img src="/obra-ventanas-3.jpg" alt="" aria-hidden="true" fetchpriority="high"></div>
     <div class="hero__overlay" aria-hidden="true"></div>
     <div class="hero__content">
       <p class="hero__eyebrow hero--animate-0">DVH · Aislación térmica y acústica</p>
@@ -137,7 +137,7 @@
       <div class="section-header reveal"><p class="eyebrow">El cristal</p><h2 id="detalle-title">Cómo es nuestro DVH</h2></div>
       <div class="product-list-wrap"><div class="product-list">
         <div class="product-row">
-          <div class="product-row__media"><img width="709" height="350" src="/vidrio-dvh.webp" alt="Vidrio DVH doble vidriado hermético" loading="lazy"></div>
+          <div class="product-row__media"><img src="/vidrio-dvh.jpg" alt="Vidrio DVH doble vidriado hermético" loading="lazy"></div>
           <div class="product-row__info"><h3 class="product-row__name">DVH — Doble Vidriado Hermético</h3><p class="product-row__desc">Dos vidrios separados por una cámara de aire sellada. Combinable con vidrio simple, laminado de seguridad o esmerilado según el ambiente. Lo integramos en las líneas Herrero, Módena, Rotonda 640 y A30.</p></div>
         </div>
       </div></div>
@@ -200,14 +200,13 @@
         </div>
         <form class="contact-form reveal" name="cotizacion" method="POST" action="/enviar.php" aria-label="Formulario de cotización">
           <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="hidden" name="Tipo" value="Ventanas">
+          <input type="hidden" name="Localidad" value="">
           <div class="form-row">
             <div class="form-group"><label class="form-label" for="nombre">Nombre</label><input class="form-input" type="text" id="nombre" name="Nombre" placeholder="Tu nombre" required autocomplete="given-name"></div>
             <div class="form-group"><label class="form-label" for="telefono">Teléfono</label><input class="form-input" type="tel" id="telefono" name="Teléfono" placeholder="11 XXXX-XXXX" required autocomplete="tel"></div>
           </div>
-          <div class="form-group"><label class="form-label" for="email">Email <span class="form-label__optional">(opcional)</span></label><input class="form-input" type="email" id="email" name="Email" placeholder="tu@email.com" autocomplete="email"></div>
-          <div class="form-group"><label class="form-label" for="localidad">Localidad de la obra</label><input class="form-input" type="text" id="localidad" name="Localidad" placeholder="Ej: Banfield, Quilmes…" value="" autocomplete="address-level2"></div>
-          <input type="hidden" name="Tipo" value="Ventanas">
-          <div class="form-group"><label class="form-label" for="mensaje">Detalle de la consulta</label><textarea class="form-textarea" id="mensaje" name="Consulta" placeholder="Medidas aproximadas, cantidad de ventanas, si da a la calle/avenida, obra nueva o reemplazo..." rows="4" required></textarea></div>
+          <div class="form-group"><label class="form-label" for="mensaje">¿Qué necesitás?</label><textarea class="form-textarea" id="mensaje" name="Consulta" placeholder="Medidas aproximadas, cantidad de ventanas, si da a la calle/avenida, obra nueva o reemplazo..." rows="4" required></textarea></div>
           <p style="font-size:0.8rem; color:var(--text-on-dark-3); margin-bottom:0.5rem;">¿Tenés fotos o planos? Enviálos por <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto%20de%20ventanas%20con%20DVH" target="_blank" rel="noopener" style="color:var(--blue-light); text-decoration:none;">WhatsApp</a>.</p>
           <button type="submit" class="btn btn--primary btn--lg contact-submit">Enviar consulta</button>
         </form>

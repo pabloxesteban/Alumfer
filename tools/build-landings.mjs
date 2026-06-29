@@ -212,14 +212,13 @@ const contact = (p) => `
         </div>
         <form class="contact-form reveal" name="cotizacion" method="POST" action="/enviar.php" aria-label="Formulario de cotización">
           <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="hidden" name="Tipo" value="${p.formTipo}">
+          <input type="hidden" name="Localidad" value="${p.formLocalidad || ''}">
           <div class="form-row">
             <div class="form-group"><label class="form-label" for="nombre">Nombre</label><input class="form-input" type="text" id="nombre" name="Nombre" placeholder="Tu nombre" required autocomplete="given-name"></div>
             <div class="form-group"><label class="form-label" for="telefono">Teléfono</label><input class="form-input" type="tel" id="telefono" name="Teléfono" placeholder="11 XXXX-XXXX" required autocomplete="tel"></div>
           </div>
-          <div class="form-group"><label class="form-label" for="email">Email <span class="form-label__optional">(opcional)</span></label><input class="form-input" type="email" id="email" name="Email" placeholder="tu@email.com" autocomplete="email"></div>
-          <div class="form-group"><label class="form-label" for="localidad">Localidad de la obra</label><input class="form-input" type="text" id="localidad" name="Localidad" placeholder="Ej: Banfield, Quilmes…" value="${p.formLocalidad || ''}" autocomplete="address-level2"></div>
-          <input type="hidden" name="Tipo" value="${p.formTipo}">
-          <div class="form-group"><label class="form-label" for="mensaje">Detalle de la consulta</label><textarea class="form-textarea" id="mensaje" name="Consulta" placeholder="${p.formPlaceholder}" rows="4" required></textarea></div>
+          <div class="form-group"><label class="form-label" for="mensaje">¿Qué necesitás?</label><textarea class="form-textarea" id="mensaje" name="Consulta" placeholder="${p.formPlaceholder}" rows="4" required></textarea></div>
           <p style="font-size:0.8rem; color:var(--text-on-dark-3); margin-bottom:0.5rem;">¿Tenés fotos o planos? Enviálos por <a href="${wa(p.waText)}" target="_blank" rel="noopener" style="color:var(--blue-light); text-decoration:none;">WhatsApp</a>.</p>
           <button type="submit" class="btn btn--primary btn--lg contact-submit">Enviar consulta</button>
         </form>
