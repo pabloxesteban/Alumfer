@@ -5,8 +5,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'apps/website/**'
   workflow_dispatch: # permite lanzarlo a mano desde la pestaña Actions
 
 concurrency:
