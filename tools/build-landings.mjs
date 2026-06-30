@@ -94,6 +94,7 @@ const head = (p) => `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-site-verification" content="ny2SFPMJ0F_X_b55pDfDetnJTRTbNjG5-WHof3aSR00">
   <title>${p.title}</title>
   <meta name="description" content="${p.metaDesc}">
   <link rel="canonical" href="https://alumfer.com.ar${p.canonical}">
