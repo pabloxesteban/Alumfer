@@ -228,15 +228,15 @@
 
 /* WhatsApp — verde oscuro consistente con la marca */
 .btn--whatsapp {
-  background-color: #128C7E;
-  border-color: #128C7E;
+  background-color: #25D366;
+  border-color: #25D366;
   color: #fff;
   border-radius: 99px;
 }
 
 .btn--whatsapp:hover {
-  background-color: #0f7a6d;
-  border-color: #0f7a6d;
+  background-color: #1ebe57;
+  border-color: #1ebe57;
   color: #fff;
 }
 
