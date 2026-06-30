@@ -127,7 +127,7 @@ const head = (p) => `<!DOCTYPE html>
 
   <link rel="stylesheet" href="/tokens.css?v=2">
   <link rel="stylesheet" href="/base.css?v=2">
-  <link rel="stylesheet" href="/components.css?v=7">
+  <link rel="stylesheet" href="/components.css?v=8">
   <link rel="stylesheet" href="/animations.css?v=2">
   <link rel="stylesheet" href="/cinematic.css?v=2">
 </head>
