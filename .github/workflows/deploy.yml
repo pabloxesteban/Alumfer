@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'apps/website/**'
   workflow_dispatch: # permite lanzarlo a mano desde la pestaña Actions
 
 concurrency:
@@ -26,20 +28,16 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps            # FTPS = FTP cifrado. Si tu cPanel no lo soporta, cambiá a: ftp
           port: 21
+          # Solo sube la carpeta del sitio web (monorepo: apps/website/)
+          local-dir: ./apps/website/
           # Carpeta del servidor donde vive el sitio. En la mayoría de cPanel es public_html/.
-          # Si tu cuenta FTP ya entra directo a public_html, dejá: ./
           server-dir: ./public_html/
-          # Archivos que NO se publican en el sitio (uno por linea).
+          # Archivos que NO se publican en el sitio (uno por línea).
           exclude: |
             **/.git*
             **/.git*/**
-            .github/**
-            .claude/**
-            tools/**
             docs/**
-            README.md
-            CONTRIBUTING.md
-            DEPLOY.md
+            tools/**
             preview-hero.html
             preview-vidrios.html
             preview-email-admin.html

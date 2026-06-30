@@ -1,96 +1,94 @@
-# Alumfer — Sitio web
+# Alumfer — Monorepo
 
-Sitio web institucional y de captación de consultas de **Alumfer**, fábrica de
-aberturas de aluminio a medida ubicada en Adrogué, Zona Sur del Gran Buenos
-Aires, Argentina.
+Sistema completo de marca y presencia digital de **Alumfer**, fábrica de aberturas de aluminio a medida en Adrogué, Zona Sur GBA.
 
-El objetivo del sitio es **generar consultas y pedidos de presupuesto** de
-clientes potenciales (propietarios, arquitectos, constructoras y empresas) en
-el área metropolitana de Buenos Aires.
+Este repositorio contiene dos productos conectados por un design system compartido:
 
----
-
-## Stack
-
-Sitio **estático** (sin framework ni build step) más un endpoint PHP para el
-formulario de contacto. Se sirve desde hosting cPanel.
-
-| Capa | Tecnología |
-|------|------------|
-| Markup | HTML5 semántico (`index.html`, `gracias.html`) |
-| Estilos | CSS plano dividido en capas (`tokens` → `base` → `components` → `animations` → `cinematic`) |
-| Interactividad | JavaScript vanilla (`main.js`) + motor de animación (`cinematic.js`) |
-| Animación | GSAP + ScrollTrigger + Lenis + SplitType (vía CDN) |
-| Formulario | `enviar.php` + `email-template.php` (función `mail()` de cPanel) |
-| Analítica | Google Analytics 4 (gtag) |
-| Deploy | GitHub Actions → FTP a cPanel (`.github/workflows/deploy.yml`) |
-
-No hay `package.json`, `node_modules` ni dependencias instalables: todo lo que
-se ve en el repositorio es lo que se publica.
+| Producto        | Ruta             | Qué es                                              |
+|-----------------|------------------|-----------------------------------------------------|
+| **Website**     | `apps/website/`  | Sitio web de captación de consultas (alumfer.com.ar) |
+| **Creative OS** | `creative/`      | Sistema operativo de contenido y branding           |
+| **Design System** | `shared/`      | Fuente de verdad visual compartida                  |
 
 ---
 
-## Estructura
+## Estructura del monorepo
 
 ```
-.
-├── index.html              # Landing principal (todo el contenido)
-├── gracias.html            # Página de confirmación post-envío del formulario
-├── tokens.css              # Variables de diseño (colores, tipografía, espaciado)
-├── base.css                # Reset + estilos base de elementos
-├── components.css          # Estilos de todos los componentes (archivo grande)
-├── animations.css          # Reveals, contadores, barra de progreso, menú mobile
-├── cinematic.css           # Ajustes CSS para el motor GSAP
-├── main.js                 # Interacciones (navbar, galería, tabs, formulario, GA4)
-├── cinematic.js            # Smooth scroll + animaciones de entrada (GSAP/Lenis)
-├── enviar.php              # Endpoint del formulario (envía 2 emails)
-├── email-template.php      # Helpers para construir los emails HTML de marca
-├── preview-*.html          # Vistas previas de diseño (NO se publican)
-├── robots.txt / sitemap.xml
-├── .htaccess               # Cache control
-├── *.png / *.jpg / *.jpeg  # Imágenes de obras, productos y fondos
-└── docs/                   # Documentación técnica (ver más abajo)
+Alumfer/
+│
+├── apps/
+│   └── website/          ← Sitio web (HTML + CSS + JS + PHP)
+│       ├── index.html
+│       ├── tokens.css     (copia sincronizada desde shared/)
+│       ├── base.css
+│       ├── components.css
+│       ├── animations.css
+│       ├── cinematic.css
+│       ├── main.js
+│       ├── cinematic.js
+│       ├── enviar.php
+│       ├── docs/          (documentación técnica del sitio)
+│       └── tools/         (scripts de generación de landings)
+│
+├── creative/             ← Creative OS (sistema de contenido)
+│   ├── brand/            (ADN, voz, personalidad, visual, storytelling)
+│   ├── agents/           (director creativo, copywriter, guardian, estratega)
+│   ├── skills/           (instagram, video, copy)
+│   ├── workflows/        (proceso de reel, proceso de campaña)
+│   ├── templates/        (hooks, captions, briefs)
+│   ├── knowledge/        (referencias de diseño y marca)
+│   ├── analytics/        (evaluación de contenido)
+│   └── content/          (ideas y drafts activos)
+│
+└── shared/               ← Design system compartido
+    ├── design-system/
+    │   ├── tokens.css         (fuente de verdad CSS)
+    │   └── brand-tokens.md    (documentación de cada token)
+    └── assets/               (logos, iconos, archivos de marca)
 ```
-
-Para entender cómo encajan las piezas, leé
-[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 ---
 
-## Desarrollo local
+## Productos
 
-Al ser un sitio estático, alcanza con servir la carpeta. El formulario
-(`enviar.php`) sólo funciona con PHP; para probarlo localmente necesitás PHP.
+### Website (`apps/website/`)
+
+Sitio estático (sin framework, sin build step) que convierte visitas en consultas de presupuesto.
 
 ```bash
-# Opción 1 — sin PHP (todo menos el envío real del formulario)
-python3 -m http.server 8000
+# Dev local sin PHP (todo menos el formulario)
+cd apps/website && python3 -m http.server 8000
 
-# Opción 2 — con PHP (incluye enviar.php)
-php -S localhost:8000
+# Dev local con PHP (incluye enviar.php)
+cd apps/website && php -S localhost:8000
 ```
 
-Abrí <http://localhost:8000>.
+Deploy automático: cada push a `main` que modifique `apps/website/**` activa el workflow de FTP a cPanel.
+
+Ver `apps/website/docs/ARCHITECTURE.md` para la arquitectura del sitio.
+
+### Creative OS (`creative/`)
+
+Sistema de documentos que funciona como director creativo IA de la marca.
+No tiene runtime. Se consume como base de conocimiento.
+
+Punto de entrada: [`creative/README.md`](creative/README.md)
+
+### Design System (`shared/`)
+
+Fuente de verdad visual. Todo cambio de color, tipo o espaciado parte de aquí.
+
+Ver [`shared/design-system/README.md`](shared/design-system/README.md) para reglas de sincronización.
 
 ---
 
 ## Deploy
 
-El deploy es **automático**: cada push a `main` dispara el workflow de GitHub
-Actions que sube los archivos por FTP a cPanel. Ver
-[`DEPLOY.md`](DEPLOY.md) para la configuración de secrets.
+El workflow `.github/workflows/deploy.yml` solo despliega `apps/website/` a cPanel.
+Los cambios en `creative/` o `shared/` **no disparan deploy** (son documentos internos).
 
-> Los archivos `preview-*.html`, `README.md`, `DEPLOY.md`, `docs/` y `.github/`
-> están excluidos de la publicación.
-
----
-
-## Documentación
-
-- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — arquitectura, flujo de datos y convenciones.
-- [`docs/AUDIT.md`](docs/AUDIT.md) — auditoría técnica/comercial completa con puntajes y roadmap de mejoras.
-- [`CONTRIBUTING.md`](CONTRIBUTING.md) — cómo hacer cambios de forma segura.
-- [`DEPLOY.md`](DEPLOY.md) — despliegue a cPanel.
+Ver `apps/website/docs/` y el `DEPLOY.md` original para configuración de secrets.
 
 ---
 
