@@ -62,6 +62,7 @@ const locality = ({ slug, name, heroBg, introText, barrios, cercanias, faqExtra 
   formPlaceholder: `Qué necesitás (ventanas, puertas, mosquiteros…), medidas aproximadas y si es obra nueva o reemplazo. Obra en ${name}.`,
   serviceName: `Aberturas de aluminio en ${name}`,
   serviceType: 'Fabricación e instalación de aberturas de aluminio',
+  cercanias,
   areaServed: [name, ...cercanias.split(', ')],
   breadcrumbName: `Aberturas de aluminio en ${name}`,
 });
