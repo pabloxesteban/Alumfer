@@ -61,11 +61,32 @@ const ZONES = [
   ['Tristán Suárez', '/aberturas-de-aluminio-tristan-suarez/'],
   ['Canning', '/aberturas-de-aluminio-canning/'],
 ];
+const NAME_TO_HREF = Object.fromEntries(ZONES.map(([label, href]) => [label, href]));
+
 const linkList = (items, current) => items.map(([label, href]) =>
   href === current
     ? `<li><a class="footer__link" aria-current="page" style="color:var(--text-on-dark)">${label}</a></li>`
     : `<li><a href="${href}" class="footer__link">${label}</a></li>`
 ).join('\n            ');
+
+const nearbyLinks = (p) => {
+  if (!p.cercanias) return '';
+  const pills = p.cercanias.split(', ').map(name => {
+    const href = NAME_TO_HREF[name];
+    return href
+      ? `<a href="${href}" class="nearby-link">${name}</a>`
+      : `<span class="nearby-link nearby-link--plain">${name}</span>`;
+  }).join('\n        ');
+  return `
+  <section class="nearby-section" aria-label="Zonas cercanas">
+    <div class="container">
+      <p class="nearby-section__eyebrow">También atendemos zonas cercanas</p>
+      <div class="nearby-links">
+        ${pills}
+      </div>
+    </div>
+  </section>`;
+};
 
 // Partials ---------------------------------------------------------------------
 const head = (p) => `<!DOCTYPE html>
@@ -105,7 +126,7 @@ const head = (p) => `<!DOCTYPE html>
 
   <link rel="stylesheet" href="/tokens.css?v=2">
   <link rel="stylesheet" href="/base.css?v=2">
-  <link rel="stylesheet" href="/components.css?v=6">
+  <link rel="stylesheet" href="/components.css?v=7">
   <link rel="stylesheet" href="/animations.css?v=2">
   <link rel="stylesheet" href="/cinematic.css?v=2">
 </head>
@@ -339,6 +360,7 @@ function render(p) {
     intro(p, 'dark'),
     ...p.blocks.map((b) => (b.type === 'features' ? features(b, b.variant) : products(b, b.variant))),
     faqSection(p, 'mid'),
+    nearbyLinks(p),
     contact(p),
     footer(p.canonical),
     floatingCta(p.waText),
