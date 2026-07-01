@@ -31,10 +31,14 @@ QC FINAL
     ↓
 CAPTION + HASHTAGS + ALT TEXT
     ↓
+CONTENT PACKAGE
+    ↓
 APROBACIÓN INSTAGRAM DIRECTOR
     ↓
 PUBLICACIÓN
 ```
+
+> **Regla del Creative OS:** este pipeline **no termina en un archivo de video suelto más un caption**. Termina en un **Content Package** reutilizable (`../exporters/core/content-package.md`), que luego alimenta a la publicación y a cualquier exportador (Canva para la portada/gráficas, CapCut para el reel).
 
 ---
 
@@ -213,6 +217,20 @@ El Copywriter redacta el caption final usando `copywriting.md` y `caption-struct
 El SEO skill `seo-instagram.md` define los hashtags y el alt text manual.
 
 Output: caption listo + hashtags (5-15) + alt text para cada imagen o cover del reel.
+
+---
+
+## Paso 12.5 — Content Package
+
+Todo lo producido se empaqueta en un **Content Package** estándar antes de la aprobación final.
+
+Skill a usar: `skills/content-packaging.md`
+
+- El reel, la cover, el caption por plataforma, los hashtags clasificados y los assets se estructuran en la carpeta `content/drafts/CP-{fecha}-instagram-{slug}-v1/`.
+- El `contentType` será `reel` (con `reel-cover` para la portada si se genera en Canva).
+- El `metadata.json` registra objetivo, campaña, obra/zona y tipo de publicación — datos que luego usa `analytics/template-performance.md`.
+
+Output: Content Package en estado `ready-for-export` con `checklist.md` aprobado por el Quality Controller. Si se necesita portada o gráfica en Canva, la produce el agente `canva-exporter` desde el paquete.
 
 ---
 

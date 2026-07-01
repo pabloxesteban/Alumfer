@@ -147,6 +147,8 @@ Cada pieza del calendario sigue el pipeline de `obra-to-reels.md`.
 - El contenido educativo y de proceso puede producirse durante todo el mes
 - Las piezas urgentes (obra terminada esta semana, clima estacional específico) se priorizan
 
+**Regla del Creative OS:** cada pieza del calendario **finaliza en un Content Package** (`skills/content-packaging.md`), no en texto suelto. El paquete es el entregable estándar que alimenta la publicación y cualquier exportador. La plantilla usada en cada paquete queda registrada para el análisis de performance del paso 7.
+
 **Punto de control semanal:**
 Cada lunes, verificar:
 - ¿El material de la semana está listo para edición?
@@ -186,6 +188,9 @@ Cada post publicado se registra en `content/published/` con:
 - Top 3 posts por alcance, guardados y comentarios
 - ¿Qué tipo de contenido dominó el top?
 - ¿El eje temático del mes fue coherente en el feed?
+
+### Análisis por plantilla:
+Como cada pieza salió de un Content Package con plantilla trazable, se agrega la performance por plantilla (ver `analytics/template-performance.md`): qué plantilla generó más consultas, cuál más guardados, cuál desestimar. Este ranking refina el mix de contenido del próximo mes (vuelve al Paso 2).
 
 ---
 

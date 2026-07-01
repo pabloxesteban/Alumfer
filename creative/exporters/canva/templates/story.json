@@ -1,0 +1,30 @@
+{
+  "templateId": "story",
+  "name": "Story Alumfer",
+  "version": "1.0",
+  "targetPlatform": "instagram",
+  "aspectRatio": "9:16",
+  "minSlides": 1,
+  "maxSlides": 3,
+  "variables": [
+    { "name": "Titular", "from": "headline", "type": "text",  "required": true,  "maxChars": 70 },
+    { "name": "Texto",   "from": "body",     "type": "text",  "required": false, "maxChars": 140 },
+    { "name": "Imagen",  "from": "image",    "type": "asset", "required": true },
+    { "name": "CTA",     "from": "cta_label","type": "text",  "required": false, "maxChars": 24 }
+  ],
+  "structure": ["hook"],
+  "constraints": {
+    "requiresCta": false,
+    "requiresLogoOnClose": false,
+    "maxTypographyWeights": 2,
+    "palette": "ambos",
+    "notes": [
+      "Texto dentro de la zona segura (evitar el 15% superior e inferior por la UI de Instagram).",
+      "Tono mas cercano, detras de escena."
+    ]
+  },
+  "cta": { "required": false, "position": "opcional", "defaultIntent": "dm" },
+  "layout": {
+    "hook": "imagen full-bleed 9:16, titular en tercio superior seguro, sticker de CTA opcional"
+  }
+}

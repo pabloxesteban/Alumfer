@@ -1,0 +1,35 @@
+{
+  "templateId": "promo",
+  "name": "Promo de Producto Alumfer",
+  "version": "1.0",
+  "targetPlatform": "instagram",
+  "aspectRatio": "4:5",
+  "minSlides": 1,
+  "maxSlides": 3,
+  "variables": [
+    { "name": "Producto", "from": "eyebrow",  "type": "text",  "required": true,  "maxChars": 30 },
+    { "name": "Titular",  "from": "headline", "type": "text",  "required": true,  "maxChars": 80 },
+    { "name": "Beneficio","from": "body",     "type": "text",  "required": false, "maxChars": 180 },
+    { "name": "Imagen",   "from": "image",    "type": "asset", "required": true },
+    { "name": "CTA",      "from": "cta_label","type": "text",  "required": true,  "maxChars": 32, "slidesOnly": ["cta"] },
+    { "name": "Logo",     "from": "logo",     "type": "asset", "required": false, "slidesOnly": ["cta"] }
+  ],
+  "structure": ["hook", "value", "cta"],
+  "constraints": {
+    "requiresCta": true,
+    "requiresLogoOnClose": true,
+    "maxTypographyWeights": 2,
+    "palette": "ambos",
+    "notes": [
+      "El producto es el medio, no el fin: mostrar el espacio transformado.",
+      "Traducir el dato tecnico a beneficio concreto.",
+      "Sin urgencia artificial."
+    ]
+  },
+  "cta": { "required": true, "position": "ultimo-slide", "defaultIntent": "consulta" },
+  "layout": {
+    "hook": "producto en contexto (ambiente completo), volanta con el nombre del producto",
+    "value": "detalle de terminacion + beneficio traducido",
+    "cta": "invitacion + WhatsApp + logo"
+  }
+}

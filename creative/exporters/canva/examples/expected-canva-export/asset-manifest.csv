@@ -1,0 +1,5 @@
+nombre_en_canva,archivo_origen,tipo,usado_en_slides,requerido
+quilmes-antes.jpg,assets/fotos/quilmes-antes.jpg,photo,1,si
+quilmes-despues.jpg,assets/fotos/quilmes-despues.jpg,photo,2,si
+quilmes-detalle.jpg,assets/fotos/quilmes-detalle.jpg,photo,3,si
+alumfer-blanco.svg,assets/logos/alumfer-blanco.svg,logo,4,si

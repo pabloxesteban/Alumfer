@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://alumfer.com.ar/schemas/content-package/assets.schema.json",
+  "title": "Content Package — Assets",
+  "description": "Inventario completo de recursos visuales. Todas las rutas son relativas a la raiz del paquete.",
+  "type": "object",
+  "required": ["schemaVersion", "assets", "palette", "typography"],
+  "additionalProperties": false,
+  "$defs": {
+    "assetEntry": {
+      "type": "object",
+      "required": ["type", "path", "required"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["logo", "icon", "photo", "video", "broll", "mockup", "render", "background", "texture", "shape"]
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^assets/[^\\0]+$",
+          "description": "Ruta relativa dentro del paquete; nunca absoluta ni con '..'"
+        },
+        "required": { "type": "boolean" },
+        "alt": { "type": "string" }
+      }
+    },
+    "hexColor": {
+      "type": "string",
+      "pattern": "^(#[0-9A-Fa-f]{6}|rgba?\\([^)]+\\))$"
+    }
+  },
+  "properties": {
+    "schemaVersion": { "type": "string" },
+    "assets": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/assetEntry" }
+    },
+    "video": { "type": "array", "items": { "$ref": "#/$defs/assetEntry" } },
+    "brollHints": { "type": "array", "items": { "type": "string" } },
+    "graphicElements": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": { "type": "string" },
+          "description": { "type": "string" },
+          "color": { "type": "string" }
+        }
+      }
+    },
+    "palette": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/hexColor" }
+    },
+    "typography": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["family", "weight"],
+        "additionalProperties": false,
+        "properties": {
+          "family": { "type": "string", "enum": ["Montserrat", "Inter"] },
+          "weight": { "type": "integer" },
+          "tracking": { "type": "string" },
+          "transform": { "type": "string" }
+        }
+      }
+    },
+    "backgrounds": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string" },
+          "color": { "type": "string" }
+        }
+      }
+    },
+    "textures": { "type": "array", "items": { "$ref": "#/$defs/assetEntry" } },
+    "mockups": { "type": "array", "items": { "$ref": "#/$defs/assetEntry" } },
+    "renders": { "type": "array", "items": { "$ref": "#/$defs/assetEntry" } }
+  }
+}

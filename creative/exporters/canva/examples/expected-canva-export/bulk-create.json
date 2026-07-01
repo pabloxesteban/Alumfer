@@ -1,0 +1,45 @@
+{
+  "template": "Instagram Carousel Alumfer",
+  "templateId": "instagram-carousel",
+  "packageId": "CP-20260701-instagram-dvh-quilmes-v1",
+  "aspectRatio": "4:5",
+  "slides": [
+    {
+      "slide": 1,
+      "role": "hook",
+      "variables": {
+        "Volanta": "Quilmes · DVH",
+        "Titular": "Este dormitorio tenía frío en los cuatro costados.",
+        "Imagen": "quilmes-antes.jpg"
+      }
+    },
+    {
+      "slide": 2,
+      "role": "value",
+      "variables": {
+        "Titular": "6 grados de diferencia",
+        "Texto": "El mismo ambiente, sin tocar la calefacción. Solo cambiamos las aberturas por DVH.",
+        "Dato": "6°C",
+        "Imagen": "quilmes-despues.jpg"
+      }
+    },
+    {
+      "slide": 3,
+      "role": "value",
+      "variables": {
+        "Titular": "El marco importa tanto como el vidrio",
+        "Texto": "Perfil con ruptura de puente térmico y sellado en los cuatro lados. Por eso no filtra ni se condensa.",
+        "Imagen": "quilmes-detalle.jpg"
+      }
+    },
+    {
+      "slide": 4,
+      "role": "cta",
+      "variables": {
+        "Titular": "¿Tu casa tiene el mismo problema?",
+        "CTA": "Escribinos por WhatsApp",
+        "Logo": "alumfer-blanco.svg"
+      }
+    }
+  ]
+}

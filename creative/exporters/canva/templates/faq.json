@@ -1,0 +1,33 @@
+{
+  "templateId": "faq",
+  "name": "Pregunta Frecuente Alumfer",
+  "version": "1.0",
+  "targetPlatform": "instagram",
+  "aspectRatio": "4:5",
+  "minSlides": 2,
+  "maxSlides": 6,
+  "variables": [
+    { "name": "Pregunta",  "from": "headline", "type": "text",  "required": true,  "maxChars": 90 },
+    { "name": "Respuesta", "from": "body",     "type": "text",  "required": true,  "maxChars": 220 },
+    { "name": "Imagen",    "from": "image",    "type": "asset", "required": false },
+    { "name": "CTA",       "from": "cta_label","type": "text",  "required": false, "maxChars": 32, "slidesOnly": ["cta"] },
+    { "name": "Logo",      "from": "logo",     "type": "asset", "required": false, "slidesOnly": ["cta"] }
+  ],
+  "structure": ["hook", "value", "cta"],
+  "constraints": {
+    "requiresCta": true,
+    "requiresLogoOnClose": true,
+    "maxTypographyWeights": 2,
+    "palette": "ambos",
+    "notes": [
+      "Primer slide: la pregunta que el cliente ya se hizo.",
+      "Nivel tecnico justo: suficiente para entender por que importa, sin confundir."
+    ]
+  },
+  "cta": { "required": true, "position": "ultimo-slide", "defaultIntent": "consulta" },
+  "layout": {
+    "hook": "fondo oscuro, pregunta grande en Montserrat 600",
+    "value": "respuesta en Inter 400, apoyo visual opcional",
+    "cta": "invitacion a consultar + WhatsApp + logo"
+  }
+}

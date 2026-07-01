@@ -1,0 +1,6 @@
+PLACEHOLDER DE ASSET — no es una imagen real.
+
+En producción sería `quilmes-detalle.jpg`:
+- Primer plano del sellado del marco DVH.
+- Muestra la ruptura de puente térmico y el sellado perimetral.
+- Foto documental, cruda, con foco en la terminación.

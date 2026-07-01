@@ -1,0 +1,30 @@
+{
+  "templateId": "quote",
+  "name": "Quote Alumfer",
+  "version": "1.0",
+  "targetPlatform": "instagram",
+  "aspectRatio": "1:1",
+  "minSlides": 1,
+  "maxSlides": 1,
+  "variables": [
+    { "name": "Frase",  "from": "headline", "type": "text",  "required": true,  "maxChars": 120 },
+    { "name": "Autoria","from": "body",     "type": "text",  "required": false, "maxChars": 40 },
+    { "name": "Logo",   "from": "logo",     "type": "asset", "required": false }
+  ],
+  "structure": ["hook"],
+  "constraints": {
+    "requiresCta": false,
+    "requiresLogoOnClose": true,
+    "maxTypographyWeights": 2,
+    "palette": "modo-oscuro",
+    "notes": [
+      "Fondo Carbon o Steel. Frase en Montserrat 600, blanco.",
+      "Accent bar azul a la izquierda de la frase.",
+      "Sin foto: la tipografia es el protagonista."
+    ]
+  },
+  "cta": { "required": false, "position": "opcional" },
+  "layout": {
+    "hook": "fondo oscuro solido, frase centrada con accent bar, logo pequeño al pie"
+  }
+}

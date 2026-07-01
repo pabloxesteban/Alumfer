@@ -3,10 +3,12 @@
 ## Visión general
 
 ```
-IDEA → BRIEF → GUIÓN → STORYBOARD → GRABACIÓN → EDICIÓN → APROBACIÓN → CAPTION → PUBLICACIÓN
+IDEA → BRIEF → GUIÓN → STORYBOARD → GRABACIÓN → EDICIÓN → APROBACIÓN → CAPTION → CONTENT PACKAGE → PUBLICACIÓN
 ```
 
 Cada etapa tiene un responsable, un output y un criterio de avance.
+
+> **Regla del Creative OS:** este workflow **nunca termina solo en texto**. Siempre finaliza produciendo un **Content Package** (ver `../exporters/core/content-package.md`), una estructura reutilizable que cualquier exportador (Canva, CapCut…) puede consumir. La publicación se hace a partir del paquete, no de archivos sueltos.
 
 ---
 
@@ -113,6 +115,20 @@ Criterios de aprobación rápida:
 Agente a usar: `agents/copywriter.md` → formato "Caption de foto de obra"
 
 Output: caption final + 8 hashtags en comentario
+
+---
+
+## Etapa 8.5: CONTENT PACKAGE
+**Responsable**: skill `content-packaging` + Quality Controller
+**Duración**: 15 min
+
+Antes de publicar, todo lo producido (guión, cover, caption, hashtags, assets) se empaqueta en un **Content Package** estándar.
+
+Skill a usar: `skills/content-packaging.md`
+
+Output: carpeta `content/drafts/CP-{fecha}-instagram-{slug}-v1/` con los 8 archivos del estándar (`content.json`, `metadata.json`, `assets.json`, `captions.md`, `hashtags.txt`, `checklist.md`, `preview.md`, `manifest.json`) + `assets/`.
+
+Criterio de avance: el `checklist.md` queda aprobado por el Quality Controller y el paquete pasa a estado `ready-for-export`. A partir de acá, si se quiere una portada o gráfica en Canva, la produce el agente `canva-exporter` desde el paquete — nunca a mano.
 
 ---
 

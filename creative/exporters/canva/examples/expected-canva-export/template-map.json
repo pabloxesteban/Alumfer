@@ -1,0 +1,15 @@
+{
+  "canvaTemplate": "Instagram Carousel Alumfer",
+  "templateId": "instagram-carousel",
+  "aspectRatio": "4:5",
+  "matchedBy": "contentType",
+  "variableBindings": {
+    "Volanta": { "from": "eyebrow",   "maxChars": 40 },
+    "Titular": { "from": "headline",  "maxChars": 90 },
+    "Texto":   { "from": "body",      "maxChars": 220 },
+    "Dato":    { "from": "data",      "maxChars": 40 },
+    "Imagen":  { "from": "image",     "type": "asset" },
+    "CTA":     { "from": "cta_label", "maxChars": 32, "slidesOnly": ["cta"] },
+    "Logo":    { "from": "logo",      "type": "asset", "slidesOnly": ["cta"] }
+  }
+}

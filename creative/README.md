@@ -38,11 +38,40 @@ creative/
 │   └── design-references.md   Arquitectos, marcas, estética
 │
 ├── analytics/          ← Evaluación de performance
-│   └── content-evaluation.md  Métricas que importan y template mensual
+│   ├── content-evaluation.md    Métricas que importan y template mensual
+│   └── template-performance.md  Qué plantilla convierte mejor (cierra el loop)
+│
+├── exporters/          ← Content Export System (desacopla contenido de herramienta)
+│   ├── core/               Estándar Content Package + interfaz de exportador
+│   ├── shared/             Validadores, mappers y serializers reutilizables
+│   ├── canva/              Primer exportador (plantillas, schemas, ejemplos)
+│   ├── figma/              Preparado (no implementado)
+│   └── capcut/             Preparado (no implementado)
 │
 └── content/            ← Contenido en producción (drafts, reels, campañas)
-    (vacío — se puebla con ideas y borradores activos)
+    (se puebla con Content Packages: ideas y borradores activos)
 ```
+
+---
+
+## Content Export System (`exporters/`)
+
+El Creative OS **nunca produce directamente un archivo para Canva**. Produce siempre un **Content Package**: un paquete estándar, agnóstico de plataforma, autocontenido y validable. Los **exportadores** lo traducen a cada herramienta.
+
+```
+Idea → Creative Director → Copywriter → Brand Guardian → Quality Controller
+                                   ↓
+                            CONTENT PACKAGE
+                                   ↓
+                       Exporter (Canva · Figma · CapCut · …)
+```
+
+- El estándar y el contrato están en `exporters/core/`.
+- Se produce con el skill `skills/content-packaging.md`.
+- Se exporta a Canva con el agente `agents/canva-exporter.md`.
+- Todos los workflows terminan en un Content Package (ver `workflows/content-package-export.md`).
+
+Detalle completo en `exporters/README.md`.
 
 ---
 
@@ -66,6 +95,12 @@ creative/
 
 ### Para evaluar si una idea es de marca
 Activar `agents/creative-director.md` con el prompt base + la idea.
+
+### Para empaquetar contenido y exportarlo a Canva
+1. Empaquetar la pieza con `skills/content-packaging.md` → Content Package en `content/drafts/`
+2. Aprobar el `checklist.md` con `agents/quality-controller.md` → estado `ready-for-export`
+3. Exportar con `agents/canva-exporter.md` siguiendo `workflows/content-package-export.md`
+4. Armar en Canva con el `report.md` generado (paso mecánico, sin diseñar de cero)
 
 ---
 

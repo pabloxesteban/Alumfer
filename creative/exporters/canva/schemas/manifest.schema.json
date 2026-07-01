@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://alumfer.com.ar/schemas/content-package/manifest.schema.json",
+  "title": "Content Package — Manifest",
+  "description": "Indice y metadatos de integridad de un Content Package de Alumfer.",
+  "type": "object",
+  "required": ["packageStandard", "packageId", "createdAt", "generatedBy", "revision", "status", "files"],
+  "additionalProperties": false,
+  "properties": {
+    "packageStandard": {
+      "type": "string",
+      "pattern": "^alumfer\\.content-package/\\d+\\.\\d+$",
+      "description": "Version semver del estandar, ej: alumfer.content-package/1.0"
+    },
+    "packageId": {
+      "type": "string",
+      "pattern": "^CP-\\d{8}-[a-z0-9]+-[a-z0-9-]+-v\\d+$"
+    },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "generatedBy": { "type": "string" },
+    "revision": { "type": "integer", "minimum": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "in-review", "ready-for-export", "exported"]
+    },
+    "files": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["path", "role", "required"],
+        "additionalProperties": false,
+        "properties": {
+          "path": { "type": "string", "pattern": "^[^/].*$" },
+          "role": {
+            "type": "string",
+            "enum": ["content", "metadata", "assets", "captions", "hashtags", "checklist", "preview"]
+          },
+          "required": { "type": "boolean" },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+        }
+      }
+    },
+    "entrypoints": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "compatibleExporters": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["canva", "figma", "capcut", "adobe-express", "meta-business-suite", "buffer", "later", "hootsuite"] }
+    }
+  }
+}

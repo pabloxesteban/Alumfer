@@ -1,0 +1,6 @@
+PLACEHOLDER DE ASSET — no es una imagen real.
+
+En producción sería `quilmes-despues.jpg`:
+- Mismo dormitorio DESPUÉS de instalar DVH.
+- Más luz, ventana de aluminio con doble vidriado.
+- Mismo encuadre y luz que la foto "antes".

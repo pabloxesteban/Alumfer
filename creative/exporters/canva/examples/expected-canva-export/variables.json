@@ -1,0 +1,9 @@
+{
+  "rows": [
+    { "slide": 1, "role": "hook",  "eyebrow": "Quilmes · DVH", "headline": "Este dormitorio tenía frío en los cuatro costados.", "body": "", "data": "", "image": "quilmes-antes.jpg", "cta_label": "", "logo": "" },
+    { "slide": 2, "role": "value", "eyebrow": "", "headline": "6 grados de diferencia", "body": "El mismo ambiente, sin tocar la calefacción. Solo cambiamos las aberturas por DVH.", "data": "6°C", "image": "quilmes-despues.jpg", "cta_label": "", "logo": "" },
+    { "slide": 3, "role": "value", "eyebrow": "", "headline": "El marco importa tanto como el vidrio", "body": "Perfil con ruptura de puente térmico y sellado en los cuatro lados. Por eso no filtra ni se condensa.", "data": "", "image": "quilmes-detalle.jpg", "cta_label": "", "logo": "" },
+    { "slide": 4, "role": "cta",   "eyebrow": "", "headline": "¿Tu casa tiene el mismo problema?", "body": "", "data": "", "image": "", "cta_label": "Escribinos por WhatsApp", "logo": "alumfer-blanco.svg" }
+  ],
+  "unmapped": []
+}

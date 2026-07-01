@@ -1,0 +1,34 @@
+{
+  "templateId": "oferta",
+  "name": "Oferta Estacional Alumfer",
+  "version": "1.0",
+  "targetPlatform": "instagram",
+  "aspectRatio": "4:5",
+  "minSlides": 1,
+  "maxSlides": 2,
+  "variables": [
+    { "name": "Titular",  "from": "headline", "type": "text",  "required": true,  "maxChars": 70 },
+    { "name": "Detalle",  "from": "body",     "type": "text",  "required": true,  "maxChars": 180 },
+    { "name": "Plazo",    "from": "data",     "type": "text",  "required": false, "maxChars": 60 },
+    { "name": "Imagen",   "from": "image",    "type": "asset", "required": false },
+    { "name": "CTA",      "from": "cta_label","type": "text",  "required": true,  "maxChars": 32, "slidesOnly": ["cta"] },
+    { "name": "Logo",     "from": "logo",     "type": "asset", "required": false, "slidesOnly": ["cta"] }
+  ],
+  "structure": ["hook", "cta"],
+  "constraints": {
+    "requiresCta": true,
+    "requiresLogoOnClose": true,
+    "maxTypographyWeights": 2,
+    "palette": "ambos",
+    "notes": [
+      "Urgencia REAL, no artificial: usar plazos de fabricacion o estacionalidad concreta.",
+      "Prohibido 'solo hoy' / 'ultimas unidades'. Permitido 'para que quede listo antes del invierno'.",
+      "Nunca el precio como argumento central."
+    ]
+  },
+  "cta": { "required": true, "position": "ultimo-slide", "defaultIntent": "consulta" },
+  "layout": {
+    "hook": "propuesta clara + plazo real (ej: '15 a 20 dias habiles de fabricacion')",
+    "cta": "invitacion concreta + WhatsApp + logo"
+  }
+}

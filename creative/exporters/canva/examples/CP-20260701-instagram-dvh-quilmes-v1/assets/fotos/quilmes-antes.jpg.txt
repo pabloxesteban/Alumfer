@@ -1,0 +1,10 @@
+PLACEHOLDER DE ASSET — no es una imagen real.
+
+En un paquete de producción, este archivo sería `quilmes-antes.jpg`:
+- Foto del dormitorio ANTES de la obra.
+- Ventana vieja de madera, luz escasa.
+- Encuadre 4:5, luz natural, sin flash.
+- Mismo punto de vista que la foto "después" (para que la comparación sea honesta).
+
+El validador asset-existence solo verifica presencia del archivo referenciado en assets.json.
+En el ejemplo, assets.json apunta a `quilmes-antes.jpg`; este `.txt` documenta qué iría ahí.

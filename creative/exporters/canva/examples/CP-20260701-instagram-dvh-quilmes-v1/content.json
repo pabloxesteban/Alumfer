@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "1.0",
+  "contentType": "instagram-carousel",
+  "narrative": {
+    "framework": "problema-solucion-prueba",
+    "throughline": "Un dormitorio frio en Quilmes deja de serlo con DVH",
+    "emotionalArc": ["incomodidad", "reconocimiento", "alivio", "confianza"],
+    "primaryEmotion": "alivio",
+    "audiencePromise": "Podes dejar de pelear con el frio sin rehacer la casa"
+  },
+  "blocks": [
+    {
+      "id": "b1",
+      "role": "hook",
+      "index": 0,
+      "layoutHint": "full-bleed-photo",
+      "elements": [
+        { "type": "eyebrow",  "text": "Quilmes · DVH" },
+        { "type": "headline", "text": "Este dormitorio tenia frio en los cuatro costados." },
+        { "type": "image",    "assetRef": "photo.antes.dormitorio" }
+      ]
+    },
+    {
+      "id": "b2",
+      "role": "value",
+      "index": 1,
+      "layoutHint": "split-text-image",
+      "elements": [
+        { "type": "headline", "text": "6 grados de diferencia" },
+        { "type": "body",     "text": "El mismo ambiente, sin tocar la calefaccion. Solo cambiamos las aberturas por DVH." },
+        { "type": "data",     "text": "6°C" },
+        { "type": "image",    "assetRef": "photo.despues.dormitorio" }
+      ]
+    },
+    {
+      "id": "b3",
+      "role": "value",
+      "index": 2,
+      "layoutHint": "split-text-image",
+      "elements": [
+        { "type": "headline", "text": "El marco importa tanto como el vidrio" },
+        { "type": "body",     "text": "Perfil con ruptura de puente termico y sellado en los cuatro lados. Por eso no filtra ni se condensa." },
+        { "type": "image",    "assetRef": "photo.detalle.sellado" }
+      ]
+    },
+    {
+      "id": "b4",
+      "role": "cta",
+      "index": 3,
+      "layoutHint": "brand-closing",
+      "elements": [
+        { "type": "headline", "text": "¿Tu casa tiene el mismo problema?" },
+        { "type": "cta",      "ctaRef": "whatsapp-presupuesto" },
+        { "type": "logo",     "assetRef": "logo.principal" }
+      ]
+    }
+  ],
+  "ctas": [
+    {
+      "id": "whatsapp-presupuesto",
+      "intent": "consulta",
+      "label": "Escribinos por WhatsApp",
+      "action": "whatsapp",
+      "target": "{{brand.whatsapp}}",
+      "tone": "invitacion-sin-presion"
+    }
+  ],
+  "copyVariants": {
+    "headline.short": "6°C menos de frio",
+    "headline.long": "6 grados de diferencia sin tocar la calefaccion"
+  }
+}

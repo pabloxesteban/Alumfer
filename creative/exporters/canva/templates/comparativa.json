@@ -1,0 +1,35 @@
+{
+  "templateId": "comparativa",
+  "name": "Comparativa Alumfer",
+  "version": "1.0",
+  "targetPlatform": "instagram",
+  "aspectRatio": "4:5",
+  "minSlides": 2,
+  "maxSlides": 5,
+  "variables": [
+    { "name": "Titular",   "from": "headline", "type": "text",  "required": true,  "maxChars": 80 },
+    { "name": "OpcionA",   "from": "body",     "type": "text",  "required": true,  "maxChars": 140 },
+    { "name": "OpcionB",   "from": "data",     "type": "text",  "required": true,  "maxChars": 140 },
+    { "name": "Imagen",    "from": "image",    "type": "asset", "required": false },
+    { "name": "CTA",       "from": "cta_label","type": "text",  "required": false, "maxChars": 32, "slidesOnly": ["cta"] },
+    { "name": "Logo",      "from": "logo",     "type": "asset", "required": false, "slidesOnly": ["cta"] }
+  ],
+  "structure": ["hook", "value", "cta"],
+  "constraints": {
+    "requiresCta": true,
+    "requiresLogoOnClose": true,
+    "maxTypographyWeights": 2,
+    "palette": "ambos",
+    "notes": [
+      "Comparacion honesta (ej: DVH vs vidrio simple, aluminio vs madera).",
+      "No denostar la opcion B: explicar la diferencia con criterio tecnico.",
+      "El objetivo es informar la decision, no forzarla."
+    ]
+  },
+  "cta": { "required": true, "position": "ultimo-slide", "defaultIntent": "consulta" },
+  "layout": {
+    "hook": "titular con la pregunta de la comparacion",
+    "value": "dos columnas: Opcion A vs Opcion B con criterio tecnico",
+    "cta": "invitacion a consultar cual conviene para su caso + WhatsApp + logo"
+  }
+}

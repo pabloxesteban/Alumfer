@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://alumfer.com.ar/schemas/content-package/metadata.schema.json",
+  "title": "Content Package — Metadata",
+  "description": "Contexto estrategico y editorial del contenido. Fuente de la capa de analytics.",
+  "type": "object",
+  "required": ["schemaVersion", "objective", "funnelStage", "author", "language", "branding", "priority", "primaryPlatform", "publication"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "type": "string" },
+    "objective": {
+      "type": "string",
+      "enum": ["alcance", "engagement", "generar-consultas", "posicionamiento"]
+    },
+    "funnelStage": {
+      "type": "string",
+      "enum": ["descubrimiento", "consideracion", "decision", "fidelizacion"]
+    },
+    "campaign": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "theme": { "type": "string" }
+      }
+    },
+    "author": { "type": "string" },
+    "reviewedBy": { "type": "array", "items": { "type": "string" } },
+    "createdAt": { "type": "string" },
+    "version": { "type": "string" },
+    "language": { "type": "string", "pattern": "^[a-z]{2}(-[A-Z]{2})?$" },
+    "branding": {
+      "type": "object",
+      "required": ["brandId", "voiceProfile", "logoUsage"],
+      "additionalProperties": false,
+      "properties": {
+        "brandId": { "type": "string", "const": "alumfer" },
+        "voiceProfile": { "type": "string" },
+        "palette": { "type": "string", "enum": ["modo-oscuro", "modo-claro"] },
+        "logoUsage": { "type": "string", "enum": ["cierre-solamente", "ninguno"] }
+      }
+    },
+    "priority": { "type": "string", "enum": ["baja", "media", "alta", "urgente"] },
+    "compatiblePlatforms": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["instagram", "facebook", "linkedin", "tiktok", "google-business"] }
+    },
+    "primaryPlatform": {
+      "type": "string",
+      "enum": ["instagram", "facebook", "linkedin", "tiktok", "google-business"]
+    },
+    "publication": {
+      "type": "object",
+      "required": ["type", "aspectRatio"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "type": "string", "enum": ["reel", "carrusel", "foto", "story", "video"] },
+        "category": { "type": "string" },
+        "duration": { "type": ["integer", "null"], "minimum": 0 },
+        "aspectRatio": { "type": "string", "enum": ["9:16", "4:5", "1:1", "16:9"] },
+        "slideCount": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "geo": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "zone": { "type": "string" },
+        "neighborhood": { "type": "string" }
+      }
+    },
+    "scheduling": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "suggestedWindow": { "type": "string" },
+        "seasonalRelevance": { "type": "string" }
+      }
+    }
+  }
+}

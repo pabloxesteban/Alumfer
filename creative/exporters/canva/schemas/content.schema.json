@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://alumfer.com.ar/schemas/content-package/content.schema.json",
+  "title": "Content Package — Content",
+  "description": "El contenido estructurado: narrativa, bloques (slides/escenas), elementos y CTAs. Agnostico de plataforma.",
+  "type": "object",
+  "required": ["schemaVersion", "contentType", "blocks"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "type": "string" },
+    "contentType": {
+      "type": "string",
+      "enum": [
+        "instagram-carousel", "story", "quote", "before-after", "testimonial",
+        "faq", "reel-cover", "promo", "oferta", "comparativa", "educativo",
+        "reel", "photo", "generic-carousel", "generic-video"
+      ]
+    },
+    "narrative": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "framework": { "type": "string" },
+        "throughline": { "type": "string" },
+        "emotionalArc": { "type": "array", "items": { "type": "string" } },
+        "primaryEmotion": { "type": "string" },
+        "audiencePromise": { "type": "string" }
+      }
+    },
+    "blocks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "role", "index", "elements"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "role": {
+            "type": "string",
+            "enum": ["cover", "hook", "context", "value", "proof", "cta"]
+          },
+          "index": { "type": "integer", "minimum": 0 },
+          "layoutHint": { "type": "string" },
+          "elements": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["type"],
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": ["eyebrow", "headline", "body", "data", "image", "video", "cta", "logo", "shape"]
+                },
+                "text": { "type": "string" },
+                "assetRef": { "type": "string" },
+                "ctaRef": { "type": "string" }
+              },
+              "allOf": [
+                {
+                  "if": { "properties": { "type": { "enum": ["eyebrow", "headline", "body", "data"] } } },
+                  "then": { "required": ["text"] }
+                },
+                {
+                  "if": { "properties": { "type": { "enum": ["image", "video", "logo"] } } },
+                  "then": { "required": ["assetRef"] }
+                },
+                {
+                  "if": { "properties": { "type": { "const": "cta" } } },
+                  "then": { "required": ["ctaRef"] }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "ctas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "intent", "label", "action", "target"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "intent": { "type": "string" },
+          "label": { "type": "string", "minLength": 1 },
+          "action": {
+            "type": "string",
+            "enum": ["whatsapp", "link-bio", "dm", "comentar", "guardar", "compartir", "visitar-web"]
+          },
+          "target": { "type": "string", "minLength": 1 },
+          "tone": { "type": "string" }
+        }
+      }
+    },
+    "copyVariants": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    }
+  }
+}
