@@ -1,0 +1,65 @@
+{
+  "rows": [
+    {
+      "slide": 1,
+      "role": "hook",
+      "eyebrow": "Zona Sur · Techos de policarbonato",
+      "headline": "Cerrar el quincho con policarbonato parece simple. Estos 3 detalles hacen la diferencia.",
+      "body": "",
+      "data": "",
+      "image": "quincho-policarbonato.jpg",
+      "cta_label": "",
+      "cta_target": "",
+      "logo": ""
+    },
+    {
+      "slide": 2,
+      "role": "value",
+      "eyebrow": "1",
+      "headline": "El espesor no es un capricho",
+      "body": "Para un techo de quincho usamos placa alveolar de 10mm. Las cámaras de aire son las que frenan el calor del sol en verano. Una placa más fina se calienta y se comba.",
+      "data": "10mm",
+      "image": "placa-alveolar-10mm.jpg",
+      "cta_label": "",
+      "cta_target": "",
+      "logo": ""
+    },
+    {
+      "slide": 3,
+      "role": "value",
+      "eyebrow": "2",
+      "headline": "La estructura importa tanto como la placa",
+      "body": "El perfil de aluminio tiene que estar bien calculado y con la pendiente justa para que el agua escurra. Si la estructura flexa, el policarbonato trabaja mal y aparece la filtración.",
+      "data": "",
+      "image": "estructura-aluminio.jpg",
+      "cta_label": "",
+      "cta_target": "",
+      "logo": ""
+    },
+    {
+      "slide": 4,
+      "role": "value",
+      "eyebrow": "3",
+      "headline": "La cara con protección UV va para arriba",
+      "body": "El policarbonato tiene una sola cara tratada contra el sol. Colocada al revés, el sol la quiebra en pocos años. Es un detalle que no se ve de afuera, pero define cuánto dura.",
+      "data": "",
+      "image": "detalle-film-uv.jpg",
+      "cta_label": "",
+      "cta_target": "",
+      "logo": ""
+    },
+    {
+      "slide": 5,
+      "role": "cta",
+      "eyebrow": "",
+      "headline": "¿Estás pensando en cerrar tu quincho?",
+      "body": "Contanos las medidas y te orientamos sin cargo.",
+      "data": "",
+      "image": "",
+      "cta_label": "Escribinos por WhatsApp",
+      "cta_target": "https://wa.me/5491163368643",
+      "logo": "alumfer-blanco.svg"
+    }
+  ],
+  "unmapped": []
+}

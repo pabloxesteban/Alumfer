@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0",
+  "assets": {
+    "logo.principal":          { "type": "logo",  "path": "assets/logos/alumfer-blanco.svg",       "required": true },
+    "photo.quincho.techo":     { "type": "photo", "path": "assets/fotos/quincho-policarbonato.jpg", "required": true, "alt": "Quincho con techo de policarbonato instalado, luz filtrada" },
+    "photo.espesor.placa":     { "type": "photo", "path": "assets/fotos/placa-alveolar-10mm.jpg",   "required": true, "alt": "Corte de placa alveolar de 10mm mostrando las camaras de aire" },
+    "photo.estructura.aluminio":{ "type": "photo","path": "assets/fotos/estructura-aluminio.jpg",   "required": true, "alt": "Estructura de perfiles de aluminio con pendiente antes de colocar la placa" },
+    "photo.detalle.uv":        { "type": "photo", "path": "assets/fotos/detalle-film-uv.jpg",       "required": true, "alt": "Detalle del film protector con la indicacion de la cara UV" }
+  },
+  "video": [],
+  "brollHints": ["colocacion de placa sobre estructura", "sellado de perfil union"],
+  "graphicElements": {
+    "accent.bar": { "type": "shape", "description": "Barra azul 3px, borde izquierdo de titulos", "color": "brand.blue" },
+    "step.number": { "type": "shape", "description": "Numeral grande de paso (1/2/3) en Montserrat 600 azul", "color": "brand.blue" }
+  },
+  "palette": {
+    "brand.carbon":         "#1A1C1E",
+    "brand.steel":          "#2E3338",
+    "brand.concrete.faint": "#F5F4F1",
+    "brand.concrete.light": "#E8E4DC",
+    "brand.blue":           "#1B6CC8",
+    "text.on-dark.strong":  "#FFFFFF",
+    "text.on-dark.muted":   "rgba(255,255,255,0.60)"
+  },
+  "typography": {
+    "heading": { "family": "Montserrat", "weight": 600, "tracking": "-0.02em" },
+    "subhead": { "family": "Inter",      "weight": 400, "tracking": "0.06em", "transform": "uppercase" },
+    "body":    { "family": "Inter",      "weight": 400 }
+  },
+  "backgrounds": {
+    "bg.dark": { "type": "solid", "color": "brand.carbon" }
+  },
+  "textures": [],
+  "mockups": [],
+  "renders": []
+}

@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1.0",
+  "objective": "generar-consultas",
+  "funnelStage": "consideracion",
+  "campaign": {
+    "id": "quinchos-2026",
+    "name": "Quincho todo el año",
+    "theme": "cerramientos y techos"
+  },
+  "author": "creative-os",
+  "reviewedBy": ["brand-guardian", "quality-controller"],
+  "createdAt": "2026-07-01",
+  "version": "1.0",
+  "language": "es-AR",
+  "branding": {
+    "brandId": "alumfer",
+    "voiceProfile": "artesano",
+    "palette": "modo-oscuro",
+    "logoUsage": "cierre-solamente"
+  },
+  "priority": "alta",
+  "compatiblePlatforms": ["instagram", "facebook"],
+  "primaryPlatform": "instagram",
+  "publication": {
+    "type": "carrusel",
+    "category": "educativo-consideracion",
+    "duration": null,
+    "aspectRatio": "4:5",
+    "slideCount": 5
+  },
+  "geo": {
+    "zone": "Zona Sur GBA",
+    "neighborhood": "Adrogue"
+  },
+  "scheduling": {
+    "suggestedWindow": "sabado 10:00-12:00",
+    "seasonalRelevance": "primavera-pre-verano"
+  }
+}

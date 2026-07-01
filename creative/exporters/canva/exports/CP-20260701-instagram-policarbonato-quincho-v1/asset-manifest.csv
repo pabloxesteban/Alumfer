@@ -1,0 +1,6 @@
+nombre_en_canva,archivo_origen,tipo,usado_en_slides,requerido
+alumfer-blanco.svg,assets/logos/alumfer-blanco.svg,logo,5,si
+quincho-policarbonato.jpg,assets/fotos/quincho-policarbonato.jpg,photo,1,si
+placa-alveolar-10mm.jpg,assets/fotos/placa-alveolar-10mm.jpg,photo,2,si
+estructura-aluminio.jpg,assets/fotos/estructura-aluminio.jpg,photo,3,si
+detalle-film-uv.jpg,assets/fotos/detalle-film-uv.jpg,photo,4,si

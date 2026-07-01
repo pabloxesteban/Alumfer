@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "1.0",
+  "contentType": "instagram-carousel",
+  "narrative": {
+    "framework": "educativo-consideracion",
+    "throughline": "Cerrar el quincho con policarbonato parece simple, pero 3 detalles definen si dura años o filtra el primer verano",
+    "emotionalArc": ["curiosidad", "reconocimiento", "confianza", "decision"],
+    "primaryEmotion": "confianza",
+    "audiencePromise": "Vas a saber qué mirar antes de cerrar tu quincho, para no equivocarte"
+  },
+  "blocks": [
+    {
+      "id": "b1",
+      "role": "hook",
+      "index": 0,
+      "layoutHint": "full-bleed-photo",
+      "elements": [
+        { "type": "eyebrow",  "text": "Zona Sur · Techos de policarbonato" },
+        { "type": "headline", "text": "Cerrar el quincho con policarbonato parece simple. Estos 3 detalles hacen la diferencia." },
+        { "type": "image",    "assetRef": "photo.quincho.techo" }
+      ]
+    },
+    {
+      "id": "b2",
+      "role": "value",
+      "index": 1,
+      "layoutHint": "split-text-image",
+      "elements": [
+        { "type": "eyebrow",  "text": "1" },
+        { "type": "headline", "text": "El espesor no es un capricho" },
+        { "type": "body",     "text": "Para un techo de quincho usamos placa alveolar de 10mm. Las cámaras de aire son las que frenan el calor del sol en verano. Una placa más fina se calienta y se comba." },
+        { "type": "data",     "text": "10mm" },
+        { "type": "image",    "assetRef": "photo.espesor.placa" }
+      ]
+    },
+    {
+      "id": "b3",
+      "role": "value",
+      "index": 2,
+      "layoutHint": "split-text-image",
+      "elements": [
+        { "type": "eyebrow",  "text": "2" },
+        { "type": "headline", "text": "La estructura importa tanto como la placa" },
+        { "type": "body",     "text": "El perfil de aluminio tiene que estar bien calculado y con la pendiente justa para que el agua escurra. Si la estructura flexa, el policarbonato trabaja mal y aparece la filtración." },
+        { "type": "image",    "assetRef": "photo.estructura.aluminio" }
+      ]
+    },
+    {
+      "id": "b4",
+      "role": "value",
+      "index": 3,
+      "layoutHint": "split-text-image",
+      "elements": [
+        { "type": "eyebrow",  "text": "3" },
+        { "type": "headline", "text": "La cara con protección UV va para arriba" },
+        { "type": "body",     "text": "El policarbonato tiene una sola cara tratada contra el sol. Colocada al revés, el sol la quiebra en pocos años. Es un detalle que no se ve de afuera, pero define cuánto dura." },
+        { "type": "image",    "assetRef": "photo.detalle.uv" }
+      ]
+    },
+    {
+      "id": "b5",
+      "role": "cta",
+      "index": 4,
+      "layoutHint": "brand-closing",
+      "elements": [
+        { "type": "headline", "text": "¿Estás pensando en cerrar tu quincho?" },
+        { "type": "body",     "text": "Contanos las medidas y te orientamos sin cargo." },
+        { "type": "cta",      "ctaRef": "whatsapp-presupuesto" },
+        { "type": "logo",     "assetRef": "logo.principal" }
+      ]
+    }
+  ],
+  "ctas": [
+    {
+      "id": "whatsapp-presupuesto",
+      "intent": "consulta",
+      "label": "Escribinos por WhatsApp",
+      "action": "whatsapp",
+      "target": "{{brand.whatsapp}}",
+      "tone": "invitacion-sin-presion"
+    }
+  ],
+  "copyVariants": {
+    "headline.short": "3 detalles antes de cerrar tu quincho",
+    "headline.long": "Cerrar el quincho con policarbonato: los 3 detalles que definen si dura"
+  }
+}

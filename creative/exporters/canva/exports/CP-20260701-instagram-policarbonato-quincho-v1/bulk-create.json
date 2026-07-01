@@ -1,0 +1,58 @@
+{
+  "template": "Instagram Carousel Alumfer",
+  "templateId": "instagram-carousel",
+  "packageId": "CP-20260701-instagram-policarbonato-quincho-v1",
+  "aspectRatio": "4:5",
+  "slides": [
+    {
+      "slide": 1,
+      "role": "hook",
+      "variables": {
+        "Volanta": "Zona Sur · Techos de policarbonato",
+        "Titular": "Cerrar el quincho con policarbonato parece simple. Estos 3 detalles hacen la diferencia.",
+        "Imagen": "quincho-policarbonato.jpg"
+      }
+    },
+    {
+      "slide": 2,
+      "role": "value",
+      "variables": {
+        "Volanta": "1",
+        "Titular": "El espesor no es un capricho",
+        "Texto": "Para un techo de quincho usamos placa alveolar de 10mm. Las cámaras de aire son las que frenan el calor del sol en verano. Una placa más fina se calienta y se comba.",
+        "Dato": "10mm",
+        "Imagen": "placa-alveolar-10mm.jpg"
+      }
+    },
+    {
+      "slide": 3,
+      "role": "value",
+      "variables": {
+        "Volanta": "2",
+        "Titular": "La estructura importa tanto como la placa",
+        "Texto": "El perfil de aluminio tiene que estar bien calculado y con la pendiente justa para que el agua escurra. Si la estructura flexa, el policarbonato trabaja mal y aparece la filtración.",
+        "Imagen": "estructura-aluminio.jpg"
+      }
+    },
+    {
+      "slide": 4,
+      "role": "value",
+      "variables": {
+        "Volanta": "3",
+        "Titular": "La cara con protección UV va para arriba",
+        "Texto": "El policarbonato tiene una sola cara tratada contra el sol. Colocada al revés, el sol la quiebra en pocos años. Es un detalle que no se ve de afuera, pero define cuánto dura.",
+        "Imagen": "detalle-film-uv.jpg"
+      }
+    },
+    {
+      "slide": 5,
+      "role": "cta",
+      "variables": {
+        "Titular": "¿Estás pensando en cerrar tu quincho?",
+        "Texto": "Contanos las medidas y te orientamos sin cargo.",
+        "CTA": "Escribinos por WhatsApp",
+        "Logo": "alumfer-blanco.svg"
+      }
+    }
+  ]
+}
