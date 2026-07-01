@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "1.0",
+  "objective": "generar-consultas",
+  "funnelStage": "consideracion",
+  "campaign": { "id": "educativo-2026", "name": "Comprá informado", "theme": "decisión de compra de aberturas" },
+  "author": "creative-os",
+  "reviewedBy": ["brand-guardian", "quality-controller"],
+  "createdAt": "2026-07-01",
+  "version": "1.0",
+  "language": "es-AR",
+  "branding": {
+    "brandId": "alumfer",
+    "voiceProfile": "artesano",
+    "palette": "modo-oscuro",
+    "logoUsage": "cierre-solamente"
+  },
+  "priority": "alta",
+  "compatiblePlatforms": ["instagram", "facebook"],
+  "primaryPlatform": "instagram",
+  "publication": {
+    "type": "carrusel",
+    "category": "educativo-consideracion",
+    "duration": null,
+    "aspectRatio": "4:5",
+    "slideCount": 6
+  },
+  "geo": { "zone": "Zona Sur GBA", "neighborhood": "Adrogue" },
+  "scheduling": { "suggestedWindow": "miercoles 19:00-21:00", "seasonalRelevance": "todo el año" }
+}

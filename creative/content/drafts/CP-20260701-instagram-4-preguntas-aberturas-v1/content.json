@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "1.0",
+  "contentType": "educativo",
+  "narrative": {
+    "framework": "checklist-consideracion",
+    "throughline": "Cuatro preguntas simples que separan una buena compra de aberturas de un dolor de cabeza",
+    "emotionalArc": ["curiosidad", "reconocimiento", "control", "confianza"],
+    "primaryEmotion": "confianza",
+    "audiencePromise": "Vas a saber exactamente qué preguntar antes de comprar, para no equivocarte"
+  },
+  "blocks": [
+    {
+      "id": "b1",
+      "role": "hook",
+      "index": 0,
+      "layoutHint": "text-cover",
+      "elements": [
+        { "type": "eyebrow",  "text": "Aberturas · Zona Sur" },
+        { "type": "headline", "text": "Antes de comprar ventanas, hacé estas 4 preguntas." },
+        { "type": "body",     "text": "Te ahorran plata y dolores de cabeza. Guardá este posteo para cuando lo necesites." }
+      ]
+    },
+    {
+      "id": "b2",
+      "role": "value",
+      "index": 1,
+      "layoutHint": "numbered-text",
+      "elements": [
+        { "type": "eyebrow",  "text": "1" },
+        { "type": "headline", "text": "¿El vidrio es simple o DVH?" },
+        { "type": "body",     "text": "El vidrio define el confort térmico y el ruido. Para dormitorios al frente o ambientes fríos, el DVH cambia todo." }
+      ]
+    },
+    {
+      "id": "b3",
+      "role": "value",
+      "index": 2,
+      "layoutHint": "numbered-text",
+      "elements": [
+        { "type": "eyebrow",  "text": "2" },
+        { "type": "headline", "text": "¿Qué línea de perfil usan?" },
+        { "type": "body",     "text": "No todos los aluminios son iguales. Preguntá la línea y el espesor: definen la resistencia, el cierre y cuánto sella con el tiempo." }
+      ]
+    },
+    {
+      "id": "b4",
+      "role": "value",
+      "index": 3,
+      "layoutHint": "numbered-text",
+      "elements": [
+        { "type": "eyebrow",  "text": "3" },
+        { "type": "headline", "text": "¿Fabrican o revenden?" },
+        { "type": "body",     "text": "Comprar a quien fabrica es sin intermediarios: medidas exactas y una sola cara responsable si algo hay que ajustar." }
+      ]
+    },
+    {
+      "id": "b5",
+      "role": "value",
+      "index": 4,
+      "layoutHint": "numbered-text",
+      "elements": [
+        { "type": "eyebrow",  "text": "4" },
+        { "type": "headline", "text": "¿Incluye la colocación?" },
+        { "type": "body",     "text": "Una ventana bien fabricada pero mal instalada filtra igual. Confirmá que la instalación esté incluida y quién la hace." }
+      ]
+    },
+    {
+      "id": "b6",
+      "role": "cta",
+      "index": 5,
+      "layoutHint": "brand-closing",
+      "elements": [
+        { "type": "headline", "text": "¿Vas a renovar tus aberturas?" },
+        { "type": "body",     "text": "Escribinos y te asesoramos sin cargo. Fabricación propia en Adrogué, para toda la Zona Sur." },
+        { "type": "cta",      "ctaRef": "whatsapp-presupuesto" },
+        { "type": "logo",     "assetRef": "logo.principal" }
+      ]
+    }
+  ],
+  "ctas": [
+    {
+      "id": "whatsapp-presupuesto",
+      "intent": "consulta",
+      "label": "Escribinos por WhatsApp",
+      "action": "whatsapp",
+      "target": "{{brand.whatsapp}}",
+      "tone": "invitacion-sin-presion"
+    }
+  ],
+  "copyVariants": {
+    "headline.short": "4 preguntas antes de comprar ventanas",
+    "headline.long": "Las 4 preguntas que casi nadie hace antes de comprar aberturas"
+  }
+}

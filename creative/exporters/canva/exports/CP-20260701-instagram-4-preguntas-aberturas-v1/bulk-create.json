@@ -1,0 +1,63 @@
+{
+  "template": "Educativo Alumfer",
+  "templateId": "educativo",
+  "packageId": "CP-20260701-instagram-4-preguntas-aberturas-v1",
+  "aspectRatio": "4:5",
+  "slides": [
+    {
+      "slide": 1,
+      "role": "hook",
+      "variables": {
+        "Volanta": "Aberturas · Zona Sur",
+        "Titular": "Antes de comprar ventanas, hacé estas 4 preguntas.",
+        "Texto": "Te ahorran plata y dolores de cabeza. Guardá este posteo para cuando lo necesites."
+      }
+    },
+    {
+      "slide": 2,
+      "role": "value",
+      "variables": {
+        "Volanta": "1",
+        "Titular": "¿El vidrio es simple o DVH?",
+        "Texto": "El vidrio define el confort térmico y el ruido. Para dormitorios al frente o ambientes fríos, el DVH cambia todo."
+      }
+    },
+    {
+      "slide": 3,
+      "role": "value",
+      "variables": {
+        "Volanta": "2",
+        "Titular": "¿Qué línea de perfil usan?",
+        "Texto": "No todos los aluminios son iguales. Preguntá la línea y el espesor: definen la resistencia, el cierre y cuánto sella con el tiempo."
+      }
+    },
+    {
+      "slide": 4,
+      "role": "value",
+      "variables": {
+        "Volanta": "3",
+        "Titular": "¿Fabrican o revenden?",
+        "Texto": "Comprar a quien fabrica es sin intermediarios: medidas exactas y una sola cara responsable si algo hay que ajustar."
+      }
+    },
+    {
+      "slide": 5,
+      "role": "value",
+      "variables": {
+        "Volanta": "4",
+        "Titular": "¿Incluye la colocación?",
+        "Texto": "Una ventana bien fabricada pero mal instalada filtra igual. Confirmá que la instalación esté incluida y quién la hace."
+      }
+    },
+    {
+      "slide": 6,
+      "role": "cta",
+      "variables": {
+        "Titular": "¿Vas a renovar tus aberturas?",
+        "Texto": "Escribinos y te asesoramos sin cargo. Fabricación propia en Adrogué, para toda la Zona Sur.",
+        "CTA": "Escribinos por WhatsApp",
+        "Logo": "alumfer-blanco.svg"
+      }
+    }
+  ]
+}

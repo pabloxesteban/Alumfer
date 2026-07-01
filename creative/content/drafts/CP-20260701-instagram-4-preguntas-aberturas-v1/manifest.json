@@ -1,0 +1,19 @@
+{
+  "packageStandard": "alumfer.content-package/1.0",
+  "packageId": "CP-20260701-instagram-4-preguntas-aberturas-v1",
+  "createdAt": "2026-07-01T17:00:00-03:00",
+  "generatedBy": "creative-os",
+  "revision": 1,
+  "status": "ready-for-export",
+  "files": [
+    { "path": "content.json",  "role": "content",   "required": true },
+    { "path": "metadata.json", "role": "metadata",  "required": true },
+    { "path": "assets.json",   "role": "assets",    "required": true },
+    { "path": "captions.md",   "role": "captions",  "required": true },
+    { "path": "hashtags.txt",  "role": "hashtags",  "required": true },
+    { "path": "checklist.md",  "role": "checklist", "required": true },
+    { "path": "preview.md",    "role": "preview",   "required": false }
+  ],
+  "entrypoints": { "content": "content.json", "assets": "assets.json" },
+  "compatibleExporters": ["canva"]
+}

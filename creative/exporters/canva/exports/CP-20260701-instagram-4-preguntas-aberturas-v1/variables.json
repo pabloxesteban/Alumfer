@@ -1,0 +1,77 @@
+{
+  "rows": [
+    {
+      "slide": 1,
+      "role": "hook",
+      "eyebrow": "Aberturas · Zona Sur",
+      "headline": "Antes de comprar ventanas, hacé estas 4 preguntas.",
+      "body": "Te ahorran plata y dolores de cabeza. Guardá este posteo para cuando lo necesites.",
+      "data": "",
+      "image": "",
+      "cta_label": "",
+      "cta_target": "",
+      "logo": ""
+    },
+    {
+      "slide": 2,
+      "role": "value",
+      "eyebrow": "1",
+      "headline": "¿El vidrio es simple o DVH?",
+      "body": "El vidrio define el confort térmico y el ruido. Para dormitorios al frente o ambientes fríos, el DVH cambia todo.",
+      "data": "",
+      "image": "",
+      "cta_label": "",
+      "cta_target": "",
+      "logo": ""
+    },
+    {
+      "slide": 3,
+      "role": "value",
+      "eyebrow": "2",
+      "headline": "¿Qué línea de perfil usan?",
+      "body": "No todos los aluminios son iguales. Preguntá la línea y el espesor: definen la resistencia, el cierre y cuánto sella con el tiempo.",
+      "data": "",
+      "image": "",
+      "cta_label": "",
+      "cta_target": "",
+      "logo": ""
+    },
+    {
+      "slide": 4,
+      "role": "value",
+      "eyebrow": "3",
+      "headline": "¿Fabrican o revenden?",
+      "body": "Comprar a quien fabrica es sin intermediarios: medidas exactas y una sola cara responsable si algo hay que ajustar.",
+      "data": "",
+      "image": "",
+      "cta_label": "",
+      "cta_target": "",
+      "logo": ""
+    },
+    {
+      "slide": 5,
+      "role": "value",
+      "eyebrow": "4",
+      "headline": "¿Incluye la colocación?",
+      "body": "Una ventana bien fabricada pero mal instalada filtra igual. Confirmá que la instalación esté incluida y quién la hace.",
+      "data": "",
+      "image": "",
+      "cta_label": "",
+      "cta_target": "",
+      "logo": ""
+    },
+    {
+      "slide": 6,
+      "role": "cta",
+      "eyebrow": "",
+      "headline": "¿Vas a renovar tus aberturas?",
+      "body": "Escribinos y te asesoramos sin cargo. Fabricación propia en Adrogué, para toda la Zona Sur.",
+      "data": "",
+      "image": "",
+      "cta_label": "Escribinos por WhatsApp",
+      "cta_target": "https://wa.me/5491163368643",
+      "logo": "alumfer-blanco.svg"
+    }
+  ],
+  "unmapped": []
+}
