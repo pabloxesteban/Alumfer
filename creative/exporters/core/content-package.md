@@ -197,6 +197,7 @@ Diseño clave: un contenido es una **secuencia de `blocks`** (slides/escenas/fra
 ```
 
 Reglas de `content.json`:
+- **Los placeholders `{{brand.*}}`** (ej: `{{brand.whatsapp}}`) se resuelven al exportar contra `../../brand/brand-profile.json` — la fuente única de verdad de los datos de marca. No se escriben a mano.
 - **Los textos viven acá**, no en los assets. Un asset es un recurso; el texto es contenido.
 - **Toda referencia a un recurso** se hace por `assetRef` (una clave de `assets.json`), nunca por ruta directa. Así el exportador resuelve rutas en un solo lugar.
 - **Todo CTA se define una vez** en `ctas[]` y se referencia por `ctaRef`. Evita CTA duplicados o divergentes.

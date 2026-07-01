@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "1.0",
+  "objective": "TODO: alcance | engagement | generar-consultas | posicionamiento",
+  "funnelStage": "TODO: descubrimiento | consideracion | decision | fidelizacion",
+  "campaign": { "id": "TODO", "name": "TODO", "theme": "TODO" },
+  "author": "creative-os",
+  "reviewedBy": ["brand-guardian", "quality-controller"],
+  "createdAt": "YYYY-MM-DD",
+  "version": "1.0",
+  "language": "es-AR",
+  "branding": {
+    "brandId": "alumfer",
+    "voiceProfile": "artesano",
+    "palette": "modo-oscuro",
+    "logoUsage": "cierre-solamente"
+  },
+  "priority": "TODO: baja | media | alta | urgente",
+  "compatiblePlatforms": ["instagram"],
+  "primaryPlatform": "instagram",
+  "publication": {
+    "type": "TODO: reel | carrusel | foto | story | video",
+    "category": "TODO",
+    "duration": null,
+    "aspectRatio": "TODO: 9:16 | 4:5 | 1:1 | 16:9",
+    "slideCount": 3
+  },
+  "geo": { "zone": "Zona Sur GBA", "neighborhood": "TODO" },
+  "scheduling": { "suggestedWindow": "TODO", "seasonalRelevance": "TODO" }
+}

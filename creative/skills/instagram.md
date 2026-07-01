@@ -1,7 +1,7 @@
 # Skill: Instagram
 
 ## Qué cubre este skill
-Todo lo relacionado con el contenido publicado en @alumfer_arg (o el handle oficial).
+Todo lo relacionado con el contenido publicado en @alumfercarpinteria (handle oficial; ver `brand/brand-profile.json`).
 Feed, reels, stories, highlights, bio.
 
 ## Estado actual del perfil

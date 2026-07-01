@@ -1,0 +1,57 @@
+{
+  "$comment": "Perfil de marca legible por maquina. Fuente unica de verdad para los placeholders {{brand.*}} que aparecen en los Content Packages (ej: {{brand.whatsapp}}). El exportador y el skill content-packaging resuelven esos placeholders contra este archivo. Datos reales tomados de apps/website.",
+  "brandId": "alumfer",
+  "name": "Alumfer",
+  "tagline": "Carpinteria de aluminio a medida",
+  "contact": {
+    "whatsapp": "5491163368643",
+    "whatsappLink": "https://wa.me/5491163368643",
+    "website": "https://alumfer.com.ar",
+    "instagram": "@alumfercarpinteria",
+    "instagramUrl": "https://instagram.com/alumfercarpinteria"
+  },
+  "location": {
+    "base": "Adrogue",
+    "zone": "Zona Sur GBA",
+    "neighborhoods": [
+      "Adrogue", "Almirante Brown", "Lomas de Zamora", "Banfield", "Temperley",
+      "Quilmes", "Berazategui", "Lanus", "Ezeiza", "Burzaco", "Claypole",
+      "Longchamps", "Glew", "Monte Grande", "Luis Guillon", "Canning",
+      "Florencio Varela", "Avellaneda", "CABA"
+    ]
+  },
+  "voice": {
+    "profile": "artesano",
+    "archetype": "El Artesano con rasgos del Gobernante",
+    "forbiddenWords": ["economico", "delivery", "innovador", "soluciones", "100%", "el mejor"]
+  },
+  "palette": {
+    "brand.carbon": "#1A1C1E",
+    "brand.steel": "#2E3338",
+    "brand.concrete.faint": "#F5F4F1",
+    "brand.concrete.light": "#E8E4DC",
+    "brand.blue": "#1B6CC8",
+    "text.on-dark.strong": "#FFFFFF",
+    "text.on-dark.muted": "rgba(255,255,255,0.60)"
+  },
+  "typography": {
+    "heading": { "family": "Montserrat", "weight": 600, "tracking": "-0.02em" },
+    "subhead": { "family": "Inter", "weight": 400, "tracking": "0.06em", "transform": "uppercase" },
+    "body": { "family": "Inter", "weight": 400 }
+  },
+  "logo": {
+    "usage": "cierre-solamente",
+    "defaultAsset": "alumfer-blanco.svg"
+  },
+  "products": [
+    "ventanas de aluminio", "ventanas DVH", "puertas de aluminio",
+    "cerramientos de aluminio", "techos de policarbonato", "mosquiteros a medida"
+  ],
+  "placeholders": {
+    "{{brand.whatsapp}}": "contact.whatsappLink",
+    "{{brand.instagram}}": "contact.instagram",
+    "{{brand.website}}": "contact.website",
+    "{{brand.zone}}": "location.zone",
+    "{{brand.base}}": "location.base"
+  }
+}

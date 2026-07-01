@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "1.0",
+  "contentType": "TODO: instagram-carousel | story | quote | before-after | testimonial | faq | reel-cover | promo | oferta | comparativa | educativo | reel | photo",
+  "narrative": {
+    "framework": "TODO: ej problema-solucion-prueba",
+    "throughline": "TODO: la idea central en una frase",
+    "emotionalArc": ["TODO", "TODO", "TODO"],
+    "primaryEmotion": "TODO",
+    "audiencePromise": "TODO: que se lleva la audiencia"
+  },
+  "blocks": [
+    {
+      "id": "b1",
+      "role": "hook",
+      "index": 0,
+      "layoutHint": "full-bleed-photo",
+      "elements": [
+        { "type": "eyebrow",  "text": "TODO: zona · producto" },
+        { "type": "headline", "text": "TODO: el gancho, lo que se ve o lo que logra" },
+        { "type": "image",    "assetRef": "photo.principal" }
+      ]
+    },
+    {
+      "id": "b2",
+      "role": "value",
+      "index": 1,
+      "layoutHint": "split-text-image",
+      "elements": [
+        { "type": "headline", "text": "TODO: el valor / el dato" },
+        { "type": "body",     "text": "TODO: contexto breve, dato tecnico traducido a beneficio" },
+        { "type": "image",    "assetRef": "photo.secundaria" }
+      ]
+    },
+    {
+      "id": "b3",
+      "role": "cta",
+      "index": 2,
+      "layoutHint": "brand-closing",
+      "elements": [
+        { "type": "headline", "text": "TODO: invitacion sin presion" },
+        { "type": "cta",      "ctaRef": "whatsapp-presupuesto" },
+        { "type": "logo",     "assetRef": "logo.principal" }
+      ]
+    }
+  ],
+  "ctas": [
+    {
+      "id": "whatsapp-presupuesto",
+      "intent": "consulta",
+      "label": "Escribinos por WhatsApp",
+      "action": "whatsapp",
+      "target": "{{brand.whatsapp}}",
+      "tone": "invitacion-sin-presion"
+    }
+  ],
+  "copyVariants": {}
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0",
+  "assets": {
+    "logo.principal":   { "type": "logo",  "path": "assets/logos/alumfer-blanco.svg", "required": true },
+    "photo.principal":  { "type": "photo", "path": "assets/fotos/TODO-principal.jpg",  "required": true, "alt": "TODO: descripcion de la foto" },
+    "photo.secundaria": { "type": "photo", "path": "assets/fotos/TODO-secundaria.jpg", "required": true, "alt": "TODO: descripcion de la foto" }
+  },
+  "video": [],
+  "brollHints": [],
+  "graphicElements": {
+    "accent.bar": { "type": "shape", "description": "Barra azul 3px, borde izquierdo de titulos", "color": "brand.blue" }
+  },
+  "palette": {
+    "brand.carbon": "#1A1C1E",
+    "brand.steel": "#2E3338",
+    "brand.concrete.faint": "#F5F4F1",
+    "brand.concrete.light": "#E8E4DC",
+    "brand.blue": "#1B6CC8",
+    "text.on-dark.strong": "#FFFFFF",
+    "text.on-dark.muted": "rgba(255,255,255,0.60)"
+  },
+  "typography": {
+    "heading": { "family": "Montserrat", "weight": 600, "tracking": "-0.02em" },
+    "subhead": { "family": "Inter", "weight": 400, "tracking": "0.06em", "transform": "uppercase" },
+    "body": { "family": "Inter", "weight": 400 }
+  },
+  "backgrounds": { "bg.dark": { "type": "solid", "color": "brand.carbon" } },
+  "textures": [],
+  "mockups": [],
+  "renders": []
+}

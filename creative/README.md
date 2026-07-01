@@ -77,6 +77,8 @@ Detalle completo en `exporters/README.md`.
 
 ## Cómo usar el Creative OS
 
+> **¿Querés empezar a crear contenido ya?** Andá directo a **[`content/EMPEZAR.md`](content/EMPEZAR.md)** — guía de 6 pasos, de la idea al post. Hay 10 ideas listas en `content/ideas/backlog.md` y una plantilla en blanco en `templates/content-package/`.
+
 ### Para generar un reel
 1. Leer `brand/brand-dna.md` para confirmar que la idea encaja
 2. Seguir `workflows/idea-to-reel.md`

@@ -32,8 +32,8 @@ Cada `role` de bloque tiene un mapeo canónico a **variables semánticas**. La p
 
 ## Resolución de referencias
 - `assetRef` → se resuelve a `assets.json[assetRef].path`. Si no existe, no se mapea (lo captura `asset-existence`).
-- `ctaRef` → se resuelve a la entrada de `ctas[]`. `{{brand.whatsapp}}` se expande usando el brand profile.
-- Placeholders `{{...}}` → se expanden con los valores de marca antes de emitir.
+- `ctaRef` → se resuelve a la entrada de `ctas[]`.
+- Placeholders `{{brand.*}}` → se expanden con los valores de `../../../brand/brand-profile.json` (fuente única de verdad: WhatsApp, Instagram, web, zona). Ej: `{{brand.whatsapp}}` → `https://wa.me/5491163368643`. Un placeholder sin correspondencia en el perfil → `warning`.
 
 ## Output → `VariableMap`
 Una fila por bloque, en orden de `index`:
