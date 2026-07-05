@@ -63,8 +63,32 @@ Orden de importancia (de `engine/north-star-metric.md`):
 3. **A las 2–4 semanas:** se revisan las consultas diferidas (el cliente educativo llega tarde).
 4. **Se completa el aprendizaje** y se dispara la acción vía `feedback-loop.md`.
 
+## Registro
+
+### #001 · la-ventana-barata-no-existe  ·  ESTADO: creada (pendiente de publicar)
+```
+FORMATO: carrusel (8 slides)          FECHA PUB: —
+── ADN CREATIVO ──
+HOOK:        "La ventana barata no existe."    TIPO: curiosidad
+ÁNGULO:      reencuadre / costo oculto
+ESTRUCTURA:  Mito→Verdad + Costo oculto (metáfora "cuotas")
+TEMA:        precio vs. costo de aberturas
+EMOCIÓN:     indignación útil
+COPYWRITER:  authority
+CTA:         foto por WhatsApp + guardar/compartir
+SCORE PREDICHO: 86/100
+── RESULTADO REAL ──
+[pendiente — cargar a 48-72h de publicar]
+── APRENDIZAJE ──
+PREDICCIÓN: guardados sobre promedio (munición de decisión) + compartidos por
+reenvío en pareja + DMs con foto de abertura.
+HIPÓTESIS A VALIDAR: R07 (la confesión/"lo que no te cuentan" genera comentarios)
+y el fit de P03 (costo oculto) para carrusel guardable.
+Workspace: creative/content/projects/2026-07-carrusel-compartible/
+```
+
 ## Estado inicial
-Vacío. Se llena con cada publicación. La primera decena de filas es exploratoria (poca base estadística); a partir de ahí las correlaciones empiezan a ser confiables y las reglas de `creative-rules/` a moverse.
+Primera fila cargada (#001, sin resultado aún). La primera decena de filas es exploratoria (poca base estadística); a partir de ahí las correlaciones empiezan a ser confiables y las reglas de `creative-rules/` a moverse.
 
 ## Regla
 Una pieza sin fila en el ledger es una pieza de la que no aprendimos nada. El registro no es opcional: es la condición para que el engine mejore.

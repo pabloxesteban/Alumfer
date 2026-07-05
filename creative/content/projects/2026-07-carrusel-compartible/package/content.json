@@ -1,0 +1,108 @@
+{
+  "project": "carrusel-la-ventana-barata-no-existe",
+  "brand": "Alumfer",
+  "platform": "instagram",
+  "format": "carousel",
+  "language": "es-AR",
+  "market": "GBA, Argentina",
+  "slides_count": 8,
+  "concept": "La ventana barata no existe: reencuadre precio→costo con la metáfora de las 'cuotas' ocultas.",
+  "dominant_emotion": "indignacion-util",
+  "copywriter": "authority",
+  "predicted_viral_score": 86,
+  "objective": ["guardar", "compartir", "consultas-whatsapp"],
+  "slides": [
+    {
+      "n": 1,
+      "role": "hook",
+      "kicker": "",
+      "headline": "La ventana barata no existe.",
+      "body": "",
+      "accent_word": "barata",
+      "visual": "Fondo carbón, tipografía enorme centrada. Sin imagen. Pie pequeño: Alumfer · aberturas de aluminio · Zona Sur.",
+      "emotion": "curiosidad",
+      "transition": "corte-seco"
+    },
+    {
+      "n": 2,
+      "role": "reframe",
+      "kicker": "",
+      "headline": "Existen dos.",
+      "body": "La que pagás una vez. Y la que pagás en cuotas —sin que nadie te avise— durante años.",
+      "accent_word": "cuotas",
+      "visual": "Split vertical: izq. ventana Alumfer con luz; der. ventana vieja/filtrada.",
+      "emotion": "reconocimiento",
+      "transition": "aparece-rotulo-cuota"
+    },
+    {
+      "n": 3,
+      "role": "cuota-1",
+      "kicker": "Cuota 1 · el invierno",
+      "headline": "El frío que entra por el marco lo pagás en la factura de gas.",
+      "body": "Todos los meses fríos. Todos los años.",
+      "accent_word": "gas",
+      "visual": "Foto real de marco + detalle de sellado; paleta fría; ícono sutil de llama/factura.",
+      "emotion": "preocupacion",
+      "transition": "deslizamiento"
+    },
+    {
+      "n": 4,
+      "role": "cuota-2",
+      "kicker": "Cuota 2 · el ruido",
+      "headline": "La avenida, el colectivo, el vecino.",
+      "body": "Una ventana barata no los frena: los deja pasar a tu living.",
+      "accent_word": "ruido",
+      "visual": "Ventana dando a calle GBA real; líneas de sonido entrando; contraste adentro/afuera.",
+      "emotion": "fastidio",
+      "transition": "deslizamiento"
+    },
+    {
+      "n": 5,
+      "role": "cuota-3",
+      "kicker": "Cuota 3 · la humedad",
+      "headline": "Condensación en el vidrio. Moho en la pared. El marco que se hincha.",
+      "body": "El problema no era la casa. Era la abertura.",
+      "accent_word": "humedad",
+      "visual": "Detalle real de condensación/moho junto a un marco.",
+      "emotion": "sorpresa",
+      "transition": "deslizamiento"
+    },
+    {
+      "n": 6,
+      "role": "cuota-final",
+      "kicker": "Cuota final · la segunda ventana",
+      "headline": "A los pocos años la cambiás igual.",
+      "body": "Y pagás la instalación dos veces.",
+      "accent_word": "dos veces",
+      "visual": "Misma abertura, dos fechas superpuestas; 'dos veces' grande en azul aluminio. Slide con mucho aire.",
+      "emotion": "miedo",
+      "transition": "pausa-visual"
+    },
+    {
+      "n": 7,
+      "role": "giro",
+      "kicker": "",
+      "headline": "No es cara la ventana buena. Es carísima la barata, pagada de a poco.",
+      "body": "Fabricamos las nuestras, sin intermediarios. Por eso te podemos decir esto. Incluso cuando a veces te decimos que no cambies todo.",
+      "accent_word": "carísima",
+      "visual": "Taller Alumfer: corte a 45°, medición, manos y oficio. Luz cálida.",
+      "emotion": "alivio-confianza",
+      "transition": "hacia-cierre"
+    },
+    {
+      "n": 8,
+      "role": "cta",
+      "kicker": "",
+      "headline": "¿Cuántas cuotas te falta pagar por tus ventanas?",
+      "body": "Mandanos una foto de tu abertura por WhatsApp. Te decimos, sin vueltas, qué necesitás de verdad. Guardá este posteo y mandáselo a quien decide la obra con vos.",
+      "accent_word": "WhatsApp",
+      "visual": "Obra terminada Alumfer con luz. Logo + WhatsApp + Adrogué, Zona Sur GBA. Único slide con logo.",
+      "emotion": "decision",
+      "transition": "fin"
+    }
+  ],
+  "cta": {
+    "primary": "Mandanos una foto de tu abertura por WhatsApp → te decimos qué necesitás de verdad.",
+    "secondary": "Guardá este posteo · mandáselo a quien decide con vos."
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "project": "carrusel-la-ventana-barata-no-existe",
+  "art_direction": {
+    "style": "editorial premium, una idea por slide, mucho aire",
+    "background": "#1a1a1a (carbón) / hormigón",
+    "text_color": "#FFFFFF",
+    "accent_color": "azul aluminio (ver shared/design-system/tokens.css)",
+    "typography": "Montserrat 700 (títulos) / Inter 400 (cuerpo)",
+    "logo": "solo en slide 8",
+    "photo_rule": "SOLO obra propia Alumfer. Nunca stock."
+  },
+  "assets_needed": [
+    {
+      "slide": 1,
+      "type": "typographic",
+      "asset": "Ninguna foto. Solo texto sobre fondo carbón.",
+      "status": "listo-para-diseño"
+    },
+    {
+      "slide": 2,
+      "type": "photo-split",
+      "asset": "IZQ: ventana Alumfer con luz natural entrando. DER: ventana vieja de aluminio/madera filtrada.",
+      "source": "banco de obra Alumfer",
+      "status": "seleccionar"
+    },
+    {
+      "slide": 3,
+      "type": "photo-detail",
+      "asset": "Detalle de marco + junta de sellado. Paleta fría.",
+      "source": "banco de obra / taller",
+      "status": "seleccionar"
+    },
+    {
+      "slide": 4,
+      "type": "photo-context",
+      "asset": "Ventana dando a una calle real de GBA (avenida/colectivo visible). Importante: calle GBA reconocible, no genérica.",
+      "source": "grabar o banco",
+      "status": "pendiente-captura",
+      "note": "Brand Guardian: asegurar que sea calle GBA real."
+    },
+    {
+      "slide": 5,
+      "type": "photo-detail",
+      "asset": "Condensación en vidrio y/o moho en pared junto a marco. Antes honesto.",
+      "source": "banco de obra (estado previo)",
+      "status": "seleccionar"
+    },
+    {
+      "slide": 6,
+      "type": "typographic-photo",
+      "asset": "Misma abertura con dos fechas superpuestas. Mucho espacio negativo.",
+      "source": "composición en Canva",
+      "status": "diseño"
+    },
+    {
+      "slide": 7,
+      "type": "photo-process",
+      "asset": "Taller Alumfer Adrogué: corte a 45°, medición, manos trabajando. Luz cálida.",
+      "source": "banco de taller",
+      "status": "seleccionar"
+    },
+    {
+      "slide": 8,
+      "type": "photo-result",
+      "asset": "Obra Alumfer terminada con luz. Overlay: logo + WhatsApp + Adrogué, Zona Sur GBA.",
+      "source": "banco de obra terminada",
+      "status": "seleccionar"
+    }
+  ],
+  "design_system_ref": "shared/design-system/tokens.css",
+  "reminders": [
+    "No usar el dato '30%' como texto en pantalla sin fuente (Brand Guardian).",
+    "Logo únicamente en slide 8.",
+    "Mantener el rótulo 'Cuota N' como sistema visual consistente en slides 3-6."
+  ]
+}

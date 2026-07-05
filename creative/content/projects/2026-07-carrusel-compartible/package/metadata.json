@@ -1,0 +1,54 @@
+{
+  "project_id": "2026-07-carrusel-compartible",
+  "slug": "la-ventana-barata-no-existe",
+  "title": "La ventana barata no existe",
+  "brand": "Alumfer",
+  "created": "2026-07-05",
+  "status": "aprobado-listo-para-produccion",
+  "platform": "instagram",
+  "format": "carousel",
+  "slides": 8,
+  "language": "es-AR",
+  "market": "GBA, Argentina",
+  "engine_version": "Creative Intelligence Engine V2",
+  "pipeline": {
+    "audience_psychology": "done",
+    "trend_research": "done",
+    "competitor_analysis": "done",
+    "brainstorm": "done (52 ideas)",
+    "hook_generation": "done (60 hooks, 10 categorías)",
+    "concept_generation": "done (10 conceptos)",
+    "creative_challenger": "done (2 muertos, 2 absorbidos)",
+    "ranking": "done (ganador 86/100)",
+    "storyboard": "done (8 slides)",
+    "copywriting": "done (copywriter: authority)",
+    "brand_guardian": "done (5/5 PASS)",
+    "quality_control": "done (8/8 SÍ, APROBADO)",
+    "canva_export": "done"
+  },
+  "creative": {
+    "winning_concept": "C1 - La ventana barata no existe",
+    "angle": "reencuadre precio→costo / costo oculto",
+    "narrative_structure": "Mito→Verdad + Costo oculto (metáfora 'cuotas')",
+    "dominant_emotion": "indignacion-util",
+    "copywriter": "authority",
+    "winning_hook": "La ventana barata no existe.",
+    "predicted_viral_score": 86,
+    "iteration_rounds": 1
+  },
+  "objective_metrics_priority": ["guardados", "compartidos", "dms_whatsapp", "comentarios_sustancia"],
+  "cta_primary": "foto por WhatsApp",
+  "cta_secondary": "guardar + compartir",
+  "personas_targeted": ["A-la-que-ya-se-quemo", "B-el-que-compara-con-datos"],
+  "brand_safety": {
+    "no_price_as_hook": true,
+    "no_competitor_attack": true,
+    "gba_anchored": true,
+    "own_work_only": true
+  },
+  "learning_hooks": {
+    "to_track_in_content_ledger": true,
+    "prediction": "Guardados por encima del promedio (munición de decisión) y compartidos por reenvío en pareja. DMs con foto de abertura.",
+    "review_at": ["48-72h", "2-4 semanas"]
+  }
+}
