@@ -1,0 +1,247 @@
+<style>
+  :root{
+    /* Alumfer design system (shared/design-system/tokens.css) */
+    --carbon:#1A1C1E; --steel:#2E3338; --steel-light:#3D444B;
+    --concrete:#B0A99A; --concrete-light:#E8E4DC; --concrete-faint:#F5F4F1;
+    --blue:#1B6CC8; --blue-light:#4A9DE8;
+    --white:#FFFFFF;
+
+    /* page chrome tokens (theme-aware) */
+    --page-bg:#111315;
+    --page-panel:#191b1e;
+    --page-ink:#E8E4DC;
+    --page-ink-dim:#9a978f;
+    --page-line:rgba(255,255,255,.10);
+    --disp:"Helvetica Neue",Arial,system-ui,sans-serif;
+    --body:system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:light){
+    :root{ --page-bg:#EDEAE3; --page-panel:#F5F4F1; --page-ink:#26282a; --page-ink-dim:#6b6a64; --page-line:rgba(26,28,30,.12); }
+  }
+  :root[data-theme="dark"]{ --page-bg:#111315; --page-panel:#191b1e; --page-ink:#E8E4DC; --page-ink-dim:#9a978f; --page-line:rgba(255,255,255,.10); }
+  :root[data-theme="light"]{ --page-bg:#EDEAE3; --page-panel:#F5F4F1; --page-ink:#26282a; --page-ink-dim:#6b6a64; --page-line:rgba(26,28,30,.12); }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--page-bg);color:var(--page-ink);font-family:var(--body);
+    -webkit-font-smoothing:antialiased;line-height:1.5}
+  .wrap{max-width:680px;margin:0 auto;padding:clamp(1.25rem,5vw,3rem) clamp(1rem,4vw,2rem)}
+
+  /* ---- header ---- */
+  header{border-bottom:1px solid var(--page-line);padding-bottom:1.6rem;margin-bottom:2rem}
+  .eyebrow{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--blue-light);font-weight:700;margin:0 0 .7rem}
+  h1{font-family:var(--disp);font-weight:800;letter-spacing:-.02em;line-height:1.05;
+    font-size:clamp(1.7rem,5.5vw,2.5rem);margin:0 0 .8rem;text-wrap:balance}
+  .lede{color:var(--page-ink-dim);font-size:.95rem;margin:0;max-width:56ch}
+  .legend{display:flex;flex-wrap:wrap;gap:.5rem .9rem;margin-top:1.3rem;font-size:.78rem;color:var(--page-ink-dim)}
+  .legend b{color:var(--page-ink);font-weight:600}
+  .dot{display:inline-block;width:.6rem;height:.6rem;border-radius:50%;vertical-align:middle;margin-right:.35rem}
+
+  /* ---- slide frame ---- */
+  .frame{margin:0 0 2.2rem}
+  figcaption{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
+    margin-top:.7rem;font-size:.78rem;color:var(--page-ink-dim)}
+  figcaption .n{font-weight:700;color:var(--page-ink);letter-spacing:.04em}
+  figcaption .tag{font-size:.66rem;text-transform:uppercase;letter-spacing:.12em}
+  .tag.final{color:#4a9d6e}
+  .tag.photo{color:var(--concrete)}
+
+  /* ---- the 1:1 slide (container-query driven) ---- */
+  .slide{position:relative;aspect-ratio:1/1;width:100%;overflow:hidden;
+    background:var(--carbon);color:var(--white);container-type:inline-size;
+    border:1px solid rgba(255,255,255,.06);border-radius:2px;
+    box-shadow:0 18px 50px -20px rgba(0,0,0,.7)}
+  .pad{position:absolute;inset:0;padding:8.5cqi;display:flex;flex-direction:column}
+
+  .kicker{font-size:2.7cqi;letter-spacing:.16em;text-transform:uppercase;color:var(--concrete);font-weight:700;margin:0}
+  .kicker .num{color:var(--white)}
+  .headline{font-family:var(--disp);font-weight:800;letter-spacing:-.025em;line-height:1.02;margin:0}
+  .body{color:var(--concrete-light);line-height:1.34;margin:0}
+  .foot{font-size:2.5cqi;letter-spacing:.1em;color:var(--concrete);text-transform:uppercase;margin:0}
+  .blue{color:var(--blue-light)}
+  .spacer{flex:1 1 auto}
+
+  /* photo placeholder */
+  .photo{background:
+      repeating-linear-gradient(135deg,rgba(255,255,255,.028) 0 14px,transparent 14px 28px),
+      linear-gradient(180deg,var(--steel-light),var(--steel))}
+  .photo .scrim{position:absolute;inset:0;background:
+      linear-gradient(180deg,rgba(26,28,30,.15) 0%,rgba(26,28,30,.05) 40%,rgba(26,28,30,.82) 100%)}
+  .split{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr}
+  .split>div{position:relative}
+  .split .good{background:
+      repeating-linear-gradient(135deg,rgba(75,157,232,.05) 0 14px,transparent 14px 28px),
+      linear-gradient(180deg,#243748,#1d2a36)}
+  .split .bad{background:
+      repeating-linear-gradient(135deg,rgba(255,255,255,.03) 0 14px,transparent 14px 28px),
+      linear-gradient(180deg,var(--steel-light),var(--steel))}
+  .split .lbl{position:absolute;left:0;right:0;bottom:6cqi;text-align:center;
+    font-size:2.3cqi;letter-spacing:.14em;text-transform:uppercase;color:var(--concrete);font-weight:600}
+  .swap{position:absolute;top:6cqi;right:6cqi;z-index:3;font-size:2.1cqi;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--concrete);font-weight:600;
+    border:1px solid rgba(176,169,154,.35);border-radius:99px;padding:1.4cqi 3cqi;background:rgba(26,28,30,.35)}
+  .swap::before{content:"◆ ";color:var(--blue-light)}
+
+  /* logo lockup for final slide */
+  .lockup{display:flex;align-items:center;gap:3cqi;flex-wrap:wrap}
+  .wa{display:inline-flex;align-items:center;gap:1.6cqi;background:var(--blue);color:#fff;
+    font-weight:700;font-size:2.9cqi;letter-spacing:.02em;padding:2cqi 3.6cqi;border-radius:99px}
+  .wordmark{font-family:var(--disp);font-weight:800;font-size:4.6cqi;letter-spacing:.02em}
+  .wordmark .k{color:var(--blue-light)}
+
+  .note{background:var(--page-panel);border:1px solid var(--page-line);border-radius:10px;
+    padding:1.2rem 1.3rem;font-size:.85rem;color:var(--page-ink-dim);margin-top:.5rem}
+  .note b{color:var(--page-ink)}
+  .note code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.8em;
+    background:rgba(127,127,127,.14);padding:.1em .4em;border-radius:4px;color:var(--page-ink)}
+  footer.end{margin-top:2rem;padding-top:1.4rem;border-top:1px solid var(--page-line);
+    font-size:.78rem;color:var(--page-ink-dim)}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Alumfer · Creative Intelligence Engine V2 · Preview de producción</p>
+    <h1>La ventana barata no existe</h1>
+    <p class="lede">Carrusel de Instagram · 8 slides · 1080×1080 · GBA. Render fiel al sistema de marca
+      (Carbon, azul aluminio, un solo acento por composición). Las slides tipográficas están finales;
+      las de foto muestran la composición con un placeholder donde va la foto de obra real.</p>
+    <div class="legend">
+      <span><span class="dot" style="background:#4a9d6e"></span><b>Final</b> — listo para exportar</span>
+      <span><span class="dot" style="background:var(--concrete)"></span><b>Foto</b> — reemplazar placeholder por obra real</span>
+      <span><span class="dot" style="background:var(--blue)"></span>Acento azul: 1 por slide</span>
+    </div>
+  </header>
+
+  <!-- SLIDE 1 -->
+  <figure class="frame">
+    <div class="slide">
+      <div class="pad" style="text-align:center;align-items:center;justify-content:center">
+        <p class="headline" style="font-size:12cqi">La ventana<br><span class="blue">barata</span><br>no existe.</p>
+        <div class="spacer"></div>
+        <p class="foot">Alumfer · aberturas de aluminio · Zona Sur</p>
+      </div>
+    </div>
+    <figcaption><span class="n">Slide 1 · Hook</span><span class="tag final">100% tipográfico · final</span></figcaption>
+  </figure>
+
+  <!-- SLIDE 2 -->
+  <figure class="frame">
+    <div class="slide photo">
+      <div class="split">
+        <div class="good"><div class="lbl">ventana Alumfer · luz</div></div>
+        <div class="bad"><div class="lbl">ventana vieja · filtrada</div></div>
+      </div>
+      <div class="scrim"></div>
+      <span class="swap">Foto real · split</span>
+      <div class="pad" style="justify-content:flex-end">
+        <p class="headline" style="font-size:8.5cqi;margin-bottom:3cqi">Existen dos.</p>
+        <p class="body" style="font-size:4cqi">La que pagás una vez. Y la que pagás en
+          <span class="blue" style="font-weight:700">cuotas</span> —sin que nadie te avise— durante años.</p>
+      </div>
+    </div>
+    <figcaption><span class="n">Slide 2 · Reencuadre (tesis)</span><span class="tag photo">foto: split ventana buena/mala</span></figcaption>
+  </figure>
+
+  <!-- SLIDE 3 -->
+  <figure class="frame">
+    <div class="slide photo">
+      <div class="scrim"></div>
+      <span class="swap">Foto real · marco + sellado</span>
+      <div class="pad">
+        <p class="kicker"><span class="num">Cuota 1</span> · el invierno</p>
+        <div class="spacer"></div>
+        <p class="headline" style="font-size:7.4cqi;margin-bottom:3cqi">El frío que entra por el marco lo pagás en la factura de <span class="blue">gas</span>.</p>
+        <p class="body" style="font-size:3.8cqi">Todos los meses fríos. Todos los años.</p>
+      </div>
+    </div>
+    <figcaption><span class="n">Slide 3 · Cuota 1 — el invierno</span><span class="tag photo">foto: detalle marco/sellado</span></figcaption>
+  </figure>
+
+  <!-- SLIDE 4 -->
+  <figure class="frame">
+    <div class="slide photo">
+      <div class="scrim"></div>
+      <span class="swap">Foto real · calle GBA</span>
+      <div class="pad">
+        <p class="kicker"><span class="num">Cuota 2</span> · el ruido</p>
+        <div class="spacer"></div>
+        <p class="headline" style="font-size:7.4cqi;margin-bottom:3cqi">La avenida, el colectivo, el vecino.</p>
+        <p class="body" style="font-size:3.9cqi">Una ventana barata no los frena: los deja pasar a tu <span class="blue" style="font-weight:700">living</span>.</p>
+      </div>
+    </div>
+    <figcaption><span class="n">Slide 4 · Cuota 2 — el ruido</span><span class="tag photo">foto: ventana a calle GBA real</span></figcaption>
+  </figure>
+
+  <!-- SLIDE 5 -->
+  <figure class="frame">
+    <div class="slide photo">
+      <div class="scrim"></div>
+      <span class="swap">Foto real · condensación/moho</span>
+      <div class="pad">
+        <p class="kicker"><span class="num">Cuota 3</span> · la humedad</p>
+        <div class="spacer"></div>
+        <p class="headline" style="font-size:7cqi;margin-bottom:3cqi">Condensación en el vidrio. Moho en la pared. El marco que se hincha.</p>
+        <p class="body" style="font-size:3.9cqi">El problema no era la casa. Era la <span class="blue" style="font-weight:700">abertura</span>.</p>
+      </div>
+    </div>
+    <figcaption><span class="n">Slide 5 · Cuota 3 — la humedad</span><span class="tag photo">foto: detalle condensación/moho</span></figcaption>
+  </figure>
+
+  <!-- SLIDE 6 -->
+  <figure class="frame">
+    <div class="slide">
+      <div class="pad">
+        <p class="kicker"><span class="num">Cuota final</span> · la segunda ventana</p>
+        <div class="spacer"></div>
+        <p class="headline" style="font-size:8.4cqi">A los pocos años la cambiás igual.</p>
+        <p class="headline" style="font-size:13cqi;margin-top:4cqi">Y pagás la instalación <span class="blue">dos veces.</span></p>
+        <div class="spacer"></div>
+      </div>
+    </div>
+    <figcaption><span class="n">Slide 6 · Cuota final (clímax)</span><span class="tag final">100% tipográfico · final</span></figcaption>
+  </figure>
+
+  <!-- SLIDE 7 -->
+  <figure class="frame">
+    <div class="slide photo">
+      <div class="scrim"></div>
+      <span class="swap">Foto real · taller / oficio</span>
+      <div class="pad">
+        <div class="spacer"></div>
+        <p class="headline" style="font-size:7.2cqi;margin-bottom:3.4cqi">No es cara la ventana buena. Es <span class="blue">carísima</span> la barata, pagada de a poco.</p>
+        <p class="body" style="font-size:3.7cqi">Fabricamos las nuestras, sin intermediarios. Por eso te podemos decir esto —incluso cuando a veces te decimos que no cambies todo.</p>
+      </div>
+    </div>
+    <figcaption><span class="n">Slide 7 · El giro (confianza premium)</span><span class="tag photo">foto: taller Adrogué, corte a 45°</span></figcaption>
+  </figure>
+
+  <!-- SLIDE 8 -->
+  <figure class="frame">
+    <div class="slide photo">
+      <div class="scrim"></div>
+      <span class="swap">Foto real · obra terminada</span>
+      <div class="pad">
+        <div class="spacer"></div>
+        <p class="headline" style="font-size:7.6cqi;margin-bottom:3.4cqi">¿Cuántas cuotas te falta pagar por tus ventanas?</p>
+        <p class="body" style="font-size:3.7cqi;margin-bottom:6cqi">Mandanos una foto de tu abertura y te decimos, sin vueltas, qué necesitás de verdad.</p>
+        <div class="lockup">
+          <span class="wa">◆ WhatsApp</span>
+          <span class="wordmark">Alum<span class="k">fer</span></span>
+        </div>
+        <p class="foot" style="margin-top:4cqi">Adrogué · Zona Sur GBA</p>
+      </div>
+    </div>
+    <figcaption><span class="n">Slide 8 · CTA</span><span class="tag photo">foto: obra terminada + logo/WhatsApp</span></figcaption>
+  </figure>
+
+  <div class="note">
+    <b>Cómo pasar esto a JPG publicables:</b> el texto y la composición ya están definidos.
+    Falta incrustar las fotos reales de obra (nunca stock). Dos rutas:
+    <br>· <b>Canva</b> — Bulk Create con <code>package/canva.csv</code> sobre un template 1080×1080, y reemplazar cada placeholder por la foto de <code>package/assets.json</code>.
+    <br>· <b>Screenshot</b> — de este preview salen ya las 2 slides tipográficas (1 y 6) finales; las de foto sirven como guía de armado exacta.
+  </div>
+
+  <footer class="end">
+    Preview generado por el Creative OS · concepto ganador 86/100 · emoción: indignación útil · copywriter: autoridad.
+    Sistema de color y tipografía según <b>shared/design-system</b>.
+  </footer>
+</div>
