@@ -1,0 +1,3 @@
+# Ignorar imágenes generadas, pero conservar la estructura de carpetas.
+images/*
+!images/.gitkeep

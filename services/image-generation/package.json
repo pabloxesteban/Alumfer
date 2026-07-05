@@ -1,0 +1,35 @@
+{
+  "name": "@alumfer/image-generation",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Generación de imágenes fotorrealistas para el pipeline de contenido de Alumfer. Claude dirige (prompt); GPT Image genera.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "example": "node --experimental-strip-types src/example.ts"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.11.0"
+  },
+  "peerDependencies": {
+    "sharp": "^0.33.0"
+  },
+  "peerDependenciesMeta": {
+    "sharp": {
+      "optional": true
+    }
+  }
+}
