@@ -1,8 +1,28 @@
 # Alumfer Creative OS
 
-Sistema operativo creativo de Alumfer. Contiene toda la inteligencia de marca, los agentes de contenido y los workflows de producción.
+Sistema operativo creativo de Alumfer. Contiene toda la inteligencia de marca, los agentes de contenido, la memoria creativa y los workflows de producción.
 
 **No es el sitio web.** Es el sistema que produce el contenido que alimenta la marca.
+
+> **Creative Intelligence Engine V2** — El núcleo creativo se rediseñó por completo.
+> El sistema ya no genera publicaciones: genera ideas que la gente quiere mirar.
+> Empezá por [`engine/README.md`](engine/README.md).
+
+---
+
+## Qué cambió: de generador a Director Creativo
+
+| | Antes (V1) | Ahora (V2) |
+|---|---|---|
+| Filosofía | empezar escribiendo un post | empezar pensando como Director Creativo |
+| Proceso | pipeline lineal | loop no lineal: divergir → criticar → converger → iterar |
+| Objetivo | producir publicaciones | producir contenido **imposible de ignorar** |
+| Exploración | la primera idea | 50+ conceptos y 50–100 hooks antes de escribir |
+| Control | consistencia de marca | consistencia **+ crítica adversarial + score viral** |
+| Memoria | archivos sueltos | memoria creativa permanente que aprende |
+| Mejora | manual | autoaprendizaje: performance → reglas |
+
+El detalle del rediseño y las decisiones técnicas están en [`engine/ARCHITECTURE.md`](engine/ARCHITECTURE.md).
 
 ---
 
@@ -11,61 +31,69 @@ Sistema operativo creativo de Alumfer. Contiene toda la inteligencia de marca, l
 ```
 creative/
 │
-├── brand/              ← Fuente de verdad de identidad
-│   ├── brand-dna.md        Esencia, posicionamiento, promesa
-│   ├── voice.md            Cómo habla Alumfer (por canal)
-│   ├── personality.md      Quién es Alumfer como persona
-│   ├── visual-language.md  Cómo se ve Alumfer
-│   └── storytelling.md     Cómo cuenta historias
+├── engine/            ← ⭐ EL NÚCLEO V2 · el Director Creativo que piensa antes de escribir
+│   ├── README.md          Visión general del engine
+│   ├── ARCHITECTURE.md     Decisiones técnicas del rediseño (ADR)
+│   ├── orchestrator.md     Meta-agente que dirige el loop
+│   ├── creative-loop.md    El proceso no lineal (diverge/converge/itera)
+│   ├── quality-gates.md    Umbrales que toda idea debe superar (Viral Score)
+│   ├── prohibitions.md     Lo que el sistema tiene prohibido producir
+│   └── north-star-metric.md  "Imposible de ignorar"
 │
-├── agents/             ← Roles creativos con prompts base
-│   ├── creative-director.md    Aprueba/rechaza ideas
-│   ├── copywriter.md           Escribe el contenido
-│   ├── brand-guardian.md       Audita antes de publicar
-│   └── strategist.md           Planifica qué y cuándo publicar
+├── agents/            ← Roles creativos que el engine invoca
+│   ├── audience-psychologist.md   Entiende personas (nunca escribe)
+│   ├── creative-strategist.md     Decide la jugada creativa de cada pieza
+│   ├── hook-generator.md          50–100 hooks, descarta lo promedio
+│   ├── concept-generator.md       50+ conceptos, mezcla para crear lo nuevo
+│   ├── creative-challenger.md     Solo destruye ideas
+│   ├── viral-reviewer.md          Puntúa 0–100, aplica el gate
+│   ├── story-architect.md         Convierte la idea en historia
+│   ├── copywriters/               7 especialistas (storytelling, humor, premium,
+│   │                                ventas, educativo, conversacional, autoridad)
+│   └── (V1: creative-director, copywriter, brand-guardian, strategist, ...)  soporte
 │
-├── skills/             ← Canales y formatos específicos
-│   └── instagram.md        Algoritmo, horarios, DMs, bio
+├── knowledge/         ← 🧠 MEMORIA CREATIVA PERMANENTE · lee antes, escribe después
+│   ├── viral-patterns/  hooks/  angles/  storytelling/  analogies/  metaphors/
+│   ├── psychology/  competitors/  successful-content/  failed-content/  swipe-file/
+│   ├── creative-rules/  creative-decisions/
+│   └── (V1: apple/aesop/nike/tesla-analysis, design-references, ...)  material sembrado
 │
-├── workflows/          ← Procesos de producción paso a paso
-│   └── idea-to-reel.md     Del concepto al reel publicado
+├── learning/          ← ♻️ AUTOAPRENDIZAJE · performance → reglas
+│   ├── content-ledger.md    ADN creativo de cada pieza vs. su resultado
+│   ├── feedback-loop.md     Cómo la performance modifica el engine
+│   └── retrospective.md     Protocolo post-publicación
 │
-├── templates/          ← Estructuras reutilizables
-│   ├── reel-hook.md        Primeros 2 segundos que retienen
-│   └── caption-structure.md  4 formatos de caption listos
+├── brand/             ← Fuente de verdad de identidad (filtro de convergencia)
+│   ├── brand-dna.md · voice.md · personality.md · visual-language.md · storytelling.md · ...
 │
-├── knowledge/          ← Base de conocimiento y referencias
-│   └── design-references.md   Arquitectos, marcas, estética
+├── workflows/         ← Procesos de producción
+│   ├── creative-engine-v2.md  ⭐ Workflow maestro (de la persona a la pieza)
+│   ├── idea-to-reel.md         Producción física (grabación → publicación)
+│   └── campaign-planning.md · obra-to-reels.md
 │
-├── analytics/          ← Evaluación de performance
-│   └── content-evaluation.md  Métricas que importan y template mensual
+├── templates/         ← Estructuras reutilizables (hooks, captions, CTA, reels)
 │
-└── content/            ← Contenido en producción (drafts, reels, campañas)
-    (vacío — se puebla con ideas y borradores activos)
+├── analytics/         ← Frameworks de performance (fuente de señales para learning/)
+│
+└── content/           ← Contenido en producción (ideas, drafts, aprobados, publicados)
 ```
 
 ---
 
-## Cómo usar el Creative OS
+## Cómo usar el Creative OS (V2)
 
-### Para generar un reel
-1. Leer `brand/brand-dna.md` para confirmar que la idea encaja
-2. Seguir `workflows/idea-to-reel.md`
-3. Usar `agents/copywriter.md` para el guión
-4. Usar `agents/brand-guardian.md` para aprobación final
+### Para crear cualquier pieza
+Punto de entrada único: **el Orchestrator**. Seguí [`workflows/creative-engine-v2.md`](workflows/creative-engine-v2.md).
+Nunca invoques un copywriter directo: el engine decide todo el recorrido (comprender → explorar → criticar → escribir → aprender).
 
-### Para escribir un caption
-1. Elegir el template en `templates/caption-structure.md`
-2. Aplicar la voz de `brand/voice.md`
-3. Revisar con `agents/brand-guardian.md`
+### Para producir físicamente una pieza ya aprobada
+Seguí [`workflows/idea-to-reel.md`](workflows/idea-to-reel.md) (grabación, edición, publicación).
 
-### Para planificar el mes
-1. Revisar `analytics/content-evaluation.md` (mes anterior)
-2. Consultar calendario de temporadas en `agents/strategist.md`
-3. Definir mix de contenido del mes
+### Para aprender de lo publicado
+Seguí [`learning/retrospective.md`](learning/retrospective.md) a las 48–72h y en la revisión mensual.
 
 ### Para evaluar si una idea es de marca
-Activar `agents/creative-director.md` con el prompt base + la idea.
+La marca es el **filtro de convergencia**, no el punto de partida. El engine explora libre y converge dentro del territorio de [`brand/brand-dna.md`](brand/brand-dna.md).
 
 ---
 
@@ -75,11 +103,13 @@ El Creative OS y el website son independientes:
 - **Website** (`apps/website/`) → convierte visitas en consultas
 - **Creative OS** (`creative/`) → genera confianza antes de la visita
 
-Comparten la misma identidad visual via `shared/design-system/`.
+Comparten la misma identidad visual vía `shared/design-system/`.
 
 ---
 
-## Principio rector
+## Principios rectores
 
-> El mejor contenido de Alumfer no parece contenido.
-> Parece el registro honesto de un trabajo bien hecho.
+> Nunca empezamos escribiendo. Empezamos pensando.
+> Nunca aceptamos la primera idea. La primera idea es la más obvia.
+> El objetivo no es llenar un calendario: es que alguien, a mitad del scroll, se detenga.
+> El mejor contenido de Alumfer no parece contenido. Parece el registro honesto de un trabajo bien hecho — que además es imposible de ignorar.
