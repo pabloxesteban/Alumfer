@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080" font-family="Arial, 'Helvetica Neue', Helvetica, sans-serif">
+  <rect width="1080" height="1080" fill="#1A1C1E"/>
+  <!-- mitre corner joint (45°) — the craft -->
+  <g stroke="#FFFFFF" stroke-width="4" fill="none">
+    <path d="M400 200 H840 V260 H460 V640 H400 Z"/>
+  </g>
+  <line x1="400" y1="200" x2="460" y2="260" stroke="#B0A99A" stroke-width="2"/>
+  <!-- 45 label -->
+  <text x="486" y="300" fill="#B0A99A" font-size="24" font-weight="700" letter-spacing="1">45°</text>
+  <!-- dimension / caliper marks -->
+  <g stroke="#B0A99A" stroke-opacity="0.6" stroke-width="2">
+    <line x1="400" y1="680" x2="840" y2="680"/>
+    <line x1="400" y1="668" x2="400" y2="692"/>
+    <line x1="840" y1="668" x2="840" y2="692"/>
+  </g>
+  <text x="620" y="722" text-anchor="middle" fill="#B0A99A" font-size="20" font-weight="700" letter-spacing="3">MEDIDA VERIFICADA · TALLER ADROGUÉ</text>
+  <!-- headline -->
+  <text x="96" y="812" fill="#FFFFFF" font-size="58" font-weight="800" letter-spacing="-1.5">No es cara la ventana buena.</text>
+  <text x="96" y="880" font-size="58" font-weight="800" letter-spacing="-1.5"><tspan fill="#FFFFFF">Es </tspan><tspan fill="#4A9DE8">carísima</tspan><tspan fill="#FFFFFF"> la barata,</tspan></text>
+  <text x="96" y="948" fill="#FFFFFF" font-size="58" font-weight="800" letter-spacing="-1.5">pagada de a poco.</text>
+  <!-- body -->
+  <text x="96" y="1006" fill="#B0A99A" font-size="30" font-weight="400">Fabricamos las nuestras, sin intermediarios. Por eso te decimos la verdad.</text>
+</svg>

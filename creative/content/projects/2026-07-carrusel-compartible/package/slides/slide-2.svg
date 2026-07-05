@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080" font-family="Arial, 'Helvetica Neue', Helvetica, sans-serif">
+  <rect width="1080" height="1080" fill="#1A1C1E"/>
+  <!-- GOOD window (left) -->
+  <rect x="150" y="150" width="300" height="330" fill="#232629" stroke="#FFFFFF" stroke-width="4"/>
+  <rect x="165" y="165" width="270" height="300" fill="#E8E4DC" fill-opacity="0.06"/>
+  <line x1="300" y1="150" x2="300" y2="480" stroke="#FFFFFF" stroke-width="3"/>
+  <line x1="150" y1="315" x2="450" y2="315" stroke="#FFFFFF" stroke-width="3"/>
+  <line x1="470" y1="170" x2="410" y2="230" stroke="#FFFFFF" stroke-opacity="0.5" stroke-width="2"/>
+  <line x1="470" y1="210" x2="420" y2="260" stroke="#FFFFFF" stroke-opacity="0.5" stroke-width="2"/>
+  <text x="300" y="530" text-anchor="middle" fill="#B0A99A" font-size="22" font-weight="700" letter-spacing="4">PAGÁS UNA VEZ</text>
+  <!-- divider -->
+  <line x1="540" y1="150" x2="540" y2="500" stroke="#B0A99A" stroke-opacity="0.18" stroke-width="1"/>
+  <!-- BAD window (right) -->
+  <g opacity="0.85">
+    <rect x="630" y="150" width="300" height="330" fill="#202225" stroke="#B0A99A" stroke-width="3"/>
+    <line x1="780" y1="150" x2="780" y2="480" stroke="#B0A99A" stroke-opacity="0.6" stroke-width="2"/>
+    <line x1="630" y1="315" x2="930" y2="315" stroke="#B0A99A" stroke-opacity="0.6" stroke-width="2"/>
+    <polyline points="700,150 688,230 712,300 690,390 706,480" fill="none" stroke="#6d6f71" stroke-width="2"/>
+    <circle cx="700" cy="492" r="5" fill="#B0A99A" fill-opacity="0.6"/>
+    <circle cx="820" cy="492" r="4" fill="#B0A99A" fill-opacity="0.5"/>
+  </g>
+  <text x="780" y="530" text-anchor="middle" fill="#B0A99A" font-size="22" font-weight="700" letter-spacing="4">…O EN CUOTAS</text>
+  <!-- text block -->
+  <text x="96" y="720" fill="#FFFFFF" font-size="94" font-weight="800" letter-spacing="-3">Existen dos.</text>
+  <text x="96" y="820" fill="#E8E4DC" font-size="40" font-weight="400">La que pagás una vez. Y la que pagás en</text>
+  <text x="96" y="874" font-size="40" font-weight="700"><tspan fill="#4A9DE8">cuotas</tspan><tspan fill="#E8E4DC" font-weight="400"> —sin que nadie te avise— durante años.</tspan></text>
+</svg>

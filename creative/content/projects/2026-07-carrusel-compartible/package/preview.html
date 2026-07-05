@@ -1,247 +1,189 @@
 <style>
   :root{
-    /* Alumfer design system (shared/design-system/tokens.css) */
-    --carbon:#1A1C1E; --steel:#2E3338; --steel-light:#3D444B;
-    --concrete:#B0A99A; --concrete-light:#E8E4DC; --concrete-faint:#F5F4F1;
-    --blue:#1B6CC8; --blue-light:#4A9DE8;
-    --white:#FFFFFF;
-
-    /* page chrome tokens (theme-aware) */
-    --page-bg:#111315;
-    --page-panel:#191b1e;
-    --page-ink:#E8E4DC;
-    --page-ink-dim:#9a978f;
-    --page-line:rgba(255,255,255,.10);
-    --disp:"Helvetica Neue",Arial,system-ui,sans-serif;
+    --carbon:#1A1C1E; --steel:#2E3338; --concrete:#B0A99A; --blue:#1B6CC8; --blue-light:#4A9DE8;
+    --page-bg:#111315; --page-panel:#191b1e; --page-ink:#E8E4DC; --page-ink-dim:#9a978f; --page-line:rgba(255,255,255,.10);
     --body:system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --disp:"Helvetica Neue",Arial,system-ui,sans-serif;
   }
-  @media (prefers-color-scheme:light){
-    :root{ --page-bg:#EDEAE3; --page-panel:#F5F4F1; --page-ink:#26282a; --page-ink-dim:#6b6a64; --page-line:rgba(26,28,30,.12); }
-  }
-  :root[data-theme="dark"]{ --page-bg:#111315; --page-panel:#191b1e; --page-ink:#E8E4DC; --page-ink-dim:#9a978f; --page-line:rgba(255,255,255,.10); }
-  :root[data-theme="light"]{ --page-bg:#EDEAE3; --page-panel:#F5F4F1; --page-ink:#26282a; --page-ink-dim:#6b6a64; --page-line:rgba(26,28,30,.12); }
-
+  @media (prefers-color-scheme:light){:root{--page-bg:#EDEAE3;--page-panel:#F5F4F1;--page-ink:#26282a;--page-ink-dim:#6b6a64;--page-line:rgba(26,28,30,.12)}}
+  :root[data-theme="dark"]{--page-bg:#111315;--page-panel:#191b1e;--page-ink:#E8E4DC;--page-ink-dim:#9a978f;--page-line:rgba(255,255,255,.10)}
+  :root[data-theme="light"]{--page-bg:#EDEAE3;--page-panel:#F5F4F1;--page-ink:#26282a;--page-ink-dim:#6b6a64;--page-line:rgba(26,28,30,.12)}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--page-bg);color:var(--page-ink);font-family:var(--body);
-    -webkit-font-smoothing:antialiased;line-height:1.5}
-  .wrap{max-width:680px;margin:0 auto;padding:clamp(1.25rem,5vw,3rem) clamp(1rem,4vw,2rem)}
-
-  /* ---- header ---- */
+  body{margin:0;background:var(--page-bg);color:var(--page-ink);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:640px;margin:0 auto;padding:clamp(1.25rem,5vw,3rem) clamp(1rem,4vw,2rem)}
   header{border-bottom:1px solid var(--page-line);padding-bottom:1.6rem;margin-bottom:2rem}
   .eyebrow{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--blue-light);font-weight:700;margin:0 0 .7rem}
-  h1{font-family:var(--disp);font-weight:800;letter-spacing:-.02em;line-height:1.05;
-    font-size:clamp(1.7rem,5.5vw,2.5rem);margin:0 0 .8rem;text-wrap:balance}
-  .lede{color:var(--page-ink-dim);font-size:.95rem;margin:0;max-width:56ch}
-  .legend{display:flex;flex-wrap:wrap;gap:.5rem .9rem;margin-top:1.3rem;font-size:.78rem;color:var(--page-ink-dim)}
+  h1{font-family:var(--disp);font-weight:800;letter-spacing:-.02em;line-height:1.05;font-size:clamp(1.7rem,5.5vw,2.5rem);margin:0 0 .8rem;text-wrap:balance}
+  .lede{color:var(--page-ink-dim);font-size:.95rem;margin:0;max-width:58ch}
+  .legend{display:flex;flex-wrap:wrap;gap:.5rem 1rem;margin-top:1.3rem;font-size:.8rem;color:var(--page-ink-dim)}
   .legend b{color:var(--page-ink);font-weight:600}
-  .dot{display:inline-block;width:.6rem;height:.6rem;border-radius:50%;vertical-align:middle;margin-right:.35rem}
-
-  /* ---- slide frame ---- */
-  .frame{margin:0 0 2.2rem}
-  figcaption{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
-    margin-top:.7rem;font-size:.78rem;color:var(--page-ink-dim)}
-  figcaption .n{font-weight:700;color:var(--page-ink);letter-spacing:.04em}
-  figcaption .tag{font-size:.66rem;text-transform:uppercase;letter-spacing:.12em}
-  .tag.final{color:#4a9d6e}
-  .tag.photo{color:var(--concrete)}
-
-  /* ---- the 1:1 slide (container-query driven) ---- */
-  .slide{position:relative;aspect-ratio:1/1;width:100%;overflow:hidden;
-    background:var(--carbon);color:var(--white);container-type:inline-size;
-    border:1px solid rgba(255,255,255,.06);border-radius:2px;
-    box-shadow:0 18px 50px -20px rgba(0,0,0,.7)}
-  .pad{position:absolute;inset:0;padding:8.5cqi;display:flex;flex-direction:column}
-
-  .kicker{font-size:2.7cqi;letter-spacing:.16em;text-transform:uppercase;color:var(--concrete);font-weight:700;margin:0}
-  .kicker .num{color:var(--white)}
-  .headline{font-family:var(--disp);font-weight:800;letter-spacing:-.025em;line-height:1.02;margin:0}
-  .body{color:var(--concrete-light);line-height:1.34;margin:0}
-  .foot{font-size:2.5cqi;letter-spacing:.1em;color:var(--concrete);text-transform:uppercase;margin:0}
-  .blue{color:var(--blue-light)}
-  .spacer{flex:1 1 auto}
-
-  /* photo placeholder */
-  .photo{background:
-      repeating-linear-gradient(135deg,rgba(255,255,255,.028) 0 14px,transparent 14px 28px),
-      linear-gradient(180deg,var(--steel-light),var(--steel))}
-  .photo .scrim{position:absolute;inset:0;background:
-      linear-gradient(180deg,rgba(26,28,30,.15) 0%,rgba(26,28,30,.05) 40%,rgba(26,28,30,.82) 100%)}
-  .split{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr}
-  .split>div{position:relative}
-  .split .good{background:
-      repeating-linear-gradient(135deg,rgba(75,157,232,.05) 0 14px,transparent 14px 28px),
-      linear-gradient(180deg,#243748,#1d2a36)}
-  .split .bad{background:
-      repeating-linear-gradient(135deg,rgba(255,255,255,.03) 0 14px,transparent 14px 28px),
-      linear-gradient(180deg,var(--steel-light),var(--steel))}
-  .split .lbl{position:absolute;left:0;right:0;bottom:6cqi;text-align:center;
-    font-size:2.3cqi;letter-spacing:.14em;text-transform:uppercase;color:var(--concrete);font-weight:600}
-  .swap{position:absolute;top:6cqi;right:6cqi;z-index:3;font-size:2.1cqi;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--concrete);font-weight:600;
-    border:1px solid rgba(176,169,154,.35);border-radius:99px;padding:1.4cqi 3cqi;background:rgba(26,28,30,.35)}
-  .swap::before{content:"◆ ";color:var(--blue-light)}
-
-  /* logo lockup for final slide */
-  .lockup{display:flex;align-items:center;gap:3cqi;flex-wrap:wrap}
-  .wa{display:inline-flex;align-items:center;gap:1.6cqi;background:var(--blue);color:#fff;
-    font-weight:700;font-size:2.9cqi;letter-spacing:.02em;padding:2cqi 3.6cqi;border-radius:99px}
-  .wordmark{font-family:var(--disp);font-weight:800;font-size:4.6cqi;letter-spacing:.02em}
-  .wordmark .k{color:var(--blue-light)}
-
-  .note{background:var(--page-panel);border:1px solid var(--page-line);border-radius:10px;
-    padding:1.2rem 1.3rem;font-size:.85rem;color:var(--page-ink-dim);margin-top:.5rem}
-  .note b{color:var(--page-ink)}
-  .note code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.8em;
-    background:rgba(127,127,127,.14);padding:.1em .4em;border-radius:4px;color:var(--page-ink)}
-  footer.end{margin-top:2rem;padding-top:1.4rem;border-top:1px solid var(--page-line);
-    font-size:.78rem;color:var(--page-ink-dim)}
+  .frame{margin:0 0 2rem}
+  .card{border-radius:2px;overflow:hidden;box-shadow:0 18px 50px -20px rgba(0,0,0,.7);border:1px solid rgba(255,255,255,.06)}
+  .card svg{display:block;width:100%;height:auto}
+  figcaption{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-top:.7rem;font-size:.8rem;color:var(--page-ink-dim)}
+  figcaption .n{font-weight:700;color:var(--page-ink);letter-spacing:.03em}
+  figcaption .tag{font-size:.64rem;text-transform:uppercase;letter-spacing:.12em;color:#4a9d6e}
+  .note{background:var(--page-panel);border:1px solid var(--page-line);border-radius:10px;padding:1.2rem 1.3rem;font-size:.85rem;color:var(--page-ink-dim);margin-top:.5rem}
+  .note b{color:var(--page-ink)} .note code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.8em;background:rgba(127,127,127,.16);padding:.1em .4em;border-radius:4px;color:var(--page-ink)}
+  footer.end{margin-top:2rem;padding-top:1.4rem;border-top:1px solid var(--page-line);font-size:.78rem;color:var(--page-ink-dim)}
 </style>
 
 <div class="wrap">
   <header>
-    <p class="eyebrow">Alumfer · Creative Intelligence Engine V2 · Preview de producción</p>
+    <p class="eyebrow">Alumfer · Creative Intelligence Engine V2 · Carrusel final</p>
     <h1>La ventana barata no existe</h1>
-    <p class="lede">Carrusel de Instagram · 8 slides · 1080×1080 · GBA. Render fiel al sistema de marca
-      (Carbon, azul aluminio, un solo acento por composición). Las slides tipográficas están finales;
-      las de foto muestran la composición con un placeholder donde va la foto de obra real.</p>
+    <p class="lede">8 slides · 1080×1080 · Instagram · GBA. Dirección de arte: sistema gráfico industrial
+      ilustrado (line-art de aluminio) sobre Carbon, con un solo acento azul por slide. Vectorial y
+      autónomo: no depende de fotos. Cada slide está terminada y lista para publicar.</p>
     <div class="legend">
-      <span><span class="dot" style="background:#4a9d6e"></span><b>Final</b> — listo para exportar</span>
-      <span><span class="dot" style="background:var(--concrete)"></span><b>Foto</b> — reemplazar placeholder por obra real</span>
-      <span><span class="dot" style="background:var(--blue)"></span>Acento azul: 1 por slide</span>
+      <span><b>Concepto</b> 86/100</span><span><b>Emoción</b> indignación útil</span>
+      <span><b>Copy</b> autoridad</span><span><b>Acento</b> azul aluminio · 1 por slide</span>
     </div>
   </header>
 
-  <!-- SLIDE 1 -->
-  <figure class="frame">
-    <div class="slide">
-      <div class="pad" style="text-align:center;align-items:center;justify-content:center">
-        <p class="headline" style="font-size:12cqi">La ventana<br><span class="blue">barata</span><br>no existe.</p>
-        <div class="spacer"></div>
-        <p class="foot">Alumfer · aberturas de aluminio · Zona Sur</p>
-      </div>
-    </div>
-    <figcaption><span class="n">Slide 1 · Hook</span><span class="tag final">100% tipográfico · final</span></figcaption>
-  </figure>
+  <figure class="frame"><div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" font-family="Arial, 'Helvetica Neue', Helvetica, sans-serif">
+    <rect width="1080" height="1080" fill="#1A1C1E"/>
+    <rect x="64" y="64" width="952" height="952" fill="none" stroke="#B0A99A" stroke-opacity="0.16" stroke-width="2"/>
+    <rect x="84" y="84" width="912" height="912" fill="none" stroke="#B0A99A" stroke-opacity="0.08" stroke-width="1"/>
+    <path d="M64 156 V64 H156" fill="none" stroke="#B0A99A" stroke-opacity="0.5" stroke-width="5"/>
+    <path d="M1016 924 V1016 H924" fill="none" stroke="#B0A99A" stroke-opacity="0.5" stroke-width="5"/>
+    <text x="540" y="452" text-anchor="middle" fill="#FFFFFF" font-size="126" font-weight="800" letter-spacing="-3">La ventana</text>
+    <text x="540" y="586" text-anchor="middle" fill="#4A9DE8" font-size="126" font-weight="800" letter-spacing="-3">barata</text>
+    <text x="540" y="720" text-anchor="middle" fill="#FFFFFF" font-size="126" font-weight="800" letter-spacing="-3">no existe.</text>
+    <text x="540" y="982" text-anchor="middle" fill="#B0A99A" font-size="22" font-weight="700" letter-spacing="6">ALUMFER · ABERTURAS DE ALUMINIO · ZONA SUR</text>
+  </svg></div><figcaption><span class="n">Slide 1 · Hook</span><span class="tag">final</span></figcaption></figure>
 
-  <!-- SLIDE 2 -->
-  <figure class="frame">
-    <div class="slide photo">
-      <div class="split">
-        <div class="good"><div class="lbl">ventana Alumfer · luz</div></div>
-        <div class="bad"><div class="lbl">ventana vieja · filtrada</div></div>
-      </div>
-      <div class="scrim"></div>
-      <span class="swap">Foto real · split</span>
-      <div class="pad" style="justify-content:flex-end">
-        <p class="headline" style="font-size:8.5cqi;margin-bottom:3cqi">Existen dos.</p>
-        <p class="body" style="font-size:4cqi">La que pagás una vez. Y la que pagás en
-          <span class="blue" style="font-weight:700">cuotas</span> —sin que nadie te avise— durante años.</p>
-      </div>
-    </div>
-    <figcaption><span class="n">Slide 2 · Reencuadre (tesis)</span><span class="tag photo">foto: split ventana buena/mala</span></figcaption>
-  </figure>
+  <figure class="frame"><div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" font-family="Arial, 'Helvetica Neue', Helvetica, sans-serif">
+    <rect width="1080" height="1080" fill="#1A1C1E"/>
+    <rect x="150" y="150" width="300" height="330" fill="#232629" stroke="#FFFFFF" stroke-width="4"/>
+    <rect x="165" y="165" width="270" height="300" fill="#E8E4DC" fill-opacity="0.06"/>
+    <line x1="300" y1="150" x2="300" y2="480" stroke="#FFFFFF" stroke-width="3"/>
+    <line x1="150" y1="315" x2="450" y2="315" stroke="#FFFFFF" stroke-width="3"/>
+    <line x1="470" y1="170" x2="410" y2="230" stroke="#FFFFFF" stroke-opacity="0.5" stroke-width="2"/>
+    <line x1="470" y1="210" x2="420" y2="260" stroke="#FFFFFF" stroke-opacity="0.5" stroke-width="2"/>
+    <text x="300" y="530" text-anchor="middle" fill="#B0A99A" font-size="22" font-weight="700" letter-spacing="4">PAGÁS UNA VEZ</text>
+    <line x1="540" y1="150" x2="540" y2="500" stroke="#B0A99A" stroke-opacity="0.18" stroke-width="1"/>
+    <g opacity="0.85">
+      <rect x="630" y="150" width="300" height="330" fill="#202225" stroke="#B0A99A" stroke-width="3"/>
+      <line x1="780" y1="150" x2="780" y2="480" stroke="#B0A99A" stroke-opacity="0.6" stroke-width="2"/>
+      <line x1="630" y1="315" x2="930" y2="315" stroke="#B0A99A" stroke-opacity="0.6" stroke-width="2"/>
+      <polyline points="700,150 688,230 712,300 690,390 706,480" fill="none" stroke="#6d6f71" stroke-width="2"/>
+      <circle cx="700" cy="492" r="5" fill="#B0A99A" fill-opacity="0.6"/><circle cx="820" cy="492" r="4" fill="#B0A99A" fill-opacity="0.5"/>
+    </g>
+    <text x="780" y="530" text-anchor="middle" fill="#B0A99A" font-size="22" font-weight="700" letter-spacing="4">…O EN CUOTAS</text>
+    <text x="96" y="720" fill="#FFFFFF" font-size="94" font-weight="800" letter-spacing="-3">Existen dos.</text>
+    <text x="96" y="820" fill="#E8E4DC" font-size="40" font-weight="400">La que pagás una vez. Y la que pagás en</text>
+    <text x="96" y="874" font-size="40" font-weight="700"><tspan fill="#4A9DE8">cuotas</tspan><tspan fill="#E8E4DC" font-weight="400"> —sin que nadie te avise— durante años.</tspan></text>
+  </svg></div><figcaption><span class="n">Slide 2 · Reencuadre (tesis)</span><span class="tag">final</span></figcaption></figure>
 
-  <!-- SLIDE 3 -->
-  <figure class="frame">
-    <div class="slide photo">
-      <div class="scrim"></div>
-      <span class="swap">Foto real · marco + sellado</span>
-      <div class="pad">
-        <p class="kicker"><span class="num">Cuota 1</span> · el invierno</p>
-        <div class="spacer"></div>
-        <p class="headline" style="font-size:7.4cqi;margin-bottom:3cqi">El frío que entra por el marco lo pagás en la factura de <span class="blue">gas</span>.</p>
-        <p class="body" style="font-size:3.8cqi">Todos los meses fríos. Todos los años.</p>
-      </div>
-    </div>
-    <figcaption><span class="n">Slide 3 · Cuota 1 — el invierno</span><span class="tag photo">foto: detalle marco/sellado</span></figcaption>
-  </figure>
+  <figure class="frame"><div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" font-family="Arial, 'Helvetica Neue', Helvetica, sans-serif">
+    <rect width="1080" height="1080" fill="#1A1C1E"/>
+    <text x="96" y="150" fill="#FFFFFF" font-size="26" font-weight="800" letter-spacing="3">CUOTA 1<tspan fill="#B0A99A" font-weight="700"> · EL INVIERNO</tspan></text>
+    <line x1="96" y1="176" x2="360" y2="176" stroke="#B0A99A" stroke-opacity="0.3" stroke-width="2"/>
+    <rect x="420" y="250" width="300" height="300" fill="#202225" stroke="#B0A99A" stroke-width="3"/>
+    <line x1="570" y1="250" x2="570" y2="550" stroke="#B0A99A" stroke-opacity="0.6" stroke-width="2"/>
+    <line x1="420" y1="400" x2="720" y2="400" stroke="#B0A99A" stroke-opacity="0.6" stroke-width="2"/>
+    <line x1="420" y1="330" x2="420" y2="470" stroke="#1A1C1E" stroke-width="8"/>
+    <g stroke="#FFFFFF" stroke-width="3" fill="none" stroke-linecap="round">
+      <path d="M300 330 H432"/><path d="M420 330 l-14 -9 M420 330 l-14 9"/>
+      <path d="M290 400 H432"/><path d="M420 400 l-14 -9 M420 400 l-14 9"/>
+      <path d="M300 470 H432"/><path d="M420 470 l-14 -9 M420 470 l-14 9"/>
+    </g>
+    <text x="300" y="300" fill="#B0A99A" font-size="20" font-weight="700" letter-spacing="3">FRÍO</text>
+    <path d="M770 470 c-26 -18 -14 -46 4 -60 c-2 22 20 20 14 44 c20 -6 16 -30 6 -44 c30 16 34 54 8 74 c-14 10 -30 6 -32 -14 z" fill="none" stroke="#B0A99A" stroke-width="3"/>
+    <text x="96" y="740" fill="#FFFFFF" font-size="64" font-weight="800" letter-spacing="-1.5">El frío que entra por</text>
+    <text x="96" y="812" fill="#FFFFFF" font-size="64" font-weight="800" letter-spacing="-1.5">el marco lo pagás en</text>
+    <text x="96" y="884" font-size="64" font-weight="800" letter-spacing="-1.5"><tspan fill="#FFFFFF">la factura de </tspan><tspan fill="#4A9DE8">gas.</tspan></text>
+    <text x="96" y="960" fill="#B0A99A" font-size="36" font-weight="400">Todos los meses fríos. Todos los años.</text>
+  </svg></div><figcaption><span class="n">Slide 3 · Cuota 1 — el invierno</span><span class="tag">final</span></figcaption></figure>
 
-  <!-- SLIDE 4 -->
-  <figure class="frame">
-    <div class="slide photo">
-      <div class="scrim"></div>
-      <span class="swap">Foto real · calle GBA</span>
-      <div class="pad">
-        <p class="kicker"><span class="num">Cuota 2</span> · el ruido</p>
-        <div class="spacer"></div>
-        <p class="headline" style="font-size:7.4cqi;margin-bottom:3cqi">La avenida, el colectivo, el vecino.</p>
-        <p class="body" style="font-size:3.9cqi">Una ventana barata no los frena: los deja pasar a tu <span class="blue" style="font-weight:700">living</span>.</p>
-      </div>
-    </div>
-    <figcaption><span class="n">Slide 4 · Cuota 2 — el ruido</span><span class="tag photo">foto: ventana a calle GBA real</span></figcaption>
-  </figure>
+  <figure class="frame"><div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" font-family="Arial, 'Helvetica Neue', Helvetica, sans-serif">
+    <rect width="1080" height="1080" fill="#1A1C1E"/>
+    <text x="96" y="150" fill="#FFFFFF" font-size="26" font-weight="800" letter-spacing="3">CUOTA 2<tspan fill="#B0A99A" font-weight="700"> · EL RUIDO</tspan></text>
+    <line x1="96" y1="176" x2="330" y2="176" stroke="#B0A99A" stroke-opacity="0.3" stroke-width="2"/>
+    <rect x="560" y="250" width="300" height="300" fill="#202225" stroke="#B0A99A" stroke-width="3"/>
+    <line x1="710" y1="250" x2="710" y2="550" stroke="#B0A99A" stroke-opacity="0.6" stroke-width="2"/>
+    <line x1="560" y1="400" x2="860" y2="400" stroke="#B0A99A" stroke-opacity="0.6" stroke-width="2"/>
+    <g fill="none" stroke="#FFFFFF" stroke-linecap="round">
+      <path d="M470 400 a90 90 0 0 0 -150 0" stroke-opacity="0.85" stroke-width="4"/>
+      <path d="M430 400 a130 130 0 0 0 -230 0" stroke-opacity="0.55" stroke-width="3"/>
+      <path d="M390 400 a170 170 0 0 0 -300 0" stroke-opacity="0.3" stroke-width="2"/>
+    </g>
+    <circle cx="470" cy="400" r="7" fill="#FFFFFF"/>
+    <text x="96" y="710" fill="#FFFFFF" font-size="70" font-weight="800" letter-spacing="-2">La avenida, el colectivo,</text>
+    <text x="96" y="786" fill="#FFFFFF" font-size="70" font-weight="800" letter-spacing="-2">el vecino.</text>
+    <text x="96" y="872" fill="#B0A99A" font-size="38" font-weight="400">Una ventana barata no los frena:</text>
+    <text x="96" y="924" font-size="38" font-weight="700"><tspan fill="#B0A99A" font-weight="400">los deja pasar a tu </tspan><tspan fill="#4A9DE8">living.</tspan></text>
+  </svg></div><figcaption><span class="n">Slide 4 · Cuota 2 — el ruido</span><span class="tag">final</span></figcaption></figure>
 
-  <!-- SLIDE 5 -->
-  <figure class="frame">
-    <div class="slide photo">
-      <div class="scrim"></div>
-      <span class="swap">Foto real · condensación/moho</span>
-      <div class="pad">
-        <p class="kicker"><span class="num">Cuota 3</span> · la humedad</p>
-        <div class="spacer"></div>
-        <p class="headline" style="font-size:7cqi;margin-bottom:3cqi">Condensación en el vidrio. Moho en la pared. El marco que se hincha.</p>
-        <p class="body" style="font-size:3.9cqi">El problema no era la casa. Era la <span class="blue" style="font-weight:700">abertura</span>.</p>
-      </div>
-    </div>
-    <figcaption><span class="n">Slide 5 · Cuota 3 — la humedad</span><span class="tag photo">foto: detalle condensación/moho</span></figcaption>
-  </figure>
+  <figure class="frame"><div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" font-family="Arial, 'Helvetica Neue', Helvetica, sans-serif">
+    <rect width="1080" height="1080" fill="#1A1C1E"/>
+    <text x="96" y="150" fill="#FFFFFF" font-size="26" font-weight="800" letter-spacing="3">CUOTA 3<tspan fill="#B0A99A" font-weight="700"> · LA HUMEDAD</tspan></text>
+    <line x1="96" y1="176" x2="360" y2="176" stroke="#B0A99A" stroke-opacity="0.3" stroke-width="2"/>
+    <rect x="420" y="240" width="300" height="300" fill="#202225" stroke="#B0A99A" stroke-width="3"/>
+    <line x1="570" y1="240" x2="570" y2="540" stroke="#B0A99A" stroke-opacity="0.6" stroke-width="2"/>
+    <line x1="420" y1="390" x2="720" y2="390" stroke="#B0A99A" stroke-opacity="0.6" stroke-width="2"/>
+    <g fill="#B0A99A" fill-opacity="0.45">
+      <ellipse cx="470" cy="300" rx="6" ry="9"/><ellipse cx="520" cy="340" rx="5" ry="8"/><ellipse cx="495" cy="450" rx="7" ry="11"/><ellipse cx="640" cy="310" rx="5" ry="8"/>
+      <ellipse cx="660" cy="470" rx="6" ry="10"/><ellipse cx="450" cy="500" rx="5" ry="8"/><ellipse cx="610" cy="430" rx="4" ry="7"/><ellipse cx="540" cy="500" rx="6" ry="9"/>
+    </g>
+    <g fill="#4a4a3d" fill-opacity="0.9"><circle cx="435" cy="525" r="10"/><circle cx="452" cy="530" r="7"/><circle cx="428" cy="512" r="6"/><circle cx="446" cy="516" r="5"/><circle cx="460" cy="524" r="4"/></g>
+    <text x="96" y="700" fill="#FFFFFF" font-size="56" font-weight="800" letter-spacing="-1.5">Condensación en el vidrio.</text>
+    <text x="96" y="766" fill="#FFFFFF" font-size="56" font-weight="800" letter-spacing="-1.5">Moho en la pared.</text>
+    <text x="96" y="832" fill="#FFFFFF" font-size="56" font-weight="800" letter-spacing="-1.5">El marco que se hincha.</text>
+    <text x="96" y="920" font-size="38" font-weight="700"><tspan fill="#B0A99A" font-weight="400">El problema no era la casa. Era la </tspan><tspan fill="#4A9DE8">abertura.</tspan></text>
+  </svg></div><figcaption><span class="n">Slide 5 · Cuota 3 — la humedad</span><span class="tag">final</span></figcaption></figure>
 
-  <!-- SLIDE 6 -->
-  <figure class="frame">
-    <div class="slide">
-      <div class="pad">
-        <p class="kicker"><span class="num">Cuota final</span> · la segunda ventana</p>
-        <div class="spacer"></div>
-        <p class="headline" style="font-size:8.4cqi">A los pocos años la cambiás igual.</p>
-        <p class="headline" style="font-size:13cqi;margin-top:4cqi">Y pagás la instalación <span class="blue">dos veces.</span></p>
-        <div class="spacer"></div>
-      </div>
-    </div>
-    <figcaption><span class="n">Slide 6 · Cuota final (clímax)</span><span class="tag final">100% tipográfico · final</span></figcaption>
-  </figure>
+  <figure class="frame"><div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" font-family="Arial, 'Helvetica Neue', Helvetica, sans-serif">
+    <rect width="1080" height="1080" fill="#1A1C1E"/>
+    <rect x="640" y="150" width="330" height="330" fill="none" stroke="#B0A99A" stroke-opacity="0.12" stroke-width="2"/>
+    <rect x="700" y="210" width="330" height="330" fill="none" stroke="#B0A99A" stroke-opacity="0.20" stroke-width="2"/>
+    <text x="96" y="150" fill="#FFFFFF" font-size="26" font-weight="800" letter-spacing="3">CUOTA FINAL<tspan fill="#B0A99A" font-weight="700"> · LA SEGUNDA VENTANA</tspan></text>
+    <line x1="96" y1="176" x2="470" y2="176" stroke="#B0A99A" stroke-opacity="0.3" stroke-width="2"/>
+    <text x="96" y="440" fill="#FFFFFF" font-size="80" font-weight="800" letter-spacing="-2">A los pocos años</text>
+    <text x="96" y="532" fill="#FFFFFF" font-size="80" font-weight="800" letter-spacing="-2">la cambiás igual.</text>
+    <text x="96" y="712" fill="#B0A99A" font-size="46" font-weight="400">Y pagás la instalación</text>
+    <text x="96" y="872" fill="#4A9DE8" font-size="150" font-weight="800" letter-spacing="-5">dos veces.</text>
+  </svg></div><figcaption><span class="n">Slide 6 · Cuota final (clímax)</span><span class="tag">final</span></figcaption></figure>
 
-  <!-- SLIDE 7 -->
-  <figure class="frame">
-    <div class="slide photo">
-      <div class="scrim"></div>
-      <span class="swap">Foto real · taller / oficio</span>
-      <div class="pad">
-        <div class="spacer"></div>
-        <p class="headline" style="font-size:7.2cqi;margin-bottom:3.4cqi">No es cara la ventana buena. Es <span class="blue">carísima</span> la barata, pagada de a poco.</p>
-        <p class="body" style="font-size:3.7cqi">Fabricamos las nuestras, sin intermediarios. Por eso te podemos decir esto —incluso cuando a veces te decimos que no cambies todo.</p>
-      </div>
-    </div>
-    <figcaption><span class="n">Slide 7 · El giro (confianza premium)</span><span class="tag photo">foto: taller Adrogué, corte a 45°</span></figcaption>
-  </figure>
+  <figure class="frame"><div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" font-family="Arial, 'Helvetica Neue', Helvetica, sans-serif">
+    <rect width="1080" height="1080" fill="#1A1C1E"/>
+    <g stroke="#FFFFFF" stroke-width="4" fill="none"><path d="M400 200 H840 V260 H460 V640 H400 Z"/></g>
+    <line x1="400" y1="200" x2="460" y2="260" stroke="#B0A99A" stroke-width="2"/>
+    <text x="486" y="300" fill="#B0A99A" font-size="24" font-weight="700" letter-spacing="1">45°</text>
+    <g stroke="#B0A99A" stroke-opacity="0.6" stroke-width="2"><line x1="400" y1="680" x2="840" y2="680"/><line x1="400" y1="668" x2="400" y2="692"/><line x1="840" y1="668" x2="840" y2="692"/></g>
+    <text x="620" y="722" text-anchor="middle" fill="#B0A99A" font-size="20" font-weight="700" letter-spacing="3">MEDIDA VERIFICADA · TALLER ADROGUÉ</text>
+    <text x="96" y="812" fill="#FFFFFF" font-size="58" font-weight="800" letter-spacing="-1.5">No es cara la ventana buena.</text>
+    <text x="96" y="880" font-size="58" font-weight="800" letter-spacing="-1.5"><tspan fill="#FFFFFF">Es </tspan><tspan fill="#4A9DE8">carísima</tspan><tspan fill="#FFFFFF"> la barata,</tspan></text>
+    <text x="96" y="948" fill="#FFFFFF" font-size="58" font-weight="800" letter-spacing="-1.5">pagada de a poco.</text>
+    <text x="96" y="1006" fill="#B0A99A" font-size="30" font-weight="400">Fabricamos las nuestras, sin intermediarios. Por eso te decimos la verdad.</text>
+  </svg></div><figcaption><span class="n">Slide 7 · El giro (confianza premium)</span><span class="tag">final</span></figcaption></figure>
 
-  <!-- SLIDE 8 -->
-  <figure class="frame">
-    <div class="slide photo">
-      <div class="scrim"></div>
-      <span class="swap">Foto real · obra terminada</span>
-      <div class="pad">
-        <div class="spacer"></div>
-        <p class="headline" style="font-size:7.6cqi;margin-bottom:3.4cqi">¿Cuántas cuotas te falta pagar por tus ventanas?</p>
-        <p class="body" style="font-size:3.7cqi;margin-bottom:6cqi">Mandanos una foto de tu abertura y te decimos, sin vueltas, qué necesitás de verdad.</p>
-        <div class="lockup">
-          <span class="wa">◆ WhatsApp</span>
-          <span class="wordmark">Alum<span class="k">fer</span></span>
-        </div>
-        <p class="foot" style="margin-top:4cqi">Adrogué · Zona Sur GBA</p>
-      </div>
-    </div>
-    <figcaption><span class="n">Slide 8 · CTA</span><span class="tag photo">foto: obra terminada + logo/WhatsApp</span></figcaption>
-  </figure>
+  <figure class="frame"><div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" font-family="Arial, 'Helvetica Neue', Helvetica, sans-serif">
+    <rect width="1080" height="1080" fill="#1A1C1E"/>
+    <rect x="96" y="150" width="210" height="240" fill="#232629" stroke="#FFFFFF" stroke-width="4"/>
+    <rect x="108" y="162" width="186" height="216" fill="#E8E4DC" fill-opacity="0.07"/>
+    <line x1="201" y1="150" x2="201" y2="390" stroke="#FFFFFF" stroke-width="3"/>
+    <line x1="96" y1="270" x2="306" y2="270" stroke="#FFFFFF" stroke-width="3"/>
+    <g stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="2" stroke-linecap="round"><line x1="330" y1="200" x2="420" y2="170"/><line x1="330" y1="250" x2="440" y2="250"/><line x1="330" y1="300" x2="420" y2="330"/></g>
+    <text x="96" y="510" fill="#FFFFFF" font-size="66" font-weight="800" letter-spacing="-2">¿Cuántas cuotas te falta</text>
+    <text x="96" y="582" fill="#FFFFFF" font-size="66" font-weight="800" letter-spacing="-2">pagar por tus ventanas?</text>
+    <text x="96" y="668" fill="#B0A99A" font-size="36" font-weight="400">Mandanos una foto de tu abertura y te</text>
+    <text x="96" y="716" fill="#B0A99A" font-size="36" font-weight="400">decimos, sin vueltas, qué necesitás de verdad.</text>
+    <rect x="96" y="792" width="356" height="92" rx="46" fill="#1B6CC8"/>
+    <path d="M150 838 a30 30 0 1 0 -12 12 l-14 4 4 -14 z" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round"/>
+    <text x="196" y="850" fill="#FFFFFF" font-size="36" font-weight="700" letter-spacing="0.5">WhatsApp</text>
+    <text x="492" y="852" fill="#FFFFFF" font-size="56" font-weight="800" letter-spacing="0.5">Alumfer</text>
+    <line x1="96" y1="960" x2="984" y2="960" stroke="#B0A99A" stroke-opacity="0.18" stroke-width="1"/>
+    <text x="96" y="1012" fill="#B0A99A" font-size="24" font-weight="700" letter-spacing="4">FABRICACIÓN PROPIA · ADROGUÉ · ZONA SUR GBA</text>
+  </svg></div><figcaption><span class="n">Slide 8 · CTA</span><span class="tag">final</span></figcaption></figure>
 
   <div class="note">
-    <b>Cómo pasar esto a JPG publicables:</b> el texto y la composición ya están definidos.
-    Falta incrustar las fotos reales de obra (nunca stock). Dos rutas:
-    <br>· <b>Canva</b> — Bulk Create con <code>package/canva.csv</code> sobre un template 1080×1080, y reemplazar cada placeholder por la foto de <code>package/assets.json</code>.
-    <br>· <b>Screenshot</b> — de este preview salen ya las 2 slides tipográficas (1 y 6) finales; las de foto sirven como guía de armado exacta.
+    <b>Listas para publicar.</b> Son 8 vectores 1080×1080 autónomos (no dependen de fotos).
+    Archivos: <code>package/slides/slide-1.svg</code> … <code>slide-8.svg</code>.
+    <br>· <b>Canva:</b> Uploads → arrastrá los 8 SVG a páginas 1080×1080 en orden (el texto queda editable). Guía: <code>slides/README.md</code>.
+    <br>· <b>Directo:</b> exportá cada SVG a PNG/JPG y subilos como carrusel. Copy y hashtags en <code>caption.md</code> y <code>hashtags.txt</code>.
   </div>
 
-  <footer class="end">
-    Preview generado por el Creative OS · concepto ganador 86/100 · emoción: indignación útil · copywriter: autoridad.
-    Sistema de color y tipografía según <b>shared/design-system</b>.
-  </footer>
+  <footer class="end">Creative OS · concepto 86/100 · sistema de color y tipografía según <b>shared/design-system</b>. Un acento azul por composición (regla de marca).</footer>
 </div>
