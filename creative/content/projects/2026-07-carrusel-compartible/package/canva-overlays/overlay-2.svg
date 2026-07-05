@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080" font-family="Arial, 'Helvetica Neue', Helvetica, sans-serif">
+  <defs>
+    <linearGradient id="btm" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1A1C1E" stop-opacity="0"/>
+      <stop offset="0.45" stop-color="#1A1C1E" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#1A1C1E" stop-opacity="0.92"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#btm)"/>
+  <text x="90" y="720" fill="#FFFFFF" font-size="94" font-weight="800" letter-spacing="-3">Existen dos.</text>
+  <text x="90" y="820" fill="#E8E4DC" font-size="40" font-weight="400">La que pagás una vez. Y la que pagás en</text>
+  <text x="90" y="874" font-size="40" font-weight="700"><tspan fill="#4A9DE8">cuotas</tspan><tspan fill="#E8E4DC" font-weight="400"> —sin que nadie te avise— durante años.</tspan></text>
+</svg>

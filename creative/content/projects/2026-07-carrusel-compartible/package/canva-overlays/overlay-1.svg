@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080" font-family="Arial, 'Helvetica Neue', Helvetica, sans-serif">
+  <!-- OVERLAY transparente: va ENCIMA de tu foto en Canva -->
+  <defs>
+    <linearGradient id="scrim1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1A1C1E" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#1A1C1E" stop-opacity="0.70"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#scrim1)"/>
+  <rect x="64" y="64" width="952" height="952" fill="none" stroke="#B0A99A" stroke-opacity="0.35" stroke-width="2"/>
+  <text x="540" y="452" text-anchor="middle" fill="#FFFFFF" font-size="126" font-weight="800" letter-spacing="-3">La ventana</text>
+  <text x="540" y="586" text-anchor="middle" fill="#4A9DE8" font-size="126" font-weight="800" letter-spacing="-3">barata</text>
+  <text x="540" y="720" text-anchor="middle" fill="#FFFFFF" font-size="126" font-weight="800" letter-spacing="-3">no existe.</text>
+  <text x="540" y="982" text-anchor="middle" fill="#FFFFFF" font-size="22" font-weight="700" letter-spacing="6">ALUMFER · ABERTURAS DE ALUMINIO · ZONA SUR</text>
+</svg>

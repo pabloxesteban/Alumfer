@@ -1,0 +1,81 @@
+<style>
+  :root{
+    --blue-light:#4A9DE8;
+    --page-bg:#111315;--page-panel:#191b1e;--page-ink:#E8E4DC;--page-ink-dim:#9a978f;--page-line:rgba(255,255,255,.10);
+    --body:system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;--disp:"Helvetica Neue",Arial,system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme:light){:root{--page-bg:#EDEAE3;--page-panel:#F5F4F1;--page-ink:#26282a;--page-ink-dim:#6b6a64;--page-line:rgba(26,28,30,.12)}}
+  :root[data-theme="dark"]{--page-bg:#111315;--page-panel:#191b1e;--page-ink:#E8E4DC;--page-ink-dim:#9a978f;--page-line:rgba(255,255,255,.10)}
+  :root[data-theme="light"]{--page-bg:#EDEAE3;--page-panel:#F5F4F1;--page-ink:#26282a;--page-ink-dim:#6b6a64;--page-line:rgba(26,28,30,.12)}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--page-bg);color:var(--page-ink);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:640px;margin:0 auto;padding:clamp(1.25rem,5vw,3rem) clamp(1rem,4vw,2rem)}
+  header{border-bottom:1px solid var(--page-line);padding-bottom:1.6rem;margin-bottom:2rem}
+  .eyebrow{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--blue-light);font-weight:700;margin:0 0 .7rem}
+  h1{font-family:var(--disp);font-weight:800;letter-spacing:-.02em;line-height:1.05;font-size:clamp(1.6rem,5.5vw,2.3rem);margin:0 0 .8rem;text-wrap:balance}
+  .lede{color:var(--page-ink-dim);font-size:.95rem;margin:0;max-width:58ch}
+  .frame{margin:0 0 2rem}
+  .stage{position:relative;aspect-ratio:1/1;container-type:inline-size;border-radius:2px;overflow:hidden;
+    box-shadow:0 18px 50px -20px rgba(0,0,0,.7);border:1px solid rgba(255,255,255,.06)}
+  .ph{position:absolute;inset:0;background:
+      repeating-linear-gradient(135deg,rgba(255,255,255,.03) 0 16px,transparent 16px 32px),
+      linear-gradient(160deg,#3D444B,#22262a)}
+  .ph .lbl{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;color:#B0A99A;gap:.6cqi;padding:8cqi}
+  .ph .lbl .big{font-size:3.4cqi;letter-spacing:.28em;font-weight:700;text-transform:uppercase;opacity:.9}
+  .ph .lbl .sm{font-size:2.6cqi;letter-spacing:.06em;opacity:.7;max-width:70%}
+  .ph .cam{width:9cqi;height:9cqi;border:0.5cqi solid rgba(176,169,154,.5);border-radius:1.5cqi;position:relative;margin-bottom:2cqi}
+  .ph .cam::after{content:"";position:absolute;inset:22%;border:0.4cqi solid rgba(176,169,154,.5);border-radius:50%}
+  .stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+  figcaption{display:flex;justify-content:space-between;gap:1rem;margin-top:.7rem;font-size:.8rem;color:var(--page-ink-dim)}
+  figcaption .n{font-weight:700;color:var(--page-ink)}
+  .note{background:var(--page-panel);border:1px solid var(--page-line);border-radius:10px;padding:1.2rem 1.3rem;font-size:.85rem;color:var(--page-ink-dim)}
+  .note b{color:var(--page-ink)} .note code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.8em;background:rgba(127,127,127,.16);padding:.1em .4em;border-radius:4px;color:var(--page-ink)}
+  ol{padding-left:1.1rem;margin:.6rem 0 0} ol li{margin:.25rem 0}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Alumfer · Carrusel · Versión fotográfica para Canva</p>
+    <h1>La ventana barata no existe — con tus fotos</h1>
+    <p class="lede">Así queda cada slide: el bloque texturado es donde va <b>tu foto de obra</b>, y encima
+      se apoya el overlay (texto + degradado + logo, ya diseñado). Vos solo cambiás la foto de atrás.
+      Los overlays están en <code>package/canva-overlays/</code>.</p>
+  </header>
+
+  <!-- S1 -->
+  <figure class="frame"><div class="stage"><div class="ph"><div class="lbl"><div class="cam"></div><div class="big">Tu foto (opcional)</div><div class="sm">detalle sutil de aluminio · o fondo oscuro</div></div></div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" font-family="Arial,Helvetica,sans-serif"><defs><linearGradient id="a1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1A1C1E" stop-opacity="0.55"/><stop offset="1" stop-color="#1A1C1E" stop-opacity="0.70"/></linearGradient></defs><rect width="1080" height="1080" fill="url(#a1)"/><rect x="64" y="64" width="952" height="952" fill="none" stroke="#B0A99A" stroke-opacity="0.35" stroke-width="2"/><text x="540" y="452" text-anchor="middle" fill="#FFFFFF" font-size="126" font-weight="800" letter-spacing="-3">La ventana</text><text x="540" y="586" text-anchor="middle" fill="#4A9DE8" font-size="126" font-weight="800" letter-spacing="-3">barata</text><text x="540" y="720" text-anchor="middle" fill="#FFFFFF" font-size="126" font-weight="800" letter-spacing="-3">no existe.</text><text x="540" y="982" text-anchor="middle" fill="#FFFFFF" font-size="22" font-weight="700" letter-spacing="6">ALUMFER · ABERTURAS DE ALUMINIO · ZONA SUR</text></svg>
+  </div><figcaption><span class="n">Slide 1 · Hook</span><span>overlay-1.svg</span></figcaption></figure>
+
+  <!-- S2 -->
+  <figure class="frame"><div class="stage"><div class="ph"><div class="lbl"><div class="cam"></div><div class="big">Tu foto</div><div class="sm">ventana Alumfer con luz (o split buena/mala)</div></div></div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" font-family="Arial,Helvetica,sans-serif"><defs><linearGradient id="b2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1A1C1E" stop-opacity="0"/><stop offset="0.45" stop-color="#1A1C1E" stop-opacity="0.20"/><stop offset="1" stop-color="#1A1C1E" stop-opacity="0.92"/></linearGradient></defs><rect width="1080" height="1080" fill="url(#b2)"/><text x="90" y="720" fill="#FFFFFF" font-size="94" font-weight="800" letter-spacing="-3">Existen dos.</text><text x="90" y="820" fill="#E8E4DC" font-size="40" font-weight="400">La que pagás una vez. Y la que pagás en</text><text x="90" y="874" font-size="40" font-weight="700"><tspan fill="#4A9DE8">cuotas</tspan><tspan fill="#E8E4DC" font-weight="400"> —sin que nadie te avise— durante años.</tspan></text></svg>
+  </div><figcaption><span class="n">Slide 2 · Reencuadre</span><span>overlay-2.svg</span></figcaption></figure>
+
+  <!-- S3 -->
+  <figure class="frame"><div class="stage"><div class="ph"><div class="lbl"><div class="cam"></div><div class="big">Tu foto</div><div class="sm">detalle de marco + sellado (paleta fría)</div></div></div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" font-family="Arial,Helvetica,sans-serif"><defs><linearGradient id="b3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1A1C1E" stop-opacity="0"/><stop offset="0.42" stop-color="#1A1C1E" stop-opacity="0.15"/><stop offset="1" stop-color="#1A1C1E" stop-opacity="0.92"/></linearGradient><linearGradient id="t3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1A1C1E" stop-opacity="0.62"/><stop offset="1" stop-color="#1A1C1E" stop-opacity="0"/></linearGradient></defs><rect width="1080" height="260" fill="url(#t3)"/><rect width="1080" height="1080" fill="url(#b3)"/><text x="90" y="150" fill="#FFFFFF" font-size="26" font-weight="800" letter-spacing="3">CUOTA 1<tspan fill="#B0A99A" font-weight="700"> · EL INVIERNO</tspan></text><line x1="90" y1="176" x2="354" y2="176" stroke="#B0A99A" stroke-opacity="0.5" stroke-width="2"/><text x="90" y="740" fill="#FFFFFF" font-size="64" font-weight="800" letter-spacing="-1.5">El frío que entra por</text><text x="90" y="812" fill="#FFFFFF" font-size="64" font-weight="800" letter-spacing="-1.5">el marco lo pagás en</text><text x="90" y="884" font-size="64" font-weight="800" letter-spacing="-1.5"><tspan fill="#FFFFFF">la factura de </tspan><tspan fill="#4A9DE8">gas.</tspan></text><text x="90" y="960" fill="#B0A99A" font-size="36" font-weight="400">Todos los meses fríos. Todos los años.</text></svg>
+  </div><figcaption><span class="n">Slide 3 · Cuota 1</span><span>overlay-3.svg</span></figcaption></figure>
+
+  <!-- S6 (muestra tipográfica fuerte) -->
+  <figure class="frame"><div class="stage"><div class="ph"><div class="lbl"><div class="cam"></div><div class="big">Tu foto</div><div class="sm">la misma abertura, sobria</div></div></div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" font-family="Arial,Helvetica,sans-serif"><defs><linearGradient id="b6" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1A1C1E" stop-opacity="0.10"/><stop offset="0.40" stop-color="#1A1C1E" stop-opacity="0.30"/><stop offset="1" stop-color="#1A1C1E" stop-opacity="0.94"/></linearGradient><linearGradient id="t6" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1A1C1E" stop-opacity="0.62"/><stop offset="1" stop-color="#1A1C1E" stop-opacity="0"/></linearGradient></defs><rect width="1080" height="260" fill="url(#t6)"/><rect width="1080" height="1080" fill="url(#b6)"/><text x="90" y="150" fill="#FFFFFF" font-size="26" font-weight="800" letter-spacing="3">CUOTA FINAL<tspan fill="#B0A99A" font-weight="700"> · LA SEGUNDA VENTANA</tspan></text><line x1="90" y1="176" x2="464" y2="176" stroke="#B0A99A" stroke-opacity="0.5" stroke-width="2"/><text x="90" y="560" fill="#FFFFFF" font-size="80" font-weight="800" letter-spacing="-2">A los pocos años</text><text x="90" y="652" fill="#FFFFFF" font-size="80" font-weight="800" letter-spacing="-2">la cambiás igual.</text><text x="90" y="792" fill="#B0A99A" font-size="46" font-weight="400">Y pagás la instalación</text><text x="90" y="944" fill="#4A9DE8" font-size="150" font-weight="800" letter-spacing="-5">dos veces.</text></svg>
+  </div><figcaption><span class="n">Slide 6 · Cuota final</span><span>overlay-6.svg</span></figcaption></figure>
+
+  <!-- S8 -->
+  <figure class="frame"><div class="stage"><div class="ph"><div class="lbl"><div class="cam"></div><div class="big">Tu foto</div><div class="sm">obra terminada con luz natural</div></div></div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" font-family="Arial,Helvetica,sans-serif"><defs><linearGradient id="b8" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1A1C1E" stop-opacity="0"/><stop offset="0.38" stop-color="#1A1C1E" stop-opacity="0.20"/><stop offset="1" stop-color="#1A1C1E" stop-opacity="0.95"/></linearGradient></defs><rect width="1080" height="1080" fill="url(#b8)"/><text x="90" y="560" fill="#FFFFFF" font-size="66" font-weight="800" letter-spacing="-2">¿Cuántas cuotas te falta</text><text x="90" y="632" fill="#FFFFFF" font-size="66" font-weight="800" letter-spacing="-2">pagar por tus ventanas?</text><text x="90" y="716" fill="#E8E4DC" font-size="36" font-weight="400">Mandanos una foto de tu abertura por WhatsApp.</text><text x="90" y="762" fill="#E8E4DC" font-size="36" font-weight="400">Te decimos, sin vueltas, qué necesitás de verdad.</text><rect x="90" y="820" width="356" height="92" rx="46" fill="#1B6CC8"/><path d="M144 866 a30 30 0 1 0 -12 12 l-14 4 4 -14 z" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round"/><text x="190" y="878" fill="#FFFFFF" font-size="36" font-weight="700" letter-spacing="0.5">WhatsApp</text><text x="486" y="880" fill="#FFFFFF" font-size="56" font-weight="800" letter-spacing="0.5">Alumfer</text><text x="90" y="1000" fill="#B0A99A" font-size="24" font-weight="700" letter-spacing="4">FABRICACIÓN PROPIA · ADROGUÉ · ZONA SUR GBA</text></svg>
+  </div><figcaption><span class="n">Slide 8 · CTA</span><span>overlay-8.svg</span></figcaption></figure>
+
+  <div class="note">
+    <b>Muestra 5 de 8</b> (1, 2, 3, 6, 8) para que veas el sistema. Los 8 overlays están en
+    <code>package/canva-overlays/</code> con su guía. En Canva: poné tu foto de fondo y arrastrá el
+    <code>overlay-N.svg</code> encima (100%). El degradado hace que el texto se lea sobre cualquier imagen.
+    <ol>
+      <li>Diseño 1080×1080, 8 páginas.</li>
+      <li>Foto de obra de fondo (sugerencia por slide en <code>assets.json</code>).</li>
+      <li>Overlay encima → descargar PNG/JPG en orden 1→8.</li>
+    </ol>
+  </div>
+</div>

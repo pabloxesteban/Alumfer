@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080" font-family="Arial, 'Helvetica Neue', Helvetica, sans-serif">
+  <defs>
+    <linearGradient id="btm" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1A1C1E" stop-opacity="0"/>
+      <stop offset="0.38" stop-color="#1A1C1E" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#1A1C1E" stop-opacity="0.95"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#btm)"/>
+  <text x="90" y="560" fill="#FFFFFF" font-size="66" font-weight="800" letter-spacing="-2">¿Cuántas cuotas te falta</text>
+  <text x="90" y="632" fill="#FFFFFF" font-size="66" font-weight="800" letter-spacing="-2">pagar por tus ventanas?</text>
+  <text x="90" y="716" fill="#E8E4DC" font-size="36" font-weight="400">Mandanos una foto de tu abertura por WhatsApp.</text>
+  <text x="90" y="762" fill="#E8E4DC" font-size="36" font-weight="400">Te decimos, sin vueltas, qué necesitás de verdad.</text>
+  <rect x="90" y="820" width="356" height="92" rx="46" fill="#1B6CC8"/>
+  <path d="M144 866 a30 30 0 1 0 -12 12 l-14 4 4 -14 z" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round"/>
+  <text x="190" y="878" fill="#FFFFFF" font-size="36" font-weight="700" letter-spacing="0.5">WhatsApp</text>
+  <text x="486" y="880" fill="#FFFFFF" font-size="56" font-weight="800" letter-spacing="0.5">Alumfer</text>
+  <text x="90" y="1000" fill="#B0A99A" font-size="24" font-weight="700" letter-spacing="4">FABRICACIÓN PROPIA · ADROGUÉ · ZONA SUR GBA</text>
+</svg>
