@@ -12,10 +12,14 @@
       "import": "./dist/index.js"
     }
   },
+  "bin": {
+    "alumfer-image": "dist/cli.js"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "example": "node --experimental-strip-types src/example.ts"
+    "generate": "npm run build --silent && node dist/cli.js",
+    "example": "npm run build --silent && node dist/example.js"
   },
   "engines": {
     "node": ">=18.17"

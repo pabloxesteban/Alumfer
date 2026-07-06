@@ -48,6 +48,45 @@ services/image-generation/
 
 ---
 
+## Pedir una imagen en 3 pasos
+
+```bash
+cd services/image-generation
+
+# 1) Configurar la clave (una sola vez)
+cp .env.example .env          # y pegá tu OPENAI_API_KEY dentro
+
+# 2) Instalar dependencias (una sola vez)
+npm install
+
+# 3) Pedir la imagen
+npm run generate -- "una ventana corrediza premium en un living moderno" \
+  --format instagram-feed \
+  --mood "atardecer, luz cálida natural"
+```
+
+Al terminar imprime la ruta del archivo (en `generated/images/`), el tamaño, el
+modelo, el tiempo y el **costo estimado**. Ver todas las opciones con:
+
+```bash
+npm run generate -- --help
+```
+
+## ¿Es gratis?
+
+**No.** La API de OpenAI GPT Image se cobra por imagen. Necesitás una cuenta de
+OpenAI con **billing activado** y una `OPENAI_API_KEY` con crédito. Costo
+aproximado por imagen (puede cambiar):
+
+| Calidad         | Costo aprox. |
+|-----------------|--------------|
+| `low`           | ~US$0.01     |
+| `medium`        | ~US$0.04     |
+| `high` (default)| ~US$0.17     |
+
+Cada generación reporta su `estimatedCostUsd` en el log y en la salida del CLI.
+Para abaratar pruebas, usá `--quality low`.
+
 ## Configuración
 
 Copiá `.env.example` a `.env` y completá:
