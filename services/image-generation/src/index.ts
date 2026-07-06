@@ -21,6 +21,7 @@
 import type { ContentIdea, ImageProvider, Logger, MarketingImageResult } from './types.js';
 import { registerProvider, resolveProvider } from './image-provider.js';
 import { OpenAIImageProvider } from './openai-image-provider.js';
+import { MidjourneyImageProvider } from './midjourney-image-provider.js';
 import { ImageService } from './image-service.js';
 import { defaultLogger } from './logger.js';
 
@@ -28,6 +29,8 @@ import { defaultLogger } from './logger.js';
 // Para sumar Flux/Ideogram/etc. en el futuro:
 //   registerProvider('flux', () => new FluxImageProvider());
 registerProvider('openai', () => new OpenAIImageProvider());
+// MidJourney vía bridge no oficial (ver midjourney-image-provider.ts y README).
+registerProvider('midjourney', () => new MidjourneyImageProvider());
 
 export interface GenerateOptions {
   /** Proveedor a usar. Por defecto `process.env.IMAGE_PROVIDER` o 'openai'. */
@@ -73,6 +76,7 @@ export async function generateMarketingImage(
 // ── Re-exports para consumidores avanzados / extensibilidad ─────────────────
 export { ImageService } from './image-service.js';
 export { OpenAIImageProvider } from './openai-image-provider.js';
+export { MidjourneyImageProvider } from './midjourney-image-provider.js';
 export { buildPrompt, QUALITY_KEYWORDS, NEGATIVE_KEYWORDS } from './prompt-builder.js';
 export { SIZE_PRESETS, getSizePreset } from './sizes.js';
 export {

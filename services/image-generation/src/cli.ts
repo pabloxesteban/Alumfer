@@ -57,6 +57,7 @@ function loadDotEnv(): void {
 
 interface ParsedArgs {
   idea: ContentIdea;
+  provider?: string;
   help: boolean;
 }
 
@@ -105,7 +106,7 @@ function parseArgs(argv: string[]): ParsedArgs {
     extraDetails: flags.details ? flags.details.split(';').map((s) => s.trim()) : undefined,
   };
 
-  return { idea, help };
+  return { idea, provider: flags.provider, help };
 }
 
 function printHelp(): void {
@@ -116,6 +117,7 @@ Uso:
   node dist/cli.js "<idea de contenido>" [opciones]
 
 Opciones:
+  --provider     Motor: openai | midjourney   (default: openai o IMAGE_PROVIDER)
   --format, -f   Formato: ${FORMATS.join(' | ')}   (default: instagram-feed)
   --setting      Contexto arquitectónico. Ej: "casa en Adrogué, Zona Sur GBA"
   --mood         Ambiente. Ej: "atardecer, luz cálida natural"
@@ -135,7 +137,7 @@ Ejemplo:
 
 async function main(): Promise<void> {
   loadDotEnv();
-  const { idea, help } = parseArgs(process.argv.slice(2));
+  const { idea, provider, help } = parseArgs(process.argv.slice(2));
 
   if (help) {
     printHelp();
@@ -143,7 +145,7 @@ async function main(): Promise<void> {
   }
 
   console.log('🎬 Director Creativo: construyendo el prompt y pidiendo la imagen…\n');
-  const result = await generateMarketingImage(idea);
+  const result = await generateMarketingImage(idea, { provider });
 
   console.log('\n✅ Imagen lista:\n');
   console.log(`   Archivo:  ${result.imagePath}`);

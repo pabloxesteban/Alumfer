@@ -175,6 +175,47 @@ Ver `prompt-builder.ts` → `QUALITY_KEYWORDS` / `NEGATIVE_KEYWORDS`.
 
 ---
 
+## MidJourney (bridge NO oficial)
+
+> ⚠️ **Leé esto antes de usarlo.** MidJourney **no tiene API oficial**. Este
+> proveedor habla con un servicio *bridge* de terceros (ImaginePro, GoAPI,
+> apiframe, useapi, LinkrAPI…) que automatiza una cuenta de MidJourney/Discord.
+> Puede **violar los Términos de Servicio de MidJourney** (riesgo de que te
+> **baneen la cuenta**) y normalmente **cuesta aparte** de tu suscripción. Es
+> frágil: si el bridge cambia su API, hay que reajustar los endpoints. Úsalo
+> bajo tu propio riesgo.
+
+Flujo: es **asíncrono**. El proveedor envía el `imagine`, hace *polling* hasta
+que la tarea está `DONE`, descarga la imagen y la entrega igual que OpenAI (el
+`ImageService` la reescala al tamaño de red).
+
+### Configuración
+
+1. Elegí un bridge y sacá su **API key** (no es tu login de MidJourney).
+2. Completá en `.env`:
+
+   ```env
+   IMAGE_PROVIDER=midjourney
+   MIDJOURNEY_API_KEY=tu-key-del-bridge
+   MIDJOURNEY_API_URL=https://api.imaginepro.ai
+   MIDJOURNEY_IMAGINE_PATH=/api/v1/nova/imagine
+   MIDJOURNEY_FETCH_PATH=/api/v1/message/fetch/{id}
+   ```
+
+   Los defaults apuntan a **ImaginePro**. Para otro bridge, ajustá `MIDJOURNEY_API_URL`
+   y los paths (el proveedor ya tolera varios nombres de campo comunes:
+   `messageId`/`task_id`/`id`, `images`/`image_urls`, `uri`/`imageUrl`…).
+
+3. Pedí la imagen:
+
+   ```bash
+   npm run generate -- "una ventana corrediza premium en un living moderno" \
+     --provider midjourney --format instagram-feed
+   ```
+
+El prompt se envía con los parámetros nativos de MidJourney: `--ar` (según el
+formato) y `--no` (negativos de marca: cartoon, text, watermark…).
+
 ## Agregar un proveedor nuevo (Flux, Ideogram, SD, Midjourney…)
 
 Todo el sistema depende **solo** de la interfaz `ImageProvider`. Para sumar un
