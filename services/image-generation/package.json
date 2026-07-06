@@ -21,11 +21,11 @@
     "node": ">=18.17"
   },
   "devDependencies": {
-    "typescript": "^5.4.0",
-    "@types/node": "^20.11.0"
+    "@types/node": "^20.11.0",
+    "typescript": "^5.4.0"
   },
   "peerDependencies": {
-    "sharp": "^0.33.0"
+    "sharp": "^0.33.5"
   },
   "peerDependenciesMeta": {
     "sharp": {
