@@ -101,8 +101,9 @@ const overlays = {
   s8: svg(
     T(540, 1024, '¿Cuántas cuotas te falta pagar?', 54, { w: 700 }) +
     T(540, 1078, 'Mandanos una foto de tu abertura.', 31, { f: 'Inter', op: 0.9 }) +
-    `<g transform="translate(370,1128)">${waIcon(26, 26, 26)}</g>` +
-    T(420, 1150, '11-6336-8643', 46, { w: 700, anchor: 'start' }) +
+    // fila ícono + número, centrada en x=540 y alineada verticalmente al centro del ícono (y=1150)
+    `<g transform="translate(340,1124)">${waIcon(26, 26, 26)}</g>` +
+    T(410, 1166, '11-6336-8643', 46, { w: 700, anchor: 'start' }) +
     logo(1298)),
 };
 
