@@ -26,7 +26,16 @@
 
 ## Export Package (`/package`)
 
-`content.json` · `metadata.json` · `assets.json` · `caption.md` · `hashtags.txt` · `preview.md` · `canva.csv` · `slides/`
+`content.json` · `metadata.json` · `assets.json` · `caption.md` · `hashtags.txt` · `preview.md` · `canva.csv`
+
+## Video / CapCut (`/package`)
+
+- **`reel-animatic.mp4`** — animatic real 9:16 (1080×1920, 30fps, ~22s) con tipografía, tiempos, transiciones y la línea de identidad animada. Los planos con footage quedan como *slots* marcados.
+- **`overlays/scene-1..8.png`** — overlays de texto transparentes para arrastrar en CapCut.
+- **`capcut-timeline.md`** — guía de montaje corte por corte (integración CapCut).
+- **`render/build_reel.py`** — script que genera todo desde `content.json` + design-system.
+
+> El animatic es plantilla: para la pieza publicable se reemplazan los slots por tomas reales de obra/taller Alumfer (regla de marca: sólo obra propia).
 
 ## Resultado
 
