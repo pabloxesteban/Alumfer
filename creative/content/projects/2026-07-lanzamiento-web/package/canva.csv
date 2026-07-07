@@ -1,0 +1,9 @@
+scene,timecode,role,on_screen_text,kicker,footer,visual_note,transition,audio
+1,0-2.5s,hook-visual,,,,"Negro Carbon. Línea de luz azulada crece en el borde de una abertura cerrada. Sin logo.",la-luz-crece,"ambiente / zumbido grave"
+2,2.5-5s,reveal,"Abrimos una más.",,,"POV: ventana/puerta de aluminio Alumfer se abre; entra la luz.",flare-de-luz,"CLICK real del cierre + música minimal entra"
+3,5-7s,valor,"Entra luz.",,,"La luz recorre un living real: piso, planta, mesa.",slide-de-luz,"música minimal sube"
+4,7-9.5s,anclaje,,"ADROGUÉ",,"Ventanal grande en casa de Zona Sur. Rótulo de barrio real.",corte-al-ritmo,"ambiente exterior suave"
+5,9.5-12.5s,recorrido,"Lomas. Quilmes. Lanús.",,,"3 tomas x ~0.8s: DVH, portón corredizo, cocina, con luz. Rótulos de barrio.",cortes-secos-al-beat,"beat minimal marca los cortes"
+6,12.5-15s,oficio,"15 años de trabajo.",,,"Taller: corte a 45°, mano midiendo, sellado. ASMR de precisión.",match-cut-línea-recta,"snip del corte + roce del metro"
+7,15-18.5s,web,"Ahora, todo en un solo lugar.",,,"La línea del corte se vuelve la LÍNEA AZUL 3px. Debajo, el sitio (2-3 pantallas) por 1.5-2s.",la-línea-azul-se-dibuja,"música en punto pleno"
+8,18.5-22s,cta-loop,"Pasá.  ·  alumfer.com",,"Adrogué · Zona Sur GBA","La abertura vuelve a su posición (loop). Único frame con logo Alumfer.",cierre-que-reabre,"cola de música + click final"

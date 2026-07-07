@@ -1,0 +1,91 @@
+{
+  "project": "abrimos-una-mas",
+  "art_direction": {
+    "style": "editorial premium, cinético, una idea por plano, mucho aire",
+    "background": "#1A1C1E (Carbon) / #2E3338 (Steel)",
+    "text_color": "#FFFFFF",
+    "muted_text": "#B0A99A (Concrete)",
+    "accent_color": "#1B6CC8 (Blue) — un solo elemento por composición (la línea de identidad)",
+    "typography": "Montserrat 600/700 (títulos) / Inter 400-500 (kickers y cuerpo)",
+    "logo": "solo en escena 8",
+    "photo_rule": "SOLO obra propia Alumfer, nunca stock. Grade: -12% saturación, temperatura fría, sombras con detalle. Prohibido orange&teal.",
+    "identity_line": "línea azul de 3px como clímax visual (escena 7)"
+  },
+  "assets_needed": [
+    {
+      "scene": 1,
+      "type": "video-typographic",
+      "asset": "Toma en penumbra de una abertura Alumfer cerrada con una rendija de luz creciendo. Sin logo.",
+      "source": "grabar (taller u obra)",
+      "status": "pendiente-captura"
+    },
+    {
+      "scene": 2,
+      "type": "video-pov",
+      "asset": "POV de ventana/puerta de aluminio Alumfer abriéndose, luz entrando.",
+      "source": "grabar en obra o showroom",
+      "status": "pendiente-captura",
+      "audio_capture": "grabar el CLICK real del cierre"
+    },
+    {
+      "scene": 3,
+      "type": "video-ambiente",
+      "asset": "Living real donde la luz recorre el piso/objetos. El ambiente respira.",
+      "source": "banco de obra / grabar",
+      "status": "seleccionar"
+    },
+    {
+      "scene": 4,
+      "type": "video-obra",
+      "asset": "Ventanal grande, casa Zona Sur (Adrogué). Rótulo de barrio real.",
+      "source": "banco de obra Alumfer",
+      "status": "seleccionar",
+      "note": "Brand Guardian O1: rotular el barrio correcto de la obra mostrada."
+    },
+    {
+      "scene": 5,
+      "type": "video-montaje",
+      "asset": "3 tomas cortas (~0.8s): DVH, portón corredizo, cocina, con luz. Barrios: Lomas, Quilmes, Lanús.",
+      "source": "banco de obra Alumfer",
+      "status": "seleccionar",
+      "note": "Cada rótulo debe corresponder a la obra real de ese barrio."
+    },
+    {
+      "scene": 6,
+      "type": "video-taller",
+      "asset": "Detalle de corte a 45°, mano midiendo con metro, sellado. ASMR de precisión, luz cálida.",
+      "source": "taller Adrogué",
+      "status": "pendiente-captura",
+      "audio_capture": "snip del corte + roce del metro"
+    },
+    {
+      "scene": 7,
+      "type": "motion-composicion",
+      "asset": "Match-cut de la línea del corte a la línea azul de identidad (3px). Mockup del sitio (2-3 pantallas reales) sobre Carbon.",
+      "source": "capturas reales del sitio + composición en Canva/After Effects",
+      "status": "diseño",
+      "note": "Web visible solo 1.5-2s. Nada de screen-recording tutorial."
+    },
+    {
+      "scene": 8,
+      "type": "video-cta",
+      "asset": "La abertura vuelve a su posición (loop). Overlay: logo Alumfer + 'Pasá · alumfer.com' + 'Adrogué · Zona Sur GBA'.",
+      "source": "reusar toma escena 2 + overlay",
+      "status": "diseño"
+    }
+  ],
+  "audio": {
+    "music": "Minimal / ambient sobrio, licencia comercial para Instagram. No trap viral, no tendencia genérica.",
+    "sfx_real": ["click de cierre (esc. 2 y 8)", "snip de corte (esc. 6)", "roce de metro (esc. 6)"],
+    "vo": "sin voz en off",
+    "status": "pendiente + verificar licencia (Brand Guardian O3)"
+  },
+  "cover": "Frame de escena 2/3 con luz entrando y 'Abrimos una más.' legible. Elegido a mano.",
+  "design_system_ref": "shared/design-system/tokens.css",
+  "reminders": [
+    "Logo únicamente en la escena 8.",
+    "Un solo elemento Blue en toda la pieza (la línea de identidad).",
+    "Todo el material es obra/taller propio Alumfer — cero stock.",
+    "Verificar correspondencia rótulo-barrio (O1) y SFX reales (O2)."
+  ]
+}

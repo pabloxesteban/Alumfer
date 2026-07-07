@@ -1,0 +1,113 @@
+{
+  "project": "lanzamiento-nuevo-sitio-web",
+  "brand": "Alumfer",
+  "platform": "instagram",
+  "format": "reel",
+  "aspect_ratio": "9:16",
+  "resolution": "1080x1920",
+  "duration_seconds": 22,
+  "language": "es-AR",
+  "market": "GBA, Argentina",
+  "concept": "Abrimos una más — la web como una abertura más de Alumfer, que se abre a la luz de todo su trabajo.",
+  "winning_hook": "Abrimos una más.",
+  "dominant_emotion": "confianza-tranquila-aspiracional",
+  "copywriter": "storytelling",
+  "predicted_viral_score": 91,
+  "objective": ["visitas-al-sitio", "reconocimiento-de-marca", "guardar", "seguir"],
+  "logo_policy": "solo-en-escena-final",
+  "accent_policy": "un-solo-elemento-blue-linea-de-identidad",
+  "scenes": [
+    {
+      "n": 1,
+      "role": "hook-visual",
+      "on_screen_text": "",
+      "visual": "Negro Carbon. Una fina línea de luz azulada crece en el borde de una abertura cerrada. Sin logo.",
+      "duration": "0-2.5s",
+      "transition": "la-luz-crece",
+      "audio": "ambiente / zumbido grave",
+      "emotion": "misterio"
+    },
+    {
+      "n": 2,
+      "role": "reveal",
+      "on_screen_text": "Abrimos una más.",
+      "accent_word": "una más",
+      "visual": "POV: ventana/puerta de aluminio Alumfer se abre; la luz entra y baña el encuadre.",
+      "duration": "2.5-5s",
+      "transition": "flare-de-luz",
+      "audio": "click seco del cierre real + música minimal entra",
+      "emotion": "revelacion"
+    },
+    {
+      "n": 3,
+      "role": "valor-sensorial",
+      "on_screen_text": "Entra luz.",
+      "visual": "La luz recorre un living real: piso, planta, mesa. El ambiente respira.",
+      "duration": "5-7s",
+      "transition": "slide-de-luz",
+      "audio": "musica minimal sube",
+      "emotion": "confort"
+    },
+    {
+      "n": 4,
+      "role": "anclaje-local",
+      "on_screen_text": "Adrogué.",
+      "kicker_style": "Inter uppercase Concrete",
+      "visual": "Obra real: ventanal grande en casa de Zona Sur. Rótulo discreto de barrio.",
+      "duration": "7-9.5s",
+      "transition": "corte-al-ritmo",
+      "audio": "ambiente exterior suave",
+      "emotion": "identificacion"
+    },
+    {
+      "n": 5,
+      "role": "recorrido-obra",
+      "on_screen_text": "Lomas. Quilmes. Lanús.",
+      "visual": "Montaje ágil (3 tomas x ~0.8s) de obras reales con luz: DVH, portón corredizo, cocina. Rótulos de barrio.",
+      "duration": "9.5-12.5s",
+      "transition": "cortes-secos-al-beat",
+      "audio": "beat minimal marca los cortes",
+      "emotion": "orgullo-local"
+    },
+    {
+      "n": 6,
+      "role": "oficio",
+      "on_screen_text": "15 años de trabajo.",
+      "visual": "Detalle de taller: corte a 45°, mano midiendo, sellado perfecto (ASMR de precisión).",
+      "duration": "12.5-15s",
+      "transition": "match-cut-linea-recta",
+      "audio": "snip del corte + sonido de metro",
+      "emotion": "respeto-oficio"
+    },
+    {
+      "n": 7,
+      "role": "consecuencia-digital",
+      "on_screen_text": "Ahora, todo en un solo lugar.",
+      "visual": "La línea del corte se vuelve la LÍNEA AZUL de identidad (3px). Debajo, el sitio (2-3 pantallas reales) sobre Carbon, por 1.5-2s.",
+      "duration": "15-18.5s",
+      "transition": "la-linea-azul-se-dibuja",
+      "audio": "musica en punto pleno",
+      "emotion": "confianza"
+    },
+    {
+      "n": 8,
+      "role": "cta-loop",
+      "on_screen_text": "Pasá.  ·  alumfer.com",
+      "footer": "Adrogué · Zona Sur GBA",
+      "visual": "La abertura vuelve a su posición (invita a repetir el loop). Único frame con logo Alumfer.",
+      "duration": "18.5-22s",
+      "transition": "cierre-que-reabre-loop",
+      "audio": "cola de musica + click final",
+      "emotion": "decision-bienvenida"
+    }
+  ],
+  "cta": {
+    "primary": "Pasá → alumfer.com (link en bio)",
+    "secondary": "Guardá y seguí la cuenta"
+  },
+  "story_repost": {
+    "sticker_link": "alumfer.com",
+    "sticker_poll": "¿Entramos? — Sí / Obvio",
+    "text": "Abrimos una más. Pasá 👉"
+  }
+}

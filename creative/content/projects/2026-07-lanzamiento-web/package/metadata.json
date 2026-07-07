@@ -1,0 +1,58 @@
+{
+  "project_id": "2026-07-lanzamiento-web",
+  "slug": "abrimos-una-mas",
+  "title": "Abrimos una más — Lanzamiento sitio web Alumfer",
+  "brand": "Alumfer",
+  "created": "2026-07-07",
+  "status": "aprobado-listo-para-produccion",
+  "platform": "instagram",
+  "format": "reel",
+  "aspect_ratio": "9:16",
+  "duration_seconds": 22,
+  "language": "es-AR",
+  "market": "GBA, Argentina",
+  "engine_version": "Creative Intelligence Engine V2",
+  "pipeline": {
+    "brand_analysis": "done",
+    "audience_psychology": "done",
+    "strategy": "done (formato: Reel elegido por matriz ponderada)",
+    "trend_research": "done (18 patrones, shortlist 7)",
+    "concept_generation": "done (30 conceptos, 8 familias)",
+    "hook_generation": "done (56 hooks, 8 categorias)",
+    "creative_challenger": "done (2 muertos, 3 absorbidos, 1 guardado)",
+    "selection": "done (ganador C-27, 91/100)",
+    "production": "done (storyboard 8 escenas + copy + caption)",
+    "brand_guardian": "done (5/5 APROBADO)",
+    "export": "done"
+  },
+  "creative": {
+    "winning_concept": "C-27 - Abrimos una más",
+    "angle": "la web como una abertura más / apertura a la luz",
+    "narrative_structure": "Umbral: sombra -> se abre -> luz recorre obra real -> oficio -> sitio -> loop",
+    "dominant_emotion": "confianza-tranquila-aspiracional",
+    "copywriter": "storytelling",
+    "winning_hook": "Abrimos una mas.",
+    "predicted_viral_score": 91,
+    "iteration_rounds": 1,
+    "campaign_signature": "Abrimos una mas (reutilizable por obra/barrio/servicio)",
+    "next_piece_reserved": "C-18 - El mapa de la luz"
+  },
+  "objective_metrics_priority": ["clicks_al_sitio", "alcance_no_seguidor", "guardados", "seguidores_nuevos", "dms_whatsapp"],
+  "cta_primary": "visitar alumfer.com",
+  "cta_secondary": "guardar + seguir",
+  "personas_targeted": ["propietario-que-renueva", "el-que-construye", "arquitecto-proyectista"],
+  "brand_safety": {
+    "no_generic_launch_copy": true,
+    "no_price_as_hook": true,
+    "no_competitor_attack": true,
+    "gba_anchored": true,
+    "own_work_only": true,
+    "logo_only_at_end": true,
+    "single_blue_accent": true
+  },
+  "learning_hooks": {
+    "to_track_in_content_ledger": true,
+    "prediction": "Alto alcance no-seguidor por ser Reel de lanzamiento; clicks al sitio por CTA integrado + sticker link en Historia. Guardados sobre promedio por la firma 'Abrimos una mas'.",
+    "review_at": ["48-72h", "2-4 semanas"]
+  }
+}
