@@ -1,0 +1,57 @@
+{
+  "project_id": "2026-07-lanzamiento-web",
+  "slug": "una-ventana-mas",
+  "title": "Una ventana mas",
+  "brand": "Alumfer",
+  "created": "2026-07-07",
+  "status": "aprobado-listo-para-produccion",
+  "platform": "instagram",
+  "format": "carousel",
+  "slides": 8,
+  "language": "es-AR",
+  "market": "GBA, Argentina",
+  "engine_version": "Creative Intelligence Engine V2",
+  "campaign": "Lanzamiento nuevo sitio web alumfer.com.ar",
+  "pipeline": {
+    "brand_analysis": "done",
+    "audience_psychology": "done",
+    "strategy": "done (formato: carrusel elegido sobre historia/post)",
+    "research": "done (9 patrones)",
+    "concepts": "done (32 conceptos, 8 bloques)",
+    "hooks": "done (55 hooks, 10 categorias)",
+    "creative_review": "done (4 hibridos, 3 absorbidos)",
+    "selection": "done (ganador 85/100)",
+    "production": "done (copywriter: premium)",
+    "brand_review": "done (5/5 PASS)",
+    "export": "done"
+  },
+  "creative": {
+    "winning_concept": "Una ventana mas",
+    "angle": "metafora nativa sitio=ventana + evolucion (no reinvencion)",
+    "narrative_structure": "Reveal diferido -> Tour de vistas -> Giro de oficio -> Invitacion calma",
+    "dominant_emotion": "orgullo-sereno",
+    "copywriter": "premium",
+    "winning_hook": "Hace 15 anos que fabricamos ventanas. Anoche terminamos una que no lleva aluminio.",
+    "predicted_viral_score": 85,
+    "iteration_rounds": 1
+  },
+  "objective_metrics_priority": ["visitas_sitio", "guardados", "compartidos", "dms_whatsapp"],
+  "cta_primary": "visita al sitio (asomate)",
+  "cta_secondary": "guardar + compartir",
+  "cta_url": "https://alumfer.com.ar",
+  "personas_targeted": ["A-el-que-ya-decidio-invertir-bien", "C-el-que-algun-dia", "D-arquitecto-recomendador"],
+  "brand_safety": {
+    "no_generic_launch_message": true,
+    "no_screenshots_of_site": true,
+    "no_false_urgency": true,
+    "no_competitor_attack": true,
+    "gba_anchored": true,
+    "own_work_only": true,
+    "single_blue_accent_per_slide": true
+  },
+  "learning_hooks": {
+    "to_track_in_content_ledger": true,
+    "prediction": "Visitas por encima del promedio de posteos de marca; guardados altos en Persona C; compartidos por reenvio a quien decide; DMs de Persona A.",
+    "review_at": ["48-72h", "2-4 semanas"]
+  }
+}

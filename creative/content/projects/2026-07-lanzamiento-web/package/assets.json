@@ -1,0 +1,86 @@
+{
+  "project": "carrusel-una-ventana-mas",
+  "art_direction": {
+    "style": "editorial premium, una idea por slide, mucho aire, sistema grafico industrial ilustrado (line-art de aluminio)",
+    "background": "#1A1C1E (Carbon) con wash azul sutil arriba / hormigon",
+    "text_color": "#FFFFFF (principal) / #B0A99A (Concrete, secundario)",
+    "accent_color": "#1B6CC8 (Blue) - maximo UN elemento azul por slide (shared/design-system/colors.md)",
+    "typography": "Montserrat 700/600 (titulos) / Inter 400 (cuerpo)",
+    "identity_line": "linea azul 3px (firma visual) - usar en slide 7",
+    "logo": "solo en slide 8",
+    "photo_rule": "SOLO obra propia Alumfer. Nunca stock. Nunca screenshots del sitio. Nunca mockups de laptop.",
+    "prohibited": "confeti, Orange & Teal, saturacion, neon, gradientes de agencia digital, capturas de pantalla del sitio"
+  },
+  "assets_needed": [
+    {
+      "slide": 1,
+      "type": "typographic",
+      "asset": "Solo texto sobre fondo Carbon. Ventana en line-art muy sutil al margen (opcional).",
+      "status": "listo-para-diseno"
+    },
+    {
+      "slide": 2,
+      "type": "typographic-illustration",
+      "asset": "Silueta de ventana cuyo vidrio es una pantalla con luz. Puente visual aluminio -> digital.",
+      "source": "ilustracion vectorial",
+      "status": "diseno"
+    },
+    {
+      "slide": 3,
+      "type": "photo-or-illustration",
+      "asset": "Taller de Adrogue: corte de perfil, medicion, manos trabajando. Luz calida contenida.",
+      "source": "banco de taller Alumfer",
+      "status": "seleccionar",
+      "note": "Debe ser el taller real de Adrogue."
+    },
+    {
+      "slide": 4,
+      "type": "map-illustration",
+      "asset": "Mapa/trama estilizada de Zona Sur con una ventana marcando un barrio. Localidades reales.",
+      "source": "diseno",
+      "status": "diseno",
+      "note": "Brand Guardian: usar localidades donde Alumfer realmente trabajo."
+    },
+    {
+      "slide": 5,
+      "type": "photo-result",
+      "asset": "Aberturas terminadas en casas reales (ventana, DVH, cerramiento, porton). Una con luz atravesando.",
+      "source": "banco de obra terminada Alumfer",
+      "status": "seleccionar",
+      "note": "Obra propia real, no generica. Color grade Alumfer."
+    },
+    {
+      "slide": 6,
+      "type": "illustration",
+      "asset": "Ventana entreabierta hacia calma. Mucho espacio negativo.",
+      "source": "ilustracion vectorial",
+      "status": "diseno"
+    },
+    {
+      "slide": 7,
+      "type": "photo-process-split",
+      "asset": "Paralelo: mano cortando perfil a 45 grados / la misma exigencia sobre la web. Linea azul 3px cruzando.",
+      "source": "banco de taller",
+      "status": "seleccionar"
+    },
+    {
+      "slide": 8,
+      "type": "photo-result-cta",
+      "asset": "Obra terminada con luz. Overlay: logo Alumfer + alumfer.com.ar + WhatsApp + Adrogue, Zona Sur GBA.",
+      "source": "banco de obra + logo solologo.png",
+      "status": "seleccionar"
+    }
+  ],
+  "design_system_ref": "shared/design-system/tokens.css",
+  "logo_asset": "apps/website/solologo.png",
+  "vector_slides": "package/slides/ (8 SVG 1080x1080 autonomos, no dependen de fotos)",
+  "photo_overlays": "package/canva-overlays/ (para version fotografica: texto transparente sobre tus fotos)",
+  "reminders": [
+    "Un solo elemento Blue por slide (regla colors.md).",
+    "Logo unicamente en slide 8.",
+    "Cero screenshots del sitio: mostrar VISTAS (que ve el cliente), no la interfaz.",
+    "Mantener el rotulo 'Vista N' como sistema visual consistente en slides 3-6.",
+    "Confirmar URL alumfer.com.ar y que el link en bio apunte al home nuevo.",
+    "No inventar cifras en pantalla: usar solo datos verificables (+15 anos)."
+  ]
+}

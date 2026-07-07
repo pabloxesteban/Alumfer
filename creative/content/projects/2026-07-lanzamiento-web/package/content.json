@@ -1,0 +1,109 @@
+{
+  "project": "carrusel-una-ventana-mas",
+  "brand": "Alumfer",
+  "platform": "instagram",
+  "format": "carousel",
+  "language": "es-AR",
+  "market": "GBA, Argentina",
+  "slides_count": 8,
+  "concept": "Una ventana mas: el nuevo sitio como una ventana mas de Alumfer, hecha con el mismo oficio. Evolucion, no reinvencion.",
+  "dominant_emotion": "orgullo-sereno",
+  "copywriter": "premium",
+  "predicted_viral_score": 85,
+  "objective": ["visitar-sitio", "guardar", "compartir", "consultas-whatsapp"],
+  "cta_url": "https://alumfer.com.ar",
+  "slides": [
+    {
+      "n": 1,
+      "role": "hook",
+      "kicker": "Hace 15 anos que fabricamos ventanas.",
+      "headline": "Anoche terminamos una que no lleva aluminio.",
+      "body": "",
+      "accent_word": "aluminio",
+      "visual": "Fondo Carbon. Tipografia enorme. Sin imagen, sin logo grande. Ventana en line-art muy sutil al margen. Pie: Alumfer, aberturas a medida, Adrogue, Zona Sur.",
+      "emotion": "curiosidad",
+      "transition": "corte-seco"
+    },
+    {
+      "n": 2,
+      "role": "reveal",
+      "kicker": "",
+      "headline": "Es nuestro nuevo sitio.",
+      "body": "Una ventana que se abre desde el telefono y da a todo lo que hacemos.",
+      "accent_word": "nuevo sitio",
+      "visual": "Silueta de ventana cuyo vidrio es una pantalla con luz. Split sutil aluminio / luz digital.",
+      "emotion": "reconocimiento",
+      "transition": "aparece-rotulo-vista"
+    },
+    {
+      "n": 3,
+      "role": "vista-1",
+      "kicker": "Vista 1 - la fabrica",
+      "headline": "Miras donde y como se hace.",
+      "body": "El taller de Adrogue, las maquinas, las manos. Sin misterio: fabricamos nosotros.",
+      "accent_word": "Adrogue",
+      "visual": "Line-art de taller: corte de perfil, medicion. Luz calida contenida.",
+      "emotion": "confianza",
+      "transition": "deslizamiento"
+    },
+    {
+      "n": 4,
+      "role": "vista-2",
+      "kicker": "Vista 2 - tu barrio",
+      "headline": "Miras si ya trabajamos cerca tuyo.",
+      "body": "Obras por localidad de Zona Sur: Almirante Brown, Lomas, Quilmes, Ezeiza, Lanus.",
+      "accent_word": "Zona Sur",
+      "visual": "Trama/mapa estilizado de Zona Sur; una ventana marcando un barrio.",
+      "emotion": "identificacion-local",
+      "transition": "deslizamiento"
+    },
+    {
+      "n": 5,
+      "role": "vista-3",
+      "kicker": "Vista 3 - la obra",
+      "headline": "Miras el resultado, no un catalogo.",
+      "body": "Ventanas, DVH, cerramientos, portones. Terminados, en casas reales. Como van a quedar.",
+      "accent_word": "reales",
+      "visual": "Aberturas terminadas en line-art; una con luz atravesando.",
+      "emotion": "aspiracion-alcanzable",
+      "transition": "deslizamiento"
+    },
+    {
+      "n": 6,
+      "role": "vista-4",
+      "kicker": "Vista 4 - el primer paso",
+      "headline": "Pedis presupuesto cuando quieras.",
+      "body": "A las 11 de la noche, sin apuro, sin que nadie te venda. Miras primero. Decidis despues.",
+      "accent_word": "sin apuro",
+      "visual": "Ventana entreabierta; del otro lado, calma. Mucho aire.",
+      "emotion": "alivio",
+      "transition": "pausa-visual"
+    },
+    {
+      "n": 7,
+      "role": "giro",
+      "kicker": "",
+      "headline": "La hicimos como hacemos todo.",
+      "body": "Midiendo, probando, sin apuro. Cambio la herramienta. No cambio quien esta detras.",
+      "accent_word": "No cambio",
+      "visual": "Paralelo taller / pantalla: la misma mano que corta a 45 grados, ahora sobre la web. Linea azul de identidad 3px cruzando.",
+      "emotion": "orgullo-sereno-confianza",
+      "transition": "hacia-cierre"
+    },
+    {
+      "n": 8,
+      "role": "cta",
+      "kicker": "",
+      "headline": "Asomate.",
+      "body": "alumfer.com.ar - link en la bio. Guarda este posteo para cuando arranques tu obra y mandaselo a quien la decide con vos.",
+      "accent_word": "alumfer.com.ar",
+      "visual": "Ventana abierta hacia la luz. Logo Alumfer (unico slide con logo) + URL + WhatsApp. Pie: Adrogue, Zona Sur GBA.",
+      "emotion": "decision",
+      "transition": "fin"
+    }
+  ],
+  "cta": {
+    "primary": "Asomate -> alumfer.com.ar (link en la bio).",
+    "secondary": "Guarda este posteo y mandaselo a quien decide la obra con vos."
+  }
+}
