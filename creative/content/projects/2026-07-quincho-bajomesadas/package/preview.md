@@ -1,52 +1,56 @@
 # Preview — "Tu quincho no está terminado" · Carrusel 5 slides
 
 > Vista rápida para aprobación antes de diseñar en Canva.
+> **Fotos reales solo en slides 2 y 5** (bajomesada1 / bajomesada2). 1·3·4 tipográficos.
+> Versión visual renderizada: `preview.html` (fotos embebidas, diseño moderno).
 
 ```
 ┌───────────────────────────┐   ┌───────────────────────────┐
-│ [1]                       │   │ [2]                       │
-│  Tu quincho               │   │  No es la parrilla.       │
-│  no está                  │   │  No es el horno.          │
-│  TERMINADO.               │   │                           │
-│                           │   │  Es el HUECO debajo       │
+│ [1] HOOK · tipográfico    │   │ [2] EL GIRO · FOTO        │
+│                           │   │  No es la parrilla.       │
+│  Tu quincho               │   │  No es el horno.          │
+│  no está                  │   │                           │
+│  TERMINADO. (subr. azul)  │   │  Es el HUECO debajo       │
 │  Y se nota en un          │   │  de la mesada.            │
-│  solo lugar.              │   │  Ese que nadie fotografía.│
-│  Alumfer · Zona Sur       │   │  [foto quincho real]      │
+│  solo lugar.              │   │  [foto bajomesada1]       │
+│  Alumfer · Zona Sur   01  │   │                       02  │
 └───────────────────────────┘   └───────────────────────────┘
 
 ┌───────────────────────────┐   ┌───────────────────────────┐
-│ [3] El error más común    │   │ [4]                       │
-│                           │   │  Aluminio a medida.       │
-│  Garrafa, carbón, trapos. │   │  No se hincha. No se      │
-│  Lo tapan con una madera. │   │  oxida. No se pela.       │
-│  La humedad y el calor    │   │  Una LÍNEA NEGRA que hace │
-│  se los comen en un       │   │  juego con la parrilla.   │
-│  VERANO. [antes: madera]  │   │  [foto bajomesada negra]  │
+│ [3] EL ERROR · tipográfico│   │ [4] MATERIA · motivo alu  │
+│  Garrafa, carbón, trapos. │   │                           │
+│  Lo tapan con una madera. │   │  Aluminio a medida.       │
+│                           │   │  No se hincha. No se      │
+│  Y la humedad se la       │   │  oxida. No se pela.       │
+│  come en un VERANO.       │   │  [listones aluminio negro]│
+│                       03  │   │                       04  │
 └───────────────────────────┘   └───────────────────────────┘
 
 ┌───────────────────────────┐
-│ [5]  CTA                  │
-│  Foto de tu quincho       │
-│  por WhatsApp →           │
-│  te decimos cómo cerrar   │
-│  ese hueco. Para siempre. │
-│  Guardá + compartí.       │
-│  [obra + logo + WhatsApp] │
+│ [5] CTA · FOTO            │
+│  Mandanos una foto        │
+│  de tu quincho.           │
+│  ▶ WhatsApp               │
+│  📌 Guardalo.             │
+│  ALUMFER · Adrogué    05  │
+│  [foto bajomesada2 + logo]│
 └───────────────────────────┘
 ```
 
 ## Ficha
 - **Concepto:** la bajomesada de aluminio como el detalle invisible que separa un quincho terminado de una obra eterna.
-- **Emoción:** deseo/orgullo (orgullo herido → deseo). **Copywriter:** Premium.
+- **Emoción:** deseo/orgullo. **Copywriter:** Premium.
+- **Diseño:** sistema editorial "industrial elegante" — regla de aluminio azul 3px + numeral fantasma + grano sutil. Fotos reales en 2 slides; el resto tipográfico (el 04 con motivo de listones de aluminio negro que evoca la puerta sin foto).
 - **Score predicho:** 85/100. **Objetivo:** guardar + compartir + DMs.
-- **Por qué funciona:** acusa lo que el asador cree resuelto; munición de decisión reenviable a quien decide la obra; premium sin hablar de precio; anclaje GBA (asado) + obra propia.
 
 ## Checklist de publicación
 - [ ] Diseñar en Canva con `canva.csv` (Bulk Create) + `assets.json`.
-- [ ] Conseguir/componer la foto del "antes" (slide 3) con obra o banco propio (no stock).
+- [ ] Slide 2: foto bajomesada1. Slide 5: foto bajomesada2. (Únicos slides con foto.)
 - [ ] Logo solo en slide 5.
+- [ ] Mantener regla azul 3px + numeral fantasma en los 5 slides.
 - [ ] Hashtags de `hashtags.txt` en el PRIMER comentario.
 - [ ] Fijar el comentario pinned de `caption.md`.
 - [ ] Configurar ubicación (Adrogué) y elegir portada (slide 1) a mano.
+- [ ] (Opcional) Generar texturas de apoyo con GPT Image → requiere OPENAI_API_KEY (ver `assets.json`).
 - [ ] Cargar en `learning/content-ledger.md` al publicar; revisar a 48–72h.
 ```

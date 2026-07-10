@@ -22,7 +22,7 @@ Por qué sirve a la emoción (deseo/orgullo): arranca hiriendo el orgullo (tensi
 ### SLIDE 2 — GIRO (la revelación)
 - **Objetivo:** cerrar el loop revelando el lugar, y volver la idea universal.
 - **Texto:** `No es la parrilla. No es el horno.` / **`Es el hueco debajo de la mesada.`** / *Ese que nadie fotografía.*
-- **Visual:** foto real del quincho terminado (bajomesada1) — plano general — con foco compositivo en la línea de bajomesadas negras bajo la parrilla.
+- **Visual:** **FOTO REAL** del quincho terminado (bajomesada1) — plano general — duotono sutil + scrim, con foco compositivo en la línea de bajomesadas negras bajo la parrilla.
 - **Emoción:** reconocimiento ("es verdad, el mío está abierto/tapado con cualquier cosa").
 - **Transición:** deslizamiento hacia el error.
 - **CTA:** — .
@@ -30,7 +30,7 @@ Por qué sirve a la emoción (deseo/orgullo): arranca hiriendo el orgullo (tensi
 ### SLIDE 3 — DESARROLLO (el error — agitación)
 - **Objetivo:** hacer doler el problema con verdad honesta (absorbe C5 y C4).
 - **Texto:** `Ahí va la garrafa, el carbón, los trapos.` / *La mayoría lo tapa con una madera o una cortina.* / **`La humedad del asado y el calor se los comen en un verano.`**
-- **Visual:** "antes" honesto — un hueco tapado con madera hinchada / cortina (banco de obra o composición). Paleta apagada.
+- **Visual:** **TIPOGRÁFICO (sin foto)** — slide editorial con "un verano" grande en azul aluminio. (Decisión de diseño: evita depender de una foto de "antes" que no teníamos, y mantiene el ritmo foto/texto del carrusel.)
 - **Emoción:** incomodidad / preocupación (no repetir gasto).
 - **Transición:** deslizamiento hacia la solución.
 - **CTA:** — .
@@ -38,7 +38,7 @@ Por qué sirve a la emoción (deseo/orgullo): arranca hiriendo el orgullo (tensi
 ### SLIDE 4 — DESPUÉS + PRUEBA (materia / deseo — registro premium)
 - **Objetivo:** resolver con el material que da estatus; que se sienta terminado.
 - **Texto:** `Aluminio a medida.` / *No se hincha. No se oxida. No se pela.* / **`El desorden desaparece detrás de una línea negra que hace juego con la parrilla.`**
-- **Visual:** foto real bajomesada1 / bajomesada2 — detalle de las puertas negras impecables junto a la parrilla y el horno. Luz cálida. La imagen hace el trabajo pesado; el texto casi no interfiere (premium).
+- **Visual:** **TIPOGRÁFICO + MOTIVO GRÁFICO (sin foto)** — listones de aluminio negro (evocan la puerta de la bajomesada) como fondo, con velo oscuro y texto encima. Materia sin foto: mantiene el registro premium y reserva las fotos reales para slides 2 y 5.
 - **Emoción:** deseo / orgullo.
 - **Transición:** hacia el cierre.
 - **CTA:** implícito (empieza a invitar).
@@ -46,12 +46,18 @@ Por qué sirve a la emoción (deseo/orgullo): arranca hiriendo el orgullo (tensi
 ### SLIDE 5 — CTA (invitación sin presión)
 - **Objetivo:** convertir en DM + guardar + compartir.
 - **Texto:** `Mandanos una foto de tu quincho por WhatsApp.` / *Te decimos cómo cerrar ese hueco. Una vez, para siempre.* / 📌 *Guardá esto para cuando termines el tuyo — y mandáselo a quien decide la obra con vos.*
-- **Visual:** obra terminada (bajomesada2 / plano general del quincho) con luz. Overlay: logo Alumfer + WhatsApp + *Adrogué, Zona Sur GBA*. **Único slide con logo.**
+- **Visual:** **FOTO REAL** (bajomesada2) — detalle de la parrilla con las puertas de aluminio negro. Overlay: botón WhatsApp + logo Alumfer + *Adrogué, Zona Sur GBA*. **Único slide con logo.**
 - **Emoción:** decisión / confianza.
 - **Transición:** fin.
 - **CTA:** *Foto de tu quincho por WhatsApp → te decimos cómo cerrarlo.* + guardar/compartir.
 
 ---
+
+## Ritmo visual (foto vs. tipografía)
+```
+S1 tipográfico · S2 FOTO · S3 tipográfico · S4 motivo aluminio · S5 FOTO
+```
+Fotos reales solo en 2 slides (2 y 5) → alterna respiro/impacto, evita saturar y da aire premium.
 
 ## Notas del Story Architect
 - El **dato** ("no se hincha/oxida/pela", "se los comen en un verano") vive **dentro** de la historia (resolución de la tensión del slide 3), nunca como lista de specs.

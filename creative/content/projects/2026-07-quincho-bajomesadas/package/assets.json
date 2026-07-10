@@ -1,61 +1,80 @@
 {
   "project": "carrusel-tu-quincho-no-esta-terminado",
   "art_direction": {
-    "style": "editorial premium, una idea por slide, mucho aire, materia (aluminio negro)",
-    "background": "#1A1C1E (carbón) / hormigón",
-    "text_color": "#FFFFFF",
-    "accent_color": "azul aluminio #1B6CC8 (ver shared/design-system/tokens.css)",
-    "typography": "Montserrat 700 (títulos) / Inter 400 (cuerpo)",
+    "style": "editorial 'industrial elegante', moderno: fondo carbón + línea de aluminio (azul 3px), numeral fantasma por slide, grano sutil, mucho aire",
+    "background": "#141619 / #1A1C1E (carbón)",
+    "text_color": "#F3F4F5",
+    "accent_color": "azul aluminio #2F86E4 / #1B6CC8 (ver shared/design-system/tokens.css)",
+    "typography": "Montserrat 800/900 (títulos) / Inter 400-600 (cuerpo)",
+    "signature_element": "regla superior azul de 3px + numeral fantasma (01–05) + kicker en versalitas",
     "logo": "solo en slide 5",
-    "photo_rule": "SOLO obra propia Alumfer. Nunca stock."
+    "photo_rule": "SOLO obra propia Alumfer. Nunca stock.",
+    "photo_usage": "Fotos reales en 2 de 5 slides (02 y 05). El resto es diseño tipográfico/gráfico."
   },
   "assets_needed": [
     {
       "slide": 1,
       "type": "typographic",
-      "asset": "Ninguna foto. Texto sobre fondo carbón + silueta sutil de bajomesada de aluminio negro al pie.",
+      "asset": "Sin foto. Hook sobre fondo carbón con glow azul; 'terminado' subrayado en azul aluminio.",
       "status": "listo-para-diseño",
       "alt_text": "Texto sobre fondo oscuro: Tu quincho no está terminado. Y se nota en un solo lugar. Alumfer, Zona Sur GBA."
     },
     {
       "slide": 2,
       "type": "photo-real",
-      "asset": "Quincho terminado, plano general: parrilla de ladrillo, horno de barro y línea de bajomesadas de aluminio negro bajo la mesada.",
+      "asset": "Quincho terminado, plano general: parrilla de ladrillo, horno de barro y línea de bajomesadas de aluminio negro. Graduado duotono sutil + scrim inferior.",
       "source": "apps/website/bajomesada1.jpeg (obra propia)",
       "status": "listo",
       "alt_text": "Quincho con parrilla de ladrillo, horno de barro y bajomesadas de aluminio negro debajo de la mesada."
     },
     {
       "slide": 3,
-      "type": "photo-antes",
-      "asset": "Antes honesto: hueco bajo la mesada tapado con una madera hinchada o una cortina. Paleta apagada.",
-      "source": "banco de obra (estado previo) o composición propia",
-      "status": "pendiente-captura",
-      "note": "Quality Control (MEDIO): asegurar que sea obra/banco propio, nunca stock. Si no hay, usar detalle honesto de un hueco sin cerrar.",
-      "alt_text": "Hueco debajo de la mesada de un quincho tapado con una madera gastada."
+      "type": "typographic",
+      "asset": "Sin foto. Slide editorial: 'Y la humedad se la come en un verano', con 'verano' en azul. Resuelve la falta de foto de 'antes'.",
+      "status": "listo-para-diseño",
+      "alt_text": "Texto: la mayoría tapa el hueco del quincho con una madera o una cortina, y la humedad se la come en un verano."
     },
     {
       "slide": 4,
-      "type": "photo-detalle",
-      "asset": "Detalle de las puertas de aluminio negro impecables junto a la parrilla y el horno. Luz cálida.",
-      "source": "apps/website/bajomesada1.jpeg / bajomesada2.jpeg (obra propia)",
-      "status": "listo",
-      "alt_text": "Puertas de bajomesada de aluminio negro a medida, cerradas, junto a la parrilla de un quincho."
+      "type": "typographic-motivo",
+      "asset": "Sin foto. Motivo gráfico de listones de aluminio negro (evocan la puerta de la bajomesada) como fondo, con velo oscuro y texto encima.",
+      "status": "listo-para-diseño",
+      "alt_text": "Aluminio a medida: no se hincha, no se oxida, no se pela. Una línea negra que hace juego con la parrilla."
     },
     {
       "slide": 5,
-      "type": "photo-result",
-      "asset": "Quincho terminado con luz. Overlay: logo Alumfer + WhatsApp + Adrogué, Zona Sur GBA.",
+      "type": "photo-real",
+      "asset": "Detalle de la parrilla con las puertas de aluminio negro. Overlay: botón WhatsApp + logo Alumfer + Adrogué, Zona Sur GBA.",
       "source": "apps/website/bajomesada2.jpeg (obra propia)",
       "status": "listo",
-      "alt_text": "Quincho terminado con parrilla, horno de barro y bajomesadas de aluminio negro; datos de contacto de Alumfer."
+      "alt_text": "Detalle de parrilla con bajomesadas de aluminio negro; datos de contacto de Alumfer."
     }
   ],
   "design_system_ref": "shared/design-system/tokens.css",
+  "optional_ai_images": {
+    "note": "OPCIONAL. El repo tiene el servicio services/image-generation (OpenAI gpt-image-1). Requiere OPENAI_API_KEY en el entorno (hoy NO está seteada). Con la clave, se pueden generar texturas/fondos de apoyo — NUNCA reemplazan la obra propia de los slides 2 y 5.",
+    "generation_prompts": [
+      {
+        "for": "slide 1/3/4 background texture (apoyo, no protagonista)",
+        "objective": "Fondo abstracto de cemento alisado gris carbón con una fina línea de aluminio anodizado negro cruzando en diagonal, luz lateral suave, estética arquitectónica minimalista premium, sin texto.",
+        "format": "instagram-feed",
+        "mood": "industrial elegante, oscuro, sobrio",
+        "negatives": "sin texto, sin logos, sin personas, sin cartoon, sin CGI evidente"
+      },
+      {
+        "for": "slide 4 material hero (opcional, reemplaza el motivo CSS)",
+        "objective": "Primer plano macro de una puerta de bajomesada de aluminio negro con listones horizontales, textura mate anodizada, junto al calor de una parrilla encendida fuera de foco, luz cálida rasante, fotografía de producto arquitectónico.",
+        "format": "instagram-feed",
+        "mood": "premium, materia y luz, alto detalle",
+        "negatives": "sin texto, sin watermark, sin deformaciones, aluminio realista"
+      }
+    ]
+  },
   "reminders": [
+    "Fotos reales SOLO en slides 2 y 5 (bajomesada1 / bajomesada2).",
     "Logo únicamente en slide 5.",
-    "Slide 4: no saturar de texto, la foto manda (registro premium).",
-    "Slide 3: usar siempre 'la mayoría lo tapa' — nunca acusar directo al lector.",
+    "Mantener la regla azul de 3px y el numeral fantasma como sistema visual en los 5 slides.",
+    "Slide 3: usar 'la mayoría lo tapa' — nunca acusar directo al lector.",
     "Anclar a Zona Sur / obra propia (kill-switch R01)."
   ]
 }

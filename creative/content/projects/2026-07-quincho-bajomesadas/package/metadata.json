@@ -4,7 +4,8 @@
   "title": "Tu quincho no está terminado",
   "brand": "Alumfer",
   "created": "2026-07-10",
-  "status": "aprobado-con-ajuste-menor",
+  "status": "aprobado-listo-para-produccion",
+  "design_system": "editorial industrial elegante · regla aluminio azul 3px + numeral fantasma + grano · fotos reales solo en slides 2 y 5",
   "platform": "instagram",
   "format": "carousel",
   "slides": 5,
@@ -23,8 +24,9 @@
     "storyboard": "done (5 slides)",
     "copywriting": "done (copywriter: premium)",
     "brand_guardian": "done (5/5 PASS)",
-    "quality_control": "done (8/8 SÍ, aprobado con ajuste menor)",
-    "canva_export": "done"
+    "quality_control": "done (8/8 SÍ, aprobado listo para producción)",
+    "canva_export": "done",
+    "design_revision": "done (fotos solo en 2/5 slides, diseño moderno)"
   },
   "creative": {
     "winning_concept": "C1 - Tu quincho no está terminado",

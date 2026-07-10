@@ -64,13 +64,18 @@
 ## Clasificación de hallazgos
 - CRÍTICOS: **0**
 - ALTOS: **0**
-- MEDIOS: **1** → asegurar que la foto del "antes" (slide 3: madera/cortina) sea de banco propio; si no hay, sustituir por composición honesta o detalle de la propia obra. *(Devuelto a Assets, no bloquea el concepto.)*
+- MEDIOS: **0** → *(resuelto)* el hallazgo previo ("foto de antes" del slide 3) se elimina al convertir el slide 3 en **tipográfico**. Ya no depende de una foto que no teníamos. Fotos reales quedan solo en slides 2 y 5 (obra propia).
 - BAJOS: ítems del Bloque 5 (operativos de publicación).
+
+## Revisión de diseño (2ª pasada — pedido del cliente)
+- **Fotos en TODOS los slides → NO.** Corregido: fotos reales solo en slides 2 (bajomesada1) y 5 (bajomesada2). Slides 1·3·4 tipográficos/gráficos. ✅
+- **Diseño más moderno.** Sistema editorial "industrial elegante": regla de aluminio azul 3px, numeral fantasma, grano sutil, motivo de listones de aluminio en slide 4. ✅
+- **Nota GPT Image:** el servicio existe pero `OPENAI_API_KEY` no está en el entorno → no se generaron imágenes IA. Prompts listos en `assets.json` para cuando haya clave (solo como apoyo; nunca reemplazan la obra propia).
 
 ## Decisión final
 ```
-APROBADO CON AJUSTE MENOR
-Ajuste: confirmar/generar la foto del "antes" del slide 3 (obra o composición propia).
+APROBADO — LISTO PARA PRODUCCIÓN
+Sin hallazgos CRÍTICOS/ALTOS/MEDIOS. Fotos reales en slides 2 y 5.
 No requiere re-iteración creativa. La pieza representa a Alumfer tal cual está.
-Timestamp de aprobación: 2026-07-10
+Timestamp de aprobación: 2026-07-10 (rev. diseño)
 ```
