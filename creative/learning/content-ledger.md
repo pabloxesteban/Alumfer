@@ -87,8 +87,30 @@ y el fit de P03 (costo oculto) para carrusel guardable.
 Workspace: creative/content/projects/2026-07-carrusel-compartible/
 ```
 
+### #002 · tu-quincho-no-esta-terminado  ·  ESTADO: creada (pendiente de publicar)
+```
+FORMATO: carrusel (5 slides)          FECHA PUB: —
+── ADN CREATIVO ──
+HOOK:        "Tu quincho no está terminado."    TIPO: shock/provocación
+ÁNGULO:      el detalle invisible que delata / termina (la bajomesada)
+ESTRUCTURA:  Antes → Giro → Después + loop abierto
+TEMA:        quincho / parrilla / bajomesada de aluminio (Otros trabajos)
+EMOCIÓN:     deseo / orgullo
+COPYWRITER:  premium
+CTA:         foto del quincho por WhatsApp + guardar/compartir
+SCORE PREDICHO: 85/100
+── RESULTADO REAL ──
+[pendiente — cargar a 48-72h de publicar]
+── APRENDIZAJE ──
+PREDICCIÓN: guardados sobre promedio (referencia para la propia obra) + compartidos por
+reenvío a la pareja / al que está en obra + DMs con foto del quincho.
+HIPÓTESIS A VALIDAR: (1) perfil E "el asador que recibe" reacciona con guardado alto;
+(2) el "antes honesto" (madera/cortina) sube credibilidad vs. after-only.
+Workspace: creative/content/projects/2026-07-quincho-bajomesadas/
+```
+
 ## Estado inicial
-Primera fila cargada (#001, sin resultado aún). La primera decena de filas es exploratoria (poca base estadística); a partir de ahí las correlaciones empiezan a ser confiables y las reglas de `creative-rules/` a moverse.
+Primeras filas cargadas (#001, #002, sin resultado aún). La primera decena de filas es exploratoria (poca base estadística); a partir de ahí las correlaciones empiezan a ser confiables y las reglas de `creative-rules/` a moverse.
 
 ## Regla
 Una pieza sin fila en el ledger es una pieza de la que no aprendimos nada. El registro no es opcional: es la condición para que el engine mejore.

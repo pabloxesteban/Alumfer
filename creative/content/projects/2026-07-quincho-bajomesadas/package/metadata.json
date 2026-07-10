@@ -1,0 +1,62 @@
+{
+  "project_id": "2026-07-quincho-bajomesadas",
+  "slug": "tu-quincho-no-esta-terminado",
+  "title": "Tu quincho no está terminado",
+  "brand": "Alumfer",
+  "created": "2026-07-10",
+  "status": "aprobado-con-ajuste-menor",
+  "platform": "instagram",
+  "format": "carousel",
+  "slides": 5,
+  "language": "es-AR",
+  "market": "GBA, Argentina",
+  "engine_version": "Creative Intelligence Engine V2",
+  "pipeline": {
+    "audience_psychology": "done (perfil nuevo E: el asador que recibe)",
+    "trend_research": "done",
+    "competitor_analysis": "done",
+    "brainstorm": "done (52 ideas)",
+    "hook_generation": "done (60 hooks, 10 categorías)",
+    "concept_generation": "done (10 conceptos)",
+    "creative_challenger": "done (3 muertos, 5 absorbidos)",
+    "ranking": "done (ganador 85/100)",
+    "storyboard": "done (5 slides)",
+    "copywriting": "done (copywriter: premium)",
+    "brand_guardian": "done (5/5 PASS)",
+    "quality_control": "done (8/8 SÍ, aprobado con ajuste menor)",
+    "canva_export": "done"
+  },
+  "creative": {
+    "winning_concept": "C1 - Tu quincho no está terminado",
+    "angle": "el detalle invisible que delata / termina el quincho (la bajomesada)",
+    "narrative_structure": "Antes → Giro → Después + loop abierto",
+    "dominant_emotion": "deseo-orgullo",
+    "copywriter": "premium",
+    "winning_hook": "Tu quincho no está terminado.",
+    "predicted_viral_score": 85,
+    "iteration_rounds": 1
+  },
+  "differentiation_from_previous": {
+    "previous_project": "2026-07-carrusel-compartible (La ventana barata no existe)",
+    "changed_emotion": "deseo/orgullo (antes: indignación útil)",
+    "changed_copywriter": "premium (antes: authority)",
+    "changed_structure": "Antes→Giro→Después (antes: costo oculto / 'cuotas')",
+    "rule": "prohibition #6 — no repetir estructura ni registro entre piezas"
+  },
+  "objective_metrics_priority": ["guardados", "compartidos", "dms_whatsapp", "comentarios_sustancia"],
+  "cta_primary": "foto del quincho por WhatsApp",
+  "cta_secondary": "guardar + compartir",
+  "personas_targeted": ["E-el-asador-que-recibe", "A-la-que-ya-se-quemo", "C-la-que-muestra-la-casa"],
+  "brand_safety": {
+    "no_price_as_hook": true,
+    "no_competitor_attack": true,
+    "gba_anchored": true,
+    "own_work_only": true
+  },
+  "learning_hooks": {
+    "to_track_in_content_ledger": true,
+    "prediction": "Guardados por encima del promedio (referencia de obra propia) y compartidos por reenvío a la pareja / al que está en obra. DMs con foto del quincho.",
+    "hypotheses_to_validate": ["perfil E reacciona con guardado alto", "el 'antes honesto' sube credibilidad vs. after-only"],
+    "review_at": ["48-72h", "2-4 semanas"]
+  }
+}

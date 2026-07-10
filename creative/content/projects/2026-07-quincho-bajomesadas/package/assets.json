@@ -1,0 +1,61 @@
+{
+  "project": "carrusel-tu-quincho-no-esta-terminado",
+  "art_direction": {
+    "style": "editorial premium, una idea por slide, mucho aire, materia (aluminio negro)",
+    "background": "#1A1C1E (carbón) / hormigón",
+    "text_color": "#FFFFFF",
+    "accent_color": "azul aluminio #1B6CC8 (ver shared/design-system/tokens.css)",
+    "typography": "Montserrat 700 (títulos) / Inter 400 (cuerpo)",
+    "logo": "solo en slide 5",
+    "photo_rule": "SOLO obra propia Alumfer. Nunca stock."
+  },
+  "assets_needed": [
+    {
+      "slide": 1,
+      "type": "typographic",
+      "asset": "Ninguna foto. Texto sobre fondo carbón + silueta sutil de bajomesada de aluminio negro al pie.",
+      "status": "listo-para-diseño",
+      "alt_text": "Texto sobre fondo oscuro: Tu quincho no está terminado. Y se nota en un solo lugar. Alumfer, Zona Sur GBA."
+    },
+    {
+      "slide": 2,
+      "type": "photo-real",
+      "asset": "Quincho terminado, plano general: parrilla de ladrillo, horno de barro y línea de bajomesadas de aluminio negro bajo la mesada.",
+      "source": "apps/website/bajomesada1.jpeg (obra propia)",
+      "status": "listo",
+      "alt_text": "Quincho con parrilla de ladrillo, horno de barro y bajomesadas de aluminio negro debajo de la mesada."
+    },
+    {
+      "slide": 3,
+      "type": "photo-antes",
+      "asset": "Antes honesto: hueco bajo la mesada tapado con una madera hinchada o una cortina. Paleta apagada.",
+      "source": "banco de obra (estado previo) o composición propia",
+      "status": "pendiente-captura",
+      "note": "Quality Control (MEDIO): asegurar que sea obra/banco propio, nunca stock. Si no hay, usar detalle honesto de un hueco sin cerrar.",
+      "alt_text": "Hueco debajo de la mesada de un quincho tapado con una madera gastada."
+    },
+    {
+      "slide": 4,
+      "type": "photo-detalle",
+      "asset": "Detalle de las puertas de aluminio negro impecables junto a la parrilla y el horno. Luz cálida.",
+      "source": "apps/website/bajomesada1.jpeg / bajomesada2.jpeg (obra propia)",
+      "status": "listo",
+      "alt_text": "Puertas de bajomesada de aluminio negro a medida, cerradas, junto a la parrilla de un quincho."
+    },
+    {
+      "slide": 5,
+      "type": "photo-result",
+      "asset": "Quincho terminado con luz. Overlay: logo Alumfer + WhatsApp + Adrogué, Zona Sur GBA.",
+      "source": "apps/website/bajomesada2.jpeg (obra propia)",
+      "status": "listo",
+      "alt_text": "Quincho terminado con parrilla, horno de barro y bajomesadas de aluminio negro; datos de contacto de Alumfer."
+    }
+  ],
+  "design_system_ref": "shared/design-system/tokens.css",
+  "reminders": [
+    "Logo únicamente en slide 5.",
+    "Slide 4: no saturar de texto, la foto manda (registro premium).",
+    "Slide 3: usar siempre 'la mayoría lo tapa' — nunca acusar directo al lector.",
+    "Anclar a Zona Sur / obra propia (kill-switch R01)."
+  ]
+}

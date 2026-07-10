@@ -1,0 +1,75 @@
+{
+  "project": "carrusel-tu-quincho-no-esta-terminado",
+  "brand": "Alumfer",
+  "platform": "instagram",
+  "format": "carousel",
+  "language": "es-AR",
+  "market": "GBA, Argentina",
+  "slides_count": 5,
+  "concept": "Tu quincho no está terminado: la bajomesada de aluminio como el detalle invisible que separa un quincho terminado de una obra eterna.",
+  "dominant_emotion": "deseo-orgullo",
+  "copywriter": "premium",
+  "predicted_viral_score": 85,
+  "objective": ["guardar", "compartir", "consultas-whatsapp"],
+  "slides": [
+    {
+      "n": 1,
+      "role": "hook",
+      "kicker": "",
+      "headline": "Tu quincho no está terminado.",
+      "body": "Y se nota en un solo lugar.",
+      "accent_word": "terminado",
+      "visual": "Fondo carbón, tipografía enorme centrada. Silueta sutil de bajomesada de aluminio negro al pie. Sin foto. Pie pequeño: Alumfer · Zona Sur GBA.",
+      "emotion": "orgullo-herido",
+      "transition": "corte-seco"
+    },
+    {
+      "n": 2,
+      "role": "giro",
+      "kicker": "",
+      "headline": "Es el hueco debajo de la mesada.",
+      "body": "No es la parrilla. No es el horno. Ese que nadie fotografía.",
+      "accent_word": "el hueco",
+      "visual": "Foto real del quincho terminado (bajomesada1). Plano general con foco en la línea de bajomesadas negras bajo la parrilla y el horno de barro.",
+      "emotion": "reconocimiento",
+      "transition": "deslizamiento"
+    },
+    {
+      "n": 3,
+      "role": "error",
+      "kicker": "El error más común",
+      "headline": "La humedad del asado y el calor se los comen en un verano.",
+      "body": "Ahí va la garrafa, el carbón, los trapos. La mayoría lo tapa con una madera. O una cortina.",
+      "accent_word": "un verano",
+      "visual": "Antes honesto: hueco tapado con madera hinchada / cortina (banco de obra o composición propia). Paleta apagada.",
+      "emotion": "incomodidad-preocupacion",
+      "transition": "deslizamiento"
+    },
+    {
+      "n": 4,
+      "role": "solucion-materia",
+      "kicker": "",
+      "headline": "Aluminio a medida.",
+      "body": "No se hincha. No se oxida. No se pela. El desorden desaparece detrás de una línea negra que hace juego con la parrilla.",
+      "accent_word": "a medida",
+      "visual": "Foto real bajomesada1/bajomesada2: puertas de aluminio negro impecables junto a la parrilla y el horno. Luz cálida. La imagen manda; poco texto (premium).",
+      "emotion": "deseo-orgullo",
+      "transition": "hacia-cierre"
+    },
+    {
+      "n": 5,
+      "role": "cta",
+      "kicker": "",
+      "headline": "Mandanos una foto de tu quincho por WhatsApp.",
+      "body": "Te decimos cómo cerrar ese hueco. Una vez, para siempre. Guardá esto para cuando termines el tuyo y mandáselo a quien decide la obra con vos.",
+      "accent_word": "WhatsApp",
+      "visual": "Obra terminada (bajomesada2 / plano general del quincho) con luz. Overlay: logo Alumfer + WhatsApp + Adrogué, Zona Sur GBA. Único slide con logo.",
+      "emotion": "decision",
+      "transition": "fin"
+    }
+  ],
+  "cta": {
+    "primary": "Mandanos una foto de tu quincho por WhatsApp → te decimos cómo cerrar ese hueco.",
+    "secondary": "Guardá este posteo · mandáselo a quien decide la obra con vos."
+  }
+}
