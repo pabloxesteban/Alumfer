@@ -1,0 +1,109 @@
+<!doctype html><html lang="es-AR"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:M;src:url('assets/Montserrat.ttf');font-weight:100 900;font-display:block}
+@font-face{font-family:I;src:url('assets/Inter.ttf');font-weight:100 900;font-display:block}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#e9e9e9}
+.page{width:1000px;height:1500px;background:#fff;color:#111;font-family:I;position:relative;overflow:hidden;
+  border:3px solid #111;display:flex;flex-direction:column}
+/* ===== HERO: abertura de aluminio, texto blanco ===== */
+.hero{position:relative;flex:1 1 auto;min-height:388px;overflow:hidden;background:#111}
+.hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 38%}
+.hero .shade{position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(180deg,
+    rgba(10,10,12,.34) 0%,rgba(10,10,12,.22) 40%,rgba(10,10,12,.44) 60%,
+    rgba(8,8,10,.80) 84%,rgba(6,6,8,.90) 100%)}
+.hero .hcontent{position:relative;z-index:3;height:100%;display:flex;flex-direction:column;justify-content:flex-end;
+  padding:0 56px 28px;color:#fff}
+.logowrap{flex:0 0 auto;display:flex;align-items:center;justify-content:center;padding-top:24px;margin-bottom:40px}
+.lock{display:flex;align-items:flex-end;justify-content:center;gap:28px}
+.lock img{height:118px}
+.wm{display:flex;flex-direction:column}
+.wm .name{font-family:M;font-weight:600;font-size:86px;letter-spacing:6px;line-height:.92;color:#fff}
+.wm .sub{font-family:M;font-weight:700;font-size:24px;letter-spacing:1.2px;text-transform:uppercase;color:#fff;margin-top:10px;white-space:nowrap}
+.hook{display:flex;align-items:center;justify-content:center;gap:20px}
+.hook::before,.hook::after{content:"";width:86px;height:3px;background:#fff;opacity:.9}
+.hook span{font-family:M;font-weight:800;font-style:italic;font-size:62px;letter-spacing:1px;color:#fff;white-space:nowrap}
+.feat{text-align:center;font-family:M;font-weight:700;font-size:35px;letter-spacing:.4px;line-height:1.45;color:#fff;margin-top:16px}
+
+/* ===== BODY blanco ===== */
+.body{flex:0 0 auto;padding:20px 34px 0;display:flex;flex-direction:column}
+.sl{display:flex;align-items:center;gap:16px;font-family:M;font-weight:900;font-size:36px;letter-spacing:3px;color:#111}
+.sl::after{content:"";height:5px;border-radius:2px;background:#111;flex:1}
+/* lineas: texto plano, sin recuadros */
+.lines{text-align:center;margin-top:12px}
+.lines .r{font-family:M;font-weight:500;font-style:italic;font-size:40px;color:#242424;letter-spacing:.4px;line-height:1.5}
+.lines .r .s{color:#b8b8b8;font-weight:500;font-style:normal;margin:0 18px;position:relative;top:-2px}
+.prod{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 10px;margin-top:14px}
+.prod .it{display:flex;align-items:center;gap:9px;font-family:I;font-weight:600;font-size:34px;line-height:1.04;white-space:nowrap}
+.prod .it::before{content:"";width:12px;height:12px;background:#111;border-radius:50%;flex:0 0 auto}
+.band{background:#111;color:#fff;text-align:center;font-family:M;font-weight:800;
+  font-size:38px;letter-spacing:1px;padding:16px;margin-top:24px;border-radius:14px}
+.rep{text-align:center;font-family:M;font-weight:700;font-style:italic;font-size:33px;color:#111;margin-top:14px;margin-bottom:30px;white-space:nowrap}
+
+/* ===== FOOTER dato + QR grande ===== */
+.footer{flex:0 0 auto;background:#111;color:#fff;display:flex;align-items:center;gap:34px;padding:24px 46px}
+.footer .info{flex:1;display:flex;flex-direction:column}
+.footer .k{font-family:M;font-weight:800;font-size:42px;letter-spacing:.3px;color:#f2f2f2;line-height:1.05}
+.footer .phone{display:flex;align-items:center;gap:13px;margin-top:6px}
+.footer .phone .n{font-family:M;font-weight:800;font-size:52px;line-height:1;letter-spacing:.5px}
+.footer .rows{display:flex;flex-direction:column;gap:11px;margin-top:16px;padding-top:15px;border-top:1px solid #333}
+.footer .rows .r{display:flex;align-items:center;gap:13px;font-family:M;font-weight:700;font-size:29px;color:#f1f1f1}
+.footer .qr{flex:0 0 auto}
+.footer .qr img{width:250px;height:250px;background:#fff;padding:14px;border-radius:16px;display:block}
+.iw{stroke:#fff;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+</style></head>
+<body><div class="page">
+
+  <div class="hero">
+    <img class="bg" src="assets/hero.png">
+    <div class="shade"></div>
+    <div class="hcontent">
+      <div class="logowrap">
+        <div class="lock">
+          <img src="assets/logo-white.png">
+          <div class="wm"><div class="name">ALUMFER</div><div class="sub">Carpintería de aluminio</div></div>
+        </div>
+      </div>
+      <div class="hook"><span>SOMOS FABRICANTES</span></div>
+      <div class="feat">Trabajos a Medida &nbsp;·&nbsp; Colocación en Obra<br>Todas las Líneas &nbsp;·&nbsp; Alta Prestación</div>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="sl">NUESTRAS LÍNEAS</div>
+    <div class="lines">
+      <div class="r">Modena 1<span class="s">·</span>Modena 2<span class="s">·</span>A-30 New</div>
+      <div class="r">Herrero<span class="s">·</span>Ekonal<span class="s">·</span>Rotonda</div>
+    </div>
+
+    <div class="sl" style="margin-top:24px">QUÉ FABRICAMOS</div>
+    <div class="prod">
+      <div class="it">Ventanas</div><div class="it">Puertas</div><div class="it">Portones</div>
+      <div class="it">Frentes de placard</div><div class="it">Frentes de negocios</div><div class="it">Postigones</div>
+      <div class="it">Mamparas de baño</div><div class="it">Puertas mosquiteras</div><div class="it">Mosquiteros</div>
+      <div class="it">Jardín de invierno</div><div class="it">Tabiques divisores</div><div class="it">Cerramientos</div>
+    </div>
+
+    <div class="band">Vidrios &nbsp;·&nbsp; Espejos &nbsp;·&nbsp; Laminados &nbsp;·&nbsp; D.V.H.</div>
+    <div class="rep">Reparación de todo tipo de aberturas y mosquiteros</div>
+  </div>
+
+  <div class="footer">
+    <div class="info">
+      <div class="k">Presupuesto sin cargo</div>
+      <div class="phone">
+        <svg width="46" height="46" viewBox="0 0 24 24"><path class="iw" stroke-width="2.2" d="M4.5 19.5l1.2-3.9A7.6 7.6 0 1112 20a7.7 7.7 0 01-3.6-.9l-3.9 1.4z"/><path class="iw" stroke-width="2.2" d="M9 8.5c.3 3 2.5 5.2 5.5 5.5.6.06 1-.3 1.2-.8.1-.4-.1-.7-.5-.9l-1.3-.5c-.3-.1-.6 0-.8.2-.5.6-1.4.3-2.1-.9-.7-1.2-.5-2 .2-2.3.3-.1.4-.4.3-.7l-.4-1.4c-.1-.4-.4-.7-.9-.6-.5.1-.9.5-.9 1.1z"/></svg>
+        <span class="n">11 6336-8643</span>
+      </div>
+      <div class="rows">
+        <div class="r"><svg width="28" height="28" viewBox="0 0 24 24"><rect class="iw" x="3.5" y="3.5" width="17" height="17" rx="5"/><circle class="iw" cx="12" cy="12" r="4"/><circle cx="16.7" cy="7.3" r="1.3" fill="#fff"/></svg>@alumfercarpinteria</div>
+        <div class="r"><svg width="28" height="28" viewBox="0 0 24 24"><circle class="iw" cx="12" cy="12" r="9"/><path class="iw" d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg>www.alumfer.com.ar</div>
+        <div class="r"><svg width="28" height="28" viewBox="0 0 24 24"><rect class="iw" x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path class="iw" d="M4.5 7l7.5 5.5L19.5 7"/></svg>alumfercarpinteria@gmail.com</div>
+        <div class="r"><svg width="28" height="28" viewBox="0 0 24 24"><path class="iw" d="M12 21s7-5.6 7-11a7 7 0 10-14 0c0 5.4 7 11 7 11z"/><circle class="iw" cx="12" cy="10" r="2.6"/></svg>Av. San Martín 734, Adrogué</div>
+      </div>
+    </div>
+    <div class="qr"><img src="assets/qr.png"></div>
+  </div>
+
+</div></body></html>
