@@ -3745,3 +3745,30 @@ a.nearby-link:hover {
   cursor: default;
 }
 
+
+/* ─── Zonas del footer: colapsable ───────────────────────── */
+/* Los 27 enlaces siguen en el HTML aunque el bloque esté cerrado, así que
+   Googlebot los sigue igual. Solo cambia el peso visual del pie. */
+.footer__zones summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: 0;
+  user-select: none;
+  transition: color var(--duration) var(--ease);
+}
+.footer__zones summary::-webkit-details-marker { display: none; }
+.footer__zones summary::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform var(--duration) var(--ease);
+}
+.footer__zones summary:hover { color: var(--text-on-dark); }
+.footer__zones[open] summary { margin-bottom: var(--space-4); }
+.footer__zones[open] summary::after { transform: translateY(1px) rotate(-135deg); }
