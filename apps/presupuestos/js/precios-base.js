@@ -21,10 +21,10 @@ window.PRECIOS_BASE = {
 
   /* Factor multiplicador sobre el precio por m² de cada tipología. */
   lineas: [
-    { id: 'herrero', nombre: 'Herrero',    factor: 1.00 },
-    { id: 'rotonda', nombre: 'Rotonda',    factor: 1.12 },
-    { id: 'a30',     nombre: 'A30 New',    factor: 1.30 },
-    { id: 'modena',  nombre: 'Módena',     factor: 1.55 }
+    { id: 'herrero', nombre: 'Herrero',    factor: 1.00, ayuda: 'la más económica' },
+    { id: 'rotonda', nombre: 'Rotonda',    factor: 1.12, ayuda: 'económica reforzada' },
+    { id: 'a30',     nombre: 'A30 New',    factor: 1.30, ayuda: 'intermedia, acepta DVH' },
+    { id: 'modena',  nombre: 'Módena',     factor: 1.55, ayuda: 'premium, la que más aísla' }
   ],
 
   /* precioM2: aluminio + herrajes + mano de obra de fábrica, SIN vidrio.
@@ -67,18 +67,18 @@ window.PRECIOS_BASE = {
   /* Precio por m² del vidrio (o del policarbonato en techos). */
   vidrios: [
     { id: 'sin',        nombre: 'Sin vidrio',                  precioM2: 0 },
-    { id: 'float3',     nombre: 'Float 3 mm',                  precioM2: 36000 },
-    { id: 'float4',     nombre: 'Float 4 mm',                  precioM2: 44000 },
-    { id: 'float5',     nombre: 'Float 5 mm',                  precioM2: 58000 },
-    { id: 'float6',     nombre: 'Float 6 mm',                  precioM2: 72000 },
-    { id: 'esmerilado', nombre: 'Esmerilado / satinado 4 mm',  precioM2: 62000 },
-    { id: 'espejado',   nombre: 'Reflectivo espejado 5 mm',    precioM2: 86000 },
-    { id: 'lam33',      nombre: 'Laminado 3+3 (seguridad)',    precioM2: 118000 },
-    { id: 'lam44',      nombre: 'Laminado 4+4 (seguridad)',    precioM2: 145000 },
-    { id: 'dvh494',     nombre: 'DVH 4/9/4',                   precioM2: 168000 },
-    { id: 'dvh-lam',    nombre: 'DVH con laminado 3+3',        precioM2: 245000 },
-    { id: 'policarb-alv',  nombre: 'Policarbonato alveolar 6 mm', precioM2: 78000 },
-    { id: 'policarb-comp', nombre: 'Policarbonato compacto 4 mm', precioM2: 165000 }
+    { id: 'float3',     nombre: 'Float 3 mm',                  precioM2: 36000, ayuda: 'el más fino' },
+    { id: 'float4',     nombre: 'Float 4 mm',                  precioM2: 44000, ayuda: 'el más usado' },
+    { id: 'float5',     nombre: 'Float 5 mm',                  precioM2: 58000, ayuda: 'para paños grandes' },
+    { id: 'float6',     nombre: 'Float 6 mm',                  precioM2: 72000, ayuda: 'para paños muy grandes' },
+    { id: 'esmerilado', nombre: 'Esmerilado / satinado 4 mm',  precioM2: 62000, ayuda: 'no se ve a través (baños)' },
+    { id: 'espejado',   nombre: 'Reflectivo espejado 5 mm',    precioM2: 86000, ayuda: 'espeja de afuera, da sombra' },
+    { id: 'lam33',      nombre: 'Laminado 3+3 (seguridad)',    precioM2: 118000, ayuda: 'no se astilla, antirrobo' },
+    { id: 'lam44',      nombre: 'Laminado 4+4 (seguridad)',    precioM2: 145000, ayuda: 'seguridad reforzada' },
+    { id: 'dvh494',     nombre: 'DVH 4/9/4',                   precioM2: 168000, ayuda: 'doble vidrio: frío y ruido' },
+    { id: 'dvh-lam',    nombre: 'DVH con laminado 3+3',        precioM2: 245000, ayuda: 'doble vidrio + seguridad' },
+    { id: 'policarb-alv',  nombre: 'Policarbonato alveolar 6 mm', precioM2: 78000, ayuda: 'para techos, liviano' },
+    { id: 'policarb-comp', nombre: 'Policarbonato compacto 4 mm', precioM2: 165000, ayuda: 'para techos, resistente' }
   ],
 
   /* Recargo sobre el aluminio (no sobre el vidrio), en tanto por uno. */

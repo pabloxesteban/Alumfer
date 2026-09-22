@@ -2,7 +2,12 @@
 
 App interna para armar presupuestos de aberturas de aluminio y entregarlos
 impresos, en PDF o por WhatsApp. Sin framework, sin build step y sin servidor:
-son cuatro archivos JS, un HTML y dos hojas de estilo.
+unos pocos archivos JS, un HTML y dos hojas de estilo.
+
+Está pensada para usarse sin práctica previa: la pantalla va en tres pasos
+(para quién es → qué lleva → cómo se entrega), el tipo de abertura se elige
+tocando su dibujo, las medidas van en centímetros y todo lo que se usa poco
+queda plegado.
 
 > **Es de uso interno.** Muestra precios de costo y márgenes, así que **no se
 > publica en alumfer.com.ar**: el workflow de deploy solo sube `apps/website/`.
@@ -28,8 +33,11 @@ franja amarilla y conviene usar el comando de arriba.
 | Pestaña | Para qué |
 |---------|----------|
 | **Presupuesto** | Cargar cliente, aberturas y ajustes. Es la pantalla de trabajo. |
-| **Historial** | Reabrir, duplicar o borrar presupuestos guardados. Copia de seguridad. |
+| **Anteriores** | Reabrir, repetir o borrar presupuestos guardados. Copia de seguridad. |
 | **Precios** | Editar la lista y aplicar aumentos por inflación. |
+
+Abajo de todo queda fija una barra con el total y los dos botones que más se
+usan (WhatsApp y PDF), así no hay que buscarlos.
 
 ---
 
@@ -42,6 +50,8 @@ unitario   = (aluminio + vidrio) × m² facturables + adicionales − descuento 
 total ítem = unitario × cantidad
 ```
 
+- **Las medidas se cargan en centímetros** (150 × 110). Adentro se guardan en
+  milímetros y en el presupuesto impreso salen en metros (1,50 × 1,10 m).
 - **m² facturables** = ancho × alto, con un piso por tipología (una banderola de
   50 × 40 cm se cobra como 0,36 m²). En la app aparece el cartel *mínimo facturable*.
 - **El color recarga solo el aluminio**, no el vidrio.
@@ -61,8 +71,8 @@ Los valores que vienen de fábrica en `js/precios-base.js` son **de referencia**
 no los de Alumfer. Antes de usar la app en serio hay que recorrer la pestaña
 **Precios** y poner los propios.
 
-Para un aumento general: *Precios → Actualización general*, poner el porcentaje,
-elegir qué tablas alcanza y aplicar.
+Para un aumento general: *Precios → Aumentar todos los precios*, poner el
+porcentaje, elegir qué tablas alcanza y aplicar.
 
 **Los presupuestos guardan una copia de la lista con la que se calcularon.** Si
 en octubre aumentás todo un 15 % y reabrís un presupuesto de septiembre, los
@@ -77,8 +87,9 @@ precios de hoy.
 En el `localStorage` del navegador de esta máquina. No hay servidor ni nube:
 si borrás los datos del navegador o cambiás de computadora, se pierden.
 
-Por eso, cada tanto: **Historial → Copia de seguridad** descarga un `.json` con
-todos los presupuestos y la lista de precios. **Restaurar copia** lo vuelve a cargar.
+Por eso, cada tanto: **Anteriores → Guardar una copia de todo** descarga un
+`.json` con todos los presupuestos y la lista de precios. **Recuperar una copia**
+lo vuelve a cargar.
 
 ---
 
@@ -93,6 +104,7 @@ apps/presupuestos/
 ├── logo-alumfer.jpg      Membrete
 └── js/
     ├── precios-base.js   Lista de precios de fábrica (semilla editable)
+    ├── iconos.js         Dibujo de cada tipo de abertura y de la interfaz
     ├── formato.js        Moneda, fechas, teléfonos, parsing de números
     ├── calculo.js        Motor de cálculo (funciones puras, sin DOM)
     ├── almacenamiento.js localStorage, numeración e import/export

@@ -45,6 +45,11 @@ window.Formato = (function () {
     return numero(anchoMm, 0) + ' × ' + numero(altoMm, 0) + ' mm';
   }
 
+  /** "1,50 × 1,10 m": como lo lee el cliente en el presupuesto. */
+  function medidasMetros(anchoMm, altoMm) {
+    return numero(anchoMm / 1000, 2) + ' × ' + numero(altoMm / 1000, 2) + ' m';
+  }
+
   function fechaISO(d) {
     var f = d ? new Date(d) : new Date();
     var mes = String(f.getMonth() + 1).padStart(2, '0');
@@ -89,7 +94,7 @@ window.Formato = (function () {
   }
 
   return {
-    moneda: moneda, numero: numero, aNumero: aNumero, medidas: medidas,
+    moneda: moneda, numero: numero, aNumero: aNumero, medidas: medidas, medidasMetros: medidasMetros,
     fechaISO: fechaISO, fechaLarga: fechaLarga, fechaCorta: fechaCorta,
     sumarDias: sumarDias, telefonoWhatsapp: telefonoWhatsapp, escapar: escapar
   };

@@ -7,7 +7,8 @@
 
 body { background: #fff; }
 
-.barra, .contenido, .avisos, .aviso-almacenamiento { display: none !important; }
+.barra, .contenido, .avisos, .aviso-almacenamiento,
+.barra-total, .modal { display: none !important; }
 
 .hoja { display: block !important; }
 
