@@ -6,6 +6,13 @@
 <title>Presupuestos — Alumfer</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="favicon.png" type="image/png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1A1C1E">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Presupuestos">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -32,6 +39,14 @@
 
   <button class="btn btn--claro" id="btn-nuevo" data-icono="nuevo">Nuevo</button>
 </header>
+
+<div class="instalar" id="instalar" hidden>
+  <span id="instalar-texto">Tenela como app en el celular, con su ícono y sin internet.</span>
+  <span class="instalar__botones">
+    <button class="btn btn--claro btn--sm" id="btn-instalar">Instalar</button>
+    <button class="btn btn--fantasma btn--sm" id="btn-instalar-no">Ahora no</button>
+  </span>
+</div>
 
 <p class="aviso-almacenamiento" id="aviso-almacenamiento" hidden>
   El navegador no está guardando nada: vas a poder presupuestar, pero al cerrar la pestaña se pierde.
@@ -298,6 +313,17 @@
 <div id="hoja" class="hoja" aria-hidden="true"></div>
 
 <div class="avisos" id="avisos" role="status" aria-live="polite"></div>
+
+<script>
+  /* Modo sin internet: si el navegador no lo soporta, la app anda igual. */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js').catch(function (e) {
+        console.warn('Sin modo offline:', e);
+      });
+    });
+  }
+</script>
 
 <script src="js/formato.js"></script>
 <script src="js/iconos.js"></script>

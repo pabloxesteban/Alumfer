@@ -316,6 +316,16 @@ textarea { resize: vertical; min-height: 4rem; }
 .checks label { display: inline-flex; align-items: center; gap: var(--space-2); cursor: pointer; }
 .checks input { width: 1.4rem; height: 1.4rem; accent-color: var(--blue); }
 
+/* ─── Instalar en el celular ─────────────────────────────── */
+.instalar {
+  display: flex; align-items: center; justify-content: center; gap: var(--space-4);
+  flex-wrap: wrap; padding: var(--space-3) var(--space-5);
+  background: var(--steel); color: #fff; font-size: var(--text-base);
+}
+.instalar__botones { display: flex; gap: var(--space-2); }
+.instalar .btn--fantasma { background: transparent; color: #fff; border-color: rgba(255,255,255,.45); }
+.instalar .btn--fantasma:hover { background: rgba(255,255,255,.1); color: #fff; border-color: #fff; }
+
 /* ─── Avisos ─────────────────────────────────────────────── */
 .aviso-almacenamiento {
   margin: 0; padding: var(--space-4) var(--space-5);

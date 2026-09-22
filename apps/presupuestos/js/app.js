@@ -845,11 +845,61 @@
     });
   }
 
+  /* ════════ Instalar en el celular ════════ */
+
+  var CLAVE_INSTALAR = 'alumfer.instalar.oculto';
+  var promptInstalar = null;
+
+  /**
+   * En Android el navegador avisa cuándo se puede instalar (beforeinstallprompt).
+   * En iPhone no existe ese aviso, así que se explican los dos toques a mano.
+   */
+  function configurarInstalacion() {
+    var franja = $('instalar');
+    var yaEsApp = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    var rechazada = false;
+    try { rechazada = window.localStorage.getItem(CLAVE_INSTALAR) === '1'; } catch (e) {}
+    if (yaEsApp || rechazada) return;
+
+    if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
+      $('instalar-texto').textContent = 'Para tenerla como app: tocá Compartir y después "Agregar a inicio".';
+      $('btn-instalar').hidden = true;
+      franja.hidden = false;
+    }
+
+    window.addEventListener('beforeinstallprompt', function (ev) {
+      ev.preventDefault();
+      promptInstalar = ev;
+      $('btn-instalar').hidden = false;
+      franja.hidden = false;
+    });
+
+    $('btn-instalar').addEventListener('click', function () {
+      if (!promptInstalar) return;
+      promptInstalar.prompt();
+      promptInstalar.userChoice.then(function () {
+        promptInstalar = null;
+        franja.hidden = true;
+      });
+    });
+
+    $('btn-instalar-no').addEventListener('click', function () {
+      franja.hidden = true;
+      try { window.localStorage.setItem(CLAVE_INSTALAR, '1'); } catch (e) {}
+    });
+
+    window.addEventListener('appinstalled', function () {
+      franja.hidden = true;
+      avisar('Listo: ya la tenés como app');
+    });
+  }
+
   /* ════════ Arranque ════════ */
 
   function iniciar() {
     if (!A.disponible) $('aviso-almacenamiento').hidden = false;
     ponerIconos();
+    configurarInstalacion();
     renderPrecios();
     renderHistorial();
     var ultimos = A.listar();
