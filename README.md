@@ -2,13 +2,14 @@
 
 Sistema completo de marca y presencia digital de **Alumfer**, fábrica de aberturas de aluminio a medida en Adrogué, Zona Sur GBA.
 
-Este repositorio contiene dos productos conectados por un design system compartido:
+Este repositorio contiene tres productos conectados por un design system compartido:
 
-| Producto        | Ruta             | Qué es                                              |
-|-----------------|------------------|-----------------------------------------------------|
-| **Website**     | `apps/website/`  | Sitio web de captación de consultas (alumfer.com.ar) |
-| **Creative OS** | `creative/`      | Sistema operativo de contenido y branding           |
-| **Design System** | `shared/`      | Fuente de verdad visual compartida                  |
+| Producto        | Ruta                 | Qué es                                              |
+|-----------------|----------------------|-----------------------------------------------------|
+| **Website**     | `apps/website/`      | Sitio web de captación de consultas (alumfer.com.ar) |
+| **Presupuestos**| `apps/presupuestos/` | App interna para presupuestar aberturas (no se publica) |
+| **Creative OS** | `creative/`          | Sistema operativo de contenido y branding           |
+| **Design System** | `shared/`          | Fuente de verdad visual compartida                  |
 
 ---
 
@@ -18,18 +19,25 @@ Este repositorio contiene dos productos conectados por un design system comparti
 Alumfer/
 │
 ├── apps/
-│   └── website/          ← Sitio web (HTML + CSS + JS + PHP)
+│   ├── website/          ← Sitio web (HTML + CSS + JS + PHP)
+│   │   ├── index.html
+│   │   ├── tokens.css     (copia sincronizada desde shared/)
+│   │   ├── base.css
+│   │   ├── components.css
+│   │   ├── animations.css
+│   │   ├── cinematic.css
+│   │   ├── main.js
+│   │   ├── cinematic.js
+│   │   ├── enviar.php
+│   │   ├── docs/          (documentación técnica del sitio)
+│   │   └── tools/         (scripts de generación de landings)
+│   │
+│   └── presupuestos/     ← App de presupuestos (uso interno, no se publica)
 │       ├── index.html
+│       ├── estilos.css    (pantalla)
+│       ├── impresion.css  (hoja A4 del presupuesto)
 │       ├── tokens.css     (copia sincronizada desde shared/)
-│       ├── base.css
-│       ├── components.css
-│       ├── animations.css
-│       ├── cinematic.css
-│       ├── main.js
-│       ├── cinematic.js
-│       ├── enviar.php
-│       ├── docs/          (documentación técnica del sitio)
-│       └── tools/         (scripts de generación de landings)
+│       └── js/            (cálculo, precios, almacenamiento, documento)
 │
 ├── creative/             ← Creative OS (sistema de contenido)
 │   ├── brand/            (ADN, voz, personalidad, visual, storytelling)
@@ -68,6 +76,21 @@ Deploy automático: cada push a `main` que modifique `apps/website/**` activa el
 
 Ver `apps/website/docs/ARCHITECTURE.md` para la arquitectura del sitio.
 
+### Presupuestos (`apps/presupuestos/`)
+
+App interna: carga de aberturas por medida, precio por m² según línea y
+tipología, PDF con membrete, envío por WhatsApp e historial. Los datos viven en
+el navegador de la máquina donde se usa.
+
+```bash
+cd apps/presupuestos && python3 -m http.server 8080
+```
+
+**No se despliega**: el workflow de FTP solo sube `apps/website/`, así que los
+precios de costo no salen a internet.
+
+Ver [`apps/presupuestos/README.md`](apps/presupuestos/README.md).
+
 ### Creative OS (`creative/`)
 
 Sistema de documentos que funciona como director creativo IA de la marca.
@@ -86,7 +109,8 @@ Ver [`shared/design-system/README.md`](shared/design-system/README.md) para regl
 ## Deploy
 
 El workflow `.github/workflows/deploy.yml` solo despliega `apps/website/` a cPanel.
-Los cambios en `creative/` o `shared/` **no disparan deploy** (son documentos internos).
+Los cambios en `apps/presupuestos/`, `creative/` o `shared/` **no disparan deploy**
+(son herramientas y documentos internos).
 
 Ver `apps/website/docs/` y el `DEPLOY.md` original para configuración de secrets.
 

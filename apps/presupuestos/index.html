@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presupuestos — Alumfer</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="estilos.css">
+<link rel="stylesheet" href="impresion.css" media="print">
+</head>
+<body>
+
+<header class="barra">
+  <div class="barra__marca">
+    <img src="logo-alumfer.jpg" alt="Alumfer" width="40" height="40">
+    <div>
+      <strong>Presupuestos</strong>
+      <span>Alumfer · uso interno</span>
+    </div>
+  </div>
+
+  <nav class="barra__tabs" role="tablist">
+    <button class="tab is-activa" data-vista="presupuesto" role="tab" aria-selected="true">Presupuesto</button>
+    <button class="tab" data-vista="historial" role="tab" aria-selected="false">Historial <span class="tab__badge" id="badge-historial">0</span></button>
+    <button class="tab" data-vista="precios" role="tab" aria-selected="false">Precios</button>
+  </nav>
+
+  <div class="barra__acciones">
+    <button class="btn btn--fantasma" id="btn-nuevo">Nuevo</button>
+    <button class="btn btn--primario" id="btn-guardar">Guardar</button>
+  </div>
+</header>
+
+<p class="aviso-almacenamiento" id="aviso-almacenamiento" hidden>
+  El navegador bloquea el guardado local: vas a poder presupuestar, pero nada se conserva al cerrar la pestaña.
+  Serví la carpeta con <code>python3 -m http.server</code> en vez de abrir el archivo directo.
+</p>
+
+<main class="contenido">
+
+  <!-- ════════ PRESUPUESTO ════════ -->
+  <section class="vista vista--presupuesto" id="vista-presupuesto">
+
+    <div class="columna-principal">
+
+      <section class="tarjeta">
+        <header class="tarjeta__header">
+          <h2>Cliente y obra</h2>
+          <span class="etiqueta-numero" id="numero-presupuesto">—</span>
+        </header>
+        <div class="grilla-campos">
+          <label class="campo campo--ancho">
+            <span>Nombre y apellido</span>
+            <input type="text" id="cli-nombre" placeholder="Ej.: María Gómez" autocomplete="off">
+          </label>
+          <label class="campo">
+            <span>Teléfono / WhatsApp</span>
+            <input type="tel" id="cli-telefono" placeholder="11 5555-5555" autocomplete="off">
+          </label>
+          <label class="campo">
+            <span>Email</span>
+            <input type="email" id="cli-email" placeholder="opcional" autocomplete="off">
+          </label>
+          <label class="campo campo--ancho">
+            <span>Dirección de la obra</span>
+            <input type="text" id="cli-direccion" placeholder="Calle y número" autocomplete="off">
+          </label>
+          <label class="campo">
+            <span>Localidad</span>
+            <input type="text" id="cli-localidad" placeholder="Ej.: Lomas de Zamora" autocomplete="off">
+          </label>
+          <label class="campo">
+            <span>Fecha</span>
+            <input type="date" id="pre-fecha">
+          </label>
+          <label class="campo">
+            <span>Estado</span>
+            <select id="pre-estado">
+              <option value="borrador">Borrador</option>
+              <option value="enviado">Enviado</option>
+              <option value="aceptado">Aceptado</option>
+              <option value="rechazado">Rechazado</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="tarjeta">
+        <header class="tarjeta__header">
+          <h2>Aberturas</h2>
+          <div class="tarjeta__header-acciones">
+            <span class="apunte" id="resumen-items">Sin ítems</span>
+            <button class="btn btn--primario btn--sm" id="btn-agregar-item">+ Agregar abertura</button>
+          </div>
+        </header>
+        <div id="lista-items" class="lista-items"></div>
+        <p class="vacio" id="items-vacio">
+          Todavía no cargaste ninguna abertura. Agregá la primera para ver el precio.
+        </p>
+      </section>
+
+      <section class="tarjeta">
+        <header class="tarjeta__header"><h2>Observaciones</h2></header>
+        <label class="campo">
+          <span>Texto libre que aparece en el presupuesto impreso</span>
+          <textarea id="pre-notas" rows="3" placeholder="Ej.: Las medidas se confirman en obra antes de fabricar."></textarea>
+        </label>
+      </section>
+
+    </div>
+
+    <aside class="columna-resumen">
+      <section class="tarjeta tarjeta--resumen">
+        <header class="tarjeta__header"><h2>Total</h2></header>
+
+        <div class="totales" id="totales"></div>
+
+        <details class="ajustes">
+          <summary>Ajustes del presupuesto</summary>
+          <div class="grilla-campos">
+            <label class="campo">
+              <span>Descuento general (%)</span>
+              <input type="number" id="aj-descuento" min="0" max="100" step="1">
+            </label>
+            <label class="campo">
+              <span>Colocación</span>
+              <select id="aj-colocacion-modo">
+                <option value="sin">No incluir</option>
+                <option value="porcentaje">% sobre el subtotal</option>
+                <option value="m2">$ por m²</option>
+                <option value="monto">Monto fijo</option>
+              </select>
+            </label>
+            <label class="campo">
+              <span id="aj-colocacion-label">Valor</span>
+              <input type="number" id="aj-colocacion-valor" min="0" step="1">
+            </label>
+            <label class="campo">
+              <span>Flete ($)</span>
+              <input type="number" id="aj-flete" min="0" step="1">
+            </label>
+            <label class="campo">
+              <span>IVA</span>
+              <select id="aj-iva">
+                <option value="no">Precio final (sin discriminar)</option>
+                <option value="si">Discriminar IVA</option>
+              </select>
+            </label>
+            <label class="campo">
+              <span>IVA (%)</span>
+              <input type="number" id="aj-iva-pct" min="0" max="100" step="0.5">
+            </label>
+            <label class="campo">
+              <span>Anticipo (%)</span>
+              <input type="number" id="aj-anticipo" min="0" max="100" step="5">
+            </label>
+            <label class="campo">
+              <span>Validez (días)</span>
+              <input type="number" id="aj-validez" min="1" max="90" step="1">
+            </label>
+          </div>
+        </details>
+
+        <div class="acciones-finales">
+          <button class="btn btn--primario btn--bloque" id="btn-pdf">Imprimir / Guardar PDF</button>
+          <button class="btn btn--whatsapp btn--bloque" id="btn-whatsapp">Enviar por WhatsApp</button>
+          <button class="btn btn--fantasma btn--bloque" id="btn-copiar">Copiar resumen</button>
+        </div>
+      </section>
+    </aside>
+  </section>
+
+  <!-- ════════ HISTORIAL ════════ -->
+  <section class="vista" id="vista-historial" hidden>
+    <section class="tarjeta">
+      <header class="tarjeta__header">
+        <h2>Presupuestos guardados</h2>
+        <div class="tarjeta__header-acciones">
+          <input type="search" id="buscar-historial" placeholder="Buscar por cliente o número" class="buscador">
+          <button class="btn btn--fantasma btn--sm" id="btn-exportar">Copia de seguridad</button>
+          <button class="btn btn--fantasma btn--sm" id="btn-importar">Restaurar copia</button>
+          <input type="file" id="archivo-importar" accept="application/json" hidden>
+        </div>
+      </header>
+      <div id="lista-historial" class="lista-historial"></div>
+    </section>
+  </section>
+
+  <!-- ════════ PRECIOS ════════ -->
+  <section class="vista" id="vista-precios" hidden>
+    <section class="tarjeta">
+      <header class="tarjeta__header">
+        <h2>Actualización general</h2>
+        <span class="apunte">Última actualización: <strong id="precios-actualizado">—</strong></span>
+      </header>
+      <div class="actualizacion">
+        <label class="campo campo--chico">
+          <span>Aumentar todo un</span>
+          <div class="campo-sufijo">
+            <input type="number" id="ajuste-pct" value="10" step="0.5">
+            <span>%</span>
+          </div>
+        </label>
+        <div class="checks">
+          <label><input type="checkbox" id="ajuste-tipologias" checked> Aberturas</label>
+          <label><input type="checkbox" id="ajuste-vidrios" checked> Vidrios</label>
+          <label><input type="checkbox" id="ajuste-adicionales" checked> Adicionales</label>
+        </div>
+        <button class="btn btn--primario" id="btn-aplicar-ajuste">Aplicar aumento</button>
+        <button class="btn btn--fantasma" id="btn-restaurar-precios">Restaurar valores de fábrica</button>
+      </div>
+      <p class="apunte">
+        Los precios son por m² de aluminio terminado (perfil, herrajes y mano de obra de fábrica), sin vidrio.
+        El vidrio, el color y los adicionales se suman aparte.
+      </p>
+    </section>
+
+    <section class="tarjeta">
+      <header class="tarjeta__header"><h2>Líneas</h2><span class="apunte">Multiplican el precio por m² de cada abertura</span></header>
+      <div id="tabla-lineas"></div>
+    </section>
+
+    <section class="tarjeta">
+      <header class="tarjeta__header"><h2>Aberturas ($/m² sin vidrio)</h2></header>
+      <div id="tabla-tipologias"></div>
+    </section>
+
+    <section class="tarjeta">
+      <header class="tarjeta__header"><h2>Vidrios ($/m²)</h2></header>
+      <div id="tabla-vidrios"></div>
+    </section>
+
+    <section class="tarjeta">
+      <header class="tarjeta__header"><h2>Colores (recargo sobre el aluminio)</h2></header>
+      <div id="tabla-colores"></div>
+    </section>
+
+    <section class="tarjeta">
+      <header class="tarjeta__header"><h2>Adicionales</h2></header>
+      <div id="tabla-adicionales"></div>
+    </section>
+
+    <section class="tarjeta">
+      <header class="tarjeta__header"><h2>Valores por defecto</h2></header>
+      <div class="grilla-campos">
+        <label class="campo">
+          <span>m² mínimos facturables</span>
+          <input type="number" id="gen-min-m2" step="0.05" min="0">
+        </label>
+        <label class="campo">
+          <span>Redondeo del ítem ($)</span>
+          <input type="number" id="gen-redondeo" step="100" min="0">
+        </label>
+        <label class="campo campo--ancho">
+          <span>Plazo de entrega (sale impreso)</span>
+          <input type="text" id="gen-plazo">
+        </label>
+      </div>
+    </section>
+  </section>
+
+</main>
+
+<!-- Documento imprimible: se arma al vuelo y solo se ve al imprimir -->
+<div id="hoja" class="hoja" aria-hidden="true"></div>
+
+<div class="avisos" id="avisos" role="status" aria-live="polite"></div>
+
+<script src="js/formato.js"></script>
+<script src="js/precios-base.js"></script>
+<script src="js/calculo.js"></script>
+<script src="js/almacenamiento.js"></script>
+<script src="js/documento.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

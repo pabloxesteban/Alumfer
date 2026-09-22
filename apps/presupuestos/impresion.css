@@ -1,0 +1,90 @@
+/* ============================================================
+   ALUMFER — Presupuestos · Hoja impresa (A4)
+   Solo se aplica al imprimir: oculta la app y muestra #hoja.
+   ============================================================ */
+
+@page { size: A4; margin: 14mm 12mm; }
+
+body { background: #fff; }
+
+.barra, .contenido, .avisos, .aviso-almacenamiento { display: none !important; }
+
+.hoja { display: block !important; }
+
+.hoja-doc {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 10.5pt;
+  color: #1A1C1E;
+  line-height: 1.45;
+}
+
+/* ── Membrete ─────────────────────────────────────────────── */
+.hoja-membrete {
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 12mm;
+  padding-bottom: 4mm; border-bottom: 2.5pt solid #1B6CC8;
+}
+.hoja-marca { display: flex; align-items: center; gap: 4mm; }
+.hoja-logo { width: 18mm; height: auto; }
+.hoja-marca strong { display: block; font-family: 'Montserrat', sans-serif; font-size: 13pt; letter-spacing: -0.01em; }
+.hoja-marca span { display: block; font-size: 8.5pt; color: #5A5A55; }
+.hoja-contacto { text-align: right; font-size: 8.5pt; color: #5A5A55; }
+
+/* ── Título ───────────────────────────────────────────────── */
+.hoja-titulo {
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 8mm;
+  margin: 6mm 0 4mm;
+}
+.hoja-titulo h1 { font-family: 'Montserrat', sans-serif; font-size: 17pt; margin: 0; }
+.hoja-titulo div { font-size: 9pt; text-align: right; color: #5A5A55; }
+.hoja-titulo strong { color: #1A1C1E; }
+
+/* ── Cliente ──────────────────────────────────────────────── */
+.hoja-cliente {
+  display: flex; gap: 8mm; padding: 3mm 4mm; margin-bottom: 5mm;
+  background: #F5F4F1; border-left: 2.5pt solid #1B6CC8;
+}
+.hoja-cliente > div { flex: 1; min-width: 0; }
+.hoja-cliente span { display: block; font-size: 7.5pt; text-transform: uppercase; letter-spacing: 0.08em; color: #5A5A55; }
+.hoja-cliente strong { font-weight: 500; }
+
+/* ── Tabla de ítems ───────────────────────────────────────── */
+.hoja-tabla { width: 100%; border-collapse: collapse; }
+.hoja-tabla th {
+  text-align: left; font-size: 8pt; text-transform: uppercase; letter-spacing: 0.08em;
+  color: #fff; background: #2E3338; font-weight: 500; padding: 2mm 2.5mm;
+}
+.hoja-tabla td { padding: 2.5mm; border-bottom: 0.5pt solid #E8E4DC; vertical-align: top; }
+.hoja-tabla tbody tr { page-break-inside: avoid; }
+.hoja-tabla .c { text-align: center; white-space: nowrap; }
+.hoja-tabla .d { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.hoja-detalle { font-size: 8.5pt; color: #5A5A55; }
+.hoja-nota { font-size: 8.5pt; font-style: italic; color: #5A5A55; }
+
+/* ── Cierre: condiciones + totales ────────────────────────── */
+.hoja-cierre {
+  display: flex; gap: 8mm; margin-top: 6mm; align-items: flex-start;
+  page-break-inside: avoid;
+}
+.hoja-condiciones { flex: 1.4; font-size: 8.5pt; color: #3D444B; }
+.hoja-condiciones h2 {
+  font-family: 'Montserrat', sans-serif; font-size: 9pt; text-transform: uppercase;
+  letter-spacing: 0.08em; margin: 0 0 2mm;
+}
+.hoja-condiciones ul { margin: 0 0 4mm; padding-left: 4mm; }
+.hoja-condiciones li { margin-bottom: 1mm; }
+.hoja-condiciones p { margin: 0; }
+
+.hoja-totales { flex: 1; }
+.hoja-totales table { width: 100%; border-collapse: collapse; font-size: 10pt; }
+.hoja-totales td { padding: 1.5mm 2mm; }
+.hoja-totales .d { text-align: right; font-variant-numeric: tabular-nums; }
+.hoja-totales .hoja-total td {
+  border-top: 1.5pt solid #1A1C1E; font-family: 'Montserrat', sans-serif;
+  font-size: 13pt; font-weight: 700; padding-top: 2.5mm;
+}
+
+/* ── Pie ──────────────────────────────────────────────────── */
+.hoja-pie {
+  margin-top: 8mm; padding-top: 3mm; border-top: 0.5pt solid #E8E4DC;
+  font-size: 8pt; color: #5A5A55; text-align: center;
+}

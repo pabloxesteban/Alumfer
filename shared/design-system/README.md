@@ -15,12 +15,13 @@ Fuente de verdad visual de Alumfer. Usada por todos los productos del monorepo.
 Todo cambio visual parte de aquí y se propaga.
 
 - **Website**: importa `tokens.css` directamente (está copiado en `apps/website/` para deploy estático)
+- **Presupuestos**: misma copia en `apps/presupuestos/tokens.css`
 - **Creative OS**: usa `brand-tokens.md` como referencia al generar contenido, prompts y plantillas
 - **Futuros productos**: importan desde esta carpeta
 
 ## Sincronización
 
-Si modificás `tokens.css` en `apps/website/`, refleja el cambio aquí también.
-Si modificás aquí, copiá a `apps/website/tokens.css`.
+Si modificás `tokens.css` en `apps/website/` o en `apps/presupuestos/`, refleja el cambio aquí también.
+Si modificás aquí, copiá a `apps/website/tokens.css` y a `apps/presupuestos/tokens.css`.
 
 > Próxima mejora: script de sync automático en `tools/sync-tokens.mjs`
