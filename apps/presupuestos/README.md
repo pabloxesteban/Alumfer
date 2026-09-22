@@ -9,12 +9,49 @@ Está pensada para usarse sin práctica previa: la pantalla va en tres pasos
 tocando su dibujo, las medidas van en centímetros y todo lo que se usa poco
 queda plegado.
 
-> **Es de uso interno.** Muestra precios de costo y márgenes, así que **no se
-> publica en alumfer.com.ar**: el workflow de deploy solo sube `apps/website/`.
+> **Es de uso interno.** No se publica en alumfer.com.ar: el workflow de FTP
+> solo sube `apps/website/`. Se sirve aparte, por GitHub Pages (ver abajo).
 
 ---
 
-## Cómo abrirla
+## Desde el celular (así se usa en el día a día)
+
+La app está publicada con **GitHub Pages**, que es gratis y no toca el hosting
+del sitio:
+
+**<https://pabloxesteban.github.io/Alumfer/apps/presupuestos/>**
+
+Se sirve desde la rama `main`: cada cambio que llegue ahí queda publicado en un
+minuto. No hay que subir nada por FTP.
+
+### Instalarla como app
+
+1. Abrir el link en el celular (Chrome en Android, Safari en iPhone).
+2. **Android**: aparece una franja arriba con el botón *Instalar*.
+   **iPhone**: tocar *Compartir* → *Agregar a inicio*.
+3. Queda el ícono de Alumfer en la pantalla de inicio y abre en pantalla
+   completa, sin barra del navegador.
+
+Después de la primera vez **funciona sin internet**: la app entera queda
+guardada en el teléfono, así que en una obra sin señal abre igual.
+
+> Cada teléfono guarda sus propios presupuestos y sus propios precios. No se
+> sincronizan entre dispositivos: lo que se carga en el celular no aparece en
+> la computadora. Para pasar datos de uno a otro está la copia de seguridad en
+> *Anteriores*.
+
+### Qué se ve y qué no
+
+El repositorio es público, así que el link lo puede abrir cualquiera que lo
+tenga y en el código se ven los **precios de referencia** de
+`js/precios-base.js`. **Los precios reales nunca salen del teléfono**: se
+cargan desde la pestaña *Precios* y quedan en el navegador, no en el código.
+
+Por eso: **no commitear los precios reales en `precios-base.js`**. Si hiciera
+falta esconder la app detrás de una clave, la forma gratis es moverla a
+Cloudflare Pages con Access.
+
+## Cómo abrirla en la computadora
 
 ```bash
 cd apps/presupuestos
@@ -102,6 +139,9 @@ apps/presupuestos/
 ├── impresion.css         Hoja A4 del presupuesto impreso
 ├── tokens.css            Copia de shared/design-system/tokens.css
 ├── logo-alumfer.jpg      Membrete
+├── manifest.webmanifest  Para instalarla como app en el celular
+├── sw.js                 Modo sin internet (subir VERSION al cambiar archivos)
+├── icono-*.png           Íconos de la app
 └── js/
     ├── precios-base.js   Lista de precios de fábrica (semilla editable)
     ├── iconos.js         Dibujo de cada tipo de abertura y de la interfaz

@@ -86,8 +86,13 @@ el navegador de la máquina donde se usa.
 cd apps/presupuestos && python3 -m http.server 8080
 ```
 
-**No se despliega**: el workflow de FTP solo sube `apps/website/`, así que los
-precios de costo no salen a internet.
+Se usa desde el celular, instalada como app y funcionando sin señal:
+<https://pabloxesteban.github.io/Alumfer/apps/presupuestos/> (GitHub Pages,
+servido desde `main`). **No va por el FTP del sitio**: ese workflow solo sube
+`apps/website/`.
+
+Los precios reales se cargan desde la app y viven en el navegador de cada
+teléfono, nunca en el repositorio.
 
 Ver [`apps/presupuestos/README.md`](apps/presupuestos/README.md).
 
