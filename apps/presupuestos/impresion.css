@@ -8,7 +8,7 @@
 body { background: #fff; }
 
 .barra, .contenido, .avisos, .aviso-almacenamiento,
-.barra-total, .modal, .instalar { display: none !important; }
+.barra-total, .modal, .instalar, .actualizar-app { display: none !important; }
 
 .hoja { display: block !important; }
 

@@ -1048,6 +1048,68 @@
     });
   }
 
+  /* ════════ Versiones: cómo llega una actualización ════════ */
+
+  /**
+   * La app se actualiza sola, pero avisando: cuando el navegador baja una
+   * versión nueva, queda esperando y aparece la franja azul. Recién al tocar
+   * Actualizar se activa y se recarga la pantalla, así nunca se cambia la app
+   * por debajo mientras se está cargando un presupuesto.
+   */
+  function configurarActualizaciones() {
+    if (!('serviceWorker' in navigator)) return;
+    var enEspera = null;
+    var recargando = false;
+
+    function avisarVersionNueva(worker) {
+      enEspera = worker;
+      $('actualizar-app').hidden = false;
+    }
+
+    function mostrarVersion(registro) {
+      var activo = registro.active || navigator.serviceWorker.controller;
+      if (!activo || !window.MessageChannel) return;
+      var canal = new MessageChannel();
+      canal.port1.onmessage = function (ev) { $('version-app').textContent = 'Versión ' + ev.data; };
+      activo.postMessage({ tipo: 'VERSION' }, [canal.port2]);
+    }
+
+    navigator.serviceWorker.register('sw.js').then(function (registro) {
+      mostrarVersion(registro);
+
+      // Ya había una versión nueva esperando de una visita anterior.
+      if (registro.waiting && navigator.serviceWorker.controller) avisarVersionNueva(registro.waiting);
+
+      registro.addEventListener('updatefound', function () {
+        var nuevo = registro.installing;
+        if (!nuevo) return;
+        nuevo.addEventListener('statechange', function () {
+          // Sin controller es la primera instalación, no una actualización.
+          if (nuevo.state === 'installed' && navigator.serviceWorker.controller) avisarVersionNueva(nuevo);
+        });
+      });
+
+      // Buscar novedades al abrir y cada vez que se vuelve a la app.
+      document.addEventListener('visibilitychange', function () {
+        if (!document.hidden) registro.update().catch(function () {});
+      });
+    }).catch(function (e) {
+      console.warn('Sin modo offline:', e);
+    });
+
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+      if (recargando) return;
+      recargando = true;
+      window.location.reload();
+    });
+
+    $('btn-actualizar-app').addEventListener('click', function () {
+      $('btn-actualizar-app').textContent = 'Actualizando…';
+      if (enEspera) enEspera.postMessage({ tipo: 'ACTUALIZAR' });
+      else window.location.reload();
+    });
+  }
+
   /* ════════ Instalar en el celular ════════ */
 
   var CLAVE_INSTALAR = 'alumfer.instalar.oculto';
@@ -1102,6 +1164,7 @@
   function iniciar() {
     if (!A.disponible) $('aviso-almacenamiento').hidden = false;
     ponerIconos();
+    configurarActualizaciones();
     configurarInstalacion();
     renderPrecios();
     renderHistorial();

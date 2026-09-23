@@ -40,6 +40,11 @@
   <button class="btn btn--claro" id="btn-nuevo" data-icono="nuevo">Nuevo</button>
 </header>
 
+<div class="actualizar-app" id="actualizar-app" hidden>
+  <span>Hay una versión nueva de la app.</span>
+  <button class="btn btn--claro btn--sm" id="btn-actualizar-app">Actualizar ahora</button>
+</div>
+
 <div class="instalar" id="instalar" hidden>
   <span id="instalar-texto">Tenela como app en el celular, con su ícono y sin internet.</span>
   <span class="instalar__botones">
@@ -321,6 +326,7 @@
           <input type="text" id="gen-plazo">
         </label>
       </div>
+      <p class="apunte" id="version-app"></p>
     </section>
   </section>
 
@@ -351,17 +357,6 @@
 <div id="hoja" class="hoja" aria-hidden="true"></div>
 
 <div class="avisos" id="avisos" role="status" aria-live="polite"></div>
-
-<script>
-  /* Modo sin internet: si el navegador no lo soporta, la app anda igual. */
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function () {
-      navigator.serviceWorker.register('sw.js').catch(function (e) {
-        console.warn('Sin modo offline:', e);
-      });
-    });
-  }
-</script>
 
 <script src="js/formato.js"></script>
 <script src="js/dolar.js"></script>

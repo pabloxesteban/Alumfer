@@ -1,0 +1,59 @@
+# Si se publica un cambio de la app de presupuestos sin subir VERSION en sw.js,
+# los celulares que ya la tienen instalada no se enteran de que hay algo nuevo.
+# Este chequeo avisa antes de que pase.
+
+name: Presupuestos — versión del service worker
+
+on:
+  push:
+    branches: [main]
+    paths: ['apps/presupuestos/**']
+  pull_request:
+    paths: ['apps/presupuestos/**']
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: ¿Subieron VERSION en sw.js?
+        run: |
+          set -euo pipefail
+
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            ANTES="${{ github.event.pull_request.base.sha }}"
+          else
+            ANTES="${{ github.event.before }}"
+          fi
+
+          # Primer push de una rama nueva: no hay con qué comparar.
+          if [ -z "$ANTES" ] || [ "$ANTES" = "0000000000000000000000000000000000000000" ]; then
+            echo "Sin commit anterior con el cual comparar. Nada que chequear."
+            exit 0
+          fi
+
+          CAMBIOS=$(git diff --name-only "$ANTES" "${{ github.sha }}" -- apps/presupuestos/ \
+                    | grep -v -E 'apps/presupuestos/(README\.md|sw\.js)$' || true)
+
+          if [ -z "$CAMBIOS" ]; then
+            echo "No cambió ningún archivo que se sirva desde el celular."
+            exit 0
+          fi
+
+          VERSION_ANTES=$(git show "$ANTES:apps/presupuestos/sw.js" 2>/dev/null | grep -oP "var VERSION = '\K[^']+" || echo "")
+          VERSION_AHORA=$(grep -oP "var VERSION = '\K[^']+" apps/presupuestos/sw.js)
+
+          echo "Archivos modificados:"
+          echo "$CAMBIOS"
+          echo "VERSION antes: ${VERSION_ANTES:-(ninguna)} · ahora: $VERSION_AHORA"
+
+          if [ "$VERSION_ANTES" = "$VERSION_AHORA" ]; then
+            echo "::error::Cambió la app pero VERSION en apps/presupuestos/sw.js quedó en '$VERSION_AHORA'. Los celulares que ya la tienen instalada no van a ver el aviso de versión nueva. Subí VERSION (por ejemplo a la fecha de hoy) y volvé a publicar."
+            exit 1
+          fi
+
+          echo "VERSION actualizada. Los celulares van a ver el aviso."

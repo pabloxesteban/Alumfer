@@ -348,6 +348,13 @@ textarea { resize: vertical; min-height: 4rem; }
 }
 .guardado::before { content: '✓'; font-weight: 700; }
 
+/* ─── Versión nueva disponible ───────────────────────────── */
+.actualizar-app {
+  display: flex; align-items: center; justify-content: center; gap: var(--space-4);
+  flex-wrap: wrap; padding: var(--space-3) var(--space-5);
+  background: var(--blue); color: #fff; font-size: var(--text-base);
+}
+
 /* ─── Instalar en el celular ─────────────────────────────── */
 .instalar {
   display: flex; align-items: center; justify-content: center; gap: var(--space-4);

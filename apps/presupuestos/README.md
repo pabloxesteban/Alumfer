@@ -35,6 +35,24 @@ minuto. No hay que subir nada por FTP.
 Después de la primera vez **funciona sin internet**: la app entera queda
 guardada en el teléfono, así que en una obra sin señal abre igual.
 
+### Cómo se actualiza
+
+Sola, pero avisando. Cada vez que se abre la app (y cada vez que se vuelve a
+ella), el navegador se fija si hay una versión nueva publicada. Si la hay, la
+baja en segundo plano **sin pisar la que se está usando** y aparece una franja
+azul arriba: *"Hay una versión nueva de la app"* con el botón **Actualizar
+ahora**. Recién al tocarlo se activa y se recarga la pantalla.
+
+Así nunca cambia la app por debajo mientras se está cargando un presupuesto, y
+lo que había a medio cargar sigue ahí después de actualizar. La versión que está
+corriendo se ve al final de la pestaña *Precios*.
+
+> **Al publicar hay que subir `VERSION` en `sw.js`.** Es lo que le avisa al
+> navegador que hay algo nuevo: sin eso, los celulares que ya la tienen
+> instalada siguen con la versión vieja. Lo controla el workflow
+> `.github/workflows/presupuestos-version.yml`, que falla si se cambió la app
+> sin tocar `VERSION`.
+
 > Cada teléfono guarda sus propios presupuestos y sus propios precios. No se
 > sincronizan entre dispositivos: lo que se carga en el celular no aparece en
 > la computadora. Para pasar datos de uno a otro está la copia de seguridad en
@@ -175,7 +193,8 @@ apps/presupuestos/
 ├── tokens.css            Copia de shared/design-system/tokens.css
 ├── logo-alumfer.jpg      Membrete
 ├── manifest.webmanifest  Para instalarla como app en el celular
-├── sw.js                 Modo sin internet (subir VERSION al cambiar archivos)
+├── sw.js                 Modo sin internet y aviso de versión nueva
+│                         (subir VERSION al publicar cualquier cambio)
 ├── icono-*.png           Íconos de la app
 └── js/
     ├── precios-base.js   Lista de precios de fábrica (semilla editable)
