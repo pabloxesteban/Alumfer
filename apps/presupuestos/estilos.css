@@ -327,6 +327,8 @@ textarea { resize: vertical; min-height: 4rem; }
 .dolar__pie { flex-basis: 100%; font-size: var(--text-sm); color: var(--text-secondary); margin: 0; }
 .dolar__pie--viejo { color: #8a6000; }
 
+#aluminio-resumen { margin-top: var(--space-5); }
+
 .nota-guardado {
   margin: calc(var(--space-2) * -1) 0 0; padding: 0 var(--space-2);
   font-size: var(--text-sm); color: var(--text-secondary);

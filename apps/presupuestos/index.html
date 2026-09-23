@@ -227,6 +227,27 @@
       <div id="dolar"></div>
     </section>
 
+    <section class="tarjeta">
+      <header class="tarjeta__header">
+        <h2>Aluminio · precio del kilo</h2>
+        <span class="guardado" id="aluminio-guardado" hidden>Guardado</span>
+      </header>
+      <div class="grilla-campos">
+        <label class="campo">
+          <span>Precio del kilo</span>
+          <input type="number" id="alu-precio" min="0" step="0.01" inputmode="decimal" placeholder="Ej.: 5,20">
+        </label>
+        <label class="campo">
+          <span>¿En qué moneda te lo pasan?</span>
+          <select id="alu-moneda">
+            <option value="usd">Dólares (USD)</option>
+            <option value="ars">Pesos ($)</option>
+          </select>
+        </label>
+      </div>
+      <div id="aluminio-resumen"></div>
+    </section>
+
     <p class="nota-guardado">
       Los cambios de precios se guardan solos: no hay botón de guardar.
     </p>

@@ -563,6 +563,9 @@
 
   function renderPrecios() {
     $('precios-actualizado').textContent = F.fechaCorta(precios.actualizado);
+    $('alu-precio').value = precios.aluminio.precio || '';
+    $('alu-moneda').value = precios.aluminio.moneda || 'usd';
+    renderAluminio();
     $('gen-min-m2').value = precios.generales.minM2Global;
     $('gen-redondeo').value = precios.generales.redondeo;
     $('gen-plazo').value = precios.generales.plazoEntrega || '';
@@ -637,6 +640,7 @@
     return window.Dolar.actualizar()
       .then(function (valor) {
         pintarDolar(valor);
+        renderAluminio();
         renderTotales();
         if (aPedido) avisar('Cotización actualizada');
       })
@@ -644,6 +648,97 @@
         pintarDolar(previo, 'sin-conexion');
         if (aPedido) avisar('No se pudo consultar la cotización.', 'error');
       });
+  }
+
+  /* ════════ Aluminio: precio del kilo ════════ */
+
+  var relojAluminio = null;
+
+  /** Los dos valores del kilo: el que se cargó y el convertido con el blue. */
+  function valoresAluminio(alu, blueVenta) {
+    var precio = num(alu.precio);
+    if (!precio) return null;
+    if (alu.moneda === 'ars') {
+      return { ars: precio, usd: blueVenta > 0 ? precio / blueVenta : null };
+    }
+    return { usd: precio, ars: blueVenta > 0 ? precio * blueVenta : null };
+  }
+
+  function num(v) { v = Number(v); return isFinite(v) ? v : 0; }
+
+  function renderAluminio() {
+    var alu = precios.aluminio || {};
+    var dolar = window.Dolar.guardado();
+    var blueVenta = dolar ? num(dolar.venta) : 0;
+    var v = valoresAluminio(alu, blueVenta);
+    var cont = $('aluminio-resumen');
+
+    if (!v) {
+      cont.innerHTML = '<p class="dolar__pie">Cargá el precio que te pasa el proveedor y la app lo ' +
+        'convierte sola con el blue del día.</p>';
+      return;
+    }
+
+    var partes = '<div class="dolar">' +
+      '<span class="dolar__dato"><span>En dólares</span><strong>' +
+        (v.usd == null ? '—' : 'US$ ' + F.numero(v.usd, 2)) + '</strong></span>' +
+      '<span class="dolar__dato"><span>En pesos</span><strong>' +
+        (v.ars == null ? '—' : F.moneda(v.ars)) + '</strong></span>';
+
+    var pie = [];
+    if (alu.actualizado) {
+      var dias = Math.floor((Date.now() - new Date(alu.actualizado + 'T12:00:00').getTime()) / 86400000);
+      pie.push(dias <= 0 ? 'Cargado hoy'
+             : dias === 1 ? 'Cargado ayer'
+             : 'Cargado hace ' + dias + ' días (' + F.fechaCorta(alu.actualizado) + ')');
+    }
+    if (blueVenta > 0) pie.push('convertido con el blue ' + F.moneda(blueVenta));
+    else pie.push('falta la cotización del blue para convertirlo');
+
+    var viejo = alu.actualizado &&
+      (Date.now() - new Date(alu.actualizado + 'T12:00:00').getTime()) > 30 * 86400000;
+    partes += '<p class="dolar__pie' + (viejo ? ' dolar__pie--viejo' : '') + '">' +
+      F.escapar(pie.join(' · ')) + (viejo ? ' — conviene pedirle la lista al proveedor' : '') + '</p>';
+
+    // Cuánto se movió desde la vez anterior, comparando en dólares.
+    var h = alu.historial || [];
+    var previo = h.length > 1 ? h[h.length - 2] : null;
+    if (previo && v.usd != null) {
+      var usdPrevio = previo.moneda === 'ars'
+        ? (num(previo.blue) > 0 ? num(previo.precio) / num(previo.blue) : null)
+        : num(previo.precio);
+      if (usdPrevio > 0) {
+        var var_ = ((v.usd - usdPrevio) / usdPrevio) * 100;
+        var signo = var_ > 0 ? 'subió' : var_ < 0 ? 'bajó' : 'igual que';
+        partes += '<p class="dolar__pie">Antes: US$ ' + F.numero(usdPrevio, 2) +
+          ' (' + F.escapar(F.fechaCorta(previo.fecha)) + ') — ' +
+          F.escapar(signo) + (var_ === 0 ? '' : ' ' + F.numero(Math.abs(var_), 1) + ' %') + '</p>';
+      }
+    }
+
+    cont.innerHTML = partes + '</div>';
+  }
+
+  /** Guarda el precio del kilo; una entrada de historial por día. */
+  function guardarAluminio() {
+    var dolar = window.Dolar.guardado();
+    var alu = precios.aluminio;
+    alu.precio = F.aNumero($('alu-precio').value);
+    alu.moneda = $('alu-moneda').value;
+    alu.actualizado = F.fechaISO();
+    alu.blue = dolar ? num(dolar.venta) : 0;
+
+    if (alu.precio > 0) {
+      var entrada = { precio: alu.precio, moneda: alu.moneda, blue: alu.blue, fecha: alu.actualizado };
+      var h = alu.historial || (alu.historial = []);
+      if (h.length && h[h.length - 1].fecha === entrada.fecha) h[h.length - 1] = entrada;
+      else h.push(entrada);
+      if (h.length > 12) h.splice(0, h.length - 12);
+    }
+
+    guardarPrecios();
+    marcarGuardado('aluminio-guardado');
+    renderAluminio();
   }
 
   /* ════════ Vistas ════════ */
@@ -881,6 +976,13 @@
     });
 
     $('btn-dolar').addEventListener('click', function () { cargarDolar(true); });
+
+    ['alu-precio', 'alu-moneda'].forEach(function (id) {
+      $(id).addEventListener('input', function () {
+        clearTimeout(relojAluminio);
+        relojAluminio = setTimeout(guardarAluminio, 700);
+      });
+    });
 
     $('btn-restaurar-precios').addEventListener('click', function () {
       if (!confirm('¿Volver a los precios originales? Se pierden los valores que cargaste.')) return;

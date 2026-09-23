@@ -58,6 +58,8 @@ window.Almacenamiento = (function () {
     var p = Object.assign({}, base, guardado);
     p.generales = Object.assign({}, base.generales, guardado.generales || {});
     p.empresa   = Object.assign({}, base.empresa, guardado.empresa || {});
+    p.aluminio  = Object.assign({}, base.aluminio, guardado.aluminio || {});
+    if (!Array.isArray(p.aluminio.historial)) p.aluminio.historial = [];
     ['lineas', 'tipologias', 'vidrios', 'colores', 'adicionales'].forEach(function (k) {
       if (!Array.isArray(p[k]) || !p[k].length) p[k] = base[k];
     });

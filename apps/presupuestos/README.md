@@ -119,6 +119,20 @@ En el total del presupuesto aparece también el equivalente en dólares, en letr
 chica. **Eso es solo para la pantalla**: no sale ni en el PDF ni en el WhatsApp
 que recibe el cliente.
 
+## El kilo de aluminio
+
+Debajo del dólar hay un cuadro con el **precio del kilo de aluminio**. Ese dato
+no lo publica ninguna API —lo pasa el proveedor—, así que se carga a mano, en
+dólares o en pesos, y la app muestra las dos monedas convirtiendo con el blue
+del día.
+
+- Guarda **una entrada por día** en un historial corto (12 valores) y muestra
+  cuánto subió o bajó respecto de la vez anterior, comparando en dólares para
+  que la inflación no ensucie la comparación.
+- Si el dato tiene más de 30 días lo marca en naranja, como recordatorio de
+  pedir la lista actualizada.
+- Se guarda solo, igual que los precios, y entra en la copia de seguridad.
+
 ## Precios: importante
 
 Los valores que vienen de fábrica en `js/precios-base.js` son **de referencia**,

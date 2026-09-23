@@ -105,6 +105,16 @@ window.PRECIOS_BASE = {
     { id: 'zocalo',       nombre: 'Zócalo inyectado',           modo: 'unidad', precio:  45000 }
   ],
 
+  /* El kilo de aluminio extruido no lo publica ninguna API: lo pasa el
+     proveedor. Se carga a mano y la app lo convierte con el blue del día. */
+  aluminio: {
+    precio: 0,
+    moneda: 'usd',       // 'usd' o 'ars': la moneda en la que te lo pasan
+    actualizado: '',
+    blue: 0,             // venta del blue al momento de cargarlo
+    historial: []        // [{ precio, moneda, blue, fecha }], para ver cuánto subió
+  },
+
   generales: {
     minM2Global: 0.50,        // piso de m² facturables si la tipología no define uno
     colocacionModo: 'porcentaje', // 'porcentaje' | 'm2' | 'monto' | 'sin'
