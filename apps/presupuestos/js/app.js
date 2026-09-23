@@ -29,6 +29,15 @@
   function clonar(x) { return JSON.parse(JSON.stringify(x)); }
   function idUnico(p) { return p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
 
+  /** Inserta al final de su grupo: si fuera al final de todo, el grupo saldría repetido. */
+  function insertarEnGrupo(lista, fila, campoGrupo) {
+    var grupo = fila[campoGrupo];
+    var ultima = -1;
+    lista.forEach(function (x, i) { if (x[campoGrupo] === grupo) ultima = i; });
+    lista.splice(ultima + 1, 0, fila);
+    return fila;
+  }
+
   /** Precios con los que se calcula el presupuesto abierto. */
   function preciosDelPresupuesto() { return (actual && actual.precios) || precios; }
 
@@ -173,7 +182,10 @@
 
   function abrirSelectorTipo(itemId) {
     itemAlQueCambiarTipo = itemId || null;
-    var p = preciosDelPresupuesto();
+    // El presupuesto guarda los precios con los que se calculó, pero el
+    // catálogo de aberturas que se ofrece es el de hoy: si se agregó una
+    // tipología nueva, tiene que poder elegirse igual.
+    var p = precios;
     var item = itemId ? itemPorId(itemId) : null;
 
     $('modal-titulo').textContent = item ? '¿Por cuál la cambiamos?' : '¿Qué abertura querés agregar?';
@@ -207,6 +219,14 @@
   function elegirTipo(tipoId) {
     var p = preciosDelPresupuesto();
     var tip = C.buscar(p.tipologias, tipoId);
+
+    // Tipología agregada después de empezar el presupuesto: no tiene precio
+    // viejo que conservar, así que entra con el de hoy.
+    if (!tip) {
+      var deHoy = C.buscar(precios.tipologias, tipoId);
+      if (!deHoy) return cerrarSelectorTipo();
+      tip = insertarEnGrupo(p.tipologias, clonar(deHoy), 'grupo');
+    }
 
     if (itemAlQueCambiarTipo) {
       var item = itemPorId(itemAlQueCambiarTipo);
@@ -514,8 +534,16 @@
       var filas = '', grupoActual = null;
       lista.forEach(function (x, i) {
         if (opts.agrupar && x[opts.agrupar] !== grupoActual) {
-          grupoActual = x[opts.agrupar];
-          filas += '<tr class="grupo"><td colspan="' + (columnas.length + 1) + '">' + F.escapar(grupoActual || 'Otros') + '</td></tr>';
+          grupoActual = x[opts.agrupar] || 'Otros';
+          // El grupo se dice una sola vez, arriba, y trae su propio botón:
+          // así no hace falta repetirlo como columna en cada fila.
+          filas += '<tr class="grupo"><td colspan="' + (columnas.length + 1) + '">' +
+            '<div class="grupo__fila">' +
+              '<span>' + F.escapar(grupoActual) + '</span>' +
+              '<button class="btn btn--fantasma btn--sm" data-accion="agregar" data-grupo="' +
+                F.escapar(grupoActual) + '">+ Agregar</button>' +
+            '</div>' +
+          '</td></tr>';
         }
         filas += '<tr data-indice="' + i + '">' +
           columnas.map(function (c) {
@@ -528,7 +556,7 @@
       cont.innerHTML = '<table class="tabla-precios"><thead><tr>' +
         columnas.map(function (c) { return '<th class="' + (c.clase || '') + '">' + F.escapar(c.etiqueta) + '</th>'; }).join('') +
         '<th></th></tr></thead><tbody>' + filas + '</tbody></table>' +
-        '<p><button class="btn btn--fantasma btn--sm" data-accion="agregar">+ Agregar fila</button></p>';
+        (opts.agrupar ? '' : '<p><button class="btn btn--fantasma btn--sm" data-accion="agregar">+ Agregar fila</button></p>');
     }
 
     cont.addEventListener('input', function (ev) {
@@ -548,7 +576,14 @@
       var boton = ev.target.closest('button');
       if (!boton) return;
       if (boton.dataset.accion === 'agregar') {
-        lista.push(Object.assign({ id: idUnico(opts.prefijo || 'x_') }, opts.nuevo || {}));
+        var fila = Object.assign({ id: idUnico(opts.prefijo || 'x_') }, opts.nuevo || {});
+        var grupo = boton.dataset.grupo;
+        if (opts.agrupar && grupo) {
+          fila[opts.agrupar] = grupo;
+          insertarEnGrupo(lista, fila, opts.agrupar);
+        } else {
+          lista.push(fila);
+        }
         guardarPrecios(); pintar();
       } else if (boton.dataset.accion === 'borrar') {
         var i = Number(boton.closest('tr').dataset.indice);
@@ -571,32 +606,31 @@
     $('gen-plazo').value = precios.generales.plazoEntrega || '';
 
     tablaEditable('tabla-lineas', precios.lineas, [
-      { campo: 'nombre', etiqueta: 'Línea' },
+      { campo: 'nombre', etiqueta: 'Línea', clase: 'col-nombre' },
       { campo: 'ayuda', etiqueta: 'Descripción' },
       { campo: 'factor', etiqueta: 'Multiplicador', tipo: 'numero', paso: 0.01, clase: 'col-min' }
     ], { prefijo: 'ln_', nuevo: { nombre: 'Línea nueva', factor: 1 } });
 
     tablaEditable('tabla-tipologias', precios.tipologias, [
-      { campo: 'grupo', etiqueta: 'Grupo', clase: 'col-min' },
-      { campo: 'nombre', etiqueta: 'Abertura' },
+      { campo: 'nombre', etiqueta: 'Abertura', clase: 'col-nombre' },
       { campo: 'precioM2', etiqueta: '$ / m²', tipo: 'numero', paso: 1000, clase: 'col-num' },
       { campo: 'minM2', etiqueta: 'm² mínimos', tipo: 'numero', paso: 0.05, clase: 'col-min' },
       { campo: 'sinVidrio', etiqueta: 'Sin vidrio', tipo: 'check', clase: 'col-min' }
     ], { agrupar: 'grupo', prefijo: 'tp_', nuevo: { grupo: 'Otros', nombre: 'Abertura nueva', precioM2: 0, minM2: 0.5 } });
 
     tablaEditable('tabla-vidrios', precios.vidrios, [
-      { campo: 'nombre', etiqueta: 'Vidrio' },
+      { campo: 'nombre', etiqueta: 'Vidrio', clase: 'col-nombre' },
       { campo: 'ayuda', etiqueta: 'Descripción' },
       { campo: 'precioM2', etiqueta: '$ / m²', tipo: 'numero', paso: 1000, clase: 'col-num' }
     ], { prefijo: 'vd_', nuevo: { nombre: 'Vidrio nuevo', precioM2: 0 } });
 
     tablaEditable('tabla-colores', precios.colores, [
-      { campo: 'nombre', etiqueta: 'Color / terminación' },
+      { campo: 'nombre', etiqueta: 'Color / terminación', clase: 'col-nombre' },
       { campo: 'recargo', etiqueta: 'Recargo (%)', tipo: 'porcentaje', clase: 'col-min' }
     ], { prefijo: 'cl_', nuevo: { nombre: 'Color nuevo', recargo: 0 } });
 
     tablaEditable('tabla-adicionales', precios.adicionales, [
-      { campo: 'nombre', etiqueta: 'Adicional' },
+      { campo: 'nombre', etiqueta: 'Adicional', clase: 'col-nombre' },
       { campo: 'modo', etiqueta: 'Se cobra', tipo: 'select', clase: 'col-min', opciones: [
         { valor: 'm2', texto: 'Por m²' }, { valor: 'ml', texto: 'Por metro lineal' }, { valor: 'unidad', texto: 'Por unidad' }
       ] },
