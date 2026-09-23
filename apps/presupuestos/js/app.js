@@ -40,6 +40,16 @@
     setTimeout(function () { nodo.remove(); }, tipo === 'error' ? 5000 : 2600);
   }
 
+  /** Muestra un "Guardado ✓" que se apaga solo: la app guarda sin botón. */
+  var relojesGuardado = {};
+  function marcarGuardado(id) {
+    var nodo = $(id);
+    if (!nodo) return;
+    nodo.hidden = false;
+    clearTimeout(relojesGuardado[id]);
+    relojesGuardado[id] = setTimeout(function () { nodo.hidden = true; }, 2500);
+  }
+
   /** Mete el dibujo correspondiente dentro de cada botón marcado con data-icono. */
   function ponerIconos(raiz) {
     (raiz || document).querySelectorAll('[data-icono]').forEach(function (nodo) {
@@ -143,6 +153,7 @@
     A.guardar(actual);
     hayCambios = false;
     $('numero-presupuesto').textContent = actual.numero;
+    marcarGuardado('presupuesto-guardado');
     renderHistorial();
     if (!silencioso) avisar('Presupuesto ' + actual.numero + ' guardado');
   }
@@ -391,6 +402,12 @@
       fila('Saldo contra entrega', F.moneda(r.saldo), 'totales__fila--tenue');
     }
 
+    var dolar = window.Dolar.guardado();
+    if (dolar && dolar.venta > 0 && r.total > 0) {
+      fila('En dólares (blue ' + F.moneda(dolar.venta) + ')',
+           'US$ ' + F.numero(Math.round(r.total / dolar.venta), 0), 'totales__fila--tenue');
+    }
+
     if (p.revision !== precios.revision) {
       filas.push('<div class="totales__fila totales__fila--tenue"><span>Calculado con los precios del ' + F.fechaCorta(p.actualizado) + '</span>' +
         '<span><button class="btn btn--fantasma btn--sm" id="btn-actualizar-precios-pres">Actualizar</button></span></div>');
@@ -463,6 +480,7 @@
     precios.revision = (precios.revision || 0) + 1;
     A.guardarPrecios(precios);
     $('precios-actualizado').textContent = F.fechaCorta(precios.actualizado);
+    marcarGuardado('precios-guardado');
   }
 
   /**
@@ -500,7 +518,9 @@
           filas += '<tr class="grupo"><td colspan="' + (columnas.length + 1) + '">' + F.escapar(grupoActual || 'Otros') + '</td></tr>';
         }
         filas += '<tr data-indice="' + i + '">' +
-          columnas.map(function (c) { return '<td class="' + (c.clase || '') + '">' + celda(x, c) + '</td>'; }).join('') +
+          columnas.map(function (c) {
+            return '<td class="' + (c.clase || '') + '" data-rotulo="' + F.escapar(c.etiqueta) + '">' + celda(x, c) + '</td>';
+          }).join('') +
           '<td class="alineado-der"><button class="btn btn--fantasma btn--sm btn--peligro" data-accion="borrar">Borrar</button></td>' +
         '</tr>';
       });
@@ -579,6 +599,51 @@
       ] },
       { campo: 'precio', etiqueta: 'Precio', tipo: 'numero', paso: 1000, clase: 'col-num' }
     ], { prefijo: 'ad_', nuevo: { nombre: 'Adicional nuevo', modo: 'unidad', precio: 0 } });
+  }
+
+  /* ════════ Dólar blue ════════ */
+
+  function pintarDolar(valor, estado) {
+    var cont = $('dolar');
+    if (estado === 'cargando' && !valor) {
+      cont.innerHTML = '<p class="dolar__pie">Consultando la cotización…</p>';
+      return;
+    }
+    if (!valor) {
+      cont.innerHTML = '<p class="dolar__pie dolar__pie--viejo">No se pudo consultar la cotización. ' +
+        'Probá de nuevo cuando tengas señal.</p>';
+      return;
+    }
+
+    // Un valor de otro día se marca, para no tomar por bueno el de ayer.
+    var consultado = new Date(valor.consultado);
+    var delDia = (Date.now() - consultado.getTime()) < 12 * 60 * 60 * 1000;
+
+    cont.innerHTML =
+      '<div class="dolar">' +
+        '<span class="dolar__dato"><span>Compra</span><strong>' + F.moneda(valor.compra) + '</strong></span>' +
+        '<span class="dolar__dato"><span>Venta</span><strong>' + F.moneda(valor.venta) + '</strong></span>' +
+        '<p class="dolar__pie' + (delDia ? '' : ' dolar__pie--viejo') + '">' +
+          (estado === 'sin-conexion' ? 'Sin conexión, último valor guardado: ' : 'Actualizado ') +
+          F.escapar(F.fechaHoraRelativa(valor.consultado)) +
+          ' · fuente ' + F.escapar(valor.fuente || '') +
+        '</p>' +
+      '</div>';
+  }
+
+  function cargarDolar(aPedido) {
+    var previo = window.Dolar.guardado();
+    pintarDolar(previo, previo ? null : 'cargando');
+    return window.Dolar.actualizar()
+      .then(function (valor) {
+        pintarDolar(valor);
+        renderTotales();
+        if (aPedido) avisar('Cotización actualizada');
+      })
+      .catch(function () {
+        pintarDolar(previo, 'sin-conexion');
+        if (aPedido) avisar('No se pudo consultar la cotización.', 'error');
+      });
   }
 
   /* ════════ Vistas ════════ */
@@ -815,6 +880,8 @@
       avisar('Precios actualizados ' + (pct > 0 ? '+' : '') + pct + ' %');
     });
 
+    $('btn-dolar').addEventListener('click', function () { cargarDolar(true); });
+
     $('btn-restaurar-precios').addEventListener('click', function () {
       if (!confirm('¿Volver a los precios originales? Se pierden los valores que cargaste.')) return;
       precios = A.restaurarPrecios();
@@ -902,6 +969,7 @@
     configurarInstalacion();
     renderPrecios();
     renderHistorial();
+    cargarDolar(false);
     var ultimos = A.listar();
     abrir(ultimos.length && ultimos[0].estado === 'borrador' ? ultimos[0] : presupuestoNuevo());
     conectarEventos();

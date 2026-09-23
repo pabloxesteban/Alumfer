@@ -9,7 +9,7 @@
    celular sigue mostrando la copia vieja.
    ============================================================ */
 
-var VERSION = 'alumfer-presupuestos-v1';
+var VERSION = 'alumfer-presupuestos-v2';
 
 var ARCHIVOS = [
   './',
@@ -23,6 +23,7 @@ var ARCHIVOS = [
   'icono-192.png',
   'icono-512.png',
   'js/formato.js',
+  'js/dolar.js',
   'js/iconos.js',
   'js/precios-base.js',
   'js/calculo.js',
@@ -51,6 +52,14 @@ self.addEventListener('activate', function (ev) {
 
 self.addEventListener('fetch', function (ev) {
   if (ev.request.method !== 'GET') return;
+
+  var url = new URL(ev.request.url);
+  var propio = url.origin === self.location.origin;
+  var esTipografia = /(^|\.)(googleapis|gstatic)\.com$/.test(url.hostname);
+
+  // La cotización del dólar tiene que salir siempre a la red: si se guardara,
+  // el celular mostraría el valor de ayer creyendo que es el de hoy.
+  if (!propio && !esTipografia) return;
 
   ev.respondWith(
     caches.match(ev.request).then(function (guardado) {

@@ -77,6 +77,23 @@ window.Formato = (function () {
     return fechaISO(f);
   }
 
+  /** "hoy 17:59", "ayer 20:10" o "18/09 a las 11:30" según cuán viejo sea. */
+  function fechaHoraRelativa(iso) {
+    if (!iso) return '';
+    var f = new Date(iso);
+    if (isNaN(f)) return '';
+    var dosDigitos = function (n) { return String(n).padStart(2, '0'); };
+    var hora = dosDigitos(f.getHours()) + ':' + dosDigitos(f.getMinutes());
+    var hoy = new Date();
+    var mismoDia = function (a, b) {
+      return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+    };
+    if (mismoDia(f, hoy)) return 'hoy ' + hora;
+    var ayer = new Date(hoy); ayer.setDate(ayer.getDate() - 1);
+    if (mismoDia(f, ayer)) return 'ayer ' + hora;
+    return dosDigitos(f.getDate()) + '/' + dosDigitos(f.getMonth() + 1) + ' a las ' + hora;
+  }
+
   /** Deja solo dígitos y antepone 54 si el número parece argentino sin prefijo. */
   function telefonoWhatsapp(tel) {
     var d = String(tel || '').replace(/\D/g, '');
@@ -95,7 +112,7 @@ window.Formato = (function () {
 
   return {
     moneda: moneda, numero: numero, aNumero: aNumero, medidas: medidas, medidasMetros: medidasMetros,
-    fechaISO: fechaISO, fechaLarga: fechaLarga, fechaCorta: fechaCorta,
+    fechaISO: fechaISO, fechaLarga: fechaLarga, fechaCorta: fechaCorta, fechaHoraRelativa: fechaHoraRelativa,
     sumarDias: sumarDias, telefonoWhatsapp: telefonoWhatsapp, escapar: escapar
   };
 })();

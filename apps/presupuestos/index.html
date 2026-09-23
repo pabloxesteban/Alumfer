@@ -62,7 +62,10 @@
     <section class="tarjeta">
       <header class="tarjeta__header">
         <h2><span class="paso">1</span> ¿Para quién es?</h2>
-        <span class="etiqueta-numero" id="numero-presupuesto">—</span>
+        <span class="tarjeta__header-acciones">
+          <span class="guardado" id="presupuesto-guardado" hidden>Guardado</span>
+          <span class="etiqueta-numero" id="numero-presupuesto">—</span>
+        </span>
       </header>
 
       <div class="grilla-campos">
@@ -215,10 +218,24 @@
 
   <!-- ════════ PRECIOS ════════ -->
   <section class="vista" id="vista-precios" hidden>
+
+    <section class="tarjeta tarjeta--dolar">
+      <header class="tarjeta__header">
+        <h2>Dólar blue</h2>
+        <button class="btn btn--fantasma btn--sm" id="btn-dolar">Actualizar</button>
+      </header>
+      <div id="dolar"></div>
+    </section>
+
+    <p class="nota-guardado">
+      Los cambios de precios se guardan solos: no hay botón de guardar.
+    </p>
+
     <section class="tarjeta">
       <header class="tarjeta__header">
         <h2>Aumentar todos los precios</h2>
-        <span class="apunte">Última actualización: <strong id="precios-actualizado">—</strong></span>
+        <span class="apunte">Última actualización: <strong id="precios-actualizado">—</strong>
+          <span class="guardado" id="precios-guardado" hidden>Guardado</span></span>
       </header>
       <div class="actualizacion">
         <label class="campo campo--chico">
@@ -326,6 +343,7 @@
 </script>
 
 <script src="js/formato.js"></script>
+<script src="js/dolar.js"></script>
 <script src="js/iconos.js"></script>
 <script src="js/precios-base.js"></script>
 <script src="js/calculo.js"></script>

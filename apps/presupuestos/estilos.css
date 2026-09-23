@@ -316,6 +316,30 @@ textarea { resize: vertical; min-height: 4rem; }
 .checks label { display: inline-flex; align-items: center; gap: var(--space-2); cursor: pointer; }
 .checks input { width: 1.4rem; height: 1.4rem; accent-color: var(--blue); }
 
+/* ─── Dólar blue ─────────────────────────────────────────── */
+.dolar { display: flex; align-items: baseline; gap: var(--space-8); flex-wrap: wrap; }
+.dolar__dato { display: flex; flex-direction: column; gap: var(--space-1); }
+.dolar__dato span { font-size: var(--text-sm); color: var(--text-secondary); }
+.dolar__dato strong {
+  font-family: 'Montserrat', var(--font); font-size: var(--text-2xl);
+  font-variant-numeric: tabular-nums; line-height: 1;
+}
+.dolar__pie { flex-basis: 100%; font-size: var(--text-sm); color: var(--text-secondary); margin: 0; }
+.dolar__pie--viejo { color: #8a6000; }
+
+.nota-guardado {
+  margin: calc(var(--space-2) * -1) 0 0; padding: 0 var(--space-2);
+  font-size: var(--text-sm); color: var(--text-secondary);
+}
+
+.guardado {
+  display: inline-flex; align-items: center; gap: var(--space-1);
+  font-size: var(--text-sm); color: #1d6b38; background: #e3f6e9;
+  border: 1px solid #b6e2c5; border-radius: 999px; padding: var(--space-1) var(--space-3);
+  animation: aparecer var(--dur-standard) var(--ease);
+}
+.guardado::before { content: '✓'; font-weight: 700; }
+
 /* ─── Instalar en el celular ─────────────────────────────── */
 .instalar {
   display: flex; align-items: center; justify-content: center; gap: var(--space-4);
@@ -374,5 +398,22 @@ textarea { resize: vertical; min-height: 4rem; }
   .barra-total .btn { flex: 1; }
   .historial-fila__acciones { width: 100%; }
   .historial-fila__acciones .btn { flex: 1; }
-  .tabla-precios { display: block; overflow-x: auto; white-space: nowrap; }
+  /* Las tablas de precios no entran en un teléfono: cada fila pasa a ser
+     una ficha, con el nombre de la columna arriba de cada dato. */
+  .tabla-precios, .tabla-precios tbody, .tabla-precios tr, .tabla-precios td { display: block; width: 100%; }
+  .tabla-precios thead { display: none; }
+  .tabla-precios tr {
+    border: 1.5px solid var(--border-light); border-radius: var(--radius-sm);
+    padding: var(--space-4); margin-bottom: var(--space-3); background: #fff;
+  }
+  .tabla-precios td { border: 0; padding: 0 0 var(--space-3); }
+  .tabla-precios td:last-child { padding-bottom: 0; text-align: left; }
+  .tabla-precios td::before {
+    content: attr(data-rotulo); display: block;
+    font-size: var(--text-sm); color: var(--text-secondary); font-weight: 500; margin-bottom: var(--space-2);
+  }
+  .tabla-precios td:not([data-rotulo])::before { content: none; }
+  .tabla-precios .col-num, .tabla-precios .col-min { width: auto; }
+  .tabla-precios tr.grupo { padding: var(--space-2) var(--space-3); margin-top: var(--space-5); border: 0; }
+  .tabla-precios tr.grupo td { padding: 0; }
 }

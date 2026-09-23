@@ -102,11 +102,32 @@ Al total se le aplican, en este orden: descuento general, colocación
 
 ---
 
+## El dólar blue
+
+Arriba de la pestaña **Precios** se muestra la cotización del blue (compra y
+venta), que es la referencia real para mover los precios del aluminio. Se
+consulta a [dolarapi.com](https://dolarapi.com) y, si no responde, a
+[bluelytics.com.ar](https://bluelytics.com.ar). Las dos son gratis y no
+necesitan clave.
+
+El último valor queda guardado en el teléfono: sin señal se muestra ese,
+aclarando de cuándo es y marcándolo en naranja si ya pasaron más de 12 horas.
+El service worker **no** cachea esta consulta, justamente para que no se
+muestre el valor de ayer como si fuera el de hoy.
+
+En el total del presupuesto aparece también el equivalente en dólares, en letra
+chica. **Eso es solo para la pantalla**: no sale ni en el PDF ni en el WhatsApp
+que recibe el cliente.
+
 ## Precios: importante
 
 Los valores que vienen de fábrica en `js/precios-base.js` son **de referencia**,
 no los de Alumfer. Antes de usar la app en serio hay que recorrer la pestaña
 **Precios** y poner los propios.
+
+**No hay botón de guardar: los precios se guardan solos** a medida que se
+escriben. Cada cambio muestra un cartelito verde *Guardado ✓* al lado de la
+fecha de actualización. Lo mismo pasa con el presupuesto que se está armando.
 
 Para un aumento general: *Precios → Aumentar todos los precios*, poner el
 porcentaje, elegir qué tablas alcanza y aplicar.
@@ -145,6 +166,7 @@ apps/presupuestos/
 └── js/
     ├── precios-base.js   Lista de precios de fábrica (semilla editable)
     ├── iconos.js         Dibujo de cada tipo de abertura y de la interfaz
+    ├── dolar.js          Cotización del blue, con fuente de respaldo
     ├── formato.js        Moneda, fechas, teléfonos, parsing de números
     ├── calculo.js        Motor de cálculo (funciones puras, sin DOM)
     ├── almacenamiento.js localStorage, numeración e import/export
