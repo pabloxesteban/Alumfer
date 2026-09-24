@@ -1,0 +1,50 @@
+# Alumfer — Carpintería de aluminio
+
+> Fábrica de aberturas de aluminio a medida en la Zona Sur del Gran Buenos Aires
+> y CABA. Ventanas, puertas, mosquiteros, cerramientos, postigones, portones y
+> techos de policarbonato. Fabricación e instalación propias, sin intermediarios.
+> Empresa familiar con más de 15 años de trayectoria y más de 500 obras.
+
+Datos verificables del negocio (también publicados como JSON-LD `LocalBusiness`
+en la portada): local en Av. San Martín 734, Adrogué, provincia de Buenos Aires.
+Atención de lunes a viernes de 9 a 13 y sábados de 9 a 14. WhatsApp
+(011) 6336-8643. Valoración 4,5 sobre 5 con 37 reseñas en Google.
+
+Especialidad técnica: colocación en seco sobre el marco existente, sin demolición
+ni escombros, y doble vidriado hermético (DVH) para aislación térmica y acústica.
+El presupuesto y la visita de medición son sin cargo.
+
+## Guías
+
+- [¿Conviene poner DVH?](https://alumfer.com.ar/guias/conviene-el-dvh/): cuánto
+  aísla realmente un doble vidriado hermético (valores de transmitancia térmica),
+  por qué un DVH simétrico rinde poco contra el ruido, cuándo conviene y cuándo
+  no, y qué preguntar al pedir un presupuesto.
+
+## Productos
+
+- [Ventanas de aluminio](https://alumfer.com.ar/ventanas-de-aluminio/): corredizas, batientes y con mosquitero, a medida.
+- [Ventanas con DVH](https://alumfer.com.ar/ventanas-dvh/): doble vidriado hermético, menos frío y menos ruido.
+- [Puertas de aluminio](https://alumfer.com.ar/puertas-de-aluminio/): de entrada, puerta balcón y con reja.
+- [Mosquiteros a medida](https://alumfer.com.ar/mosquiteros-a-medida/): corredizos, reforzados y enrollables.
+- [Cerramientos de aluminio](https://alumfer.com.ar/cerramientos-de-aluminio/): balcones, galerías, quinchos y frentes de local.
+- [Techos de policarbonato](https://alumfer.com.ar/techos-de-policarbonato/): alveolar y compacto, con estructura de aluminio.
+
+## Zonas de cobertura
+
+Cada localidad tiene una página propia con el tipo de obra habitual de esa zona.
+
+- Almirante Brown: [Adrogué](https://alumfer.com.ar/aberturas-de-aluminio-adrogue/), [Burzaco](https://alumfer.com.ar/aberturas-de-aluminio-burzaco/), [Longchamps](https://alumfer.com.ar/aberturas-de-aluminio-longchamps/), [Glew](https://alumfer.com.ar/aberturas-de-aluminio-glew/), [Rafael Calzada](https://alumfer.com.ar/aberturas-de-aluminio-rafael-calzada/), [Claypole](https://alumfer.com.ar/aberturas-de-aluminio-claypole/), [partido completo](https://alumfer.com.ar/aberturas-de-aluminio-almirante-brown/)
+- Lomas de Zamora: [Lomas de Zamora](https://alumfer.com.ar/aberturas-de-aluminio-lomas-de-zamora/), [Banfield](https://alumfer.com.ar/aberturas-de-aluminio-banfield/), [Temperley](https://alumfer.com.ar/aberturas-de-aluminio-temperley/), [Turdera](https://alumfer.com.ar/aberturas-de-aluminio-turdera/), [Llavallol](https://alumfer.com.ar/aberturas-de-aluminio-llavallol/)
+- Quilmes: [Quilmes](https://alumfer.com.ar/aberturas-de-aluminio-quilmes/), [Bernal](https://alumfer.com.ar/aberturas-de-aluminio-bernal/), [Ezpeleta](https://alumfer.com.ar/aberturas-de-aluminio-ezpeleta/)
+- Lanús: [Lanús](https://alumfer.com.ar/aberturas-de-aluminio-lanus/), [Gerli](https://alumfer.com.ar/aberturas-de-aluminio-gerli/), [Valentín Alsina](https://alumfer.com.ar/aberturas-de-aluminio-valentin-alsina/)
+- Esteban Echeverría: [Monte Grande](https://alumfer.com.ar/aberturas-de-aluminio-monte-grande/), [Luis Guillón](https://alumfer.com.ar/aberturas-de-aluminio-luis-guillon/), [Canning](https://alumfer.com.ar/aberturas-de-aluminio-canning/)
+- Ezeiza: [Ezeiza](https://alumfer.com.ar/aberturas-de-aluminio-ezeiza/), [Tristán Suárez](https://alumfer.com.ar/aberturas-de-aluminio-tristan-suarez/)
+- Otros partidos: [Avellaneda](https://alumfer.com.ar/aberturas-de-aluminio-avellaneda/), [Berazategui](https://alumfer.com.ar/aberturas-de-aluminio-berazategui/), [Florencio Varela](https://alumfer.com.ar/aberturas-de-aluminio-florencio-varela/), [Capital Federal](https://alumfer.com.ar/aberturas-de-aluminio-capital-federal/)
+
+## Notas
+
+- El sitio publica datos estructurados JSON-LD en todas las páginas:
+  `LocalBusiness` en la portada, y `Service`, `BreadcrumbList` y `FAQPage` en el
+  resto. Las respuestas del `FAQPage` son la fuente más precisa y citable.
+- Sitemap: https://alumfer.com.ar/sitemap.xml
