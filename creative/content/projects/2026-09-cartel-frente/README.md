@@ -31,7 +31,7 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 | **Para la imprenta (imagen)** | `export/IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL_72dpi.png` — 15591 × 3685 px = 550 × 130 cm a 72 dpi |
 | Para ver / compartir | `Alumfer_cartel_5400x1200.png`, `Alumfer_cartel_10800x2400_alta.png` (sin sangrado) |
 | Volumen | Degradé vertical sutil en el fondo de la marca, filo fino (sombra + luz) en el borde del panel metálico, filo de luz sobre la franja de contacto (sin sombras en los textos). Todo vectorial |
-| Texto | Todo el texto en blanco puro `#FFFFFF`, salvo "Colocación en seco" (azul del isologo) y la "/" entre teléfonos (gris separador) |
+| Texto | Todo el texto en blanco puro `#FFFFFF`, salvo "Colocación en seco" (azul claro de la marca) y la "/" entre teléfonos (gris separador) |
 | Colores | Oscuro `#121518` (marca), **metalizado** gris cepillado en la columna de Trabajos a medida (como el cartel original; hecho con franjas vectoriales), grafito `#1e2227` (franja de contacto). Azul `#2f7fd6` (isologo) / `#3d8be0` (filetes), blanco |
 | Tipografía | Montserrat (marca, lista, líneas, web) + **Barlow Condensed** para todo lo que resalta (SOMOS FABRICANTES, TRABAJOS A MEDIDA, frase de colocación, teléfonos, web e Instagram). Todas en `assets/`, licencia OFL |
 
@@ -67,7 +67,7 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 - **Carpintería de aluminio · ALUMFER** (isologo redibujado en vector: `assets/isologo.svg`)
 - **"Somos fabricantes"**
 - Herrero – Rotonda – Modena 1 y 2 – A-30 New
-- **COLOCACIÓN EN SECO – SIN ROMPER NI ENSUCIAR** (Barlow Condensed en mayúsculas, bajo Trabajos a medida; "Colocación en seco" con el azul del isologo `#2f7fd6`)
+- **COLOCACIÓN EN SECO – SIN ROMPER NI ENSUCIAR** (Barlow Condensed en mayúsculas, bajo Trabajos a medida; "Colocación en seco" en el azul claro de la marca `#4A9DE8`, que se lee mejor sobre el metal)
 - **Trabajos a medida:** ventanas y puertas, portones, postigones, mamparas para baño,
   mosquiteros, frentes de negocio, jardín de invierno, laminados y D.V.H.
   (sin divisores de oficina ni frentes de placard, para dar lugar a letra más grande)
