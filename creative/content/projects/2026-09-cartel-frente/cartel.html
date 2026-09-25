@@ -43,9 +43,8 @@ html,body{background:#777}
 /* ============ DERECHA: trabajos a medida ============ */
 .right{flex:1;position:relative;isolation:isolate;display:flex;flex-direction:column;justify-content:center;padding:0 58px}
 .right h2{font-family:C;font-weight:600;font-size:57px;letter-spacing:3.5px;text-transform:uppercase;line-height:.9;white-space:nowrap;text-align:center;padding-left:3.5px;text-shadow:0 3px 0 rgba(0,0,0,.35)}
-/* frase de colocación: placa oscura semitransparente sobre el metal */
-.right .seco{align-self:center;margin:9px 0 13px;padding:6px 26px 7px;border-radius:40px;background:rgba(10,12,15,.62);
-  border:1.5px solid rgba(255,255,255,.16);font-weight:500;font-style:italic;font-size:27px;white-space:nowrap}
+/* frase de colocación: franja oscura sutil sobre el metal, sin borde */
+.right .seco{align-self:center;margin:9px 0 13px;padding:6px 24px 7px;background:rgba(10,12,15,.34);font-weight:500;font-style:italic;font-size:27px;white-space:nowrap}
 .right .seco b{font-weight:600;color:#8cc3f8}
 .prod{display:grid;grid-template-columns:auto auto;justify-content:space-between;row-gap:5px}
 .prod div{display:flex;align-items:center;gap:13px;font-weight:500;font-size:29px;line-height:1;white-space:nowrap;text-shadow:0 2px 0 rgba(0,0,0,.4)}
@@ -54,8 +53,8 @@ html,body{background:#777}
 .left .shade{position:absolute;z-index:-1;left:calc(var(--bleed) * -1);top:calc(var(--bleed) * -1);width:calc(100% + var(--bleed));height:calc(100% + var(--bleed))}
 /* canto del perfil metálico: filo de sombra + filo de luz */
 .right::before,.right::after{content:"";position:absolute;top:calc(var(--bleed) * -1);bottom:0}
-.right::before{left:0;width:6px;background:#0b0d10}
-.right::after{left:6px;width:2px;background:rgba(255,255,255,.38)}
+.right::before{left:0;width:2px;background:rgba(0,0,0,.55)}
+.right::after{left:2px;width:1px;background:rgba(255,255,255,.22)}
 .right .metal{position:absolute;z-index:-1;left:0;top:calc(var(--bleed) * -1);right:calc(var(--bleed) * -1);bottom:0;width:calc(100% + var(--bleed));height:calc(100% + var(--bleed))}
 
 /* ============ FRANJA DE CONTACTO: todo el ancho ============ */
