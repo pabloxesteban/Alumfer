@@ -1,4 +1,5 @@
-// Exporta los dos carteles de la camioneta (2000 x 420 mm c/u), lado izquierdo y lado derecho (espejado):
+// Exporta el cartel de la camioneta (2000 x 420 mm). Se usa el MISMO diseño en los dos laterales (imprimir x2).
+// (cartel.html#derecho conserva la variante espejada por si en algún momento se quiere volver a usar)
 //   - PNG de vista 4000x840 (sin sangrado)
 //   - IMPRENTA: PDF vectorial a tamaño real con 30 mm de sangrado por lado (2060 x 480 mm),
 //     TrimBox (2000 x 420 mm) y BleedBox marcados
@@ -30,8 +31,8 @@ async function open(side, bleed, scale = 1, zoom = 1) {
   return page;
 }
 
-for (const side of ['izquierdo', 'derecho']) {
-  const tag = side === 'izquierdo' ? 'LADO_IZQUIERDO_conductor' : 'LADO_DERECHO_vereda';
+for (const side of ['izquierdo']) {
+  const tag = 'AMBOS_LADOS_x2';
 
   // vista
   let page = await open(side, 0, 2);
@@ -61,7 +62,7 @@ for (const side of ['izquierdo', 'derecho']) {
   p.setMediaBox(0, height - Ht, Wt, Ht);
   p.setBleedBox(0, height - Ht, Wt, Ht);
   p.setTrimBox(b, height - Ht + b, mm(W), mm(H));
-  doc.setTitle(`Alumfer - cartel camioneta ${side} 200 x 42 cm + 3 cm de sangrado (206 x 48 cm)`);
+  doc.setTitle('Alumfer - cartel camioneta (imprimir 2 iguales) 200 x 42 cm + 3 cm de sangrado (206 x 48 cm)');
   await writeFile(name, await doc.save());
 }
 await browser.close();
