@@ -87,6 +87,7 @@ assets/
 export/
   IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL.pdf        Para la imprenta (tamaño real, vectorial).
   IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL_72dpi.png  Lo mismo en imagen a 72 dpi.
+  Alumfer_cartel_FICHA_TECNICA.pdf           Ficha A4 con medidas, sangrado y archivo (para el email).
   Alumfer_cartel_5400x1200.png               Para ver / compartir (sin sangrado).
   Alumfer_cartel_10800x2400_alta.png         Ídem, más grande.
   mockup-frente.jpg      Simulación sobre la foto del local.
@@ -97,6 +98,7 @@ export/
 scripts/
   export.mjs             Regenera PNG y PDF, con y sin sangrado (npm i playwright-core pdf-lib sharp).
   gen-qr.mjs             Regenera el QR (npm i qrcode).
+  ficha.mjs              Regenera la ficha técnica desde ficha-tecnica.html.
 ```
 
 ## Cómo editar y exportar
