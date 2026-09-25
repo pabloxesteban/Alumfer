@@ -5,8 +5,8 @@ alrededor de 2015. Se mantiene **la misma estructura** (isologo azul y ALUMFER a
 izquierda; panel azul noche con "Trabajos a medida" a la derecha) con un lenguaje más
 sobrio y elegante, acorde a aberturas de primera línea, pensado para leerse de pasada:
 una sola tipografía (Montserrat) sin cursivas ni contornos, texto blanco sobre fondos
-lisos, espaciado normal entre letras, y el azul para el isologo y la franja de
-"Trabajos a medida". Se ponen al día los datos, con la información
+lisos, espaciado normal entre letras, y el azul como acento (isologo y filetes a los
+lados de "Somos fabricantes"). Teléfono y web van juntos abajo, como en el original. Se ponen al día los datos, con la información
 del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-carousel-n8sdfp`).
 
 ![Antes (arriba) y después (abajo)](export/antes-despues.jpg)
@@ -28,7 +28,7 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 | Medida | **5,40 × 1,20 m** (proporción 4,5 : 1). En el diseño, 1 px = 3 mm |
 | Para la imprenta | `export/Alumfer_cartel_vectorial_escala_1-10.pdf` (540 × 120 mm → **ampliar ×10**) |
 | PNG | `export/Alumfer_cartel_5400x1200.png` y `export/Alumfer_cartel_10800x2400_alta.png` (~50 DPI a tamaño real) |
-| Colores | Grafito `#1e2227`, azul noche `#152238`, azul `#1f6fcb` (franja) / `#2f7fd6` (isologo), blanco |
+| Colores | Grafito `#1e2227`, azul noche `#152238`, azul `#2f7fd6` (isologo) / `#3d8be0` (filetes), blanco |
 | Tipografía | Montserrat (incluida en `assets/`) |
 
 El PDF está a escala 1:10 (así se trabaja en gigantografía; los PDF no admiten
@@ -40,10 +40,10 @@ Si piden sangrado, extender los mismos fondos 3–5 cm por lado.
 | Texto | Altura | Se lee desde |
 |---|---|---|
 | ALUMFER | ~25 cm | ~50 m |
-| 11 6336-8643 (con logo de WhatsApp) | ~14 cm | ~40 m |
-| Trabajos a medida | ~12 cm | ~35 m |
-| SOMOS FABRICANTES | ~9 cm | ~30 m |
-| Líneas, lista de trabajos, Instagram y web | ~6–7 cm | ~20 m (vereda de enfrente) |
+| 11 6336-8643 (con logo de WhatsApp) | ~12 cm | ~35 m |
+| TRABAJOS A MEDIDA · SOMOS FABRICANTES | ~9 cm | ~30 m |
+| Líneas, web, Instagram | ~7 cm | ~22 m |
+| Lista de trabajos | ~6 cm | ~20 m (vereda de enfrente) |
 
 ## Contenido
 
