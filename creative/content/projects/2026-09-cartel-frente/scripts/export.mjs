@@ -1,14 +1,17 @@
 // Exporta el cartel (5,40 x 1,20 m):
 //   - PNG 5400x1200 y 10800x2400 (sin sangrado, para ver / mandar por WhatsApp)
-//   - PDF vectorial a escala 1:10 (540 x 120 mm), sin sangrado
-//   - IMPRENTA: PDF vectorial 1:10 con 5 cm de sangrado por lado (550 x 130 mm -> 5,50 x 1,30 m),
-//     con TrimBox/BleedBox marcando el corte, y PNG con sangrado 5500x1300
+//   - IMPRENTA, A TAMAÑO REAL (5,50 x 1,30 m = 5,40 x 1,20 m + 5 cm de sangrado por lado):
+//       * PDF vectorial. Como un PDF común no admite páginas de más de 5,08 m, se usa UserUnit = 10
+//         (norma PDF 1.6): la página mide 550 x 130 cm reales al abrirla en Acrobat / el RIP de la imprenta.
+//         TrimBox marca el corte (540 x 120 cm) y BleedBox el sangrado.
+//       * PNG 15591 x 3685 px = 550 x 130 cm a 72 dpi (resolución habitual para lona), con los dpi grabados.
 // Uso:  node scripts/export.mjs
 // Requiere:  npm i playwright-core pdf-lib sharp   (usa el Chromium de CHROMIUM, por defecto /opt/pw-browsers/chromium)
 import { chromium } from 'playwright-core';
 import { PDFDocument } from 'pdf-lib';
 import sharp from 'sharp';
-import { readFile, writeFile } from 'node:fs/promises';
+import { PDFName, PDFNumber } from 'pdf-lib';
+import { readFile, writeFile, unlink } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 
 const CHROMIUM = process.env.CHROMIUM || '/opt/pw-browsers/chromium';
@@ -37,12 +40,14 @@ for (const [scale, name] of [[3, 'Alumfer_cartel_5400x1200.png'], [6, 'Alumfer_c
   await page.locator('.sign').screenshot({ path: out(name) });
   await page.close();
 }
-// PNG con sangrado: 5500x1300 px (1 px = 1 mm a tamaño real). Se captura con 1 px de margen y se recorta exacto.
+// PNG a tamaño real con sangrado: 550 x 130 cm a 72 dpi = 15591 x 3685 px
 {
-  const page = await open(3, BLEED_PX);
+  const DPI = 72, WPX = Math.round(5500 / 25.4 * DPI), HPX = Math.round(1300 / 25.4 * DPI);
+  const page = await open(WPX / (1800 + 2 * BLEED_PX), BLEED_PX);
   const buf = await page.screenshot({ clip: { x: 0, y: 0, width: 1834, height: 434 } });
-  await sharp(buf).extract({ left: 0, top: 0, width: 5500, height: 1300 })
-    .toFile(out('IMPRENTA_Alumfer_cartel_con_sangrado_5500x1300.png'));
+  await sharp(buf, { limitInputPixels: false }).extract({ left: 0, top: 0, width: WPX, height: HPX })
+    .withMetadata({ density: DPI }).png({ compressionLevel: 9 })
+    .toFile(out('IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL_72dpi.png'));
   await page.close();
 }
 
@@ -57,8 +62,7 @@ async function pdf(bleedPx, name) {
   await page.close();
   return [wmm, hmm];
 }
-await pdf(0, 'Alumfer_cartel_vectorial_escala_1-10.pdf');
-const bleedName = 'IMPRENTA_Alumfer_cartel_con_sangrado_escala_1-10.pdf';
+const bleedName = '_tmp_escala_1-10.pdf';
 await pdf(BLEED_PX, bleedName);
 
 // Marcar corte (TrimBox) y sangrado (BleedBox) en el PDF de imprenta
@@ -71,8 +75,11 @@ const b = mm(BLEED_MM / 10), W = mm(540), H = mm(120);
 p.setMediaBox(0, height - (H + 2 * b), W + 2 * b, H + 2 * b);
 p.setBleedBox(0, height - (H + 2 * b), W + 2 * b, H + 2 * b);
 p.setTrimBox(b, height - (H + b), W, H);
-doc.setTitle('Alumfer - cartel frente 540x120 cm (escala 1:10) con 5 cm de sangrado');
-await writeFile(out(bleedName), await doc.save());
+// UserUnit 10: cada unidad vale 10/72 de pulgada -> la página de 55 x 13 cm pasa a medir 550 x 130 cm reales
+p.node.set(PDFName.of('UserUnit'), PDFNumber.of(10));
+doc.setTitle('Alumfer - cartel frente 540 x 120 cm + 5 cm de sangrado (550 x 130 cm, tamaño real)');
+await writeFile(out('IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL.pdf'), await doc.save());
+await unlink(out(bleedName));
 
 await browser.close();
 console.log('Exportado en export/');

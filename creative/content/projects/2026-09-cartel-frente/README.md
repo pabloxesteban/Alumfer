@@ -1,4 +1,4 @@
-# Cartel del frente — Alumfer (5400 × 1200)
+# Cartel del frente — Alumfer (540 × 120 cm)
 
 Actualización del cartel instalado en el frente (Av. San Martín 734, Adrogué), hecho
 alrededor de 2015. Se mantiene **la misma estructura** (isologo azul y ALUMFER a la
@@ -25,21 +25,26 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 
 | Dato | Valor |
 |---|---|
-| Medida final (corte) | **5,40 × 1,20 m** (proporción 4,5 : 1). En el diseño, 1 px = 3 mm |
-| Sangrado | **5 cm por lado** → tamaño total **5,50 × 1,30 m** |
-| **Para la imprenta** | `export/IMPRENTA_Alumfer_cartel_con_sangrado_escala_1-10.pdf` (550 × 130 mm → **ampliar ×10**) |
-| PNG con sangrado | `export/IMPRENTA_Alumfer_cartel_con_sangrado_5500x1300.png` (1 px = 1 cm a tamaño real) |
-| Sin sangrado (para ver) | `Alumfer_cartel_vectorial_escala_1-10.pdf`, `Alumfer_cartel_5400x1200.png`, `Alumfer_cartel_10800x2400_alta.png` |
+| Medida final (corte) | **540 × 120 cm** (5,40 × 1,20 m, lona). En el diseño, 1 px = 3 mm |
+| Sangrado | **5 cm por lado** → tamaño total **550 × 130 cm** |
+| **Para la imprenta (PDF)** | `export/IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL.pdf` — **a tamaño real**, 100 % vectorial |
+| **Para la imprenta (imagen)** | `export/IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL_72dpi.png` — 15591 × 3685 px = 550 × 130 cm a 72 dpi |
+| Para ver / compartir | `Alumfer_cartel_5400x1200.png`, `Alumfer_cartel_10800x2400_alta.png` (sin sangrado) |
 | Colores | Solo dos fondos: oscuro `#121518` (arriba) y grafito `#1e2227` (franja de contacto). Azul `#2f7fd6` (isologo) / `#3d8be0` (filetes), blanco |
 | Tipografía | Montserrat (incluida en `assets/`) |
 
 ### Qué decirle a la imprenta
 
-> "Es un cartel de **5,40 × 1,20 m** terminado. El PDF está a **escala 1:10**, hay que
-> ampliarlo ×10. Tiene **5 cm de sangrado por lado** (tamaño total 5,50 × 1,30 m);
-> la línea de corte está marcada en el PDF (TrimBox). Es 100 % vectorial."
+> "Es una lona de **540 × 120 cm** terminada. Les paso el PDF **a tamaño real con 5 cm de
+> sangrado por lado** (550 × 130 cm); la línea de corte está marcada en el PDF (TrimBox).
+> Es vectorial. También está la imagen a tamaño real a 72 dpi por si la prefieren."
 
-- Los PDF no admiten páginas de más de 5 m, por eso va a escala (así se trabaja en gigantografía).
+- Un PDF común no admite páginas de más de 5,08 m; por eso el PDF usa `UserUnit = 10`
+  (norma PDF 1.6/1.7): al abrirlo en Acrobat o en el RIP de la imprenta mide 550 × 130 cm reales.
+  Si algún programa viejo lo mostrara a 55 × 13 cm, es el mismo archivo a escala 1:10: se imprime ×10,
+  o se usa el PNG, que no tiene ese límite.
+- 72 dpi a tamaño real es la resolución habitual para lona vista de lejos. Si piden más, se sube `DPI`
+  en `scripts/export.mjs` (con el PDF vectorial la imprenta puede rasterizar a la resolución que quiera).
 - En el sangrado solo hay fondo liso (oscuro arriba, grafito en la franja de abajo): ningún texto
   queda cerca del corte. Si para tensar la lona en el bastidor piden más de 5 cm, se cambia
   `BLEED_MM` en `scripts/export.mjs` y se vuelve a exportar.
@@ -76,11 +81,10 @@ assets/
   qr.svg                 QR de WhatsApp (para vidriera / puerta).
   Montserrat.ttf
 export/
-  IMPRENTA_Alumfer_cartel_con_sangrado_escala_1-10.pdf   Para la imprenta (ampliar x10).
-  IMPRENTA_Alumfer_cartel_con_sangrado_5500x1300.png     Lo mismo en imagen.
-  Alumfer_cartel_vectorial_escala_1-10.pdf   Sin sangrado.
-  Alumfer_cartel_5400x1200.png               Sin sangrado.
-  Alumfer_cartel_10800x2400_alta.png         Sin sangrado, alta.
+  IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL.pdf        Para la imprenta (tamaño real, vectorial).
+  IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL_72dpi.png  Lo mismo en imagen a 72 dpi.
+  Alumfer_cartel_5400x1200.png               Para ver / compartir (sin sangrado).
+  Alumfer_cartel_10800x2400_alta.png         Ídem, más grande.
   mockup-frente.jpg      Simulación sobre la foto del local.
   antes-despues.jpg      Cartel actual vs. actualizado.
   frente-actual-vs-nuevo.jpg  Foto entera del frente, actual vs. nuevo.
