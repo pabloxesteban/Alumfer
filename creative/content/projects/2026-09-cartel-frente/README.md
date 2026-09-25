@@ -2,7 +2,7 @@
 
 Actualización del cartel instalado en el frente (Av. San Martín 734, Adrogué), hecho
 alrededor de 2015. Se mantiene **la misma estructura** (isologo azul y ALUMFER a la
-izquierda; panel azul noche con "Trabajos a medida" a la derecha) con un lenguaje más
+izquierda; "Trabajos a medida" a la derecha, separados por una línea fina) con un lenguaje más
 sobrio y elegante, acorde a aberturas de primera línea, pensado para leerse de pasada:
 una sola tipografía (Montserrat) sin cursivas ni contornos, texto blanco sobre fondos
 lisos, espaciado normal entre letras, y el azul como acento (isologo y filetes a los
@@ -28,7 +28,7 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 | Medida | **5,40 × 1,20 m** (proporción 4,5 : 1). En el diseño, 1 px = 3 mm |
 | Para la imprenta | `export/Alumfer_cartel_vectorial_escala_1-10.pdf` (540 × 120 mm → **ampliar ×10**) |
 | PNG | `export/Alumfer_cartel_5400x1200.png` y `export/Alumfer_cartel_10800x2400_alta.png` (~50 DPI a tamaño real) |
-| Colores | Grafito `#1e2227`, azul noche `#152238`, azul `#2f7fd6` (isologo) / `#3d8be0` (filetes), blanco |
+| Colores | Solo dos fondos: oscuro `#121518` (arriba) y grafito `#1e2227` (franja de contacto). Azul `#2f7fd6` (isologo) / `#3d8be0` (filetes), blanco |
 | Tipografía | Montserrat (incluida en `assets/`) |
 
 El PDF está a escala 1:10 (así se trabaja en gigantografía; los PDF no admiten
