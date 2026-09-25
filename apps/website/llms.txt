@@ -18,8 +18,18 @@ El presupuesto y la visita de medición son sin cargo.
 
 - [¿Conviene poner DVH?](https://alumfer.com.ar/guias/conviene-el-dvh/): cuánto
   aísla realmente un doble vidriado hermético (valores de transmitancia térmica),
-  por qué un DVH simétrico rinde poco contra el ruido, cuándo conviene y cuándo
-  no, y qué preguntar al pedir un presupuesto.
+  por qué un DVH simétrico rinde poco contra el ruido y hay que romper la
+  simetría, cuándo no conviene, y qué aclara Alumfer en cada presupuesto.
+- [Aluminio o PVC](https://alumfer.com.ar/guias/aluminio-o-pvc/): comparación
+  honesta desde una fábrica de aluminio. Dónde gana cada material, por qué el
+  vidrio define más que el marco, y en qué casos recomiendan PVC.
+- [Colocación en seco](https://alumfer.com.ar/guias/colocacion-en-seco/): cómo se
+  cambia una ventana sin romper paredes, paso a paso; los centímetros de vidrio
+  que se pierden al montar sobre el marco viejo, y los cuatro casos en que no se
+  puede hacer.
+- [Qué línea de aluminio elegir](https://alumfer.com.ar/guias/que-linea-de-aluminio-elegir/):
+  las cinco líneas que fabrican —Herrero, Rotonda 640, Módena 1, Módena 2 y A30
+  New—, para qué sirve cada una y qué mira Alumfer para decidir.
 
 ## Productos
 

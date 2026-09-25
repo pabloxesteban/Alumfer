@@ -31,7 +31,7 @@
   <!-- Páginas de servicio -->
   <url>
     <loc>https://alumfer.com.ar/ventanas-de-aluminio/</loc>
-    <lastmod>2026-08-15</lastmod>
+    <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -43,13 +43,13 @@
   </url>
   <url>
     <loc>https://alumfer.com.ar/puertas-de-aluminio/</loc>
-    <lastmod>2026-08-15</lastmod>
+    <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://alumfer.com.ar/mosquiteros-a-medida/</loc>
-    <lastmod>2026-08-15</lastmod>
+    <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -243,7 +243,25 @@
   </url>
   <url>
     <loc>https://alumfer.com.ar/guias/conviene-el-dvh/</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://alumfer.com.ar/guias/aluminio-o-pvc/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://alumfer.com.ar/guias/colocacion-en-seco/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://alumfer.com.ar/guias/que-linea-de-aluminio-elegir/</loc>
+    <lastmod>2026-09-25</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
