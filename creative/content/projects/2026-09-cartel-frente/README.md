@@ -89,7 +89,8 @@ export/
   mockup-frente.jpg      Simulación sobre la foto del local.
   antes-despues.jpg      Cartel actual vs. actualizado.
   frente-actual-vs-nuevo.jpg  Foto entera del frente, actual vs. nuevo.
-  comparacion/           Mismo frente en 3 fotos: 1 antes, 2 cartel sugerido, 3 cartel nuevo.
+  comparacion/           Mismo frente en 3 fotos: 1 antes, 2 cartel sugerido, 3 cartel nuevo
+                         (y comparacion-3-en-1.jpg con las tres juntas).
 scripts/
   export.mjs             Regenera PNG y PDF, con y sin sangrado (npm i playwright-core pdf-lib sharp).
   gen-qr.mjs             Regenera el QR (npm i qrcode).
