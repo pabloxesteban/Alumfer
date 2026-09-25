@@ -43,7 +43,10 @@ html,body{background:#777}
 .right .rule{width:100px;height:3px;background:var(--blue-l);margin:12px 0 15px}
 .prod{display:grid;grid-template-columns:auto auto;justify-content:space-between;row-gap:10px}
 .prod div{font-weight:500;font-size:31.5px;line-height:1;white-space:nowrap}
-.seco{margin-top:18px;font-weight:600;font-size:27px;color:var(--blue-l);white-space:nowrap;text-align:center}
+.seco{margin-top:18px;display:flex;align-items:center;justify-content:center;gap:14px;
+  font-weight:500;font-size:27.5px;color:var(--white);white-space:nowrap}
+.seco b{font-weight:700}
+.seco::before,.seco::after{content:"";flex:0 0 30px;height:3px;background:var(--blue-l)}
 /* separador entre marca y trabajos: línea fina que no toca los bordes */
 .right::before{content:"";position:absolute;left:0;top:44px;bottom:44px;width:2px;background:rgba(255,255,255,.2)}
 
@@ -88,7 +91,7 @@ html,body{background:#777}
       <div>Postigones</div><div>Jardín de invierno</div>
       <div>Mamparas para baño</div><div>Laminados y D.V.H.</div>
     </div>
-    <div class="seco">Colocación en seco – cambiamos sin romper nada</div>
+    <div class="seco"><span><b>Colocación en seco</b> – en el día y sin romper</span></div>
   </div>
 </div>
 
