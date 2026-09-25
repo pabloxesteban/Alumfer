@@ -41,8 +41,8 @@ html,body{background:#777}
 /* ============ DERECHA: trabajos a medida ============ */
 .right{flex:1;background:var(--dark);position:relative;display:flex;flex-direction:column;justify-content:center;padding:0 58px}
 .right h2{font-weight:600;font-size:43px;letter-spacing:6px;text-transform:uppercase;line-height:1;white-space:nowrap;text-align:center;padding-left:6px}
-.right .seco{margin-top:10px;font-weight:500;font-style:italic;font-size:29px;white-space:nowrap;text-align:center}
-.right .rule{width:100px;height:3px;background:var(--blue-l);margin:12px auto 15px}
+.right .seco{margin:12px 0 22px;display:flex;align-items:center;justify-content:center;gap:13px;font-weight:500;font-style:italic;font-size:28px;white-space:nowrap}
+.right .seco::before,.right .seco::after{content:"";flex:0 0 28px;height:3px;background:var(--blue-l)}
 .prod{display:grid;grid-template-columns:auto auto;justify-content:space-between;row-gap:10px}
 .prod div{display:flex;align-items:center;gap:13px;font-weight:500;font-size:29px;line-height:1;white-space:nowrap}
 .prod div::before{content:"";width:14px;height:3px;background:var(--blue-l);flex:0 0 auto}
@@ -84,7 +84,6 @@ html,body{background:#777}
   <div class="right">
     <h2>Trabajos a medida</h2>
     <div class="seco">Colocación en seco – sin romper ni ensuciar</div>
-    <div class="rule"></div>
     <div class="prod">
       <div>Ventanas y puertas</div><div>Mosquiteros</div>
       <div>Portones</div><div>Frentes de negocio</div>
