@@ -4,7 +4,7 @@ Actualización del cartel instalado en el frente (Av. San Martín 734, Adrogué)
 alrededor de 2015. Se mantiene **la misma estructura** (isologo azul y ALUMFER a la
 izquierda; "Trabajos a medida" a la derecha, separados por dos trazos a 60° como los del isologo) con un lenguaje más
 sobrio y elegante, acorde a aberturas de primera línea, pensado para leerse de pasada:
-una sola tipografía (Montserrat) sin cursivas ni contornos, texto blanco sobre fondos
+una sola tipografía (Montserrat, cursiva solo en la frase de colocación) sin contornos, texto blanco sobre fondos
 lisos, espaciado normal entre letras, y el azul como acento (isologo y filetes a los
 lados de "Somos fabricantes"). Abajo, una franja de contacto a todo el ancho: los dos WhatsApp, web e Instagram. Se ponen al día los datos, con la información
 del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-carousel-n8sdfp`).
