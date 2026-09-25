@@ -6,7 +6,7 @@ izquierda; "Trabajos a medida" a la derecha, separados por dos trazos a 60° com
 sobrio y elegante, acorde a aberturas de primera línea, pensado para leerse de pasada:
 una sola tipografía (Montserrat) sin cursivas ni contornos, texto blanco sobre fondos
 lisos, espaciado normal entre letras, y el azul como acento (isologo y filetes a los
-lados de "Somos fabricantes"). Abajo, una franja de contacto a todo el ancho: WhatsApp, teléfono fijo, web e Instagram. Se ponen al día los datos, con la información
+lados de "Somos fabricantes"). Abajo, una franja de contacto a todo el ancho: los dos WhatsApp, web e Instagram. Se ponen al día los datos, con la información
 del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-carousel-n8sdfp`).
 
 ![Antes (arriba) y después (abajo)](export/antes-despues.jpg)
@@ -15,7 +15,7 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 
 | Antes | Ahora |
 |---|---|
-| Tel.: 4294-6725 | WhatsApp **11 6336-8643** + Tel. **4294-6725** |
+| Tel.: 4294-6725 | WhatsApp **11 6336-8643 / 11 5806-5231** |
 | Facebook "Alumfer Carpintería de Aluminio" | Instagram **@alumfercarpinteria** |
 | Herrero - Rotonda - Modena - A30 New | Herrero – Rotonda – **Modena 1 y 2** – A-30 New |
 | Lista de trabajos | 8 trabajos principales (se suma Ventanas; salen Divisores de oficina y Frentes de placard); textos corregidos |
@@ -67,7 +67,8 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 - **Trabajos a medida:** ventanas y puertas, portones, postigones, mamparas para baño,
   mosquiteros, frentes de negocio, jardín de invierno, laminados y D.V.H.
   (sin divisores de oficina ni frentes de placard, para dar lugar a letra más grande)
-- Franja de contacto: WhatsApp **11 6336-8643** · Tel. **4294-6725** · **www.alumfer.com.ar** · Instagram **@alumfercarpinteria**
+- **Colocación en seco · sin romper paredes** (en azul, bajo la lista: instalan sobre lo existente)
+- Franja de contacto: WhatsApp **11 6336-8643 / 11 5806-5231** · **www.alumfer.com.ar** · Instagram **@alumfercarpinteria**
 
 No lleva QR: a 3 m de altura no se escanea cómodo. El QR de WhatsApp está en
 `assets/qr.svg` para poner como vinilo en la vidriera o la puerta.
