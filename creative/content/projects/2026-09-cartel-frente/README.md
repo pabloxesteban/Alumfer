@@ -6,7 +6,7 @@ izquierda; panel azul noche con "Trabajos a medida" a la derecha) con un lenguaj
 sobrio y elegante, acorde a aberturas de primera línea, pensado para leerse de pasada:
 una sola tipografía (Montserrat) sin cursivas ni contornos, texto blanco sobre fondos
 lisos, espaciado normal entre letras, y el azul como acento (isologo y filetes a los
-lados de "Somos fabricantes"). La web va centrada bajo las líneas; WhatsApp e Instagram juntos como puntos de contacto. Se ponen al día los datos, con la información
+lados de "Somos fabricantes"). Abajo, una franja de contacto a todo el ancho: WhatsApp, teléfono fijo, web e Instagram. Se ponen al día los datos, con la información
 del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-carousel-n8sdfp`).
 
 ![Antes (arriba) y después (abajo)](export/antes-despues.jpg)
@@ -15,9 +15,9 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 
 | Antes | Ahora |
 |---|---|
-| Tel.: 4294-6725 | WhatsApp **11 6336-8643** |
+| Tel.: 4294-6725 | WhatsApp **11 6336-8643** + Tel. **4294-6725** |
 | Facebook "Alumfer Carpintería de Aluminio" | Instagram **@alumfercarpinteria** |
-| Herrero - Rotonda - Modena - A30 New | Herrero – Rotonda – **Modena 1 y 2** – A-30 New – **Ekonal** |
+| Herrero - Rotonda - Modena - A30 New | Herrero – Rotonda – **Modena 1 y 2** – A-30 New |
 | Lista de trabajos | Se suma Ventanas; Laminados y D.V.H. en una línea; textos corregidos (plurales, tildes) |
 | Letras gruesas con contorno, cursivas, fondo con brillos | Tipografía limpia, texto blanco sobre fondos lisos, todo en vector |
 
@@ -39,22 +39,21 @@ Si piden sangrado, extender los mismos fondos 3–5 cm por lado.
 
 | Texto | Altura | Se lee desde |
 |---|---|---|
-| ALUMFER | ~25 cm | ~50 m |
-| TRABAJOS A MEDIDA · SOMOS FABRICANTES | ~9 cm | ~30 m |
-| www.alumfer.com.ar | ~8 cm | ~25 m |
-| Líneas, WhatsApp, Instagram | ~6–7 cm | ~20 m |
+| ALUMFER | ~22 cm | ~45 m |
+| Franja de contacto (teléfonos, web, Instagram) | ~8 cm | ~25 m |
+| TRABAJOS A MEDIDA · SOMOS FABRICANTES | ~8 cm | ~25 m |
+| Líneas | ~8 cm | ~25 m |
 | Lista de trabajos | ~6 cm | ~20 m (vereda de enfrente) |
 
 ## Contenido
 
 - **Carpintería de aluminio · ALUMFER** (isologo redibujado en vector: `assets/isologo.svg`)
 - **"Somos fabricantes"**
-- Herrero – Rotonda – Modena 1 y 2 – A-30 New – Ekonal
-- www.alumfer.com.ar
+- Herrero – Rotonda – Modena 1 y 2 – A-30 New
 - **Trabajos a medida:** ventanas y puertas, frentes de placard, frentes de negocio,
   jardín de invierno, divisores de oficina, portones, postigones, mosquiteros,
   mamparas para baño, laminados y D.V.H.
-- Contacto: WhatsApp **11 6336-8643** · Instagram **@alumfercarpinteria**
+- Franja de contacto: WhatsApp **11 6336-8643** · Tel. **4294-6725** · **www.alumfer.com.ar** · Instagram **@alumfercarpinteria**
 
 No lleva QR: a 3 m de altura no se escanea cómodo. El QR de WhatsApp está en
 `assets/qr.svg` para poner como vinilo en la vidriera o la puerta.
@@ -73,6 +72,7 @@ export/
   Alumfer_cartel_10800x2400_alta.png
   mockup-frente.jpg      Simulación sobre la foto del local.
   antes-despues.jpg      Cartel actual vs. actualizado.
+  frente-actual-vs-nuevo.jpg  Foto entera del frente, actual vs. nuevo.
 scripts/
   export.mjs             Regenera los PNG y el PDF (npm i playwright-core).
   gen-qr.mjs             Regenera el QR (npm i qrcode).

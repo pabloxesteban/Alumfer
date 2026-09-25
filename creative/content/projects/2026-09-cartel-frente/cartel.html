@@ -3,7 +3,8 @@
 <!--
   Cartel del frente del local — 5400 x 1200 mm (proporción 4,5 : 1).
   Actualización del cartel instalado (~2015): misma estructura (marca a la izquierda,
-  "Trabajos a medida" a la derecha; WhatsApp e Instagram juntos como puntos de contacto). Criterio de cartelería: texto blanco sobre fondo
+  "Trabajos a medida" a la derecha) y franja de contacto a todo el ancho abajo.
+  Criterio de cartelería: texto blanco sobre fondo
   oscuro liso, espaciado normal entre letras (se lee mejor de lejos), una sola tipografía,
   el azul como acento (isologo y filetes).
   Se diseña a 1800 x 400 px CSS: 1 px = 3 mm a tamaño real. Todo es vector.
@@ -13,35 +14,38 @@
 :root{--graphite:#1e2227; --navy:#152238; --blue:#1f6fcb; --blue-l:#3d8be0; --white:#fff; --soft:#c9d0d8}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{background:#777}
-.sign{width:1800px;height:400px;display:flex;overflow:hidden;font-family:M;color:var(--white)}
+.sign{width:1800px;height:400px;display:flex;flex-direction:column;overflow:hidden;font-family:M;color:var(--white)}
+.top{flex:1;display:flex}
 
 /* ============ IZQUIERDA: marca ============ */
 .left{flex:0 0 1030px;background:var(--graphite);display:flex;flex-direction:column;align-items:center;justify-content:center}
-.lock{display:flex;align-items:center;gap:30px}
-.lock svg{width:164px;height:auto;flex:0 0 auto}
-.name{font-weight:600;font-size:114px;letter-spacing:5px;line-height:.8;margin-right:-5px}
+.lock{display:flex;align-items:center;gap:28px}
+.lock svg{width:148px;height:auto;flex:0 0 auto}
+.name{font-weight:600;font-size:102px;letter-spacing:4.5px;line-height:.8;margin-right:-4.5px}
 .wm{display:flex;flex-direction:column;align-items:center}
-.sub{font-weight:500;font-size:27px;letter-spacing:9.2px;margin-right:-9.2px;text-transform:uppercase;color:var(--soft);margin-top:18px;white-space:nowrap}
+.sub{font-weight:500;font-size:24px;letter-spacing:8.3px;margin-right:-8.3px;text-transform:uppercase;color:var(--soft);margin-top:16px;white-space:nowrap}
 
-.claim{margin-top:22px;display:flex;align-items:center;gap:30px;font-weight:600;font-size:42px;letter-spacing:5px;
+.claim{margin-top:18px;display:flex;align-items:center;gap:28px;font-weight:600;font-size:39px;letter-spacing:5px;
   text-transform:uppercase;white-space:nowrap}
 .claim::before,.claim::after{content:"";width:120px;height:3px;background:var(--blue-l)}
-.lines{margin-top:12px;font-weight:500;font-size:32.5px;letter-spacing:.5px;white-space:nowrap}
+.lines{margin-top:10px;font-weight:500;font-size:37px;letter-spacing:.5px;white-space:nowrap}
 
-.web{margin-top:14px;font-weight:500;font-size:40px;letter-spacing:1px;white-space:nowrap}
 
 /* ============ DERECHA: trabajos a medida ============ */
-.right{flex:1;background:var(--navy);display:flex;flex-direction:column;padding:32px 58px 8px}
-.right h2{font-weight:600;font-size:44px;letter-spacing:6px;text-transform:uppercase;line-height:1;white-space:nowrap;margin-right:-6px}
-.right .rule{width:100px;height:3px;background:var(--blue-l);margin:16px 0 18px}
-.prod{display:grid;grid-template-columns:auto auto;justify-content:space-between;row-gap:13px}
-.prod div{font-weight:500;font-size:29px;line-height:1;white-space:nowrap}
-.foot{margin-top:auto;height:68px;border-top:2px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:space-between;
-  font-weight:500;font-size:31px;white-space:nowrap}
-.foot span{display:flex;align-items:center;gap:12px}
-.foot svg{width:35px;height:35px}
+.right{flex:1;background:var(--navy);display:flex;flex-direction:column;justify-content:center;padding:0 58px}
+.right h2{font-weight:600;font-size:41px;letter-spacing:6px;text-transform:uppercase;line-height:1;white-space:nowrap;margin-right:-6px}
+.right .rule{width:100px;height:3px;background:var(--blue-l);margin:14px 0 16px}
+.prod{display:grid;grid-template-columns:auto auto;justify-content:space-between;row-gap:10px}
+.prod div{font-weight:500;font-size:28px;line-height:1;white-space:nowrap}
+/* ============ FRANJA DE CONTACTO: todo el ancho ============ */
+.band{flex:0 0 84px;background:#121518;border-top:2px solid rgba(255,255,255,.12);display:flex;align-items:center;
+  justify-content:space-evenly;font-weight:500;font-size:38px;white-space:nowrap;padding:0 30px}
+.band span{display:flex;align-items:center;gap:16px}
+.band svg{width:40px;height:40px;flex:0 0 auto}
+.band i{width:2px;height:40px;background:rgba(255,255,255,.2)}
 </style></head>
 <body><div class="sign">
+<div class="top">
 
   <div class="left">
     <div class="lock">
@@ -60,9 +64,8 @@ html,body{background:#777}
     </div>
 
     <div class="claim">Somos fabricantes</div>
-    <div class="lines">Herrero – Rotonda – Modena 1 y 2 – A-30 New – Ekonal</div>
+    <div class="lines">Herrero – Rotonda – Modena 1 y 2 – A-30 New</div>
 
-    <div class="web">www.alumfer.com.ar</div>
   </div>
 
   <div class="right">
@@ -75,13 +78,13 @@ html,body{background:#777}
       <div>Jardín de invierno</div><div>Mamparas para baño</div>
       <div>Divisores de oficina</div><div>Laminados y D.V.H.</div>
     </div>
-    <div class="foot">
-      <span><!-- logo de WhatsApp relleno -->
-        <svg viewBox="0 0 32 32"><path fill="#fff" d="M16 2.5A13.4 13.4 0 004.5 22.8L2.6 29.5l6.9-1.8A13.4 13.4 0 1016 2.5z"/><path fill="#152238" d="M22.2 18.9c-.3-.2-2-1-2.3-1.1s-.5-.2-.7.2-.9 1.1-1 1.3-.4.3-.7.1a9.3 9.3 0 01-4.6-4c-.3-.6.3-.5.9-1.8a.6.6 0 000-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7a1.3 1.3 0 00-.9.4 4 4 0 00-1.3 3 7 7 0 001.5 3.7 16 16 0 006.1 5.4c2.3 1 2.8.8 3.3.7a3.7 3.7 0 002.4-1.7 3 3 0 00.2-1.7c-.1-.2-.3-.3-.6-.4z"/></svg>
-        11 6336-8643</span>
-      <span><!-- logo de Instagram relleno -->
-        <svg viewBox="0 0 24 24"><path fill="#fff" fill-rule="evenodd" d="M7.5 2h9A5.5 5.5 0 0122 7.5v9a5.5 5.5 0 01-5.5 5.5h-9A5.5 5.5 0 012 16.5v-9A5.5 5.5 0 017.5 2zM12 7a5 5 0 100 10 5 5 0 000-10zm0 2.2a2.8 2.8 0 110 5.6 2.8 2.8 0 010-5.6zM17.6 5a1.3 1.3 0 100 2.6 1.3 1.3 0 000-2.6z"/></svg>
-        @alumfercarpinteria</span>
-    </div>
+  </div>
+</div>
+
+  <div class="band">
+    <span><svg viewBox="0 0 32 32"><path fill="#fff" d="M16 2.5A13.4 13.4 0 004.5 22.8L2.6 29.5l6.9-1.8A13.4 13.4 0 1016 2.5z"/><path fill="#121518" d="M22.2 18.9c-.3-.2-2-1-2.3-1.1s-.5-.2-.7.2-.9 1.1-1 1.3-.4.3-.7.1a9.3 9.3 0 01-4.6-4c-.3-.6.3-.5.9-1.8a.6.6 0 000-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7a1.3 1.3 0 00-.9.4 4 4 0 00-1.3 3 7 7 0 001.5 3.7 16 16 0 006.1 5.4c2.3 1 2.8.8 3.3.7a3.7 3.7 0 002.4-1.7 3 3 0 00.2-1.7c-.1-.2-.3-.3-.6-.4z"/></svg>11 6336-8643</span><i></i>
+    <span><svg viewBox="0 0 24 24"><path fill="#fff" d="M6.6 2.5c.5 0 .9.3 1.1.8l1.4 3.4c.2.5.1 1-.3 1.4L7.1 9.8a12.4 12.4 0 007.1 7.1l1.7-1.7c.4-.4.9-.5 1.4-.3l3.4 1.4c.5.2.8.6.8 1.1v2.9c0 1.1-.9 2-2 2A17.6 17.6 0 012.5 4.5c0-1.1.9-2 2-2z"/></svg>4294-6725</span><i></i>
+    <span>www.alumfer.com.ar</span><i></i>
+    <span><svg viewBox="0 0 24 24"><path fill="#fff" fill-rule="evenodd" d="M7.5 2h9A5.5 5.5 0 0122 7.5v9a5.5 5.5 0 01-5.5 5.5h-9A5.5 5.5 0 012 16.5v-9A5.5 5.5 0 017.5 2zM12 7a5 5 0 100 10 5 5 0 000-10zm0 2.2a2.8 2.8 0 110 5.6 2.8 2.8 0 010-5.6zM17.6 5a1.3 1.3 0 100 2.6 1.3 1.3 0 000-2.6z"/></svg>@alumfercarpinteria</span>
   </div>
 </div></body></html>
