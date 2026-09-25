@@ -2,7 +2,7 @@
 
 Actualización del cartel instalado en el frente (Av. San Martín 734, Adrogué), hecho
 alrededor de 2015. Se mantiene **la misma estructura** (isologo azul y ALUMFER a la
-izquierda; "Trabajos a medida" a la derecha, separados por una línea fina) con un lenguaje más
+izquierda; "Trabajos a medida" a la derecha, separados por dos trazos a 60° como los del isologo) con un lenguaje más
 sobrio y elegante, acorde a aberturas de primera línea, pensado para leerse de pasada:
 una sola tipografía (Montserrat) sin cursivas ni contornos, texto blanco sobre fondos
 lisos, espaciado normal entre letras, y el azul como acento (isologo y filetes a los
