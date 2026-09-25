@@ -18,7 +18,7 @@ html,body{background:#777}
 .top{flex:1;display:flex}
 
 /* ============ IZQUIERDA: marca ============ */
-.left{flex:0 0 1030px;background:var(--dark);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.left{flex:0 0 965px;background:var(--dark);display:flex;flex-direction:column;align-items:center;justify-content:center}
 .lock{display:flex;align-items:center;gap:28px}
 .lock svg{width:148px;height:auto;flex:0 0 auto}
 .name{font-weight:600;font-size:102px;letter-spacing:4.5px;line-height:.8;margin-right:-4.5px}
@@ -34,14 +34,11 @@ html,body{background:#777}
 /* ============ DERECHA: trabajos a medida ============ */
 .right{flex:1;background:var(--dark);position:relative;display:flex;flex-direction:column;justify-content:center;padding:0 58px}
 .right h2{font-weight:600;font-size:41px;letter-spacing:6px;text-transform:uppercase;line-height:1;white-space:nowrap;margin-right:-6px}
-.right .rule{width:100px;height:3px;background:var(--blue-l);margin:14px 0 16px}
-.prod{display:grid;grid-template-columns:auto auto;justify-content:space-between;row-gap:10px}
-.prod div{font-weight:500;font-size:28px;line-height:1;white-space:nowrap}
-/* separador entre marca y trabajos: dos trazos paralelos a 60°, como los del isologo */
-.top{position:relative}
-.sep{position:absolute;z-index:2;left:998px;top:94px;bottom:94px;width:30px}
-.sep i{position:absolute;top:0;bottom:0;width:8px;background:#2f7fd6;transform:skewX(-30deg)}
-.sep i+i{left:20px}
+.right .rule{width:100px;height:3px;background:var(--blue-l);margin:16px 0 22px}
+.prod{display:grid;grid-template-columns:auto auto;justify-content:space-between;row-gap:16px}
+.prod div{font-weight:500;font-size:33px;line-height:1;white-space:nowrap}
+/* separador entre marca y trabajos: línea fina que no toca los bordes */
+.right::before{content:"";position:absolute;left:0;top:44px;bottom:44px;width:2px;background:rgba(255,255,255,.2)}
 
 /* ============ FRANJA DE CONTACTO: todo el ancho ============ */
 .band{flex:0 0 84px;background:var(--graphite);display:flex;align-items:center;
@@ -74,17 +71,14 @@ html,body{background:#777}
 
   </div>
 
-  <div class="sep"><i></i><i></i></div>
-
   <div class="right">
     <h2>Trabajos a medida</h2>
     <div class="rule"></div>
     <div class="prod">
-      <div>Ventanas y puertas</div><div>Portones</div>
-      <div>Frentes de placard</div><div>Postigones</div>
-      <div>Frentes de negocio</div><div>Mosquiteros</div>
-      <div>Jardín de invierno</div><div>Mamparas para baño</div>
-      <div>Divisores de oficina</div><div>Laminados y D.V.H.</div>
+      <div>Ventanas y puertas</div><div>Frentes de placard</div>
+      <div>Portones</div><div>Frentes de negocio</div>
+      <div>Postigones</div><div>Jardín de invierno</div>
+      <div>Mamparas para baño</div><div>Laminados y D.V.H.</div>
     </div>
   </div>
 </div>

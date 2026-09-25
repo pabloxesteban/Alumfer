@@ -18,7 +18,7 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 | Tel.: 4294-6725 | WhatsApp **11 6336-8643** + Tel. **4294-6725** |
 | Facebook "Alumfer Carpintería de Aluminio" | Instagram **@alumfercarpinteria** |
 | Herrero - Rotonda - Modena - A30 New | Herrero – Rotonda – **Modena 1 y 2** – A-30 New |
-| Lista de trabajos | Se suma Ventanas; Laminados y D.V.H. en una línea; textos corregidos (plurales, tildes) |
+| Lista de trabajos | 8 trabajos principales (se suma Ventanas; salen Divisores de oficina y Mosquiteros); textos corregidos |
 | Letras gruesas con contorno, cursivas, fondo con brillos | Tipografía limpia, texto blanco sobre fondos lisos, todo en vector |
 
 ## Especificaciones
@@ -43,16 +43,16 @@ Si piden sangrado, extender los mismos fondos 3–5 cm por lado.
 | Franja de contacto (teléfonos, web, Instagram) | ~8 cm | ~25 m |
 | TRABAJOS A MEDIDA · SOMOS FABRICANTES | ~8 cm | ~25 m |
 | Líneas | ~8 cm | ~25 m |
-| Lista de trabajos | ~6 cm | ~20 m (vereda de enfrente) |
+| Lista de trabajos | ~7 cm | ~22 m |
 
 ## Contenido
 
 - **Carpintería de aluminio · ALUMFER** (isologo redibujado en vector: `assets/isologo.svg`)
 - **"Somos fabricantes"**
 - Herrero – Rotonda – Modena 1 y 2 – A-30 New
-- **Trabajos a medida:** ventanas y puertas, frentes de placard, frentes de negocio,
-  jardín de invierno, divisores de oficina, portones, postigones, mosquiteros,
-  mamparas para baño, laminados y D.V.H.
+- **Trabajos a medida:** ventanas y puertas, portones, postigones, mamparas para baño,
+  frentes de placard, frentes de negocio, jardín de invierno, laminados y D.V.H.
+  (sin divisores de oficina ni mosquiteros, para dar lugar a letra más grande)
 - Franja de contacto: WhatsApp **11 6336-8643** · Tel. **4294-6725** · **www.alumfer.com.ar** · Instagram **@alumfercarpinteria**
 
 No lleva QR: a 3 m de altura no se escanea cómodo. El QR de WhatsApp está en
