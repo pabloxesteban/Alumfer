@@ -17,7 +17,7 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 | Tel.: 4294-6725 | WhatsApp **11 6336-8643** |
 | Facebook "Alumfer Carpintería de Aluminio" | Instagram **@alumfercarpinteria** |
 | Herrero - Rotonda - Modena - A30 New | Herrero – Rotonda – **Modena 1 y 2** – A-30 New – **Ekonal** |
-| Lista de trabajos | Se suman Ventanas, Colocación en obra; textos corregidos (plurales, tildes) |
+| Lista de trabajos | Se suma Ventanas; Laminados y D.V.H. en una línea; textos corregidos (plurales, tildes) |
 | Letras gruesas con contorno, cursivas, fondo con brillos | Tipografía fina y espaciada, fondos lisos, todo en vector |
 
 ## Especificaciones
@@ -38,10 +38,11 @@ Si piden sangrado, extender los mismos fondos 3–5 cm por lado.
 
 | Texto | Altura | Se lee desde |
 |---|---|---|
-| ALUMFER | ~24 cm | ~50 m |
-| 11 6336-8643 | ~11 cm | ~30 m |
-| Somos fabricantes / Trabajos a medida | ~5–7 cm | ~20 m |
-| Líneas, lista de trabajos, web | ~5–6 cm | ~15 m (vereda de enfrente) |
+| ALUMFER | ~25 cm | ~50 m |
+| 11 6336-8643 (con logo de WhatsApp) | ~14 cm | ~40 m |
+| SOMOS FABRICANTES | ~8 cm | ~25 m |
+| Trabajos a medida | ~7 cm | ~20 m |
+| Líneas, lista de trabajos, Instagram y web | ~6 cm | ~18 m (vereda de enfrente) |
 
 ## Contenido
 
@@ -49,9 +50,9 @@ Si piden sangrado, extender los mismos fondos 3–5 cm por lado.
 - **"Somos fabricantes"**
 - Herrero – Rotonda – Modena 1 y 2 – A-30 New – Ekonal
 - WhatsApp **11 6336-8643** · www.alumfer.com.ar
-- **Trabajos a Medida:** ventanas y puertas, frentes de placard, frentes de negocio,
-  jardín de invierno, divisores de oficina, mamparas para baño, portones, postigones,
-  mosquiteros, laminados, D.V.H., colocación en obra
+- **Trabajos a medida:** ventanas y puertas, frentes de placard, frentes de negocio,
+  jardín de invierno, divisores de oficina, portones, postigones, mosquiteros,
+  mamparas para baño, laminados y D.V.H.
 - Instagram **@alumfercarpinteria**
 
 No lleva QR: a 3 m de altura no se escanea cómodo. El QR de WhatsApp está en
