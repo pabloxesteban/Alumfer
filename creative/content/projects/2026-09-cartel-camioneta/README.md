@@ -18,6 +18,7 @@ con la marca hacia la trompa en el lado derecho, por si en algún momento se qui
 | Alternativa en imagen | `export/IMPRENTA_Alumfer_camioneta_AMBOS_LADOS_x2_200x42cm_150dpi.png` (11811 × 2480 px) |
 | Vista (sin sangrado) | `export/Alumfer_camioneta_AMBOS_LADOS_x2_vista.png` |
 | Ficha técnica | `export/Alumfer_camioneta_FICHA_TECNICA.pdf` |
+| Simulación | `export/simulacion-camioneta.jpg` (sobre la foto del cartel actual en la caja) |
 
 ## Contenido
 

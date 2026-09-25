@@ -86,6 +86,7 @@ export/
   Alumfer_cartel_5400x1200.png               Para ver / compartir (sin sangrado).
   Alumfer_cartel_10800x2400_alta.png         Ídem, más grande.
   mockup-frente.jpg      Simulación sobre la foto del local.
+  simulacion-local.jpg   Simulación final sobre la foto del frente (para mandar como muestra).
   antes-despues.jpg      Cartel actual vs. actualizado.
   frente-actual-vs-nuevo.jpg  Foto entera del frente, actual vs. nuevo.
   comparacion/           Mismo frente en 3 fotos: 1 antes, 2 cartel sugerido, 3 cartel nuevo
