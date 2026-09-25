@@ -25,15 +25,24 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 
 | Dato | Valor |
 |---|---|
-| Medida | **5,40 × 1,20 m** (proporción 4,5 : 1). En el diseño, 1 px = 3 mm |
-| Para la imprenta | `export/Alumfer_cartel_vectorial_escala_1-10.pdf` (540 × 120 mm → **ampliar ×10**) |
-| PNG | `export/Alumfer_cartel_5400x1200.png` y `export/Alumfer_cartel_10800x2400_alta.png` (~50 DPI a tamaño real) |
+| Medida final (corte) | **5,40 × 1,20 m** (proporción 4,5 : 1). En el diseño, 1 px = 3 mm |
+| Sangrado | **5 cm por lado** → tamaño total **5,50 × 1,30 m** |
+| **Para la imprenta** | `export/IMPRENTA_Alumfer_cartel_con_sangrado_escala_1-10.pdf` (550 × 130 mm → **ampliar ×10**) |
+| PNG con sangrado | `export/IMPRENTA_Alumfer_cartel_con_sangrado_5500x1300.png` (1 px = 1 cm a tamaño real) |
+| Sin sangrado (para ver) | `Alumfer_cartel_vectorial_escala_1-10.pdf`, `Alumfer_cartel_5400x1200.png`, `Alumfer_cartel_10800x2400_alta.png` |
 | Colores | Solo dos fondos: oscuro `#121518` (arriba) y grafito `#1e2227` (franja de contacto). Azul `#2f7fd6` (isologo) / `#3d8be0` (filetes), blanco |
 | Tipografía | Montserrat (incluida en `assets/`) |
 
-El PDF está a escala 1:10 (así se trabaja en gigantografía; los PDF no admiten
-páginas de más de 5 m). Es **100 % vectorial** (sin imágenes): se amplía sin perder calidad.
-Si piden sangrado, extender los mismos fondos 3–5 cm por lado.
+### Qué decirle a la imprenta
+
+> "Es un cartel de **5,40 × 1,20 m** terminado. El PDF está a **escala 1:10**, hay que
+> ampliarlo ×10. Tiene **5 cm de sangrado por lado** (tamaño total 5,50 × 1,30 m);
+> la línea de corte está marcada en el PDF (TrimBox). Es 100 % vectorial."
+
+- Los PDF no admiten páginas de más de 5 m, por eso va a escala (así se trabaja en gigantografía).
+- En el sangrado solo hay fondo liso (oscuro arriba, grafito en la franja de abajo): ningún texto
+  queda cerca del corte. Si para tensar la lona en el bastidor piden más de 5 cm, se cambia
+  `BLEED_MM` en `scripts/export.mjs` y se vuelve a exportar.
 
 ### Legibilidad a tamaño real (altura de mayúsculas aprox.)
 
@@ -67,19 +76,21 @@ assets/
   qr.svg                 QR de WhatsApp (para vidriera / puerta).
   Montserrat.ttf
 export/
-  Alumfer_cartel_vectorial_escala_1-10.pdf   Para la imprenta (ampliar x10).
-  Alumfer_cartel_5400x1200.png
-  Alumfer_cartel_10800x2400_alta.png
+  IMPRENTA_Alumfer_cartel_con_sangrado_escala_1-10.pdf   Para la imprenta (ampliar x10).
+  IMPRENTA_Alumfer_cartel_con_sangrado_5500x1300.png     Lo mismo en imagen.
+  Alumfer_cartel_vectorial_escala_1-10.pdf   Sin sangrado.
+  Alumfer_cartel_5400x1200.png               Sin sangrado.
+  Alumfer_cartel_10800x2400_alta.png         Sin sangrado, alta.
   mockup-frente.jpg      Simulación sobre la foto del local.
   antes-despues.jpg      Cartel actual vs. actualizado.
   frente-actual-vs-nuevo.jpg  Foto entera del frente, actual vs. nuevo.
 scripts/
-  export.mjs             Regenera los PNG y el PDF (npm i playwright-core).
+  export.mjs             Regenera PNG y PDF, con y sin sangrado (npm i playwright-core pdf-lib sharp).
   gen-qr.mjs             Regenera el QR (npm i qrcode).
 ```
 
 ## Cómo editar y exportar
 
 1. Editar textos/tamaños en `cartel.html` (se ve abriéndolo en el navegador).
-2. `npm i playwright-core && node scripts/export.mjs`
+2. `npm i playwright-core pdf-lib sharp && node scripts/export.mjs`
    (usa el Chromium de `CHROMIUM`, por defecto `/opt/pw-browsers/chromium`).

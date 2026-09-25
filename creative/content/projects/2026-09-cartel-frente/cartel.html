@@ -14,7 +14,13 @@
 :root{--dark:#121518; --graphite:#1e2227; --blue:#1f6fcb; --blue-l:#3d8be0; --white:#fff; --soft:#c9d0d8}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{background:#777}
-.sign{width:1800px;height:400px;display:flex;flex-direction:column;overflow:hidden;font-family:M;color:var(--white)}
+/* --bleed: sangrado por lado (0 en diseño; el export de imprenta lo pone en 5 cm = 16,667 px).
+   Solo se extienden los fondos: oscuro arriba, grafito abajo. Son rellenos lisos, así el PDF sigue siendo vectorial. */
+.sign{--bleed:0px;width:1800px;height:400px;padding:var(--bleed);box-sizing:content-box;position:relative;isolation:isolate;
+  display:flex;flex-direction:column;overflow:hidden;font-family:M;color:var(--white)}
+.sign::before,.sign::after{content:"";position:absolute;left:0;right:0;z-index:-1}
+.sign::before{top:0;height:calc(var(--bleed) + 316px);background:var(--dark)}
+.sign::after{bottom:0;height:calc(var(--bleed) + 84px);background:var(--graphite)}
 .top{flex:1;display:flex}
 
 /* ============ IZQUIERDA: marca ============ */
