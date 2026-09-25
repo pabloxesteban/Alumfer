@@ -53,11 +53,11 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 
 | Texto | Altura | Se lee desde |
 |---|---|---|
-| ALUMFER | ~22 cm | ~45 m |
-| Franja de contacto (teléfonos, web, Instagram) | ~8 cm | ~25 m |
+| ALUMFER (+ isologo, mismo alto) | ~26 cm | ~50 m |
+| WhatsApp 11 6336-8643 / 11 5806-5231 | ~11 cm | ~35 m |
 | TRABAJOS A MEDIDA · SOMOS FABRICANTES | ~8 cm | ~25 m |
-| Líneas | ~8 cm | ~25 m |
-| Lista de trabajos | ~7 cm | ~22 m |
+| Líneas, web, Instagram | ~7 cm | ~22 m |
+| Lista de trabajos, frase de colocación | ~6 cm | ~20 m (vereda de enfrente) |
 
 ## Contenido
 
