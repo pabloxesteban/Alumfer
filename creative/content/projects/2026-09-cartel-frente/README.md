@@ -1,9 +1,11 @@
 # Cartel del frente — Alumfer (5400 × 1200)
 
 Actualización del cartel instalado en el frente (Av. San Martín 734, Adrogué), hecho
-alrededor de 2015. Se mantiene **la misma estructura y los mismos colores** (isologo y
-ALUMFER en azul con contorno blanco sobre fondo acero a la izquierda; panel azul noche
-con "Trabajos a Medida" a la derecha) y se ponen al día los datos, con la información
+alrededor de 2015. Se mantiene **la misma estructura** (isologo azul y ALUMFER a la
+izquierda; panel azul noche con "Trabajos a medida" a la derecha) con un lenguaje más
+sobrio y elegante, acorde a aberturas de primera línea: una sola tipografía (Montserrat)
+en pesos medios, sin cursivas ni contornos, fondos lisos, el azul solo como acento y
+mayúsculas espaciadas. Se ponen al día los datos, con la información
 del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-carousel-n8sdfp`).
 
 ![Antes (arriba) y después (abajo)](export/antes-despues.jpg)
@@ -16,7 +18,7 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 | Facebook "Alumfer Carpintería de Aluminio" | Instagram **@alumfercarpinteria** |
 | Herrero - Rotonda - Modena - A30 New | Herrero – Rotonda – **Modena 1 y 2** – A-30 New – **Ekonal** |
 | Lista de trabajos | Se suman Ventanas, Colocación en obra; textos corregidos (plurales, tildes) |
-| Letras con bordes pixelados | Todo en vector, letras más grandes |
+| Letras gruesas con contorno, cursivas, fondo con brillos | Tipografía fina y espaciada, fondos lisos, todo en vector |
 
 ## Especificaciones
 
@@ -25,21 +27,20 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 | Medida | **5,40 × 1,20 m** (proporción 4,5 : 1). En el diseño, 1 px = 3 mm |
 | Para la imprenta | `export/Alumfer_cartel_vectorial_escala_1-10.pdf` (540 × 120 mm → **ampliar ×10**) |
 | PNG | `export/Alumfer_cartel_5400x1200.png` y `export/Alumfer_cartel_10800x2400_alta.png` (~50 DPI a tamaño real) |
-| Colores | Acero (degradé gris), azul `#2a6fd6` con contorno blanco, azul noche `#1b2446`, blanco |
+| Colores | Grafito `#1e2227`, azul noche `#152238`, azul `#2f7fd6` (isologo y filetes), blanco y gris claro |
 | Tipografía | Montserrat (incluida en `assets/`) |
 
 El PDF está a escala 1:10 (así se trabaja en gigantografía; los PDF no admiten
-páginas de más de 5 m). Texto, isologo e íconos van **en vector**, así que se amplían
-sin perder calidad. Solo los fondos degradé van como imagen, y al ser lisos no se nota.
+páginas de más de 5 m). Es **100 % vectorial** (sin imágenes): se amplía sin perder calidad.
 Si piden sangrado, extender los mismos fondos 3–5 cm por lado.
 
 ### Legibilidad a tamaño real (altura de mayúsculas aprox.)
 
 | Texto | Altura | Se lee desde |
 |---|---|---|
-| ALUMFER | ~30 cm | más de 50 m |
-| 11 6336-8643 | ~12 cm | ~35 m |
-| "Somos fabricantes" / Trabajos a Medida | ~10–12 cm | ~30 m |
+| ALUMFER | ~24 cm | ~50 m |
+| 11 6336-8643 | ~11 cm | ~30 m |
+| Somos fabricantes / Trabajos a medida | ~5–7 cm | ~20 m |
 | Líneas, lista de trabajos, web | ~5–6 cm | ~15 m (vereda de enfrente) |
 
 ## Contenido
