@@ -67,7 +67,7 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 - **Carpintería de aluminio · ALUMFER** (isologo redibujado en vector: `assets/isologo.svg`)
 - **"Somos fabricantes"**
 - Herrero – Rotonda – Modena 1 y 2 – A-30 New
-- **COLOCACIÓN EN SECO – SIN ROMPER NI ENSUCIAR** (Barlow Condensed en mayúsculas, bajo Trabajos a medida; "Colocación en seco" en el azul claro de la marca `#4A9DE8`, que se lee mejor sobre el metal)
+- **COLOCACIÓN EN SECO – SIN ROMPER NI ENSUCIAR** (Barlow Condensed en mayúsculas, bajo Trabajos a medida; "Colocación en seco" en el azul claro de la marca `#4A9DE8` con un contorno blanco fino)
 - **Trabajos a medida:** ventanas y puertas, portones, postigones, mamparas para baño,
   mosquiteros, frentes de negocio, jardín de invierno, laminados y D.V.H.
   (sin divisores de oficina ni frentes de placard, para dar lugar a letra más grande)
