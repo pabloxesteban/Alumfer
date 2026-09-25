@@ -12,7 +12,8 @@ lo que resalta y franja de contacto abajo.
 | `LADO_IZQUIERDO_conductor` | Lado del conductor | Trompa a la izquierda de quien mira → marca y WhatsApp a la izquierda |
 | `LADO_DERECHO_vereda` | Lado de la vereda | Trompa a la derecha de quien mira → marca y WhatsApp a la derecha |
 
-El texto se lee normal en los dos; solo se invierte el orden de los bloques (el isologo no se da vuelta).
+El texto se lee normal en los dos; solo se invierte el orden de los bloques (marca ↔ panel y la franja de contacto).
+El isologo no se da vuelta y queda **siempre a la izquierda de ALUMFER**, en los dos lados.
 
 ## Especificaciones
 
