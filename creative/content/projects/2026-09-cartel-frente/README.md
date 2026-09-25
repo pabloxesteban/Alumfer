@@ -31,8 +31,9 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 | **Para la imprenta (imagen)** | `export/IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL_72dpi.png` — 15591 × 3685 px = 550 × 130 cm a 72 dpi |
 | Para ver / compartir | `Alumfer_cartel_5400x1200.png`, `Alumfer_cartel_10800x2400_alta.png` (sin sangrado) |
 | Volumen | Degradé vertical sutil en el fondo de la marca, filo fino (sombra + luz) en el borde del panel metálico, filo de luz sobre la franja de contacto y sombras duras mínimas en los textos sobre el metal. Todo vectorial |
+| Texto | Todo el texto en blanco puro `#FFFFFF`, salvo "Colocación en seco" (celeste) y la "/" entre teléfonos (gris separador) |
 | Colores | Oscuro `#121518` (marca), **metalizado** gris cepillado en la columna de Trabajos a medida (como el cartel original; hecho con franjas vectoriales), grafito `#1e2227` (franja de contacto). Azul `#2f7fd6` (isologo) / `#3d8be0` (filetes), blanco |
-| Tipografía | Montserrat (marca, lista, líneas, web) + Montserrat Italic (frase de colocación) + **Barlow Condensed** (SOMOS FABRICANTES, TRABAJOS A MEDIDA y teléfonos). Todas en `assets/`, licencia OFL |
+| Tipografía | Montserrat (marca, lista, líneas, web) + Montserrat Italic (frase de colocación) + **Barlow Condensed** (SOMOS FABRICANTES, TRABAJOS A MEDIDA, teléfonos, web e Instagram). Todas en `assets/`, licencia OFL |
 
 ### Qué decirle a la imprenta
 
@@ -57,7 +58,8 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 | ALUMFER (+ isologo, mismo alto) | ~26 cm | ~50 m |
 | WhatsApp 11 6336-8643 / 11 5806-5231 | ~14 cm | ~45 m |
 | TRABAJOS A MEDIDA · SOMOS FABRICANTES | ~13 cm | ~40 m |
-| Líneas, web, Instagram | ~7 cm | ~22 m |
+| Líneas | ~7 cm | ~22 m |
+| Web, Instagram | ~9 cm | ~30 m |
 | Lista de trabajos, frase de colocación | ~6 cm | ~20 m (vereda de enfrente) |
 
 ## Contenido
@@ -65,7 +67,7 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 - **Carpintería de aluminio · ALUMFER** (isologo redibujado en vector: `assets/isologo.svg`)
 - **"Somos fabricantes"**
 - Herrero – Rotonda – Modena 1 y 2 – A-30 New
-- *Colocación en seco – sin romper ni ensuciar* (en cursiva, sobre una franja oscura sutil sin borde bajo Trabajos a medida; "Colocación en seco" en celeste)
+- *Colocación en seco – sin romper ni ensuciar* (en cursiva seminegrita, sin fondo, a lo ancho bajo Trabajos a medida; "Colocación en seco" en celeste)
 - **Trabajos a medida:** ventanas y puertas, portones, postigones, mamparas para baño,
   mosquiteros, frentes de negocio, jardín de invierno, laminados y D.V.H.
   (sin divisores de oficina ni frentes de placard, para dar lugar a letra más grande)
