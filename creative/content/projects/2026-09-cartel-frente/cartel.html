@@ -42,13 +42,13 @@ html,body{background:#777}
 
 /* ============ DERECHA: trabajos a medida ============ */
 .right{flex:1;position:relative;isolation:isolate;display:flex;flex-direction:column;justify-content:center;padding:0 58px}
-.right h2{font-family:C;font-weight:600;font-size:57px;letter-spacing:3.5px;text-transform:uppercase;line-height:.9;white-space:nowrap;text-align:center;padding-left:3.5px;text-shadow:0 3px 0 rgba(0,0,0,.35)}
-/* frase de colocación: sin fondo, más gruesa y a lo ancho del panel */
-.right .seco{align-self:center;margin:12px 0 16px;font-weight:600;font-style:italic;font-size:30.5px;letter-spacing:0;white-space:nowrap;text-shadow:0 2px 0 rgba(0,0,0,.4)}
-.right .seco b{font-weight:800;color:#2f7fd6;text-shadow:0 2px 0 rgba(0,0,0,.55),0 -1px 0 rgba(255,255,255,.12)} /* mismo azul que el isologo */
+.right h2{font-family:C;font-weight:600;font-size:57px;letter-spacing:3.5px;text-transform:uppercase;line-height:.9;white-space:nowrap;text-align:center;padding-left:3.5px}
+/* frase de colocación: condensada como los otros destacados, a lo ancho del panel */
+.right .seco{align-self:center;margin:12px 0 16px;font-family:C;font-weight:600;font-size:38px;letter-spacing:1px;text-transform:uppercase;line-height:1;white-space:nowrap}
+.right .seco b{font-weight:700;color:#2f7fd6} /* mismo azul que el isologo */
 .prod{display:grid;grid-template-columns:auto auto;justify-content:space-between;row-gap:5px}
-.prod div{display:flex;align-items:center;gap:13px;font-weight:500;font-size:29px;line-height:1;white-space:nowrap;text-shadow:0 2px 0 rgba(0,0,0,.4)}
-.prod div::before{content:"";width:14px;height:3px;background:#8cc3f8;flex:0 0 auto;box-shadow:0 2px 0 rgba(0,0,0,.4)}
+.prod div{display:flex;align-items:center;gap:13px;font-weight:500;font-size:29px;line-height:1;white-space:nowrap}
+.prod div::before{content:"";width:14px;height:3px;background:#8cc3f8;flex:0 0 auto}
 /* fondo metalizado de la columna derecha (se extiende al sangrado arriba y a la derecha) */
 .left .shade{position:absolute;z-index:-1;left:calc(var(--bleed) * -1);top:calc(var(--bleed) * -1);width:calc(100% + var(--bleed));height:calc(100% + var(--bleed))}
 /* canto del perfil metálico: filo de sombra + filo de luz */
