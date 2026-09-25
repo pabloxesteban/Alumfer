@@ -30,8 +30,8 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 | **Para la imprenta (PDF)** | `export/IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL.pdf` — **a tamaño real**, 100 % vectorial |
 | **Para la imprenta (imagen)** | `export/IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL_72dpi.png` — 15591 × 3685 px = 550 × 130 cm a 72 dpi |
 | Para ver / compartir | `Alumfer_cartel_5400x1200.png`, `Alumfer_cartel_10800x2400_alta.png` (sin sangrado) |
-| Colores | Solo dos fondos: oscuro `#121518` (arriba) y grafito `#1e2227` (franja de contacto). Azul `#2f7fd6` (isologo) / `#3d8be0` (filetes), blanco |
-| Tipografía | Montserrat y Montserrat Italic (incluidas en `assets/`, licencia OFL) |
+| Colores | Oscuro `#121518` (marca), **metalizado** gris cepillado en la columna de Trabajos a medida (como el cartel original; hecho con franjas vectoriales), grafito `#1e2227` (franja de contacto). Azul `#2f7fd6` (isologo) / `#3d8be0` (filetes), blanco |
+| Tipografía | Montserrat (marca, lista, líneas, web) + Montserrat Italic (frase de colocación) + **Barlow Condensed** (SOMOS FABRICANTES, TRABAJOS A MEDIDA y teléfonos). Todas en `assets/`, licencia OFL |
 
 ### Qué decirle a la imprenta
 
@@ -54,8 +54,8 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 | Texto | Altura | Se lee desde |
 |---|---|---|
 | ALUMFER (+ isologo, mismo alto) | ~26 cm | ~50 m |
-| WhatsApp 11 6336-8643 / 11 5806-5231 | ~11 cm | ~35 m |
-| TRABAJOS A MEDIDA · SOMOS FABRICANTES | ~8 cm | ~25 m |
+| WhatsApp 11 6336-8643 / 11 5806-5231 | ~14 cm | ~45 m |
+| TRABAJOS A MEDIDA · SOMOS FABRICANTES | ~13 cm | ~40 m |
 | Líneas, web, Instagram | ~7 cm | ~22 m |
 | Lista de trabajos, frase de colocación | ~6 cm | ~20 m (vereda de enfrente) |
 
@@ -80,7 +80,7 @@ cartel.html              Diseño (1800x400 px CSS = 5400x1200 mm).
 assets/
   isologo.svg            Isologo en vector (trazos a 60°), redibujado de solologo.png.
   qr.svg                 QR de WhatsApp (para vidriera / puerta).
-  Montserrat.ttf, Montserrat-Italic.ttf
+  Montserrat.ttf, Montserrat-Italic.ttf, BarlowCondensed-SemiBold.ttf, BarlowCondensed-Bold.ttf
 export/
   IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL.pdf        Para la imprenta (tamaño real, vectorial).
   IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL_72dpi.png  Lo mismo en imagen a 72 dpi.
