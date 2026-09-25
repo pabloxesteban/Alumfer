@@ -1,9 +1,9 @@
 // Exporta el cartel de la camioneta (2000 x 420 mm). Se usa el MISMO diseño en los dos laterales (imprimir x2).
 // (cartel.html#derecho conserva la variante espejada por si en algún momento se quiere volver a usar)
 //   - PNG de vista 4000x840 (sin sangrado)
-//   - IMPRENTA: PDF vectorial a tamaño real con 30 mm de sangrado por lado (2060 x 480 mm),
-//     TrimBox (2000 x 420 mm) y BleedBox marcados
-//   - IMPRENTA: PNG a tamaño real con sangrado a 150 dpi
+//   - IMPRENTA: PDF vectorial a tamaño real, medida total 2000 x 420 mm (sin sangrado extra)
+//   - IMPRENTA: PNG a tamaño real a 150 dpi
+//   Si la imprenta pidiera sangrado, subir BLEED (el diseño extiende los fondos solo).
 // Uso:  node scripts/export.mjs
 // Requiere:  npm i playwright-core pdf-lib sharp   (Chromium en CHROMIUM, por defecto /opt/pw-browsers/chromium)
 import { chromium } from 'playwright-core';
@@ -16,7 +16,7 @@ const CHROMIUM = process.env.CHROMIUM || '/opt/pw-browsers/chromium';
 const html = fileURLToPath(new URL('../cartel.html', import.meta.url));
 const out = (f) => fileURLToPath(new URL('../export/' + f, import.meta.url));
 const W = 2000, H = 420;          // 1 px CSS = 1 mm
-const BLEED = 30;                 // mm por lado
+const BLEED = 0;                  // mm por lado (0: el archivo mide exactamente 2000 x 420 mm, medida total)
 const PX_PER_MM = 96 / 25.4;      // para que 1 px de diseño mida 1 mm en el PDF
 
 const browser = await chromium.launch({ executablePath: CHROMIUM });
@@ -25,7 +25,7 @@ async function open(side, bleed, scale = 1, zoom = 1) {
     viewport: { width: Math.ceil((W + 2 * bleed) * zoom), height: Math.ceil((H + 2 * bleed) * zoom) }, deviceScaleFactor: scale });
   await page.goto('file://' + html + (side === 'derecho' ? '#derecho' : ''));
   // con sangrado: el fondo de página en grafito tapa cualquier filo de redondeo en el borde exterior
-  const bg = bleed ? '#1e2227' : 'transparent';
+  const bg = side ? '#1e2227' : 'transparent';
   await page.addStyleTag({ content: `html,body{background:${bg}} .sign{--bleed:${bleed}px} ${zoom !== 1 ? `body{zoom:${zoom}}` : ''}` });
   await page.evaluate(() => document.fonts.ready);
   return page;
@@ -33,6 +33,7 @@ async function open(side, bleed, scale = 1, zoom = 1) {
 
 for (const side of ['izquierdo']) {
   const tag = 'AMBOS_LADOS_x2';
+  const T = `${(W + 2 * BLEED) / 10}x${(H + 2 * BLEED) / 10}cm`;
 
   // vista
   let page = await open(side, 0, 2);
@@ -44,13 +45,13 @@ for (const side of ['izquierdo']) {
   page = await open(side, BLEED, wpx / (W + 2 * BLEED));
   const buf = await page.screenshot({ clip: { x: 0, y: 0, width: W + 2 * BLEED, height: H + 2 * BLEED } });
   await sharp(buf, { limitInputPixels: false }).resize(wpx, hpx).withMetadata({ density: DPI }).png({ compressionLevel: 9 })
-    .toFile(out(`IMPRENTA_Alumfer_camioneta_${tag}_206x48cm_150dpi.png`));
+    .toFile(out(`IMPRENTA_Alumfer_camioneta_${tag}_${T}_150dpi.png`));
   await page.close();
 
   // PDF imprenta a tamaño real (vectorial)
   page = await open(side, BLEED, 1, PX_PER_MM);
   await page.emulateMedia({ media: 'screen' });
-  const name = out(`IMPRENTA_Alumfer_camioneta_${tag}_206x48cm_TAMANO_REAL.pdf`);
+  const name = out(`IMPRENTA_Alumfer_camioneta_${tag}_${T}_TAMANO_REAL.pdf`);
   await page.pdf({ path: name, width: `${W + 2 * BLEED}mm`, height: `${H + 2 * BLEED}mm`, printBackground: true,
     pageRanges: '1', margin: { top: 0, right: 0, bottom: 0, left: 0 } });
   await page.close();
@@ -62,7 +63,7 @@ for (const side of ['izquierdo']) {
   p.setMediaBox(0, height - Ht, Wt, Ht);
   p.setBleedBox(0, height - Ht, Wt, Ht);
   p.setTrimBox(b, height - Ht + b, mm(W), mm(H));
-  doc.setTitle('Alumfer - cartel camioneta (imprimir 2 iguales) 200 x 42 cm + 3 cm de sangrado (206 x 48 cm)');
+  doc.setTitle(`Alumfer - cartel camioneta (imprimir 2 iguales) ${T} (tamaño real, medida total)`);
   await writeFile(name, await doc.save());
 }
 await browser.close();

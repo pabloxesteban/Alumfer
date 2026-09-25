@@ -13,10 +13,9 @@ con la marca hacia la trompa en el lado derecho, por si en algún momento se qui
 
 | Dato | Valor |
 |---|---|
-| Medida final (corte) | **200 × 42 cm** cada uno. En el diseño, 1 px = 1 mm |
-| Sangrado | **3 cm por lado** → tamaño total **206 × 48 cm** |
-| Para la imprenta | `export/IMPRENTA_Alumfer_camioneta_AMBOS_LADOS_x2_206x48cm_TAMANO_REAL.pdf` (imprimir 2 copias) — tamaño real, 100 % vectorial, tipografías incrustadas, TrimBox 200 × 42 cm |
-| Alternativa en imagen | `export/IMPRENTA_Alumfer_camioneta_AMBOS_LADOS_x2_206x48cm_150dpi.png` (12165 × 2835 px) |
+| **Medida total** | **2000 × 420 mm (200 × 42 cm)** cada uno — el archivo mide exactamente eso, sin sangrado extra. En el diseño, 1 px = 1 mm |
+| Para la imprenta | `export/IMPRENTA_Alumfer_camioneta_AMBOS_LADOS_x2_200x42cm_TAMANO_REAL.pdf` (imprimir 2 copias) — tamaño real, 100 % vectorial, tipografías incrustadas |
+| Alternativa en imagen | `export/IMPRENTA_Alumfer_camioneta_AMBOS_LADOS_x2_200x42cm_150dpi.png` (11811 × 2480 px) |
 | Vista (sin sangrado) | `export/Alumfer_camioneta_AMBOS_LADOS_x2_vista.png` |
 | Ficha técnica | `export/Alumfer_camioneta_FICHA_TECNICA.pdf` |
 

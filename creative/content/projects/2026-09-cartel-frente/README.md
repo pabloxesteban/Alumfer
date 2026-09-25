@@ -25,31 +25,26 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 
 | Dato | Valor |
 |---|---|
-| Medida final (corte) | **540 × 120 cm** (5,40 × 1,20 m, lona). En el diseño, 1 px = 3 mm |
-| Sangrado | **5 cm por lado** → tamaño total **550 × 130 cm** |
-| **Para la imprenta (PDF)** | `export/IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL.pdf` — **a tamaño real**, 100 % vectorial |
-| **Para la imprenta (imagen)** | `export/IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL_72dpi.png` — 15591 × 3685 px = 550 × 130 cm a 72 dpi |
-| Para ver / compartir | `Alumfer_cartel_5400x1200.png`, `Alumfer_cartel_10800x2400_alta.png` (sin sangrado) |
-| Volumen | Degradé vertical sutil en el fondo de la marca, filo fino (sombra + luz) en el borde del panel metálico, filo de luz sobre la franja de contacto (sin sombras en los textos). Todo vectorial |
+| **Medida total** | **5400 × 1200 mm (540 × 120 cm)** — el archivo mide exactamente eso, sin sangrado extra |
+| **Para la imprenta (PDF)** | `export/IMPRENTA_Alumfer_cartel_540x120cm_TAMANO_REAL.pdf` — tamaño real, 100 % vectorial, tipografías incrustadas |
+| Para la imprenta (imagen) | `export/IMPRENTA_Alumfer_cartel_540x120cm_TAMANO_REAL_72dpi.png` — 15307 × 3402 px = 540 × 120 cm a 72 dpi |
+| Ficha técnica | `export/Alumfer_cartel_FICHA_TECNICA.pdf` |
+| Para ver / compartir | `Alumfer_cartel_5400x1200.png`, `Alumfer_cartel_10800x2400_alta.png` |
 | Texto | Todo el texto en blanco puro `#FFFFFF`, salvo "Colocación en seco" (azul del isologo con contorno blanco) y la "/" entre teléfonos (gris separador) |
-| Colores | Oscuro `#121518` (marca), **metalizado** gris cepillado en la columna de Trabajos a medida (como el cartel original; hecho con franjas vectoriales), grafito `#1e2227` (franja de contacto). Azul `#2f7fd6` (isologo) / `#3d8be0` (filetes), blanco |
-| Tipografía | Montserrat (marca, lista, líneas, web) + **Barlow Condensed** para todo lo que resalta (SOMOS FABRICANTES, TRABAJOS A MEDIDA, frase de colocación, teléfonos, web e Instagram). Todas en `assets/`, licencia OFL |
+| Volumen | Degradé vertical sutil en el fondo de la marca, filo fino (sombra + luz) en el borde del panel metálico y filo de luz sobre la franja de contacto (sin sombras en los textos). Todo vectorial |
+| Colores | Oscuro `#121518` (marca), **metalizado** gris cepillado en la columna de Trabajos a medida (franjas vectoriales), grafito `#1e2227` (franja de contacto). Azul `#2f7fd6` (isologo), blanco |
+| Tipografía | Montserrat (marca, lista, líneas) + **Barlow Condensed** para lo que resalta (SOMOS FABRICANTES, TRABAJOS A MEDIDA, frase de colocación, teléfonos, web e Instagram). Todas en `assets/`, licencia OFL |
 
 ### Qué decirle a la imprenta
 
-> "Es una lona de **540 × 120 cm** terminada. Les paso el PDF **a tamaño real con 5 cm de
-> sangrado por lado** (550 × 130 cm); la línea de corte está marcada en el PDF (TrimBox).
-> Es vectorial. También está la imagen a tamaño real a 72 dpi por si la prefieren."
+> "Es una lona de **540 × 120 cm (medida total)**. El PDF está **a tamaño real** y es **vectorial**
+> (tipografías incrustadas): se puede ampliar o reducir sin perder calidad."
 
 - Un PDF común no admite páginas de más de 5,08 m; por eso el PDF usa `UserUnit = 10`
-  (norma PDF 1.6/1.7): al abrirlo en Acrobat o en el RIP de la imprenta mide 550 × 130 cm reales.
-  Si algún programa viejo lo mostrara a 55 × 13 cm, es el mismo archivo a escala 1:10: se imprime ×10,
-  o se usa el PNG, que no tiene ese límite.
-- 72 dpi a tamaño real es la resolución habitual para lona vista de lejos. Si piden más, se sube `DPI`
-  en `scripts/export.mjs` (con el PDF vectorial la imprenta puede rasterizar a la resolución que quiera).
-- En el sangrado solo hay fondo liso (oscuro arriba, grafito en la franja de abajo): ningún texto
-  queda cerca del corte. Si para tensar la lona en el bastidor piden más de 5 cm, se cambia
-  `BLEED_MM` en `scripts/export.mjs` y se vuelve a exportar.
+  (norma PDF 1.6/1.7): al abrirlo en Acrobat o en el RIP de la imprenta mide 540 × 120 cm reales.
+  Si algún programa viejo lo mostrara a 54 × 12 cm, es el mismo archivo a escala 1:10: se imprime al 1000 %,
+  o se usa el PNG.
+- Si la imprenta pide sangrado, se cambia `BLEED_MM` en `scripts/export.mjs` (los fondos se extienden solos).
 
 ### Legibilidad a tamaño real (altura de mayúsculas aprox.)
 
@@ -85,8 +80,8 @@ assets/
   qr.svg                 QR de WhatsApp (para vidriera / puerta).
   Montserrat.ttf, Montserrat-Italic.ttf, BarlowCondensed-SemiBold.ttf, BarlowCondensed-Bold.ttf
 export/
-  IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL.pdf        Para la imprenta (tamaño real, vectorial).
-  IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL_72dpi.png  Lo mismo en imagen a 72 dpi.
+  IMPRENTA_Alumfer_cartel_540x120cm_TAMANO_REAL.pdf        Para la imprenta (tamaño real, vectorial).
+  IMPRENTA_Alumfer_cartel_540x120cm_TAMANO_REAL_72dpi.png  Lo mismo en imagen a 72 dpi.
   Alumfer_cartel_FICHA_TECNICA.pdf           Ficha A4 con medidas, sangrado y archivo (para el email).
   Alumfer_cartel_5400x1200.png               Para ver / compartir (sin sangrado).
   Alumfer_cartel_10800x2400_alta.png         Ídem, más grande.
