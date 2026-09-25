@@ -11,6 +11,7 @@
 -->
 <style>
 @font-face{font-family:M;src:url('assets/Montserrat.ttf');font-weight:100 900;font-display:block}
+@font-face{font-family:M;font-style:italic;src:url('assets/Montserrat-Italic.ttf');font-weight:100 900;font-display:block}
 :root{--dark:#121518; --graphite:#1e2227; --blue:#1f6fcb; --blue-l:#3d8be0; --white:#fff; --soft:#c9d0d8}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{background:#777}
@@ -34,17 +35,17 @@ html,body{background:#777}
 .claim{margin-top:13px;display:flex;align-items:center;gap:28px;font-weight:600;font-size:39px;letter-spacing:5px;
   text-transform:uppercase;white-space:nowrap}
 .claim::before,.claim::after{content:"";width:120px;height:3px;background:var(--blue-l)}
-.seco{margin-top:2px;font-weight:500;font-size:30px;white-space:nowrap}
-.seco b{font-weight:700}
+.seco{margin-top:2px;font-weight:500;font-style:italic;font-size:30px;white-space:nowrap}
 .lines{margin-top:9px;font-weight:500;font-size:37px;letter-spacing:0;white-space:nowrap}
 
 
 /* ============ DERECHA: trabajos a medida ============ */
 .right{flex:1;background:var(--dark);position:relative;display:flex;flex-direction:column;justify-content:center;padding:0 58px}
-.right h2{font-weight:600;font-size:45px;letter-spacing:6px;text-transform:uppercase;line-height:1;white-space:nowrap;margin-right:-6px}
-.right .rule{width:100px;height:3px;background:var(--blue-l);margin:14px 0 20px}
+.right h2{font-weight:600;font-size:45px;letter-spacing:6px;text-transform:uppercase;line-height:1;white-space:nowrap;text-align:center;padding-left:6px}
+.right .rule{width:100px;height:3px;background:var(--blue-l);margin:14px auto 20px}
 .prod{display:grid;grid-template-columns:auto auto;justify-content:space-between;row-gap:16px}
-.prod div{font-weight:500;font-size:33px;line-height:1;white-space:nowrap}
+.prod div{display:flex;align-items:center;gap:13px;font-weight:500;font-size:30px;line-height:1;white-space:nowrap}
+.prod div::before{content:"";width:14px;height:3px;background:var(--blue-l);flex:0 0 auto}
 /* separador entre marca y trabajos: línea fina que no toca los bordes */
 .right::before{content:"";position:absolute;left:0;top:44px;bottom:44px;width:2px;background:rgba(255,255,255,.2)}
 
@@ -76,7 +77,7 @@ html,body{background:#777}
     </div>
 
     <div class="claim">Somos fabricantes</div>
-    <div class="seco"><b>Colocación en seco</b> – en el día y sin romper</div>
+    <div class="seco">Colocación en seco – en el día y sin romper</div>
     <div class="lines">Herrero – Rotonda – Modena 1 y 2 – A-30 New</div>
 
   </div>

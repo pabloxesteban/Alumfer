@@ -31,7 +31,7 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 | **Para la imprenta (imagen)** | `export/IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL_72dpi.png` — 15591 × 3685 px = 550 × 130 cm a 72 dpi |
 | Para ver / compartir | `Alumfer_cartel_5400x1200.png`, `Alumfer_cartel_10800x2400_alta.png` (sin sangrado) |
 | Colores | Solo dos fondos: oscuro `#121518` (arriba) y grafito `#1e2227` (franja de contacto). Azul `#2f7fd6` (isologo) / `#3d8be0` (filetes), blanco |
-| Tipografía | Montserrat (incluida en `assets/`) |
+| Tipografía | Montserrat y Montserrat Italic (incluidas en `assets/`, licencia OFL) |
 
 ### Qué decirle a la imprenta
 
@@ -63,7 +63,7 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 
 - **Carpintería de aluminio · ALUMFER** (isologo redibujado en vector: `assets/isologo.svg`)
 - **"Somos fabricantes"**
-- **Colocación en seco – en el día y sin romper** (bajo Somos fabricantes: instalan sobre lo existente)
+- *Colocación en seco – en el día y sin romper* (en cursiva, bajo Somos fabricantes: instalan sobre lo existente)
 - Herrero – Rotonda – Modena 1 y 2 – A-30 New
 - **Trabajos a medida:** ventanas y puertas, portones, postigones, mamparas para baño,
   mosquiteros, frentes de negocio, jardín de invierno, laminados y D.V.H.
@@ -80,7 +80,7 @@ cartel.html              Diseño (1800x400 px CSS = 5400x1200 mm).
 assets/
   isologo.svg            Isologo en vector (trazos a 60°), redibujado de solologo.png.
   qr.svg                 QR de WhatsApp (para vidriera / puerta).
-  Montserrat.ttf
+  Montserrat.ttf, Montserrat-Italic.ttf
 export/
   IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL.pdf        Para la imprenta (tamaño real, vectorial).
   IMPRENTA_Alumfer_cartel_550x130cm_TAMANO_REAL_72dpi.png  Lo mismo en imagen a 72 dpi.
