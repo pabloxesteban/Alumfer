@@ -53,7 +53,7 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 
 | Texto | Altura | Se lee desde |
 |---|---|---|
-| ALUMFER | ~19 cm | ~40 m |
+| ALUMFER | ~22 cm | ~45 m |
 | Franja de contacto (teléfonos, web, Instagram) | ~8 cm | ~25 m |
 | TRABAJOS A MEDIDA · SOMOS FABRICANTES | ~8 cm | ~25 m |
 | Líneas | ~8 cm | ~25 m |
@@ -63,8 +63,8 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 
 - **Carpintería de aluminio · ALUMFER** (isologo redibujado en vector: `assets/isologo.svg`)
 - **"Somos fabricantes"**
-- *Colocación en seco – en el día y sin romper* (en cursiva, bajo Somos fabricantes: instalan sobre lo existente)
 - Herrero – Rotonda – Modena 1 y 2 – A-30 New
+- *Colocación en seco, sin romper* (en cursiva, como bajada de Trabajos a medida: instalan sobre lo existente; frase a definir)
 - **Trabajos a medida:** ventanas y puertas, portones, postigones, mamparas para baño,
   mosquiteros, frentes de negocio, jardín de invierno, laminados y D.V.H.
   (sin divisores de oficina ni frentes de placard, para dar lugar a letra más grande)
