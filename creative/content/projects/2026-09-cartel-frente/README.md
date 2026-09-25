@@ -67,7 +67,7 @@ del volante 10×15 (`2026-07-volante-10x15`, rama `claude/alumfer-instagram-caro
 - **Trabajos a medida:** ventanas y puertas, portones, postigones, mamparas para baño,
   mosquiteros, frentes de negocio, jardín de invierno, laminados y D.V.H.
   (sin divisores de oficina ni frentes de placard, para dar lugar a letra más grande)
-- **Colocación en seco · sin romper paredes** (en azul, bajo la lista: instalan sobre lo existente)
+- **Colocación en seco – cambiamos sin romper nada** (en azul, centrado bajo la lista: instalan sobre lo existente)
 - Franja de contacto: WhatsApp **11 6336-8643 / 11 5806-5231** · **www.alumfer.com.ar** · Instagram **@alumfercarpinteria**
 
 No lleva QR: a 3 m de altura no se escanea cómodo. El QR de WhatsApp está en
