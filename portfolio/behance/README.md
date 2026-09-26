@@ -21,7 +21,7 @@ portfolio/behance/
 
 ## 1. Orden de carga (definitivo)
 
-`preview-full-project.jpg` muestra cómo queda el proyecto completo, de arriba
+`preview/` (tres partes) muestra cómo queda el proyecto completo, de arriba
 abajo, tal como lo va a ver un visitante.
 
 Subí los módulos **en este orden**, cada lámina **a ancho completo**, con
