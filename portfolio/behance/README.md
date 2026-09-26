@@ -6,7 +6,10 @@ las láminas listas para subir, la portada y los textos para copiar y pegar.
 ```
 portfolio/behance/
 ├── laminas/          ← las imágenes que se suben (2800 px de ancho, JPG)
+├── video/            ← recorrido del sitio en video (MP4, 1920×1080, 25 s)
+├── perfil/           ← banner del perfil de Behance
 ├── _src/             ← fuente de las láminas y scripts para regenerarlas
+├── PERFIL.md         ← cómo armar el perfil, basado en los perfiles mejor valorados
 └── README.md         ← este archivo: textos, tags y orden de carga
 ```
 
@@ -17,37 +20,36 @@ portfolio/behance/
 Las láminas están exportadas a 2800 px de ancho (el doble de los 1400 px que
 muestra Behance), así se ven nítidas en pantallas retina. Subilas **en este
 orden**, una debajo de otra, con **espaciado 0 entre módulos** y
-**fondo `#1A1C1E`** (Behance → *Configuración del proyecto* → *Espaciado* y
+**fondo `#EAE7E1`** (Behance → *Configuración del proyecto* → *Espaciado* y
 *Color de fondo*). Así las láminas se leen como una sola pieza continua.
 
 | # | Archivo | Qué muestra |
 |---|---------|-------------|
 | 1 | `01-portada.jpg` | Logotipo de la empresa, rubro, ubicación y el sitio |
 | 2 | `02-el-proyecto.jpg` | Ficha del proyecto y fotos de obras reales |
-| 3 | `03-identidad-visual.jpg` | Logotipo sobre fondo oscuro y azul, paleta y tipografías |
-| 4 | `04-inicio.jpg` | La primera pantalla del sitio, a ancho completo |
-| 5 | `05-pagina-completa.jpg` | La página de inicio completa, en tres tramos |
-| 6 | `06-galeria-de-obras.jpg` | Galería de obras, escritorio y celular |
-| 7 | `07-proceso-y-catalogo.jpg` | Los 4 pasos del servicio y el catálogo de líneas |
-| 8 | `08-opiniones-y-contacto.jpg` | Reseñas, garantía, preguntas frecuentes y formulario |
-| 9 | `09-celular.jpg` | Cinco pantallas en celular |
-| 10 | `10-localidades-y-servicios.jpg` | Páginas por localidad y por servicio |
-| 11 | `11-guias.jpg` | Las cuatro guías para clientes |
-| 12 | `12-desarrollo.jpg` | Ficha técnica del desarrollo |
-| 13 | `13-cierre.jpg` | Cierre con datos de la empresa |
+| 3 | `03-estructura.jpg` | Arquitectura de la información: cómo se ordenó el contenido |
+| 4 | `04-identidad-visual.jpg` | Logotipo sobre fondo oscuro y azul, paleta y tipografías |
+| 5 | `05-inicio.jpg` | La primera pantalla del sitio, a ancho completo |
+| 6 | `video/recorrido-sitio.mp4` | **Módulo de video:** recorrido de la página, escritorio y celular |
+| 7 | `06-pagina-completa.jpg` | La página de inicio completa, en tres tramos |
+| 8 | `07-galeria-de-obras.jpg` | Galería de obras, escritorio y celular |
+| 9 | `08-proceso-y-catalogo.jpg` | Los 4 pasos del servicio y el catálogo de líneas |
+| 10 | `09-opiniones-y-contacto.jpg` | Reseñas, garantía, preguntas frecuentes y formulario |
+| 11 | `10-celular.jpg` | Cinco pantallas en celular |
+| 12 | `11-localidades-y-servicios.jpg` | Páginas por localidad y por servicio |
+| 13 | `12-guias.jpg` | Las cuatro guías para clientes |
+| 14 | `13-desarrollo.jpg` | Ficha técnica del desarrollo |
+| 15 | `14-cierre.jpg` | Cierre con datos de la empresa |
+| 16 | *Módulo de texto* | Tu contacto (ver `PERFIL.md`, sección 4) |
 
 Tipografía de las láminas: Inter, la misma del sitio (500 en títulos y 400
 en textos). El logotipo se muestra como en la marca: isotipo a la izquierda y
 ALUMFER en mayúsculas, en Montserrat 600 espaciada.
 
-**Portada del proyecto (la miniatura de la grilla):** `portada-808x632.jpg`.
-Behance pide 808 × 632 como mínimo recomendado; la exportada está al doble
-(1616 × 1264). Al recortarla en Behance, usá el encuadre completo.
-
-> Tip: entre la lámina 4 y la 5 podés agregar un módulo de **video** (grabación
-> de pantalla de 15–20 s scrolleando el home, con la animación del hero). Es lo
-> que más suma en Behance para proyectos web. Grabalo desde alumfer.com.ar con
-> la ventana a 1440 × 900.
+**Portada del proyecto (la miniatura de la grilla):** `portada-808x632.jpg`,
+exportada al doble (1616 × 1264). Es solo imagen, sin texto encima: el equipo
+de curación de Behance pide portadas que muestren el trabajo sin superposiciones
+de texto. El nombre del proyecto ya aparece debajo de la miniatura.
 
 ---
 
@@ -55,9 +57,10 @@ Behance pide 808 × 632 como mínimo recomendado; la exportada está al doble
 
 **Título**
 
-> Alumfer — Sitio web para una fábrica de aberturas de aluminio
+> Alumfer — Sitio web corporativo para una fábrica de aberturas de aluminio
 
-Alternativas más cortas: *Alumfer · Web Design & Development* · *Alumfer — Aberturas a medida*
+Sigue el formato de los proyectos mejor valorados: *Marca — qué es*. Si querés
+llegar también a clientes de afuera: *Alumfer — Corporate Website | Web Design & UX/UI*.
 
 **Campos creativos** (Behance deja elegir hasta 3)
 

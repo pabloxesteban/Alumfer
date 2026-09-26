@@ -78,6 +78,41 @@ h2{font-weight:500;font-size:34px;letter-spacing:-.02em;line-height:1.15}
   </div>
 </section>
 
+<!-- 03 · ESTRUCTURA -->
+<section class="board" id="bmap" style="height:1000px">
+  <div style="position:absolute;left:var(--m);top:110px;width:560px">
+    <h2>Estructura del sitio</h2>
+    <p class="txt" style="margin-top:22px">Antes de diseñar se ordenó el contenido en cuatro recorridos: quien busca un producto, quien busca en su barrio, quien todavía se está informando y quien ya quiere pedir presupuesto. Todos terminan en el mismo lugar: el contacto con el taller.</p>
+  </div>
+  <svg style="position:absolute;left:var(--m);top:400px" width="1208" height="520" viewBox="0 0 1208 520" font-family="Inter" font-size="14" fill="#1A1C1E">
+    <g stroke="#1A1C1E" stroke-opacity=".35" fill="none" stroke-width="1">
+      <path d="M604 64 V104 M151 104 H1057 M151 104 V140 M453 104 V140 M755 104 V140 M1057 104 V140"/>
+      <path d="M151 304 V470 H1057 M453 304 V470 M755 304 V470 M1057 304 V470 M604 470 V440"/>
+    </g>
+    <rect x="514" y="0" width="180" height="64" fill="#1A1C1E"/>
+    <text x="604" y="38" text-anchor="middle" fill="#fff" font-weight="500" font-size="16">Inicio</text>
+    <g>
+      <rect x="61" y="140" width="180" height="64" fill="#F5F4F1" stroke="#1A1C1E" stroke-opacity=".25"/>
+      <text x="151" y="168" text-anchor="middle" font-weight="500">Servicios</text><text x="151" y="188" text-anchor="middle" fill="#5A5A55" font-size="13">6 páginas</text>
+      <rect x="363" y="140" width="180" height="64" fill="#F5F4F1" stroke="#1A1C1E" stroke-opacity=".25"/>
+      <text x="453" y="168" text-anchor="middle" font-weight="500">Localidades</text><text x="453" y="188" text-anchor="middle" fill="#5A5A55" font-size="13">27 páginas</text>
+      <rect x="665" y="140" width="180" height="64" fill="#F5F4F1" stroke="#1A1C1E" stroke-opacity=".25"/>
+      <text x="755" y="168" text-anchor="middle" font-weight="500">Guías</text><text x="755" y="188" text-anchor="middle" fill="#5A5A55" font-size="13">4 artículos</text>
+      <rect x="967" y="140" width="180" height="64" fill="#F5F4F1" stroke="#1A1C1E" stroke-opacity=".25"/>
+      <text x="1057" y="168" text-anchor="middle" font-weight="500">Obras y catálogo</text><text x="1057" y="188" text-anchor="middle" fill="#5A5A55" font-size="13">en la página de inicio</text>
+    </g>
+    <g font-size="13" fill="#5A5A55">
+      <text x="61" y="238">Ventanas · Ventanas DVH</text><text x="61" y="258">Puertas · Mosquiteros</text><text x="61" y="278">Cerramientos · Techos</text>
+      <text x="363" y="238">Adrogué · Temperley</text><text x="363" y="258">Lomas de Zamora · Quilmes</text><text x="363" y="278">y 23 localidades más</text>
+      <text x="665" y="238">¿Conviene el DVH?</text><text x="665" y="258">Aluminio o PVC</text><text x="665" y="278">Colocación en seco · Líneas</text>
+      <text x="967" y="238">Galería en 8 categorías</text><text x="967" y="258">Líneas, vidrios y colores</text><text x="967" y="278">Preguntas frecuentes</text>
+    </g>
+    <rect x="484" y="376" width="240" height="64" fill="#1B6CC8"/>
+    <text x="604" y="404" text-anchor="middle" fill="#fff" font-weight="500">Pedido de presupuesto</text>
+    <text x="604" y="424" text-anchor="middle" fill="#fff" fill-opacity=".8" font-size="13">WhatsApp · teléfono · formulario</text>
+  </svg>
+</section>
+
 <!-- 03 · IDENTIDAD -->
 <section class="board" id="b03" style="height:1150px">
   <div style="position:absolute;left:var(--m);top:110px;width:520px">
@@ -224,16 +259,22 @@ h2{font-weight:500;font-size:34px;letter-spacing:-.02em;line-height:1.15}
   <p style="position:absolute;left:0;right:0;top:370px;text-align:center;font-size:15px;line-height:1.7;color:rgba(255,255,255,.6)">alumfer.com.ar<br>Av. San Martín 734, Adrogué, Buenos Aires</p>
 </section>
 
-<!-- PORTADA DE GRILLA 808×632 -->
-<section class="board dark" id="thumb" style="width:808px;height:632px">
-  <div class="lockup" style="position:absolute;left:0;right:0;top:92px;justify-content:center;gap:20px">
-    <img src="../../../apps/website/solologo.png" style="height:66px">
-    <div>
-      <div class="name" style="font-size:46px">ALUMFER</div>
-      <div class="sub" style="font-size:10.5px;margin-top:10px">Carpintería de aluminio</div>
-    </div>
+<!-- PORTADA DE GRILLA 808×632: solo imagen, sin texto encima (recomendación de curaduría) -->
+<section class="board" id="thumb" style="width:808px;height:632px;background:#E1DDD5">
+  <img src="../_raw/desk-hero.png" style="position:absolute;left:48px;top:64px;width:600px;height:375px;object-fit:cover;box-shadow:0 0 0 1px rgba(26,28,30,.15)">
+  <img src="../_raw/mob-top.png" style="position:absolute;left:576px;top:168px;width:184px;aspect-ratio:390/844;object-fit:cover;object-position:top;border-radius:18px;box-shadow:0 0 0 1px rgba(26,28,30,.2),0 20px 40px -20px rgba(26,28,30,.5)">
+</section>
+
+<!-- BANNER DE PERFIL 3200×410 (se exporta al doble) -->
+<section class="board" id="banner" style="width:1600px;height:205px;background:#E1DDD5">
+  <div style="position:absolute;left:40px;right:40px;top:28px;display:grid;grid-template-columns:1fr 1fr 2.6fr 2.6fr 1fr 1fr;gap:14px;align-items:start">
+    <img class="scr" src="../_raw/m-trabajos.png" style="border-radius:14px">
+    <img class="scr" src="../_raw/m-productos.png" style="border-radius:14px">
+    <img src="../_raw/desk-hero.png" style="width:100%;display:block;box-shadow:0 0 0 1px rgba(26,28,30,.15)">
+    <img src="../_raw/desk-trabajos.png" style="width:100%;display:block;box-shadow:0 0 0 1px rgba(26,28,30,.15)">
+    <img class="scr" src="../_raw/m-reviews.png" style="border-radius:14px">
+    <img class="scr" src="../_raw/m-guia-body.png" style="border-radius:14px">
   </div>
-  <img src="../_raw/desk-hero.png" style="position:absolute;left:64px;top:260px;width:680px;height:420px;object-fit:cover;object-position:top;box-shadow:0 0 0 1px rgba(255,255,255,.08)">
 </section>
 
 <script>
