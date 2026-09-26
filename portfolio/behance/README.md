@@ -1,189 +1,184 @@
-# Alumfer · Presentación para Behance
+# Alumfer · Behance case study (English)
 
-Todo lo necesario para publicar el sitio de Alumfer como proyecto en Behance:
-las láminas listas para subir, la portada y los textos para copiar y pegar.
+Everything needed to publish the Alumfer website as a Behance project aimed at
+international clients: the boards, the video, the cover and every text field,
+ready to copy and paste.
+
+Instrucciones en español; **todo lo que va entre bloques de cita o de código
+se copia tal cual en Behance, en inglés.**
 
 ```
 portfolio/behance/
-├── laminas/          ← las imágenes que se suben (2800 px de ancho, JPG)
-├── video/            ← recorrido del sitio en video (MP4, 1920×1080, 25 s)
-├── perfil/           ← banner del perfil de Behance
+├── laminas/          ← las láminas en inglés (2800 px de ancho, JPG)
+├── video/            ← homepage-walkthrough.mp4 (1920×1080, 25 s)
+├── perfil/           ← banner del perfil
 ├── _src/             ← fuente de las láminas y scripts para regenerarlas
-├── PERFIL.md         ← cómo armar el perfil, basado en los perfiles mejor valorados
-└── README.md         ← este archivo: textos, tags y orden de carga
+├── PERFIL.md         ← perfil y marca propia (textos en inglés)
+└── README.md         ← este archivo
 ```
 
 ---
 
-## 1. Qué subir y en qué orden
+## 1. Orden de carga
 
-Las láminas están exportadas a 2800 px de ancho (el doble de los 1400 px que
-muestra Behance), así se ven nítidas en pantallas retina. Subilas **en este
-orden**, una debajo de otra, con **espaciado 0 entre módulos** y
-**fondo `#EAE7E1`** (Behance → *Configuración del proyecto* → *Espaciado* y
-*Color de fondo*). Así las láminas se leen como una sola pieza continua.
+Subí los módulos **en este orden**, con **espaciado 0** entre módulos y
+**color de fondo `#EAE7E1`** (Project settings → Spacing / Background color).
 
-| # | Archivo | Qué muestra |
-|---|---------|-------------|
-| 1 | `01-portada.jpg` | Logotipo de la empresa, rubro, ubicación y el sitio |
-| 2 | `02-el-proyecto.jpg` | Ficha del proyecto y fotos de obras reales |
-| 3 | `03-estructura.jpg` | Arquitectura de la información: cómo se ordenó el contenido |
-| 4 | `04-identidad-visual.jpg` | Logotipo sobre fondo oscuro y azul, paleta y tipografías |
-| 5 | `05-inicio.jpg` | La primera pantalla del sitio, a ancho completo |
-| 6 | `video/recorrido-sitio.mp4` | **Módulo de video:** recorrido de la página, escritorio y celular |
-| 7 | `06-pagina-completa.jpg` | La página de inicio completa, en tres tramos |
-| 8 | `07-galeria-de-obras.jpg` | Galería de obras, escritorio y celular |
-| 9 | `08-proceso-y-catalogo.jpg` | Los 4 pasos del servicio y el catálogo de líneas |
-| 10 | `09-opiniones-y-contacto.jpg` | Reseñas, garantía, preguntas frecuentes y formulario |
-| 11 | `10-celular.jpg` | Cinco pantallas en celular |
-| 12 | `11-localidades-y-servicios.jpg` | Páginas por localidad y por servicio |
-| 13 | `12-guias.jpg` | Las cuatro guías para clientes |
-| 14 | `13-desarrollo.jpg` | Ficha técnica del desarrollo |
-| 15 | `14-cierre.jpg` | Cierre con datos de la empresa |
-| 16 | *Módulo de texto* | Tu contacto (ver `PERFIL.md`, sección 4) |
+| # | Módulo | Contenido |
+|---|--------|-----------|
+| 1 | `01-cover.jpg` | Alumfer logo, positioning line, the live site |
+| 2 | `02-overview.jpg` | Brief, project facts, real project photography |
+| 3 | `03-information-architecture.jpg` | Site structure around four customer intents |
+| 4 | `04-brand-system.jpg` | Logo on dark and blue, palette, typefaces |
+| 5 | `05-homepage-hero.jpg` | Homepage first screen, full bleed |
+| 6 | `video/homepage-walkthrough.mp4` | **Video module:** full homepage, desktop and mobile |
+| 7 | `06-homepage.jpg` | The full homepage in three sections |
+| 8 | `07-project-gallery.jpg` | Filterable project gallery, desktop and mobile |
+| 9 | `08-process-and-catalog.jpg` | Service process and product catalog |
+| 10 | `09-reviews-and-contact.jpg` | Reviews, warranty, FAQ, quote form |
+| 11 | `10-mobile.jpg` | Five mobile screens |
+| 12 | `11-local-search-pages.jpg` | 27 location pages and 6 service pages |
+| 13 | `12-buyer-guides.jpg` | Four long-form buyer guides |
+| 14 | `13-build.jpg` | Technical build |
+| 15 | `14-closing.jpg` | Closing board |
+| 16 | *Text module* | Call to action, see section 4 |
 
-Tipografía de las láminas: Inter, la misma del sitio (500 en títulos y 400
-en textos). El logotipo se muestra como en la marca: isotipo a la izquierda y
-ALUMFER en mayúsculas, en Montserrat 600 espaciada.
+**Project cover (grid thumbnail):** `laminas/cover-808x632.jpg` (exported at
+2×, 1616 × 1264). Image only, no text on top, as Behance's curators recommend.
+Use the full frame when cropping.
 
-**Portada del proyecto (la miniatura de la grilla):** `portada-808x632.jpg`,
-exportada al doble (1616 × 1264). Es solo imagen, sin texto encima: el equipo
-de curación de Behance pide portadas que muestren el trabajo sin superposiciones
-de texto. El nombre del proyecto ya aparece debajo de la miniatura.
+**Criterios que se mantuvieron en toda la serie**
+
+- Inglés estadounidense en todos los textos: *aluminum*, *catalog*, *color*,
+  *grays*.
+- Terminología del rubro revisada: *double glazing* (DVH), *insect screens*
+  (mosquiteros), *dry installation* (colocación en seco), *profile system*
+  (línea de aluminio), *enclosures* (cerramientos).
+- Las capturas quedan en español porque es el idioma real del sitio; se aclara
+  donde corresponde. Traducirlas sería presentar un sitio que no existe.
+- El logotipo de Alumfer se muestra sin traducir: es su marca.
+- Ninguna métrica inventada. Las cifras que aparecen (desde 2010, más de 500
+  obras, 38 páginas, 27 localidades) son reales y verificables.
 
 ---
 
-## 2. Datos del proyecto (formulario de Behance)
+## 2. Project fields
 
-**Título**
+**Project title**
 
-> Alumfer — Sitio web corporativo para una fábrica de aberturas de aluminio
+```
+Alumfer — Corporate Website for an Aluminum Window Manufacturer
+```
 
-Sigue el formato de los proyectos mejor valorados: *Marca — qué es*. Si querés
-llegar también a clientes de afuera: *Alumfer — Corporate Website | Web Design & UX/UI*.
+**Short description** (Behance shows it under the title and in search)
 
-**Campos creativos** (Behance deja elegir hasta 3)
+```
+Corporate website for Alumfer, a family-run aluminum window and door manufacturer in Buenos Aires. Information architecture, UX/UI design, front-end development and local SEO, built to turn visits into quote requests.
+```
+
+**Creative fields** (choose 3, by role)
 
 1. Web Design
 2. UI/UX
 3. Web Development
 
-**Herramientas usadas** (agregar las que correspondan a cómo trabajaste)
-
-HTML · CSS · JavaScript · PHP · GSAP · Google Analytics · GitHub · Figma
-*(Figma solo si diseñaste ahí; si no, sacalo)*
-
-**Tags** (Behance permite hasta 10)
+**Tags** (10)
 
 ```
-web design, ui design, responsive design, corporate website, local seo, aluminium, carpinteria de aluminio, aberturas, argentina, buenos aires
+web design, ui ux, website design, corporate website, responsive design, information architecture, local seo, front-end development, manufacturing, windows and doors
 ```
 
-**Links del proyecto**
+**Tools used**
 
-| Etiqueta | URL |
-|----------|-----|
-| Sitio en vivo | https://alumfer.com.ar |
-| Guía de ejemplo | https://alumfer.com.ar/guias/conviene-el-dvh/ |
-| Landing local de ejemplo | https://alumfer.com.ar/aberturas-de-aluminio-adrogue/ |
-| Instagram del cliente | https://www.instagram.com/alumfercarpinteria/ |
+```
+Figma, HTML, CSS, JavaScript, PHP, GSAP, Google Analytics, GitHub
+```
 
-**Créditos**
+*Dejá solo las que realmente usaste. Si no diseñaste en Figma, sacalo: un
+cliente puede preguntar por los archivos de diseño.*
 
-- Cliente: Alumfer · Carpintería de aluminio (Adrogué, Buenos Aires)
-- Diseño y desarrollo: *tu nombre / tu usuario de Behance*
-- Fotografía de obras: Alumfer
+**Credits**
 
----
+- Client: Alumfer
+- Design and development: *[Studio name]*
+- Project photography: Alumfer
 
-## 3. Descripción del proyecto
+**Project links** (panel lateral del proyecto)
 
-### Versión corta (la que aparece debajo del título)
-
-> Sitio institucional para Alumfer, fábrica familiar de aberturas de aluminio a
-> medida en Adrogué, Buenos Aires, con más de 15 años en el mercado. Diseño y
-> desarrollo del sitio, páginas por servicio y por localidad, y guías técnicas
-> para clientes.
-
-### Versión completa (para el cuerpo del proyecto o el primer módulo de texto)
-
-> **Alumfer** es una empresa familiar de Adrogué que fabrica e instala ventanas,
-> puertas, mosquiteros y cerramientos de aluminio a medida. Tiene más de 15 años
-> en el mercado, más de 40 de oficio y más de 500 obras en Zona Sur y CABA.
->
-> **El objetivo:** presentar a la empresa con la seriedad de un fabricante:
-> mostrar las obras terminadas, explicar las líneas y los vidrios que trabajan,
-> y facilitar el pedido de presupuesto desde cualquier dispositivo.
->
-> **Identidad.** Un sistema "moderno industrial" que sale del propio material:
-> grises de hormigón y acero, y un azul aluminio como único acento. Inter en
-> pesos livianos para los titulares y una línea azul de 3 px como firma de cada
-> sección. Todo definido en variables CSS compartidas.
->
-> **Estructura.** Una sola página, de arriba abajo: propuesta y cifras,
-> quiénes son, obras por categoría, proceso de trabajo, catálogo de líneas y
-> vidrios, reseñas de Google, garantía, preguntas frecuentes y formulario. En
-> mobile, una barra fija con "Llamar" y "WhatsApp" siempre a mano.
->
-> **SEO local.** 27 landings por localidad y 6 por servicio, generadas desde un
-> único archivo de datos, cada una con sus textos, preguntas frecuentes y datos
-> estructurados. Cuatro guías escritas con la voz de quien fabrica —¿conviene el
-> DVH?, aluminio o PVC, colocación en seco y qué línea elegir— para responder
-> las búsquedas antes de la compra.
->
-> **Tecnología.** HTML, CSS y JavaScript sin frameworks ni build step; GSAP y
-> Lenis para el movimiento, con degradación si el CDN falla y respeto por
-> `prefers-reduced-motion`; formulario en PHP con mail de confirmación de marca;
-> medición con GA4 y publicación automática con GitHub Actions.
-
-### English version (optional, for international reach)
-
-> Website design and development for **Alumfer**, a family-owned aluminium
-> window and door manufacturer in Adrogué, Buenos Aires, working since 2010
-> with more than 500 completed projects.
->
-> An industrial visual system (concrete greys, steel and an aluminium blue
-> accent), a single-page home ordered like a sales conversation, 27 local
-> landing pages plus 6 service pages for local SEO, and four in-house buying
-> guides written in the company's own voice.
->
-> Built with plain HTML, CSS and JavaScript — no framework, no build step —
-> with GSAP motion, a PHP contact form, GA4 tracking and automatic deploys via
-> GitHub Actions.
+- Live site: https://alumfer.com.ar
 
 ---
 
-## 4. Checklist antes de publicar
+## 3. Project description (body text)
 
-- [ ] Completar tu nombre en *Créditos* y revisar que el rol (diseño,
-      desarrollo, SEO, contenido) sea el que efectivamente hiciste.
-- [ ] Confirmar con el cliente que está de acuerdo con que el proyecto se
-      publique (usa su marca y fotos de sus obras).
-- [ ] Revisar que las cifras sigan vigentes (500+ obras, 15+ años, 4,5 ★ en
-      Google): salen del sitio a la fecha de esta presentación.
-- [ ] Espaciado entre módulos en 0 y fondo `#1A1C1E`.
-- [ ] Subir la portada 808 × 632 y marcar el proyecto como *visible para
-      todos*.
+Behance permite un texto largo en la descripción del proyecto. Este es el
+texto completo, en el orden de un caso de estudio (contexto, desafío, enfoque,
+resultado):
+
+```
+Alumfer is a family-run manufacturer in the southern suburbs of Buenos Aires. Since 2010 it has fabricated and installed custom aluminum windows, doors, shutters and enclosures in its own workshop, with more than 500 completed projects.
+
+THE CHALLENGE
+A manufacturer earns trust through three things: finished work, technical knowledge and fast answers. The website had to carry all three: show real projects, explain product lines and glazing in plain language, and make a quote request effortless on any device.
+
+THE APPROACH
+We structured the content before designing a single screen, around four customer intents: finding a product, finding a local supplier, researching before buying, and asking for a price. The visual system comes from the trade itself, concrete and steel grays with a single blue accent, and keeps the company's existing logo intact.
+
+The homepage reads the way a customer decides: who the company is, finished work, how the process works, the product catalog, client reviews, warranty, questions and contact. On mobile, call and WhatsApp stay within thumb's reach on every screen.
+
+THE RESULT
+A 38-page site: a homepage, 6 service pages, 27 location pages for local search, and 4 long-form buyer guides written in the workshop's own voice. Built as a lightweight static site, fast on mid-range phones and easy to maintain, with structured data and automated deployment.
+
+Site language: Spanish.
+```
 
 ---
 
-## 5. Cómo regenerar las láminas
+## 4. Closing text module
 
-Si cambia el sitio y hay que rehacer las capturas:
+Agregalo como **módulo de texto** después de la última lámina. Es lo que
+convierte una visita en una consulta:
+
+```
+Planning a website for your business?
+We design and build websites for companies that want to look as good online as their work is in real life.
+
+[email] · [website] · Available for new projects
+```
+
+---
+
+## 5. Before publishing
+
+- [ ] Publish the project **complete**: curators review each project once, on
+      first publish.
+- [ ] Cover set to `cover-808x632.jpg`, full frame.
+- [ ] Background `#EAE7E1`, spacing 0.
+- [ ] Video uploaded as a video module, not as a GIF.
+- [ ] Alumfer has approved publication (it uses their brand and photos).
+- [ ] Share the link the same day on LinkedIn and Instagram: views in the
+      first hours help the project circulate.
+
+---
+
+## 6. Cómo regenerar las láminas
 
 ```bash
 # 1) Servir el sitio (desde la raíz del repo)
 (cd apps/website && python3 -m http.server 8765) &
 
-# 2) Capturar pantallas (desktop y mobile) → portfolio/behance/_raw/
+# 2) Capturas de pantalla → portfolio/behance/_raw/
 node portfolio/behance/_src/capturar.mjs
 node portfolio/behance/_src/capturar-extra.mjs
 
-# 3) Exportar las láminas → portfolio/behance/laminas/
+# 3) Láminas, portada y banner → laminas/ y perfil/
 node portfolio/behance/_src/exportar.mjs
+
+# 4) Video → video/homepage-walkthrough.mp4
+bash portfolio/behance/_src/video.sh
 ```
 
-Requiere Playwright con Chromium. Las capturas en crudo (`_raw/`) no se
-versionan porque pesan ~30 MB; se regeneran con el paso 2. El diseño de las
-láminas está en `_src/boards.html`: cada `<section class="board">` es una
-lámina de 1400 px de ancho.
+Requiere Playwright con Chromium y ffmpeg (`pip install imageio-ffmpeg`). Las
+capturas en crudo (`_raw/`) no se versionan porque pesan ~30 MB. El diseño de
+las láminas está en `_src/boards.html`; las tipografías (Inter y Montserrat)
+están en `_src/fonts/` para que el resultado no dependa de la red.

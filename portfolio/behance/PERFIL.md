@@ -1,150 +1,158 @@
-# Perfil de Behance · Diseño web y UX/UI
+# Behance profile · Studio brand (English)
 
-Cómo armar el perfil y publicar el proyecto de Alumfer, tomando como referencia
-lo que hacen los perfiles y proyectos mejor valorados de diseño web y UX/UI en
-Behance, y lo que pide el propio equipo de curación de Behance.
+Perfil de Behance para la marca propia, en inglés, pensado para clientes fuera
+de Argentina. Basado en lo que hacen los perfiles de diseño web y UX/UI mejor
+valorados y en las pautas del equipo de curación de Behance (fuentes al final).
 
-Los campos entre corchetes (`[Tu nombre]`, `[tu-usuario]`) son para completar.
-
----
-
-## 1. Qué hacen los perfiles mejor valorados
-
-Referencias revisadas: estudios con miles de valoraciones por proyecto (Halo Lab,
-Ronas IT), proyectos destacados de la búsqueda *web design case study*
-(por ejemplo *Talkie*, con más de 6.000 valoraciones; *ZIXO — Banking,
-Reimagined*; *WorkMosaic — Coworking Platform*), las pautas de curación de
-Behance y guías de diseñadores con proyectos destacados.
-
-**Sobre los proyectos**
-
-1. **Pocas piezas, muy cuidadas.** Un perfil con 3 proyectos sólidos rinde más
-   que uno con 20 desparejos. Se archiva lo viejo aunque tenga más "me gusta".
-2. **Se publica el proyecto terminado, una sola vez.** Los curadores revisan
-   cada proyecto una única vez, cuando se publica. Las ediciones posteriores no
-   se vuelven a evaluar.
-3. **Entre 5 y 15 imágenes, de al menos 1400 px de ancho.** Con menos de 3
-   imágenes el proyecto no se revisa.
-4. **Portada sin texto encima.** La miniatura muestra el trabajo; el título ya
-   aparece debajo. Todas las portadas del perfil siguen el mismo estilo.
-5. **Estructura de caso de estudio:** contexto (cliente y objetivo) → desafío →
-   proceso (estructura, bocetos, decisiones) → solución → cierre con contacto.
-   Mostrar *por qué* se tomó cada decisión, no solo el resultado.
-6. **Texto breve y al servicio de la imagen.** Nada de bloques largos seguidos.
-7. **Movimiento.** Los proyectos web más valorados incluyen video o GIF del
-   sitio funcionando.
-8. **Título con formato "Marca — qué es".** Por ejemplo: *Misso — Productivity
-   Platform*, *ZIXO | Banking, Reimagined | Fintech UI/UX Case Study*.
-9. **Categorías según tu rol, no según el proyecto**, y etiquetas precisas
-   (disciplina, rubro, herramientas) en vez de muchas genéricas.
-
-**Sobre el perfil**
-
-1. URL propia (`behance.net/tu-nombre`), no la numérica.
-2. Foto profesional y banner con muestras de trabajo.
-3. Una línea de presentación clara: qué hacés y para quién.
-4. Descripción breve con experiencia y enfoque, más una sección de servicios.
-5. Solo enlaces activos (sitio propio, LinkedIn, Instagram).
-6. LinkedIn conectado: suma la insignia *Verified on LinkedIn*.
-7. Proyectos ordenados en secciones cuando hay más de un tipo de trabajo.
+Instrucciones en español; **lo que va en bloques de código se copia tal cual.**
+Completá los campos entre corchetes: `[Studio name]`, `[email]`, `[website]`.
 
 ---
 
-## 2. Qué cambió en el proyecto de Alumfer a partir de esto
+## 1. Qué tienen en común los perfiles que más consultas reciben
 
-| Práctica de los mejor valorados | Cómo quedó en Alumfer |
+1. **Posicionamiento claro en una línea.** Qué hacen y para quién, sin
+   adjetivos vacíos. Los estudios más valorados dicen lo que entregan.
+2. **Pocos proyectos, todos del mismo nivel.** Tres casos sólidos venden más
+   que veinte desparejos. Se archiva lo que baja el promedio.
+3. **Portadas consistentes y sin texto encima.** La grilla del perfil se lee
+   como una sola marca.
+4. **Casos de estudio, no galerías.** Contexto → desafío → proceso → resultado,
+   con el porqué de cada decisión.
+5. **Movimiento.** Los proyectos web más valorados muestran el sitio
+   funcionando en video.
+6. **Un camino obvio para contactar:** servicios visibles, disponibilidad
+   activada y un llamado a la acción al final de cada proyecto.
+7. **Señales de confianza:** URL propia, LinkedIn verificado, enlaces activos,
+   respuesta rápida a los mensajes.
+
+---
+
+## 2. Datos del perfil
+
+| Campo | Valor |
 |---|---|
-| Portada sin texto encima | Nueva miniatura solo con pantallas del sitio (`laminas/portada-808x632.jpg`) |
-| Mostrar el proceso, no solo el resultado | Nueva lámina **Estructura del sitio** con la arquitectura de la información |
-| Video del sitio funcionando | `video/recorrido-sitio.mp4`: 25 s, escritorio y celular a la vez |
-| Entre 5 y 15 imágenes | 14 láminas + 1 video |
-| Texto breve | Solo 6 láminas llevan texto; el resto son imágenes con epígrafe |
-| Cierre con contacto | Módulo de texto final con tus datos (sección 4) |
-| Título "Marca — qué es" | *Alumfer — Sitio web corporativo para una fábrica de aberturas de aluminio* |
-
----
-
-## 3. Configuración del perfil
-
-### Datos básicos
-
-| Campo | Qué poner |
-|---|---|
-| URL | `behance.net/[tu-usuario]` (Configuración → Cuenta → URL personalizada) |
-| Nombre | `[Tu nombre]` |
-| Ocupación | Diseño web y UX/UI |
-| Ubicación | Buenos Aires, Argentina |
-| Foto | Retrato con fondo liso y buena luz, mirando a cámara, de hombros para arriba |
+| URL | `behance.net/[studio-name]` |
+| Name | `[Studio name]` |
+| Occupation | `Web design & development studio` |
+| Location | `Buenos Aires, Argentina` |
+| Avatar | El logo de la marca sobre fondo liso, o un retrato profesional si trabajás con tu nombre |
 | Banner | `perfil/banner-3200x410.jpg` |
-| Disponibilidad | Activar *Disponible para trabajos freelance* |
+| Availability | Activar *Available for freelance / full-time* según corresponda |
+| LinkedIn | Conectarlo para la insignia *Verified on LinkedIn* |
 
-### Línea de presentación (debajo del nombre)
-
-> Diseño y desarrollo sitios web para empresas que venden servicios reales:
-> claros, rápidos y pensados para que el cliente pida presupuesto.
-
-### Acerca de
-
-> Hago diseño web y UX/UI desde Buenos Aires. Trabajo con empresas y comercios
-> que necesitan que su sitio explique bien lo que hacen y genere consultas:
-> ordeno el contenido, diseño la interfaz y la programo.
->
-> Me ocupo del proyecto completo, desde la estructura hasta la publicación:
-> arquitectura de la información, diseño de interfaz, desarrollo, SEO local y
-> textos. Prefiero sitios simples, livianos y fáciles de mantener, que carguen
-> rápido en el celular.
-
-### Servicios (sección *Services* del perfil)
-
-| Servicio | Descripción corta |
-|---|---|
-| Diseño web | Sitios institucionales y landing pages, del esquema al diseño final. |
-| Diseño UX/UI | Estructura del contenido, recorridos de usuario y diseño de interfaz. |
-| Desarrollo web | Maquetación en HTML, CSS y JavaScript, lista para publicar. |
-| SEO local | Páginas por zona y servicio, datos estructurados y Google Business. |
-| Rediseño de sitios | Revisión del sitio actual y propuesta de mejora con prioridades. |
-
-### Herramientas
-
-Figma · HTML · CSS · JavaScript · PHP · GSAP · Google Analytics · GitHub
-*(dejá solo las que realmente usás)*
-
-### Enlaces
-
-Sitio propio (si tenés) · LinkedIn · Instagram. Nada de redes inactivas.
+**Por qué "studio" y no "designer":** los clientes internacionales que
+contratan sitios corporativos buscan a alguien que se haga cargo del proyecto
+completo. "Studio" comunica eso aunque trabajes solo, siempre que el perfil lo
+respalde con casos completos.
 
 ---
 
-## 4. Módulo de texto final del proyecto
+## 3. Textos del perfil
 
-Los casos mejor valorados cierran con una llamada al contacto. En Behance
-agregalo como **módulo de texto** después de la última lámina, así queda como
-texto real y se puede editar:
+### Headline (línea bajo el nombre)
 
-> ¿Tenés un proyecto parecido? Escribime a **[tu email]** o por LinkedIn:
-> **[linkedin.com/in/tu-usuario]**.
+```
+Websites for established businesses: clear, fast, and built to bring in inquiries.
+```
+
+### About
+
+```
+[Studio name] is an independent web design and development studio based in Buenos Aires, working with clients worldwide.
+
+We build websites for established businesses whose work is better than their online presence: manufacturers, trades, professional services and local companies ready to grow. Every project covers the full path, from information architecture and interface design to front-end development, local SEO and launch.
+
+Our sites are lightweight, fast on any phone and easy to maintain, with no unnecessary frameworks or monthly platform fees. We write structure and content with the same care as the design, because a website only works when customers understand it in seconds.
+
+Based in GMT-3, with working hours that overlap with the US East Coast and Europe.
+
+Replies within one business day.
+```
+
+### Services (sección *Services* del perfil)
+
+```
+Website design
+Corporate websites and landing pages, from structure and wireframes to final interface design.
+```
+
+```
+UX/UI design
+Information architecture, user flows and interface design focused on turning visits into inquiries.
+```
+
+```
+Web development
+Fast, standards-based front-end development, ready to launch and easy to maintain.
+```
+
+```
+Local SEO
+Service and location pages, structured data and technical SEO for businesses that sell in specific areas.
+```
+
+```
+Website redesign
+An audit of your current site and a redesign plan ordered by impact.
+```
+
+*Precios:* no conviene publicarlos al principio. Un "Request a quote" deja
+abierta la conversación y cada consulta te dice qué buscan los clientes.
+
+### Tools
+
+```
+Figma, HTML, CSS, JavaScript, PHP, GSAP, Google Analytics, GitHub
+```
+
+### Links
+
+Solo enlaces activos: sitio propio, LinkedIn, Instagram. Si todavía no tenés
+sitio propio, ese es el próximo proyecto: es el primer lugar donde un cliente
+internacional va a mirar.
 
 ---
 
-## 5. Antes de publicar
+## 4. Estructura del portfolio
 
-- [ ] Subir todo de una vez y publicar el proyecto **terminado** (los curadores
-      lo revisan una sola vez).
-- [ ] Portada: `portada-808x632.jpg`, encuadre completo.
-- [ ] Fondo del proyecto `#EAE7E1` y espaciado 0 entre módulos.
-- [ ] Video subido como módulo de video (no como GIF: se ve mejor y pesa menos).
-- [ ] Categorías: Web Design, UI/UX, Web Development.
-- [ ] Conectar LinkedIn al perfil.
-- [ ] Confirmar con Alumfer que están de acuerdo con la publicación.
-- [ ] Compartir el enlace el mismo día (LinkedIn, Instagram): las visitas de
-      las primeras horas ayudan a que el proyecto circule.
+**Convención de títulos** (la usan los proyectos más valorados):
 
-### Próximos pasos para el perfil
+```
+[Client] — [What it is]
+```
 
-Un perfil con un solo proyecto se ve incompleto. Lo ideal son **3 proyectos**
-con el mismo estilo de portada y de láminas. Si no hay más clientes todavía,
-sirve un rediseño propio (un sitio real que mejorarías) presentado con este
-mismo formato y aclarando que es un concepto.
+Ejemplo ya aplicado: `Alumfer — Corporate Website for an Aluminum Window Manufacturer`.
+
+**Convención visual:** todos los proyectos con el mismo sistema de láminas que
+Alumfer (fondo `#EAE7E1`, Inter, capturas planas, epígrafes breves) y portadas
+sin texto. Así el perfil se ve como una marca y no como una suma de trabajos.
+
+**Cantidad:** con un solo proyecto el perfil se ve incompleto. El objetivo es
+**tres casos** antes de empezar a mover el perfil. Si faltan clientes, un
+rediseño conceptual de un sitio real sirve, siempre que el título lo aclare:
+
+```
+[Company] — Website Redesign Concept
+```
+
+**Cierre de cada proyecto:** el mismo módulo de texto con el llamado a la
+acción (README, sección 4).
+
+---
+
+## 5. Cómo generar consultas después de publicar
+
+1. Publicá cada proyecto completo, de una vez. Los curadores lo revisan una
+   sola vez.
+2. Compartí el enlace el mismo día en LinkedIn con un texto corto sobre el
+   problema que resolviste, no sobre las herramientas.
+3. Respondé cada comentario y cada mensaje dentro del día. Behance muestra la
+   actividad y los clientes lo notan.
+4. Seguí y comentá con criterio proyectos de estudios que admires: la
+   visibilidad en Behance también es comunidad.
+5. Revisá qué proyectos reciben más visitas y usá esa información para elegir
+   el próximo caso.
 
 ---
 
@@ -156,5 +164,5 @@ mismo formato y aclarando que es un concepto.
 - [How to improve your Behance profile in 10 tips — Sergei Chyrkov](https://sergeichyrkov.com/blog/how-to-improve-your-behance-profile-in-10-tips)
 - [How to Create a Catchy UX/UI Behance Case — Obriy](https://www.obriy.design/post/how-to-create-a-catchy-ux-ui-behance-case)
 - [20 Most Rockin' Behance Web Design & UI Case Studies — Designmodo](https://designmodo.com/behance-web-design-case-studies/)
-- [Web Design Case Study — búsqueda en Behance](https://www.behance.net/search/projects/web%20design%20case%20study)
-- [HALO LAB en Behance](https://www.behance.net/halolab) · [Ronas IT en Behance](https://www.behance.net/RonasIT)
+- [Web Design Case Study — Behance search](https://www.behance.net/search/projects/web%20design%20case%20study)
+- [HALO LAB on Behance](https://www.behance.net/halolab) · [Ronas IT on Behance](https://www.behance.net/RonasIT)

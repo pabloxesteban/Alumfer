@@ -24,7 +24,7 @@ await p.evaluate(async()=>{ await Promise.all(['300 40px Inter','400 16px Inter'
 const ok = await p.evaluate(()=>['Inter','Montserrat'].every(n=>[...document.fonts].some(f=>f.family.replace(/"/g,'')===n && f.status==='loaded')));
 if (!ok) { console.error('No cargaron las tipografías (Inter y Montserrat)'); process.exit(1); } await p.waitForTimeout(800);
 const ids = await p.$$eval('section.board', s=>s.map(e=>e.id));
-const names={b01:'01-portada',b02:'02-el-proyecto',bmap:'03-estructura',b03:'04-identidad-visual',b04:'05-inicio',b05:'06-pagina-completa',b06:'07-galeria-de-obras',b07:'08-proceso-y-catalogo',b08:'09-opiniones-y-contacto',b09:'10-celular',b10:'11-localidades-y-servicios',b11:'12-guias',b12:'13-desarrollo',b13:'14-cierre',thumb:'portada-808x632',banner:'../perfil/banner-3200x410'};
+const names={b01:'01-cover',b02:'02-overview',bmap:'03-information-architecture',b03:'04-brand-system',b04:'05-homepage-hero',b05:'06-homepage',b06:'07-project-gallery',b07:'08-process-and-catalog',b08:'09-reviews-and-contact',b09:'10-mobile',b10:'11-local-search-pages',b11:'12-buyer-guides',b12:'13-build',b13:'14-closing',thumb:'cover-808x632',banner:'../perfil/banner-3200x410'};
 for (const id of ids) {
   const el = await p.$('#'+id);
   const name = names[id];
