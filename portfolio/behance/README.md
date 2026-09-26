@@ -22,20 +22,23 @@ orden**, una debajo de otra, con **espaciado 0 entre módulos** y
 
 | # | Archivo | Qué muestra |
 |---|---------|-------------|
-| 1 | `01-portada.jpg` | Título del proyecto con el sitio en notebook y celular |
-| 2 | `02-el-proyecto.jpg` | Resumen: cliente, rol, entregables, stack y cifras |
-| 3 | `03-identidad-visual.jpg` | Paleta, tipografía, componentes y firma visual |
-| 4 | `04-home-hero.jpg` | El hero del home a pantalla completa |
-| 5 | `05-home-recorrido.jpg` | La página completa, de arriba a abajo |
-| 6 | `06-galeria-de-obras.jpg` | Galería filtrable, desktop y mobile |
-| 7 | `07-catalogo-y-proceso.jpg` | Los 4 pasos del servicio y el catálogo de líneas |
-| 8 | `08-confianza-y-conversion.jpg` | Reseñas, garantía, FAQ y formulario |
-| 9 | `09-mobile.jpg` | Cinco pantallas mobile con la barra fija de contacto |
-| 10 | `10-seo-local.jpg` | Landings por localidad y servicio, SEO técnico |
-| 11 | `11-guias.jpg` | Las guías informativas |
-| 12 | `12-app-presupuestos.jpg` | La app interna de presupuestos (PWA) |
-| 13 | `13-como-esta-hecho.jpg` | Stack y decisiones técnicas |
-| 14 | `14-cierre.jpg` | Cierre con links |
+| 1 | `01-portada.jpg` | La empresa: nombre, rubro, ubicación y el sitio |
+| 2 | `02-el-proyecto.jpg` | Ficha del proyecto y fotos de obras reales |
+| 3 | `03-identidad-visual.jpg` | Paleta, tipografía del sitio, logo y botones |
+| 4 | `04-inicio.jpg` | La primera pantalla del sitio |
+| 5 | `05-pagina-completa.jpg` | La página de inicio completa, en tres tramos |
+| 6 | `06-galeria-de-obras.jpg` | Galería de obras, escritorio y celular |
+| 7 | `07-proceso-y-catalogo.jpg` | Los 4 pasos del servicio y el catálogo de líneas |
+| 8 | `08-opiniones-y-contacto.jpg` | Reseñas, garantía, preguntas frecuentes y formulario |
+| 9 | `09-celular.jpg` | Cinco pantallas en celular |
+| 10 | `10-localidades-y-servicios.jpg` | Páginas por localidad y por servicio |
+| 11 | `11-guias.jpg` | Las cuatro guías para clientes |
+| 12 | `12-desarrollo.jpg` | Ficha técnica del desarrollo |
+| 13 | `13-cierre.jpg` | Cierre con datos de la empresa |
+
+Tipografía de las láminas: Archivo (semicondensada, 700 en títulos y 400 en
+textos), la misma en toda la serie. Las capturas muestran la tipografía propia
+del sitio (Inter).
 
 **Portada del proyecto (la miniatura de la grilla):** `portada-808x632.jpg`.
 Behance pide 808 × 632 como mínimo recomendado; la exportada está al doble
@@ -70,7 +73,7 @@ HTML · CSS · JavaScript · PHP · GSAP · Google Analytics · GitHub · Figma
 **Tags** (Behance permite hasta 10)
 
 ```
-web design, landing page, ui design, responsive design, local seo, aluminium, carpinteria de aluminio, argentina, pwa, conversion
+web design, ui design, responsive design, corporate website, local seo, aluminium, carpinteria de aluminio, aberturas, argentina, buenos aires
 ```
 
 **Links del proyecto**
@@ -81,9 +84,6 @@ web design, landing page, ui design, responsive design, local seo, aluminium, ca
 | Guía de ejemplo | https://alumfer.com.ar/guias/conviene-el-dvh/ |
 | Landing local de ejemplo | https://alumfer.com.ar/aberturas-de-aluminio-adrogue/ |
 | Instagram del cliente | https://www.instagram.com/alumfercarpinteria/ |
-
-> La app de presupuestos es de uso interno del cliente: se muestra en las
-> láminas pero **no conviene publicar su link** en Behance.
 
 **Créditos**
 
@@ -97,10 +97,10 @@ web design, landing page, ui design, responsive design, local seo, aluminium, ca
 
 ### Versión corta (la que aparece debajo del título)
 
-> Diseño y desarrollo del sitio web de Alumfer, fábrica familiar de aberturas de
-> aluminio a medida en Zona Sur, Buenos Aires. Un sitio pensado para una sola
-> acción —pedir presupuesto— con 27 landings locales, guías propias y una app
-> interna para cotizar en la obra.
+> Sitio institucional para Alumfer, fábrica familiar de aberturas de aluminio a
+> medida en Adrogué, Buenos Aires, con más de 15 años en el mercado. Diseño y
+> desarrollo del sitio, páginas por servicio y por localidad, y guías técnicas
+> para clientes.
 
 ### Versión completa (para el cuerpo del proyecto o el primer módulo de texto)
 
@@ -108,16 +108,16 @@ web design, landing page, ui design, responsive design, local seo, aluminium, ca
 > puertas, mosquiteros y cerramientos de aluminio a medida. Tiene más de 15 años
 > en el mercado, más de 40 de oficio y más de 500 obras en Zona Sur y CABA.
 >
-> **El objetivo:** un sitio que explique qué hacen, muestre las obras reales y
-> convierta cada visita en un pedido de presupuesto, por el canal que el cliente
-> ya usa: WhatsApp.
+> **El objetivo:** presentar a la empresa con la seriedad de un fabricante:
+> mostrar las obras terminadas, explicar las líneas y los vidrios que trabajan,
+> y facilitar el pedido de presupuesto desde cualquier dispositivo.
 >
 > **Identidad.** Un sistema "moderno industrial" que sale del propio material:
 > grises de hormigón y acero, y un azul aluminio como único acento. Inter en
 > pesos livianos para los titulares y una línea azul de 3 px como firma de cada
-> sección. Todo definido en tokens CSS compartidos entre el sitio y la app.
+> sección. Todo definido en variables CSS compartidas.
 >
-> **Estructura.** Una sola página ordenada como una venta: propuesta y cifras,
+> **Estructura.** Una sola página, de arriba abajo: propuesta y cifras,
 > quiénes son, obras por categoría, proceso de trabajo, catálogo de líneas y
 > vidrios, reseñas de Google, garantía, preguntas frecuentes y formulario. En
 > mobile, una barra fija con "Llamar" y "WhatsApp" siempre a mano.
@@ -128,10 +128,6 @@ web design, landing page, ui design, responsive design, local seo, aluminium, ca
 > DVH?, aluminio o PVC, colocación en seco y qué línea elegir— para responder
 > las búsquedas antes de la compra.
 >
-> **Herramienta interna.** Una app instalable para cotizar en la obra: tres
-> pasos, precios por m² según línea, dólar del día, PDF con membrete y envío por
-> WhatsApp. Funciona sin señal.
->
 > **Tecnología.** HTML, CSS y JavaScript sin frameworks ni build step; GSAP y
 > Lenis para el movimiento, con degradación si el CDN falla y respeto por
 > `prefers-reduced-motion`; formulario en PHP con mail de confirmación de marca;
@@ -140,14 +136,13 @@ web design, landing page, ui design, responsive design, local seo, aluminium, ca
 ### English version (optional, for international reach)
 
 > Website design and development for **Alumfer**, a family-owned aluminium
-> window and door manufacturer in the south of Buenos Aires. The site is built
-> around a single action —request a quote— through the channel customers
-> already use: WhatsApp.
+> window and door manufacturer in Adrogué, Buenos Aires, working since 2010
+> with more than 500 completed projects.
 >
 > An industrial visual system (concrete greys, steel and an aluminium blue
 > accent), a single-page home ordered like a sales conversation, 27 local
-> landing pages plus 6 service pages for local SEO, four in-house buying guides,
-> and an installable offline web app the team uses to quote on site.
+> landing pages plus 6 service pages for local SEO, and four in-house buying
+> guides written in the company's own voice.
 >
 > Built with plain HTML, CSS and JavaScript — no framework, no build step —
 > with GSAP motion, a PHP contact form, GA4 tracking and automatic deploys via
@@ -161,7 +156,6 @@ web design, landing page, ui design, responsive design, local seo, aluminium, ca
       desarrollo, SEO, contenido) sea el que efectivamente hiciste.
 - [ ] Confirmar con el cliente que está de acuerdo con que el proyecto se
       publique (usa su marca y fotos de sus obras).
-- [ ] Si el cliente no quiere mostrar la herramienta interna, sacar la lámina 12.
 - [ ] Revisar que las cifras sigan vigentes (500+ obras, 15+ años, 4,5 ★ en
       Google): salen del sitio a la fecha de esta presentación.
 - [ ] Espaciado entre módulos en 0 y fondo `#1A1C1E`.
@@ -175,9 +169,8 @@ web design, landing page, ui design, responsive design, local seo, aluminium, ca
 Si cambia el sitio y hay que rehacer las capturas:
 
 ```bash
-# 1) Servir el sitio y la app (desde la raíz del repo)
+# 1) Servir el sitio (desde la raíz del repo)
 (cd apps/website && python3 -m http.server 8765) &
-(cd apps && python3 -m http.server 8766) &
 
 # 2) Capturar pantallas (desktop y mobile) → portfolio/behance/_raw/
 node portfolio/behance/_src/capturar.mjs

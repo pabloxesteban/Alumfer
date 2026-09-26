@@ -20,13 +20,6 @@ ctx=await b.newContext(mob); p=await ctx.newPage(); await prep(p,`http://${IP}:8
 await p.evaluate(()=>window.scrollTo(0,0)); await p.waitForTimeout(400); await p.screenshot({path:out+'m-guia-hero.png'});
 await p.evaluate(()=>window.scrollTo(0,1100)); await p.waitForTimeout(600); await p.screenshot({path:out+'m-guia-body.png'});
 await ctx.close();
-// presupuestos
-ctx=await b.newContext(mob); p=await ctx.newPage(); await p.goto(`http://${IP}:8766/presupuestos/`,{waitUntil:'networkidle'}); await p.waitForTimeout(1500);
-await p.screenshot({path:out+'m-pres-1.png'});
-await p.evaluate(()=>window.scrollTo(0,650)); await p.waitForTimeout(400); await p.screenshot({path:out+'m-pres-2.png'});
-await p.click('[data-vista=precios]'); await p.waitForTimeout(700); await p.evaluate(()=>window.scrollTo(0,0)); await p.screenshot({path:out+'m-pres-precios.png'});
-await p.click('[data-vista=historial]'); await p.waitForTimeout(700); await p.screenshot({path:out+'m-pres-hist.png'});
-await ctx.close();
 // desktop guide body + landing body
 ctx=await b.newContext({viewport:{width:1440,height:900},deviceScaleFactor:2,ignoreHTTPSErrors:true}); p=await ctx.newPage();
 await prep(p,`http://${IP}:8765/guias/conviene-el-dvh/`); await p.addStyleTag({content:'.navbar,.whatsapp-float{visibility:hidden!important}'});

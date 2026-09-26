@@ -34,6 +34,4 @@ await shoot('guia-desk','guias/conviene-el-dvh/', {width:1440,height:900}, {full
 await shoot('guia-mob','guias/conviene-el-dvh/', {width:390,height:844}, {mobile:true, full:true});
 await shoot('landing-desk','aberturas-de-aluminio-adrogue/', {width:1440,height:900}, {full:true});
 await shoot('landing-mob','aberturas-de-aluminio-adrogue/', {width:390,height:844}, {mobile:true});
-await shoot('pres-mob','presupuestos/', {width:390,height:844}, {mobile:true, base:`http://${IP}:8766/`, full:true});
-await shoot('pres-desk','presupuestos/', {width:1440,height:900}, {base:`http://${IP}:8766/`});
 await b.close();
