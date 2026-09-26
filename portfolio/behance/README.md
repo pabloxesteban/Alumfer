@@ -19,30 +19,55 @@ portfolio/behance/
 
 ---
 
-## 1. Orden de carga
+## 1. Orden de carga (definitivo)
 
-Subí los módulos **en este orden**, con **espaciado 0** entre módulos y
-**color de fondo `#EAE7E1`** (Project settings → Spacing / Background color).
+`preview-full-project.jpg` muestra cómo queda el proyecto completo, de arriba
+abajo, tal como lo va a ver un visitante.
 
-| # | Módulo | Contenido |
-|---|--------|-----------|
-| 1 | `01-cover.jpg` | Alumfer logo, positioning line, the live site |
-| 2 | `02-overview.jpg` | Brief, project facts, real project photography |
-| 3 | `03-information-architecture.jpg` | Site structure around four customer intents |
-| 4 | `04-brand-system.jpg` | Logo on dark and blue, palette, typefaces |
-| 5 | `05-homepage-hero.jpg` | Homepage first screen, full bleed |
-| 6 | `video/desktop-walkthrough.mp4` | **Video module:** desktop walkthrough, pausing at every section |
-| 7 | `06-homepage.jpg` | The full homepage in three sections |
-| 8 | `07-project-gallery.jpg` | Filterable project gallery, desktop and mobile |
-| 9 | `08-process-and-catalog.jpg` | Service process and product catalog |
-| 10 | `09-reviews-and-contact.jpg` | Reviews, warranty, FAQ, quote form |
-| 11 | `10-mobile.jpg` | Five mobile screens |
-| 12 | `video/mobile-walkthrough.mp4` | **Video module:** mobile walkthrough |
-| 13 | `11-local-search-pages.jpg` | 27 location pages and 6 service pages |
-| 14 | `12-buyer-guides.jpg` | Four long-form buyer guides |
-| 15 | `13-build.jpg` | Technical build |
-| 16 | `14-closing.jpg` | Closing board |
-| 17 | *Text module* | Call to action, see section 4 |
+Subí los módulos **en este orden**, cada lámina **a ancho completo**, con
+**espaciado 0** entre módulos y **color de fondo `#EAE7E1`** (Project settings →
+Spacing / Background color).
+
+| # | Módulo | Qué cuenta |
+|---|--------|------------|
+| 1 | `01-cover.jpg` | Quién es el cliente y qué se hizo |
+| 2 | `02-overview.jpg` | El encargo, la ficha del proyecto y obras reales |
+| 3 | `03-information-architecture.jpg` | Cómo se pensó: la estructura antes del diseño |
+| 4 | `04-brand-system.jpg` | Con qué se diseñó: logo, paleta, tipografías |
+| 5 | `05-homepage-hero.jpg` | El resultado, a pantalla completa |
+| 6 | `video/desktop-walkthrough.mp4` | **Video:** el sitio funcionando en escritorio |
+| 7 | `06-homepage.jpg` | La página completa de un vistazo |
+| 8 | `07-project-gallery.jpg` | Galería de obras |
+| 9 | `08-process-and-catalog.jpg` | Proceso y catálogo |
+| 10 | `09-reviews-and-contact.jpg` | Confianza y contacto |
+| 11 | `10-mobile.jpg` | La versión celular |
+| 12 | `video/mobile-walkthrough.mp4` | **Video:** el sitio funcionando en celular |
+| 13 | `11-local-search-pages.jpg` | Páginas para búsquedas locales |
+| 14 | `12-buyer-guides.jpg` | Contenido: guías para clientes |
+| 15 | `13-build.jpg` | Cómo está construido |
+| 16 | `14-closing.jpg` | Cierre |
+| 17 | *Módulo de texto* | Llamado a la acción con tu contacto (sección 4) |
+
+**Por qué este orden.** Sigue la estructura de los casos de estudio mejor
+valorados: contexto → proceso → sistema visual → resultado → detalle →
+cierre. El video de escritorio aparece apenas se muestra el resultado, que es
+cuando más atención hay; el de celular, junto a la lámina de celular.
+
+**Cómo presentarlas.**
+
+- **Todas a ancho completo, una debajo de otra.** Las láminas ya tienen su
+  propia composición (imágenes chicas, grillas y textos dentro de cada una).
+  Ponerlas en la grilla de Behance las achicaría a la mitad o a un tercio y
+  los textos dejarían de leerse.
+- **La variedad ya está en las láminas:** alternan fondo oscuro y claro,
+  pantallas grandes y chicas, texto e imagen. Por eso no hace falta sumar
+  grillas ni módulos extra.
+- **Un solo módulo de texto de Behance, al final** (el de contacto): es texto
+  real, se puede editar y deja tu email a mano. El resto del texto va dentro
+  de las láminas para que la tipografía y el diseño se vean como los pensaste.
+- **En el perfil**, la grilla muestra solo la portada de cada proyecto
+  (`cover-808x632.jpg`). Todos los proyectos futuros deberían usar el mismo
+  estilo de portada para que el perfil se lea como una marca.
 
 **Project cover (grid thumbnail):** `laminas/cover-808x632.jpg` (exported at
 2×, 1616 × 1264). Image only, no text on top, as Behance's curators recommend.
