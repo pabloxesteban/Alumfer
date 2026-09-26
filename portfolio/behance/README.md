@@ -36,9 +36,8 @@ orden**, una debajo de otra, con **espaciado 0 entre módulos** y
 | 12 | `12-desarrollo.jpg` | Ficha técnica del desarrollo |
 | 13 | `13-cierre.jpg` | Cierre con datos de la empresa |
 
-Tipografía de las láminas: Archivo (semicondensada, 700 en títulos y 400 en
-textos), la misma en toda la serie. Las capturas muestran la tipografía propia
-del sitio (Inter).
+Tipografía de las láminas: Inter, la misma que usa el sitio de Alumfer
+(500 en títulos y 400 en textos), en toda la serie.
 
 **Portada del proyecto (la miniatura de la grilla):** `portada-808x632.jpg`.
 Behance pide 808 × 632 como mínimo recomendado; la exportada está al doble

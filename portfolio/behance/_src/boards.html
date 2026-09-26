@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Alumfer — láminas Behance</title>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="fonts/inter.css" rel="stylesheet">
 <style>
 :root{
   --carbon:#1A1C1E; --steel:#2E3338; --concrete:#B0A99A; --paper:#EAE7E1; --paper-2:#E1DDD5;
@@ -12,16 +12,16 @@
   --m:80px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#000;font-family:Archivo,sans-serif;font-stretch:100%;-webkit-font-smoothing:antialiased;color:var(--ink)}
+body{background:#000;font-family:Inter,sans-serif;-webkit-font-smoothing:antialiased;color:var(--ink)}
 .board{width:1400px;position:relative;overflow:hidden;background:var(--paper)}
 .dark{background:var(--carbon);color:#fff;--ink-2:rgba(255,255,255,.62);--line:rgba(255,255,255,.16)}
 
 /* cabecera de cada lámina: una línea fina y dos textos chicos */
 .run{position:absolute;left:var(--m);right:var(--m);top:44px;display:flex;justify-content:space-between;font-size:14px;color:var(--ink-2);padding-bottom:12px;border-bottom:1px solid var(--line)}
 
-h1,h2{font-stretch:78%;font-weight:700;letter-spacing:-.01em;line-height:.98}
-h2{font-size:58px}
-.txt{font-size:18px;line-height:1.55;color:var(--ink-2)}
+h1,h2{font-weight:500;letter-spacing:-.025em;line-height:1.04}
+h2{font-size:52px}
+.txt{font-size:17px;line-height:1.6;color:var(--ink-2)}
 .txt + .txt{margin-top:14px}
 .cap{font-size:14px;line-height:1.45;color:var(--ink-2);margin-top:12px}
 .cap b{color:var(--ink);font-weight:600}
@@ -46,7 +46,7 @@ h2{font-size:58px}
   <div style="position:absolute;left:var(--m);top:150px;display:flex;align-items:center;gap:22px">
     <img src="../../../apps/website/solologo.png" style="height:64px">
   </div>
-  <h1 style="position:absolute;left:var(--m);top:250px;font-size:190px;letter-spacing:-.02em">Alumfer</h1>
+  <h1 style="position:absolute;left:var(--m);top:250px;font-size:168px;letter-spacing:-.045em;font-weight:600">Alumfer</h1>
   <div style="position:absolute;left:var(--m);top:450px;width:560px">
     <p style="font-size:24px;line-height:1.4">Fábrica de aberturas de aluminio a medida. Adrogué, Buenos Aires, desde 2010.</p>
   </div>
@@ -232,7 +232,7 @@ h2{font-size:58px}
 <section class="board dark" id="b13" style="height:640px">
   <div class="run"><span>Alumfer — Carpintería de aluminio</span><span>Sitio web, 2026</span></div>
   <img src="../../../apps/website/solologo.png" style="position:absolute;left:var(--m);top:150px;height:56px">
-  <h1 style="position:absolute;left:var(--m);top:250px;font-size:120px">alumfer.com.ar</h1>
+  <h1 style="position:absolute;left:var(--m);top:250px;font-size:104px;letter-spacing:-.04em">alumfer.com.ar</h1>
   <div style="position:absolute;left:var(--m);right:var(--m);bottom:70px;display:flex;gap:80px;font-size:16px;line-height:1.5;color:var(--ink-2)">
     <div>Av. San Martín 734<br>Adrogué, Buenos Aires</div>
     <div>Lunes a viernes de 9 a 13 h<br>Sábados de 9 a 14 h</div>
@@ -243,7 +243,7 @@ h2{font-size:58px}
 <!-- PORTADA DE GRILLA 808×632 -->
 <section class="board dark" id="thumb" style="width:808px;height:632px">
   <img src="../../../apps/website/solologo.png" style="position:absolute;left:52px;top:52px;height:36px">
-  <h1 style="position:absolute;left:52px;top:118px;font-size:112px;letter-spacing:-.02em">Alumfer</h1>
+  <h1 style="position:absolute;left:52px;top:118px;font-size:100px;letter-spacing:-.045em;font-weight:600">Alumfer</h1>
   <p style="position:absolute;left:52px;top:240px;font-size:18px;line-height:1.4;color:rgba(255,255,255,.7)">Carpintería de aluminio · Sitio web</p>
   <img class="shot crop" src="../_raw/desk-hero.png" style="position:absolute;left:52px;top:310px;width:704px;height:440px;border-radius:3px 3px 0 0">
 </section>
