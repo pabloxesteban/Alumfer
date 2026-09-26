@@ -68,8 +68,11 @@ Use the full frame when cropping.
 **Project title**
 
 ```
-Alumfer — Corporate Website for an Aluminum Window Manufacturer
+Alumfer — Corporate Website
 ```
+
+Corto a propósito: en la grilla de Behance el título se corta a los ~30
+caracteres, y "Corporate Website" es lo que busca un cliente.
 
 **Short description** (Behance shows it under the title and in search)
 
@@ -77,26 +80,28 @@ Alumfer — Corporate Website for an Aluminum Window Manufacturer
 Corporate website for Alumfer, a family-run aluminum window and door manufacturer in Buenos Aires. Information architecture, UX/UI design, front-end development and local SEO, built to turn visits into quote requests.
 ```
 
-**Creative fields** (choose 3, by role)
+**Category** (3, por tu rol en el proyecto)
 
 1. Web Design
 2. UI/UX
 3. Web Development
 
+*No usar "Branding": el logo y la identidad de Alumfer ya existían. Si un
+cliente pregunta, tiene que coincidir con lo que hiciste.*
+
 **Tags** (10)
 
 ```
-web design, ui ux, website design, corporate website, responsive design, information architecture, local seo, front-end development, manufacturing, windows and doors
+web design, website, ui/ux, ux design, landing page, corporate website, responsive design, web development, seo, website design
 ```
 
-**Tools used**
+**Tools used** (elegir de la lista que sugiere Behance al escribir)
 
 ```
-Figma, HTML, CSS, JavaScript, PHP, GSAP, Google Analytics, GitHub
+Figma, Visual Studio Code, HTML, CSS, JavaScript, PHP, GSAP, GitHub
 ```
 
-*Dejá solo las que realmente usaste. Si no diseñaste en Figma, sacalo: un
-cliente puede preguntar por los archivos de diseño.*
+*Dejá solo las que realmente usaste.*
 
 **Credits**
 
