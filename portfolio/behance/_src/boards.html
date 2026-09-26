@@ -8,13 +8,13 @@
 <style>
 :root{
   --carbon:#1A1C1E; --steel:#2E3338; --paper:#EAE7E1; --paper-2:#E1DDD5;
-  --ink:#1A1C1E; --ink-2:#5A5A55; --line:rgba(26,28,30,.16);
+  --ink:#1A1C1E; --ink-2:#47463F; --line:rgba(26,28,30,.16);
   --m:96px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#000;font-family:Inter,sans-serif;-webkit-font-smoothing:antialiased;color:var(--ink)}
 .board{width:1400px;position:relative;overflow:hidden;background:var(--paper)}
-.dark{background:var(--carbon);color:#fff;--ink:#fff;--ink-2:rgba(255,255,255,.6);--line:rgba(255,255,255,.14)}
+.dark{background:var(--carbon);color:#fff;--ink:#fff;--ink-2:rgba(255,255,255,.74);--line:rgba(255,255,255,.14)}
 
 /* Logotipo: isotipo a la izquierda, ALUMFER en Montserrat espaciada, como en el sitio */
 .lockup{display:flex;align-items:center}
@@ -22,10 +22,10 @@ body{background:#000;font-family:Inter,sans-serif;-webkit-font-smoothing:antiali
 .lockup .name{font-family:Montserrat,sans-serif;font-weight:600;letter-spacing:.24em;line-height:1}
 .lockup .sub{font-family:Inter,sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.14em;line-height:1;opacity:.6}
 
-h2{font-weight:500;font-size:34px;letter-spacing:-.02em;line-height:1.15}
-.txt{font-size:16px;line-height:1.65;color:var(--ink-2)}
-.txt + .txt{margin-top:12px}
-.cap{font-size:13px;line-height:1.5;color:var(--ink-2);margin-top:14px}
+h2{font-weight:500;font-size:46px;letter-spacing:-.025em;line-height:1.1}
+.txt{font-size:20px;line-height:1.6;color:var(--ink-2)}
+.txt + .txt{margin-top:16px}
+.cap{font-size:16px;line-height:1.5;color:var(--ink-2);margin-top:16px}
 
 .shot{display:block;width:100%;border-radius:2px;box-shadow:0 0 0 1px rgba(26,28,30,.12)}
 .dark .shot{box-shadow:0 0 0 1px rgba(255,255,255,.08)}
@@ -34,7 +34,7 @@ h2{font-weight:500;font-size:34px;letter-spacing:-.02em;line-height:1.15}
 .photo{display:block;width:100%;aspect-ratio:1;object-fit:cover}
 
 .spec{border-top:1px solid var(--line)}
-.spec div{display:grid;grid-template-columns:140px 1fr;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px;line-height:1.45}
+.spec div{display:grid;grid-template-columns:170px 1fr;padding:15px 0;border-bottom:1px solid var(--line);font-size:18px;line-height:1.45}
 .spec dt{color:var(--ink-2)}
 </style>
 </head>
@@ -49,16 +49,16 @@ h2{font-weight:500;font-size:34px;letter-spacing:-.02em;line-height:1.15}
       <div class="sub" style="font-size:19px;margin-top:16px">Carpintería de aluminio</div>
     </div>
   </div>
-  <p style="position:absolute;left:var(--m);top:330px;width:560px;font-size:20px;line-height:1.5;color:rgba(255,255,255,.85)">Custom aluminum windows and doors, manufactured and installed in-house. Buenos Aires, Argentina, since 2010.</p>
-  <p class="txt" style="position:absolute;left:760px;right:var(--m);top:330px">Corporate website: information architecture, interface design, front-end development, local search and editorial content.</p>
+  <p style="position:absolute;left:var(--m);top:330px;width:580px;font-size:24px;line-height:1.45;color:#fff">Custom aluminum windows and doors, manufactured and installed in-house. Buenos Aires, Argentina, since 2010.</p>
+  <p class="txt" style="position:absolute;left:760px;right:var(--m);top:332px;font-size:19px">Corporate website: information architecture, interface design, front-end development, local search and editorial content.</p>
   <img src="../_raw/desk-hero.png" style="position:absolute;left:0;top:480px;width:1400px;height:520px;object-fit:cover;object-position:top">
 </section>
 
 <!-- 02 · EL PROYECTO -->
-<section class="board" id="b02" style="height:1000px">
-  <div style="position:absolute;left:var(--m);top:110px;width:520px">
+<section class="board" id="b02" style="height:1080px">
+  <div style="position:absolute;left:var(--m);top:110px;width:600px">
     <h2>Overview</h2>
-    <p class="txt" style="margin-top:22px">Alumfer is a family-run manufacturer in the southern suburbs of Buenos Aires. It fabricates and installs custom aluminum windows, doors, shutters and enclosures in its own workshop, with no middlemen and no subcontractors.</p>
+    <p class="txt" style="margin-top:28px">Alumfer is a family-run manufacturer in the southern suburbs of Buenos Aires. It fabricates and installs custom aluminum windows, doors, shutters and enclosures in its own workshop, with no middlemen and no subcontractors.</p>
     <p class="txt">The brief was a website with the credibility of a manufacturer: show finished work, explain product lines and glazing in plain language, and make a quote request effortless on any device.</p>
   </div>
   <dl class="spec" style="position:absolute;left:760px;right:var(--m);top:120px">
@@ -66,60 +66,63 @@ h2{font-weight:500;font-size:34px;letter-spacing:-.02em;line-height:1.15}
     <div><dt>Industry</dt><dd>Aluminum window and door manufacturing</dd></div>
     <div><dt>Location</dt><dd>Buenos Aires, Argentina</dd></div>
     <div><dt>Track record</dt><dd>Since 2010, 500+ completed projects</dd></div>
-    <div><dt>Scope</dt><dd>UX/UI design, front-end development, local SEO</dd></div>
+    <div><dt>Scope</dt><dd>UX/UI design, front-end, local SEO</dd></div>
     <div><dt>Year</dt><dd>2026</dd></div>
     <div><dt>Live site</dt><dd>alumfer.com.ar</dd></div>
   </dl>
-  <div style="position:absolute;left:var(--m);right:var(--m);top:540px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+  <div style="position:absolute;left:var(--m);right:var(--m);top:600px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
     <figure><img class="photo" src="../../../apps/website/obra-ventanas-3.webp"><figcaption class="cap">Sliding window, wood-grain finish</figcaption></figure>
     <figure><img class="photo" src="../../../apps/website/obra-puertas-12.webp" style="object-position:center 30%"><figcaption class="cap">Hinged door with frosted glass panels</figcaption></figure>
     <figure><img class="photo" src="../../../apps/website/obra-quincho-3.webp"><figcaption class="cap">Patio enclosure</figcaption></figure>
-    <figure><img class="photo" src="../../../apps/website/obra-techo2.webp"><figcaption class="cap">Polycarbonate roof on aluminum frame</figcaption></figure>
+    <figure><img class="photo" src="../../../apps/website/obra-techo2.webp"><figcaption class="cap">Polycarbonate roofing</figcaption></figure>
   </div>
 </section>
 
 <!-- 03 · ESTRUCTURA -->
-<section class="board" id="bmap" style="height:1000px">
-  <div style="position:absolute;left:var(--m);top:110px;width:560px">
+<section class="board" id="bmap" style="height:1080px">
+  <div style="position:absolute;left:var(--m);top:110px;width:600px">
     <h2>Information architecture</h2>
-    <p class="txt" style="margin-top:22px">Content was structured before any visual design, around four intents: finding a product, finding a local supplier, researching before buying, and asking for a price. Every path ends in the same place: a direct conversation with the workshop.</p>
+    <p class="txt" style="margin-top:28px">Content was structured before any visual design, around four intents: finding a product, finding a local supplier, researching before buying, and asking for a price. Every path ends in the same place: a direct conversation with the workshop.</p>
   </div>
-  <svg style="position:absolute;left:var(--m);top:400px" width="1208" height="520" viewBox="0 0 1208 520" font-family="Inter" font-size="14" fill="#1A1C1E">
-    <g stroke="#1A1C1E" stroke-opacity=".35" fill="none" stroke-width="1">
-      <path d="M604 64 V104 M151 104 H1057 M151 104 V140 M453 104 V140 M755 104 V140 M1057 104 V140"/>
-      <path d="M151 304 V470 H1057 M453 304 V470 M755 304 V470 M1057 304 V470 M604 470 V440"/>
+  <svg style="position:absolute;left:var(--m);top:450px" width="1208" height="560" viewBox="0 0 1208 560" font-family="Inter" font-size="17" fill="#1A1C1E">
+    <g stroke="#1A1C1E" stroke-opacity=".35" fill="none" stroke-width="1.2">
+    <path d="M604 72 V112 M151 112 V150 M453 112 V150 M755 112 V150 M1057 112 V150 M151 112 H1057"/>
+    <path d="M151 346 V520 M453 346 V520 M755 346 V520 M1057 346 V520 M151 520 H1057 M604 520 V494"/>
     </g>
-    <rect x="514" y="0" width="180" height="64" fill="#1A1C1E"/>
-    <text x="604" y="38" text-anchor="middle" fill="#fff" font-weight="500" font-size="16">Home</text>
-    <g>
-      <rect x="61" y="140" width="180" height="64" fill="#F5F4F1" stroke="#1A1C1E" stroke-opacity=".25"/>
-      <text x="151" y="168" text-anchor="middle" font-weight="500">Services</text><text x="151" y="188" text-anchor="middle" fill="#5A5A55" font-size="13">6 pages</text>
-      <rect x="363" y="140" width="180" height="64" fill="#F5F4F1" stroke="#1A1C1E" stroke-opacity=".25"/>
-      <text x="453" y="168" text-anchor="middle" font-weight="500">Locations</text><text x="453" y="188" text-anchor="middle" fill="#5A5A55" font-size="13">27 pages</text>
-      <rect x="665" y="140" width="180" height="64" fill="#F5F4F1" stroke="#1A1C1E" stroke-opacity=".25"/>
-      <text x="755" y="168" text-anchor="middle" font-weight="500">Guides</text><text x="755" y="188" text-anchor="middle" fill="#5A5A55" font-size="13">4 articles</text>
-      <rect x="967" y="140" width="180" height="64" fill="#F5F4F1" stroke="#1A1C1E" stroke-opacity=".25"/>
-      <text x="1057" y="168" text-anchor="middle" font-weight="500">Work and catalog</text><text x="1057" y="188" text-anchor="middle" fill="#5A5A55" font-size="13">on the homepage</text>
-    </g>
-    <g font-size="13" fill="#5A5A55">
-      <text x="61" y="238">Windows · Double glazing</text><text x="61" y="258">Doors · Insect screens</text><text x="61" y="278">Enclosures · Roofing</text>
-      <text x="363" y="238">Adrogué · Temperley</text><text x="363" y="258">Lomas de Zamora · Quilmes</text><text x="363" y="278">and 23 more locations</text>
-      <text x="665" y="238">Is double glazing worth it?</text><text x="665" y="258">Aluminum or PVC?</text><text x="665" y="278">Dry installation · Product lines</text>
-      <text x="967" y="238">Gallery in 8 categories</text><text x="967" y="258">Profiles, glazing and colors</text><text x="967" y="278">Frequently asked questions</text>
-    </g>
-    <rect x="484" y="376" width="240" height="64" fill="#1B6CC8"/>
-    <text x="604" y="404" text-anchor="middle" fill="#fff" font-weight="500">Quote request</text>
-    <text x="604" y="424" text-anchor="middle" fill="#fff" fill-opacity=".8" font-size="13">WhatsApp · phone · form</text>
-  </svg>
+    <rect x="499" y="0" width="210" height="72" fill="#1A1C1E"/>
+    <text x="604" y="43" text-anchor="middle" fill="#fff" font-weight="500" font-size="19">Home</text>
+    <rect x="36" y="150" width="230" height="76" fill="#F5F4F1" stroke="#1A1C1E" stroke-opacity=".25"/>
+    <text x="151" y="183" text-anchor="middle" font-weight="500" font-size="18">Services</text><text x="151" y="207" text-anchor="middle" fill="#47463F" font-size="15">6 pages</text>
+    <text x="36" y="264" fill="#47463F" font-size="16">Windows · Double glazing</text>
+    <text x="36" y="290" fill="#47463F" font-size="16">Doors · Insect screens</text>
+    <text x="36" y="316" fill="#47463F" font-size="16">Enclosures · Roofing</text>
+    <rect x="338" y="150" width="230" height="76" fill="#F5F4F1" stroke="#1A1C1E" stroke-opacity=".25"/>
+    <text x="453" y="183" text-anchor="middle" font-weight="500" font-size="18">Locations</text><text x="453" y="207" text-anchor="middle" fill="#47463F" font-size="15">27 pages</text>
+    <text x="338" y="264" fill="#47463F" font-size="16">Adrogué · Temperley</text>
+    <text x="338" y="290" fill="#47463F" font-size="16">Lomas de Zamora · Quilmes</text>
+    <text x="338" y="316" fill="#47463F" font-size="16">and 23 more locations</text>
+    <rect x="640" y="150" width="230" height="76" fill="#F5F4F1" stroke="#1A1C1E" stroke-opacity=".25"/>
+    <text x="755" y="183" text-anchor="middle" font-weight="500" font-size="18">Guides</text><text x="755" y="207" text-anchor="middle" fill="#47463F" font-size="15">4 articles</text>
+    <text x="640" y="264" fill="#47463F" font-size="16">Is double glazing worth it?</text>
+    <text x="640" y="290" fill="#47463F" font-size="16">Aluminum or PVC?</text>
+    <text x="640" y="316" fill="#47463F" font-size="16">Dry installation · Profiles</text>
+    <rect x="942" y="150" width="230" height="76" fill="#F5F4F1" stroke="#1A1C1E" stroke-opacity=".25"/>
+    <text x="1057" y="183" text-anchor="middle" font-weight="500" font-size="18">Work and catalog</text><text x="1057" y="207" text-anchor="middle" fill="#47463F" font-size="15">on the homepage</text>
+    <text x="942" y="264" fill="#47463F" font-size="16">Gallery in 8 categories</text>
+    <text x="942" y="290" fill="#47463F" font-size="16">Profiles, glazing and colors</text>
+    <text x="942" y="316" fill="#47463F" font-size="16">Frequently asked questions</text>
+    <rect x="474" y="422" width="260" height="72" fill="#1B6CC8"/>
+    <text x="604" y="452" text-anchor="middle" fill="#fff" font-weight="500" font-size="18">Quote request</text><text x="604" y="476" text-anchor="middle" fill="#fff" fill-opacity=".85" font-size="15">WhatsApp · phone · form</text>
+    </svg>
 </section>
 
 <!-- 03 · IDENTIDAD -->
-<section class="board" id="b03" style="height:1150px">
-  <div style="position:absolute;left:var(--m);top:110px;width:520px">
+<section class="board" id="b03" style="height:1260px">
+  <div style="position:absolute;left:var(--m);top:110px;width:600px">
     <h2>Brand system</h2>
-    <p class="txt" style="margin-top:22px">The existing logo was kept intact: symbol on the left, name in widely tracked capitals. The palette comes from the materials of the trade, concrete and steel grays, with blue reserved for actions and key details.</p>
+    <p class="txt" style="margin-top:28px">The existing logo was kept intact: symbol on the left, name in widely tracked capitals. The palette comes from the materials of the trade, concrete and steel grays, with blue reserved for actions and key details.</p>
   </div>
-  <div style="position:absolute;left:var(--m);right:var(--m);top:330px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+  <div style="position:absolute;left:var(--m);right:var(--m);top:420px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
     <div style="background:#1A1C1E;height:300px;display:flex;align-items:center;justify-content:center">
       <div class="lockup" style="gap:18px;color:#fff"><img src="../../../apps/website/solologo.png" style="height:62px"><div><div class="name" style="font-size:40px">ALUMFER</div><div class="sub" style="font-size:10.5px;margin-top:9px">Carpintería de aluminio</div></div></div>
     </div>
@@ -127,14 +130,14 @@ h2{font-weight:500;font-size:34px;letter-spacing:-.02em;line-height:1.15}
       <div class="lockup" style="gap:18px;color:#fff"><img src="../../../apps/website/solologo.png" style="height:62px"><div><div class="name" style="font-size:40px">ALUMFER</div><div class="sub" style="font-size:10.5px;margin-top:9px;opacity:.75">Carpintería de aluminio</div></div></div>
     </div>
   </div>
-  <div style="position:absolute;left:var(--m);right:var(--m);top:670px;display:grid;grid-template-columns:repeat(5,1fr);gap:16px;font-size:13px;line-height:1.5">
+  <div style="position:absolute;left:var(--m);right:var(--m);top:760px;display:grid;grid-template-columns:repeat(5,1fr);gap:16px;font-size:17px;line-height:1.5">
     <div><div style="height:130px;background:#1A1C1E"></div><div style="margin-top:12px">Carbon</div><div style="color:var(--ink-2)">#1A1C1E</div></div>
     <div><div style="height:130px;background:#2E3338"></div><div style="margin-top:12px">Steel</div><div style="color:var(--ink-2)">#2E3338</div></div>
     <div><div style="height:130px;background:#B0A99A"></div><div style="margin-top:12px">Concrete</div><div style="color:var(--ink-2)">#B0A99A</div></div>
     <div><div style="height:130px;background:#F5F4F1;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></div><div style="margin-top:12px">Light concrete</div><div style="color:var(--ink-2)">#F5F4F1</div></div>
     <div><div style="height:130px;background:#1B6CC8"></div><div style="margin-top:12px">Aluminum blue</div><div style="color:var(--ink-2)">#1B6CC8</div></div>
   </div>
-  <div style="position:absolute;left:var(--m);right:var(--m);top:920px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+  <div style="position:absolute;left:var(--m);right:var(--m);top:1030px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
     <div style="border-top:1px solid var(--line);padding-top:24px">
       <div class="cap" style="margin:0 0 16px">Montserrat 600 · logotype</div>
       <div style="font-family:Montserrat;font-weight:600;font-size:44px;letter-spacing:.24em">ALUMFER</div>
@@ -152,12 +155,12 @@ h2{font-weight:500;font-size:34px;letter-spacing:-.02em;line-height:1.15}
 </section>
 
 <!-- 05 · PÁGINA COMPLETA -->
-<section class="board" id="b05" style="height:1080px">
-  <div style="position:absolute;left:var(--m);top:110px;width:520px">
+<section class="board" id="b05" style="height:1170px">
+  <div style="position:absolute;left:var(--m);top:110px;width:600px">
     <h2>Homepage</h2>
-    <p class="txt" style="margin-top:22px">One continuous page, ordered the way a customer makes a decision: who the company is, finished work, how the process works, the catalog, client reviews, warranty, questions and contact.</p>
+    <p class="txt" style="margin-top:28px">One continuous page, ordered the way a customer makes a decision: who the company is, finished work, how the process works, the catalog, client reviews, warranty, questions and contact.</p>
   </div>
-  <div style="position:absolute;left:var(--m);right:var(--m);top:330px;display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
+  <div style="position:absolute;left:var(--m);right:var(--m);top:400px;display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
     <div class="shot" style="height:670px;background:url(../_raw/desk-full.png) 0 0/100% auto no-repeat"></div>
     <div class="shot" style="height:670px;background:url(../_raw/desk-full.png) 0 -670px/100% auto no-repeat"></div>
     <div class="shot" style="height:670px;background:url(../_raw/desk-full.png) 0 -1340px/100% auto no-repeat;background-color:#1A1C1E"></div>
@@ -168,14 +171,14 @@ h2{font-weight:500;font-size:34px;letter-spacing:-.02em;line-height:1.15}
 <section class="board" id="b06" style="height:1000px">
   <img class="shot crop" src="../_raw/desk-trabajos.png" style="position:absolute;left:var(--m);top:110px;width:860px;height:720px">
   <div style="position:absolute;left:1000px;right:var(--m);top:110px"><img class="scr" src="../_raw/m-trabajos.png"></div>
-  <p class="cap" style="position:absolute;left:var(--m);top:850px;width:600px">Project gallery filtered into eight categories, on desktop and mobile.</p>
+  <p class="cap" style="position:absolute;left:var(--m);top:846px;width:760px">Project gallery filtered into eight categories, on desktop and mobile.</p>
 </section>
 
 <!-- 07 · PROCESO Y CATÁLOGO -->
-<section class="board" id="b07" style="height:1180px;background:var(--paper-2)">
+<section class="board" id="b07" style="height:1200px;background:var(--paper-2)">
   <img class="shot" src="../_raw/desk-proceso.png" style="position:absolute;left:var(--m);width:1208px;top:110px">
   <img class="shot crop" src="../_raw/desk-productos.png" style="position:absolute;left:var(--m);width:1208px;top:410px;height:640px">
-  <p class="cap" style="position:absolute;left:var(--m);top:1066px;width:700px">The four-step service process, followed by the catalog of profile systems, glazing and finishes, each shown with its cross-section.</p>
+  <p class="cap" style="position:absolute;left:var(--m);top:1062px;width:900px">The four-step service process, followed by the catalog of profile systems, glazing and finishes, each shown with its cross-section.</p>
 </section>
 
 <!-- 08 · OPINIONES Y CONTACTO -->
@@ -195,35 +198,35 @@ h2{font-weight:500;font-size:34px;letter-spacing:-.02em;line-height:1.15}
     <div><img class="scr" src="../_raw/m-reviews.png"><p class="cap">Reviews</p></div>
     <div><img class="scr" src="../_raw/m-contacto.png"><p class="cap">Contact</p></div>
   </div>
-  <p class="txt" style="position:absolute;left:var(--m);top:720px;width:560px">On mobile, a fixed bar keeps call and WhatsApp within thumb’s reach on every screen.</p>
+  <p class="txt" style="position:absolute;left:var(--m);top:740px;width:760px">On mobile, a fixed bar keeps call and WhatsApp within thumb’s reach on every screen.</p>
 </section>
 
 <!-- 10 · LOCALIDADES Y SERVICIOS -->
-<section class="board" id="b10" style="height:1020px">
-  <div style="position:absolute;left:var(--m);top:110px;width:520px">
+<section class="board" id="b10" style="height:1120px">
+  <div style="position:absolute;left:var(--m);top:110px;width:600px">
     <h2>Local search pages</h2>
-    <p class="txt" style="margin-top:22px">Every area the company serves and every service has its own page, with tailored copy, questions and structured data. Local searches are where purchase intent is highest.</p>
+    <p class="txt" style="margin-top:28px">Every area the company serves and every service has its own page, with tailored copy, questions and structured data. Local searches are where purchase intent is highest.</p>
   </div>
-  <img class="shot" src="../_raw/landing-desk-top.png" style="position:absolute;left:var(--m);top:340px;width:760px">
-  <div style="position:absolute;left:920px;right:var(--m);top:340px">
-    <div style="font-size:13px;margin-bottom:10px">27 locations</div>
-    <div id="zonas" style="columns:2;column-gap:24px;font-size:14px;line-height:1.75;color:var(--ink-2)"></div>
+  <img class="shot" src="../_raw/landing-desk-top.png" style="position:absolute;left:var(--m);top:410px;width:760px">
+  <div style="position:absolute;left:920px;right:var(--m);top:410px">
+    <div style="font-size:18px;font-weight:500;margin-bottom:12px">27 locations</div>
+    <div id="zonas" style="columns:2;column-gap:24px;font-size:16px;line-height:1.7;color:var(--ink-2)"></div>
   </div>
-  <div style="position:absolute;left:var(--m);width:760px;top:850px">
-    <div style="font-size:13px;margin-bottom:10px">6 services</div>
-    <div style="columns:3;column-gap:24px;font-size:14px;line-height:1.75;color:var(--ink-2)">Aluminum windows<br>Double-glazed windows<br>Aluminum doors<br>Custom insect screens<br>Enclosures<br>Polycarbonate roofing</div>
+  <div style="position:absolute;left:var(--m);width:760px;top:930px">
+    <div style="font-size:18px;font-weight:500;margin-bottom:12px">6 services</div>
+    <div style="columns:3;column-gap:24px;font-size:16px;line-height:1.7;color:var(--ink-2)">Aluminum windows<br>Double-glazed windows<br>Aluminum doors<br>Custom insect screens<br>Enclosures<br>Polycarbonate roofing</div>
   </div>
 </section>
 
 <!-- 11 · GUÍAS -->
-<section class="board" id="b11" style="height:1160px">
-  <div style="position:absolute;left:var(--m);top:110px;width:520px">
+<section class="board" id="b11" style="height:1290px">
+  <div style="position:absolute;left:var(--m);top:110px;width:600px">
     <h2>Buyer guides</h2>
-    <p class="txt" style="margin-top:22px">Four long-form articles written in the workshop’s own voice, answering what customers ask before they order. Specific, honest, and one click away from a quote.</p>
+    <p class="txt" style="margin-top:28px">Four long-form articles written in the workshop’s own voice, answering what customers ask before they order. Specific, honest, and one click away from a quote.</p>
   </div>
-  <img class="shot" src="../_raw/guia-desk-top.png" style="position:absolute;left:var(--m);top:310px;width:860px">
-  <div style="position:absolute;left:1000px;right:var(--m);top:310px"><img class="scr" src="../_raw/m-guia-body.png"></div>
-  <dl class="spec" style="position:absolute;left:var(--m);width:860px;top:900px">
+  <img class="shot" src="../_raw/guia-desk-top.png" style="position:absolute;left:var(--m);top:380px;width:860px">
+  <div style="position:absolute;left:1000px;right:var(--m);top:380px"><img class="scr" src="../_raw/m-guia-body.png"></div>
+  <dl class="spec" style="position:absolute;left:var(--m);width:860px;top:970px">
     <div style="grid-template-columns:1fr 1fr"><dt style="color:var(--ink)">Is double glazing worth it?</dt><dd style="color:var(--ink-2)">/guias/conviene-el-dvh</dd></div>
     <div style="grid-template-columns:1fr 1fr"><dt style="color:var(--ink)">Aluminum or PVC?</dt><dd style="color:var(--ink-2)">/guias/aluminio-o-pvc</dd></div>
     <div style="grid-template-columns:1fr 1fr"><dt style="color:var(--ink)">Dry installation, explained</dt><dd style="color:var(--ink-2)">/guias/colocacion-en-seco</dd></div>
@@ -232,12 +235,12 @@ h2{font-weight:500;font-size:34px;letter-spacing:-.02em;line-height:1.15}
 </section>
 
 <!-- 12 · DESARROLLO -->
-<section class="board" id="b12" style="height:640px">
-  <div style="position:absolute;left:var(--m);top:110px;width:520px">
+<section class="board" id="b12" style="height:760px">
+  <div style="position:absolute;left:var(--m);top:110px;width:600px">
     <h2>Build</h2>
-    <p class="txt" style="margin-top:22px">A static site with no framework: fast on mid-range phones, inexpensive to host, and easy for any developer to maintain.</p>
+    <p class="txt" style="margin-top:28px">A static site with no framework: fast on mid-range phones, inexpensive to host, and easy for any developer to maintain.</p>
   </div>
-  <dl class="spec" style="position:absolute;left:760px;right:var(--m);top:120px">
+  <dl class="spec" style="position:absolute;left:720px;right:var(--m);top:120px">
     <div><dt>Front-end</dt><dd>Semantic HTML, layered CSS on shared design tokens, dependency-free JavaScript</dd></div>
     <div><dt>Motion</dt><dd>GSAP and smooth scrolling, with a complete fallback and reduced-motion support</dd></div>
     <div><dt>Contact</dt><dd>WhatsApp, phone and a PHP form with a branded email confirmation</dd></div>
@@ -256,7 +259,7 @@ h2{font-weight:500;font-size:34px;letter-spacing:-.02em;line-height:1.15}
       <div class="sub" style="font-size:13.5px;margin-top:12px">Carpintería de aluminio</div>
     </div>
   </div>
-  <p style="position:absolute;left:0;right:0;top:370px;text-align:center;font-size:15px;line-height:1.7;color:rgba(255,255,255,.6)">alumfer.com.ar<br>Buenos Aires, Argentina</p>
+  <p style="position:absolute;left:0;right:0;top:370px;text-align:center;font-size:19px;line-height:1.7;color:rgba(255,255,255,.74)">alumfer.com.ar<br>Buenos Aires, Argentina</p>
 </section>
 
 <!-- PORTADA DE GRILLA 808×632: solo imagen, sin texto encima (recomendación de curaduría) -->

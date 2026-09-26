@@ -10,7 +10,7 @@ se copia tal cual en Behance, en inglés.**
 ```
 portfolio/behance/
 ├── laminas/          ← las láminas en inglés (2800 px de ancho, JPG)
-├── video/            ← homepage-walkthrough.mp4 (1920×1080, 25 s)
+├── video/            ← homepage-walkthrough.mp4 (1920×1080, 63 s)
 ├── perfil/           ← banner del perfil
 ├── _src/             ← fuente de las láminas y scripts para regenerarlas
 ├── PERFIL.md         ← perfil y marca propia (textos en inglés)
@@ -31,7 +31,7 @@ Subí los módulos **en este orden**, con **espaciado 0** entre módulos y
 | 3 | `03-information-architecture.jpg` | Site structure around four customer intents |
 | 4 | `04-brand-system.jpg` | Logo on dark and blue, palette, typefaces |
 | 5 | `05-homepage-hero.jpg` | Homepage first screen, full bleed |
-| 6 | `video/homepage-walkthrough.mp4` | **Video module:** full homepage, desktop and mobile |
+| 6 | `video/homepage-walkthrough.mp4` | **Video module:** opening card, desktop walkthrough with a pause at every section, mobile walkthrough, closing card |
 | 7 | `06-homepage.jpg` | The full homepage in three sections |
 | 8 | `07-project-gallery.jpg` | Filterable project gallery, desktop and mobile |
 | 9 | `08-process-and-catalog.jpg` | Service process and product catalog |
@@ -170,15 +170,18 @@ We design and build websites for companies that want to look as good online as t
 # 2) Capturas de pantalla → portfolio/behance/_raw/
 node portfolio/behance/_src/capturar.mjs
 node portfolio/behance/_src/capturar-extra.mjs
+node portfolio/behance/_src/capturar-video.mjs
 
-# 3) Láminas, portada y banner → laminas/ y perfil/
+# 3) Láminas, portada, banner y placas del video
 node portfolio/behance/_src/exportar.mjs
 
 # 4) Video → video/homepage-walkthrough.mp4
-bash portfolio/behance/_src/video.sh
+python3 portfolio/behance/_src/video.py
 ```
 
-Requiere Playwright con Chromium y ffmpeg (`pip install imageio-ffmpeg`). Las
+Requiere Playwright con Chromium y ffmpeg (`pip install imageio-ffmpeg`).
+Las paradas del video, sus pausas y la duración de cada desplazamiento se
+ajustan en `_src/video.py`. Las
 capturas en crudo (`_raw/`) no se versionan porque pesan ~30 MB. El diseño de
 las láminas está en `_src/boards.html`; las tipografías (Inter y Montserrat)
 están en `_src/fonts/` para que el resultado no dependa de la red.

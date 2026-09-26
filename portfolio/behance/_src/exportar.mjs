@@ -30,5 +30,13 @@ for (const id of ids) {
   const name = names[id];
   await el.screenshot({ path: new URL(`../laminas/${name}.jpg`, import.meta.url).pathname, type:'jpeg', quality:90 });
 }
+// Placas de apertura y cierre del video
+const pv = await ctx.newPage();
+await pv.setViewportSize({ width:1920, height:1080 });
+await pv.goto(base + 'video-placas.html', { waitUntil: 'networkidle' });
+await pv.evaluate(async()=>{ await Promise.all(['600 88px Montserrat','400 24px Inter'].map(f=>document.fonts.load(f))); await document.fonts.ready; });
+for (const id of ['intro','outro']) {
+  await (await pv.$('#'+id)).screenshot({ path: new URL(`../_raw/video/card-${id}.png`, import.meta.url).pathname, scale: 'css' });
+}
 await b.close();
 server.close();
