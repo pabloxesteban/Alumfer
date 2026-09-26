@@ -10,7 +10,7 @@ se copia tal cual en Behance, en inglés.**
 ```
 portfolio/behance/
 ├── laminas/          ← las láminas en inglés (2800 px de ancho, JPG)
-├── video/            ← homepage-walkthrough.mp4 (1920×1080, 63 s)
+├── video/            ← desktop-walkthrough.mp4 (42 s) y mobile-walkthrough.mp4 (28 s), 1920×1080
 ├── perfil/           ← banner del perfil
 ├── _src/             ← fuente de las láminas y scripts para regenerarlas
 ├── PERFIL.md         ← perfil y marca propia (textos en inglés)
@@ -31,17 +31,18 @@ Subí los módulos **en este orden**, con **espaciado 0** entre módulos y
 | 3 | `03-information-architecture.jpg` | Site structure around four customer intents |
 | 4 | `04-brand-system.jpg` | Logo on dark and blue, palette, typefaces |
 | 5 | `05-homepage-hero.jpg` | Homepage first screen, full bleed |
-| 6 | `video/homepage-walkthrough.mp4` | **Video module:** opening card, desktop walkthrough with a pause at every section, mobile walkthrough, closing card |
+| 6 | `video/desktop-walkthrough.mp4` | **Video module:** desktop walkthrough, pausing at every section |
 | 7 | `06-homepage.jpg` | The full homepage in three sections |
 | 8 | `07-project-gallery.jpg` | Filterable project gallery, desktop and mobile |
 | 9 | `08-process-and-catalog.jpg` | Service process and product catalog |
 | 10 | `09-reviews-and-contact.jpg` | Reviews, warranty, FAQ, quote form |
 | 11 | `10-mobile.jpg` | Five mobile screens |
-| 12 | `11-local-search-pages.jpg` | 27 location pages and 6 service pages |
-| 13 | `12-buyer-guides.jpg` | Four long-form buyer guides |
-| 14 | `13-build.jpg` | Technical build |
-| 15 | `14-closing.jpg` | Closing board |
-| 16 | *Text module* | Call to action, see section 4 |
+| 12 | `video/mobile-walkthrough.mp4` | **Video module:** mobile walkthrough |
+| 13 | `11-local-search-pages.jpg` | 27 location pages and 6 service pages |
+| 14 | `12-buyer-guides.jpg` | Four long-form buyer guides |
+| 15 | `13-build.jpg` | Technical build |
+| 16 | `14-closing.jpg` | Closing board |
+| 17 | *Text module* | Call to action, see section 4 |
 
 **Project cover (grid thumbnail):** `laminas/cover-808x632.jpg` (exported at
 2×, 1616 × 1264). Image only, no text on top, as Behance's curators recommend.
@@ -154,7 +155,7 @@ We design and build websites for companies that want to look as good online as t
       first publish.
 - [ ] Cover set to `cover-808x632.jpg`, full frame.
 - [ ] Background `#EAE7E1`, spacing 0.
-- [ ] Video uploaded as a video module, not as a GIF.
+- [ ] Both videos uploaded as video modules, not as GIFs.
 - [ ] Alumfer has approved publication (it uses their brand and photos).
 - [ ] Share the link the same day on LinkedIn and Instagram: views in the
       first hours help the project circulate.
@@ -175,7 +176,7 @@ node portfolio/behance/_src/capturar-video.mjs
 # 3) Láminas, portada, banner y placas del video
 node portfolio/behance/_src/exportar.mjs
 
-# 4) Video → video/homepage-walkthrough.mp4
+# 4) Videos → video/desktop-walkthrough.mp4 y video/mobile-walkthrough.mp4
 python3 portfolio/behance/_src/video.py
 ```
 

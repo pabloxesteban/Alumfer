@@ -35,7 +35,7 @@ const pv = await ctx.newPage();
 await pv.setViewportSize({ width:1920, height:1080 });
 await pv.goto(base + 'video-placas.html', { waitUntil: 'networkidle' });
 await pv.evaluate(async()=>{ await Promise.all(['600 88px Montserrat','400 24px Inter'].map(f=>document.fonts.load(f))); await document.fonts.ready; });
-for (const id of ['intro','outro']) {
+for (const id of ['intro-desktop','intro-mobile','outro']) {
   await (await pv.$('#'+id)).screenshot({ path: new URL(`../_raw/video/card-${id}.png`, import.meta.url).pathname, scale: 'css' });
 }
 await b.close();

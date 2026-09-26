@@ -1,7 +1,9 @@
-"""Genera video/homepage-walkthrough.mp4 (1920x1080, 30 fps).
+"""Genera dos videos (1920x1080, 30 fps) en video/:
 
-Escenas: placa de apertura -> escritorio a pantalla completa con pausas en cada
-sección -> celular en grande con pausas -> placa de cierre, unidas con fundidos.
+- desktop-walkthrough.mp4: placa de apertura -> el sitio en escritorio a
+  pantalla completa, con una pausa en cada sección -> placa de cierre.
+- mobile-walkthrough.mp4: placa de apertura -> el sitio en celular, en grande,
+  con pausas -> placa de cierre.
 
 Usa las capturas de _raw/video/ (capturar-video.mjs) y las placas que genera
 exportar.mjs. Los elementos fijos del sitio (barra de navegación y barra
@@ -16,7 +18,7 @@ import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 RAW = os.path.join(HERE, '..', '_raw', 'video')
-OUT = os.path.join(HERE, '..', 'video', 'homepage-walkthrough.mp4')
+OUT_DIR = os.path.join(HERE, '..', 'video')
 FPS = 30
 W, H = 1920, 1080
 
@@ -94,45 +96,54 @@ R = 44  # radio de las esquinas de la pantalla
 nav_switch = dseg[0][1] + 0.25   # la barra pasa a sólida al empezar a bajar
 mnav_switch = mseg[0][1] + 0.25
 
-fg = f"""
+def render(out, scene_inputs, scene_graph, scene_len, intro_card):
+    """Placa de apertura -> escena -> placa de cierre, con fundidos."""
+    inputs = []
+    for path, dur in scene_inputs + [(intro_card, INTRO), ('card-outro.png', OUTRO)]:
+        inputs += ['-loop', '1', '-framerate', str(FPS), '-t', f'{dur:.3f}', '-i', os.path.join(RAW, path)]
+    n = len(scene_inputs)
+    total = INTRO + scene_len + OUTRO - 2 * XF
+    graph = scene_graph + f"""
+[{n}:v]format=yuv420p,fps={FPS}[intro];
+[{n + 1}:v]format=yuv420p,fps={FPS}[outro];
+[intro][scene]xfade=transition=fade:duration={XF}:offset={INTRO - XF:.3f}[a];
+[a][outro]xfade=transition=fade:duration={XF}:offset={INTRO + scene_len - 2 * XF:.3f},fade=t=in:st=0:d=0.6,fade=t=out:st={total - 0.8:.3f}:d=0.8[v]
+"""
+    with tempfile.NamedTemporaryFile('w', suffix='.txt', delete=False) as f:
+        f.write(graph)
+        script = f.name
+    subprocess.run([FFMPEG, '-y', '-loglevel', 'error', *inputs, '-filter_complex_script', script,
+                    '-map', '[v]', '-c:v', 'libx264', '-preset', 'slow', '-crf', '18', '-pix_fmt', 'yuv420p',
+                    '-movflags', '+faststart', '-r', str(FPS), out], check=True)
+    os.unlink(script)
+    print(f'{os.path.basename(out)}: {total:.1f} s')
+
+
+os.makedirs(OUT_DIR, exist_ok=True)
+
+# Escritorio: pantalla completa, barra de navegación fija superpuesta
+render(os.path.join(OUT_DIR, 'desktop-walkthrough.mp4'),
+       [('desk-full.png', dlen), ('desk-nav-top.png', dlen), ('desk-nav-solid.png', dlen)],
+       f"""
 [0:v]format=rgb24,crop={d['width'] * 2}:{VIEW['desk'] * 2}:0:'{y_expr(dseg, 2)}',scale={W}:{H}:flags=lanczos,setsar=1[dpage];
 [1:v]scale={W}:-1:flags=lanczos[dnav0];
 [2:v]scale={W}:-1:flags=lanczos[dnav1];
 [dpage][dnav0]overlay=0:0:enable='lt(t,{nav_switch:.3f})'[d1];
-[d1][dnav1]overlay=0:0:enable='gte(t,{nav_switch:.3f})',fps={FPS},format=yuv420p[desk];
+[d1][dnav1]overlay=0:0:enable='gte(t,{nav_switch:.3f})',fps={FPS},format=yuv420p[scene];""",
+       dlen, 'card-intro-desktop.png')
 
-[3:v]format=rgb24,crop={mo['width'] * 3}:{mo['viewportH'] * 3}:0:'{y_expr(mseg, 3)}',scale={PW}:{PH}:flags=lanczos,setsar=1[mpage];
-[4:v]scale={PW}:-1:flags=lanczos[mnav0];
-[5:v]scale={PW}:-1:flags=lanczos[mnav1];
-[6:v]scale={PW}:-1:flags=lanczos[mbar];
+# Celular: pantalla grande centrada, barra superior y barra de contacto fijas
+render(os.path.join(OUT_DIR, 'mobile-walkthrough.mp4'),
+       [('mob-full.png', mlen), ('mob-nav-top.png', mlen), ('mob-nav-solid.png', mlen), ('mob-bar.png', mlen)],
+       f"""
+[0:v]format=rgb24,crop={mo['width'] * 3}:{mo['viewportH'] * 3}:0:'{y_expr(mseg, 3)}',scale={PW}:{PH}:flags=lanczos,setsar=1[mpage];
+[1:v]scale={PW}:-1:flags=lanczos[mnav0];
+[2:v]scale={PW}:-1:flags=lanczos[mnav1];
+[3:v]scale={PW}:-1:flags=lanczos[mbar];
 [mpage][mnav0]overlay=0:0:enable='lt(t,{mnav_switch:.3f})'[m1];
 [m1][mnav1]overlay=0:0:enable='gte(t,{mnav_switch:.3f})'[m2];
 [m2][mbar]overlay=0:{round(meta['mobBarTop'] * PH / mo['viewportH'])},format=yuva444p,
   geq=lum='lum(X,Y)':cb='cb(X,Y)':cr='cr(X,Y)':a='if(gt(abs(X-{PW / 2}),{PW / 2 - R})*gt(abs(Y-{PH / 2}),{PH / 2 - R})*gt(hypot(abs(X-{PW / 2})-{PW / 2 - R},abs(Y-{PH / 2})-{PH / 2 - R}),{R}),0,255)'[mscreen];
 color=c=0xE1DDD5:s={W}x{H}:r={FPS}:d={mlen:.3f}[mbg];
-[mbg][mscreen]overlay={PX}:{PY}:shortest=1,format=yuv420p[mob];
-
-[7:v]format=yuv420p,fps={FPS}[intro];
-[8:v]format=yuv420p,fps={FPS}[outro];
-[intro][desk]xfade=transition=fade:duration={XF}:offset={INTRO - XF:.3f}[a];
-[a][mob]xfade=transition=fade:duration={XF}:offset={INTRO + dlen - 2 * XF:.3f}[b];
-[b][outro]xfade=transition=fade:duration={XF}:offset={INTRO + dlen + mlen - 3 * XF:.3f},fade=t=in:st=0:d=0.6,fade=t=out:st={INTRO + dlen + mlen + OUTRO - 3 * XF - 0.8:.3f}:d=0.8[v]
-"""
-
-inputs = []
-for path, dur in [('desk-full.png', dlen), ('desk-nav-top.png', dlen), ('desk-nav-solid.png', dlen),
-                  ('mob-full.png', mlen), ('mob-nav-top.png', mlen), ('mob-nav-solid.png', mlen), ('mob-bar.png', mlen),
-                  ('card-intro.png', INTRO), ('card-outro.png', OUTRO)]:
-    inputs += ['-loop', '1', '-framerate', str(FPS), '-t', f'{dur:.3f}', '-i', os.path.join(RAW, path)]
-
-os.makedirs(os.path.dirname(OUT), exist_ok=True)
-with tempfile.NamedTemporaryFile('w', suffix='.txt', delete=False) as f:
-    f.write(fg)
-    script = f.name
-total = INTRO + dlen + mlen + OUTRO - 3 * XF
-print(f'escritorio {dlen:.1f} s · celular {mlen:.1f} s · total {total:.1f} s')
-subprocess.run([FFMPEG, '-y', '-loglevel', 'error', *inputs, '-filter_complex_script', script,
-                '-map', '[v]', '-c:v', 'libx264', '-preset', 'slow', '-crf', '18', '-pix_fmt', 'yuv420p',
-                '-movflags', '+faststart', '-r', str(FPS), OUT], check=True)
-os.unlink(script)
-print(OUT)
+[mbg][mscreen]overlay={PX}:{PY}:shortest=1,format=yuv420p[scene];""",
+       mlen, 'card-intro-mobile.png')
