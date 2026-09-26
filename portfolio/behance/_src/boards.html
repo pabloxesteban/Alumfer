@@ -4,205 +4,191 @@
 <meta charset="utf-8">
 <title>Alumfer — láminas Behance</title>
 <link href="fonts/inter.css" rel="stylesheet">
+<link href="fonts/montserrat.css" rel="stylesheet">
 <style>
 :root{
-  --carbon:#1A1C1E; --steel:#2E3338; --concrete:#B0A99A; --paper:#EAE7E1; --paper-2:#E1DDD5;
-  --blue:#1B6CC8;
-  --ink:#1A1C1E; --ink-2:#55544F; --line:rgba(26,28,30,.18);
-  --m:80px;
+  --carbon:#1A1C1E; --steel:#2E3338; --paper:#EAE7E1; --paper-2:#E1DDD5;
+  --ink:#1A1C1E; --ink-2:#5A5A55; --line:rgba(26,28,30,.16);
+  --m:96px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#000;font-family:Inter,sans-serif;-webkit-font-smoothing:antialiased;color:var(--ink)}
 .board{width:1400px;position:relative;overflow:hidden;background:var(--paper)}
-.dark{background:var(--carbon);color:#fff;--ink-2:rgba(255,255,255,.62);--line:rgba(255,255,255,.16)}
+.dark{background:var(--carbon);color:#fff;--ink:#fff;--ink-2:rgba(255,255,255,.6);--line:rgba(255,255,255,.14)}
 
-/* cabecera de cada lámina: una línea fina y dos textos chicos */
-.run{position:absolute;left:var(--m);right:var(--m);top:44px;display:flex;justify-content:space-between;font-size:14px;color:var(--ink-2);padding-bottom:12px;border-bottom:1px solid var(--line)}
+/* Logotipo: isotipo a la izquierda, ALUMFER en Montserrat espaciada, como en el sitio */
+.lockup{display:flex;align-items:center}
+.lockup img{display:block}
+.lockup .name{font-family:Montserrat,sans-serif;font-weight:600;letter-spacing:.24em;line-height:1}
+.lockup .sub{font-family:Inter,sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.14em;line-height:1;opacity:.6}
 
-h1,h2{font-weight:500;letter-spacing:-.025em;line-height:1.04}
-h2{font-size:52px}
-.txt{font-size:17px;line-height:1.6;color:var(--ink-2)}
-.txt + .txt{margin-top:14px}
-.cap{font-size:14px;line-height:1.45;color:var(--ink-2);margin-top:12px}
-.cap b{color:var(--ink);font-weight:600}
-.dark .cap b{color:#fff}
+h2{font-weight:500;font-size:34px;letter-spacing:-.02em;line-height:1.15}
+.txt{font-size:16px;line-height:1.65;color:var(--ink-2)}
+.txt + .txt{margin-top:12px}
+.cap{font-size:13px;line-height:1.5;color:var(--ink-2);margin-top:14px}
 
-.shot{display:block;width:100%;border-radius:3px;box-shadow:0 0 0 1px rgba(26,28,30,.12),0 18px 40px -24px rgba(26,28,30,.5)}
-.dark .shot{box-shadow:0 0 0 1px rgba(255,255,255,.1)}
+.shot{display:block;width:100%;border-radius:2px;box-shadow:0 0 0 1px rgba(26,28,30,.12)}
+.dark .shot{box-shadow:0 0 0 1px rgba(255,255,255,.08)}
 .crop{object-fit:cover;object-position:top}
-.scr{display:block;width:100%;aspect-ratio:390/844;object-fit:cover;object-position:top;border-radius:24px;box-shadow:0 0 0 1px rgba(26,28,30,.2),0 18px 40px -24px rgba(26,28,30,.55)}
+.scr{display:block;width:100%;aspect-ratio:390/844;object-fit:cover;object-position:top;border-radius:22px;box-shadow:0 0 0 1px rgba(26,28,30,.18)}
 .photo{display:block;width:100%;aspect-ratio:1;object-fit:cover}
 
 .spec{border-top:1px solid var(--line)}
-.spec div{display:grid;grid-template-columns:150px 1fr;padding:13px 0;border-bottom:1px solid var(--line);font-size:16px;line-height:1.4}
+.spec div{display:grid;grid-template-columns:140px 1fr;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px;line-height:1.45}
 .spec dt{color:var(--ink-2)}
 </style>
 </head>
 <body>
 
 <!-- 01 · PORTADA -->
-<section class="board dark" id="b01" style="height:1060px">
-  <div class="run"><span>Alumfer — Carpintería de aluminio</span><span>Sitio web, 2026</span></div>
-  <div style="position:absolute;left:var(--m);top:150px;display:flex;align-items:center;gap:22px">
-    <img src="../../../apps/website/solologo.png" style="height:64px">
+<section class="board dark" id="b01" style="height:1000px">
+  <div class="lockup" style="position:absolute;left:var(--m);top:130px;gap:34px">
+    <img src="../../../apps/website/solologo.png" style="height:118px">
+    <div>
+      <div class="name" style="font-size:84px">ALUMFER</div>
+      <div class="sub" style="font-size:19px;margin-top:16px">Carpintería de aluminio</div>
+    </div>
   </div>
-  <h1 style="position:absolute;left:var(--m);top:250px;font-size:168px;letter-spacing:-.045em;font-weight:600">Alumfer</h1>
-  <div style="position:absolute;left:var(--m);top:450px;width:560px">
-    <p style="font-size:24px;line-height:1.4">Fábrica de aberturas de aluminio a medida. Adrogué, Buenos Aires, desde 2010.</p>
-  </div>
-  <div style="position:absolute;left:760px;top:450px;width:560px" class="txt">Diseño y desarrollo del sitio institucional: identidad digital, página de inicio, páginas por servicio y por localidad, y guías técnicas para clientes.</div>
-  <img class="shot crop" src="../_raw/desk-hero.png" style="position:absolute;left:var(--m);right:var(--m);width:1240px;top:600px;height:775px;border-radius:3px 3px 0 0">
+  <p style="position:absolute;left:var(--m);top:330px;width:560px;font-size:20px;line-height:1.5;color:rgba(255,255,255,.85)">Fábrica de aberturas de aluminio a medida. Adrogué, Buenos Aires, desde 2010.</p>
+  <p class="txt" style="position:absolute;left:760px;right:var(--m);top:330px">Sitio web institucional: página de inicio, páginas por servicio y por localidad, y guías para clientes.</p>
+  <img src="../_raw/desk-hero.png" style="position:absolute;left:0;top:480px;width:1400px;height:520px;object-fit:cover;object-position:top">
 </section>
 
 <!-- 02 · EL PROYECTO -->
-<section class="board" id="b02" style="height:1080px">
-  <div class="run"><span>Alumfer</span><span>El proyecto</span></div>
-  <div style="position:absolute;left:var(--m);top:130px;width:560px">
+<section class="board" id="b02" style="height:1000px">
+  <div style="position:absolute;left:var(--m);top:110px;width:520px">
     <h2>El proyecto</h2>
-    <p class="txt" style="margin-top:30px">Alumfer es una empresa familiar de la Zona Sur del Gran Buenos Aires. Fabrica e instala ventanas, puertas, postigones y cerramientos de aluminio a medida en su propio taller, sin intermediarios ni subcontratos.</p>
+    <p class="txt" style="margin-top:22px">Alumfer es una empresa familiar de la Zona Sur del Gran Buenos Aires. Fabrica e instala ventanas, puertas, postigones y cerramientos de aluminio a medida en su propio taller, sin intermediarios ni subcontratos.</p>
     <p class="txt">El sitio tenía que presentar a la empresa con la seriedad de un fabricante: mostrar las obras terminadas, explicar las líneas y los vidrios que trabajan, y facilitar el pedido de presupuesto desde cualquier dispositivo.</p>
   </div>
-  <dl class="spec" style="position:absolute;left:760px;right:var(--m);top:140px">
+  <dl class="spec" style="position:absolute;left:760px;right:var(--m);top:120px">
     <div><dt>Cliente</dt><dd>Alumfer, carpintería de aluminio</dd></div>
     <div><dt>Rubro</dt><dd>Fabricación e instalación de aberturas</dd></div>
-    <div><dt>Ubicación</dt><dd>Av. San Martín 734, Adrogué</dd></div>
-    <div><dt>Trayectoria</dt><dd>Desde 2010 · más de 500 obras</dd></div>
+    <div><dt>Ubicación</dt><dd>Adrogué, Buenos Aires</dd></div>
+    <div><dt>Trayectoria</dt><dd>Desde 2010, más de 500 obras</dd></div>
     <div><dt>Alcance</dt><dd>Diseño web, desarrollo, SEO local y contenidos</dd></div>
     <div><dt>Año</dt><dd>2026</dd></div>
     <div><dt>Sitio</dt><dd>alumfer.com.ar</dd></div>
   </dl>
-  <div style="position:absolute;left:var(--m);right:var(--m);top:560px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+  <div style="position:absolute;left:var(--m);right:var(--m);top:540px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
     <figure><img class="photo" src="../../../apps/website/obra-ventanas-3.webp"><figcaption class="cap">Ventana corrediza, color símil madera</figcaption></figure>
     <figure><img class="photo" src="../../../apps/website/obra-puertas-12.webp" style="object-position:center 30%"><figcaption class="cap">Puerta de abrir con paños de vidrio</figcaption></figure>
     <figure><img class="photo" src="../../../apps/website/obra-quincho-3.webp"><figcaption class="cap">Cerramiento de quincho</figcaption></figure>
     <figure><img class="photo" src="../../../apps/website/obra-techo2.webp"><figcaption class="cap">Techo de policarbonato</figcaption></figure>
   </div>
-  <p class="cap" style="position:absolute;left:var(--m);bottom:56px">Fotografías de obra: Alumfer.</p>
 </section>
 
 <!-- 03 · IDENTIDAD -->
-<section class="board" id="b03" style="height:1110px">
-  <div class="run"><span>Alumfer</span><span>Identidad visual</span></div>
-  <div style="position:absolute;left:var(--m);top:130px;width:560px">
-    <h2>Identidad visual</h2>
-    <p class="txt" style="margin-top:30px">La paleta sale de los materiales con los que trabaja la empresa: el gris del hormigón, el acero y el aluminio anodizado. El azul se reserva para acciones y detalles; el verde, solo para WhatsApp.</p>
+<section class="board" id="b03" style="height:1150px">
+  <div style="position:absolute;left:var(--m);top:110px;width:520px">
+    <h2>Identidad</h2>
+    <p class="txt" style="margin-top:22px">El logotipo de la empresa se respeta tal cual: isotipo a la izquierda y el nombre en mayúsculas espaciadas. La paleta toma los grises del hormigón y el acero; el azul queda para acciones y detalles.</p>
   </div>
-  <div style="position:absolute;left:var(--m);right:var(--m);top:420px;display:grid;grid-template-columns:2fr 2fr 1.4fr 1.4fr 1fr;height:260px">
-    <div style="background:#1A1C1E"></div><div style="background:#2E3338"></div><div style="background:#B0A99A"></div><div style="background:#E8E4DC;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></div><div style="background:#1B6CC8"></div>
-  </div>
-  <div style="position:absolute;left:var(--m);right:var(--m);top:694px;display:grid;grid-template-columns:2fr 2fr 1.4fr 1.4fr 1fr;font-size:14px;line-height:1.5">
-    <div><b>Carbón</b><br><span style="color:var(--ink-2)">#1A1C1E · fondos</span></div>
-    <div><b>Acero</b><br><span style="color:var(--ink-2)">#2E3338 · secciones</span></div>
-    <div><b>Hormigón</b><br><span style="color:var(--ink-2)">#B0A99A</span></div>
-    <div><b>Hormigón claro</b><br><span style="color:var(--ink-2)">#E8E4DC</span></div>
-    <div><b>Azul</b><br><span style="color:var(--ink-2)">#1B6CC8</span></div>
-  </div>
-  <div style="position:absolute;left:var(--m);right:var(--m);top:820px;display:grid;grid-template-columns:1fr 1fr;gap:40px;border-top:1px solid var(--line);padding-top:36px">
-    <div>
-      <div class="cap" style="margin:0 0 14px">Tipografía del sitio: Inter para títulos y textos, Montserrat en el logotipo.</div>
-      <div style="font-family:Inter;font-weight:300;font-size:46px;letter-spacing:-.02em;line-height:1.08">Aberturas de aluminio<br><span style="font-weight:600">a medida</span></div>
+  <div style="position:absolute;left:var(--m);right:var(--m);top:330px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div style="background:#1A1C1E;height:300px;display:flex;align-items:center;justify-content:center">
+      <div class="lockup" style="gap:18px;color:#fff"><img src="../../../apps/website/solologo.png" style="height:62px"><div><div class="name" style="font-size:40px">ALUMFER</div><div class="sub" style="font-size:10.5px;margin-top:9px">Carpintería de aluminio</div></div></div>
     </div>
-    <div style="display:flex;gap:40px;align-items:flex-start">
-      <img src="../../../apps/website/logo.jpg" style="width:150px;height:150px;border-radius:2px">
-      <div>
-        <div class="cap" style="margin:0 0 14px">Botones</div>
-        <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start;font-family:Inter;font-size:14px;font-weight:600">
-          <span style="background:#25D366;color:#fff;padding:12px 22px;border-radius:999px">Pedir presupuesto</span>
-          <span style="background:#1B6CC8;color:#fff;padding:12px 22px;border-radius:6px">Enviar consulta</span>
-          <span style="border:1px solid #1A1C1E;padding:11px 22px;border-radius:6px">Ver trabajos</span>
-        </div>
-      </div>
+    <div style="background:#1B6CC8;height:300px;display:flex;align-items:center;justify-content:center">
+      <div class="lockup" style="gap:18px;color:#fff"><img src="../../../apps/website/solologo.png" style="height:62px"><div><div class="name" style="font-size:40px">ALUMFER</div><div class="sub" style="font-size:10.5px;margin-top:9px;opacity:.75">Carpintería de aluminio</div></div></div>
+    </div>
+  </div>
+  <div style="position:absolute;left:var(--m);right:var(--m);top:670px;display:grid;grid-template-columns:repeat(5,1fr);gap:16px;font-size:13px;line-height:1.5">
+    <div><div style="height:130px;background:#1A1C1E"></div><div style="margin-top:12px">Carbón</div><div style="color:var(--ink-2)">#1A1C1E</div></div>
+    <div><div style="height:130px;background:#2E3338"></div><div style="margin-top:12px">Acero</div><div style="color:var(--ink-2)">#2E3338</div></div>
+    <div><div style="height:130px;background:#B0A99A"></div><div style="margin-top:12px">Hormigón</div><div style="color:var(--ink-2)">#B0A99A</div></div>
+    <div><div style="height:130px;background:#F5F4F1;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)"></div><div style="margin-top:12px">Hormigón claro</div><div style="color:var(--ink-2)">#F5F4F1</div></div>
+    <div><div style="height:130px;background:#1B6CC8"></div><div style="margin-top:12px">Azul aluminio</div><div style="color:var(--ink-2)">#1B6CC8</div></div>
+  </div>
+  <div style="position:absolute;left:var(--m);right:var(--m);top:920px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div style="border-top:1px solid var(--line);padding-top:24px">
+      <div class="cap" style="margin:0 0 16px">Montserrat 600 · logotipo</div>
+      <div style="font-family:Montserrat;font-weight:600;font-size:44px;letter-spacing:.24em">ALUMFER</div>
+    </div>
+    <div style="border-top:1px solid var(--line);padding-top:24px">
+      <div class="cap" style="margin:0 0 16px">Inter 300 y 600 · títulos y textos del sitio</div>
+      <div style="font-weight:300;font-size:40px;letter-spacing:-.02em;line-height:1.1">Aberturas de aluminio <span style="font-weight:600">a medida</span></div>
     </div>
   </div>
 </section>
 
-<!-- 04 · INICIO -->
-<section class="board" id="b04" style="height:1100px">
-  <div class="run"><span>Alumfer</span><span>Inicio</span></div>
-  <h2 style="position:absolute;left:var(--m);top:130px">Inicio</h2>
-  <p class="txt" style="position:absolute;left:760px;right:var(--m);top:136px">La primera pantalla dice qué hace la empresa, dónde trabaja y cuánta experiencia tiene. Una foto de obra de fondo y dos acciones: pedir presupuesto o ver trabajos.</p>
-  <img class="shot" src="../_raw/desk-hero.png" style="position:absolute;left:var(--m);width:1240px;top:260px">
+<!-- 04 · INICIO (solo imagen) -->
+<section class="board dark" id="b04" style="height:875px">
+  <img src="../_raw/desk-hero.png" style="display:block;width:1400px">
 </section>
 
-<!-- 05 · RECORRIDO -->
-<section class="board" id="b05" style="height:1150px">
-  <div class="run"><span>Alumfer</span><span>Página de inicio completa</span></div>
-  <h2 style="position:absolute;left:var(--m);top:130px">La página completa</h2>
-  <p class="txt" style="position:absolute;left:760px;right:var(--m);top:136px">Una sola página, de arriba abajo: empresa, obras, forma de trabajo, catálogo, opiniones de clientes, garantía, preguntas frecuentes y contacto.</p>
-  <div style="position:absolute;left:var(--m);right:var(--m);top:290px;display:grid;grid-template-columns:repeat(3,1fr);gap:40px">
-    <div><div class="shot" style="height:720px;background:url(../_raw/desk-full.png) 0 0/100% auto no-repeat"></div><p class="cap">Inicio, empresa y galería de obras</p></div>
-    <div><div class="shot" style="height:720px;background:url(../_raw/desk-full.png) 0 -720px/100% auto no-repeat"></div><p class="cap">Proceso, catálogo y opiniones</p></div>
-    <div><div class="shot" style="height:720px;background:url(../_raw/desk-full.png) 0 -1440px/100% auto no-repeat;background-color:#1A1C1E"></div><p class="cap">Preguntas frecuentes, contacto y pie</p></div>
+<!-- 05 · PÁGINA COMPLETA -->
+<section class="board" id="b05" style="height:1080px">
+  <div style="position:absolute;left:var(--m);top:110px;width:520px">
+    <h2>Página de inicio</h2>
+    <p class="txt" style="margin-top:22px">De arriba abajo: la empresa, las obras, la forma de trabajo, el catálogo, las opiniones de clientes, la garantía, las preguntas frecuentes y el contacto.</p>
+  </div>
+  <div style="position:absolute;left:var(--m);right:var(--m);top:330px;display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
+    <div class="shot" style="height:670px;background:url(../_raw/desk-full.png) 0 0/100% auto no-repeat"></div>
+    <div class="shot" style="height:670px;background:url(../_raw/desk-full.png) 0 -670px/100% auto no-repeat"></div>
+    <div class="shot" style="height:670px;background:url(../_raw/desk-full.png) 0 -1340px/100% auto no-repeat;background-color:#1A1C1E"></div>
   </div>
 </section>
 
-<!-- 06 · OBRAS -->
-<section class="board" id="b06" style="height:1180px">
-  <div class="run"><span>Alumfer</span><span>Galería de obras</span></div>
-  <h2 style="position:absolute;left:var(--m);top:130px">Galería de obras</h2>
-  <p class="txt" style="position:absolute;left:760px;right:var(--m);top:136px">Fotos de trabajos terminados, ordenadas en ocho categorías: ventanas, puertas, postigones, quinchos, techos, portones, mosquiteros y otros. Cada foto se abre a pantalla completa.</p>
-  <img class="shot crop" src="../_raw/desk-trabajos.png" style="position:absolute;left:var(--m);top:290px;width:900px;height:760px">
-  <div style="position:absolute;left:1020px;top:290px;width:300px"><img class="scr" src="../_raw/m-trabajos.png"><p class="cap">En el celular, la grilla pasa a dos columnas.</p></div>
+<!-- 06 · GALERÍA -->
+<section class="board" id="b06" style="height:1000px">
+  <img class="shot crop" src="../_raw/desk-trabajos.png" style="position:absolute;left:var(--m);top:110px;width:860px;height:720px">
+  <div style="position:absolute;left:1000px;right:var(--m);top:110px"><img class="scr" src="../_raw/m-trabajos.png"></div>
+  <p class="cap" style="position:absolute;left:var(--m);top:850px;width:600px">Galería de obras en ocho categorías, en escritorio y en celular.</p>
 </section>
 
-<!-- 07 · CATÁLOGO Y PROCESO -->
-<section class="board" id="b07" style="height:1320px">
-  <div class="run"><span>Alumfer</span><span>Proceso y catálogo</span></div>
-  <h2 style="position:absolute;left:var(--m);top:130px">Proceso y catálogo</h2>
-  <p class="txt" style="position:absolute;left:760px;right:var(--m);top:136px">Cuatro pasos, del pedido a la colocación. Después, las líneas de perfiles, vidrios y colores disponibles, cada una con su corte y para qué tipo de obra conviene.</p>
-  <img class="shot" src="../_raw/desk-proceso.png" style="position:absolute;left:var(--m);width:1240px;top:290px">
-  <img class="shot crop" src="../_raw/desk-productos.png" style="position:absolute;left:var(--m);width:1240px;top:600px;height:640px">
+<!-- 07 · PROCESO Y CATÁLOGO -->
+<section class="board" id="b07" style="height:1180px;background:var(--paper-2)">
+  <img class="shot" src="../_raw/desk-proceso.png" style="position:absolute;left:var(--m);width:1208px;top:110px">
+  <img class="shot crop" src="../_raw/desk-productos.png" style="position:absolute;left:var(--m);width:1208px;top:410px;height:640px">
+  <p class="cap" style="position:absolute;left:var(--m);top:1066px;width:700px">Los cuatro pasos del servicio y el catálogo de líneas, vidrios y colores, cada uno con su corte de perfil.</p>
 </section>
 
-<!-- 08 · CONFIANZA -->
-<section class="board" id="b08" style="height:1120px">
-  <div class="run"><span>Alumfer</span><span>Opiniones, garantía y contacto</span></div>
-  <h2 style="position:absolute;left:var(--m);top:130px">Opiniones y contacto</h2>
-  <p class="txt" style="position:absolute;left:760px;right:var(--m);top:136px">Reseñas reales de Google, la garantía de fabricación e instalación, las preguntas que más recibe el taller y un formulario corto para pedir cotización.</p>
-  <div style="position:absolute;left:var(--m);right:var(--m);top:290px;display:grid;grid-template-columns:1fr 1fr;gap:40px 40px">
+<!-- 08 · OPINIONES Y CONTACTO -->
+<section class="board" id="b08" style="height:1000px">
+  <div style="position:absolute;left:var(--m);right:var(--m);top:110px;display:grid;grid-template-columns:1fr 1fr;gap:32px">
     <div><img class="shot" src="../_raw/desk-reviews.png"><p class="cap">Opiniones de Google</p><img class="shot" src="../_raw/desk-garantia.png" style="margin-top:28px"><p class="cap">Garantía de fabricación e instalación</p></div>
     <div><img class="shot" src="../_raw/desk-faq.png"><p class="cap">Preguntas frecuentes</p><img class="shot" src="../_raw/desk-contacto.png" style="margin-top:28px"><p class="cap">Formulario de contacto</p></div>
   </div>
 </section>
 
-<!-- 09 · MOBILE -->
-<section class="board" id="b09" style="height:1060px;background:var(--paper-2)">
-  <div class="run"><span>Alumfer</span><span>Versión celular</span></div>
-  <h2 style="position:absolute;left:var(--m);top:130px">En el celular</h2>
-  <p class="txt" style="position:absolute;left:760px;right:var(--m);top:136px">Una barra fija abajo con “Llamar” y “WhatsApp”. Los bloques de empresa y opiniones se deslizan de costado para no alargar la página.</p>
-  <div style="position:absolute;left:var(--m);right:var(--m);top:290px;display:grid;grid-template-columns:repeat(5,1fr);gap:26px">
+<!-- 09 · CELULAR -->
+<section class="board" id="b09" style="height:900px;background:var(--paper-2)">
+  <div style="position:absolute;left:var(--m);right:var(--m);top:110px;display:grid;grid-template-columns:repeat(5,1fr);gap:24px">
     <div><img class="scr" src="../_raw/mob-top.png"><p class="cap">Inicio</p></div>
     <div><img class="scr" src="../_raw/m-proceso.png"><p class="cap">Proceso</p></div>
     <div><img class="scr" src="../_raw/m-productos.png"><p class="cap">Catálogo</p></div>
     <div><img class="scr" src="../_raw/m-reviews.png"><p class="cap">Opiniones</p></div>
     <div><img class="scr" src="../_raw/m-contacto.png"><p class="cap">Contacto</p></div>
   </div>
+  <p class="txt" style="position:absolute;left:var(--m);top:720px;width:560px">En el celular, una barra fija con llamada y WhatsApp acompaña toda la página.</p>
 </section>
 
-<!-- 10 · SEO LOCAL -->
-<section class="board" id="b10" style="height:1120px">
-  <div class="run"><span>Alumfer</span><span>Páginas por localidad y servicio</span></div>
-  <h2 style="position:absolute;left:var(--m);top:130px">Localidades y servicios</h2>
-  <p class="txt" style="position:absolute;left:760px;right:var(--m);top:136px">Cada localidad donde trabaja la empresa y cada servicio tienen su propia página, con textos, preguntas frecuentes y datos estructurados para aparecer en búsquedas locales.</p>
-  <img class="shot" src="../_raw/landing-desk-top.png" style="position:absolute;left:var(--m);top:290px;width:760px">
-  <div style="position:absolute;left:900px;right:var(--m);top:290px">
-    <div class="cap" style="margin:0 0 10px;color:var(--ink)"><b>27 localidades</b></div>
-    <div id="zonas" style="columns:2;column-gap:24px;font-size:15px;line-height:1.75;color:var(--ink-2)"></div>
+<!-- 10 · LOCALIDADES Y SERVICIOS -->
+<section class="board" id="b10" style="height:1020px">
+  <div style="position:absolute;left:var(--m);top:110px;width:520px">
+    <h2>Localidades y servicios</h2>
+    <p class="txt" style="margin-top:22px">Cada localidad donde trabaja la empresa y cada servicio tienen su propia página, con textos, preguntas frecuentes y datos estructurados para las búsquedas locales.</p>
   </div>
-  <div style="position:absolute;left:var(--m);width:760px;top:790px">
-    <div class="cap" style="margin:0 0 10px"><b>6 servicios</b></div>
-    <div style="columns:3;column-gap:24px;font-size:15px;line-height:1.75;color:var(--ink-2)">Ventanas de aluminio<br>Ventanas con DVH<br>Puertas de aluminio<br>Mosquiteros a medida<br>Cerramientos<br>Techos de policarbonato</div>
+  <img class="shot" src="../_raw/landing-desk-top.png" style="position:absolute;left:var(--m);top:340px;width:760px">
+  <div style="position:absolute;left:920px;right:var(--m);top:340px">
+    <div style="font-size:13px;margin-bottom:10px">27 localidades</div>
+    <div id="zonas" style="columns:2;column-gap:24px;font-size:14px;line-height:1.75;color:var(--ink-2)"></div>
+  </div>
+  <div style="position:absolute;left:var(--m);width:760px;top:850px">
+    <div style="font-size:13px;margin-bottom:10px">6 servicios</div>
+    <div style="columns:3;column-gap:24px;font-size:14px;line-height:1.75;color:var(--ink-2)">Ventanas de aluminio<br>Ventanas con DVH<br>Puertas de aluminio<br>Mosquiteros a medida<br>Cerramientos<br>Techos de policarbonato</div>
   </div>
 </section>
 
 <!-- 11 · GUÍAS -->
-<section class="board" id="b11" style="height:1120px">
-  <div class="run"><span>Alumfer</span><span>Guías</span></div>
-  <h2 style="position:absolute;left:var(--m);top:130px">Guías para clientes</h2>
-  <p class="txt" style="position:absolute;left:760px;right:var(--m);top:136px">Cuatro artículos escritos con la voz del taller, para responder lo que se pregunta antes de encargar una abertura. Con datos concretos y sin exagerar.</p>
-  <img class="shot" src="../_raw/guia-desk-top.png" style="position:absolute;left:var(--m);top:290px;width:900px">
-  <div style="position:absolute;left:1020px;top:290px;width:300px"><img class="scr" src="../_raw/m-guia-body.png"></div>
-  <dl class="spec" style="position:absolute;left:var(--m);width:900px;top:860px">
+<section class="board" id="b11" style="height:1060px">
+  <div style="position:absolute;left:var(--m);top:110px;width:520px">
+    <h2>Guías para clientes</h2>
+    <p class="txt" style="margin-top:22px">Cuatro artículos escritos con la voz del taller, para responder lo que se pregunta antes de encargar una abertura.</p>
+  </div>
+  <img class="shot" src="../_raw/guia-desk-top.png" style="position:absolute;left:var(--m);top:310px;width:860px">
+  <div style="position:absolute;left:1000px;right:var(--m);top:310px"><img class="scr" src="../_raw/m-guia-body.png"></div>
+  <dl class="spec" style="position:absolute;left:var(--m);width:860px;top:840px">
     <div style="grid-template-columns:1fr 1fr"><dt style="color:var(--ink)">¿Conviene poner DVH?</dt><dd style="color:var(--ink-2)">/guias/conviene-el-dvh</dd></div>
     <div style="grid-template-columns:1fr 1fr"><dt style="color:var(--ink)">Aluminio o PVC</dt><dd style="color:var(--ink-2)">/guias/aluminio-o-pvc</dd></div>
     <div style="grid-template-columns:1fr 1fr"><dt style="color:var(--ink)">Colocación en seco</dt><dd style="color:var(--ink-2)">/guias/colocacion-en-seco</dd></div>
@@ -211,41 +197,43 @@ h2{font-size:52px}
 </section>
 
 <!-- 12 · DESARROLLO -->
-<section class="board" id="b12" style="height:720px">
-  <div class="run"><span>Alumfer</span><span>Desarrollo</span></div>
-  <div style="position:absolute;left:var(--m);top:130px;width:560px">
+<section class="board" id="b12" style="height:640px">
+  <div style="position:absolute;left:var(--m);top:110px;width:520px">
     <h2>Desarrollo</h2>
-    <p class="txt" style="margin-top:30px">Un sitio estático, sin frameworks, pensado para cargar rápido en celulares y para que cualquier desarrollador lo pueda mantener.</p>
+    <p class="txt" style="margin-top:22px">Un sitio estático, sin frameworks, pensado para cargar rápido en celulares y para que cualquier desarrollador lo pueda mantener.</p>
   </div>
-  <dl class="spec" style="position:absolute;left:760px;right:var(--m);top:140px">
+  <dl class="spec" style="position:absolute;left:760px;right:var(--m);top:120px">
     <div><dt>Maquetación</dt><dd>HTML semántico, CSS por capas con variables compartidas, JavaScript sin dependencias</dd></div>
-    <div><dt>Animación</dt><dd>GSAP y desplazamiento suave; si no cargan, el sitio funciona igual. Respeta la preferencia de movimiento reducido</dd></div>
-    <div><dt>Contacto</dt><dd>WhatsApp, teléfono y formulario en PHP con mail de confirmación al cliente</dd></div>
-    <div><dt>Búsqueda</dt><dd>Datos estructurados LocalBusiness y FAQPage, sitemap con 38 páginas, Open Graph</dd></div>
+    <div><dt>Animación</dt><dd>GSAP y desplazamiento suave, con alternativa si no cargan y respeto por el movimiento reducido</dd></div>
+    <div><dt>Contacto</dt><dd>WhatsApp, teléfono y formulario en PHP con confirmación por mail</dd></div>
+    <div><dt>Búsqueda</dt><dd>Datos estructurados, sitemap con 38 páginas y Open Graph</dd></div>
     <div><dt>Imágenes</dt><dd>WebP con dimensiones declaradas y carga diferida</dd></div>
-    <div><dt>Medición</dt><dd>Google Analytics 4 con eventos de contacto</dd></div>
-    <div><dt>Publicación</dt><dd>Automática con GitHub Actions a cada cambio</dd></div>
+    <div><dt>Publicación</dt><dd>Automática con GitHub Actions</dd></div>
   </dl>
 </section>
 
 <!-- 13 · CIERRE -->
-<section class="board dark" id="b13" style="height:640px">
-  <div class="run"><span>Alumfer — Carpintería de aluminio</span><span>Sitio web, 2026</span></div>
-  <img src="../../../apps/website/solologo.png" style="position:absolute;left:var(--m);top:150px;height:56px">
-  <h1 style="position:absolute;left:var(--m);top:250px;font-size:104px;letter-spacing:-.04em">alumfer.com.ar</h1>
-  <div style="position:absolute;left:var(--m);right:var(--m);bottom:70px;display:flex;gap:80px;font-size:16px;line-height:1.5;color:var(--ink-2)">
-    <div>Av. San Martín 734<br>Adrogué, Buenos Aires</div>
-    <div>Lunes a viernes de 9 a 13 h<br>Sábados de 9 a 14 h</div>
-    <div>Instagram<br>@alumfercarpinteria</div>
+<section class="board dark" id="b13" style="height:620px">
+  <div class="lockup" style="position:absolute;left:0;right:0;top:200px;justify-content:center;gap:26px">
+    <img src="../../../apps/website/solologo.png" style="height:84px">
+    <div>
+      <div class="name" style="font-size:60px">ALUMFER</div>
+      <div class="sub" style="font-size:13.5px;margin-top:12px">Carpintería de aluminio</div>
+    </div>
   </div>
+  <p style="position:absolute;left:0;right:0;top:370px;text-align:center;font-size:15px;line-height:1.7;color:rgba(255,255,255,.6)">alumfer.com.ar<br>Av. San Martín 734, Adrogué, Buenos Aires</p>
 </section>
 
 <!-- PORTADA DE GRILLA 808×632 -->
 <section class="board dark" id="thumb" style="width:808px;height:632px">
-  <img src="../../../apps/website/solologo.png" style="position:absolute;left:52px;top:52px;height:36px">
-  <h1 style="position:absolute;left:52px;top:118px;font-size:100px;letter-spacing:-.045em;font-weight:600">Alumfer</h1>
-  <p style="position:absolute;left:52px;top:240px;font-size:18px;line-height:1.4;color:rgba(255,255,255,.7)">Carpintería de aluminio · Sitio web</p>
-  <img class="shot crop" src="../_raw/desk-hero.png" style="position:absolute;left:52px;top:310px;width:704px;height:440px;border-radius:3px 3px 0 0">
+  <div class="lockup" style="position:absolute;left:0;right:0;top:92px;justify-content:center;gap:20px">
+    <img src="../../../apps/website/solologo.png" style="height:66px">
+    <div>
+      <div class="name" style="font-size:46px">ALUMFER</div>
+      <div class="sub" style="font-size:10.5px;margin-top:10px">Carpintería de aluminio</div>
+    </div>
+  </div>
+  <img src="../_raw/desk-hero.png" style="position:absolute;left:64px;top:260px;width:680px;height:420px;object-fit:cover;object-position:top;box-shadow:0 0 0 1px rgba(255,255,255,.08)">
 </section>
 
 <script>

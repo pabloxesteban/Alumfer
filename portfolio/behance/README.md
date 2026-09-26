@@ -22,10 +22,10 @@ orden**, una debajo de otra, con **espaciado 0 entre módulos** y
 
 | # | Archivo | Qué muestra |
 |---|---------|-------------|
-| 1 | `01-portada.jpg` | La empresa: nombre, rubro, ubicación y el sitio |
+| 1 | `01-portada.jpg` | Logotipo de la empresa, rubro, ubicación y el sitio |
 | 2 | `02-el-proyecto.jpg` | Ficha del proyecto y fotos de obras reales |
-| 3 | `03-identidad-visual.jpg` | Paleta, tipografía del sitio, logo y botones |
-| 4 | `04-inicio.jpg` | La primera pantalla del sitio |
+| 3 | `03-identidad-visual.jpg` | Logotipo sobre fondo oscuro y azul, paleta y tipografías |
+| 4 | `04-inicio.jpg` | La primera pantalla del sitio, a ancho completo |
 | 5 | `05-pagina-completa.jpg` | La página de inicio completa, en tres tramos |
 | 6 | `06-galeria-de-obras.jpg` | Galería de obras, escritorio y celular |
 | 7 | `07-proceso-y-catalogo.jpg` | Los 4 pasos del servicio y el catálogo de líneas |
@@ -36,8 +36,9 @@ orden**, una debajo de otra, con **espaciado 0 entre módulos** y
 | 12 | `12-desarrollo.jpg` | Ficha técnica del desarrollo |
 | 13 | `13-cierre.jpg` | Cierre con datos de la empresa |
 
-Tipografía de las láminas: Inter, la misma que usa el sitio de Alumfer
-(500 en títulos y 400 en textos), en toda la serie.
+Tipografía de las láminas: Inter, la misma del sitio (500 en títulos y 400
+en textos). El logotipo se muestra como en la marca: isotipo a la izquierda y
+ALUMFER en mayúsculas, en Montserrat 600 espaciada.
 
 **Portada del proyecto (la miniatura de la grilla):** `portada-808x632.jpg`.
 Behance pide 808 × 632 como mínimo recomendado; la exportada está al doble
