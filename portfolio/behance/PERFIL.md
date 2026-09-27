@@ -37,7 +37,7 @@ Completá los campos entre corchetes: `[email]`, `[website]`.
 | Occupation | `Web Designer & Developer` |
 | Location | `Buenos Aires, Argentina` |
 | Avatar | Retrato profesional: genera más confianza que un logo en un perfil personal |
-| Banner | `perfil/banner-3200x410.jpg` |
+| Banner | `perfil/banner-typographic-3200x410.jpg` (alternativa: `perfil/banner-3200x410.jpg`, con pantallas del sitio) |
 | Availability | Activar *Available for freelance / full-time* según corresponda |
 | LinkedIn | Conectarlo para la insignia *Verified on LinkedIn* |
 
