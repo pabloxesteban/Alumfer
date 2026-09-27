@@ -131,7 +131,7 @@ Figma, Visual Studio Code, HTML, CSS, JavaScript, PHP, GSAP, GitHub
 **Credits**
 
 - Client: Alumfer
-- Design and development: *[Studio name]*
+- Design and development: Pablo Fernandez
 - Project photography: Alumfer
 
 **Project links** (panel lateral del proyecto)
@@ -153,7 +153,7 @@ THE CHALLENGE
 A manufacturer earns trust through three things: finished work, technical knowledge and fast answers. The website had to carry all three: show real projects, explain product lines and glazing in plain language, and make a quote request effortless on any device.
 
 THE APPROACH
-We structured the content before designing a single screen, around four customer intents: finding a product, finding a local supplier, researching before buying, and asking for a price. The visual system comes from the trade itself, concrete and steel grays with a single blue accent, and keeps the company's existing logo intact.
+I structured the content before designing a single screen, around four customer intents: finding a product, finding a local supplier, researching before buying, and asking for a price. The visual system comes from the trade itself, concrete and steel grays with a single blue accent, and keeps the company's existing logo intact.
 
 The homepage reads the way a customer decides: who the company is, finished work, how the process works, the product catalog, client reviews, warranty, questions and contact. On mobile, call and WhatsApp stay within thumb's reach on every screen.
 
@@ -172,7 +172,7 @@ convierte una visita en una consulta:
 
 ```
 Planning a website for your business?
-We design and build websites for companies that want to look as good online as their work is in real life.
+I design and build websites for companies that want to look as good online as their work is in real life.
 
 [email] · [website] · Available for new projects
 ```

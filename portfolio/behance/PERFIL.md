@@ -1,11 +1,11 @@
-# Behance profile · Studio brand (English)
+# Behance profile · Personal (English)
 
 Perfil de Behance para la marca propia, en inglés, pensado para clientes fuera
 de Argentina. Basado en lo que hacen los perfiles de diseño web y UX/UI mejor
 valorados y en las pautas del equipo de curación de Behance (fuentes al final).
 
 Instrucciones en español; **lo que va en bloques de código se copia tal cual.**
-Completá los campos entre corchetes: `[Studio name]`, `[email]`, `[website]`.
+Completá los campos entre corchetes: `[email]`, `[website]`.
 
 ---
 
@@ -32,19 +32,17 @@ Completá los campos entre corchetes: `[Studio name]`, `[email]`, `[website]`.
 
 | Campo | Valor |
 |---|---|
-| URL | `behance.net/[studio-name]` |
-| Name | `[Studio name]` |
-| Occupation | `Web design & development studio` |
+| URL | `behance.net/[your-name]` |
+| Name | `Pablo Fernandez` |
+| Occupation | `Web Designer & Developer` |
 | Location | `Buenos Aires, Argentina` |
-| Avatar | El logo de la marca sobre fondo liso, o un retrato profesional si trabajás con tu nombre |
+| Avatar | Retrato profesional: genera más confianza que un logo en un perfil personal |
 | Banner | `perfil/banner-3200x410.jpg` |
 | Availability | Activar *Available for freelance / full-time* según corresponda |
 | LinkedIn | Conectarlo para la insignia *Verified on LinkedIn* |
 
-**Por qué "studio" y no "designer":** los clientes internacionales que
-contratan sitios corporativos buscan a alguien que se haga cargo del proyecto
-completo. "Studio" comunica eso aunque trabajes solo, siempre que el perfil lo
-respalde con casos completos.
+**Perfil personal:** el cliente trabaja directamente con quien hace el
+trabajo, sin intermediarios. Ese es el argumento central del About.
 
 ---
 
@@ -53,21 +51,19 @@ respalde con casos completos.
 ### Headline (línea bajo el nombre)
 
 ```
-Websites for established businesses: clear, fast, and built to bring in inquiries.
+I design and build websites for established businesses: clear, fast, and built to bring in inquiries.
 ```
 
 ### About
 
 ```
-[Studio name] is an independent web design and development studio based in Buenos Aires, working with clients worldwide.
+I'm Pablo Fernandez, a web designer and developer based in Buenos Aires, working with clients worldwide.
 
-We build websites for established businesses whose work is better than their online presence: manufacturers, trades, professional services and local companies ready to grow. Every project covers the full path, from information architecture and interface design to front-end development, local SEO and launch.
+I design and build websites for established businesses: manufacturers, trades and service companies whose work is better than their online presence. I handle every project end to end, from information architecture and interface design to front-end development, local SEO and launch. You work directly with me from the first call to the final release, with no handoffs and nothing lost in between.
 
-Our sites are lightweight, fast on any phone and easy to maintain, with no unnecessary frameworks or monthly platform fees. We write structure and content with the same care as the design, because a website only works when customers understand it in seconds.
+My approach is simple: understand how your customers decide, structure the content around that, then design and build a site that is fast, clear and easy to maintain. No bloated frameworks, no monthly platform fees.
 
-Based in GMT-3, with working hours that overlap with the US East Coast and Europe.
-
-Replies within one business day.
+Based in GMT-3, with working hours that overlap with the US East Coast and Europe. I reply within one business day.
 ```
 
 ### Services (sección *Services* del perfil)
