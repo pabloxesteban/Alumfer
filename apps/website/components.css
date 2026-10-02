@@ -1664,9 +1664,14 @@
   letter-spacing: 0.04em;
 }
 
-.review-card__avatar--mv { background: #1B6CC8; }
-.review-card__avatar--jg { background: #2E7D32; }
-.review-card__avatar--cv { background: #6A1B9A; }
+/* Las reseñas se traen de Google automáticamente, así que el color del avatar
+   va por posición en la grilla y no por persona. */
+.review-card__avatar--1 { background: #1B6CC8; }
+.review-card__avatar--2 { background: #2E7D32; }
+.review-card__avatar--3 { background: #6A1B9A; }
+
+/* Las estrellas que la reseña no tiene, cuando es de 4 y no de 5. */
+.review-card__stars-off { color: rgba(255, 255, 255, 0.22); }
 
 /* ─── CONTACTO GRID ───────────────────────────────────────── */
 .contact-grid {

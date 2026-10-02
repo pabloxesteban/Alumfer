@@ -1,0 +1,91 @@
+# Trae la puntuación y las reseñas de la ficha de Google una vez por semana y
+# las deja escritas en el HTML del sitio. Si cambió algo, commitea y lanza el
+# deploy.
+#
+# Por qué así y no con un widget en la página: el sitio es estático y queremos
+# que Google y las IA lean las reseñas en el HTML, no por JavaScript. Además un
+# widget de terceros agrega peso y un costo mensual.
+#
+# Qué hace falta para que funcione (ver tools/resenas/README.md):
+#   secret GOOGLE_PLACES_API_KEY   obligatorio
+#   secret GOOGLE_PLACE_ID         opcional pero recomendado
+
+name: Reseñas de Google
+
+on:
+  schedule:
+    # Lunes 6:43 UTC = 3:43 de la madrugada en Argentina. Fuera de hora pico de
+    # GitHub Actions, así que arranca cuando le toca y no diez minutos después.
+    - cron: '43 6 * * 1'
+  workflow_dispatch: # para lanzarlo a mano desde la pestaña Actions
+
+concurrency:
+  group: resenas
+  cancel-in-progress: false
+
+permissions:
+  contents: write   # para commitear el cambio
+  actions: write    # para lanzar el deploy
+
+jobs:
+  resenas:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: ¿Está configurada la clave?
+        id: clave
+        env:
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+        run: |
+          if [ -z "${GOOGLE_PLACES_API_KEY}" ]; then
+            echo "::warning::Falta el secret GOOGLE_PLACES_API_KEY, así que las reseñas no se actualizan. Las instrucciones están en tools/resenas/README.md."
+            echo "hay=no" >> "$GITHUB_OUTPUT"
+          else
+            echo "hay=si" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Traer las reseñas y reescribir las páginas
+        if: steps.clave.outputs.hay == 'si'
+        env:
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+          GOOGLE_PLACE_ID: ${{ secrets.GOOGLE_PLACE_ID }}
+        run: python3 tools/resenas/actualizar_resenas.py
+
+      - name: Commitear si cambió algo
+        id: commit
+        if: steps.clave.outputs.hay == 'si'
+        run: |
+          set -euo pipefail
+
+          if [ -z "$(git status --porcelain -- apps/website)" ]; then
+            echo "Las reseñas y la puntuación siguen igual. No hay nada que publicar."
+            echo "cambio=no" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- apps/website
+          PUNTAJE=$(grep -oP '"ratingValue": "\K[^"]+' apps/website/index.html | head -1)
+          CANTIDAD=$(grep -oP '"ratingCount": "\K[^"]+' apps/website/index.html | head -1)
+          git commit -m "Reseñas de Google: ${PUNTAJE} con ${CANTIDAD} reseñas"
+          git push origin HEAD:main
+          echo "cambio=si" >> "$GITHUB_OUTPUT"
+
+      - name: Publicar el sitio
+        # El push de arriba lo hace el token de Actions, y esos push no disparan
+        # otros workflows. Hay que llamar al deploy a mano.
+        if: steps.commit.outputs.cambio == 'si'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -sS -X POST --fail-with-body \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/workflows/deploy.yml/dispatches" \
+            -d '{"ref":"main"}'
+          echo "Deploy lanzado."
