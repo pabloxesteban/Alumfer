@@ -53,7 +53,10 @@ $localidad = field('Localidad');
 $consulta  = field('Consulta');
 
 /* ─── Validación mínima ─────────────────────────────────── */
-if ($nombre === '' || $telefono === '' || $tipo === '' || $consulta === '') {
+if ($tipo === '') {
+    $tipo = 'Consulta general'; // la home no tiene campo Tipo
+}
+if ($nombre === '' || $telefono === '' || $consulta === '') {
     respond(false, 'Faltan datos obligatorios.');
 }
 $emailCliente = ($emailRaw !== '' && filter_var($emailRaw, FILTER_VALIDATE_EMAIL)) ? $emailRaw : '';
