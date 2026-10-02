@@ -371,7 +371,7 @@ function em_cliente(array $d): string {
             . '<td width="20" valign="middle" style="width:20px;"><img src="' . ALF_SITE . '/email/' . $flecha . '.png" width="20" height="20" alt="" style="display:block;width:20px;height:20px;border:0;"></td>'
             . '</tr></table></td></tr></table></a>';
     };
-    $accFotos = $acceso($mailto, 'accion-fotos', 'flecha-azul', 'Mandanos fotos o medidas', 'Respondé este email y adjuntalas', '#FFFFFF', '#CFE0F3', 'alf-acc', false);
+    $accFotos = $acceso($mailto, 'accion-fotos', 'flecha-azul', 'Mandanos fotos o medidas', 'Te abre un email listo para adjuntarlas', '#FFFFFF', '#CFE0F3', 'alf-acc', false);
     $accWa    = $acceso($wa, 'accion-whatsapp', 'flecha-verde', 'Seguimos por WhatsApp', '(011) 6336-8643', '#F2FBF5', '#C9EBD5', 'alf-acc alf-acc-wa', true);
 
     $chip = fn(string $label, string $value): string =>
