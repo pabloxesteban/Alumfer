@@ -256,9 +256,9 @@ HTML;
 /* ============================================================
  *  EMAIL AL CLIENTE — confirmación de consulta
  * ------------------------------------------------------------
- *  Corto y comercial: hero azul con el nombre y el trabajo,
- *  tres argumentos reales con ícono, reseña de Google, acción
- *  (fotos/medidas o WhatsApp) y el resumen de la consulta.
+ *  Hero azul con el nombre, línea de tiempo con los pasos reales
+ *  hasta la colocación, accesos (fotos/medidas o WhatsApp), reseña
+ *  de Google y el resumen de la consulta.
  *  Las imágenes viven en /email/ del sitio; si el cliente de
  *  correo las bloquea, todo el contenido sigue legible en texto.
  * ========================================================== */
@@ -272,7 +272,7 @@ function em_fecha_larga(int $ts): string {
     return date('j', $ts) . ' de ' . $meses[(int)date('n', $ts) - 1] . ' de ' . date('Y', $ts);
 }
 
-/** ["tus ventanas", true] → sujeto del titular y si va en plural. */
+/** ["tus ventanas", true] → cómo nombrar el trabajo en el texto (y si es plural). */
 function em_tipo_frase(string $tipo): array {
     $map = [
         'ventanas'      => ['tus ventanas', true],
@@ -299,8 +299,7 @@ function em_cliente(array $d): string {
     $nombre    = $h(trim(preg_split('/\s+/', trim($d['nombre']))[0] ?? ''));
     $tipoRaw   = trim($d['tipo']);
     $tipo      = ($tipoRaw === '' || mb_strtolower($tipoRaw, 'UTF-8') === 'otros') ? 'A definir' : $h($tipoRaw);
-    [$sujeto, $plural] = em_tipo_frase($tipoRaw);
-    $verbo     = $plural ? 'ya están' : 'ya está';
+    [$sujeto]  = em_tipo_frase($tipoRaw);
     $localidad = trim($d['localidad']) !== '' ? $h($d['localidad']) : 'A confirmar';
     $mensaje   = nl2br($h($d['consulta']));
     $numero    = $h($d['numero']);
@@ -311,41 +310,69 @@ function em_cliente(array $d): string {
     $google = $h('https://www.google.com/search?q=Alumfer+carpinter%C3%ADa+aluminio+Adrog%C3%BCe');
 
     $site  = ALF_SITE;
+    $img   = ALF_SITE . '/email/';
     $fh    = ALF_FONT_HEAD;
     $fb    = ALF_FONT;
-    $pre   = $h('Te contactamos en menos de 24 horas hábiles con tu presupuesto sin cargo.');
+    $pre   = $h('Te contamos cómo sigue, paso a paso, hasta la colocación.');
 
-    $ink   = '#16202B';   // títulos (carbón azulado)
-    $text  = '#4B5563';   // cuerpo
-    $muted = '#6B7A8C';   // etiquetas
-    $outer = '#EAF0F7';   // fondo exterior (azul muy claro)
-    $tint  = '#F3F7FC';   // tarjetas
+    $ink   = '#16202B';
+    $text  = '#4B5563';
+    $muted = '#6B7A8C';
+    $outer = '#EAF0F7';
+    $tint  = '#F3F7FC';
     $blue  = ALF_BLUE;
     $navy  = '#0E4A94';
-    $wag   = '#1EA952';   // verde WhatsApp (texto oscuro encima para contraste)
+    $green = '#178C44';
 
-    /* Por qué Alumfer: tres argumentos reales del sitio, con ícono */
-    $args = [
-        ['icono-fabrica',     'Fábrica propia',      'Sin intermediarios'],
-        ['icono-medicion',    'Medición sin cargo',  'Vamos a tu obra'],
-        ['icono-instalacion', 'Instalación en seco', 'Sin romper paredes'],
+    /* ── Línea de tiempo: pasos reales del proceso (FAQ del sitio) ──
+       Cada paso: nodo (PNG 48px) + tramo de línea de alto fijo; el texto
+       tiene el mismo alto total para que la línea llegue al nodo siguiente. */
+    $pasos = [
+        ['paso-hecho',       'Hoy',                        $green, 'Recibimos tu consulta',        'Llegó bien a nuestro equipo.'],
+        ['paso-presupuesto', 'En menos de 24 hs hábiles',  $blue,  'Te pasamos el presupuesto',    'Por teléfono o por email. Sin cargo.'],
+        ['paso-medicion',    'Sin cargo',                  $muted, 'Visita técnica y medición',    'Vamos a tu obra y medimos exacto.'],
+        ['paso-fabricacion', '1 a 3 semanas',              $muted, 'Fabricación en nuestro taller', 'A tu medida, sin intermediarios.'],
+        ['paso-colocacion',  'Instalación en seco',        $muted, 'Colocación',                   'Sin romper paredes ni revoques.'],
     ];
-    /* Una sola fila de celdas: las tres tarjetas quedan de la misma altura.
-       En desktop el ícono va arriba; en celular, al costado (más compacto). */
-    $cards = '';
-    foreach ($args as $i => [$ico, $t, $s]) {
-        if ($i > 0) {
-            $cards .= '<td class="alf-gap" width="12" style="width:12px;font-size:0;line-height:0;">&nbsp;</td>';
-        }
-        $cards .= '<td class="alf-col alf-card" width="31%" valign="top" bgcolor="' . $tint . '" style="width:31%;background:' . $tint . ';border-radius:16px;padding:18px 16px;">'
-            . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>'
-            . '<td class="alf-ico" valign="top" style="display:block;width:44px;padding-bottom:12px;">'
-            . '<img src="' . $site . '/email/' . $ico . '.png" width="44" height="44" alt="" style="display:block;width:44px;height:44px;border:0;"></td>'
-            . '<td class="alf-ico-txt" valign="middle" style="display:block;">'
-            . '<div class="alf-ink" style="font-family:' . $fh . ';font-size:15px;font-weight:700;line-height:1.3;color:' . $ink . ';">' . $t . '</div>'
-            . '<div class="alf-txt" style="font-family:' . $fb . ';font-size:13px;line-height:1.4;color:' . $text . ';padding-top:3px;">' . $s . '</div>'
-            . '</td></tr></table></td>';
+    $tramo = 37;   // alto del tramo de línea bajo cada nodo
+    $timeline = '';
+    $n = count($pasos);
+    foreach ($pasos as $i => [$nodo, $cuando, $color, $titulo, $detalle]) {
+        $ultimo = $i === $n - 1;
+        $linea  = $i === 0 ? 'border-left:2px solid #1EA952;' : 'border-left:2px dashed #BCD3EC;';
+        $timeline .= '<tr>'
+            . '<td width="48" valign="top" style="width:48px;">'
+            . '<img src="' . $img . $nodo . '.png" width="48" height="48" alt="" style="display:block;width:48px;height:48px;border:0;">'
+            . ($ultimo ? '' :
+                '<table role="presentation" width="48" cellpadding="0" cellspacing="0" border="0"><tr>'
+                . '<td width="23" style="width:23px;height:' . $tramo . 'px;font-size:0;line-height:0;">&nbsp;</td>'
+                . '<td class="' . ($i === 0 ? '' : 'alf-tl') . '" width="25" style="width:25px;height:' . $tramo . 'px;' . $linea . 'font-size:0;line-height:0;">&nbsp;</td>'
+                . '</tr></table>')
+            . '</td>'
+            . '<td valign="top" style="padding:3px 0 ' . ($ultimo ? 0 : 22) . 'px 14px;">'
+            . '<div style="font-family:' . $fb . ';font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;line-height:14px;color:' . $color . ';" class="' . ($color === $muted ? 'alf-label' : '') . '">' . $cuando . '</div>'
+            . '<div class="alf-ink" style="font-family:' . $fh . ';font-size:16px;font-weight:700;line-height:22px;color:' . $ink . ';padding-top:3px;">' . $titulo . '</div>'
+            . '<div class="alf-txt" style="font-family:' . $fb . ';font-size:14px;line-height:20px;color:' . $text . ';padding-top:1px;">' . $detalle . '</div>'
+            . '</td></tr>';
     }
+
+    /* ── Accesos: tarjetas enteras clickeables, con ícono y flecha ── */
+    $acceso = function (string $href, string $icono, string $flecha, string $titulo, string $sub, string $bg, string $bd, string $cls, bool $blank) use ($fh, $fb, $ink, $text): string {
+        $target = $blank ? ' target="_blank"' : '';
+        return '<a href="' . $href . '"' . $target . ' style="display:block;text-decoration:none;">'
+            . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>'
+            . '<td class="' . $cls . '" bgcolor="' . $bg . '" style="background:' . $bg . ';border:1px solid ' . $bd . ';border-radius:18px;padding:16px;">'
+            . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>'
+            . '<td width="44" valign="middle" style="width:44px;"><img src="' . ALF_SITE . '/email/' . $icono . '.png" width="44" height="44" alt="" style="display:block;width:44px;height:44px;border:0;"></td>'
+            . '<td valign="middle" style="padding:0 10px 0 14px;">'
+            . '<div class="alf-ink" style="font-family:' . $fh . ';font-size:15px;font-weight:700;line-height:1.3;color:' . $ink . ';">' . $titulo . '</div>'
+            . '<div class="alf-txt" style="font-family:' . $fb . ';font-size:13px;line-height:1.4;color:' . $text . ';padding-top:2px;">' . $sub . '</div>'
+            . '</td>'
+            . '<td width="20" valign="middle" style="width:20px;"><img src="' . ALF_SITE . '/email/' . $flecha . '.png" width="20" height="20" alt="" style="display:block;width:20px;height:20px;border:0;"></td>'
+            . '</tr></table></td></tr></table></a>';
+    };
+    $accFotos = $acceso($mailto, 'accion-fotos', 'flecha-azul', 'Mandanos fotos o medidas', 'Respondé este email y adjuntalas', '#FFFFFF', '#CFE0F3', 'alf-acc', false);
+    $accWa    = $acceso($wa, 'accion-whatsapp', 'flecha-verde', 'Seguimos por WhatsApp', '(011) 6336-8643', '#F2FBF5', '#C9EBD5', 'alf-acc alf-acc-wa', true);
 
     $chip = fn(string $label, string $value): string =>
         '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="display:inline-block;vertical-align:top;margin:0 8px 8px 0;"><tr>'
@@ -381,23 +408,18 @@ function em_cliente(array $d): string {
       .alf-container{width:100%!important;}
       .alf-pad{padding-left:22px!important;padding-right:22px!important;}
       .alf-h1{font-size:30px!important;}
-      .alf-deco{display:none!important;}
-      .alf-col{display:block!important;width:auto!important;padding:14px 16px!important;}
-      .alf-gap{display:block!important;width:auto!important;height:10px!important;}
-      .alf-ico{display:table-cell!important;padding:0 14px 0 0!important;}
-      .alf-ico-txt{display:table-cell!important;}
-      .alf-pill{display:none!important;}
-      .alf-btn{display:block!important;width:100%!important;margin:0 0 10px 0!important;}
-      .alf-btn a{display:block!important;}
+      .alf-deco,.alf-pill{display:none!important;}
     }
     @media (prefers-color-scheme: dark){
       .alf-outer{background:#0F1418!important;}
       .alf-paper{background:#1A2027!important;}
-      .alf-card{background:#232B34!important;}
+      .alf-acc{background:#232B34!important;border-color:#2F3A46!important;}
+      .alf-acc-wa{background:#1D2B23!important;border-color:#264232!important;}
       .alf-review{background:#2A2618!important;}
       .alf-sum{background:#232B34!important;}
       .alf-chip{background:#1A2027!important;}
       .alf-foot{background:#151A20!important;}
+      .alf-tl{border-left-color:#3A4A5C!important;}
       .alf-ink{color:#F1F4F8!important;}
       .alf-txt{color:#C3CBD5!important;}
       .alf-label{color:#8F9BAA!important;}
@@ -419,7 +441,7 @@ function em_cliente(array $d): string {
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
               <td valign="middle">
                 <a href="$site" target="_blank" style="text-decoration:none;">
-                  <img src="$site/email/alumfer-logo-blanco.png" width="190" height="34" alt="ALUMFER" style="display:block;width:190px;height:34px;border:0;font-family:$fh;font-size:18px;font-weight:700;letter-spacing:0.18em;color:#FFFFFF;">
+                  <img src="{$img}alumfer-logo-blanco.png" width="190" height="34" alt="ALUMFER" style="display:block;width:190px;height:34px;border:0;font-family:$fh;font-size:18px;font-weight:700;letter-spacing:0.18em;color:#FFFFFF;">
                 </a>
               </td>
               <td class="alf-pill" align="right" valign="middle">
@@ -429,20 +451,15 @@ function em_cliente(array $d): string {
               </td>
             </tr></table>
 
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:36px;"><tr>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:40px;"><tr>
               <td valign="bottom">
-                <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
-                  <td style="background:#FFFFFF;border-radius:999px;padding:7px 14px 7px 12px;font-family:$fb;font-size:12px;font-weight:600;line-height:1;color:$navy;">
-                    <span style="color:#1EA952;font-size:13px;">&#9679;</span>&nbsp; Consulta recibida
-                  </td>
-                </tr></table>
-                <h1 class="alf-h1" style="margin:18px 0 0;font-family:$fh;font-size:36px;line-height:1.12;font-weight:700;letter-spacing:-0.025em;color:#FFFFFF;">$nombre, $sujeto $verbo en&nbsp;marcha.</h1>
+                <h1 class="alf-h1" style="margin:0;font-family:$fh;font-size:36px;line-height:1.12;font-weight:700;letter-spacing:-0.025em;color:#FFFFFF;">$nombre, recibimos tu&nbsp;consulta.</h1>
                 <p style="margin:14px 0 0;font-family:$fb;font-size:17px;line-height:1.55;color:#D6E8F7;">
-                  En menos de <strong style="color:#FFFFFF;font-weight:600;">24&nbsp;horas hábiles</strong> te contactamos con tu presupuesto. Sin cargo y sin compromiso.
+                  Te contamos cómo sigue, paso a paso, hasta la colocación de $sujeto.
                 </p>
               </td>
               <td class="alf-deco" width="120" align="right" valign="bottom" style="width:120px;padding-left:12px;">
-                <img src="$site/email/hero-marca.png" width="120" height="84" alt="" style="display:block;width:120px;height:84px;border:0;">
+                <img src="{$img}hero-marca.png" width="120" height="84" alt="" style="display:block;width:120px;height:84px;border:0;">
               </td>
             </tr></table>
           </td>
@@ -450,43 +467,35 @@ function em_cliente(array $d): string {
 
         <!-- Cuerpo -->
         <tr>
-          <td class="alf-paper alf-pad" bgcolor="#FFFFFF" style="background:#FFFFFF;padding:32px 40px 36px;">
+          <td class="alf-paper alf-pad" bgcolor="#FFFFFF" style="background:#FFFFFF;padding:36px 40px 36px;">
 
-            <!-- Por qué Alumfer -->
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>$cards</tr></table>
+            <!-- Línea de tiempo -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">$timeline</table>
+
+            <!-- Accesos -->
+            <p class="alf-ink" style="margin:40px 0 0;font-family:$fh;font-size:22px;line-height:1.3;font-weight:700;color:$ink;">¿Lo querés más rápido?</p>
+            <p class="alf-txt" style="margin:6px 0 16px;font-family:$fb;font-size:15px;line-height:1.6;color:$text;">
+              Con fotos del lugar o medidas aproximadas adelantamos el presupuesto.
+            </p>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr><td style="padding-bottom:10px;">$accFotos</td></tr>
+              <tr><td>$accWa</td></tr>
+            </table>
 
             <!-- Reseña real de Google -->
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:20px;"><tr>
-              <td class="alf-review" bgcolor="#FFF6DD" style="background:#FFF6DD;border-radius:16px;padding:22px 24px;">
-                <div style="font-family:$fb;font-size:16px;line-height:1;color:#F5A800;letter-spacing:2px;">★★★★★</div>
-                <p class="alf-ink" style="margin:12px 0 0;font-family:$fh;font-size:19px;line-height:1.4;font-weight:700;color:$ink;">“Precio, tiempo de entrega y calidad, 10&nbsp;puntos.”</p>
-                <p class="alf-txt" style="margin:8px 0 0;font-family:$fb;font-size:13px;line-height:1.5;color:$text;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:28px;"><tr>
+              <td class="alf-review" bgcolor="#FFF6DD" style="background:#FFF6DD;border-radius:18px;padding:20px 22px;">
+                <div style="font-family:$fb;font-size:15px;line-height:1;color:#F5A800;letter-spacing:2px;">★★★★★</div>
+                <p class="alf-ink" style="margin:10px 0 0;font-family:$fh;font-size:18px;line-height:1.4;font-weight:700;color:$ink;">“Precio, tiempo de entrega y calidad, 10&nbsp;puntos.”</p>
+                <p class="alf-txt" style="margin:6px 0 0;font-family:$fb;font-size:13px;line-height:1.5;color:$text;">
                   Marcelo V., mosquiteros a medida &nbsp;·&nbsp; <a href="$google" target="_blank" class="alf-link" style="color:$blue;font-weight:600;text-decoration:none;">4,5 en Google, 37&nbsp;reseñas</a>
                 </p>
               </td>
             </tr></table>
 
-            <!-- Acción -->
-            <p class="alf-ink" style="margin:34px 0 0;font-family:$fh;font-size:22px;line-height:1.3;font-weight:700;color:$ink;">¿Lo querés más rápido? 📸</p>
-            <p class="alf-txt" style="margin:8px 0 0;font-family:$fb;font-size:16px;line-height:1.6;color:$text;">
-              Mandanos fotos del lugar o medidas aproximadas y adelantamos tu presupuesto.
-            </p>
-            <div style="margin-top:20px;">
-              <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="alf-btn" style="display:inline-block;vertical-align:top;margin:0 10px 10px 0;"><tr>
-                <td align="center" bgcolor="$blue" style="background:$blue;border-radius:999px;">
-                  <a href="$mailto" style="display:inline-block;padding:16px 28px;font-family:$fb;font-size:15px;font-weight:600;line-height:1;color:#FFFFFF;text-decoration:none;border-radius:999px;">Enviar fotos o medidas</a>
-                </td>
-              </tr></table>
-              <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="alf-btn" style="display:inline-block;vertical-align:top;margin:0 0 10px 0;"><tr>
-                <td align="center" bgcolor="$wag" style="background:$wag;border-radius:999px;">
-                  <a href="$wa" target="_blank" style="display:inline-block;padding:16px 28px;font-family:$fb;font-size:15px;font-weight:600;line-height:1;color:#FFFFFF;text-decoration:none;border-radius:999px;">Escribir por WhatsApp</a>
-                </td>
-              </tr></table>
-            </div>
-
             <!-- Resumen de la consulta -->
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:28px;"><tr>
-              <td class="alf-sum" bgcolor="$tint" style="background:$tint;border-radius:16px;padding:20px 22px 18px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:12px;"><tr>
+              <td class="alf-sum" bgcolor="$tint" style="background:$tint;border-radius:18px;padding:20px 22px 18px;">
                 <div class="alf-label" style="font-family:$fb;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:$muted;padding-bottom:12px;">Tu consulta</div>
                 <div>{$chip('Trabajo', $tipo)}{$chip('Obra en', $localidad)}</div>
                 <div class="alf-txt" style="font-family:$fb;font-size:14px;color:$text;line-height:1.6;padding-top:6px;">$mensaje</div>
