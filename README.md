@@ -25,9 +25,7 @@ Alumfer/
 │   │   ├── base.css
 │   │   ├── components.css
 │   │   ├── animations.css
-│   │   ├── cinematic.css
 │   │   ├── main.js
-│   │   ├── cinematic.js
 │   │   ├── enviar.php
 │   │   ├── docs/          (documentación técnica del sitio)
 │   │   └── tools/         (scripts de generación de landings)

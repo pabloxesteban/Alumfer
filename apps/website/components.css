@@ -137,10 +137,15 @@
               opacity var(--duration) var(--ease);
 }
 
-@media (max-width: 768px) {
+/* Tablet: los links no entran junto al CTA → menú; el CTA se mantiene */
+@media (max-width: 960px) {
   .navbar__links { display: none; }
-  .navbar__cta   { display: none !important; }
   .navbar__menu-btn { display: flex; }
+  .navbar__cta { margin-left: auto; margin-right: var(--space-3); }
+}
+
+@media (max-width: 768px) {
+  .navbar__cta   { display: none !important; }
 }
 
 /* ─── BOTONES ─────────────────────────────────────────────── */
@@ -231,7 +236,7 @@
   background-color: #25D366;
   border-color: #25D366;
   color: #fff;
-  border-radius: 99px;
+  border-radius: var(--radius-md);
 }
 
 .btn--whatsapp:hover {
@@ -252,69 +257,66 @@
 }
 
 /* ─── HERO ────────────────────────────────────────────────── */
+/* Texto a la izquierda, foto propia a la derecha. La foto es protagonista:
+   va sin oscurecer y respetando su proporción (casi todas son verticales). */
 .hero {
+  --hero-pad-x: max(var(--gutter), calc((100% - var(--max-w)) / 2 + var(--gutter)));
   position: relative;
-  min-height: 100svh;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
   align-items: center;
-  justify-content: center;
-  padding-block: var(--space-24);
+  column-gap: clamp(2rem, 5vw, 5rem);
+  min-height: min(92svh, 800px);
+  padding: calc(64px + var(--space-12)) var(--hero-pad-x) var(--space-16);
   background-color: var(--bg-dark);
   overflow: hidden;
 }
 
 .hero__bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
 }
 
 .hero__bg img,
 .hero__bg video {
   width: 100%;
-  height: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  max-height: calc(100svh - 64px - var(--space-24));
   object-fit: cover;
-  opacity: 0.35;
+  border-radius: var(--radius-sm);
+  background-color: var(--steel);
 }
 
-/* Overlay con gradiente que dirige la mirada hacia el texto */
-.hero__overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(
-    to top,
-    rgba(26,28,30,1.00)  0%,
-    rgba(26,28,30,0.60) 40%,
-    rgba(26,28,30,0.20) 100%
-  );
+/* Epígrafe de la foto: qué es y de quién es */
+.hero__caption {
+  margin-top: var(--space-3);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-on-dark-3);
+  max-width: none;
 }
 
 .hero__content {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: var(--max-w);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
-  padding-block-start: var(--space-16);
-  text-align: center;
+  grid-column: 1;
+  grid-row: 1;
+  max-width: 40rem;
+  text-align: left;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .hero__title {
-  font-size: clamp(2.5rem, 7vw, var(--text-4xl));
-  font-weight: 300;
+  font-size: clamp(2.5rem, 4.4vw, 3.5rem);
+  font-weight: 400;
   letter-spacing: -0.03em;
   color: var(--text-on-dark);
   line-height: 1.05;
   margin-bottom: var(--space-6);
-  text-align: center;
 }
 
-/* "ALUMFER" destacado en bold dentro del título */
 .hero__title strong {
   font-weight: 600;
 }
@@ -323,9 +325,24 @@
   font-size: var(--text-md);
   font-weight: 400;
   color: var(--text-on-dark-2);
-  max-width: 90ch;
+  max-width: 36ch;
   line-height: 1.55;
   margin-bottom: var(--space-10);
+}
+
+/* Guías: hero corto, la foto acompaña y el artículo empieza enseguida */
+.hero--compact {
+  min-height: 0;
+  padding-block-end: var(--space-12);
+}
+
+.hero--compact .hero__bg img {
+  aspect-ratio: 4 / 3;
+  max-height: 340px;
+}
+
+.hero--compact .hero__subtitle {
+  margin-bottom: var(--space-8);
 }
 
 .hero__actions {
@@ -363,7 +380,8 @@
 
 .hero__stat-num {
   font-size: var(--text-2xl);
-  font-weight: 300;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
   color: var(--text-on-dark);
   letter-spacing: var(--tracking-tight);
   line-height: 1;
@@ -429,7 +447,7 @@
   align-items: center;
   gap: var(--space-2);
   padding: 0.5rem 1rem;
-  border-radius: 999px;
+  border-radius: var(--radius-md);
   border: 1.5px solid rgba(255,255,255,0.12);
   background: transparent;
   color: var(--text-on-dark-2);
@@ -757,7 +775,7 @@
   font-size: var(--text-xs);
   letter-spacing: var(--tracking-wide);
   padding: var(--space-1) var(--space-3);
-  border-radius: 99px;
+  border-radius: var(--radius-md);
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
@@ -1033,7 +1051,7 @@
 /* ─── WORKS GRID ──────────────────────────────────────────── */
 .works-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 8px;
   margin-top: var(--space-8);
 }
@@ -1041,7 +1059,7 @@
 /* Primer item visible → featured (bento) */
 .works-item {
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
   cursor: pointer;
   background: var(--steel);
@@ -1211,7 +1229,7 @@
 
 /* Responsive grid */
 @media (max-width: 1024px) {
-  .works-grid { grid-template-columns: repeat(2, 1fr); }
+  .works-grid { grid-template-columns: repeat(3, 1fr); }
   .lightbox__img-wrap { padding: 4rem 3.5rem 3.5rem; }
   .lightbox__btn--prev { left: var(--space-3); }
   .lightbox__btn--next { right: var(--space-3); }
@@ -1242,7 +1260,7 @@
   align-items: center;
   gap: var(--space-2);
   padding: 0.5rem 1rem;
-  border-radius: 999px;
+  border-radius: var(--radius-md);
   border: 1.5px solid rgba(255,255,255,0.12);
   background: transparent;
   color: var(--text-on-dark-2);
@@ -1402,7 +1420,7 @@
   color: rgba(255,255,255,0.7);
   background: rgba(0,0,0,0.4);
   padding: 0.25rem 0.6rem;
-  border-radius: 999px;
+  border-radius: var(--radius-md);
   letter-spacing: 0.05em;
   pointer-events: none;
   z-index: 3;
@@ -1528,34 +1546,9 @@
 .feature {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  transition: transform 300ms var(--ease);
-}
-
-.feature:hover {
-  transform: translateY(-4px);
-}
-
-/* Ícono de feature */
-.feature__icon {
-  width: 64px;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--blue-light);
-  background: rgba(27, 108, 200, 0.12);
-  border: 1px solid rgba(27, 108, 200, 0.20);
-  border-radius: var(--radius-md);
-  margin-bottom: var(--space-5);
-  flex-shrink: 0;
-  transition: background var(--duration) var(--ease),
-              border-color var(--duration) var(--ease);
-}
-
-.feature:hover .feature__icon {
-  background: rgba(27, 108, 200, 0.22);
-  border-color: rgba(74, 157, 232, 0.40);
+  gap: var(--space-3);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border-dark);
 }
 
 .feature__title {
@@ -2003,9 +1996,22 @@
 @media (max-width: 768px) {
 
   /* ─── Hero ─────────────────────────────────────────────── */
-  .hero__content {
-    padding-block-start: var(--space-12);
-    text-align: center;
+  /* Una columna: texto y, debajo, la foto de obra a todo el ancho */
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+    padding-block: calc(64px + var(--space-8)) var(--space-10);
+  }
+
+  .hero__bg {
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: var(--space-8);
+  }
+
+  .hero__bg img {
+    aspect-ratio: 4 / 3;
+    max-height: none;
   }
 
   .hero__title {
@@ -2015,6 +2021,7 @@
   .hero__subtitle {
     font-size: var(--text-base);
     max-width: 100%;
+    margin-bottom: 0;
   }
 
   .hero__actions {
@@ -2022,13 +2029,16 @@
   }
 
   .hero__stats {
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: start;
     gap: var(--space-6);
     margin-top: var(--space-8);
+    padding-top: var(--space-6);
   }
 
-  .hero {
-    padding-block-end: var(--space-10);
+  .hero__stat-num {
+    font-size: var(--text-xl);
   }
 
 
@@ -2319,69 +2329,11 @@
   }
 }
 
-/* ─── Features: scroll horizontal en mobile ─────────────── */
+/* ─── Features en mobile: lista simple, sin carrusel ─────── */
 @media (max-width: 768px) {
   .features-grid {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: 50%;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-x pan-y;
-    gap: var(--space-4);
-    padding-inline: calc(50% - 150px);
-    padding-bottom: var(--space-3);
-    scrollbar-width: none;
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-
-  .features-grid::-webkit-scrollbar { display: none; }
-
-  .feature {
-    flex: 0 0 78vw;
-    max-width: 300px;
-    scroll-snap-align: center;
-    align-items: center;
-    text-align: center;
-    padding: var(--space-5) var(--space-4);
-    background: var(--steel);
-    border: 1px solid var(--border-dark);
-    border-radius: var(--radius-md);
-  }
-
-  .feature__icon {
-    width: 72px;
-    height: 72px;
-    margin-bottom: var(--space-3);
-  }
-
-  .feature__icon svg {
-    width: 32px;
-    height: 32px;
-  }
-
-  /* Dots indicadores */
-  .features-dots {
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    margin-top: var(--space-4);
-  }
-
-  .features-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--border-dark);
-    transition: background 250ms var(--ease), transform 250ms var(--ease);
-  }
-
-  .features-dot.is-active {
-    background: var(--blue);
-    transform: scale(1.3);
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
   }
 }
 
@@ -2795,7 +2747,7 @@
   align-items: center;
   gap: 6px;
   padding: 6px 14px;
-  border-radius: 999px;
+  border-radius: var(--radius-md);
   background: rgba(37, 211, 102, 0.15);
   border: 1px solid rgba(37, 211, 102, 0.3);
   color: #25D366;
@@ -2817,12 +2769,6 @@
   box-shadow: inset 0 0 0 2px rgba(255,255,255,0.15);
 }
 
-.feature {
-  transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1);
-}
-.feature:hover {
-  transform: translateY(-2px);
-}
 
 /* Button press micro-interaction */
 .btn:active {
@@ -3144,24 +3090,22 @@
 .process-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-4);
+  gap: var(--space-8);
 }
 
 .process-step {
-  padding: var(--space-5) var(--space-5);
-  border: 1px solid var(--border-dark);
-  border-radius: var(--radius-md);
-  background: rgba(255,255,255,0.02);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border-dark);
 }
 
 .process-step__num {
-  font-family: 'Montserrat', sans-serif;
-  font-size: var(--text-xl);
-  font-weight: 700;
-  color: var(--blue);
-  opacity: 0.40;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-wider);
+  color: var(--blue-light);
   line-height: 1;
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--space-4);
 }
 
 .process-step__title {
@@ -3463,10 +3407,8 @@ select.form-input option,
   display: flex;
   align-items: center;
   gap: var(--space-12);
-  border: 1px solid rgba(74, 157, 232, 0.20);
-  border-radius: var(--radius-lg);
-  padding: var(--space-8) var(--space-10);
-  background: rgba(27, 108, 200, 0.06);
+  padding-block: var(--space-8);
+  border-block: 1px solid var(--border-dark);
 }
 
 .garantia-badge {
@@ -3537,9 +3479,10 @@ select.form-input option,
 }
 
 .garantia-item span {
-  font-size: var(--text-xs);
+  display: block;
+  font-size: var(--text-sm);
   color: var(--text-on-dark-2);
-  line-height: 1.65;
+  line-height: 1.6;
 }
 
 @media (max-width: 900px) {
@@ -3635,7 +3578,7 @@ select.form-input option,
   font-size: var(--text-xs);
   font-weight: 600;
   padding: 5px 10px;
-  border-radius: 100px;
+  border-radius: var(--radius-sm);
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
@@ -3772,3 +3715,45 @@ a.nearby-link:hover {
 .footer__zones summary:hover { color: var(--text-on-dark); }
 .footer__zones[open] summary { margin-bottom: var(--space-4); }
 .footer__zones[open] summary::after { transform: translateY(1px) rotate(-135deg); }
+
+/* ─── Obras en páginas de producto ───────────────────────── */
+/* Fotos propias de la categoría, con epígrafe descriptivo. Proporción 4:5
+   porque casi todas las fotos de obra son verticales (celular). */
+.obras-strip__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4);
+}
+
+.obras-strip__item {
+  margin: 0;
+}
+
+.obras-strip__item img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  background-color: var(--carbon);
+}
+
+.obras-strip__item figcaption {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--text-on-dark-2);
+  line-height: 1.45;
+}
+
+.obras-strip__note {
+  margin-top: var(--space-6);
+  font-size: var(--text-sm);
+  color: var(--text-on-dark-3);
+}
+
+@media (max-width: 768px) {
+  .obras-strip__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+}

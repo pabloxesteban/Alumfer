@@ -61,33 +61,6 @@
 /* ─── Hover: card product lift ───────────────────────────── */
 /* Ya está en components.css con transition, no necesita keyframes */
 
-/* ─── Número contador ─────────────────────────────────────── */
-/* Las cifras de "500+ obras" se animan al entrar en viewport */
-/* La lógica JS se agrega en main.js */
-.count-up {
-  display: inline-block;
-}
-
-/* ─── Efecto parallax suave en hero bg ───────────────────── */
-/* Aplicar con JS: `transform: translateY(scrollY * 0.3)` al hero__bg */
-.hero__bg {
-  will-change: transform;
-}
-
-/* ─── Barra de progreso de scroll ────────────────────────── */
-.scroll-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background-color: var(--blue);
-  transform-origin: left;
-  transform: scaleX(0);
-  z-index: 200;
-  transition: transform 50ms linear;
-}
-
 /* ─── Mobile nav slide-in ────────────────────────────────── */
 .mobile-nav {
   position: fixed;

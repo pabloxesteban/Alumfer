@@ -26,8 +26,7 @@ simplicidad es deliberada y debe preservarse.
    CSS en capas              JS de interacción           Conversión
    tokens → base →           main.js  (galería,          • Links wa.me (WhatsApp)
    components →              tabs, form, GA4)            • tel: (teléfono)
-   animations →              cinematic.js (GSAP,         • Formulario → enviar.php
-   cinematic                 Lenis smooth scroll)
+   animations                                            • Formulario → enviar.php
                                                               │
                                                               ▼
                                                   enviar.php + email-template.php
@@ -52,10 +51,7 @@ El orden de `<link>` en `index.html` define la cascada. Respetalo:
 3. **`components.css`** — Todos los componentes visuales (navbar, hero, galería,
    tabs de catálogo, cards, formulario, footer, etc.). Es el archivo más grande
    y está organizado por bloques con encabezados de comentario.
-4. **`animations.css`** — Estados de reveal por scroll, contador de cifras,
-   barra de progreso y menú mobile.
-5. **`cinematic.css`** — Sólo ajustes para cuando el motor GSAP está activo
-   (`html.cinematic`): desactiva animaciones CSS que GSAP reemplaza.
+4. **`animations.css`** — Reveal por scroll, entrada del hero y menú mobile.
 
 ### Convención de nombres: BEM
 
@@ -66,22 +62,22 @@ que aplica el JavaScript.
 
 ## JavaScript
 
-Dos archivos, sin módulos ni bundler:
+Un solo archivo, sin módulos, sin bundler y sin librerías externas:
 
 - **`main.js`** — Toda la interacción funcional, dentro de un único
   `DOMContentLoaded`. Cada bloque está delimitado por un comentario:
-  navbar scroll, reveal (IntersectionObserver), contador animado, parallax
-  fallback, menú mobile, galería de trabajos + lightbox, tabs de catálogo,
-  envío del formulario (`fetch` a `enviar.php`) y tracking de eventos GA4
-  (clicks de WhatsApp y teléfono).
-- **`cinematic.js`** — Capa de "lujo" progresivo. Si GSAP/Lenis cargaron desde
-  el CDN, activa smooth scroll, la animación de entrada del hero (palabra por
-  palabra con SplitType), parallax del fondo y botones magnéticos en desktop.
-  Setea `window.__cinematicPending` para que `main.js` no duplique el smooth
-  scroll, el parallax ni la barra de progreso. **Degrada con gracia**: si el CDN
-  falla, el sitio sigue funcionando con las animaciones CSS de `animations.css`.
+  navbar scroll, reveal (IntersectionObserver), menú mobile, galería de
+  trabajos + lightbox, tabs de catálogo (con `aria-selected`), anclas internas
+  con compensación de la navbar, envío del formulario (`fetch` a `enviar.php`)
+  y tracking de eventos GA4 (clicks de WhatsApp y teléfono).
 
-Ambos respetan `prefers-reduced-motion`.
+Hasta octubre de 2026 existía `cinematic.js` (GSAP + ScrollTrigger + Lenis +
+SplitType desde CDN: smooth scroll, título palabra por palabra, parallax y
+botones magnéticos). Se sacó a propósito: eran 4 requests externos para
+efectos que hacían que el sitio pareciera un template y no ayudaban a
+entender el producto. Ver `docs/REDISENO-2026.md`. Las animaciones que quedan
+(fade de entrada, reveal al scrollear) son CSS y respetan
+`prefers-reduced-motion`.
 
 ## Formulario y emails
 
@@ -113,6 +109,9 @@ número de versión** en `index.html` (y `gracias.html`) para invalidar la cach�
 - **Cambios de diseño global → `tokens.css`.** No hardcodees colores en componentes.
 - **Estados → clases `is-*` desde JS.** No mezcles lógica de estilo en el JS más
   allá de togglear clases.
-- **Animaciones costosas → detrás de `prefers-reduced-motion` y/o feature
-  detection**, como ya hace `cinematic.js`.
+- **Animación: poca y en CSS.** Fades cortos, hovers de ~220 ms, nada que
+  secuestre el scroll. Siempre detrás de `prefers-reduced-motion`.
+- **Fotos de obra propias, nunca stock.** Ver `docs/REDISENO-2026.md`.
+- **`tools/build-landings.mjs` está desactualizado** respecto del HTML
+  publicado: no regenerar las landings sin antes sincronizarlo.
 - **Al tocar CSS/JS, subí el `?v=`** correspondiente.

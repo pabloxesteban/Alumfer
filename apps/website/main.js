@@ -1,6 +1,6 @@
 // ============================================================
 // ALUMFER — main.js
-// Interacciones: navbar scroll, reveal, contador, parallax, nav mobile
+// Interacciones: navbar scroll, reveal, nav mobile, galería, tabs, formulario
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -22,18 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     onScroll(); // estado inicial
   }
 
-  // ─── Barra de progreso de scroll ─────────────────────────
-  const progressBar = document.querySelector('.scroll-progress');
-
-  // Lenis drives the progress bar when active; fallback here
-  if (progressBar && !window.__cinematicPending) {
-    window.addEventListener('scroll', () => {
-      const scrolled = window.scrollY;
-      const total    = document.body.scrollHeight - window.innerHeight;
-      progressBar.style.transform = `scaleX(${scrolled / total})`;
-    }, { passive: true });
-  }
-
   // ─── Reveal al entrar en viewport ────────────────────────
   const revealEls = document.querySelectorAll('.reveal, .section-header');
 
@@ -51,49 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
     );
 
     revealEls.forEach(el => observer.observe(el));
-  }
-
-  // ─── Contador animado de cifras ───────────────────────────
-  // Uso: <span class="count-up" data-target="500" data-suffix="+">0</span>
-  const counters = document.querySelectorAll('.count-up');
-
-  if (counters.length) {
-    const counterObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) return;
-          const el     = entry.target;
-          const target = parseInt(el.dataset.target, 10) || 0;
-          const suffix = el.dataset.suffix || '';
-          const duration = 1400;
-          const start  = performance.now();
-
-          const update = (now) => {
-            const progress = Math.min((now - start) / duration, 1);
-            // Ease-out cubic
-            const eased = 1 - Math.pow(1 - progress, 3);
-            el.textContent = Math.round(eased * target) + suffix;
-            if (progress < 1) requestAnimationFrame(update);
-          };
-
-          requestAnimationFrame(update);
-          counterObserver.unobserve(el);
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    counters.forEach(el => counterObserver.observe(el));
-  }
-
-  // ─── Parallax suave en el hero ────────────────────────────
-  const heroBg = document.querySelector('.hero__bg');
-
-  if (heroBg && !window.__cinematicPending) {
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY * 0.28;
-      heroBg.style.transform = `translateY(${y}px)`;
-    }, { passive: true });
   }
 
   // ─── Menú mobile ─────────────────────────────────────────
@@ -218,8 +163,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     worksTabs.forEach(tab => {
       tab.addEventListener('click', () => {
-        worksTabs.forEach(t => t.classList.remove('is-active'));
+        worksTabs.forEach(t => {
+          t.classList.remove('is-active');
+          t.setAttribute('aria-selected', 'false');
+        });
         tab.classList.add('is-active');
+        tab.setAttribute('aria-selected', 'true');
         moveWorksIndicator(tab);
         filterCat(tab.dataset.cat);
         updateWorksWa(tab.dataset.cat);
@@ -317,9 +266,13 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.catalog-tab').forEach(tab => {
     tab.addEventListener('click', () => {
       const target = tab.dataset.tab;
-      document.querySelectorAll('.catalog-tab').forEach(t => t.classList.remove('is-active'));
+      document.querySelectorAll('.catalog-tab').forEach(t => {
+        t.classList.remove('is-active');
+        t.setAttribute('aria-selected', 'false');
+      });
       document.querySelectorAll('.catalog-panel').forEach(p => p.classList.remove('is-active'));
       tab.classList.add('is-active');
+      tab.setAttribute('aria-selected', 'true');
       document.querySelector(`.catalog-panel[data-panel="${target}"]`).classList.add('is-active');
       moveCatalogIndicator(tab);
     });
@@ -367,20 +320,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ─── Smooth anchor links ──────────────────────────────────
-  // Lenis handles this when cinematic.js is active
-  if (!window.__cinematicPending) {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', (e) => {
-        const target = document.querySelector(anchor.getAttribute('href'));
-        if (!target) return;
-        e.preventDefault();
-        const offset = 72;
-        const top = target.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({ top, behavior: 'smooth' });
-      });
+  // ─── Anclas internas: compensar la navbar fija ────────────
+  // Scroll nativo del navegador; sin animación si el usuario la redujo.
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', (e) => {
+      const id = anchor.getAttribute('href').slice(1);
+      const target = id && document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      const top = target.getBoundingClientRect().top + window.scrollY - 72;
+      window.scrollTo({ top, behavior: reduceMotion ? 'auto' : 'smooth' });
     });
-  }
+  });
 
   // ─── Info-card toggle (colores / terminaciones) ───────────
   document.querySelectorAll('.info-card__toggle').forEach(btn => {
