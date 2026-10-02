@@ -93,7 +93,7 @@ intercepta el `submit` y mira qué botón se usó (`data-channel`):
   bloquea, en la misma). No manda email, para no duplicar la consulta.
 - **Email:** hace `fetch` POST a `enviar.php`, que:
   - Rechaza todo lo que no sea POST.
-  - Sanea y valida los campos (`Nombre`, `Teléfono`, `Consulta` obligatorios;
+  - Sanea y valida los campos (`Nombre`, `Teléfono`, `Email` válido y `Consulta` obligatorios;
     `Tipo` pasa a "Consulta general" si no viene, como en la home).
   - Arma dos emails HTML con `email-template.php`: uno al administrador y, si
     el cliente dejó email, una confirmación de marca.
