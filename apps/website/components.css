@@ -240,6 +240,19 @@
   color: #fff;
 }
 
+/* Formulario de contacto: dos canales de envío */
+.contact-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.contact-actions .btn {
+  width: 100%;
+  justify-content: center;
+  border-radius: var(--radius-md);
+}
+
 /* Tamaños */
 .btn--sm {
   padding: 0.5rem 1rem;
@@ -2113,7 +2126,6 @@
   .contact-info   { order: 3; }
   .contact-data   { margin-top: var(--space-3) !important; }
   .contact-map iframe { height: 160px; }
-  .contact-submit { width: 180px; display: block; margin-inline: auto; }
   .contact-form .btn--lg { padding: 0.6rem 1.25rem; font-size: var(--text-sm); }
 
   /* ─── Footer ───────────────────────────────────────────── */
