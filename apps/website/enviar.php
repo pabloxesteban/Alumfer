@@ -55,10 +55,13 @@ $localidad = field('Localidad');
 $consulta  = field('Consulta');
 
 /* ─── Validación mínima ─────────────────────────────────── */
-if ($nombre === '' || $telefono === '' || $consulta === '') {
+if ($nombre === '' || $telefono === '' || $emailRaw === '' || $consulta === '') {
     respond(false, 'Faltan datos obligatorios.');
 }
-$emailCliente = ($emailRaw !== '' && filter_var($emailRaw, FILTER_VALIDATE_EMAIL)) ? $emailRaw : '';
+if (!filter_var($emailRaw, FILTER_VALIDATE_EMAIL)) {
+    respond(false, 'El email no es válido.');
+}
+$emailCliente = $emailRaw;
 
 /* ─── Helpers ───────────────────────────────────────────── */
 /** Escapa para inyección segura en HTML. */
