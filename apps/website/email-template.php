@@ -256,9 +256,9 @@ HTML;
 /* ============================================================
  *  EMAIL AL CLIENTE — confirmación de consulta
  * ------------------------------------------------------------
- *  Corto y comercial: titular con el nombre y el trabajo, banda
- *  con tres argumentos reales, reseña de Google, una sola acción
- *  (mandar fotos o medidas) y el resumen de la consulta.
+ *  Corto y comercial: hero azul con el nombre y el trabajo,
+ *  tres argumentos reales con ícono, reseña de Google, acción
+ *  (fotos/medidas o WhatsApp) y el resumen de la consulta.
  *  Las imágenes viven en /email/ del sitio; si el cliente de
  *  correo las bloquea, todo el contenido sigue legible en texto.
  * ========================================================== */
@@ -315,30 +315,42 @@ function em_cliente(array $d): string {
     $fb    = ALF_FONT;
     $pre   = $h('Te contactamos en menos de 24 horas hábiles con tu presupuesto sin cargo.');
 
-    $ink   = '#1A1C1E';
-    $text  = '#45474A';
-    $muted = '#857E72';
-    $rule  = '#DCD7CD';
-    $outer = '#ECE9E3';
+    $ink   = '#16202B';   // títulos (carbón azulado)
+    $text  = '#4B5563';   // cuerpo
+    $muted = '#6B7A8C';   // etiquetas
+    $outer = '#EAF0F7';   // fondo exterior (azul muy claro)
+    $tint  = '#F3F7FC';   // tarjetas
     $blue  = ALF_BLUE;
+    $navy  = '#0E4A94';
+    $wag   = '#1EA952';   // verde WhatsApp (texto oscuro encima para contraste)
 
-    /* Por qué Alumfer: tres argumentos reales del sitio */
+    /* Por qué Alumfer: tres argumentos reales del sitio, con ícono */
     $args = [
-        ['Fábrica propia',      'Sin intermediarios'],
-        ['Medición sin cargo',  'Vamos a tu obra'],
-        ['Instalación en seco', 'Sin romper paredes'],
+        ['icono-fabrica',     'Fábrica propia',      'Sin intermediarios'],
+        ['icono-medicion',    'Medición sin cargo',  'Vamos a tu obra'],
+        ['icono-instalacion', 'Instalación en seco', 'Sin romper paredes'],
     ];
-    $band = '';
-    foreach ($args as $i => [$t, $s]) {
-        $sep = $i < 2 ? 'border-right:1px solid #3D444B;' : '';
-        $band .= '<td class="alf-arg' . ($i === 2 ? ' alf-arg-last' : '') . '" width="33%" valign="top" style="width:33%;padding:22px 16px;' . $sep . '">'
-            . '<div style="font-family:' . $fh . ';font-size:15px;font-weight:600;line-height:1.3;color:#FFFFFF;">' . $t . '</div>'
-            . '<div style="font-family:' . $fb . ';font-size:12px;line-height:1.4;color:#B0A99A;padding-top:4px;">' . $s . '</div>'
-            . '</td>';
+    /* Una sola fila de celdas: las tres tarjetas quedan de la misma altura.
+       En desktop el ícono va arriba; en celular, al costado (más compacto). */
+    $cards = '';
+    foreach ($args as $i => [$ico, $t, $s]) {
+        if ($i > 0) {
+            $cards .= '<td class="alf-gap" width="12" style="width:12px;font-size:0;line-height:0;">&nbsp;</td>';
+        }
+        $cards .= '<td class="alf-col alf-card" width="31%" valign="top" bgcolor="' . $tint . '" style="width:31%;background:' . $tint . ';border-radius:16px;padding:18px 16px;">'
+            . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>'
+            . '<td class="alf-ico" valign="top" style="display:block;width:44px;padding-bottom:12px;">'
+            . '<img src="' . $site . '/email/' . $ico . '.png" width="44" height="44" alt="" style="display:block;width:44px;height:44px;border:0;"></td>'
+            . '<td class="alf-ico-txt" valign="middle" style="display:block;">'
+            . '<div class="alf-ink" style="font-family:' . $fh . ';font-size:15px;font-weight:700;line-height:1.3;color:' . $ink . ';">' . $t . '</div>'
+            . '<div class="alf-txt" style="font-family:' . $fb . ';font-size:13px;line-height:1.4;color:' . $text . ';padding-top:3px;">' . $s . '</div>'
+            . '</td></tr></table></td>';
     }
 
-    $label = fn(string $t): string => '<div class="alf-label" style="font-family:' . $fb . ';font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:' . $muted . ';line-height:1;">' . $t . '</div>';
-    $val   = fn(string $t): string => '<div class="alf-ink" style="font-family:' . $fb . ';font-size:15px;font-weight:500;color:' . $ink . ';line-height:1.4;padding-top:6px;">' . $t . '</div>';
+    $chip = fn(string $label, string $value): string =>
+        '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="display:inline-block;vertical-align:top;margin:0 8px 8px 0;"><tr>'
+        . '<td class="alf-chip" bgcolor="#FFFFFF" style="background:#FFFFFF;border-radius:999px;padding:7px 14px;white-space:nowrap;font-family:' . $fb . ';font-size:13px;line-height:1.2;color:' . $muted . ';">'
+        . $label . ' <strong class="alf-ink" style="color:' . $ink . ';font-weight:600;">' . $value . '</strong></td></tr></table>';
 
     return <<<HTML
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -365,28 +377,31 @@ function em_cliente(array $d): string {
     table,td{mso-table-lspace:0pt;mso-table-rspace:0pt;}
     img{-ms-interpolation-mode:bicubic;border:0;outline:none;text-decoration:none;}
     a{text-decoration:none;}
-    .alf-dark-only{display:none;max-height:0;overflow:hidden;mso-hide:all;}
     @media only screen and (max-width:620px){
       .alf-container{width:100%!important;}
-      .alf-pad{padding-left:24px!important;padding-right:24px!important;}
+      .alf-pad{padding-left:22px!important;padding-right:22px!important;}
       .alf-h1{font-size:30px!important;}
-      .alf-num{display:none!important;}
-      .alf-arg{display:block!important;width:auto!important;border-right:0!important;border-bottom:1px solid #3D444B!important;padding:16px 0!important;}
-      .alf-arg-last{border-bottom:0!important;}
+      .alf-deco{display:none!important;}
+      .alf-col{display:block!important;width:auto!important;padding:14px 16px!important;}
+      .alf-gap{display:block!important;width:auto!important;height:10px!important;}
+      .alf-ico{display:table-cell!important;padding:0 14px 0 0!important;}
+      .alf-ico-txt{display:table-cell!important;}
+      .alf-pill{display:none!important;}
+      .alf-btn{display:block!important;width:100%!important;margin:0 0 10px 0!important;}
       .alf-btn a{display:block!important;}
     }
     @media (prefers-color-scheme: dark){
-      .alf-outer{background:#111214!important;}
-      .alf-paper{background:#1A1C1E!important;}
-      .alf-band{background:#2E3338!important;}
-      .alf-ink{color:#F2F0EC!important;}
-      .alf-txt{color:#C9C5BD!important;}
-      .alf-label{color:#958E82!important;}
-      .alf-link{color:#4A9DE8!important;}
-      .alf-frame{border-color:#3D444B!important;}
-      .alf-frame td{border-color:#3D444B!important;}
-      .alf-light-only{display:none!important;}
-      .alf-dark-only{display:block!important;max-height:none!important;}
+      .alf-outer{background:#0F1418!important;}
+      .alf-paper{background:#1A2027!important;}
+      .alf-card{background:#232B34!important;}
+      .alf-review{background:#2A2618!important;}
+      .alf-sum{background:#232B34!important;}
+      .alf-chip{background:#1A2027!important;}
+      .alf-foot{background:#151A20!important;}
+      .alf-ink{color:#F1F4F8!important;}
+      .alf-txt{color:#C3CBD5!important;}
+      .alf-label{color:#8F9BAA!important;}
+      .alf-link{color:#6FB2F0!important;}
     }
   </style>
 </head>
@@ -394,52 +409,57 @@ function em_cliente(array $d): string {
   <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;line-height:1px;color:$outer;opacity:0;">$pre&nbsp;&#8199;&#65279;&#847;&nbsp;&#8199;&#65279;&#847;&nbsp;&#8199;&#65279;&#847;&nbsp;&#8199;&#65279;&#847;&nbsp;&#8199;&#65279;&#847;&nbsp;&#8199;&#65279;&#847;</div>
 
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="alf-outer" bgcolor="$outer" style="background:$outer;">
-    <tr><td align="center" style="padding:32px 12px 40px;">
+    <tr><td align="center" style="padding:28px 12px 36px;">
 
       <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="alf-container" style="width:600px;max-width:600px;">
 
-        <!-- Encabezado: el fondo va en bgcolor para que el texto alternativo se lea si se bloquean imágenes -->
+        <!-- Hero azul (bgcolor de respaldo para clientes sin degradé) -->
         <tr>
-          <td bgcolor="#1A1C1E" class="alf-pad" style="background:#1A1C1E;padding:24px 40px;">
+          <td class="alf-pad" bgcolor="$blue" style="background:$blue;background-image:linear-gradient(135deg,$blue 0%,$navy 100%);border-radius:24px 24px 0 0;padding:28px 40px 40px;">
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
               <td valign="middle">
                 <a href="$site" target="_blank" style="text-decoration:none;">
-                  <img src="$site/email/alumfer-logo-blanco.png" width="216" height="39" alt="ALUMFER" style="display:block;width:216px;height:39px;border:0;font-family:$fh;font-size:18px;font-weight:600;letter-spacing:0.18em;color:#FFFFFF;">
+                  <img src="$site/email/alumfer-logo-blanco.png" width="190" height="34" alt="ALUMFER" style="display:block;width:190px;height:34px;border:0;font-family:$fh;font-size:18px;font-weight:700;letter-spacing:0.18em;color:#FFFFFF;">
                 </a>
               </td>
-              <td class="alf-num" align="right" valign="middle" style="font-family:$fb;font-size:11px;line-height:1.5;letter-spacing:0.06em;color:#B0A99A;">
-                Consulta<br><span style="color:#FFFFFF;font-weight:600;">N°&nbsp;$numero</span>
+              <td class="alf-pill" align="right" valign="middle">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                  <td style="background:rgba(255,255,255,0.14);border-radius:999px;padding:7px 14px;font-family:$fb;font-size:12px;font-weight:600;line-height:1;color:#FFFFFF;white-space:nowrap;">N°&nbsp;$numero</td>
+                </tr></table>
+              </td>
+            </tr></table>
+
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:36px;"><tr>
+              <td valign="bottom">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                  <td style="background:#FFFFFF;border-radius:999px;padding:7px 14px 7px 12px;font-family:$fb;font-size:12px;font-weight:600;line-height:1;color:$navy;">
+                    <span style="color:#1EA952;font-size:13px;">&#9679;</span>&nbsp; Consulta recibida
+                  </td>
+                </tr></table>
+                <h1 class="alf-h1" style="margin:18px 0 0;font-family:$fh;font-size:36px;line-height:1.12;font-weight:700;letter-spacing:-0.025em;color:#FFFFFF;">$nombre, $sujeto $verbo en&nbsp;marcha.</h1>
+                <p style="margin:14px 0 0;font-family:$fb;font-size:17px;line-height:1.55;color:#D6E8F7;">
+                  En menos de <strong style="color:#FFFFFF;font-weight:600;">24&nbsp;horas hábiles</strong> te contactamos con tu presupuesto. Sin cargo y sin compromiso.
+                </p>
+              </td>
+              <td class="alf-deco" width="120" align="right" valign="bottom" style="width:120px;padding-left:12px;">
+                <img src="$site/email/hero-marca.png" width="120" height="84" alt="" style="display:block;width:120px;height:84px;border:0;">
               </td>
             </tr></table>
           </td>
         </tr>
-        <tr><td bgcolor="$blue" style="background:$blue;height:3px;line-height:3px;font-size:0;">&nbsp;</td></tr>
 
-        <!-- Titular -->
+        <!-- Cuerpo -->
         <tr>
-          <td class="alf-paper alf-pad" bgcolor="#FFFFFF" style="background:#FFFFFF;padding:44px 40px 36px;">
-            <h1 class="alf-h1 alf-ink" style="margin:0;font-family:$fh;font-size:36px;line-height:1.12;font-weight:700;letter-spacing:-0.025em;color:$ink;">$nombre, $sujeto $verbo en&nbsp;marcha.</h1>
-            <p class="alf-txt" style="margin:18px 0 0;font-family:$fb;font-size:17px;line-height:1.6;color:$text;">
-              En menos de <strong class="alf-ink" style="color:$ink;font-weight:600;">24&nbsp;horas hábiles</strong> te contactamos con tu presupuesto. Sin cargo y sin compromiso.
-            </p>
-          </td>
-        </tr>
+          <td class="alf-paper alf-pad" bgcolor="#FFFFFF" style="background:#FFFFFF;padding:32px 40px 36px;">
 
-        <!-- Por qué Alumfer -->
-        <tr>
-          <td class="alf-band" bgcolor="$ink" style="background:$ink;padding:0 24px;">
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>$band</tr></table>
-          </td>
-        </tr>
-
-        <tr>
-          <td class="alf-paper alf-pad" bgcolor="#FFFFFF" style="background:#FFFFFF;padding:36px 40px 40px;">
+            <!-- Por qué Alumfer -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>$cards</tr></table>
 
             <!-- Reseña real de Google -->
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-              <td style="border-left:3px solid $blue;padding:2px 0 2px 18px;">
-                <div style="font-family:$fb;font-size:14px;line-height:1;color:#F2B01E;letter-spacing:2px;">★★★★★</div>
-                <p class="alf-ink" style="margin:10px 0 0;font-family:$fh;font-size:19px;line-height:1.4;font-weight:600;color:$ink;">“Precio, tiempo de entrega y calidad, 10&nbsp;puntos.”</p>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:20px;"><tr>
+              <td class="alf-review" bgcolor="#FFF6DD" style="background:#FFF6DD;border-radius:16px;padding:22px 24px;">
+                <div style="font-family:$fb;font-size:16px;line-height:1;color:#F5A800;letter-spacing:2px;">★★★★★</div>
+                <p class="alf-ink" style="margin:12px 0 0;font-family:$fh;font-size:19px;line-height:1.4;font-weight:700;color:$ink;">“Precio, tiempo de entrega y calidad, 10&nbsp;puntos.”</p>
                 <p class="alf-txt" style="margin:8px 0 0;font-family:$fb;font-size:13px;line-height:1.5;color:$text;">
                   Marcelo V., mosquiteros a medida &nbsp;·&nbsp; <a href="$google" target="_blank" class="alf-link" style="color:$blue;font-weight:600;text-decoration:none;">4,5 en Google, 37&nbsp;reseñas</a>
                 </p>
@@ -447,55 +467,49 @@ function em_cliente(array $d): string {
             </tr></table>
 
             <!-- Acción -->
-            <p class="alf-ink" style="margin:36px 0 0;font-family:$fh;font-size:20px;line-height:1.3;font-weight:600;color:$ink;">¿Lo querés más rápido?</p>
+            <p class="alf-ink" style="margin:34px 0 0;font-family:$fh;font-size:22px;line-height:1.3;font-weight:700;color:$ink;">¿Lo querés más rápido? 📸</p>
             <p class="alf-txt" style="margin:8px 0 0;font-family:$fb;font-size:16px;line-height:1.6;color:$text;">
               Mandanos fotos del lugar o medidas aproximadas y adelantamos tu presupuesto.
             </p>
-            <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="alf-btn" style="margin-top:20px;"><tr>
-              <td bgcolor="$blue" style="background:$blue;border-radius:3px;">
-                <!--[if mso]><v:rect xmlns:v="urn:schemas-microsoft-com:vml" href="$mailto" style="height:50px;v-text-anchor:middle;width:300px;" stroke="f" fillcolor="$blue"><center style="color:#ffffff;font-family:Arial,sans-serif;font-size:15px;font-weight:bold;">Enviar fotos o medidas</center></v:rect><![endif]-->
-                <!--[if !mso]><!-->
-                <a href="$mailto" style="display:inline-block;padding:17px 30px;font-family:$fb;font-size:15px;font-weight:600;line-height:1;color:#FFFFFF;text-decoration:none;border-radius:3px;text-align:center;">Enviar fotos o medidas</a>
-                <!--<![endif]-->
-              </td>
-            </tr></table>
-            <p class="alf-txt" style="margin:14px 0 0;font-family:$fb;font-size:14px;line-height:1.6;color:$text;">
-              o por WhatsApp: <a href="$wa" target="_blank" class="alf-link" style="color:$blue;font-weight:600;text-decoration:none;">(011)&nbsp;6336-8643&nbsp;→</a>
-            </p>
+            <div style="margin-top:20px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="alf-btn" style="display:inline-block;vertical-align:top;margin:0 10px 10px 0;"><tr>
+                <td align="center" bgcolor="$blue" style="background:$blue;border-radius:999px;">
+                  <a href="$mailto" style="display:inline-block;padding:16px 28px;font-family:$fb;font-size:15px;font-weight:600;line-height:1;color:#FFFFFF;text-decoration:none;border-radius:999px;">Enviar fotos o medidas</a>
+                </td>
+              </tr></table>
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="alf-btn" style="display:inline-block;vertical-align:top;margin:0 0 10px 0;"><tr>
+                <td align="center" bgcolor="$wag" style="background:$wag;border-radius:999px;">
+                  <a href="$wa" target="_blank" style="display:inline-block;padding:16px 28px;font-family:$fb;font-size:15px;font-weight:600;line-height:1;color:#FFFFFF;text-decoration:none;border-radius:999px;">Escribir por WhatsApp</a>
+                </td>
+              </tr></table>
+            </div>
 
             <!-- Resumen de la consulta -->
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="alf-frame" style="margin-top:36px;border:1px solid $rule;border-collapse:collapse;">
-              <tr>
-                <td width="50%" valign="top" style="width:50%;padding:12px 14px;border-right:1px solid $rule;border-bottom:1px solid $rule;">{$label('Trabajo')}{$val($tipo)}</td>
-                <td width="50%" valign="top" style="width:50%;padding:12px 14px;border-bottom:1px solid $rule;">{$label('Obra en')}{$val($localidad)}</td>
-              </tr>
-              <tr><td colspan="2" style="padding:12px 14px 14px;">
-                {$label('Tu mensaje')}
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:28px;"><tr>
+              <td class="alf-sum" bgcolor="$tint" style="background:$tint;border-radius:16px;padding:20px 22px 18px;">
+                <div class="alf-label" style="font-family:$fb;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:$muted;padding-bottom:12px;">Tu consulta</div>
+                <div>{$chip('Trabajo', $tipo)}{$chip('Obra en', $localidad)}</div>
                 <div class="alf-txt" style="font-family:$fb;font-size:14px;color:$text;line-height:1.6;padding-top:6px;">$mensaje</div>
-              </td></tr>
-            </table>
+              </td>
+            </tr></table>
 
           </td>
         </tr>
 
         <!-- Pie -->
         <tr>
-          <td class="alf-pad" style="padding:26px 40px 0;">
-            <div class="alf-light-only">
-              <img src="$site/email/alumfer-logo-carbon.png" width="132" height="24" alt="ALUMFER" style="display:block;width:132px;height:24px;border:0;font-family:$fh;font-size:12px;font-weight:600;letter-spacing:0.18em;color:$ink;">
-            </div>
-            <!--[if !mso]><!-->
-            <div class="alf-dark-only">
-              <img src="$site/email/alumfer-logo-blanco.png" width="132" height="24" alt="ALUMFER" style="display:block;width:132px;height:24px;border:0;">
-            </div>
-            <!--<![endif]-->
-            <p class="alf-txt" style="margin:14px 0 0;font-family:$fb;font-size:12px;line-height:1.8;color:$text;">
-              Av. San Martín 734, Adrogué &nbsp;·&nbsp; (011) 6336-8643 &nbsp;·&nbsp;
-              <a href="$site" target="_blank" class="alf-txt" style="color:$text;text-decoration:none;">alumfer.com.ar</a>
+          <td class="alf-foot alf-pad" bgcolor="#F6F9FC" style="background:#F6F9FC;border-radius:0 0 24px 24px;padding:22px 40px 24px;">
+            <p class="alf-txt" style="margin:0;font-family:$fb;font-size:13px;line-height:1.7;color:$text;">
+              <strong class="alf-ink" style="color:$ink;font-weight:600;">Alumfer</strong> · Av. San Martín 734, Adrogué<br>
+              <a href="https://wa.me/{$h(ALF_WA_NUMBER)}" target="_blank" class="alf-txt" style="color:$text;text-decoration:none;">(011) 6336-8643</a> &nbsp;·&nbsp;
+              <a href="$site" target="_blank" class="alf-link" style="color:$blue;font-weight:600;text-decoration:none;">alumfer.com.ar</a> &nbsp;·&nbsp;
+              <a href="{$h(ALF_IG)}" target="_blank" class="alf-link" style="color:$blue;font-weight:600;text-decoration:none;">Instagram</a>
             </p>
-            <p class="alf-label" style="margin:8px 0 0;font-family:$fb;font-size:11px;line-height:1.6;color:$muted;">
-              Recibiste este email porque dejaste una consulta en alumfer.com.ar. © $year Alumfer.
-            </p>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding:16px 24px 0;font-family:$fb;font-size:11px;line-height:1.6;color:$muted;" class="alf-label">
+            Recibiste este email porque dejaste una consulta en alumfer.com.ar. © $year Alumfer.
           </td>
         </tr>
 
