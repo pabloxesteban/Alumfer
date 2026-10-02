@@ -26,7 +26,7 @@ simplicidad es deliberada y debe preservarse.
    CSS en capas              JS de interacción           Conversión
    tokens → base →           main.js  (galería,          • Links wa.me (WhatsApp)
    components →              tabs, form, GA4)            • tel: (teléfono)
-   animations →              cinematic.js (GSAP,         • Formulario → enviar.php
+   animations →              cinematic.js (GSAP,         • Formulario → WA o mail
    cinematic                 Lenis smooth scroll)
                                                               │
                                                               ▼
@@ -83,21 +83,24 @@ Dos archivos, sin módulos ni bundler:
 
 Ambos respetan `prefers-reduced-motion`.
 
-## Formulario y emails
+## Formulario (WhatsApp o email)
 
-1. El usuario envía el `<form>` de contacto. `main.js` intercepta el `submit`,
-   hace `fetch` POST a `enviar.php` y espera JSON `{ success: true }`.
-2. `enviar.php`:
-   - Rechaza todo lo que no sea POST.
-   - Tiene un **honeypot** (`botcheck`): si viene completo, simula éxito sin enviar.
-   - Sanea y valida los campos (`Nombre`, `Teléfono`, `Tipo`, `Consulta` obligatorios).
-   - Arma dos emails HTML con los helpers de `email-template.php`:
-     uno al administrador (con los datos + botón "Responder por WhatsApp") y, si
-     el cliente dejó email, una confirmación de marca.
-   - Envía con `mail()` codificando el cuerpo en base64 (evita rechazos de Exim
-     por líneas largas).
-3. Si el email al admin sale, responde `{ success: true }` y `main.js` redirige a
-   `gracias.html`, que dispara el evento de **conversión** en GA4.
+El formulario tiene dos botones y el cliente elige el canal. `main.js`
+intercepta el `submit` y mira qué botón se usó (`data-channel`):
+
+- **WhatsApp:** arma un mensaje con los campos completados y abre
+  `https://wa.me/5491163368643?text=…` en otra pestaña (si el navegador la
+  bloquea, en la misma). No manda email, para no duplicar la consulta.
+- **Email:** hace `fetch` POST a `enviar.php`, que:
+  - Rechaza todo lo que no sea POST.
+  - Sanea y valida los campos (`Nombre`, `Teléfono`, `Email` válido y `Consulta` obligatorios;
+    `Tipo` pasa a "Consulta general" si no viene, como en la home).
+  - Arma dos emails HTML con `email-template.php`: uno al administrador y, si
+    el cliente dejó email, una confirmación de marca.
+  - Envía con `mail()` codificando el cuerpo en base64.
+
+En los dos casos hay un **honeypot** (`botcheck`) y la página termina en
+`gracias.html`, que dispara el evento de **conversión** en GA4.
 
 ## Deploy
 

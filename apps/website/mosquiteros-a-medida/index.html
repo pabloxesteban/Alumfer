@@ -24,9 +24,8 @@
   <meta name="twitter:description" content="Mosquiteros de aluminio a medida: corredizos, reforzados, enrollables y para puertas. Fabricación e instalación rápida. Presupuesto sin cargo.">
   <meta name="twitter:image"      content="https://alumfer.com.ar/og-alumfer.png?v=2">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/montserrat-600-latin.woff2" as="font" type="font/woff2" crossorigin>
 
   <link rel="icon" href="/favicon.ico" sizes="48x48">
   <link rel="icon" type="image/png" href="/favicon.png?v=4" sizes="192x192">
@@ -40,9 +39,9 @@
     gtag('config', 'G-8N6BQW2FNJ');
   </script>
 
-  <link rel="stylesheet" href="/tokens.css?v=2">
+  <link rel="stylesheet" href="/tokens.css?v=3">
   <link rel="stylesheet" href="/base.css?v=2">
-  <link rel="stylesheet" href="/components.css?v=9">
+  <link rel="stylesheet" href="/components.css?v=10">
   <link rel="stylesheet" href="/animations.css?v=2">
   <link rel="stylesheet" href="/cinematic.css?v=2">
 </head>
@@ -63,6 +62,7 @@
         <li><a href="/#nosotros"  class="navbar__link">Nosotros</a></li>
         <li><a href="/#trabajos"  class="navbar__link">Trabajos</a></li>
         <li><a href="/#productos" class="navbar__link">Productos</a></li>
+        <li><a href="/guias/" class="navbar__link">Guías</a></li>
         <li><a href="#presupuesto" class="navbar__link">Contacto</a></li>
       </ul>
       <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto%20de%20mosquiteros" class="btn btn--primary navbar__cta" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">Pedir presupuesto</a>
@@ -77,6 +77,7 @@
     <a href="/#nosotros"  class="mobile-nav__link">Nosotros</a>
     <a href="/#trabajos"  class="mobile-nav__link">Trabajos</a>
     <a href="/#productos" class="mobile-nav__link">Productos</a>
+    <a href="/guias/" class="mobile-nav__link">Guías</a>
     <a href="#presupuesto" class="mobile-nav__link">Contacto</a>
     <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto%20de%20mosquiteros" class="btn btn--primary mobile-nav__cta" target="_blank" rel="noopener">Pedir presupuesto</a>
   </nav>
@@ -171,6 +172,39 @@
     </div>
   </section>
 
+  <section class="section section--dark" aria-labelledby="extra-tipos-title">
+    <div class="container">
+      <div class="section-header reveal"><p class="eyebrow">Cómo elegir</p><h2 id="extra-tipos-title">Qué mosquitero va en cada ventana</h2></div>
+      <div class="features-grid">
+        <div class="feature reveal reveal--stagger-1">
+          <h3 class="feature__title">Corredizo</h3>
+          <p class="feature__desc">El más común. Acompaña a la ventana corrediza y se desplaza con ella. Es el que menos molesta en el uso diario y el más económico.</p>
+        </div>
+        <div class="feature reveal reveal--stagger-2">
+          <h3 class="feature__title">Enrollable</h3>
+          <p class="feature__desc">Se recoge en un cabezal cuando no lo usás, así que no tapa la vista en invierno. Va bien en ventanas que querés despejadas la mayor parte del año.</p>
+        </div>
+        <div class="feature reveal reveal--stagger-3">
+          <h3 class="feature__title">Reforzado</h3>
+          <p class="feature__desc">Con perfil y tela de mayor resistencia, para puertas y para casas con chicos o mascotas, donde el mosquitero recibe empujones todos los días.</p>
+        </div>
+        <div class="feature reveal reveal--stagger-4">
+          <h3 class="feature__title">Para puerta</h3>
+          <p class="feature__desc">Corredizo o batiente según cómo abra la puerta. Es el que más castigo recibe, así que siempre lo hacemos en versión reforzada.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--mid" aria-labelledby="extra-tela-title">
+    <div class="container">
+      <div class="section-header reveal"><p class="eyebrow">Lo que define el resultado</p><h2 id="extra-tela-title">La tela importa más de lo que parece</h2></div>
+      <p class="reveal section-intro">El perfil sostiene, pero quien hace el trabajo es la tela, y no todas son iguales. Hay tres cosas que se compensan entre sí: <strong>cuánto deja pasar el aire, cuánto deja ver y cuánto aguanta.</strong> Una trama más cerrada frena insectos más chicos pero también corta ventilación y oscurece un poco el ambiente.</p>
+      <p class="reveal section-intro">Para vivienda usamos una tela estándar que equilibra bien las tres cosas. En casas con mascotas conviene la reforzada: un gato que se apoya rompe una tela común en una temporada. Y en zonas de mucho verde, donde aparecen insectos más chicos, se justifica una trama más cerrada aunque se note en la ventilación.</p>
+      <p class="reveal section-intro">Un detalle práctico: la tela es reemplazable. Si con los años se rompe, no hace falta cambiar el mosquitero entero, se recambia el tejido sobre el mismo marco.</p>
+    </div>
+  </section>
+
   <section class="section section--mid" id="faq" aria-labelledby="faq-title">
     <div class="container">
       <div class="section-header reveal"><p class="eyebrow">Preguntas frecuentes</p><h2 id="faq-title">Sobre los mosquiteros</h2></div>
@@ -201,10 +235,13 @@
             <div class="form-group"><label class="form-label" for="nombre">Nombre</label><input class="form-input" type="text" id="nombre" name="Nombre" placeholder="Tu nombre" required autocomplete="given-name"></div>
             <div class="form-group"><label class="form-label" for="telefono">Teléfono</label><input class="form-input" type="tel" id="telefono" name="Teléfono" placeholder="11 XXXX-XXXX" required autocomplete="tel"></div>
           </div>
-          <div class="form-group"><label class="form-label" for="email">Email</label><input class="form-input" type="email" id="email" name="Email" placeholder="tu@email.com" required autocomplete="email" inputmode="email"></div>
+          <div class="form-group"><label class="form-label" for="email">Email</label><input class="form-input" type="email" id="email" name="Email" placeholder="tu@email.com" required autocomplete="email"></div>
           <div class="form-group"><label class="form-label" for="mensaje">¿Qué necesitás?</label><textarea class="form-textarea" id="mensaje" name="Consulta" placeholder="Cantidad de mosquiteros, si son para ventanas o puertas, medidas aproximadas..." rows="4" required></textarea></div>
           <p style="font-size:0.8rem; color:var(--text-on-dark-3); margin-bottom:0.5rem;">¿Tenés fotos o planos? Enviálos por <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto%20de%20mosquiteros" target="_blank" rel="noopener" style="color:var(--blue-light); text-decoration:none;">WhatsApp</a>.</p>
-          <button type="submit" class="btn btn--primary btn--lg contact-submit">Enviar consulta</button>
+          <div class="contact-actions">
+            <button type="submit" class="btn btn--whatsapp btn--lg contact-submit" data-channel="whatsapp">Enviar consulta por WhatsApp</button>
+            <button type="submit" class="btn btn--outline btn--lg contact-submit" data-channel="email">Enviar consulta por email</button>
+          </div>
         </form>
       </div>
     </div>
@@ -264,6 +301,9 @@
             <li><a href="/aberturas-de-aluminio-canning/" class="footer__link">Canning</a></li>
           </ul>
           </details>
+        <details class="faq-item reveal"><summary class="faq-item__q">¿Qué mosquitero conviene para una puerta?</summary><p class="faq-item__a">Siempre reforzado. La puerta se abre y se cierra muchas más veces que una ventana y el mosquitero recibe empujones a diario, así que un perfil y una tela estándar duran poco en esa posición.</p></details>
+        <details class="faq-item reveal"><summary class="faq-item__q">Tengo mascotas, ¿aguanta la tela común?</summary><p class="faq-item__a">Poco. Un gato que se apoya o un perro que empuja rompen una tela estándar en una temporada. Para esos casos usamos tela reforzada, que resiste bastante más el apoyo y el arañado.</p></details>
+        <details class="faq-item reveal"><summary class="faq-item__q">¿Se puede cambiar solo la tela si se rompe?</summary><p class="faq-item__a">Sí. El tejido es reemplazable sobre el mismo marco, así que no hace falta rehacer el mosquitero completo. Es una reparación sencilla y económica.</p></details>
         </div>
         <div class="footer__contact-col">
           <p class="footer__col-title">Contacto</p>
@@ -303,92 +343,116 @@
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
   </a>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/split-type@0.3.4/umd/index.min.js"></script>
-  <script src="/cinematic.js?v=2"></script>
-  <script src="/main.js?v=2"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.umd.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/split-type@0.3.4/umd/index.min.js"></script>
+  <script defer src="/cinematic.js?v=2"></script>
+  <script defer src="/main.js?v=4"></script>
 
   <script type="application/ld+json">
   {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Service",
-      "name": "Mosquiteros a medida",
-      "serviceType": "Fabricación e instalación de mosquiteros de aluminio",
-      "url": "https://alumfer.com.ar/mosquiteros-a-medida/",
-      "areaServed": [
-        "Zona Sur GBA",
-        "Adrogué",
-        "Lomas de Zamora",
-        "Quilmes",
-        "Lanús",
-        "Ciudad Autónoma de Buenos Aires"
-      ],
-      "provider": {
-        "@type": "LocalBusiness",
-        "@id": "https://alumfer.com.ar/#business",
-        "name": "Alumfer Carpintería de Aluminio"
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "name": "Mosquiteros a medida",
+        "serviceType": "Fabricación e instalación de mosquiteros de aluminio",
+        "url": "https://alumfer.com.ar/mosquiteros-a-medida/",
+        "areaServed": [
+          "Zona Sur GBA",
+          "Adrogué",
+          "Lomas de Zamora",
+          "Quilmes",
+          "Lanús",
+          "Ciudad Autónoma de Buenos Aires"
+        ],
+        "provider": {
+          "@type": "LocalBusiness",
+          "@id": "https://alumfer.com.ar/#business",
+          "name": "Alumfer Carpintería de Aluminio"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://alumfer.com.ar/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Mosquiteros a medida",
+            "item": "https://alumfer.com.ar/mosquiteros-a-medida/"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Cuánto tardan en colocar los mosquiteros?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Es uno de nuestros trabajos más rápidos. Tomamos medidas y, según la agenda, fabricamos y colocamos en pocos días. Contanos cuántos necesitás y coordinamos."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Hacen mosquiteros para puertas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sí, fabricamos mosquiteros reforzados y enrollables para puertas balcón y de servicio, además de los corredizos para ventanas."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿De qué color es el marco?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "El marco de aluminio está disponible en varios colores (blanco, negro y otros) para que combine con tu abertura."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Trabajan en mi zona?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Atendemos toda la Zona Sur del GBA y CABA. Consultanos por tu localidad y coordinamos la medición."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué mosquitero conviene para una puerta?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Siempre reforzado. La puerta se abre y se cierra muchas más veces que una ventana y el mosquitero recibe empujones a diario, así que un perfil y una tela estándar duran poco en esa posición."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Tengo mascotas, ¿aguanta la tela común?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Poco. Un gato que se apoya o un perro que empuja rompen una tela estándar en una temporada. Para esos casos usamos tela reforzada, que resiste bastante más el apoyo y el arañado."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Se puede cambiar solo la tela si se rompe?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sí. El tejido es reemplazable sobre el mismo marco, así que no hace falta rehacer el mosquitero completo. Es una reparación sencilla y económica."
+            }
+          }
+        ]
       }
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Inicio",
-          "item": "https://alumfer.com.ar/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Mosquiteros a medida",
-          "item": "https://alumfer.com.ar/mosquiteros-a-medida/"
-        }
-      ]
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "¿Cuánto tardan en colocar los mosquiteros?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Es uno de nuestros trabajos más rápidos. Tomamos medidas y, según la agenda, fabricamos y colocamos en pocos días. Contanos cuántos necesitás y coordinamos."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "¿Hacen mosquiteros para puertas?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Sí, fabricamos mosquiteros reforzados y enrollables para puertas balcón y de servicio, además de los corredizos para ventanas."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "¿De qué color es el marco?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "El marco de aluminio está disponible en varios colores (blanco, negro y otros) para que combine con tu abertura."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "¿Trabajan en mi zona?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Atendemos toda la Zona Sur del GBA y CABA. Consultanos por tu localidad y coordinamos la medición."
-          }
-        }
-      ]
-    }
-  ]
-}
+    ]
+  }
   </script>
 </body>
 </html>
