@@ -18,6 +18,8 @@
 
 require __DIR__ . '/email-template.php';
 
+date_default_timezone_set('America/Argentina/Buenos_Aires');
+
 /* ─── Configuración ─────────────────────────────────────── */
 const ADMIN_TO    = 'alumfercarpinteria@gmail.com';                  // recibe las consultas
 const FROM_EMAIL  = 'info@alumfer.com.ar';                           // remitente (casilla del dominio)
@@ -48,12 +50,12 @@ function field(string $name): string {
 $nombre    = field('Nombre');
 $telefono  = field('Teléfono');
 $emailRaw  = field('Email');
-$tipo      = field('Tipo');
+$tipo      = field('Tipo') !== '' ? field('Tipo') : 'Otros'; // el form de la home no lo manda
 $localidad = field('Localidad');
 $consulta  = field('Consulta');
 
 /* ─── Validación mínima ─────────────────────────────────── */
-if ($nombre === '' || $telefono === '' || $tipo === '' || $consulta === '') {
+if ($nombre === '' || $telefono === '' || $consulta === '') {
     respond(false, 'Faltan datos obligatorios.');
 }
 $emailCliente = ($emailRaw !== '' && filter_var($emailRaw, FILTER_VALIDATE_EMAIL)) ? $emailRaw : '';
@@ -86,7 +88,9 @@ function subj(string $s): string {
  * ========================================================== */
 $waCliente   = wa_from_phone($telefono);
 $telLink      = 'tel:+' . preg_replace('/\D+/', '', $telefono);
-$fecha        = date('d/m/Y · H:i') . ' hs';
+$ahora        = time();
+$fecha        = date('d/m/Y · H:i', $ahora) . ' hs';
+$numero       = date('ymd-Hi', $ahora);               // N° de consulta: mismo en ambos emails
 
 $rows = [
     ['label' => 'Nombre',        'value' => e($nombre)],
@@ -101,7 +105,7 @@ if ($localidad !== '') {
     $rows[] = ['label' => 'Localidad de la obra', 'value' => e($localidad)];
 }
 
-$adminContent  = em_eyebrow('Nueva consulta web');
+$adminContent  = em_eyebrow('Nueva consulta web · N° ' . $numero);
 $adminContent .= em_h1('Consulta de ' . $nombre);
 $adminContent .= em_p('Recibida el <strong style="color:' . ALF_HEADING . ';">' . e($fecha) . '</strong> desde alumfer.com.ar.');
 $adminContent .= em_spacer(6);
@@ -120,32 +124,14 @@ $adminHtml = em_shell('Nueva consulta de ' . $nombre . ' — ' . $tipo, $adminCo
 /* ============================================================
  *  CONTENIDO — Confirmación al cliente
  * ========================================================== */
-$resumen = [
-    ['label' => 'Tipo de trabajo', 'value' => e($tipo)],
-];
-if ($localidad !== '') {
-    $resumen[] = ['label' => 'Localidad', 'value' => e($localidad)];
-}
-
-$cliContent  = em_eyebrow('Recibimos tu consulta');
-$cliContent .= em_h1('¡Gracias, ' . $nombre . '!');
-$cliContent .= em_p('Recibimos tu consulta sobre <strong style="color:' . ALF_HEADING . ';">' . e($tipo) . '</strong> y ya estamos sobre ella. '
-    . 'Te vamos a responder <strong style="color:' . ALF_HEADING . ';">en menos de 24 horas</strong> por email o teléfono con tu presupuesto sin cargo.');
-$cliContent .= em_spacer(6);
-$cliContent .= em_section_title('Esto es lo que nos contaste');
-$cliContent .= '<div class="alf-data">' . em_data_table($resumen) . '</div>';
-$cliContent .= em_spacer(10);
-$cliContent .= '<div class="alf-quote">' . em_quote_box(e_nl($consulta)) . '</div>';
-$cliContent .= em_spacer(26);
-$cliContent .= em_p('¿Tenés fotos, planos o medidas? Respondé este mismo email y sumalas: nos ayuda a preparar tu presupuesto más rápido.', 'margin-bottom:14px;');
-$cliContent .= em_button('Ver nuestros trabajos', ALF_SITE . '/#trabajos', 'ghost');
-$cliContent .= em_spacer(28);
-$cliContent .= em_divider();
-$cliContent .= em_spacer(20);
-$cliContent .= em_p('<strong style="color:' . ALF_HEADING . ';">Alumfer</strong> — fabricantes de aberturas de aluminio a medida en Adrogué. '
-    . 'Fabricación propia, asesoramiento personalizado e instalación profesional.', 'font-size:13px;color:' . ALF_CONCRETE . ';margin-bottom:0;');
-
-$cliHtml = em_shell('Recibimos tu consulta — te respondemos en menos de 24 hs', $cliContent);
+$cliHtml = em_cliente([
+    'nombre'    => $nombre,
+    'tipo'      => $tipo,
+    'localidad' => $localidad,
+    'consulta'  => $consulta,
+    'numero'    => $numero,
+    'ts'        => $ahora,
+]);
 
 /* ============================================================
  *  ENVÍO
@@ -175,7 +161,7 @@ $okAdmin  = @mail(ADMIN_TO, subj($asunto), $adminBody, implode("\r\n", $hAdmin),
 /* 2) Confirmación al cliente (Reply-To = Alumfer) */
 if ($emailCliente !== '') {
     $hCli = array_merge($headersBase, ['Reply-To: Alumfer <' . ADMIN_TO . '>']);
-    @mail($emailCliente, subj('Recibimos tu consulta — Alumfer'), $cliBody, implode("\r\n", $hCli), $envelope);
+    @mail($emailCliente, subj(strtok($nombre, ' ') . ', recibimos tu consulta (N° ' . $numero . ')'), $cliBody, implode("\r\n", $hCli), $envelope);
 }
 
 /* La consulta del admin es la crítica: su resultado define el éxito. */
