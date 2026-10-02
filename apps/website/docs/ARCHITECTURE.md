@@ -26,7 +26,7 @@ simplicidad es deliberada y debe preservarse.
    CSS en capas              JS de interacción           Conversión
    tokens → base →           main.js  (galería,          • Links wa.me (WhatsApp)
    components →              tabs, form, GA4)            • tel: (teléfono)
-   animations →              cinematic.js (GSAP,         • Formulario → enviar.php
+   animations →              cinematic.js (GSAP,         • Formulario → WhatsApp  
    cinematic                 Lenis smooth scroll)
                                                               │
                                                               ▼
@@ -83,21 +83,19 @@ Dos archivos, sin módulos ni bundler:
 
 Ambos respetan `prefers-reduced-motion`.
 
-## Formulario y emails
+## Formulario (WhatsApp)
 
 1. El usuario envía el `<form>` de contacto. `main.js` intercepta el `submit`,
-   hace `fetch` POST a `enviar.php` y espera JSON `{ success: true }`.
-2. `enviar.php`:
-   - Rechaza todo lo que no sea POST.
-   - Tiene un **honeypot** (`botcheck`): si viene completo, simula éxito sin enviar.
-   - Sanea y valida los campos (`Nombre`, `Teléfono`, `Tipo`, `Consulta` obligatorios).
-   - Arma dos emails HTML con los helpers de `email-template.php`:
-     uno al administrador (con los datos + botón "Responder por WhatsApp") y, si
-     el cliente dejó email, una confirmación de marca.
-   - Envía con `mail()` codificando el cuerpo en base64 (evita rechazos de Exim
-     por líneas largas).
-3. Si el email al admin sale, responde `{ success: true }` y `main.js` redirige a
-   `gracias.html`, que dispara el evento de **conversión** en GA4.
+   arma un mensaje con los campos completados (`Nombre`, `Teléfono`, `Tipo`,
+   `Localidad`, `Consulta`) y abre `https://wa.me/5491163368643?text=…` en una
+   pestaña nueva, con el mensaje listo para enviar.
+2. Tiene un **honeypot** (`botcheck`): si viene completo, va a `gracias.html`
+   sin abrir WhatsApp.
+3. La pestaña original redirige a `gracias.html`, que dispara el evento de
+   **conversión** en GA4. Si el navegador bloquea la pestaña nueva, WhatsApp se
+   abre en la misma pestaña.
+
+`enviar.php` y `email-template.php` (envío por email) quedaron sin uso.
 
 ## Deploy
 

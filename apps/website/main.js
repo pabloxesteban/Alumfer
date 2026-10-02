@@ -329,40 +329,48 @@ document.addEventListener('DOMContentLoaded', () => {
     moveCatalogIndicator(document.querySelector('.catalog-tab.is-active'));
   });
 
-  // ─── Formulario: envío al endpoint propio (enviar.php) ────
+  // ─── Formulario: arma el mensaje y lo envía por WhatsApp ──
+  const WHATSAPP_NUMBER = '5491163368643';
   const contactForm = document.querySelector('.contact-form');
 
   if (contactForm) {
-    contactForm.addEventListener('submit', async (e) => {
+    contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      // Loading state
-      const submitBtn = contactForm.querySelector('[type="submit"]');
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.classList.add('btn--loading');
-        submitBtn.textContent = 'Enviando…';
+      const data = new FormData(contactForm);
+
+      // Honeypot: si un bot lo completó, simulamos éxito sin abrir WhatsApp
+      if (data.get('botcheck')) {
+        window.location.href = '/gracias.html';
+        return;
       }
 
-      try {
-        const response = await fetch(contactForm.action, {
-          method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: new FormData(contactForm)
+      const lines = ['Hola Alumfer, quiero pedir un presupuesto.', ''];
+      for (const [key, value] of data.entries()) {
+        if (key === 'botcheck') continue;
+        const text = String(value).trim();
+        if (!text) continue;
+        lines.push(key === 'Consulta' ? `\n${text}` : `*${key}:* ${text}`);
+      }
+      lines.push('', '[desde: formulario — alumfer.com.ar]');
+
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
+
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'whatsapp_click', {
+          event_category: 'Contact',
+          event_label: 'contact-form'
         });
-        const data = await response.json();
-        if (data.success) {
-          window.location.href = '/gracias.html';
-        } else {
-          throw new Error(data.message);
-        }
-      } catch {
-        alert('Hubo un error al enviar. Por favor escribinos por WhatsApp.');
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.classList.remove('btn--loading');
-          submitBtn.textContent = 'Enviar consulta';
-        }
+      }
+
+      // Abrimos WhatsApp en otra pestaña y llevamos esta a gracias.html.
+      // Si el navegador bloquea la pestaña nueva, abrimos WhatsApp acá mismo.
+      const win = window.open(url, '_blank');
+      if (win) {
+        win.opener = null;
+        window.location.href = '/gracias.html';
+      } else {
+        window.location.href = url;
       }
     });
   }
