@@ -5,6 +5,29 @@ reseñas, en 28 páginas y en el `aggregateRating` del `LocalBusiness`. Hasta
 ahora estaban escritas a mano, así que cada reseña nueva había que copiarla.
 Con esto se actualiza solo, una vez por semana.
 
+## Ahora mismo: la carga es a mano
+
+La Places API exige una tarjeta de crédito y todavía no hay, así que **la
+corrida automática está apagada** y las reseñas se cargan a mano. Pero no hay
+que editar 28 páginas: se escriben una sola vez en un archivo y el mismo script
+las reparte.
+
+1. Copiá `ficha-ejemplo.json`, ponele los datos reales: la puntuación y la
+   cantidad que muestra la ficha, y tres reseñas con nombre, estrellas, fecha y
+   texto.
+2. Corré:
+
+   ```sh
+   python3 tools/resenas/actualizar_resenas.py --json mi-ficha.json --dry-run
+   ```
+
+   Eso te dice qué tres eligió y qué páginas cambiarían, sin escribir nada.
+3. Sacá el `--dry-run`, revisá el `git diff` y publicá.
+
+Sin el campo `id` en el archivo, los links de las páginas quedan como están. El
+resto es igual que en el modo automático: los mismos filtros, las mismas
+validaciones, y las 28 páginas más el `aggregateRating` siempre en sincronía.
+
 ## Cómo funciona
 
 `.github/workflows/resenas.yml` corre los lunes a la madrugada, llama a

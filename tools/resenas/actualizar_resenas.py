@@ -265,9 +265,17 @@ def main():
 
     puntaje_visible = ("%.1f" % puntaje).replace(".", ",")
     puntaje_schema = "%.1f" % puntaje
-    url_resenas = ("https://search.google.com/local/reviews?placeid=%s"
-                   % urllib.parse.quote(place_id)) if place_id else \
-                  "https://www.google.com/maps/search/?api=1&query=Alumfer+Adrogu%C3%A9"
+    if place_id:
+        url_resenas = ("https://search.google.com/local/reviews?placeid=%s"
+                       % urllib.parse.quote(place_id))
+    else:
+        # Carga a mano sin place_id: dejamos el link que ya tenían las páginas.
+        actual = re.search(r'<a href="([^"]*)"\s*\n\s*class="google-badge"',
+                           (WEB / "index.html").read_text())
+        if not actual:
+            raise SystemExit("No pude leer el link del badge en la home para "
+                             "conservarlo. No se tocó ningún archivo.")
+        url_resenas = actual.group(1)
 
     print("\nFicha: %s con %d reseñas" % (puntaje_visible, cantidad))
     for c in elegidas:
@@ -290,7 +298,8 @@ def main():
             if n != 1:
                 raise SystemExit("No encontré el bloque esperado en %s. "
                                  "No se escribió nada." % p.relative_to(RAIZ))
-        t = RE_VER.sub(lambda m: m.group(1) + escapar(url_resenas) + m.group(2), t)
+        if url_resenas:
+            t = RE_VER.sub(lambda m: m.group(1) + escapar(url_resenas) + m.group(2), t)
         if p == inicio:
             t, n = RE_RATING.subn(
                 lambda m: '%s"aggregateRating": {\n%s  "@type": "AggregateRating",\n'

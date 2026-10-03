@@ -13,10 +13,15 @@
 name: Reseñas de Google
 
 on:
-  schedule:
-    # Lunes 6:43 UTC = 3:43 de la madrugada en Argentina. Fuera de hora pico de
-    # GitHub Actions, así que arranca cuando le toca y no diez minutos después.
-    - cron: '43 6 * * 1'
+  # La corrida semanal está apagada porque la Places API exige una tarjeta y
+  # todavía no hay. Mientras tanto las reseñas se cargan a mano con el archivo
+  # JSON (ver el README). El día que haya clave, alcanza con descomentar estas
+  # tres líneas y cargar el secret.
+  #
+  # schedule:
+  #   # Lunes 6:43 UTC = 3:43 de la madrugada en Argentina. Fuera de la hora
+  #   # pico de GitHub Actions, así que arranca cuando le toca.
+  #   - cron: '43 6 * * 1'
   workflow_dispatch: # para lanzarlo a mano desde la pestaña Actions
 
 concurrency:
