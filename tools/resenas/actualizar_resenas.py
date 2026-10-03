@@ -123,6 +123,28 @@ def texto_de(reseña):
     return crudo.strip("\"'“”«» ")
 
 
+# Partículas que en castellano van en minúscula cuando no abren el nombre.
+PARTICULAS = {"de", "del", "la", "las", "los", "el", "y", "e",
+              "da", "das", "do", "dos", "di", "van", "von", "der"}
+
+
+def capitalizar(nombre):
+    """Mayúscula inicial en nombres y apellidos.
+
+    Mucha gente escribe su nombre en Google todo en minúscula. Se arregla al
+    mostrarlo, no en el archivo de datos: ahí queda como lo escribió la
+    persona. Solo se toca la primera letra de cada palabra, así los apellidos
+    con mayúscula interna no se rompen.
+    """
+    if nombre.isupper():                      # "JUAN PEREZ" grita
+        nombre = nombre.title()
+    nombre = re.sub(r"(^|[\s\-'’])([a-záéíóúüñ])",
+                    lambda m: m.group(1) + m.group(2).upper(), nombre)
+    palabras = nombre.split()
+    return " ".join(p if i == 0 or p.lower() not in PARTICULAS else p.lower()
+                    for i, p in enumerate(palabras))
+
+
 def iniciales(nombre):
     partes = [p for p in re.split(r"\s+", nombre.strip()) if p]
     letras = "".join(p[0] for p in partes[:2])
@@ -149,7 +171,8 @@ def elegir(reseñas):
     for r in reseñas:
         texto = texto_de(r)
         estrellas = int(r.get("rating") or 0)
-        nombre = (r.get("authorAttribution") or {}).get("displayName", "").strip()
+        nombre = capitalizar(
+            (r.get("authorAttribution") or {}).get("displayName", "").strip())
         cuando = (r.get("publishTime") or "")
         if estrellas < ESTRELLAS_MINIMO or not nombre or len(texto) < LARGO_MINIMO:
             continue
