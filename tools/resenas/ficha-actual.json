@@ -1,0 +1,29 @@
+{
+  "_comentario": "Reseñas cargadas a mano desde el panel de la ficha, porque la Places API exige tarjeta de crédito. Al actualizar: cambiar rating y userRatingCount por lo que muestre el panel, y reemplazar las reseñas. Después correr: python3 tools/resenas/actualizar_resenas.py --json tools/resenas/ficha-actual.json",
+  "_tomado_de_la_ficha": "2026-10-03",
+
+  "rating": 4.6,
+  "userRatingCount": 26,
+
+  "reviews": [
+    {
+      "rating": 5,
+      "publishTime": "2026-09-05T00:00:00Z",
+      "authorAttribution": { "displayName": "laura fenómena" },
+      "originalText": { "text": "Muy conforme! Excelente trabajo, reemplazo de policarbonato y ampliación de techo.", "languageCode": "es" }
+    },
+    {
+      "rating": 5,
+      "publishTime": "2026-09-12T00:00:00Z",
+      "authorAttribution": { "displayName": "marcela robustelli" },
+      "originalText": { "text": "Puntual. Prolijisimo. Todo de diez! Recomiendo", "languageCode": "es" }
+    },
+    {
+      "rating": 5,
+      "publishTime": "2025-03-15T00:00:00Z",
+      "localGuide": true,
+      "authorAttribution": { "displayName": "Marcelo Valls" },
+      "originalText": { "text": "Alumfer nos hizo 4 mosquiteros a medida, súper bien todo! Precio, tiempo de entrega y calidad, 10 puntos, y muy confiable. Sin duda volvería a confiar en ellos.", "languageCode": "es" }
+    }
+  ]
+}

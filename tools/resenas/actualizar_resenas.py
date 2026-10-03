@@ -46,7 +46,7 @@ BUSQUEDA = "Alumfer Carpintería de Aluminio, Av. San Martín 734, Adrogué, Bue
 
 TARJETAS = 3           # cuántas reseñas mostramos
 LARGO_IDEAL = 300      # caracteres; más que esto descuadra la grilla
-LARGO_MINIMO = 55      # "Muy buenos, recomiendo" no convence a nadie
+LARGO_MINIMO = 40      # "Excelente" solo ocupa una tarjeta y no convence
 ESTRELLAS_MINIMO = 4   # no publicamos reseñas de 3 o menos
 
 MESES = ["ene.", "feb.", "mar.", "abr.", "may.", "jun.",
@@ -146,11 +146,14 @@ def elegir(reseñas):
         nombre = (r.get("authorAttribution") or {}).get("displayName", "").strip()
         if estrellas < ESTRELLAS_MINIMO or not nombre or len(texto) < LARGO_MINIMO:
             continue
+        fecha = fecha_corta(r.get("publishTime"))
+        if r.get("localGuide"):
+            fecha = "Local Guide · " + fecha
         candidatas.append({
             "texto": texto,
             "estrellas": estrellas,
             "nombre": nombre,
-            "fecha": fecha_corta(r.get("publishTime")),
+            "fecha": fecha,
         })
 
     # Primero las de 5 estrellas y que entren en la tarjeta sin recortar;
