@@ -266,6 +266,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://alumfer.com.ar/disena-tu-abertura/</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://alumfer.com.ar/plano/</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://alumfer.com.ar/guias/</loc>
     <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>

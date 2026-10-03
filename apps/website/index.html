@@ -25,8 +25,7 @@
   <meta name="twitter:title"      content="Alumfer — Carpintería de Aluminio | Zona Sur GBA">
   <meta name="twitter:description" content="Fábrica propia de aberturas de aluminio a medida: ventanas, DVH, puertas, mosquiteros y cerramientos. Zona Sur GBA y CABA. Presupuesto sin cargo.">
 
-  <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/fonts/montserrat-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 
   <link rel="icon" href="/favicon.ico" sizes="48x48">
   <link rel="icon" type="image/png" href="/favicon.png?v=4" sizes="192x192">
@@ -41,1529 +40,835 @@
     gtag('config', 'G-8N6BQW2FNJ');
   </script>
 
-  <link rel="stylesheet" href="tokens.css?v=3">
-  <link rel="stylesheet" href="base.css?v=2">
-  <link rel="stylesheet" href="components.css?v=13">
-  <link rel="stylesheet" href="animations.css?v=2">
-  <link rel="stylesheet" href="cinematic.css?v=2">
+  <link rel="preload" as="image" href="obra-postigones-6.webp">
+  <link rel="stylesheet" href="/site.css?v=5">
 </head>
-<body>
+<body class="no-js">
+  <a class="sr-only" href="#contenido">Saltar al contenido</a>
 
-  <!-- Barra de progreso de scroll -->
-  <div class="scroll-progress" aria-hidden="true"></div>
+  <!-- ── Barra superior: datos reales del local ─────────────── -->
+  <div class="topbar">
+    <div class="wrap">
+      <div class="topbar__group">
+        <a href="https://maps.google.com/?q=Av.+San+Martín+734+Adrogué" target="_blank" rel="noopener">Av. San Martín 734 · Adrogué</a>
+        <span class="topbar__group--hours">Lun a Vie 9–13 h · Sáb 9–14 h</span>
+      </div>
+      <div class="topbar__group">
+        <a href="tel:+5491163368643">(011) 6336-8643</a>
+        <a href="mailto:alumfercarpinteria@gmail.com">alumfercarpinteria@gmail.com</a>
+      </div>
+    </div>
+  </div>
 
-  <!-- ── NAVBAR ────────────────────────────────────────────── -->
-  <nav class="navbar navbar--transparent" aria-label="Navegación principal">
-    <div class="navbar__inner">
-
-      <a href="#" class="navbar__logo" aria-label="Alumfer — inicio">
-        <img width="368" height="259" src="solologo.webp" alt="" class="navbar__logo-img" aria-hidden="true">
-        <div class="navbar__logo-text">
-          <span class="navbar__logo-name">ALUMFER</span>
-          <span class="navbar__logo-sub">Carpintería de aluminio</span>
-        </div>
+  <!-- ── Navegación ─────────────────────────────────────────── -->
+  <header class="nav">
+    <div class="wrap">
+      <a href="/" class="brand" aria-label="Alumfer — inicio">
+        <img width="368" height="259" src="solologo.webp" alt="">
+        <span><span class="brand__name">ALUMFER</span><span class="brand__sub">Carpintería de aluminio</span></span>
       </a>
-
-      <ul class="navbar__links" role="list">
-        <li><a href="#nosotros"  class="navbar__link">Nosotros</a></li>
-        <li><a href="#trabajos"  class="navbar__link">Trabajos</a></li>
-        <li><a href="#productos" class="navbar__link">Productos</a></li>
-        <li><a href="/guias/" class="navbar__link">Guías</a></li>
-        <li><a href="#contacto"  class="navbar__link">Contacto</a></li>
-      </ul>
-
-      <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" class="btn btn--primary navbar__cta"
-         target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
-        Pedir presupuesto
-      </a>
-
-      <button class="navbar__menu-btn" aria-label="Abrir menú" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-
+      <nav class="nav__links" aria-label="Principal">
+        <a href="#trabajos">Trabajos</a>
+        <a href="#proceso">Cómo trabajamos</a>
+        <a href="#lineas">Líneas</a>
+        <a href="/disena-tu-abertura/" class="nav__new">Diseñá tu abertura</a>
+        <a href="/guias/">Guías</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" class="btn btn--primary nav__cta" target="_blank" rel="noopener">Pedir presupuesto <span class="arrow" aria-hidden="true">→</span></a>
+      <button class="nav__burger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+  <nav class="drawer" id="drawer" aria-label="Menú" aria-hidden="true">
+    <a href="#trabajos">Trabajos <span>01</span></a>
+    <a href="#proceso">Cómo trabajamos <span>02</span></a>
+    <a href="#lineas">Líneas <span>03</span></a>
+    <a href="/disena-tu-abertura/">Diseñá tu abertura <span>04</span></a>
+    <a href="/guias/">Guías <span>05</span></a>
+    <a href="#contacto">Contacto <span>06</span></a>
+    <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" class="btn btn--wa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pedir presupuesto por WhatsApp</a>
+    <div class="drawer__info">
+      <a href="tel:+5491163368643">(011) 6336-8643</a>
+      <span>Av. San Martín 734 · Adrogué</span>
+      <span>Lun a Vie 9–13 h · Sáb 9–14 h</span>
     </div>
   </nav>
 
-  <!-- Menú mobile -->
-  <nav class="mobile-nav" aria-label="Menú mobile" aria-hidden="true">
-    <button class="mobile-nav__close" aria-label="Cerrar menú">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-    <a href="#nosotros"  class="mobile-nav__link">Nosotros</a>
-    <a href="#trabajos"  class="mobile-nav__link">Trabajos</a>
-    <a href="#productos" class="mobile-nav__link">Productos</a>
-    <a href="/guias/" class="mobile-nav__link">Guías</a>
-    <a href="#contacto"  class="mobile-nav__link">Contacto</a>
-    <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" class="btn btn--primary mobile-nav__cta" target="_blank" rel="noopener">
-      Pedir presupuesto
-    </a>
-  </nav>
+  <main id="contenido">
 
-
-  <!-- ── HERO ──────────────────────────────────────────────── -->
-  <section class="hero" aria-label="Presentación">
-
-    <!-- Reemplazá el src con una foto real de obra -->
-    <div class="hero__bg">
-      <img width="841" height="629" src="background-alumfer.webp" alt="Obra de aberturas de aluminio" aria-hidden="true" fetchpriority="high">
+  <!-- ── HERO ───────────────────────────────────────────────── -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero__grid">
+      <div>
+        <p class="mono hero__kicker">Fábrica propia · Zona Sur GBA y CABA</p>
+        <h1 class="display hero__title" id="hero-title">Aberturas de aluminio <span class="accent">a&nbsp;medida</span></h1>
+        <span class="cota" aria-hidden="true">
+          <svg viewBox="0 0 640 26" preserveAspectRatio="none">
+            <line x1="0.5" y1="2" x2="0.5" y2="24"/><line x1="639.5" y1="2" x2="639.5" y2="24"/>
+            <line class="cota__run" x1="0" y1="13" x2="640" y2="13" pathLength="1"/>
+            <path d="M0 13l8-4v8zM640 13l-8-4v8z" style="fill:currentColor;stroke:none"/>
+          </svg>
+        </span>
+      </div>
+      <div class="hero__side">
+        <div class="hero__copy">
+        <p class="lead">Fabricamos, instalamos y garantizamos. Sin intermediarios: medimos tu obra, hacemos cada abertura en nuestro taller de Adrogué y la colocamos en seco.</p>
+        <div class="hero__actions">
+          <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" class="btn btn--wa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pedir presupuesto</a>
+          <a href="#trabajos" class="btn btn--line">Ver trabajos <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+        </div>
+        <div class="hero__stats" aria-label="Alumfer en números">
+          <div class="stat"><div class="stat__n">500<small>+</small></div><div class="stat__l mono">Obras realizadas</div></div>
+          <div class="stat"><div class="stat__n">15<small>+</small></div><div class="stat__l mono">Años en el mercado</div></div>
+          <a class="stat" href="https://www.google.com/search?q=Alumfer+carpinter%C3%ADa+aluminio+Adrog%C3%BCe" target="_blank" rel="noopener" aria-label="Ver reseñas en Google"><div class="stat__n">4,6<small>★</small></div><div class="stat__l mono">Google Reviews</div></a>
+        </div>
+      </div>
     </div>
-    <div class="hero__overlay" aria-hidden="true"></div>
+    <div class="reel" aria-label="Algunos trabajos de Alumfer">
+      <div class="reel__track">
+        <figure class="print"><img width="1200" height="1600" src="obra-postigones-6.webp" alt="Postigón de aluminio fabricada por Alumfer" fetchpriority="high"><figcaption class="mono"><span>N° 004</span><b>Postigón</b></figcaption></figure>
+        <figure class="print"><img width="720" height="919" src="obra-ventanas-3.webp" alt="Ventana de aluminio fabricada por Alumfer" fetchpriority="high"><figcaption class="mono"><span>N° 001</span><b>Ventana</b></figcaption></figure>
+        <figure class="print"><img width="1200" height="1600" src="obra-puertas-9.webp" alt="Puerta de aluminio fabricada por Alumfer" fetchpriority="high"><figcaption class="mono"><span>N° 002</span><b>Puerta</b></figcaption></figure>
+        <figure class="print"><img width="540" height="960" src="obra-ventanas-4.webp" alt="Ventana de aluminio fabricada por Alumfer" loading="lazy"><figcaption class="mono"><span>N° 005</span><b>Ventana</b></figcaption></figure>
+        <figure class="print"><img width="720" height="405" src="obra-quincho-4.webp" alt="Cerramiento de aluminio fabricada por Alumfer" loading="lazy"><figcaption class="mono"><span>N° 003</span><b>Cerramiento</b></figcaption></figure>
+        <figure class="print"><img width="900" height="1600" src="obra-puertas-5.webp" alt="Puerta de aluminio fabricada por Alumfer" loading="lazy"><figcaption class="mono"><span>N° 006</span><b>Puerta</b></figcaption></figure>
+        <figure class="print"><img width="1021" height="1245" src="obra-ventanas-7.webp" alt="Ventana de aluminio fabricada por Alumfer" loading="lazy"><figcaption class="mono"><span>N° 016</span><b>Ventana</b></figcaption></figure>
+        <figure class="print"><img width="720" height="960" src="obra-techo2.webp" alt="Techo de aluminio fabricada por Alumfer" loading="lazy"><figcaption class="mono"><span>N° 007</span><b>Techo</b></figcaption></figure>
+        <figure class="print"><img width="710" height="1456" src="obra-puertas-12.webp" alt="Puerta de aluminio fabricada por Alumfer" loading="lazy"><figcaption class="mono"><span>N° 009</span><b>Puerta</b></figcaption></figure>
+        <figure class="print"><img width="900" height="1600" src="obra-postigones-5.webp" alt="Postigón de aluminio fabricada por Alumfer" loading="lazy"><figcaption class="mono"><span>N° 011</span><b>Postigón</b></figcaption></figure>
+        <figure class="print"><img width="1200" height="1600" src="obra-ventanas-9.webp" alt="Ventana de aluminio fabricada por Alumfer" loading="lazy"><figcaption class="mono"><span>N° 008</span><b>Ventana</b></figcaption></figure>
+        <figure class="print"><img width="540" height="960" src="obra-portones-2.webp" alt="Portón de aluminio fabricada por Alumfer" loading="lazy"><figcaption class="mono"><span>N° 010</span><b>Portón</b></figcaption></figure>
+      </div>
+    </div>
+  </section>
 
-    <div class="hero__content">
-      <p class="hero__eyebrow hero--animate-0">Fabricantes · Zona Sur GBA y CABA</p>
+  <!-- ── EMPRESA ────────────────────────────────────────────── -->
+  <section class="section steel on-steel" id="nosotros" aria-labelledby="about-title">
+    <div class="wrap">
+      <div class="sec-tag mono"><b>01</b> Empresa familiar · Adrogué, zona sur</div>
+      <div class="about__grid" style="margin-top:3rem">
+        <div class="rv">
+          <h2 class="display about__title" id="about-title">15+ años en el mercado. <span>Más de 40 de oficio.</span></h2>
+          <p class="about__text">Somos una empresa familiar de la Zona Sur. Fabricamos e instalamos aberturas de aluminio a medida desde 2010, con más de 40 años de experiencia acumulada en el rubro. Todo se produce en nuestro taller, sin intermediarios ni subcontratos.</p>
+        </div>
+        <div class="about__photos">
+          <figure class="rv-img"><img width="1200" height="1600" loading="lazy" src="obra-postigones-6.webp" alt="Postigones de aluminio símil madera fabricados por Alumfer"><figcaption class="mono">Postigones símil madera</figcaption></figure>
+          <figure class="rv-img"><img width="1021" height="1245" loading="lazy" src="obra-ventanas-7.webp" alt="Banderola de aluminio con vidrio texturado fabricada por Alumfer"><figcaption class="mono">Banderola con vidrio texturado</figcaption></figure>
+        </div>
+      </div>
+      <div class="features">
+        <div class="feature rv"><span class="mono feature__n">A</span><h3>Somos fabricantes</h3><p>Producimos en nuestro propio taller. Controlamos cada etapa y garantizamos calidad sin depender de terceros.</p></div>
+        <div class="feature rv"><span class="mono feature__n">B</span><h3>Trabajos a medida</h3><p>Cada abertura se fabrica según las medidas exactas de tu obra. Medimos, presupuestamos y colocamos nosotros.</p></div>
+        <div class="feature rv"><span class="mono feature__n">C</span><h3>Colocación en seco</h3><p>No hace falta romper paredes ni revoques. En la mayoría de los casos colocamos sobre el marco existente, sin demolición y sin suciedad.</p></div>
+        <div class="feature rv"><span class="mono feature__n">D</span><h3>Hacemos envíos</h3><p>Llegamos a todo el GBA y CABA. Coordinamos entrega o podés retirar en nuestro local de Av. San Martín 734.</p></div>
+      </div>
+    </div>
+  </section>
 
-      <h1 class="hero__title hero--animate-1">
-        Aberturas de aluminio<br>
-        <strong>a medida</strong>
-      </h1>
+  <!-- ── TRABAJOS ───────────────────────────────────────────── -->
+  <section class="section works" id="trabajos" aria-labelledby="works-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-tag mono"><b>02</b> Archivo de obra · 45 trabajos</div>
+        <h2 class="h2 rv" id="works-title">Trabajos que salieron de nuestro taller</h2>
+        <p class="lead rv">Fotos reales, tal cual las sacamos en obra y en el taller. Tocá cualquiera para verla grande.</p>
+      </div>
+      <div class="filters" role="tablist" aria-label="Filtrar por tipo de trabajo">
+          <button type="button" class="filter" role="tab" data-cat="todos" aria-selected="true">Todos<sup>45</sup></button>
+          <button type="button" class="filter" role="tab" data-cat="ventanas" aria-selected="false">Ventanas<sup>07</sup></button>
+          <button type="button" class="filter" role="tab" data-cat="puertas" aria-selected="false">Puertas<sup>13</sup></button>
+          <button type="button" class="filter" role="tab" data-cat="postigones" aria-selected="false">Postigones<sup>06</sup></button>
+          <button type="button" class="filter" role="tab" data-cat="quinchos" aria-selected="false">Cerramientos<sup>05</sup></button>
+          <button type="button" class="filter" role="tab" data-cat="techos" aria-selected="false">Techos<sup>04</sup></button>
+          <button type="button" class="filter" role="tab" data-cat="portones" aria-selected="false">Portones<sup>02</sup></button>
+          <button type="button" class="filter" role="tab" data-cat="mosquiteros" aria-selected="false">Mosquiteros<sup>01</sup></button>
+          <button type="button" class="filter" role="tab" data-cat="otros" aria-selected="false">Otros<sup>07</sup></button>
+      </div>
+      <div class="archive">
+          <button type="button" class="archive__item" data-cat="ventanas" data-label="N° 001 · Ventana">
+            <span class="archive__frame"><img width="720" height="919" loading="lazy" src="obra-ventanas-3.webp" alt="Ventanas de aluminio a medida fabricadas e instaladas por Alumfer en Zona Sur GBA"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 001</span><b>Ventana</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="puertas" data-label="N° 002 · Puerta">
+            <span class="archive__frame"><img width="1200" height="1600" loading="lazy" src="obra-puertas-9.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 002</span><b>Puerta</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="quinchos" data-label="N° 003 · Cerramiento">
+            <span class="archive__frame"><img width="720" height="405" loading="lazy" src="obra-quincho-4.webp" alt="Cerramiento de quincho con aluminio y vidrio — Alumfer"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 003</span><b>Cerramiento</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="postigones" data-label="N° 004 · Postigón">
+            <span class="archive__frame"><img width="1200" height="1600" loading="lazy" src="obra-postigones-6.webp" alt="Postigones de aluminio a medida — Alumfer, Adrogué"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 004</span><b>Postigón</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="otros" data-label="N° 005 · Ventana">
+            <span class="archive__frame"><img width="540" height="960" loading="lazy" src="obra-ventanas-4.webp" alt="Trabajos de carpintería de aluminio a medida — Alumfer"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 005</span><b>Ventana</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="puertas" data-label="N° 006 · Puerta">
+            <span class="archive__frame"><img width="900" height="1600" loading="lazy" src="obra-puertas-5.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 006</span><b>Puerta</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="techos" data-label="N° 007 · Techo">
+            <span class="archive__frame"><img width="720" height="960" loading="lazy" src="obra-techo2.webp" alt="Techo y cerramiento de aluminio a medida — Alumfer"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 007</span><b>Techo</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="ventanas" data-label="N° 008 · Ventana">
+            <span class="archive__frame"><img width="1200" height="1600" loading="lazy" src="obra-ventanas-9.webp" alt="Ventanas de aluminio a medida fabricadas e instaladas por Alumfer en Zona Sur GBA"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 008</span><b>Ventana</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="puertas" data-label="N° 009 · Puerta">
+            <span class="archive__frame"><img width="710" height="1456" loading="lazy" src="obra-puertas-12.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 009</span><b>Puerta</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="portones" data-label="N° 010 · Portón">
+            <span class="archive__frame"><img width="540" height="960" loading="lazy" src="obra-portones-2.webp" alt="Portones de aluminio a medida — Alumfer, Zona Sur GBA"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 010</span><b>Portón</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="postigones" data-label="N° 011 · Postigón">
+            <span class="archive__frame"><img width="900" height="1600" loading="lazy" src="obra-postigones-5.webp" alt="Postigones de aluminio a medida — Alumfer, Adrogué"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 011</span><b>Postigón</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="quinchos" data-label="N° 012 · Cerramiento">
+            <span class="archive__frame"><img width="720" height="485" loading="lazy" src="obra-quincho-1.webp" alt="Cerramiento de quincho con aluminio y vidrio — Alumfer"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 012</span><b>Cerramiento</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="ventanas" data-label="N° 013 · Ventana">
+            <span class="archive__frame"><img width="640" height="480" loading="lazy" src="obra-ventanas-1.webp" alt="Ventanas de aluminio a medida fabricadas e instaladas por Alumfer en Zona Sur GBA"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 013</span><b>Ventana</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="ventanas" data-label="N° 014 · Ventana">
+            <span class="archive__frame"><img width="576" height="960" loading="lazy" src="obra-ventanas-2.webp" alt="Ventanas de aluminio a medida fabricadas e instaladas por Alumfer en Zona Sur GBA"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 014</span><b>Ventana</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="ventanas" data-label="N° 015 · Ventana">
+            <span class="archive__frame"><img width="960" height="960" loading="lazy" src="obra-ventanas-5.webp" alt="Ventanas de aluminio a medida fabricadas e instaladas por Alumfer en Zona Sur GBA"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 015</span><b>Ventana</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="ventanas" data-label="N° 016 · Ventana">
+            <span class="archive__frame"><img width="1021" height="1245" loading="lazy" src="obra-ventanas-7.webp" alt="Ventanas de aluminio a medida fabricadas e instaladas por Alumfer en Zona Sur GBA"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 016</span><b>Ventana</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="ventanas" data-label="N° 017 · Ventana">
+            <span class="archive__frame"><img width="1527" height="855" loading="lazy" src="obra-ventanas-8.webp" alt="Ventanas de aluminio a medida fabricadas e instaladas por Alumfer en Zona Sur GBA"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 017</span><b>Ventana</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="puertas" data-label="N° 018 · Puerta">
+            <span class="archive__frame"><img width="960" height="960" loading="lazy" src="obra-puertas-1.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 018</span><b>Puerta</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="puertas" data-label="N° 019 · Puerta">
+            <span class="archive__frame"><img width="960" height="960" loading="lazy" src="obra-puertas-2.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 019</span><b>Puerta</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="puertas" data-label="N° 020 · Puerta">
+            <span class="archive__frame"><img width="900" height="900" loading="lazy" src="obra-puertas-3.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 020</span><b>Puerta</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="puertas" data-label="N° 021 · Puerta">
+            <span class="archive__frame"><img width="900" height="900" loading="lazy" src="obra-puertas-4.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 021</span><b>Puerta</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="puertas" data-label="N° 022 · Puerta">
+            <span class="archive__frame"><img width="900" height="1600" loading="lazy" src="obra-puertas-6.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 022</span><b>Puerta</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="puertas" data-label="N° 023 · Puerta">
+            <span class="archive__frame"><img width="900" height="1600" loading="lazy" src="obra-puertas-7.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 023</span><b>Puerta</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="puertas" data-label="N° 024 · Puerta">
+            <span class="archive__frame"><img width="1200" height="1600" loading="lazy" src="obra-puertas-8.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 024</span><b>Puerta</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="puertas" data-label="N° 025 · Puerta">
+            <span class="archive__frame"><img width="1200" height="1600" loading="lazy" src="obra-puertas-10.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 025</span><b>Puerta</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="puertas" data-label="N° 026 · Puerta">
+            <span class="archive__frame"><img width="756" height="1600" loading="lazy" src="obra-puertas-11.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 026</span><b>Puerta</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="puertas" data-label="N° 027 · Puerta">
+            <span class="archive__frame"><img width="1920" height="1280" loading="lazy" src="obra-puertas-13.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 027</span><b>Puerta</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="postigones" data-label="N° 028 · Postigón">
+            <span class="archive__frame"><img width="720" height="960" loading="lazy" src="obra-postigones-2.webp" alt="Postigones de aluminio a medida — Alumfer, Adrogué"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 028</span><b>Postigón</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="postigones" data-label="N° 029 · Postigón">
+            <span class="archive__frame"><img width="720" height="405" loading="lazy" src="obra-postigones-1.webp" alt="Postigones de aluminio a medida — Alumfer, Adrogué"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 029</span><b>Postigón</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="postigones" data-label="N° 030 · Postigón">
+            <span class="archive__frame"><img width="749" height="937" loading="lazy" src="obra-postigones-3.webp" alt="Postigones de aluminio a medida — Alumfer, Adrogué"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 030</span><b>Postigón</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="postigones" data-label="N° 031 · Postigón">
+            <span class="archive__frame"><img width="960" height="960" loading="lazy" src="obra-postigones-4.webp" alt="Postigones de aluminio a medida — Alumfer, Adrogué"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 031</span><b>Postigón</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="portones" data-label="N° 032 · Portón">
+            <span class="archive__frame"><img width="720" height="405" loading="lazy" src="obra-portones-1.webp" alt="Portones de aluminio a medida — Alumfer, Zona Sur GBA"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 032</span><b>Portón</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="mosquiteros" data-label="N° 033 · Mosquitero">
+            <span class="archive__frame"><img width="576" height="960" loading="lazy" src="mosquitero1.webp" alt="Mosquiteros de aluminio a medida — Alumfer"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 033</span><b>Mosquitero</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="quinchos" data-label="N° 034 · Cerramiento">
+            <span class="archive__frame"><img width="720" height="405" loading="lazy" src="obra-quincho-2.webp" alt="Cerramiento de quincho con aluminio y vidrio — Alumfer"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 034</span><b>Cerramiento</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="quinchos" data-label="N° 035 · Cerramiento">
+            <span class="archive__frame"><img width="720" height="405" loading="lazy" src="obra-quincho-3.webp" alt="Cerramiento de quincho con aluminio y vidrio — Alumfer"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 035</span><b>Cerramiento</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="quinchos" data-label="N° 036 · Cerramiento">
+            <span class="archive__frame"><img width="720" height="405" loading="lazy" src="obra-quincho-5.webp" alt="Cerramiento de quincho con aluminio y vidrio — Alumfer"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 036</span><b>Cerramiento</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="techos" data-label="N° 037 · Techo">
+            <span class="archive__frame"><img width="720" height="519" loading="lazy" src="obra-techo1.webp" alt="Techo y cerramiento de aluminio a medida — Alumfer"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 037</span><b>Techo</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="techos" data-label="N° 038 · Techo">
+            <span class="archive__frame"><img width="720" height="405" loading="lazy" src="obra-techo3.webp" alt="Techo y cerramiento de aluminio a medida — Alumfer"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 038</span><b>Techo</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="techos" data-label="N° 039 · Techo">
+            <span class="archive__frame"><img width="720" height="405" loading="lazy" src="obra-techo4.webp" alt="Techo y cerramiento de aluminio a medida — Alumfer"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 039</span><b>Techo</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="otros" data-label="N° 040 · Ventana">
+            <span class="archive__frame"><img width="540" height="960" loading="lazy" src="obra-ventanas-6.webp" alt="Trabajos de carpintería de aluminio a medida — Alumfer"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 040</span><b>Ventana</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="otros" data-label="N° 041 · Baranda">
+            <span class="archive__frame"><img width="720" height="405" loading="lazy" src="baranda1.webp" alt="Barandas de aluminio a medida — Alumfer"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 041</span><b>Baranda</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="otros" data-label="N° 042 · Baranda">
+            <span class="archive__frame"><img width="720" height="405" loading="lazy" src="baranda2.webp" alt="Barandas de aluminio a medida — Alumfer"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 042</span><b>Baranda</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="otros" data-label="N° 043 · Baranda">
+            <span class="archive__frame"><img width="720" height="405" loading="lazy" src="baranda3.webp" alt="Barandas de aluminio a medida — Alumfer"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 043</span><b>Baranda</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="otros" data-label="N° 044 · Bajomesada">
+            <span class="archive__frame"><img width="1600" height="738" loading="lazy" src="bajomesada1.webp" alt="Bajomesada de aluminio a medida — Alumfer"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 044</span><b>Bajomesada</b></span>
+          </button>
+          <button type="button" class="archive__item" data-cat="otros" data-label="N° 045 · Bajomesada">
+            <span class="archive__frame"><img width="1600" height="738" loading="lazy" src="bajomesada2.webp" alt="Bajomesada de aluminio a medida — Alumfer"><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></span>
+            <span class="mono figcap"><span>N° 045</span><b>Bajomesada</b></span>
+          </button>
+      </div>
+      <div class="works__foot">
+        <button type="button" class="btn btn--line" id="works-more"><span>Ver más</span> <span aria-hidden="true">↓</span></button>
+        <div class="btns">
+          <a href="https://www.instagram.com/alumfercarpinteria/" class="btn btn--line" target="_blank" rel="noopener">Más en Instagram <span class="arrow" aria-hidden="true">→</span></a>
+          <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" class="btn btn--wa" id="works-wa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Quiero algo así</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      <p class="hero__subtitle hero--animate-2">
-        Fabricamos, instalamos y garantizamos.<br>
-        Sin intermediarios.
-      </p>
+  <!-- ── PROCESO ────────────────────────────────────────────── -->
+  <section class="section process band-blue" id="proceso" aria-labelledby="process-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-tag mono"><b>03</b> Así trabajamos</div>
+        <h2 class="h2 rv" id="process-title">De tu mensaje a la abertura colocada</h2>
+        <p class="lead rv">Cuatro pasos, todos con la misma gente: los que miden son los que fabrican y colocan.</p>
+      </div>
+      <div class="process__grid">
+        <div class="steps" role="tablist" aria-label="Pasos">
+          <button type="button" class="step" role="tab" aria-selected="true"><span class="step__n">01</span><span class="step__t">Pedís tu presupuesto</span><span class="step__d">Por WhatsApp, formulario o teléfono. Sin cargos ni compromiso. Respondemos en menos de 24hs.</span><span class="step__bar"><i></i></span></button>
+          <button type="button" class="step" role="tab" aria-selected="false"><span class="step__n">02</span><span class="step__t">Medición en tu obra</span><span class="step__d">Vamos a tomar las medidas exactas y asesorarte sobre perfiles, vidrios y terminaciones.</span><span class="step__bar"><i></i></span></button>
+          <button type="button" class="step" role="tab" aria-selected="false"><span class="step__n">03</span><span class="step__t">Fabricación en taller propio</span><span class="step__d">Producimos en nuestro taller, sin intermediarios. Control de calidad en cada etapa.</span><span class="step__bar"><i></i></span></button>
+          <button type="button" class="step" role="tab" aria-selected="false"><span class="step__n">04</span><span class="step__t">Colocación en seco</span><span class="step__d">Sin demolición. En la mayoría de los casos colocamos sobre el marco existente. Limpio y rápido.</span><span class="step__bar"><i></i></span></button>
+        </div>
+        <div class="stage" aria-live="polite">
+          <div class="stage__panel grid-paper is-active">
+            <div class="chat">
+              <div class="chat__head"><span class="chat__avatar"><img src="solologo.webp" alt="" width="20" height="14"></span><div><b>Alumfer</b><span>en línea</span></div></div>
+              <p class="bubble bubble--out">Hola, quiero presupuesto para 3 ventanas corredizas de 120×100 cm en Adrogué, para reemplazar las de hierro.<small>10:42</small></p>
+              <p class="bubble bubble--in">¡Hola! Pasamos a medir sin cargo y te asesoramos con la línea y el vidrio. ¿Qué día te queda cómodo?<small>10:51</small></p>
+              <p class="chat__note mono">Conversación de ejemplo</p>
+            </div>
+          </div>
+          <div class="stage__panel grid-paper">
+            <div class="plan">
+              <svg viewBox="0 0 440 340" role="img" aria-label="Dibujo de una ventana corrediza con sus medidas: 1200 por 1000 milímetros">
+                <rect class="frame" x="60" y="40" width="340" height="250"/>
+                <rect class="sash" x="72" y="52" width="164" height="226"/>
+                <rect class="sash" x="224" y="52" width="164" height="226"/>
+                <line class="ext" x1="60" y1="290" x2="60" y2="322"/><line class="ext" x1="400" y1="290" x2="400" y2="322"/>
+                <line class="dim anim" x1="60" y1="314" x2="400" y2="314"/>
+                <text class="dim-t" x="230" y="334" text-anchor="middle">1200 mm</text>
+                <line class="ext" x1="60" y1="40" x2="22" y2="40"/><line class="ext" x1="60" y1="290" x2="22" y2="290"/>
+                <line class="dim anim anim--2" x1="30" y1="40" x2="30" y2="290"/>
+                <text class="dim-t" x="18" y="170" text-anchor="middle" transform="rotate(-90 18 170)">1000 mm</text>
+              </svg>
+            </div>
+            <span class="stage__label mono">Medidas exactas de cada vano</span>
+          </div>
+          <div class="stage__panel">
+            <img width="1021" height="1245" loading="lazy" src="obra-ventanas-7.webp" alt="Banderola de aluminio terminada en el taller de Alumfer">
+            <span class="stage__label mono">En el taller</span>
+          </div>
+          <div class="stage__panel">
+            <img width="1200" height="1600" loading="lazy" src="obra-ventanas-9.webp" alt="Ventana corrediza negra colocada por Alumfer">
+            <span class="stage__label mono">Colocada en obra</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      <div class="hero__actions hero--animate-3">
-        <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" class="btn btn--whatsapp btn--lg"
-           target="_blank" rel="noopener">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Pedir presupuesto
-        </a>
-        <a href="#trabajos" class="btn btn--ghost btn--lg">
-          Ver trabajos
+  <!-- ── LÍNEAS ─────────────────────────────────────────────── -->
+  <section class="section" id="lineas" aria-labelledby="lines-title" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-tag mono"><b>04</b> Líneas de perfiles</div>
+        <h2 class="h2 rv" id="lines-title">¿Qué línea va en tu obra?</h2>
+        <p class="lead rv">Trabajamos con cinco líneas. Elegí una para ver para qué sirve y con qué se combina.</p>
+      </div>
+      <div class="lines rv">
+        <div class="lines__list" role="tablist" aria-label="Líneas de perfiles">
+          <button type="button" class="line-tab" role="tab" id="tab-herrero" aria-controls="panel-herrero" aria-selected="true" tabindex="0">
+            <span class="mono">01</span><span class="line-tab__name">Línea Herrero</span><span class="mono line-tab__tag">La más elegida</span>
+          </button>
+          <button type="button" class="line-tab" role="tab" id="tab-rotonda" aria-controls="panel-rotonda" aria-selected="false" tabindex="-1">
+            <span class="mono">02</span><span class="line-tab__name">Rotonda 640</span><span class="mono line-tab__tag">Vanos grandes</span>
+          </button>
+          <button type="button" class="line-tab" role="tab" id="tab-modena1" aria-controls="panel-modena1" aria-selected="false" tabindex="-1">
+            <span class="mono">03</span><span class="line-tab__name">Módena 1</span><span class="mono line-tab__tag">Calidad-precio</span>
+          </button>
+          <button type="button" class="line-tab" role="tab" id="tab-modena2" aria-controls="panel-modena2" aria-selected="false" tabindex="-1">
+            <span class="mono">04</span><span class="line-tab__name">Módena 2</span><span class="mono line-tab__tag">Perfil reforzado</span>
+          </button>
+          <button type="button" class="line-tab" role="tab" id="tab-a30" aria-controls="panel-a30" aria-selected="false" tabindex="-1">
+            <span class="mono">05</span><span class="line-tab__name">A30 New</span><span class="mono line-tab__tag">Diseño</span>
+          </button>
+          <p class="lines__more">¿No sabés cuál elegir? <a href="/guias/que-linea-de-aluminio-elegir/">Leé la guía →</a></p>
+        </div>
+        <div class="line-panel" role="tabpanel" id="panel-herrero" aria-labelledby="tab-herrero">
+          <div class="line-panel__img grid-paper"><span class="mono">Corte de perfil · Línea Herrero</span><img width="307" height="416" loading="lazy" src="linea-herrero.webp" alt="Corte del perfil Línea Herrero"></div>
+          <div class="line-panel__body">
+            <h3>Línea Herrero</h3>
+            <p>La más elegida por nuestros clientes. Ideal para obras que requieren mayor estabilidad estructural. Ventanas corredizas, batientes, puertas con o sin reja y celosías. Compatible con vidrio simple, esmerilado, espejado y DVH.</p>
+            <dl>
+              <div class="spec"><dt class="mono">Aberturas</dt><dd class="chips"><span class="chip">Corredizas</span><span class="chip">Batientes</span><span class="chip">Puertas con o sin reja</span><span class="chip">Celosías</span></dd></div>
+              <div class="spec"><dt class="mono">Vidrios</dt><dd class="chips"><span class="chip">Simple</span><span class="chip">Esmerilado</span><span class="chip">Espejado</span><span class="chip">DVH</span></dd></div>
+              <div class="spec"><dt class="mono">Ideal para</dt><dd class="chips"><span class="chip">Obras que piden estabilidad estructural</span></dd></div>
+            </dl>
+          </div>
+        </div>
+        <div class="line-panel" role="tabpanel" id="panel-rotonda" aria-labelledby="tab-rotonda" hidden>
+          <div class="line-panel__img grid-paper"><span class="mono">Corte de perfil · Rotonda 640</span><img width="248" height="316" loading="lazy" src="linea-rotonda640.webp" alt="Corte del perfil Rotonda 640"></div>
+          <div class="line-panel__body">
+            <h3>Rotonda 640</h3>
+            <p>Línea de gran popularidad en obras residenciales y comerciales. Excelente rigidez y estanqueidad. Apta para ventanas y puertas de grandes dimensiones. Compatible con todos los tipos de vidrio.</p>
+            <dl>
+              <div class="spec"><dt class="mono">Aberturas</dt><dd class="chips"><span class="chip">Ventanas</span><span class="chip">Puertas de grandes dimensiones</span></dd></div>
+              <div class="spec"><dt class="mono">Vidrios</dt><dd class="chips"><span class="chip">Todos los tipos</span></dd></div>
+              <div class="spec"><dt class="mono">Ideal para</dt><dd class="chips"><span class="chip">Residencial</span><span class="chip">Comercial</span></dd></div>
+            </dl>
+          </div>
+        </div>
+        <div class="line-panel" role="tabpanel" id="panel-modena1" aria-labelledby="tab-modena1" hidden>
+          <div class="line-panel__img grid-paper"><span class="mono">Corte de perfil · Módena 1</span><img width="448" height="536" loading="lazy" src="linea-modena1.webp" alt="Corte del perfil Módena 1"></div>
+          <div class="line-panel__body">
+            <h3>Módena 1</h3>
+            <p>Excelente relación calidad-precio para viviendas. Ventanas corredizas con y sin mosquitero, en todas las medidas estándar y a medida.</p>
+            <dl>
+              <div class="spec"><dt class="mono">Aberturas</dt><dd class="chips"><span class="chip">Corredizas</span><span class="chip">Con o sin mosquitero</span></dd></div>
+              <div class="spec"><dt class="mono">Medidas</dt><dd class="chips"><span class="chip">Estándar</span><span class="chip">A medida</span></dd></div>
+              <div class="spec"><dt class="mono">Ideal para</dt><dd class="chips"><span class="chip">Viviendas</span></dd></div>
+            </dl>
+          </div>
+        </div>
+        <div class="line-panel" role="tabpanel" id="panel-modena2" aria-labelledby="tab-modena2" hidden>
+          <div class="line-panel__img grid-paper"><span class="mono">Corte de perfil · Módena 2</span><img width="285" height="302" loading="lazy" src="linea-modena2.webp" alt="Corte del perfil Módena 2"></div>
+          <div class="line-panel__body">
+            <h3>Módena 2</h3>
+            <p>Evolución de la Módena 1 con perfil reforzado para vanos más grandes. Mayor resistencia al viento y mejor aislación. Ideal para plantas bajas, frentes y obras de mayor exigencia.</p>
+            <dl>
+              <div class="spec"><dt class="mono">Diferencia</dt><dd class="chips"><span class="chip">Perfil reforzado</span><span class="chip">Más resistencia al viento</span><span class="chip">Mejor aislación</span></dd></div>
+              <div class="spec"><dt class="mono">Ideal para</dt><dd class="chips"><span class="chip">Plantas bajas</span><span class="chip">Frentes</span><span class="chip">Vanos grandes</span></dd></div>
+            </dl>
+          </div>
+        </div>
+        <div class="line-panel" role="tabpanel" id="panel-a30" aria-labelledby="tab-a30" hidden>
+          <div class="line-panel__img grid-paper"><span class="mono">Corte de perfil · A30 New</span><img width="240" height="309" loading="lazy" src="linea-a30new.webp" alt="Corte del perfil A30 New"></div>
+          <div class="line-panel__body">
+            <h3>A30 New</h3>
+            <p>Perfil de 30mm con líneas limpias y geométricas. Menor perfil visible, mayor superficie de vidrio. Elegido por arquitectos para proyectos de diseño. Disponible en todas las terminaciones.</p>
+            <dl>
+              <div class="spec"><dt class="mono">Perfil</dt><dd class="chips"><span class="chip">30 mm</span><span class="chip">Menor perfil visible</span><span class="chip">Más superficie de vidrio</span></dd></div>
+              <div class="spec"><dt class="mono">Terminaciones</dt><dd class="chips"><span class="chip">Todas</span></dd></div>
+              <div class="spec"><dt class="mono">Ideal para</dt><dd class="chips"><span class="chip">Proyectos de arquitectura</span></dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONFIGURADOR ───────────────────────────────────────── -->
+  <section class="section works" id="configurador" aria-labelledby="config-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-tag mono"><b>05</b> Vidrios y terminaciones</div>
+        <h2 class="h2 rv" id="config-title">Probá vidrio y color antes de pedir</h2>
+        <p class="lead rv">Elegí un vidrio y una terminación: la ventana cambia al instante. Después mandanos la combinación por WhatsApp.</p>
+      </div>
+      <div class="config">
+        <div class="preview">
+          <div class="wall">
+          <div class="window" data-glass="transparente" role="img" aria-label="Vista ilustrativa de una ventana corrediza con el vidrio y el color elegidos">
+            <div class="window__sashes">
+              <div class="sash"><div class="sash__view" style="background-image:url('obra-quincho-4.webp')"></div><div class="sash__glass"></div><span class="dvh-mark"></span><span class="sash__handle"></span></div>
+              <div class="sash"><div class="sash__view" style="background-image:url('obra-quincho-4.webp')"></div><div class="sash__glass"></div><span class="dvh-mark"></span><span class="sash__handle"></span></div>
+            </div>
+          </div>
+          <span class="wall__sill" aria-hidden="true"></span>
+          </div>
+          <p class="preview__cap mono"><span>Vista ilustrativa · corrediza</span><span><b id="cap-glass">Transparente</b> · <b id="cap-color">Blanco</b></span></p>
+        </div>
+        <div class="config__controls">
+          <div class="ctrl">
+            <p class="ctrl__label mono"><span>Vidrio</span><b id="glass-name">Transparente</b></p>
+            <div class="glass-opts" role="radiogroup" aria-label="Tipo de vidrio">
+              <button type="button" class="glass-opt" role="radio" aria-checked="true" tabindex="0" data-glass="transparente" data-name="Transparente" data-desc="La opción estándar. Alta transmisión de luz natural, bajo costo. Compatible con todas las líneas de perfil. Ideal para la mayoría de las obras residenciales."><img src="transparente.webp" alt="" width="40" height="40" loading="lazy">Transparente</button>
+              <button type="button" class="glass-opt" role="radio" aria-checked="false" tabindex="-1" data-glass="esmerilado" data-name="Esmerilado" data-desc="Superficie tratada que difumina la visión sin bloquear la luz natural. Ideal para baños, puertas interiores y divisorios. Disponible en distintos grados de opacidad."><img src="esmerilado.webp" alt="" width="40" height="40" loading="lazy">Esmerilado</button>
+              <button type="button" class="glass-opt" role="radio" aria-checked="false" tabindex="-1" data-glass="espejado" data-name="Espejado" data-desc="Reflejo espejado desde el exterior durante el día, con visibilidad normal desde adentro. Muy usado en fachadas comerciales y oficinas. Aporta privacidad sin perder luminosidad interior."><img src="vidrioespejado.webp" alt="" width="40" height="40" loading="lazy">Espejado</button>
+              <button type="button" class="glass-opt" role="radio" aria-checked="false" tabindex="-1" data-glass="dvh" data-name="DVH" data-desc="Dos vidrios separados por una cámara de aire sellada. Reduce significativamente la pérdida de calor y el ingreso de ruido exterior. Ideal para zonas frías, departamentos en avenidas o proyectos con alta eficiencia energética."><img src="vidrio-dvh.webp" alt="" width="40" height="40" loading="lazy">DVH</button>
+            </div>
+            <p class="ctrl__desc" id="glass-desc"></p>
+          </div>
+          <div class="ctrl">
+            <p class="ctrl__label mono"><span>Terminación</span><b id="color-name">Pintura · Blanco</b></p>
+            <div class="swatch-group">
+              <p class="swatch-group__t mono">Pintura</p>
+              <div class="swatches" role="radiogroup" aria-label="Colores de pintura">
+                <button type="button" class="swatch" role="radio" aria-checked="true" tabindex="0" aria-label="Pintura Blanco" title="Blanco" style="background:#EEEEEA" data-group="Pintura" data-name="Blanco" data-frame="#EEEEEA" data-solid="#EEEEEA" data-desc="El color más solicitado en obras residenciales. También disponible en Blanco Brillante."></button>
+                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Pintura Negro" title="Negro" style="background:#1E1F21" data-group="Pintura" data-name="Negro" data-frame="#1E1F21" data-solid="#1E1F21" data-desc="Muy elegido en proyectos de arquitectura contemporánea. Combina con fachadas blancas y hormigón."></button>
+                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Pintura Bronce colonial" title="Bronce colonial" style="background:#4A3B30" data-group="Pintura" data-name="Bronce colonial" data-frame="#4A3B30" data-solid="#4A3B30" data-desc="Tono cálido y clásico. Ideal para fachadas con ladrillo, piedra o madera."></button>
+                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Pintura Gris" title="Gris" style="background:#8A8E94" data-group="Pintura" data-name="Gris" data-frame="#8A8E94" data-solid="#8A8E94" data-desc="Neutro y versátil. Acompaña estilos modernos e industriales."></button>
+                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Pintura Símil madera" title="Símil madera" style="background:linear-gradient(100deg,#8B4513,#B65E2A 30%,#7A3A10 55%,#A0501E)" data-group="Pintura" data-name="Símil madera" data-frame="linear-gradient(100deg,#8B4513,#B65E2A 30%,#7A3A10 55%,#A0501E)" data-solid="#93491B" data-desc="Toda la durabilidad del aluminio con la calidez visual de la madera. Sin mantenimiento."></button>
+                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Pintura Microtexturado" title="Microtexturado" style="background:#D2D2CF" data-group="Pintura" data-name="Microtexturado" data-frame="#D2D2CF" data-solid="#D2D2CF" data-desc="Acabado con textura fina. Muy resistente al roce y de fácil limpieza."></button>
+                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Pintura Azul" title="Azul" style="background:#1B4F8A" data-group="Pintura" data-name="Azul" data-frame="#1B4F8A" data-solid="#1B4F8A" data-desc="Desde navy hasta celeste. Muy usado en obras costeras y proyectos residenciales con carácter."></button>
+                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Pintura Verde" title="Verde" style="background:#2E7D32" data-group="Pintura" data-name="Verde" data-frame="#2E7D32" data-solid="#2E7D32" data-desc="Tono natural y fresco. Ideal para fachadas con vegetación, jardines o entornos rurales."></button>
+                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Pintura Rojo" title="Rojo" style="background:#B71C1C" data-group="Pintura" data-name="Rojo" data-frame="#B71C1C" data-solid="#B71C1C" data-desc="Terminación llamativa para fachadas comerciales o detalles de diseño con impacto visual."></button>
+                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Pintura Amarillo" title="Amarillo" style="background:#F9A825" data-group="Pintura" data-name="Amarillo" data-frame="#F9A825" data-solid="#F9A825" data-desc="Color cálido y vibrante para locales comerciales, señalética y proyectos de diseño."></button>
+              </div>
+            </div>
+            <div class="swatch-group">
+              <p class="swatch-group__t mono">Anodizado</p>
+              <div class="swatches" role="radiogroup" aria-label="Colores anodizados">
+                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Anodizado Natural" title="Natural" style="background:linear-gradient(100deg,#B8B8B8,#DADADA 40%,#A8A8A8)" data-group="Anodizado" data-name="Natural" data-frame="linear-gradient(100deg,#B8B8B8,#DADADA 40%,#A8A8A8)" data-solid="#C2C2C2" data-desc="Tono gris plateado propio del aluminio. Clásico, sobrio y de bajo mantenimiento."></button>
+                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Anodizado Oro" title="Oro" style="background:linear-gradient(100deg,#C8A84B,#E8C86A 40%,#B89438)" data-group="Anodizado" data-name="Oro" data-frame="linear-gradient(100deg,#C8A84B,#E8C86A 40%,#B89438)" data-solid="#CFAE52" data-desc="Acabado dorado elegante. Muy utilizado en locales comerciales y proyectos de alta gama."></button>
+                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Anodizado Negro" title="Negro" style="background:linear-gradient(100deg,#1A1A1A,#2E2E2E 40%,#111111)" data-group="Anodizado" data-name="Negro" data-frame="linear-gradient(100deg,#1A1A1A,#2E2E2E 40%,#111111)" data-solid="#202020" data-desc="Más resistente que el lacado, con una profundidad de color característica."></button>
+                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Anodizado Champagne" title="Champagne" style="background:linear-gradient(100deg,#D4C5A0,#E8DCC0 40%,#C4B590)" data-group="Anodizado" data-name="Champagne" data-frame="linear-gradient(100deg,#D4C5A0,#E8DCC0 40%,#C4B590)" data-solid="#D6C8A6" data-desc="Tono dorado suave y discreto. Aporta calidez y elegancia en ambientes residenciales."></button>
+                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Anodizado Peltre" title="Peltre" style="background:linear-gradient(100deg,#8A8A8A,#A8A8A8 40%,#787878)" data-group="Anodizado" data-name="Peltre" data-frame="linear-gradient(100deg,#8A8A8A,#A8A8A8 40%,#787878)" data-solid="#909090" data-desc="Gris metálico con tonalidad fría. Muy usado en arquitectura contemporánea."></button>
+              </div>
+            </div>
+            <p class="ctrl__desc" id="color-desc"></p>
+          </div>
+          <div class="config__cta">
+            <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" class="btn btn--wa" id="config-wa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pedir presupuesto con esta combinación</a>
+            <p class="config__note">Los colores en pantalla son aproximados. En la visita llevamos muestras.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DISEÑADOR (adelanto) ───────────────────────────────── -->
+  <section class="section disena-cta" id="disena" aria-labelledby="disena-title">
+    <div class="wrap">
+      <div class="sec-tag mono"><b>06</b> Diseñador de aberturas</div>
+      <div class="disena-cta__grid">
+        <div class="disena-cta__text rv">
+          <h2 class="h2" id="disena-title">Dibujá tu abertura con tus medidas</h2>
+          <p class="lead">Elegí el tipo, cargá ancho y alto y mirá el plano a escala, con una persona de referencia para imaginar cómo queda. Armá la lista de todas tus aberturas y mandánosla.</p>
+          <ul class="checks">
+            <li>14 tipos de ventanas y puertas</li>
+            <li>Plano con cotas, color, vidrio y mosquitero</li>
+            <li>Tu lista, para mandar por WhatsApp o descargar</li>
+          </ul>
+          <a href="/disena-tu-abertura/" class="btn btn--primary">Abrir el diseñador <span class="arrow" aria-hidden="true">→</span></a>
+          <p class="disena-cta__plano">¿Varias aberturas en una pared, o un techo? <a href="/plano/">Hacé el plano completo con cotas →</a></p>
+        </div>
+        <a href="/disena-tu-abertura/" class="disena-cta__demo grid-paper rv" aria-label="Abrir el diseñador de aberturas">
+          <svg viewBox="0 0 420 300" aria-hidden="true">
+            <g class="demo-cotas" fill="none" stroke="#1B6CC8" stroke-width="1.2">
+              <path class="d1" pathLength="1" d="M60 30H360"/><path d="M60 22v16M360 22v16"/>
+              <path class="d2" pathLength="1" d="M40 50V250"/><path d="M32 50h16M32 250h16"/>
+            </g>
+            <text x="210" y="22" class="demo-t">150 cm</text>
+            <text x="28" y="150" class="demo-t" transform="rotate(-90 28 150)">110 cm</text>
+            <rect x="60" y="50" width="300" height="200" fill="#EEEEEA" stroke="#3C4248"/>
+            <rect x="72" y="62" width="142" height="176" fill="#EEEEEA" stroke="#3C4248"/>
+            <rect x="81" y="71" width="124" height="158" fill="#DCEAF7" stroke="#3C4248"/>
+            <g class="demo-hoja">
+              <rect x="206" y="62" width="142" height="176" fill="#EEEEEA" stroke="#3C4248"/>
+              <rect x="215" y="71" width="124" height="158" fill="#D3E6F7" stroke="#3C4248"/>
+              <path d="M222 150h28m-8-6 8 6-8 6" fill="none" stroke="#1B6CC8" stroke-width="2" stroke-linecap="round"/>
+              <rect x="210" y="140" width="3" height="20" rx="1.5" fill="#3C4248"/>
+            </g>
+            <g class="demo-persona" fill="#3F444B" fill-opacity="0.35"><circle cx="388" cy="168" r="8"/><path d="M378 180q10-4 20 0l4 42h-6l-3-28v74h-6v-46h-3v46h-6v-74l-3 28h-6z"/></g>
+            <circle class="demo-cursor" cx="360" cy="250" r="6"/>
+          </svg>
+          <span class="disena-cta__badge mono">Probalo →</span>
         </a>
       </div>
+    </div>
+  </section>
 
-      <div class="hero__stats" aria-label="Estadísticas">
+  <!-- ── TAMBIÉN HACEMOS ────────────────────────────────────── -->
+  <section class="section" id="productos" aria-labelledby="extras-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-tag mono"><b>07</b> Complementos y coberturas</div>
+        <h2 class="h2 rv" id="extras-title">También hacemos</h2>
+        <p class="lead rv">Lo que suele acompañar a una abertura nueva, y las coberturas para techos, pérgolas y divisiones.</p>
+      </div>
+      <div class="extras">
+        <article class="extra rv"><div class="extra__img"><img width="400" height="400" loading="lazy" src="extra-cortinas-pvc.webp" alt="Cortina enrollable de PVC"></div><div class="extra__body"><span class="mono">Complemento</span><h3 class="h3">Cortinas de PVC</h3><p>Cortinas enrollables de PVC rígido con guías y cajón de aluminio. Excelente aislación térmica y acústica. Disponibles en blanco y distintos colores. Con o sin cajón incorporado a la abertura.</p></div></article>
+        <article class="extra rv"><div class="extra__img"><img width="497" height="289" loading="lazy" src="extra-rejas.webp" alt="Reja de hierro a medida"></div><div class="extra__body"><span class="mono">Complemento</span><h3 class="h3">Rejas</h3><p>Rejas de hierro redondo o cuadrado, fijas o rebatibles. Diseños rectos y decorativos. Se fabrican a medida para adaptarse a cualquier vano.</p></div></article>
+        <article class="extra rv"><div class="extra__img"><img width="800" height="800" loading="lazy" src="policarbonato-alveolar.webp" alt="Placa de policarbonato alveolar"></div><div class="extra__body"><span class="mono">Cobertura · 4, 6, 8 y 10 mm</span><h3 class="h3">Policarbonato alveolar</h3><p>Panel liviano con cámaras de aire que ofrecen excelente aislación térmica y acústica. Ideal para techos, pérgolas y cerramientos que requieren transparencia y resistencia.</p></div></article>
+        <article class="extra rv"><div class="extra__img"><img width="501" height="499" loading="lazy" src="policarbonato-compacto.webp" alt="Placa de policarbonato compacto"></div><div class="extra__body"><span class="mono">Cobertura</span><h3 class="h3">Policarbonato compacto</h3><p>Panel sólido de alta resistencia al impacto. Alta transparencia y protección UV. Aplicaciones en claraboyas, mamparas y frentes comerciales.</p></div></article>
+      </div>
+      <div class="textures rv">
         <div>
-          <div class="hero__stat-num">
-            <span class="count-up" data-target="500" data-suffix="+">500+</span>
-          </div>
-          <div class="hero__stat-label">Obras realizadas</div>
+          <span class="mono muted">Cobertura decorativa · 15 diseños</span>
+          <h3 class="h3" style="margin-top:.4rem">Poliestireno Fantasía</h3>
+          <p>Paneles con texturas que difunden la luz. Ideal para divisiones interiores, cerramientos decorativos y techos.</p>
         </div>
-        <div>
-          <div class="hero__stat-num">
-            <span class="count-up" data-target="15" data-suffix="+">15+</span>
-          </div>
-          <div class="hero__stat-label">Años en el mercado</div>
+        <div class="textures__grid">
+          <div class="texture"><img width="143" height="120" loading="lazy" src="amazonia.webp" alt="Poliestireno Amazonia"><span class="mono">Amazonia</span></div>
+          <div class="texture"><img width="141" height="120" loading="lazy" src="agua-viva.webp" alt="Poliestireno Agua Viva"><span class="mono">Agua Viva</span></div>
+          <div class="texture"><img width="144" height="119" loading="lazy" src="bebe.webp" alt="Poliestireno Bebé"><span class="mono">Bebé</span></div>
+          <div class="texture"><img width="144" height="117" loading="lazy" src="canalado-plus.webp" alt="Poliestireno Canalado Plus"><span class="mono">Canalado Plus</span></div>
+          <div class="texture"><img width="144" height="118" loading="lazy" src="niagara.webp" alt="Poliestireno Niágara"><span class="mono">Niágara</span></div>
+          <div class="texture"><img width="144" height="120" loading="lazy" src="diamante.webp" alt="Poliestireno Diamante"><span class="mono">Diamante</span></div>
+          <div class="texture"><img width="144" height="118" loading="lazy" src="espuma.webp" alt="Poliestireno Espuma"><span class="mono">Espuma</span></div>
+          <div class="texture"><img width="144" height="117" loading="lazy" src="foresta.webp" alt="Poliestireno Foresta"><span class="mono">Foresta</span></div>
+          <div class="texture"><img width="144" height="117" loading="lazy" src="gaviota.webp" alt="Poliestireno Gaviota"><span class="mono">Gaviota</span></div>
+          <div class="texture"><img width="144" height="117" loading="lazy" src="iberia.webp" alt="Poliestireno Iberia"><span class="mono">Iberia</span></div>
+          <div class="texture"><img width="144" height="120" loading="lazy" src="laberinto.webp" alt="Poliestireno Laberinto"><span class="mono">Laberinto</span></div>
+          <div class="texture"><img width="141" height="120" loading="lazy" src="monocril.webp" alt="Poliestireno Monocril"><span class="mono">Monocril</span></div>
+          <div class="texture"><img width="141" height="121" loading="lazy" src="puntillado.webp" alt="Poliestireno Puntillado"><span class="mono">Puntillado</span></div>
+          <div class="texture"><img width="144" height="120" loading="lazy" src="pantanal.webp" alt="Poliestireno Pantanal"><span class="mono">Pantanal</span></div>
+          <div class="texture"><img width="144" height="121" loading="lazy" src="pantanal-cristal.webp" alt="Poliestireno Pantanal Cristal"><span class="mono">Pantanal Cristal</span></div>
         </div>
-        <div>
-          <div class="hero__stat-num">
-            <a href="https://www.google.com/search?q=Alumfer+carpinter%C3%ADa+aluminio+Adrog%C3%BCe" target="_blank" rel="noopener"
-               aria-label="Ver reseñas en Google" class="hero__stat-link">4,6<span>★</span></a>
-          </div>
-          <div class="hero__stat-label">Google Reviews</div>
-        </div>
-      </div>
-    </div>
-
-  </section>
-
-
-  <!-- ── PROPUESTA DE VALOR ─────────────────────────────────── -->
-  <section class="section section--dark" id="nosotros" aria-labelledby="features-title">
-    <div class="container">
-
-      <div class="section-header reveal">
-        <p class="eyebrow">Empresa familiar · Adrogué, zona sur</p>
-        <h2 id="features-title">15+ años en el mercado.<br>Más de 40 de oficio.</h2>
-      </div>
-
-      <p class="reveal section-intro">
-        Somos una empresa familiar de la Zona Sur. Fabricamos e instalamos aberturas de aluminio a medida desde 2010, con más de 40 años de experiencia acumulada en el rubro. Todo se produce en nuestro taller, sin intermediarios ni subcontratos.
-      </p>
-
-      <div class="features-grid">
-
-        <div class="feature reveal reveal--stagger-1">
-          <div class="feature__icon" aria-hidden="true">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20M4 20V10l8-6 8 6v10"/><path d="M10 20v-5h4v5"/></svg>
-          </div>
-          <h3 class="feature__title">Somos fabricantes</h3>
-          <p class="feature__desc">Producimos en nuestro propio taller. Controlamos cada etapa y garantizamos calidad sin depender de terceros.</p>
-        </div>
-
-        <div class="feature reveal reveal--stagger-2">
-          <div class="feature__icon" aria-hidden="true">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-          </div>
-          <h3 class="feature__title">Trabajos a medida</h3>
-          <p class="feature__desc">Cada abertura se fabrica según las medidas exactas de tu obra. Medimos, presupuestamos y colocamos nosotros.</p>
-        </div>
-
-        <div class="feature reveal reveal--stagger-3">
-          <div class="feature__icon" aria-hidden="true">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-          </div>
-          <h3 class="feature__title">Colocación en seco</h3>
-          <p class="feature__desc">Instalación en seco. No hace falta romper paredes ni revoques. En la mayoría de los casos colocamos sobre el marco existente, sin demolición y sin suciedad.</p>
-        </div>
-
-        <div class="feature reveal reveal--stagger-4">
-          <div class="feature__icon" aria-hidden="true">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          </div>
-          <h3 class="feature__title">Hacemos envíos</h3>
-          <p class="feature__desc">Llegamos a todo el GBA y CABA. Coordinamos entrega o podés retirar en nuestro local de Av. San Martín 734.</p>
-        </div>
-
-      </div>
-      <div class="features-dots" aria-hidden="true">
-        <span class="features-dot is-active"></span>
-        <span class="features-dot"></span>
-        <span class="features-dot"></span>
-        <span class="features-dot"></span>
       </div>
     </div>
   </section>
 
-
-  <!-- ── GALERÍA DE TRABAJOS ────────────────────────────────── -->
-  <section class="section section--mid" id="trabajos" aria-labelledby="works-title">
-    <div class="container">
-
-      <div class="section-header reveal">
-        <p class="eyebrow">Galería</p>
-        <h2 id="works-title">Trabajos recientes</h2>
-      </div>
-
-      <!-- Tabs con íconos -->
-      <div class="works-tabs">
-        <div class="works-tabs__nav" role="tablist">
-          <span class="works-tabs__indicator" aria-hidden="true"></span>
-
-          <button class="works-tab is-active" role="tab" data-cat="ventanas">
-            <span class="works-tab__icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="3" width="20" height="18" rx="1"/>
-                <line x1="12" y1="3" x2="12" y2="21"/>
-                <line x1="2" y1="12" x2="22" y2="12"/>
-              </svg>
-            </span>
-            <span class="works-tab__label">Ventanas</span>
-          </button>
-
-          <button class="works-tab" role="tab" data-cat="puertas">
-            <span class="works-tab__icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="4" y="2" width="16" height="20" rx="1"/>
-                <circle cx="15.5" cy="12" r="1" fill="currentColor" stroke="none"/>
-              </svg>
-            </span>
-            <span class="works-tab__label">Puertas</span>
-          </button>
-
-          <button class="works-tab" role="tab" data-cat="postigones">
-            <span class="works-tab__icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="3" width="20" height="18" rx="1"/>
-                <line x1="2" y1="8" x2="22" y2="8"/>
-                <line x1="2" y1="13" x2="22" y2="13"/>
-                <line x1="2" y1="18" x2="22" y2="18"/>
-              </svg>
-            </span>
-            <span class="works-tab__label">Postigones</span>
-          </button>
-
-          <button class="works-tab" role="tab" data-cat="quinchos">
-            <span class="works-tab__icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-                <polyline points="9 22 9 12 15 12 15 22"/>
-              </svg>
-            </span>
-            <span class="works-tab__label">Quinchos</span>
-          </button>
-
-          <button class="works-tab" role="tab" data-cat="techos">
-            <span class="works-tab__icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 12L12 2l10 10"/>
-                <line x1="5" y1="12" x2="5" y2="21"/>
-                <line x1="19" y1="12" x2="19" y2="21"/>
-                <line x1="5" y1="21" x2="19" y2="21"/>
-              </svg>
-            </span>
-            <span class="works-tab__label">Techos</span>
-          </button>
-
-          <button class="works-tab" role="tab" data-cat="portones">
-            <span class="works-tab__icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="1" y="6" width="22" height="15" rx="1"/>
-                <line x1="1" y1="11" x2="23" y2="11"/>
-                <line x1="1" y1="16" x2="23" y2="16"/>
-                <line x1="8" y1="6" x2="8" y2="21"/>
-                <line x1="16" y1="6" x2="16" y2="21"/>
-                <line x1="8" y1="3" x2="16" y2="3"/>
-                <line x1="8" y1="3" x2="8" y2="6"/>
-                <line x1="16" y1="3" x2="16" y2="6"/>
-              </svg>
-            </span>
-            <span class="works-tab__label">Portones</span>
-          </button>
-
-          <button class="works-tab" role="tab" data-cat="mosquiteros">
-            <span class="works-tab__icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="3" width="20" height="18" rx="1"/>
-                <line x1="2" y1="7" x2="22" y2="7"/>
-                <line x1="2" y1="11" x2="22" y2="11"/>
-                <line x1="2" y1="15" x2="22" y2="15"/>
-                <line x1="2" y1="19" x2="22" y2="19"/>
-                <line x1="6" y1="3" x2="6" y2="21"/>
-                <line x1="10" y1="3" x2="10" y2="21"/>
-                <line x1="14" y1="3" x2="14" y2="21"/>
-                <line x1="18" y1="3" x2="18" y2="21"/>
-              </svg>
-            </span>
-            <span class="works-tab__label">Mosquiteros</span>
-          </button>
-
-          <button class="works-tab" role="tab" data-cat="otros">
-            <span class="works-tab__icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>
-              </svg>
-            </span>
-            <span class="works-tab__label">Otros trabajos</span>
-          </button>
-
-        </div>
-
-        <!-- Grid de trabajos -->
-        <div class="works-grid" id="works-grid">
-          <!-- VENTANAS -->
-          <div class="works-item" data-cat="ventanas">
-            <img width="720" height="919" loading="lazy" src="obra-ventanas-3.webp" alt="Ventanas de aluminio a medida fabricadas e instaladas por Alumfer en Zona Sur GBA" class="works-item__img">
-            <div class="works-item__overlay">
-              <span class="works-item__label">Ventanas</span>
-            </div>
-          </div>
-          <div class="works-item" data-cat="ventanas">
-            <img width="640" height="480" loading="lazy" src="obra-ventanas-1.webp" alt="Ventanas de aluminio a medida fabricadas e instaladas por Alumfer en Zona Sur GBA" class="works-item__img">
-            <div class="works-item__overlay">
-              <span class="works-item__label">Ventanas</span>
-            </div>
-          </div>
-          <div class="works-item" data-cat="ventanas">
-            <img width="576" height="960" loading="lazy" src="obra-ventanas-2.webp" alt="Ventanas de aluminio a medida fabricadas e instaladas por Alumfer en Zona Sur GBA" class="works-item__img">
-            <div class="works-item__overlay">
-              <span class="works-item__label">Ventanas</span>
-            </div>
-          </div>
-          <div class="works-item" data-cat="ventanas">
-            <img width="960" height="960" loading="lazy" src="obra-ventanas-5.webp" alt="Ventanas de aluminio a medida fabricadas e instaladas por Alumfer en Zona Sur GBA" class="works-item__img">
-            <div class="works-item__overlay">
-              <span class="works-item__label">Ventanas</span>
-            </div>
-          </div>
-          <div class="works-item" data-cat="ventanas">
-            <img width="1021" height="1245" loading="lazy" src="obra-ventanas-7.webp" alt="Ventanas de aluminio a medida fabricadas e instaladas por Alumfer en Zona Sur GBA" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Ventanas</span></div>
-          </div>
-          <div class="works-item" data-cat="ventanas">
-            <img width="1527" height="855" loading="lazy" src="obra-ventanas-8.webp" alt="Ventanas de aluminio a medida fabricadas e instaladas por Alumfer en Zona Sur GBA" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Ventanas</span></div>
-          </div>
-          <div class="works-item" data-cat="ventanas">
-            <img width="1200" height="1600" loading="lazy" src="obra-ventanas-9.webp" alt="Ventanas de aluminio a medida fabricadas e instaladas por Alumfer en Zona Sur GBA" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Ventanas</span></div>
-          </div>
-          <!-- PUERTAS -->
-          <div class="works-item" data-cat="puertas">
-            <img width="960" height="960" loading="lazy" src="obra-puertas-1.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Puertas</span></div>
-          </div>
-          <div class="works-item" data-cat="puertas">
-            <img width="960" height="960" loading="lazy" src="obra-puertas-2.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Puertas</span></div>
-          </div>
-          <div class="works-item" data-cat="puertas">
-            <img width="900" height="900" loading="lazy" src="obra-puertas-3.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Puertas</span></div>
-          </div>
-          <div class="works-item" data-cat="puertas">
-            <img width="900" height="900" loading="lazy" src="obra-puertas-4.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Puertas</span></div>
-          </div>
-          <div class="works-item" data-cat="puertas">
-            <img width="900" height="1600" loading="lazy" src="obra-puertas-5.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Puertas</span></div>
-          </div>
-          <div class="works-item" data-cat="puertas">
-            <img width="900" height="1600" loading="lazy" src="obra-puertas-6.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Puertas</span></div>
-          </div>
-          <div class="works-item" data-cat="puertas">
-            <img width="900" height="1600" loading="lazy" src="obra-puertas-7.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Puertas</span></div>
-          </div>
-          <div class="works-item" data-cat="puertas">
-            <img width="1200" height="1600" loading="lazy" src="obra-puertas-8.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Puertas</span></div>
-          </div>
-          <div class="works-item" data-cat="puertas">
-            <img width="1200" height="1600" loading="lazy" src="obra-puertas-9.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Puertas</span></div>
-          </div>
-          <div class="works-item" data-cat="puertas">
-            <img width="1200" height="1600" loading="lazy" src="obra-puertas-10.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Puertas</span></div>
-          </div>
-          <div class="works-item" data-cat="puertas">
-            <img width="756" height="1600" loading="lazy" src="obra-puertas-11.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Puertas</span></div>
-          </div>
-          <div class="works-item" data-cat="puertas">
-            <img width="710" height="1456" loading="lazy" src="obra-puertas-12.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Puertas</span></div>
-          </div>
-          <div class="works-item" data-cat="puertas">
-            <img width="1920" height="1280" loading="lazy" src="obra-puertas-13.webp" alt="Puertas de aluminio a medida — obra de Alumfer en Buenos Aires" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Puertas</span></div>
-          </div>
-          <!-- POSTIGONES -->
-          <div class="works-item" data-cat="postigones">
-            <img width="720" height="960" loading="lazy" src="obra-postigones-2.webp" alt="Postigones de aluminio a medida — Alumfer, Adrogué" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Postigones</span></div>
-          </div>
-          <div class="works-item" data-cat="postigones">
-            <img width="720" height="405" loading="lazy" src="obra-postigones-1.webp" alt="Postigones de aluminio a medida — Alumfer, Adrogué" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Postigones</span></div>
-          </div>
-          <div class="works-item" data-cat="postigones">
-            <img width="749" height="937" loading="lazy" src="obra-postigones-3.webp" alt="Postigones de aluminio a medida — Alumfer, Adrogué" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Postigones</span></div>
-          </div>
-          <div class="works-item" data-cat="postigones">
-            <img width="960" height="960" loading="lazy" src="obra-postigones-4.webp" alt="Postigones de aluminio a medida — Alumfer, Adrogué" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Postigones</span></div>
-          </div>
-          <div class="works-item" data-cat="postigones">
-            <img width="900" height="1600" loading="lazy" src="obra-postigones-5.webp" alt="Postigones de aluminio a medida — Alumfer, Adrogué" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Postigones</span></div>
-          </div>
-          <div class="works-item" data-cat="postigones">
-            <img width="1200" height="1600" loading="lazy" src="obra-postigones-6.webp" alt="Postigones de aluminio a medida — Alumfer, Adrogué" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Postigones</span></div>
-          </div>
-          <!-- PORTONES -->
-          <div class="works-item" data-cat="portones">
-            <img width="720" height="405" loading="lazy" src="obra-portones-1.webp" alt="Portones de aluminio a medida — Alumfer, Zona Sur GBA" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Portones</span></div>
-          </div>
-          <div class="works-item" data-cat="portones">
-            <img width="540" height="960" loading="lazy" src="obra-portones-2.webp" alt="Portones de aluminio a medida — Alumfer, Zona Sur GBA" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Portones</span></div>
-          </div>
-          <!-- MOSQUITEROS -->
-          <div class="works-item" data-cat="mosquiteros">
-            <img width="576" height="960" loading="lazy" src="mosquitero1.webp" alt="Mosquiteros de aluminio a medida — Alumfer" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Mosquiteros</span></div>
-          </div>
-          <!-- QUINCHOS -->
-          <div class="works-item" data-cat="quinchos">
-            <img width="720" height="485" loading="lazy" src="obra-quincho-1.webp" alt="Cerramiento de quincho con aluminio y vidrio — Alumfer" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Quinchos</span></div>
-          </div>
-          <div class="works-item" data-cat="quinchos">
-            <img width="720" height="405" loading="lazy" src="obra-quincho-2.webp" alt="Cerramiento de quincho con aluminio y vidrio — Alumfer" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Quinchos</span></div>
-          </div>
-          <div class="works-item" data-cat="quinchos">
-            <img width="720" height="405" loading="lazy" src="obra-quincho-3.webp" alt="Cerramiento de quincho con aluminio y vidrio — Alumfer" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Quinchos</span></div>
-          </div>
-          <div class="works-item" data-cat="quinchos">
-            <img width="720" height="405" loading="lazy" src="obra-quincho-4.webp" alt="Cerramiento de quincho con aluminio y vidrio — Alumfer" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Quinchos</span></div>
-          </div>
-          <div class="works-item" data-cat="quinchos">
-            <img width="720" height="405" loading="lazy" src="obra-quincho-5.webp" alt="Cerramiento de quincho con aluminio y vidrio — Alumfer" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Quinchos</span></div>
-          </div>
-          <!-- TECHOS -->
-          <div class="works-item" data-cat="techos">
-            <img width="720" height="519" loading="lazy" src="obra-techo1.webp" alt="Techo y cerramiento de aluminio a medida — Alumfer" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Techos</span></div>
-          </div>
-          <div class="works-item" data-cat="techos">
-            <img width="720" height="960" loading="lazy" src="obra-techo2.webp" alt="Techo y cerramiento de aluminio a medida — Alumfer" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Techos</span></div>
-          </div>
-          <div class="works-item" data-cat="techos">
-            <img width="720" height="405" loading="lazy" src="obra-techo3.webp" alt="Techo y cerramiento de aluminio a medida — Alumfer" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Techos</span></div>
-          </div>
-          <div class="works-item" data-cat="techos">
-            <img width="720" height="405" loading="lazy" src="obra-techo4.webp" alt="Techo y cerramiento de aluminio a medida — Alumfer" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Techos</span></div>
-          </div>
-          <!-- OTROS -->
-          <div class="works-item" data-cat="otros">
-            <img width="540" height="960" loading="lazy" src="obra-ventanas-4.webp" alt="Trabajos de carpintería de aluminio a medida — Alumfer" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Otros trabajos</span></div>
-          </div>
-          <div class="works-item" data-cat="otros">
-            <img width="540" height="960" loading="lazy" src="obra-ventanas-6.webp" alt="Trabajos de carpintería de aluminio a medida — Alumfer" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Otros trabajos</span></div>
-          </div>
-          <div class="works-item" data-cat="otros">
-            <img width="720" height="405" loading="lazy" src="baranda1.webp" alt="Barandas de aluminio a medida — Alumfer" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Otros trabajos</span></div>
-          </div>
-          <div class="works-item" data-cat="otros">
-            <img width="720" height="405" loading="lazy" src="baranda2.webp" alt="Barandas de aluminio a medida — Alumfer" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Otros trabajos</span></div>
-          </div>
-          <div class="works-item" data-cat="otros">
-            <img width="720" height="405" loading="lazy" src="baranda3.webp" alt="Barandas de aluminio a medida — Alumfer" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Otros trabajos</span></div>
-          </div>
-          <div class="works-item" data-cat="otros">
-            <img width="1600" height="738" loading="lazy" src="bajomesada1.webp" alt="Bajomesada de aluminio a medida — Alumfer" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Otros trabajos</span></div>
-          </div>
-          <div class="works-item" data-cat="otros">
-            <img width="1600" height="738" loading="lazy" src="bajomesada2.webp" alt="Bajomesada de aluminio a medida — Alumfer" class="works-item__img">
-            <div class="works-item__overlay"><span class="works-item__label">Otros trabajos</span></div>
-          </div>
-        </div><!-- /.works-grid -->
-
-        <!-- Contador de items -->
-        <p class="works-count" id="works-count" aria-live="polite"></p>
-
-      </div><!-- /.works-tabs -->
-
-      <div class="section-cta-wrap">
-        <a href="https://www.instagram.com/alumfercarpinteria/" class="btn btn--outline"
-           target="_blank" rel="noopener">
-          Ver más en Instagram →
-        </a>
-        <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20consultar%20por%20ventanas%20de%20aluminio"
-           class="btn btn--whatsapp" id="works-wa-btn" target="_blank" rel="noopener"
-           aria-label="Pedir presupuesto por WhatsApp">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Pedir presupuesto
+  <!-- ── RESEÑAS + GARANTÍA ─────────────────────────────────── -->
+  <section class="section steel on-steel" id="resenas" aria-labelledby="reviews-title">
+    <div class="wrap">
+      <div class="sec-tag mono"><b>08</b> Clientes</div>
+      <div class="reviews__top" style="margin-top:2.5rem">
+        <h2 class="h2 rv" id="reviews-title">Lo que dicen<br>nuestros clientes</h2>
+        <a class="rating" href="https://www.google.com/search?q=Alumfer+carpinter%C3%ADa+aluminio+Adrog%C3%BCe" target="_blank" rel="noopener" aria-label="4,6 de 5 estrellas en Google, 26 reseñas">
+          <span class="rating__n">4,6</span>
+          <span><span class="rating__stars" aria-hidden="true">★★★★★</span><span class="rating__meta" style="display:block">26 reseñas en Google →</span></span>
         </a>
       </div>
-
-    </div>
-  </section>
-
-
-  <!-- ── CÓMO TRABAJAMOS ───────────────────────────────────── -->
-  <section class="section section--dark process-section" aria-labelledby="process-title">
-    <div class="container">
-
-      <p class="eyebrow reveal" id="process-title">Así trabajamos</p>
-
-      <div class="process-grid">
-
-        <div class="process-step reveal reveal--stagger-1">
-          <div class="process-step__num">01</div>
-          <h3 class="process-step__title">Pedís tu presupuesto</h3>
-          <p class="process-step__desc">Por WhatsApp, formulario o teléfono. Sin cargos ni compromiso. Respondemos en menos de 24hs.</p>
-        </div>
-
-        <div class="process-step reveal reveal--stagger-2">
-          <div class="process-step__num">02</div>
-          <h3 class="process-step__title">Medición en tu obra</h3>
-          <p class="process-step__desc">Vamos a tomar las medidas exactas y asesorarte sobre perfiles, vidrios y terminaciones.</p>
-        </div>
-
-        <div class="process-step reveal reveal--stagger-3">
-          <div class="process-step__num">03</div>
-          <h3 class="process-step__title">Fabricación en taller propio</h3>
-          <p class="process-step__desc">Producimos en nuestro taller, sin intermediarios. Control de calidad en cada etapa.</p>
-        </div>
-
-        <div class="process-step reveal reveal--stagger-4">
-          <div class="process-step__num">04</div>
-          <h3 class="process-step__title">Colocación en seco</h3>
-          <p class="process-step__desc">Sin demolición. En la mayoría de los casos colocamos sobre el marco existente. Limpio y rápido.</p>
-        </div>
-
+      <div class="quotes">
+        <figure class="quote rv"><blockquote>“Puntual. Prolijisimo. Todo de diez! Recomiendo”</blockquote><footer class="mono"><b>Marcela Robustelli</b><span>sept. 2026</span></footer></figure>
+        <figure class="quote rv"><blockquote>“Alumfer solicité dos trabajos en aluminio, realmente muy bien trabajo, muy prolijo y excelente relación precio/calidad, 100 % recomendable”</blockquote><footer class="mono"><b>Sergio Fernandez</b><span>sept. 2026</span></footer></figure>
+        <figure class="quote rv"><blockquote>“Muy conforme! Excelente trabajo, reemplazo de policarbonato y ampliación de techo.”</blockquote><footer class="mono"><b>Laura Fenómena</b><span>sept. 2026</span></footer></figure>
+        <figure class="quote rv"><blockquote>“Daniel nos realizo una reparación en una ventana dvh, impecable. Muchas gracias”</blockquote><footer class="mono"><b>Mila</b><span>sept. 2026</span></footer></figure>
       </div>
-
-    </div>
-  </section>
-
-
-  <!-- ── PRODUCTOS ──────────────────────────────────────────── -->
-  <section class="section section--mid" id="productos" aria-labelledby="products-title">
-    <div class="container">
-
-      <div class="section-header reveal">
-        <p class="eyebrow">Catálogo</p>
-        <h2 id="products-title">Todas las líneas<br>del mercado</h2>
-      </div>
-
-      <p class="reveal section-intro">
-        Explorá perfiles, vidrios y terminaciones disponibles. Si no encontrás lo que buscás o necesitás asesoramiento, consultanos directamente.
-      </p>
-
-      <!-- Tabs de catálogo -->
-      <div class="catalog-tabs reveal">
-        <div class="catalog-tabs__nav" role="tablist">
-          <span class="catalog-tabs__indicator" aria-hidden="true"></span>
-
-          <!-- Grupo: Abertura -->
-          <div class="catalog-tabs__group">
-            <span class="catalog-tabs__group-label">Tu abertura</span>
-            <div class="catalog-tabs__group-tabs">
-              <button class="catalog-tab is-active" role="tab" data-tab="lineas">
-                <span class="catalog-tab__icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M2 9h20M9 9v12"/></svg>
-                </span>
-                <span class="catalog-tab__label">Líneas</span>
-              </button>
-              <button class="catalog-tab" role="tab" data-tab="vidrios">
-                <span class="catalog-tab__icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8l4 10H4L8 2z"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M10 12v8"/><path d="M14 12v8"/></svg>
-                </span>
-                <span class="catalog-tab__label">Vidrios</span>
-              </button>
-              <button class="catalog-tab" role="tab" data-tab="terminaciones">
-                <span class="catalog-tab__icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-                </span>
-                <span class="catalog-tab__label">Colores</span>
-              </button>
-              <button class="catalog-tab" role="tab" data-tab="extras">
-                <span class="catalog-tab__icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
-                </span>
-                <span class="catalog-tab__label">Cortinas y rejas</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Separador -->
-          <div class="catalog-tabs__divider" aria-hidden="true"></div>
-
-          <!-- Grupo: Coberturas -->
-          <div class="catalog-tabs__group">
-            <span class="catalog-tabs__group-label">Coberturas</span>
-            <div class="catalog-tabs__group-tabs">
-              <button class="catalog-tab" role="tab" data-tab="policarbonato">
-                <span class="catalog-tab__icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h20M2 16h20M8 2v20M16 2v20"/></svg>
-                </span>
-                <span class="catalog-tab__label">Policarbonato</span>
-              </button>
-              <button class="catalog-tab" role="tab" data-tab="fantasia">
-                <span class="catalog-tab__icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                </span>
-                <span class="catalog-tab__label">Poliestireno Fantasía</span>
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Panel: Líneas -->
-        <div class="catalog-panel is-active" data-panel="lineas">
-          <div class="product-list-wrap"><div class="product-list">
-
-            <div class="product-row">
-              <div class="product-row__media">
-                <img width="307" height="416" src="linea-herrero.webp" alt="Línea Herrero" loading="lazy">
-              </div>
-              <div class="product-row__info">
-                <h3 class="product-row__name">Línea Herrero</h3>
-                <p class="product-row__desc">La más elegida por nuestros clientes. Ideal para obras que requieren mayor estabilidad estructural. Ventanas corredizas, batientes, puertas con o sin reja y celosías. Compatible con vidrio simple, esmerilado, espejado y DVH.</p>
-              </div>
-            </div>
-
-            <div class="product-row">
-              <div class="product-row__media">
-                <img width="248" height="316" src="linea-rotonda640.webp" alt="Rotonda 640" loading="lazy">
-              </div>
-              <div class="product-row__info">
-                <h3 class="product-row__name">Rotonda 640</h3>
-                <p class="product-row__desc">Línea de gran popularidad en obras residenciales y comerciales. Excelente rigidez y estanqueidad. Apta para ventanas y puertas de grandes dimensiones. Compatible con todos los tipos de vidrio.</p>
-              </div>
-            </div>
-
-            <div class="product-row">
-              <div class="product-row__media">
-                <img width="448" height="536" src="linea-modena1.webp" alt="Módena 1" loading="lazy">
-              </div>
-              <div class="product-row__info">
-                <h3 class="product-row__name">Módena 1</h3>
-                <p class="product-row__desc">Excelente relación calidad-precio para viviendas. Ventanas corredizas con y sin mosquitero, en todas las medidas estándar y a medida.</p>
-              </div>
-            </div>
-
-            <div class="product-row">
-              <div class="product-row__media">
-                <img width="285" height="302" src="linea-modena2.webp" alt="Módena 2" loading="lazy">
-              </div>
-              <div class="product-row__info">
-                <h3 class="product-row__name">Módena 2</h3>
-                <p class="product-row__desc">Evolución de la Módena 1 con perfil reforzado para vanos más grandes. Mayor resistencia al viento y mejor aislación. Ideal para plantas bajas, frentes y obras de mayor exigencia.</p>
-              </div>
-            </div>
-
-            <div class="product-row">
-              <div class="product-row__media">
-                <img width="240" height="309" src="linea-a30new.webp" alt="A30 New" loading="lazy">
-              </div>
-              <div class="product-row__info">
-                <h3 class="product-row__name">A30 New</h3>
-                <p class="product-row__desc">Perfil de 30mm con líneas limpias y geométricas. Menor perfil visible, mayor superficie de vidrio. Elegido por arquitectos para proyectos de diseño. Disponible en todas las terminaciones.</p>
-              </div>
-            </div>
-
-          </div></div>
-        </div>
-
-        <!-- Panel: Vidrios -->
-        <div class="catalog-panel" data-panel="vidrios">
-          <div class="product-list-wrap"><div class="product-list">
-
-            <div class="product-row">
-              <div class="product-row__media">
-                <img width="700" height="700" src="transparente.webp" alt="Transparente" loading="lazy">
-              </div>
-              <div class="product-row__info">
-                <h3 class="product-row__name">Transparente</h3>
-                <p class="product-row__desc">La opción estándar. Alta transmisión de luz natural, bajo costo. Compatible con todas las líneas de perfil. Ideal para la mayoría de las obras residenciales.</p>
-              </div>
-            </div>
-
-            <div class="product-row">
-              <div class="product-row__media">
-                <img width="436" height="368" src="esmerilado.webp" alt="Esmerilado" loading="lazy">
-              </div>
-              <div class="product-row__info">
-                <h3 class="product-row__name">Esmerilado</h3>
-                <p class="product-row__desc">Superficie tratada que difumina la visión sin bloquear la luz natural. Ideal para baños, puertas interiores y divisorios. Disponible en distintos grados de opacidad.</p>
-              </div>
-            </div>
-
-            <div class="product-row">
-              <div class="product-row__media">
-                <img width="597" height="445" src="vidrioespejado.webp" alt="Vidrio espejado para aberturas de aluminio — Alumfer" loading="lazy">
-              </div>
-              <div class="product-row__info">
-                <h3 class="product-row__name">Espejado</h3>
-                <p class="product-row__desc">Reflejo espejado desde el exterior durante el día, con visibilidad normal desde adentro. Muy usado en fachadas comerciales y oficinas. Aporta privacidad sin perder luminosidad interior.</p>
-              </div>
-            </div>
-
-            <div class="product-row">
-              <div class="product-row__media">
-                <img width="709" height="350" src="vidrio-dvh.webp" alt="DVH" loading="lazy">
-              </div>
-              <div class="product-row__info">
-                <h3 class="product-row__name">DVH — Doble Vidriado Hermético</h3>
-                <p class="product-row__desc">Dos vidrios separados por una cámara de aire sellada. Reduce significativamente la pérdida de calor y el ingreso de ruido exterior. Ideal para zonas frías, departamentos en avenidas o proyectos con alta eficiencia energética.</p>
-              </div>
-            </div>
-
-          </div></div>
-        </div>
-
-        <!-- Panel: Cortinas y rejas -->
-        <div class="catalog-panel" data-panel="extras">
-          <div class="product-list-wrap"><div class="product-list">
-
-            <div class="product-row">
-              <div class="product-row__media">
-                <img width="400" height="400" src="extra-cortinas-pvc.webp" alt="Cortinas de PVC" loading="lazy">
-              </div>
-              <div class="product-row__info">
-                <h3 class="product-row__name">Cortinas de PVC</h3>
-                <p class="product-row__desc">Cortinas enrollables de PVC rígido con guías y cajón de aluminio. Excelente aislación térmica y acústica. Disponibles en blanco y distintos colores. Con o sin cajón incorporado a la abertura.</p>
-              </div>
-            </div>
-
-            <div class="product-row">
-              <div class="product-row__media">
-                <img width="497" height="289" src="extra-rejas.webp" alt="Rejas" loading="lazy">
-              </div>
-              <div class="product-row__info">
-                <h3 class="product-row__name">Rejas</h3>
-                <p class="product-row__desc">Rejas de hierro redondo o cuadrado, fijas o rebatibles. Diseños rectos y decorativos. Se fabrican a medida para adaptarse a cualquier vano.</p>
-              </div>
-            </div>
-
-          </div></div>
-        </div>
-
-        <!-- Panel: Colores -->
-        <div class="catalog-panel" data-panel="terminaciones">
-
-          <p class="color-group-label">Pintura</p>
-          <div class="info-grid info-grid--colors">
-
-            <!-- PINTURA -->
-            <article class="info-card info-card--color">
-              <div class="info-card__circle" style="background:#F0F0F0; border:1px solid #ddd;"></div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Pintura</span>
-              <h3 class="info-card__name">Blanco Aluar</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">El color más solicitado en obras residenciales. También disponible en Blanco Brillante.</p>
-          </div>
-            </article>
-
-            <article class="info-card info-card--color">
-              <div class="info-card__circle" style="background:#111111;"></div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Pintura</span>
-              <h3 class="info-card__name">Negro</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Muy elegido en proyectos de arquitectura contemporánea. Combina con fachadas blancas y hormigón.</p>
-          </div>
-            </article>
-
-            <article class="info-card info-card--color">
-              <div class="info-card__circle" style="background:#3A3F47;"></div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Pintura</span>
-              <h3 class="info-card__name">Bronce Colonial</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Tono cálido y clásico. Ideal para fachadas con ladrillo, piedra o madera.</p>
-          </div>
-            </article>
-
-            <article class="info-card info-card--color">
-              <div class="info-card__circle" style="background:#8A8E94;"></div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Pintura</span>
-              <h3 class="info-card__name">Gris</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Neutro y versátil. Acompaña estilos modernos e industriales.</p>
-          </div>
-            </article>
-
-            <article class="info-card info-card--color">
-              <div class="info-card__circle" style="background:linear-gradient(135deg,#8B4513,#C0622A,#7A3A10,#A0501E);"></div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Pintura</span>
-              <h3 class="info-card__name">Símil Madera</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Toda la durabilidad del aluminio con la calidez visual de la madera. Sin mantenimiento.</p>
-          </div>
-            </article>
-
-            <article class="info-card info-card--color">
-              <div class="info-card__circle" style="background:radial-gradient(circle, #E0E0E0 0%, #C8C8C8 40%, #D8D8D8 70%); background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%228%22 height=%228%22><circle cx=%224%22 cy=%224%22 r=%221.5%22 fill=%22rgba(180,180,180,0.5)%22/></svg>');"></div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Pintura</span>
-              <h3 class="info-card__name">Microtexturados</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Acabado con textura fina. Muy resistente al roce y de fácil limpieza.</p>
-          </div>
-            </article>
-
-            <article class="info-card info-card--color">
-              <div class="info-card__circle" style="background:#1B4F8A;"></div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Pintura</span>
-              <h3 class="info-card__name">Azul</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Desde navy hasta celeste. Muy usado en obras costeras y proyectos residenciales con carácter.</p>
-          </div>
-            </article>
-
-            <article class="info-card info-card--color">
-              <div class="info-card__circle" style="background:#2E7D32;"></div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Pintura</span>
-              <h3 class="info-card__name">Verde</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Tono natural y fresco. Ideal para fachadas con vegetación, jardines o entornos rurales.</p>
-          </div>
-            </article>
-
-            <article class="info-card info-card--color">
-              <div class="info-card__circle" style="background:#B71C1C;"></div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Pintura</span>
-              <h3 class="info-card__name">Rojo</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Terminación llamativa para fachadas comerciales o detalles de diseño con impacto visual.</p>
-          </div>
-            </article>
-
-            <article class="info-card info-card--color">
-              <div class="info-card__circle" style="background:#F9A825;"></div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Pintura</span>
-              <h3 class="info-card__name">Amarillo</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Color cálido y vibrante para locales comerciales, señalética y proyectos de diseño.</p>
-          </div>
-            </article>
-
-          </div>
-
-          <p class="color-group-label">Anodizado</p>
-          <div class="info-grid info-grid--colors">
-
-            <!-- ANODIZADO -->
-            <article class="info-card info-card--color">
-              <div class="info-card__circle" style="background:linear-gradient(135deg,#B8B8B8,#D8D8D8,#A8A8A8);"></div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Anodizado</span>
-              <h3 class="info-card__name">Natural</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Tono gris plateado propio del aluminio. Clásico, sobrio y de bajo mantenimiento.</p>
-          </div>
-            </article>
-
-            <article class="info-card info-card--color">
-              <div class="info-card__circle" style="background:linear-gradient(135deg,#C8A84B,#E8C86A,#B89438);"></div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Anodizado</span>
-              <h3 class="info-card__name">Oro</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Acabado dorado elegante. Muy utilizado en locales comerciales y proyectos de alta gama.</p>
-          </div>
-            </article>
-
-            <article class="info-card info-card--color">
-              <div class="info-card__circle" style="background:linear-gradient(135deg,#1A1A1A,#2E2E2E,#111111);"></div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Anodizado</span>
-              <h3 class="info-card__name">Negro</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Más resistente que el lacado, con una profundidad de color característica.</p>
-          </div>
-            </article>
-
-            <article class="info-card info-card--color">
-              <div class="info-card__circle" style="background:linear-gradient(135deg,#D4C5A0,#E8DCC0,#C4B590);"></div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Anodizado</span>
-              <h3 class="info-card__name">Champagne</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Tono dorado suave y discreto. Aporta calidez y elegancia en ambientes residenciales.</p>
-          </div>
-            </article>
-
-            <article class="info-card info-card--color">
-              <div class="info-card__circle" style="background:linear-gradient(135deg,#8A8A8A,#A8A8A8,#787878);"></div>
-              <div class="info-card__header">
-            <div class="info-card__titles">
-              <span class="info-card__label">Anodizado</span>
-              <h3 class="info-card__name">Peltre</h3>
-            </div>
-                <button class="info-card__toggle" aria-label="Ver descripción">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div class="info-card__body">
-            <p class="info-card__desc">Gris metálico con tonalidad fría. Muy usado en arquitectura contemporánea.</p>
-          </div>
-            </article>
-
-          </div>
-        </div>
-
-        <!-- Panel: Policarbonato / Poliestireno -->
-        <div class="catalog-panel" data-panel="policarbonato">
-
-          <div class="product-list-wrap"><div class="product-list">
-
-            <div class="product-row">
-              <div class="product-row__media">
-                <img width="800" height="800" src="policarbonato-alveolar.webp" alt="Policarbonato Alveolar" loading="lazy">
-              </div>
-              <div class="product-row__info">
-                <h3 class="product-row__name">Policarbonato Alveolar</h3>
-                <p class="product-row__desc">Panel liviano con cámaras de aire que ofrecen excelente aislación térmica y acústica. Ideal para techos, pérgolas y cerramientos que requieren transparencia y resistencia. Disponible en 4, 6, 8 y 10mm.</p>
-              </div>
-            </div>
-
-            <div class="product-row">
-              <div class="product-row__media">
-                <img width="501" height="499" src="policarbonato-compacto.webp" alt="Policarbonato Compacto" loading="lazy">
-              </div>
-              <div class="product-row__info">
-                <h3 class="product-row__name">Policarbonato Compacto</h3>
-                <p class="product-row__desc">Panel sólido de alta resistencia al impacto. Alta transparencia y protección UV. Aplicaciones en claraboyas, mamparas y frentes comerciales.</p>
-              </div>
-            </div>
-
-          </div></div>
-
-          </div>
-
-        <!-- Panel: Poliestireno Fantasía -->
-        <div class="catalog-panel" data-panel="fantasia">
-          <div class="fantasia-section">
-            <div class="fantasia-section__header">
-              <span class="fantasia-section__eyebrow">Cobertura decorativa</span>
-              <h3 class="fantasia-section__title">Poliestireno Fantasía</h3>
-              <p class="fantasia-section__desc">Paneles con texturas que difunden la luz. Ideal para divisiones interiores, cerramientos decorativos y techos. 15 diseños disponibles.</p>
-            </div>
-            <div class="fantasia-mosaic">
-              <div class="fantasia-tile"><img width="143" height="120" loading="lazy" src="amazonia.webp" alt="Amazonia"><span>Amazonia</span></div>
-              <div class="fantasia-tile"><img width="141" height="120" loading="lazy" src="agua-viva.webp" alt="Agua Viva"><span>Agua Viva</span></div>
-              <div class="fantasia-tile"><img width="144" height="119" loading="lazy" src="bebe.webp" alt="Bebé"><span>Bebé</span></div>
-              <div class="fantasia-tile"><img width="144" height="117" loading="lazy" src="canalado-plus.webp" alt="Canalado Plus"><span>Canalado Plus</span></div>
-              <div class="fantasia-tile"><img width="144" height="118" loading="lazy" src="niagara.webp" alt="Niágara"><span>Niágara</span></div>
-              <div class="fantasia-tile"><img width="144" height="120" loading="lazy" src="diamante.webp" alt="Diamante"><span>Diamante</span></div>
-              <div class="fantasia-tile"><img width="144" height="118" loading="lazy" src="espuma.webp" alt="Espuma"><span>Espuma</span></div>
-              <div class="fantasia-tile"><img width="144" height="117" loading="lazy" src="foresta.webp" alt="Foresta"><span>Foresta</span></div>
-              <div class="fantasia-tile"><img width="144" height="117" loading="lazy" src="gaviota.webp" alt="Gaviota"><span>Gaviota</span></div>
-              <div class="fantasia-tile"><img width="144" height="117" loading="lazy" src="iberia.webp" alt="Iberia"><span>Iberia</span></div>
-              <div class="fantasia-tile"><img width="144" height="120" loading="lazy" src="laberinto.webp" alt="Laberinto"><span>Laberinto</span></div>
-              <div class="fantasia-tile"><img width="141" height="120" loading="lazy" src="monocril.webp" alt="Monocril"><span>Monocril</span></div>
-              <div class="fantasia-tile"><img width="141" height="121" loading="lazy" src="puntillado.webp" alt="Puntillado"><span>Puntillado</span></div>
-              <div class="fantasia-tile"><img width="144" height="120" loading="lazy" src="pantanal.webp" alt="Pantanal"><span>Pantanal</span></div>
-              <div class="fantasia-tile"><img width="144" height="121" loading="lazy" src="pantanal-cristal.webp" alt="Pantanal Cristal"><span>Pantanal Cristal</span></div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="section-cta-wrap">
-        <a href="#contacto" class="btn btn--primary btn--lg">Pedir presupuesto sin cargo</a>
-        <a href="https://wa.me/5491163368643?text=Hola%2C%20quisiera%20hacer%20una%20consulta"
-           class="btn btn--ghost btn--lg" target="_blank" rel="noopener">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Hacer una consulta
-        </a>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- ── TESTIMONIOS ────────────────────────────────────────── -->
-  <section class="section section--dark" aria-labelledby="reviews-title">
-    <div class="container">
-
-      <div class="section-header reveal">
-        <p class="eyebrow">Clientes</p>
-        <h2 id="reviews-title">Lo que dicen<br>nuestros clientes</h2>
-        <a href="https://www.google.com/search?q=Alumfer+carpinter%C3%ADa+aluminio+Adrog%C3%BCe"
-           class="google-badge" target="_blank" rel="noopener"
-           aria-label="4,6 de 5 estrellas en Google · 26 reseñas">
-          <span class="google-badge__g" aria-hidden="true">G</span>
-          <span class="google-badge__stars" aria-hidden="true">★★★★★</span>
-          <strong class="google-badge__score">4,6</strong>
-          <span class="google-badge__sep" aria-hidden="true">·</span>
-          <span class="google-badge__count">26 reseñas en Google</span>
-        </a>
-      </div>
-
-      <div class="reviews-grid">
-
-        <div class="review-card reveal reveal-delay-1">
-          <div class="review-card__stars" aria-label="5 estrellas">★★★★★</div>
-          <p class="review-card__text">Puntual. Prolijisimo. Todo de diez! Recomiendo</p>
-          <div class="review-card__footer">
-            <div class="review-card__avatar review-card__avatar--1" aria-hidden="true">MR</div>
-            <div>
-              <p class="review-card__author">Marcela Robustelli</p>
-              <p class="review-card__location">sept. 2026</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="review-card reveal reveal-delay-2">
-          <div class="review-card__stars" aria-label="5 estrellas">★★★★★</div>
-          <p class="review-card__text">Alumfer solicité dos trabajos en aluminio, realmente muy bien trabajo, muy prolijo y excelente relación precio/calidad, 100 % recomendable</p>
-          <div class="review-card__footer">
-            <div class="review-card__avatar review-card__avatar--2" aria-hidden="true">SF</div>
-            <div>
-              <p class="review-card__author">Sergio Fernandez</p>
-              <p class="review-card__location">sept. 2026</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="review-card reveal reveal-delay-3">
-          <div class="review-card__stars" aria-label="5 estrellas">★★★★★</div>
-          <p class="review-card__text">Muy conforme! Excelente trabajo, reemplazo de policarbonato y ampliación de techo.</p>
-          <div class="review-card__footer">
-            <div class="review-card__avatar review-card__avatar--3" aria-hidden="true">LF</div>
-            <div>
-              <p class="review-card__author">Laura Fenómena</p>
-              <p class="review-card__location">sept. 2026</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="review-card reveal reveal-delay-4">
-          <div class="review-card__stars" aria-label="5 estrellas">★★★★★</div>
-          <p class="review-card__text">Daniel nos realizo una reparación en una ventana dvh, impecable. Muchas gracias</p>
-          <div class="review-card__footer">
-            <div class="review-card__avatar review-card__avatar--4" aria-hidden="true">M</div>
-            <div>
-              <p class="review-card__author">Mila</p>
-              <p class="review-card__location">sept. 2026</p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="section-cta-wrap">
-        <a href="https://www.google.com/search?q=Alumfer+carpinter%C3%ADa+aluminio+Adrog%C3%BCe" class="btn btn--outline"
-           target="_blank" rel="noopener">
-          Ver las reseñas en Google →
-        </a>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- ── GARANTÍA ──────────────────────────────────────────── -->
-  <section class="section section--dark garantia-band" aria-labelledby="garantia-title">
-    <div class="container">
-      <div class="garantia-inner">
-        <div class="garantia-badge">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-          <div>
-            <strong id="garantia-title">Garantía Alumfer</strong>
-            <span>Fabricación e instalación</span>
-          </div>
-        </div>
-        <div class="garantia-divider" aria-hidden="true"></div>
-        <div class="garantia-items">
-          <div class="garantia-item">
-            <div class="garantia-item__icon" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <div>
-              <strong>Perfiles certificados</strong>
-              <span>Aluminio Aluar de primera calidad en todos nuestros trabajos, sin excepción.</span>
-            </div>
-          </div>
-          <div class="garantia-item">
-            <div class="garantia-item__icon" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <div>
-              <strong>Colocación garantizada</strong>
-              <span>Instalamos en seco, sin romper paredes. Medición y visita técnica sin cargo.</span>
-            </div>
-          </div>
-          <div class="garantia-item">
-            <div class="garantia-item__icon" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <div>
-              <strong>Posventa real</strong>
-              <span>Si algo no queda como corresponde, volvemos a resolverlo sin costo adicional.</span>
-            </div>
-          </div>
-        </div>
+      <div class="guarantee" aria-labelledby="garantia-title">
+        <div><span class="mono">Garantía</span><h3 id="garantia-title">Garantía Alumfer</h3><p>Fabricación e instalación.</p></div>
+        <div><span class="mono">01</span><h3>Perfiles certificados</h3><p>Aluminio Aluar de primera calidad en todos nuestros trabajos, sin excepción.</p></div>
+        <div><span class="mono">02</span><h3>Colocación garantizada</h3><p>Instalamos en seco, sin romper paredes. Medición y visita técnica sin cargo.</p></div>
+        <div><span class="mono">03</span><h3>Posventa real</h3><p>Si algo no queda como corresponde, volvemos a resolverlo sin costo adicional.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- ── PREGUNTAS FRECUENTES ──────────────────────────────── -->
-  <section class="section section--mid" id="faq" aria-labelledby="faq-title">
-    <div class="container">
-
-      <div class="section-header reveal">
-        <p class="eyebrow">Preguntas frecuentes</p>
-        <h2 id="faq-title">Lo que más<br>nos preguntan</h2>
+  <!-- ── FAQ ────────────────────────────────────────────────── -->
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="wrap faq__grid">
+      <div class="faq__aside">
+        <div class="sec-tag mono"><b>09</b> Preguntas frecuentes</div>
+        <h2 class="h2" id="faq-title" style="margin-top:2rem">Lo que más nos preguntan</h2>
+        <p>Si tu duda no está acá, escribinos: la respondemos el mismo día hábil.</p>
+        <a href="https://wa.me/5491163368643?text=Hola%2C%20tengo%20una%20consulta" class="btn btn--line" target="_blank" rel="noopener">Hacer una consulta <span class="arrow" aria-hidden="true">→</span></a>
       </div>
-
-      <div class="faq-list">
-
-        <details class="faq-item reveal">
-          <summary class="faq-item__q">¿Hacen presupuesto sin cargo?</summary>
-          <p class="faq-item__a">Sí. Ofrecemos presupuesto completamente gratuito y sin compromiso. Podés solicitarlo por WhatsApp, formulario web o teléfono. Respondemos en menos de 24 horas hábiles.</p>
-        </details>
-
-        <details class="faq-item reveal">
-          <summary class="faq-item__q">¿En qué zonas trabajan?</summary>
-          <p class="faq-item__a">Trabajamos en toda la Zona Sur del GBA y CABA. Almirante Brown, Adrogué, Burzaco, Glew, Lomas de Zamora, Temperley, Banfield, Quilmes, Berazategui, Ezeiza, Canning, Lanús, Monte Grande y más. Si tenés dudas sobre tu localidad, consultanos directamente.</p>
-        </details>
-
-        <details class="faq-item reveal">
-          <summary class="faq-item__q">¿Pueden cambiar ventanas sin romper paredes?</summary>
-          <p class="faq-item__a">Sí. En la mayoría de los casos instalamos en seco, colocando la nueva abertura sobre el marco existente. Sin demolición, sin revoques y sin suciedad. Es la opción más rápida y económica para reemplazar aberturas viejas.</p>
-        </details>
-
-        <details class="faq-item reveal">
-          <summary class="faq-item__q">¿Cuánto tarda el proceso desde que pido el presupuesto?</summary>
-          <p class="faq-item__a">Los tiempos varían según el tamaño del proyecto. En general: contacto y presupuesto en menos de 24hs, medición en los próximos días, fabricación entre 1 y 3 semanas, e instalación según agenda. Para obras urgentes, consultanos.</p>
-        </details>
-
-        <details class="faq-item reveal">
-          <summary class="faq-item__q">¿Fabrican ustedes o son revendedores?</summary>
-          <p class="faq-item__a">Fabricamos nosotros mismos, en taller propio. Somos fabricantes directos: sin intermediarios, sin subcontratos. Esto nos permite controlar la calidad en cada etapa y ofrecer mejores precios.</p>
-        </details>
-
-        <details class="faq-item reveal">
-          <summary class="faq-item__q">¿Qué es el doble vidriado hermético (DVH)?</summary>
-          <p class="faq-item__a">El DVH (o DGU) consiste en dos vidrios separados por una cámara de aire sellada. Reduce significativamente la pérdida de calor y el ingreso de ruido. Es ideal para zonas de avenidas, plantas altas con viento o proyectos que priorizan la eficiencia energética. Lo fabricamos en todas nuestras líneas de perfil.</p>
-        </details>
-
-        <details class="faq-item reveal">
-          <summary class="faq-item__q">¿Qué diferencia hay entre la Línea Herrero y la Módena?</summary>
-          <p class="faq-item__a">La Línea Herrero es más robusta, ideal para obras que requieren mayor estabilidad estructural o vanos grandes. La Módena ofrece una excelente relación calidad-precio para viviendas estándar. Ambas son compatibles con DVH y todos los colores disponibles. Si no sabés cuál elegir, un técnico te asesora en la visita.</p>
-        </details>
-
-        <details class="faq-item reveal">
-          <summary class="faq-item__q">¿Hacen envíos sin instalación?</summary>
-          <p class="faq-item__a">Sí. Podés retirar en nuestro local de Av. San Martín 734, Adrogué, o coordinamos entrega. Para trabajos fuera de nuestra zona de colocación, fabricamos y entregamos. Consultanos tu caso.</p>
-        </details>
-
+      <div>
+          <details class="qa rv"><summary><span class="mono">01</span>¿Hacen presupuesto sin cargo?</summary><p>Sí. Ofrecemos presupuesto completamente gratuito y sin compromiso. Podés solicitarlo por WhatsApp, formulario web o teléfono. Respondemos en menos de 24 horas hábiles.</p></details>
+          <details class="qa rv"><summary><span class="mono">02</span>¿En qué zonas trabajan?</summary><p>Trabajamos en toda la Zona Sur del GBA y CABA. Almirante Brown, Adrogué, Burzaco, Glew, Lomas de Zamora, Temperley, Banfield, Quilmes, Berazategui, Ezeiza, Canning, Lanús, Monte Grande y más. Si tenés dudas sobre tu localidad, consultanos directamente.</p></details>
+          <details class="qa rv"><summary><span class="mono">03</span>¿Pueden cambiar ventanas sin romper paredes?</summary><p>Sí. En la mayoría de los casos instalamos en seco, colocando la nueva abertura sobre el marco existente. Sin demolición, sin revoques y sin suciedad. Es la opción más rápida y económica para reemplazar aberturas viejas.</p></details>
+          <details class="qa rv"><summary><span class="mono">04</span>¿Cuánto tarda el proceso desde que pido el presupuesto?</summary><p>Los tiempos varían según el tamaño del proyecto. En general: contacto y presupuesto en menos de 24hs, medición en los próximos días, fabricación entre 1 y 3 semanas, e instalación según agenda. Para obras urgentes, consultanos.</p></details>
+          <details class="qa rv"><summary><span class="mono">05</span>¿Fabrican ustedes o son revendedores?</summary><p>Fabricamos nosotros mismos, en taller propio. Somos fabricantes directos: sin intermediarios, sin subcontratos. Esto nos permite controlar la calidad en cada etapa y ofrecer mejores precios.</p></details>
+          <details class="qa rv"><summary><span class="mono">06</span>¿Qué es el doble vidriado hermético (DVH)?</summary><p>El DVH (o DGU) consiste en dos vidrios separados por una cámara de aire sellada. Reduce significativamente la pérdida de calor y el ingreso de ruido. Es ideal para zonas de avenidas, plantas altas con viento o proyectos que priorizan la eficiencia energética. Lo fabricamos en todas nuestras líneas de perfil.</p></details>
+          <details class="qa rv"><summary><span class="mono">07</span>¿Qué diferencia hay entre la Línea Herrero y la Módena?</summary><p>La Línea Herrero es más robusta, ideal para obras que requieren mayor estabilidad estructural o vanos grandes. La Módena ofrece una excelente relación calidad-precio para viviendas estándar. Ambas son compatibles con DVH y todos los colores disponibles. Si no sabés cuál elegir, un técnico te asesora en la visita.</p></details>
+          <details class="qa rv"><summary><span class="mono">08</span>¿Hacen envíos sin instalación?</summary><p>Sí. Podés retirar en nuestro local de Av. San Martín 734, Adrogué, o coordinamos entrega. Para trabajos fuera de nuestra zona de colocación, fabricamos y entregamos. Consultanos tu caso.</p></details>
       </div>
-
     </div>
   </section>
-
 
   <!-- ── CONTACTO ───────────────────────────────────────────── -->
-  <section class="section section--mid" id="contacto" aria-labelledby="contact-title">
-    <div class="container">
-
-      <div class="contact-grid">
-
-        <div class="contact-left">
-          <div class="contact-header">
-            <div class="section-header reveal">
-              <p class="eyebrow">Presupuesto sin cargo</p>
-              <h2 id="contact-title">Pedinos<br>tu cotización</h2>
-            </div>
-            <div class="ruled reveal contact-desc">
-              <p class="contact-desc__text">
-                Completá el formulario o escribinos directamente por WhatsApp.
-                Respondemos en menos de 24 horas.
-              </p>
-            </div>
-          </div>
-          <div class="contact-info">
-            <div class="contact-data">
-              <p class="contact-item">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                Av. San Martín 734, Adrogué, Buenos Aires
-              </p>
-            </div>
-            <div class="contact-map reveal">
-              <iframe
-                src="https://maps.google.com/maps?q=Av.+San+Mart%C3%ADn+734+Adrog%C3%BCe+Buenos+Aires+Argentina&output=embed"
-                width="100%" height="200" style="border:0; border-radius:var(--radius-md); display:block;"
-                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-                title="Ubicación Alumfer"></iframe>
-            </div>
-            <div style="display:flex; flex-direction:row; flex-wrap:wrap; gap:1.25rem; margin-top:2rem; align-items:center">
-              <span class="contact-item">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14v2.92z"/></svg>
-                <a href="tel:+5491163368643" style="color:inherit; text-decoration:none">(011) 6336-8643</a>
-              </span>
-              <span class="contact-item">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                <a href="mailto:alumfercarpinteria@gmail.com" style="color:inherit; text-decoration:none">alumfercarpinteria@gmail.com</a>
-              </span>
-            </div>
+  <section class="section steel on-steel" id="contacto" aria-labelledby="contact-title">
+    <div class="wrap">
+      <div class="sec-tag mono"><b>10</b> Presupuesto sin cargo</div>
+      <div class="contact__grid" style="margin-top:2.5rem">
+        <div>
+          <h2 class="display contact__title" id="contact-title">Pedinos tu cotización</h2>
+          <p class="lead" style="margin-top:1.25rem">Completá el formulario o escribinos directamente por WhatsApp. Respondemos en menos de 24 horas.</p>
+          <ul class="contact__list">
+            <li><span class="mono">WhatsApp</span><a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" target="_blank" rel="noopener">(011) 6336-8643</a></li>
+            <li><span class="mono">Teléfono</span><a href="tel:+5491163368643">(011) 6336-8643</a></li>
+            <li><span class="mono">Email</span><a href="mailto:alumfercarpinteria@gmail.com">alumfercarpinteria@gmail.com</a></li>
+            <li><span class="mono">Local</span><a href="https://maps.google.com/?q=Av.+San+Martín+734+Adrogué" target="_blank" rel="noopener">Av. San Martín 734, Adrogué, Buenos Aires</a></li>
+            <li><span class="mono">Horario</span><span>Lun a Vie 9 a 13 h · Sábados 9 a 14 h</span></li>
+          </ul>
+          <div class="map">
+            <iframe src="https://maps.google.com/maps?q=Av.+San+Mart%C3%ADn+734+Adrog%C3%BCe+Buenos+Aires+Argentina&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Ubicación de Alumfer en Adrogué"></iframe>
           </div>
         </div>
-
-        <form class="contact-form reveal" name="cotizacion" method="POST" action="enviar.php"
-              aria-label="Formulario de cotización">
-          <!-- Honeypot anti-spam (oculto a personas, lo completan los bots) -->
+        <form class="form" id="form-cotizacion" name="cotizacion" method="POST" action="enviar.php" aria-labelledby="form-title">
           <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label" for="nombre">Nombre</label>
-              <input class="form-input" type="text" id="nombre" name="Nombre"
-                     placeholder="Tu nombre" required autocomplete="given-name">
+          <p class="form__title" id="form-title">Contanos qué necesitás</p>
+          <div class="form__row">
+            <div class="field"><label for="nombre">Nombre</label><input type="text" id="nombre" name="Nombre" placeholder="Tu nombre" required autocomplete="given-name"></div>
+            <div class="field"><label for="telefono">Teléfono</label><input type="tel" id="telefono" name="Teléfono" placeholder="11 XXXX-XXXX" required autocomplete="tel"></div>
+          </div>
+          <div class="field"><label for="email">Email</label><input type="email" id="email" name="Email" placeholder="tu@email.com" required autocomplete="email"></div>
+          <div class="form__row">
+            <div class="field"><label for="tipo">Tipo de trabajo</label>
+              <select id="tipo" name="Tipo" required>
+                <option value="" disabled selected>Elegí una opción</option>
+                <option>Ventanas</option><option>Ventanas DVH</option><option>Puertas</option><option>Postigones</option>
+                <option>Mosquiteros</option><option>Cerramiento / quincho</option><option>Techo de policarbonato</option>
+                <option>Portones</option><option>Otro</option>
+              </select>
             </div>
-            <div class="form-group">
-              <label class="form-label" for="telefono">Teléfono</label>
-              <input class="form-input" type="tel" id="telefono" name="Teléfono"
-                     placeholder="11 XXXX-XXXX" required autocomplete="tel">
-            </div>
+            <div class="field"><label for="localidad">Localidad <span style="text-transform:none">(opcional)</span></label><input type="text" id="localidad" name="Localidad" placeholder="Ej: Adrogué" autocomplete="address-level2"></div>
           </div>
-          <div class="form-group">
-            <label class="form-label" for="email">Email</label>
-            <input class="form-input" type="email" id="email" name="Email"
-                   placeholder="tu@email.com" required autocomplete="email">
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="mensaje">¿Qué necesitás?</label>
-            <textarea class="form-textarea" id="mensaje" name="Consulta"
-                      placeholder="Ej: 3 ventanas corredizas 120×100 cm en Adrogué, para reemplazar las de hierro. O escribí lo que tenés en mente." rows="4" required></textarea>
-          </div>
-          <p style="font-size:0.8rem; color:var(--text-on-dark-3); margin-bottom:0.5rem;">
-            ¿Tenés fotos o planos? Enviálos por
-            <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" target="_blank" rel="noopener" style="color:var(--blue-light); text-decoration:none;">WhatsApp</a>.
-          </p>
-          <div class="contact-actions">
-            <button type="submit" class="btn btn--whatsapp btn--lg contact-submit" data-channel="whatsapp">Enviar consulta por WhatsApp</button>
-            <button type="submit" class="btn btn--outline btn--lg contact-submit" data-channel="email">Enviar consulta por email</button>
+          <div class="field"><label for="mensaje">¿Qué necesitás?</label><textarea id="mensaje" name="Consulta" rows="4" placeholder="Ej: 3 ventanas corredizas 120×100 cm en Adrogué, para reemplazar las de hierro. O escribí lo que tenés en mente." required></textarea></div>
+          <p class="form__note">¿Tenés fotos o planos? Mandalos por <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" target="_blank" rel="noopener">WhatsApp</a>.</p>
+          <div class="form__acts">
+            <button type="submit" class="btn btn--wa" data-channel="whatsapp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Enviar por WhatsApp</button>
+            <button type="submit" class="btn btn--primary" data-channel="email">Enviar por email <span class="arrow" aria-hidden="true">→</span></button>
           </div>
         </form>
-
       </div>
     </div>
   </section>
 
+  </main>
 
   <!-- ── FOOTER ─────────────────────────────────────────────── -->
-  <footer class="footer" role="contentinfo">
-    <div class="container">
-      <div class="footer__inner footer__inner--wide">
-
-        <div class="footer__brand">
-          <a href="#" class="navbar__logo" aria-label="Alumfer — inicio" style="text-decoration:none">
-            <div class="navbar__logo-rule" aria-hidden="true"></div>
-            <div class="navbar__logo-text">
-              <span class="navbar__logo-name">ALUMFER</span>
-              <span class="navbar__logo-sub">Carpintería de aluminio</span>
-            </div>
-          </a>
-          <p class="footer__tagline">
-            Fabricantes de aberturas de aluminio a medida. Zona Sur GBA y CABA.
-          </p>
-        </div>
-
-        <div class="footer__links">
-          <p class="footer__col-title">Servicios</p>
-          <ul role="list">
-            <li><a href="/ventanas-de-aluminio/"     class="footer__link">Ventanas de aluminio</a></li>
-            <li><a href="/ventanas-dvh/"             class="footer__link">Ventanas DVH</a></li>
-            <li><a href="/puertas-de-aluminio/"      class="footer__link">Puertas de aluminio</a></li>
-            <li><a href="/mosquiteros-a-medida/"     class="footer__link">Mosquiteros a medida</a></li>
-            <li><a href="/cerramientos-de-aluminio/" class="footer__link">Cerramientos de aluminio</a></li>
-            <li><a href="/techos-de-policarbonato/"  class="footer__link">Techos de policarbonato</a></li>
-          </ul>
-        </div>
-
-        <div class="footer__links footer__links--zones">
-          <details class="footer__zones">
-          <summary class="footer__col-title footer__zones-toggle">Zonas</summary>
-          <ul role="list">
-            <li><a href="/aberturas-de-aluminio-capital-federal/"   class="footer__link">Capital Federal</a></li>
-            <li><a href="/aberturas-de-aluminio-adrogue/"           class="footer__link">Adrogué</a></li>
-            <li><a href="/aberturas-de-aluminio-almirante-brown/"   class="footer__link">Almirante Brown</a></li>
-            <li><a href="/aberturas-de-aluminio-burzaco/"           class="footer__link">Burzaco</a></li>
-            <li><a href="/aberturas-de-aluminio-rafael-calzada/"    class="footer__link">Rafael Calzada</a></li>
-            <li><a href="/aberturas-de-aluminio-claypole/"          class="footer__link">Claypole</a></li>
-            <li><a href="/aberturas-de-aluminio-longchamps/"        class="footer__link">Longchamps</a></li>
-            <li><a href="/aberturas-de-aluminio-glew/"              class="footer__link">Glew</a></li>
-            <li><a href="/aberturas-de-aluminio-lomas-de-zamora/"   class="footer__link">Lomas de Zamora</a></li>
-            <li><a href="/aberturas-de-aluminio-banfield/"          class="footer__link">Banfield</a></li>
-            <li><a href="/aberturas-de-aluminio-temperley/"         class="footer__link">Temperley</a></li>
-            <li><a href="/aberturas-de-aluminio-llavallol/"         class="footer__link">Llavallol</a></li>
-            <li><a href="/aberturas-de-aluminio-turdera/"           class="footer__link">Turdera</a></li>
-            <li><a href="/aberturas-de-aluminio-lanus/"             class="footer__link">Lanús</a></li>
-            <li><a href="/aberturas-de-aluminio-gerli/"             class="footer__link">Gerli</a></li>
-            <li><a href="/aberturas-de-aluminio-valentin-alsina/"   class="footer__link">Valentín Alsina</a></li>
-            <li><a href="/aberturas-de-aluminio-avellaneda/"        class="footer__link">Avellaneda</a></li>
-            <li><a href="/aberturas-de-aluminio-quilmes/"           class="footer__link">Quilmes</a></li>
-            <li><a href="/aberturas-de-aluminio-bernal/"            class="footer__link">Bernal</a></li>
-            <li><a href="/aberturas-de-aluminio-ezpeleta/"          class="footer__link">Ezpeleta</a></li>
-            <li><a href="/aberturas-de-aluminio-berazategui/"       class="footer__link">Berazategui</a></li>
-            <li><a href="/aberturas-de-aluminio-florencio-varela/"  class="footer__link">Florencio Varela</a></li>
-            <li><a href="/aberturas-de-aluminio-monte-grande/"      class="footer__link">Monte Grande</a></li>
-            <li><a href="/aberturas-de-aluminio-luis-guillon/"      class="footer__link">Luis Guillón</a></li>
-            <li><a href="/aberturas-de-aluminio-ezeiza/"            class="footer__link">Ezeiza</a></li>
-            <li><a href="/aberturas-de-aluminio-tristan-suarez/"    class="footer__link">Tristán Suárez</a></li>
-            <li><a href="/aberturas-de-aluminio-canning/"           class="footer__link">Canning</a></li>
-          </ul>
-          </details>
-        </div>
-
-        <div class="footer__contact-col">
-          <p class="footer__col-title">Contacto</p>
-          <ul role="list">
-            <li>
-              <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" class="footer__link" target="_blank" rel="noopener">
-                WhatsApp: (011) 6336-8643
-              </a>
-            </li>
-            <li>
-              <a href="mailto:alumfercarpinteria@gmail.com" class="footer__link">
-                alumfercarpinteria@gmail.com
-              </a>
-            </li>
-            <li>
-              <a href="https://maps.google.com/?q=Av.+San+Martín+734+Adrogué" class="footer__link" target="_blank" rel="noopener">
-                Av. San Martín 734, Adrogué
-              </a>
-            </li>
-            <li>
-              <span class="footer__link">Lun a Vie: 9 a 13 h</span>
-            </li>
-            <li>
-              <span class="footer__link">Sábados: 9 a 14 h</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="footer__social">
-          <p class="footer__col-title">Seguinos</p>
-          <div class="footer__social-links">
-            <a href="https://www.instagram.com/alumfercarpinteria/" class="footer__social-link" target="_blank" rel="noopener" aria-label="Instagram">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-            </a>
-            <a href="https://www.facebook.com/alumfercarpinteria/" class="footer__social-link" target="_blank" rel="noopener" aria-label="Facebook">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-            </a>
-            <a href="https://www.tiktok.com/@alumfercarpinteria" class="footer__social-link" target="_blank" rel="noopener" aria-label="TikTok">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
-            </a>
-            <a href="https://www.youtube.com/channel/UCLu-med6wUQKo_pRe_tQrqg" class="footer__social-link" target="_blank" rel="noopener" aria-label="YouTube">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-            </a>
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__grid">
+        <div>
+          <a href="/" class="brand" aria-label="Alumfer — inicio"><img width="368" height="259" src="solologo.webp" alt=""><span><span class="brand__name">ALUMFER</span><span class="brand__sub">Carpintería de aluminio</span></span></a>
+          <p class="footer__tag">Fabricantes de aberturas de aluminio a medida. Zona Sur GBA y CABA.</p>
+          <div class="social">
+            <a href="https://www.instagram.com/alumfercarpinteria/" target="_blank" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            <a href="https://www.facebook.com/alumfercarpinteria/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+            <a href="https://www.tiktok.com/@alumfercarpinteria" target="_blank" rel="noopener" aria-label="TikTok"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg></a>
+            <a href="https://www.youtube.com/channel/UCLu-med6wUQKo_pRe_tQrqg" target="_blank" rel="noopener" aria-label="YouTube"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
           </div>
         </div>
-
+        <div>
+          <h4>Servicios</h4>
+          <ul>
+            <li><a href="/ventanas-de-aluminio/">Ventanas de aluminio</a></li>
+            <li><a href="/ventanas-dvh/">Ventanas DVH</a></li>
+            <li><a href="/puertas-de-aluminio/">Puertas de aluminio</a></li>
+            <li><a href="/mosquiteros-a-medida/">Mosquiteros a medida</a></li>
+            <li><a href="/cerramientos-de-aluminio/">Cerramientos de aluminio</a></li>
+            <li><a href="/techos-de-policarbonato/">Techos de policarbonato</a></li>
+            <li><a href="/disena-tu-abertura/">Diseñá tu abertura</a></li><li><a href="/plano/">Hacé tu plano</a></li>
+            <li><a href="/guias/">Guías</a></li>
+          </ul>
+        </div>
+        <div>
+          <details>
+            <summary><h4>Zonas</h4></summary>
+            <ul class="footer__zones">
+              <li><a href="/aberturas-de-aluminio-capital-federal/">Capital Federal</a></li>
+              <li><a href="/aberturas-de-aluminio-adrogue/">Adrogué</a></li>
+              <li><a href="/aberturas-de-aluminio-almirante-brown/">Almirante Brown</a></li>
+              <li><a href="/aberturas-de-aluminio-burzaco/">Burzaco</a></li>
+              <li><a href="/aberturas-de-aluminio-rafael-calzada/">Rafael Calzada</a></li>
+              <li><a href="/aberturas-de-aluminio-claypole/">Claypole</a></li>
+              <li><a href="/aberturas-de-aluminio-longchamps/">Longchamps</a></li>
+              <li><a href="/aberturas-de-aluminio-glew/">Glew</a></li>
+              <li><a href="/aberturas-de-aluminio-lomas-de-zamora/">Lomas de Zamora</a></li>
+              <li><a href="/aberturas-de-aluminio-banfield/">Banfield</a></li>
+              <li><a href="/aberturas-de-aluminio-temperley/">Temperley</a></li>
+              <li><a href="/aberturas-de-aluminio-llavallol/">Llavallol</a></li>
+              <li><a href="/aberturas-de-aluminio-turdera/">Turdera</a></li>
+              <li><a href="/aberturas-de-aluminio-lanus/">Lanús</a></li>
+              <li><a href="/aberturas-de-aluminio-gerli/">Gerli</a></li>
+              <li><a href="/aberturas-de-aluminio-valentin-alsina/">Valentín Alsina</a></li>
+              <li><a href="/aberturas-de-aluminio-avellaneda/">Avellaneda</a></li>
+              <li><a href="/aberturas-de-aluminio-quilmes/">Quilmes</a></li>
+              <li><a href="/aberturas-de-aluminio-bernal/">Bernal</a></li>
+              <li><a href="/aberturas-de-aluminio-ezpeleta/">Ezpeleta</a></li>
+              <li><a href="/aberturas-de-aluminio-berazategui/">Berazategui</a></li>
+              <li><a href="/aberturas-de-aluminio-florencio-varela/">Florencio Varela</a></li>
+              <li><a href="/aberturas-de-aluminio-monte-grande/">Monte Grande</a></li>
+              <li><a href="/aberturas-de-aluminio-luis-guillon/">Luis Guillón</a></li>
+              <li><a href="/aberturas-de-aluminio-ezeiza/">Ezeiza</a></li>
+              <li><a href="/aberturas-de-aluminio-tristan-suarez/">Tristán Suárez</a></li>
+              <li><a href="/aberturas-de-aluminio-canning/">Canning</a></li>
+            </ul>
+          </details>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <ul>
+            <li><a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" target="_blank" rel="noopener">WhatsApp: (011) 6336-8643</a></li>
+            <li><a href="mailto:alumfercarpinteria@gmail.com">alumfercarpinteria@gmail.com</a></li>
+            <li><a href="https://maps.google.com/?q=Av.+San+Martín+734+Adrogué" target="_blank" rel="noopener">Av. San Martín 734, Adrogué</a></li>
+            <li>Lun a Vie: 9 a 13 h</li>
+            <li>Sábados: 9 a 14 h</li>
+          </ul>
+        </div>
       </div>
-
-      <div class="footer__bottom">
-        <p class="footer__copy">© 2026 Alumfer. Adrogué, Buenos Aires.</p>
-        <p class="footer__copy">Av. San Martín 734 · (011) 6336-8643</p>
-      </div>
+      <div class="footer__bottom"><span>© 2026 Alumfer · Adrogué, Buenos Aires</span><span>Av. San Martín 734 · (011) 6336-8643</span></div>
     </div>
   </footer>
 
-
-  <!-- Barra de contacto rápido (solo mobile) -->
-  <div class="mobile-bar" aria-label="Contacto rápido">
-    <a href="tel:+5491163368643" class="mobile-bar__btn mobile-bar__btn--call" aria-label="Llamar a Alumfer">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14v2.92z"/></svg>
-      Llamar
-    </a>
-    <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" class="mobile-bar__btn mobile-bar__btn--wa"
-       target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      WhatsApp
-    </a>
+  <!-- Contacto rápido -->
+  <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" class="wa-float" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+  <div class="mbar" aria-label="Contacto rápido">
+    <a href="tel:+5491163368643" class="btn btn--call" aria-label="Llamar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Llamar</a>
+    <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" class="btn btn--wa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pedir presupuesto</a>
   </div>
-
-  <!-- WhatsApp flotante -->
-  <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" class="whatsapp-float"
-     target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-    </svg>
-  </a>
 
   <!-- Lightbox -->
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Imagen ampliada" hidden>
-    <button class="lightbox__close" id="lightbox-close" aria-label="Cerrar">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-    <button class="lightbox__btn lightbox__btn--prev" id="lightbox-prev" aria-label="Anterior">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
-    <div class="lightbox__img-wrap">
-      <img class="lightbox__img" id="lightbox-img" src="" alt="">
-    </div>
-    <button class="lightbox__btn lightbox__btn--next" id="lightbox-next" aria-label="Siguiente">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-    </button>
-    <div class="lightbox__footer">
-      <span class="lightbox__label" id="lightbox-label"></span>
-      <span class="lightbox__counter" id="lightbox-counter"></span>
-      <a href="https://wa.me/5491163368643?text=Hola%2C%20me%20interesa%20este%20trabajo%2C%20quisiera%20pedir%20un%20presupuesto" class="lightbox__wa" target="_blank" rel="noopener" aria-label="Consultar por WhatsApp">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Consultar por este trabajo
-      </a>
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada" hidden>
+    <div class="lightbox__stage"><img class="lightbox__img" id="lightbox-img" alt=""></div>
+    <button type="button" class="lightbox__close" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <button type="button" class="lightbox__btn lightbox__btn--prev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m15 18-6-6 6-6"/></svg></button>
+    <button type="button" class="lightbox__btn lightbox__btn--next" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m9 18 6-6-6-6"/></svg></button>
+    <div class="lightbox__bar">
+      <span class="mono" id="lightbox-label"></span>
+      <span class="mono" id="lightbox-counter"></span>
+      <a href="https://wa.me/5491163368643?text=Hola%2C%20me%20interesa%20este%20trabajo%2C%20quisiera%20pedir%20un%20presupuesto" class="btn btn--wa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Consultar por este trabajo</a>
     </div>
   </div>
 
-  <!-- Animation engine: GSAP + ScrollTrigger + Lenis + SplitType -->
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.umd.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/split-type@0.3.4/umd/index.min.js"></script>
-  <script defer src="cinematic.js?v=2"></script>
-  <script defer src="main.js?v=4"></script>
+  <script src="/site.js?v=4"></script>
 
   <script type="application/ld+json">
   {

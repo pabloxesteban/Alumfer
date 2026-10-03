@@ -137,3 +137,10 @@ Google, así que **no hay que esperar que el `aggregateRating` nos dé estrellas
 en el resultado de búsqueda**. Lo que se gana con esto es que el dato que
 publicamos sea verdadero y que el visitante vea reseñas recientes, no que suba
 el posicionamiento.
+
+## Diseño 2026
+
+Con el rediseño, el script reconoce también el formato nuevo: el dato del
+hero como `.stat` (`aria-label="Ver reseñas en Google"`) y, en la home, el
+bloque `.rating` y las citas `.quotes`. Las páginas internas conservan el
+bloque `.reviews-grid` + `google-badge` de siempre. Muestra 4 reseñas.

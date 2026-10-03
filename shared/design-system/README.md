@@ -22,6 +22,6 @@ Todo cambio visual parte de aquí y se propaga.
 ## Sincronización
 
 Si modificás `tokens.css` en `apps/website/` o en `apps/presupuestos/`, refleja el cambio aquí también.
-Si modificás aquí, copiá a `apps/website/tokens.css` y a `apps/presupuestos/tokens.css`.
+Si modificás aquí, copiá a `apps/presupuestos/tokens.css`. El sitio web ya no usa este archivo: desde octubre de 2026 sus tokens viven en `apps/website/site.css` (`:root`).
 
 > Próxima mejora: script de sync automático en `tools/sync-tokens.mjs`

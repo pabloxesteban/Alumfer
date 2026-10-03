@@ -258,6 +258,29 @@ def html_badge(puntaje_visible, puntaje_aria, cantidad, url):
     )
 
 
+def html_citas(elegidas):
+    """Las reseñas de la home (diseño 2026: citas en una fila)."""
+    bloques = []
+    for c in elegidas:
+        bloques.append(
+            '        <figure class="quote rv"><blockquote>“%s”</blockquote>'
+            '<footer class="mono"><b>%s</b><span>%s</span></footer></figure>\n'
+            % (escapar(c["texto"]), escapar(c["nombre"]), escapar(c["fecha"])))
+    return '      <div class="quotes">\n' + "".join(bloques) + '      </div>\n'
+
+
+def html_puntaje_home(puntaje_visible, cantidad, url):
+    palabra = "reseña" if cantidad == 1 else "reseñas"
+    return (
+        '<a class="rating" href="%s" target="_blank" rel="noopener" '
+        'aria-label="%s de 5 estrellas en Google, %d %s">\n'
+        '          <span class="rating__n">%s</span>\n'
+        '          <span><span class="rating__stars" aria-hidden="true">★★★★★</span>'
+        '<span class="rating__meta" style="display:block">%d %s en Google →</span></span>\n'
+        '        </a>'
+        % (escapar(url), puntaje_visible, cantidad, palabra, puntaje_visible, cantidad, palabra))
+
+
 # ─── Reescritura de las páginas ────────────────────────────────────────────
 
 # El \1 es importante: sin anclar la indentación del cierre, el .*? corta en el
@@ -272,6 +295,11 @@ RE_RATING = re.compile(r'([ \t]*)"aggregateRating":\s*\{.*?\n\s*\}', re.S)
 RE_HERO = re.compile(r'(class="hero__stat-link">)[0-9][.,][0-9](<span>)')
 RE_HERO_LINK = re.compile(r'(<a href=")[^"]*("[^>]*\n\s*aria-label="Ver reseñas en '
                           r'Google" class="hero__stat-link")')
+# Diseño 2026: el dato del hero es un ".stat" y la home tiene su propio bloque.
+RE_STAT = re.compile(r'(<a class="stat" href=")([^"]*)(" target="_blank" rel="noopener" '
+                     r'aria-label="Ver reseñas en Google"><div class="stat__n">)[0-9][.,][0-9](<small>)')
+RE_QUOTES = re.compile(r'([ \t]*)<div class="quotes">.*?\n\1</div>\n', re.S)
+RE_RATING_HOME = re.compile(r'<a class="rating" href="[^"]*".*?</a>', re.S)
 
 
 def main():
@@ -312,8 +340,9 @@ def main():
                        % urllib.parse.quote(place_id))
     else:
         # Carga a mano sin place_id: dejamos el link que ya tenían las páginas.
-        actual = re.search(r'<a href="([^"]*)"\s*\n\s*class="google-badge"',
-                           (WEB / "index.html").read_text())
+        home = (WEB / "index.html").read_text()
+        actual = (re.search(r'<a href="([^"]*)"\s*\n\s*class="google-badge"', home)
+                  or re.search(r'<a class="rating" href="([^"]*)"', home))
         if not actual:
             raise SystemExit("No pude leer el link del badge en la home para "
                              "conservarlo. No se tocó ningún archivo.")
@@ -354,6 +383,21 @@ def main():
             if url_resenas:
                 t = RE_HERO_LINK.sub(
                     lambda m: m.group(1) + escapar(url_resenas) + m.group(2), t)
+
+        if 'aria-label="Ver reseñas en Google"><div class="stat__n">' in t:
+            con_hero += 1
+            t, n = RE_STAT.subn(lambda m: m.group(1) + (escapar(url_resenas) if url_resenas else m.group(2))
+                                + m.group(3) + puntaje_visible + m.group(4), t, count=1)
+            if n != 1:
+                raise SystemExit("No encontré la puntuación del hero en %s. "
+                                 "No se escribió nada." % p.relative_to(RAIZ))
+
+        if p == inicio and '<div class="quotes">' in t:
+            con_resenas += 1
+            t, n1 = RE_QUOTES.subn(lambda _m: html_citas(elegidas), t, count=1)
+            t, n2 = RE_RATING_HOME.subn(lambda _m: html_puntaje_home(puntaje_visible, cantidad, url_resenas), t, count=1)
+            if n1 != 1 or n2 != 1:
+                raise SystemExit("No encontré las reseñas de la home. No se escribió nada.")
 
         if p == inicio:
             t, n = RE_RATING.subn(
