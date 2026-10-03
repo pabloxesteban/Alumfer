@@ -502,3 +502,31 @@ Pedido: que en el plano se vea la ventana simulada con su color y vidrio.
   color elegido (ilustrativo, no indica la separación real de perfiles).
 - Las cotas, marcas y avisos siguen encima. La hoja que se manda (PDF/PNG)
   y el DXF quedan en formato técnico, que es lo que sirve para presupuestar.
+
+### N.3 Simulación de apertura, catálogo completo y protección
+
+- **"Ver cómo abren"**: en la vista realista, cada abertura se abre y se
+  cierra con su movimiento real (corrediza se desliza, de abrir y puertas
+  giran sobre las bisagras, banderola bascula, oscilobatiente bascula y
+  después abre, portón corredizo sale de costado, levadizo sube, bajo
+  mesada y postigón abren sus hojas). Todas juntas o una por una.
+- **Catálogo completo** con los nombres de la app de presupuestos: se suman
+  puerta balcón de abrir, puerta de tablero / inyectada, cerramiento de
+  quincho / galería, baranda de aluminio y vidrio, portón corredizo y
+  levadizo, bajo mesada, mosquitero corredizo y fijo, postigón y reja
+  (sueltos, o como "agregados" de una ventana: mosquitero, reja, postigón).
+  Línea de perfiles: Herrero, Rotonda, A30 New, Módena o "que me asesoren".
+  Marcas por grupo en la planilla: V, P, C (cerramientos) y A (complementos).
+- **Protección contra el uso de la competencia** (todo del lado del
+  navegador, sin cobrar ni pedir cuenta):
+  - No se descarga, imprime ni comparte nada sin enviarlo antes a Alumfer
+    con nombre y teléfono; si el plano se cambia, hay que reenviarlo.
+  - Marca de agua ALUMFER en la pantalla (queda en cualquier captura) y en
+    las hojas exportadas, con nombre, teléfono y fecha de quien lo generó.
+  - El DXF (lo que más le serviría a otro taller) y las hojas sin marca son
+    sólo para Alumfer, con código de taller.
+  - Ctrl+P / imprimir la página muestra un aviso en vez del plano.
+  - Aviso legal de uso exclusivo en el inicio y en el envío.
+  - Límites honestos: una página web no puede bloquear capturas de pantalla
+    ni impedir del todo que alguien copie el código; cobrar por guardar
+    requiere una cuenta de Mercado Pago y un servidor (queda como opción).

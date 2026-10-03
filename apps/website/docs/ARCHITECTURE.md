@@ -105,6 +105,25 @@ Tres archivos, sin framework ni build:
    (`paredColor`) y cielo o interior detrás del vidrio según la vista; el
    techo muestra el policarbonato y los perfiles en el color elegido. La
    hoja (PDF/PNG) y el DXF siguen siendo técnicos.
+   **Catálogo completo** (`aberturas.js`): 23 tipologías con los mismos ids
+   y nombres de la app de presupuestos (ventanas, puertas, cerramientos,
+   baranda, portones, bajo mesada, mosquiteros, postigón, reja), líneas
+   (`LINEAS`), límites por tipo (`limites`) y accesorios por abertura
+   (mosquitero, reja, postigón). `Aberturas.real(item, { t })` dibuja la
+   versión realista con la apertura en `t` (0 cerrada → 1 abierta): la usan
+   la vista realista y la simulación "Ver cómo abren" del plano, y
+   "Probalo en tu pared" (que ahora deforma la textura con homografía
+   inversa por píxel, sin costuras).
+   **Protección**: para exportar (PDF, PNG, link) hay que enviar antes el
+   plano a Alumfer (nombre + teléfono); si el plano cambia, hay que
+   reenviarlo (firma del contenido). Todo lo exportado y la pantalla llevan
+   marca de agua; la lámina, además, la identificación de quien la generó.
+   El DXF y las hojas sin marca son sólo para el taller: `?taller` en la URL
+   o el comando `TALLER` piden el código, que se valida contra su SHA-256
+   (`HUELLA_TALLER` en `plano.js`; el código no está en el repositorio).
+   Para cambiarlo: calcular el SHA-256 del nuevo código en mayúsculas y
+   reemplazar la constante. Una captura de pantalla no se puede impedir
+   desde una página web; por eso la marca de agua está también en pantalla.
 
 Paleta: papel claro cálido, azul marino para secciones oscuras, azul de marca
 (`#1B6CC8`) en botones, banda de proceso y acentos. Motivo gráfico: grilla y

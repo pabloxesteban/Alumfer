@@ -195,12 +195,16 @@
         if (dir === 0) { flecha(cx, cy, 1, l * 0.8); flecha(cx, cy, -1, l * 0.8); } else flecha(cx - dir * l / 2, cy, dir, l);
       }
       if (it.mosquitero && t.mosq) R(ix + (n - 1) * hw + S * 0.6, iy + S * 0.6, hw - S * 1.2, ih - S * 1.2, 'APERT', { trazo: 'DASH' });
-    } else if (t.kind === 'abrir' || t.kind === 'puerta') {
+    } else if (t.kind === 'abrir' || t.kind === 'puerta' || t.kind === 'ciega') {
       const aw = iw / n;
       for (let k = 0; k < n; k++) {
         const hx = ix + k * aw;
         const lado = n === 1 ? (it.mano === 'der' ? 'der' : 'izq') : (k === 0 ? 'izq' : 'der');
-        if (t.kind === 'puerta') {
+        if (t.kind === 'ciega') {
+          R(hx, iy, aw, ih, 'CARP');
+          R(hx + aw * 0.16, iy + ih * 0.07, aw * 0.68, ih * 0.38, 'VIDRIO'); R(hx + aw * 0.16, iy + ih * 0.52, aw * 0.68, ih * 0.4, 'VIDRIO');
+          tri(hx + S, iy + S, aw - 2 * S, ih - 2 * S, lado);
+        } else if (t.kind === 'puerta') {
           const tr = ih * 0.6;
           R(hx, iy, aw, ih, 'CARP');
           R(hx + S, iy + S, aw - 2 * S, tr - S * 1.5, 'VIDRIO');
@@ -218,10 +222,51 @@
       hoja(ix, iy, iw, ih);
       tri(ix + S, iy + S, iw - 2 * S, ih - 2 * S, it.mano === 'der' ? 'der' : 'izq');
       tri(ix + S, iy + S, iw - 2 * S, ih - 2 * S, 'abajo');
-    } else {
+    } else if (t.kind === 'fijo') {
       R(ix, iy, iw, ih, 'VIDRIO');
       Lr([ix + iw * 0.15, iy + ih * 0.5], [ix + iw * 0.85, iy + ih * 0.5], 'APERT', { trazo: 'DASH' });
+    } else if (t.kind === 'baranda') {
+      g.length = 0;
+      const np = Math.max(1, Math.ceil(W / 120));
+      R(-1, 0, W + 2, 6, 'CARP'); R(0, H - 4, W, 4, 'CARP');
+      for (let q = 0; q <= np; q++) R(clamp(q * W / np - 2.25, 0, W - 4.5), 0, 4.5, H, 'CARP');
+      for (let q = 0; q < np; q++) R(q * W / np + 3.5, 8, W / np - 7, H - 14, 'VIDRIO');
+    } else if (t.kind === 'porton' || t.kind === 'levadizo') {
+      R(S, S, W - 2 * S, H - 2 * S, 'VIDRIO');
+      if (t.kind === 'porton') { for (let y = 10; y < H - 4; y += 10) Lr([S, y], [W - S, y], 'RAYADO'); flecha(W * 0.4, H * 0.5, 1, clamp(W * 0.2, 10, 60)); }
+      else {
+        for (let q = 1; q < 4; q++) Lr([0, H * q / 4], [W, H * q / 4], 'CARP');
+        const l = clamp(H * 0.25, 10, 50), x = W / 2, y = H * 0.62;
+        Lr([x, y], [x, y - l], 'APERT'); Lr([x, y - l], [x - l * 0.3, y - l * 0.7], 'APERT'); Lr([x, y - l], [x + l * 0.3, y - l * 0.7], 'APERT');
+      }
+    } else if (t.kind === 'mueble') {
+      g.length = 0;
+      R(-2, 0, W + 4, 4, 'MURO');
+      R(0, 4, W / 2, H - 4, 'CARP'); R(W / 2, 4, W / 2, H - 4, 'CARP');
+      tri(2, 6, W / 2 - 4, H - 8, 'izq'); tri(W / 2 + 2, 6, W / 2 - 4, H - 8, 'der');
+    } else if (t.kind === 'mosq') {
+      const fm = Math.max(2, F * 0.6);
+      R(fm, fm, W - 2 * fm, H - 2 * fm, 'VIDRIO');
+      rayado([[fm, fm], [W - fm, fm], [W - fm, H - fm], [fm, H - fm]], 0, 6).concat(rayado([[fm, fm], [W - fm, fm], [W - fm, H - fm], [fm, H - fm]], 90, 6)).forEach((q) => Lr(q[0], q[1], 'RAYADO'));
+      if (n === 2) { Lr([W / 2, fm], [W / 2, H - fm], 'CARP'); flecha(W * 0.25, H * 0.5, 1, clamp(W * 0.12, 6, 25)); }
+    } else if (t.kind === 'postigon') {
+      g.length = 0;
+      R(0, 0, W / 2, H, 'CARP'); R(W / 2, 0, W / 2, H, 'CARP');
+      for (let y = 6; y < H - 2; y += 6) { Lr([2, y], [W / 2 - 2, y], 'RAYADO'); Lr([W / 2 + 2, y], [W - 2, y], 'RAYADO'); }
+      tri(2, 2, W / 2 - 4, H - 4, 'izq'); tri(W / 2 + 2, 2, W / 2 - 4, H - 4, 'der');
+    } else if (t.kind === 'reja') {
+      R(3, 3, W - 6, H - 6, 'CARP');
+      const nb = Math.max(2, Math.round(W / 12));
+      for (let q = 1; q < nb; q++) Lr([q * W / nb, 0], [q * W / nb, H], 'CARP');
+      Lr([0, H * 0.33], [W, H * 0.33], 'CARP'); Lr([0, H * 0.66], [W, H * 0.66], 'CARP');
     }
+    // accesorios: reja por delante y postigones (abiertos, a los costados)
+    if (!t.sinAcc && it.reja) {
+      const nb = Math.max(2, Math.round(W / 12));
+      for (let q = 1; q < nb; q++) Lr([q * W / nb, 0], [q * W / nb, H], 'ESTR');
+      Lr([0, H * 0.33], [W, H * 0.33], 'ESTR'); Lr([0, H * 0.66], [W, H * 0.66], 'ESTR');
+    }
+    if (!t.sinAcc && it.postigon) { R(-W / 2 - 1, 0, W / 2, H, 'ESTR', { trazo: 'DASH' }); R(W + 1, 0, W / 2, H, 'ESTR', { trazo: 'DASH' }); }
     return g;
   }
   // Lleva primitivas locales (y hacia abajo) a un destino: f([x,y]) → [x,y]
@@ -234,17 +279,21 @@
       return o;
     });
   }
-  const tieneMano = (t) => (t.kind === 'abrir' || t.kind === 'puerta' || t.kind === 'oscilo') && t.hojas === 1;
+  const tieneMano = (t) => (t.kind === 'abrir' || t.kind === 'puerta' || t.kind === 'oscilo' || t.kind === 'ciega') && t.hojas === 1;
+  const conAcc = (t) => !t.sinAcc && (t.grupo === 'Ventanas' || t.grupo === 'Puertas');
+  const conLinea = (t) => t.grupo === 'Ventanas' || t.grupo === 'Puertas' || t.id === 'cerramiento';
+  const esComp = (it) => A.tipo(it.tipo).grupo === 'Complementos';
+  const PREFIJO = { Ventanas: 'V', Puertas: 'P', Cerramientos: 'C', Complementos: 'A' };
 
   // ── Referencias de carpintería (V1, P1…) para todo el plano ──
-  function claveItem(it) { return [it.tipo, Math.round(it.ancho), Math.round(it.alto), it.color, it.vidrio, it.mosquitero && A.tipo(it.tipo).mosq ? 1 : 0, tieneMano(A.tipo(it.tipo)) ? it.mano : ''].join('|'); }
+  function claveItem(it) { const t = A.tipo(it.tipo); return [it.tipo, Math.round(it.ancho), Math.round(it.alto), it.color, t.sinVidrio ? '' : it.vidrio, it.mosquitero && t.mosq ? 1 : 0, tieneMano(t) ? it.mano : '', conLinea(t) ? it.linea || 'asesorar' : '', conAcc(t) && it.reja ? 1 : 0, conAcc(t) && it.postigon ? 1 : 0].join('|'); }
   function referencias() {
-    const map = new Map(), cuenta = { V: 0, P: 0 };
+    const map = new Map(), cuenta = { V: 0, P: 0, C: 0, A: 0 };
     plano.laminas.forEach((L) => {
       if (L.tipo !== 'fachada') return;
       L.items.slice().sort((a, b) => a.x - b.x).forEach((it) => {
         const k = claveItem(it);
-        if (!map.has(k)) { const pre = A.tipo(it.tipo).grupo === 'Puertas' ? 'P' : 'V'; map.set(k, pre + (++cuenta[pre])); }
+        if (!map.has(k)) { const pre = PREFIJO[A.tipo(it.tipo).grupo] || 'V'; map.set(k, pre + (++cuenta[pre])); }
       });
     });
     return { de: (it) => map.get(claveItem(it)) || '?' };
@@ -256,12 +305,17 @@
       if (!filas.has(r)) filas.set(r, { ref: r, it, cant: 0, antes: new Set() });
       const f = filas.get(r); f.cant++; f.antes.add(Math.round(it.ante));
     });
-    return [...filas.values()].sort((a, b) => (a.ref[0] === b.ref[0] ? +a.ref.slice(1) - +b.ref.slice(1) : a.ref < b.ref ? 1 : -1));
+    const orden = 'VPCA';
+    return [...filas.values()].sort((a, b) => (a.ref[0] === b.ref[0] ? +a.ref.slice(1) - +b.ref.slice(1) : orden.indexOf(a.ref[0]) - orden.indexOf(b.ref[0])));
   }
   function detalleItem(it) {
     const t = A.tipo(it.tipo), c = A.color(it.color), v = A.vidrio(it.vidrio);
-    const p = [c.grupo === 'Anodizado' ? 'Anodizado ' + c.nombre.toLowerCase() : c.nombre, 'vidrio ' + v.nombre.replace(' (doble vidriado)', '').toLowerCase().replace('dvh', 'DVH')];
+    const p = [c.grupo === 'Anodizado' ? 'Anodizado ' + c.nombre.toLowerCase() : c.nombre];
+    if (!t.sinVidrio) p.push('vidrio ' + v.nombre.replace(' (doble vidriado)', '').toLowerCase().replace('dvh', 'DVH'));
+    if (conLinea(t) && it.linea && it.linea !== 'asesorar') p.push('línea ' + A.linea(it.linea).nombre);
     if (it.mosquitero && t.mosq) p.push('c/ mosquitero');
+    if (conAcc(t) && it.reja) p.push('c/ reja');
+    if (conAcc(t) && it.postigon) p.push('c/ postigón');
     if (tieneMano(t)) p.push('abre ' + (it.mano === 'der' ? 'der.' : 'izq.'));
     return p.join(' · ');
   }
@@ -486,6 +540,7 @@
     if (opts.fuente) s += `<style>@font-face{font-family:'IBM Plex Mono';src:url(${opts.fuente}) format('woff2');}</style>`;
     s += `<rect width="${HOJA.w}" height="${HOJA.h}" fill="#fff"/>`;
     s += aSvg(E.P, T, 1, 'papel');
+    if (!taller && !opts.limpia) s += marcaLamina();
     // marco y rótulo
     const X0 = HOJA.x0, Y0 = HOJA.y0, X1 = HOJA.x1, Y1 = HOJA.y1, yr = Y1 - HOJA.rot, xc = X1 - HOJA.col;
     s += `<g fill="none" stroke="#000"><rect x="${X0}" y="${Y0}" width="${X1 - X0}" height="${Y1 - Y0}" stroke-width="0.5"/><path d="M${X0} ${yr}H${X1}M${xc} ${Y0}V${yr}" stroke-width="0.35"/></g>`;
@@ -502,6 +557,16 @@
     return s + '</svg>';
   }
 
+  // marca de agua: diagonal suave + identificación en el margen izquierdo
+  function marcaLamina() {
+    const env = plano.envio || {};
+    let s = '<g font-family="Archivo, Arial, sans-serif" font-weight="800" fill="#1B6CC8" fill-opacity="0.07" text-anchor="middle">';
+    [[80, 70], [200, 70], [80, 150], [200, 150]].forEach(([x, y]) => { s += `<text x="${x}" y="${y}" font-size="16" transform="rotate(-24 ${x} ${y})" letter-spacing="2">ALUMFER</text>`; });
+    s += '</g>';
+    const id = `Plano generado en alumfer.com.ar${env.nombre ? ' para ' + env.nombre : ''}${env.tel ? ' · Tel. ' + env.tel : ''}${env.fecha ? ' · ' + env.fecha.split('-').reverse().join('/') : ''} · Uso exclusivo para presupuestar con Alumfer. Prohibida su reproducción o uso por terceros.`;
+    s += `<text x="11" y="${HOJA.h / 2}" font-size="1.9" fill="#555" text-anchor="middle" transform="rotate(-90 11 ${HOJA.h / 2})" font-family="'IBM Plex Mono', monospace">${esc(id)}</text>`;
+    return s;
+  }
   function txt(x, y, s, h, o) {
     o = o || {};
     return `<text x="${n2(x)}" y="${n2(y)}" font-size="${h}" fill="${o.color || '#000'}"${o.al ? ` text-anchor="${o.al}"` : ''}${o.b ? ' font-weight="600"' : ''}${o.fam ? ` font-family="${o.fam}"` : ''}>${esc(s)}</text>`;
@@ -528,7 +593,7 @@
         // mini elevación de la abertura
         const bw = 24, bh = alto - 6, kk = Math.min(bw / it.ancho, bh / it.alto);
         const mx = x0 + pad + (bw - it.ancho * kk) / 2, my = yy + 3 + (bh - it.alto * kk) / 2;
-        const prims = mapear(geoAbertura(it), ([x, y]) => [mx + x * kk, my + y * kk]);
+        const prims = mapear(geoAbertura(Object.assign({}, it, { postigon: false })), ([x, y]) => [mx + x * kk, my + y * kk]);
         s += aSvg(prims, (p) => p, 1, 'papel').replace(/stroke-width="0\.35"/g, 'stroke-width="0.25"');
         const tx = x0 + pad + bw + 3;
         s += `<circle cx="${n2(tx + 2.6)}" cy="${n2(yy + 4.6)}" r="2.6" fill="none" stroke="#000" stroke-width="0.25"/>` + txt(tx + 2.6, yy + 5.4, f.ref, 2, { al: 'middle', b: true });
@@ -761,6 +826,8 @@
     s += overlay(L, P);
     // ícono de ejes (SCU) en la esquina, como en CAD
     const ux = 18, uy = vh - (innerWidth < 900 ? 72 : 18);
+    s += marcaPantalla();
+    if (anim) { if (performance.now() - anim.t0 > T_ABRE + T_QUIETO + T_CIERRA) { if (anim.forzada) vistaReal = false; anim = null; } else requestAnimationFrame(() => pedir()); }
     if (!simple()) s += `<g stroke-width="1.5" font-size="10" opacity="0.85"><path d="M${ux} ${uy}h26" stroke="#E25555"/><path d="M${ux} ${uy}v-26" stroke="#4FCB6B"/><rect x="${ux - 3}" y="${uy - 3}" width="6" height="6" fill="none" stroke="#C9D3DD" stroke-width="1"/><text x="${ux + 29}" y="${uy + 4}" fill="#E25555" stroke="none">X</text><text x="${ux - 3}" y="${uy - 30}" fill="#4FCB6B" stroke="none">Y</text></g>`;
     ui.svg.innerHTML = s;
     ui.zoom.textContent = '1 m = ' + Math.round(cam.z * 100) + ' px';
@@ -781,17 +848,40 @@
   let vistaReal = true;
   try { vistaReal = localStorage.getItem('alumfer-plano-vista') !== 'tecnica'; } catch (_) {}
   const cacheAb = new Map();
-  function svgAbertura(it) {
-    const key = [it.tipo, Math.round(it.ancho), Math.round(it.alto), it.color, it.vidrio, it.mosquitero ? 1 : 0].join('|');
+  function svgAbertura(it, tt) {
+    const datos = { tipo: it.tipo, ancho: it.ancho, alto: it.alto, color: it.color, vidrio: it.vidrio, mosquitero: it.mosquitero, mano: it.mano, reja: it.reja, postigon: it.postigon };
+    if (tt > 0) return A.real(datos, { t: tt });
+    const key = [it.tipo, Math.round(it.ancho), Math.round(it.alto), it.color, it.vidrio, it.mosquitero ? 1 : 0, it.mano, it.reja ? 1 : 0, it.postigon ? 1 : 0].join('|');
     if (!cacheAb.has(key)) {
       if (cacheAb.size > 150) cacheAb.clear();
-      cacheAb.set(key, A.dibujar({ tipo: it.tipo, ancho: it.ancho, alto: it.alto, color: it.color, vidrio: it.vidrio, mosquitero: it.mosquitero }, { foto: true, luz: 1 }));
+      cacheAb.set(key, A.real(datos, { t: 0 }));
     }
     return cacheAb.get(key);
   }
+
+  // ── Simulación de apertura ────────────────────────────────
+  let anim = null;   // { t0, id }
+  const T_ABRE = 1300, T_QUIETO = 900, T_CIERRA = 1100;
+  function tAnim(id) {
+    if (!anim || (anim.id && anim.id !== id)) return 0;
+    const e = performance.now() - anim.t0;
+    if (e < T_ABRE) return e / T_ABRE;
+    if (e < T_ABRE + T_QUIETO) return 1;
+    if (e < T_ABRE + T_QUIETO + T_CIERRA) return 1 - (e - T_ABRE - T_QUIETO) / T_CIERRA;
+    return 0;
+  }
+  function animar(id) {
+    const L = lam(); if (!L || L.tipo !== 'fachada' || !L.items.length) { aviso('Primero agregá alguna ventana o puerta.'); return; }
+    if (modo === 'lamina') setModo('modelo');
+    anim = { t0: performance.now(), id: id || null, forzada: !vistaReal };
+    vistaReal = true;
+    aviso(id ? 'Así abre.' : 'Así abren tus aberturas.');
+    pedir();
+    ga('plano_animar', { event_label: id ? A.tipo((L.items.find((i) => i.id === id) || {}).tipo || '').id : 'todas' });
+  }
   function capaReal(L, P) {
     const z = cam.z, d = (pts) => pts.map((q, i) => (i ? 'L' : 'M') + aPant(q).map((v) => v.toFixed(1)).join(' ')).join('') + 'Z';
-    let s = `<defs><filter id="re-sombra" x="-10%" y="-10%" width="130%" height="140%"><feDropShadow dx="0" dy="${Math.max(1, 1.5 * z).toFixed(1)}" stdDeviation="${Math.max(1, 1.8 * z).toFixed(1)}" flood-color="#1B2530" flood-opacity="0.35"/></filter>` +
+    let s = `<defs><filter id="re-sombra" x="-70%" y="-20%" width="240%" height="150%"><feDropShadow dx="0" dy="${Math.max(1, 1.5 * z).toFixed(1)}" stdDeviation="${Math.max(1, 1.8 * z).toFixed(1)}" flood-color="#1B2530" flood-opacity="0.35"/></filter>` +
       `<linearGradient id="re-cielo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9EC5E8"/><stop offset="0.62" stop-color="#DCEAF5"/><stop offset="0.63" stop-color="#9DB98A"/><stop offset="1" stop-color="#7E9B6C"/></linearGradient>` +
       `<linearGradient id="re-adentro" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4A4F55"/><stop offset="1" stop-color="#2E3236"/></linearGradient>` +
       `<linearGradient id="re-poli" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#B5D3EC"/><stop offset="0.45" stop-color="#E4F0F9"/><stop offset="0.55" stop-color="#D2E5F4"/><stop offset="1" stop-color="#A9CBE6"/></linearGradient>`;
@@ -814,9 +904,8 @@
         const [x0, y0] = aPant([it.x, it.ante + it.alto]), w = it.ancho * z, h = it.alto * z;
         // lo que se ve a través del vidrio
         s += `<rect x="${x0.toFixed(1)}" y="${y0.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" fill="url(#${L.vista === 'exterior' ? 're-adentro' : 're-cielo'})"/>`;
-        const svg = svgAbertura(it).replace('<svg ', `<svg x="0" y="0" width="${w.toFixed(1)}" height="${h.toFixed(1)}" `);
-        const espejo = tieneMano(A.tipo(it.tipo)) && it.mano === 'der';
-        s += `<g filter="url(#re-sombra)" transform="translate(${x0.toFixed(1)} ${y0.toFixed(1)})${espejo ? ` translate(${w.toFixed(1)} 0) scale(-1 1)` : ''}">${svg}</g>`;
+        const svg = svgAbertura(it, tAnim(it.id)).replace('<svg ', `<svg x="0" y="0" width="${w.toFixed(1)}" height="${h.toFixed(1)}" `);
+        s += `<g filter="url(#re-sombra)" transform="translate(${x0.toFixed(1)} ${y0.toFixed(1)})">${svg}</g>`;
       });
       return s;
     }
@@ -842,6 +931,13 @@
     return s;
   }
 
+  // marca de agua en pantalla: también queda en cualquier captura
+  function marcaPantalla() {
+    if (taller) return '';
+    const t = esc(textoMarca()), w = Math.max(260, t.length * 7.2 + 60), col = simple() ? '#1B6CC8' : '#9FB6D0';
+    return `<defs><pattern id="marca-alf" patternUnits="userSpaceOnUse" width="${w}" height="150" patternTransform="rotate(-24)"><text x="0" y="40" font-family="Archivo, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="1.5" fill="${col}" fill-opacity="${simple() ? 0.075 : 0.08}">${t}</text><text x="${w / 2}" y="115" font-family="Archivo, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="1.5" fill="${col}" fill-opacity="${simple() ? 0.075 : 0.08}">${t}</text></pattern></defs><rect width="${vw}" height="${vh}" fill="url(#marca-alf)" pointer-events="none"/>`;
+  }
+
   // selección, pinzamientos (grips) y avisos sobre la vista
   function overlay(L, P) {
     let s = '';
@@ -856,7 +952,7 @@
       const malas = new Set();
       L.items.forEach((a) => {
         if (a.x < -0.5 || a.ante < -0.5 || a.x + a.ancho > L.pared.ancho + 0.5 || a.ante + a.alto > L.pared.alto + 0.5) malas.add(a.id);
-        L.items.forEach((b) => { if (a !== b && a.x < b.x + b.ancho - 0.5 && b.x < a.x + a.ancho - 0.5 && a.ante < b.ante + b.alto - 0.5 && b.ante < a.ante + a.alto - 0.5) malas.add(a.id); });
+        L.items.forEach((b) => { if (a !== b && !esComp(a) && !esComp(b) && a.x < b.x + b.ancho - 0.5 && b.x < a.x + a.ancho - 0.5 && a.ante < b.ante + b.alto - 0.5 && b.ante < a.ante + a.alto - 0.5) malas.add(a.id); });
       });
       malas.forEach((id) => { const a = L.items.find((i) => i.id === id); s += contorno(rectItem(a), '#E25555'); });
       if (hover && hover.tipo === 'ab' && !(sel && sel.id === hover.id)) { const a = L.items.find((i) => i.id === hover.id); if (a) s += contorno(rectItem(a), '#9DB7D6'); }
@@ -1042,7 +1138,7 @@
       let x0 = o.x, x1 = o.x + o.ancho, y0 = o.ante, y1 = o.ante + o.alto;
       if (g.includes('w')) x0 = redondear(o.x + dx, paso); if (g.includes('e')) x1 = redondear(o.x + o.ancho + dx, paso);
       if (g.includes('s')) y0 = Math.max(0, redondear(o.ante + dy, paso)); if (g.includes('n')) y1 = redondear(o.ante + o.alto + dy, paso);
-      const [lw0, lw1] = A.LIMITES.ancho, [lh0, lh1] = A.LIMITES.alto;
+      const lim = A.limites(A.tipo(a.tipo)), [lw0, lw1] = lim.ancho, [lh0, lh1] = lim.alto;
       if (x1 - x0 < lw0) { if (g.includes('w')) x0 = x1 - lw0; else x1 = x0 + lw0; }
       if (x1 - x0 > lw1) { if (g.includes('w')) x0 = x1 - lw1; else x1 = x0 + lw1; }
       if (y1 - y0 < lh0) { if (g.includes('s')) y0 = y1 - lh0; else y1 = y0 + lh0; }
@@ -1126,6 +1222,7 @@
     PARED: ['Propiedades de la pared', () => { if (lam().tipo === 'fachada') { sel = { tipo: 'pared' }; pintarProps(); pedir(); } }],
     LAM: ['Ver la lámina (presentación)', () => setModo(modo === 'lamina' ? 'modelo' : 'lamina')],
     PDF: ['Descargar PDF', () => exportarPdf()], PNG: ['Descargar imagen', () => exportarPng()], DXF: ['Descargar DXF', () => descargarDxf()],
+    TALLER: ['', () => pedirTaller()],
     G: ['Grilla sí/no (F7)', () => alternar('grilla')], O: ['Orto sí/no (F8)', () => alternar('orto')], R: ['Referencia a objetos sí/no (F3)', () => alternar('refent')],
   };
   function ejecutar(txt) {
@@ -1229,6 +1326,7 @@
     redo: '<path d="M15 7l5 5-5 5"/><path d="M20 12H9a5 5 0 000 10h3"/>',
     lam: '<rect x="3" y="5" width="18" height="14"/><path d="M14 15h7M14 15v4"/>',
     del: '<path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/>',
+    play: '<circle cx="12" cy="12" r="9"/><path d="M10 8.5l5 3.5-5 3.5z"/>',
     real: '<path d="M3 17l5-6 4 4 3-3 6 5"/><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="16" cy="8.5" r="1.6"/>',
     rep: '<path d="M3 5v14M21 5v14"/><rect x="6" y="8" width="4" height="8"/><rect x="14" y="8" width="4" height="8"/>',
   };
@@ -1241,6 +1339,7 @@
       if (L.tipo === 'fachada') {
         s += b('ab', 'Agregar ventana o puerta', 'data-act="biblioteca" class="is-main"', 'Agregar');
         s += b('rep', 'Repartir parejo', 'data-act="repartir"', 'Repartir');
+        s += b('play', 'Ver cómo abren', 'data-act="animar"', 'Abrir');
       } else {
         s += b('col', 'Agregar columna', `data-herr="columna" aria-pressed="${herramienta === 'columna'}"`, 'Columna');
       }
@@ -1254,6 +1353,7 @@
     if (L.tipo === 'fachada') {
       s += b('ab', 'Abertura', 'data-act="biblioteca"');
       s += b('boceto', 'Del boceto', 'data-act="boceto"');
+      s += b('play', 'Ver cómo abren', 'data-act="animar"', 'Abrir');
     } else {
       s += b('col', 'Columna', `data-herr="columna" aria-pressed="${herramienta === 'columna'}"`);
       s += b('rect', 'Rectángulo', 'data-forma="rect"', 'Rect.');
@@ -1303,7 +1403,7 @@
       if (a.ante + a.alto > L.pared.alto + 0.5) out.push(`${refs.de(a)} queda más alta que la pared.`);
     });
     L.items.forEach((a, i) => L.items.slice(i + 1).forEach((b) => {
-      if (a.x < b.x + b.ancho - 0.5 && b.x < a.x + a.ancho - 0.5 && a.ante < b.ante + b.alto - 0.5 && b.ante < a.ante + a.alto - 0.5) out.push(`${refs.de(a)} y ${refs.de(b)} se superponen.`);
+      if (!esComp(a) && !esComp(b) && a.x < b.x + b.ancho - 0.5 && b.x < a.x + a.ancho - 0.5 && a.ante < b.ante + b.alto - 0.5 && b.ante < a.ante + a.alto - 0.5) out.push(`${refs.de(a)} y ${refs.de(b)} se superponen.`);
     }));
     return out;
   }
@@ -1326,17 +1426,21 @@
           c += `<div class="ps-item__body">${selS('tipo', 'Tipo', opcionesTipo(a.tipo), a.id)}`;
           c += `<div class="ps-grid">${numS('ancho', 'Ancho', a.ancho, { id: a.id })}${numS('alto', 'Alto', a.alto, { id: a.id })}</div>`;
           c += `<div class="ps-grid">${numS('x', 'Desde la izquierda', a.x, { id: a.id, ayuda: 'Desde el borde de la pared' })}${numS('ante', 'Desde el piso', a.ante, { id: a.id, ayuda: t.grupo === 'Puertas' ? 'En puertas va 0' : 'Hasta el borde de abajo' })}</div>`;
-          c += `<div class="ps-grid">${selS('color', 'Color', opcionesColor(a.color), a.id)}${selS('vidrio', 'Vidrio', A.VIDRIOS.map((v) => opt(v.id, v.nombre.replace(' (doble vidriado)', ''), a.vidrio)).join(''), a.id)}</div>`;
+          c += `<div class="ps-grid">${selS('color', 'Color', opcionesColor(a.color), a.id)}${t.sinVidrio ? '' : selS('vidrio', 'Vidrio', A.VIDRIOS.map((v) => opt(v.id, v.nombre.replace(' (doble vidriado)', ''), a.vidrio)).join(''), a.id)}</div>`;
+          if (conLinea(t)) c += selS('linea', 'Línea de aluminio', A.LINEAS.map((l) => opt(l.id, l.nombre, a.linea || 'asesorar')).join(''), a.id);
           if (tieneMano(t)) c += selS('mano', 'Bisagras', opt('izq', 'A la izquierda', a.mano) + opt('der', 'A la derecha', a.mano), a.id);
-          if (t.mosq) c += `<label class="pp pp--check"><input type="checkbox" data-k="mosquitero" data-id="${a.id}"${a.mosquitero ? ' checked' : ''}><span>Con mosquitero</span></label>`;
-          c += `<div class="pp-acts"><button type="button" data-pp="centrar" data-id="${a.id}">Centrar</button><button type="button" data-pp="duplicar" data-id="${a.id}">Duplicar</button><button type="button" class="is-danger" data-pp="borrar" data-id="${a.id}">Borrar</button></div></div>`;
+          const extras = [];
+          if (t.mosq) extras.push(`<label class="ps-chk"><input type="checkbox" data-k="mosquitero" data-id="${a.id}"${a.mosquitero ? ' checked' : ''}><span>Mosquitero</span></label>`);
+          if (conAcc(t)) extras.push(`<label class="ps-chk"><input type="checkbox" data-k="reja" data-id="${a.id}"${a.reja ? ' checked' : ''}><span>Reja</span></label>`, `<label class="ps-chk"><input type="checkbox" data-k="postigon" data-id="${a.id}"${a.postigon ? ' checked' : ''}><span>Postigón</span></label>`);
+          if (extras.length) c += `<div class="ps-extras"><span class="ps__lbl"><span>Agregados</span></span><div>${extras.join('')}</div></div>`;
+          c += `<div class="pp-acts"><button type="button" class="is-main" data-act="animar" data-id="${a.id}">▶ Ver cómo abre</button><button type="button" data-pp="centrar" data-id="${a.id}">Centrar</button><button type="button" data-pp="duplicar" data-id="${a.id}">Duplicar</button><button type="button" class="is-danger" data-pp="borrar" data-id="${a.id}">Borrar</button></div></div>`;
         }
         return c + '</div>';
       }).join('');
       if (!items.length) lista = '<p class="pp-vacio">Todavía no hay ninguna. Tocá el botón de abajo y elegí qué va en esta pared.</p>';
       const av = avisosFachada(L, refs);
       lista += av.length ? `<ul class="ps-avisos">${av.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : '';
-      lista += `<div class="ps-fin"><button type="button" class="ps-boton" data-act="biblioteca">+ Agregar ventana o puerta</button>${items.length > 1 ? '<button type="button" class="ps-boton ps-boton--line" data-act="repartir">Repartir parejo</button>' : ''}</div>`;
+      lista += `<div class="ps-fin"><button type="button" class="ps-boton" data-act="biblioteca">+ Agregar ventana o puerta</button>${items.length > 1 ? '<button type="button" class="ps-boton ps-boton--line" data-act="repartir">Repartir parejo</button>' : ''}${items.length ? '<button type="button" class="ps-boton ps-boton--line" data-act="animar">▶ Ver cómo abren</button>' : ''}</div>`;
       lista += items.length ? '<p class="ps-ayuda">También podés arrastrarlas en el dibujo. Tocá una para cambiar sus medidas.</p>' : '';
       s += paso(2, 'Ventanas y puertas', lista);
       s += paso(3, 'Tus datos y envío', datos);
@@ -1387,12 +1491,14 @@
       const a = L.items.find((i) => i.id === sel.id), t = A.tipo(a.tipo);
       titulo = refs.de(a) + ' · ' + t.nombre;
       s += `<div class="pp-grid">${selCampo('tipo', 'Tipo', opcionesTipo(a.tipo))}</div>`;
-      s += `<div class="pp-grid pp-grid--2">${num('ancho', 'Ancho', a.ancho, ` min="${A.LIMITES.ancho[0]}" max="${A.LIMITES.ancho[1]}"`)}${num('alto', 'Alto', a.alto, ` min="${A.LIMITES.alto[0]}" max="${A.LIMITES.alto[1]}"`)}`;
+      s += `<div class="pp-grid pp-grid--2">${num('ancho', 'Ancho', a.ancho, ` min="${A.limites(t).ancho[0]}" max="${A.limites(t).ancho[1]}"`)}${num('alto', 'Alto', a.alto, ` min="${A.limites(t).alto[0]}" max="${A.limites(t).alto[1]}"`)}`;
       s += `${num('x', 'Desde la izquierda', a.x)}${num('ante', 'Altura desde el piso', a.ante, ' min="0"')}</div>`;
-      s += `<div class="pp-grid pp-grid--2">${selCampo('color', 'Color', opcionesColor(a.color))}${selCampo('vidrio', 'Vidrio', A.VIDRIOS.map((v) => opt(v.id, v.nombre.replace(' (doble vidriado)', ''), a.vidrio)).join(''))}`;
+      s += `<div class="pp-grid pp-grid--2">${selCampo('color', 'Color', opcionesColor(a.color))}${t.sinVidrio ? '' : selCampo('vidrio', 'Vidrio', A.VIDRIOS.map((v) => opt(v.id, v.nombre.replace(' (doble vidriado)', ''), a.vidrio)).join(''))}`;
+      if (conLinea(t)) s += selCampo('linea', 'Línea', A.LINEAS.map((l) => opt(l.id, l.nombre, a.linea || 'asesorar')).join(''));
+      if (conAcc(t)) s += `<label class="pp pp--check"><input type="checkbox" data-k="reja"${a.reja ? ' checked' : ''}><span>Con reja</span></label><label class="pp pp--check"><input type="checkbox" data-k="postigon"${a.postigon ? ' checked' : ''}><span>Con postigón</span></label>`;
       if (tieneMano(t)) s += selCampo('mano', 'Abre hacia', opt('izq', 'Izquierda (bisagras a la izq.)', a.mano) + opt('der', 'Derecha (bisagras a la der.)', a.mano));
       if (t.mosq) s += `<label class="pp pp--check"><input type="checkbox" data-k="mosquitero"${a.mosquitero ? ' checked' : ''}><span>Con mosquitero</span></label>`;
-      s += `</div><div class="pp-acts"><button type="button" data-pp="duplicar">Duplicar</button><button type="button" data-pp="centrar">Centrar en la pared</button><button type="button" class="is-danger" data-pp="borrar">Borrar</button></div>`;
+      s += `</div><div class="pp-acts"><button type="button" data-act="animar" data-id="${a.id}">▶ Ver cómo abre</button><button type="button" data-pp="duplicar">Duplicar</button><button type="button" data-pp="centrar">Centrar en la pared</button><button type="button" class="is-danger" data-pp="borrar">Borrar</button></div>`;
     } else if (L.tipo === 'fachada') {
       titulo = (sel && sel.tipo === 'pared') ? 'Pared' : L.nombre;
       s += `<div class="pp-grid pp-grid--2">${num('p.ancho', 'Ancho de la pared', L.pared.ancho, ' min="50"')}${num('p.alto', 'Alto de la pared', L.pared.alto, ' min="50"')}</div>`;
@@ -1453,8 +1559,8 @@
           a.tipo = v;
           if (t.grupo !== prev.grupo || t.kind !== prev.kind) { a.ancho = t.ancho; a.alto = t.alto; a.ante = t.antepecho; }
         }
-        else if (k === 'ancho') a.ancho = clamp(v, A.LIMITES.ancho[0], A.LIMITES.ancho[1]);
-        else if (k === 'alto') a.alto = clamp(v, A.LIMITES.alto[0], A.LIMITES.alto[1]);
+        else if (k === 'ancho') a.ancho = clamp(v, ...A.limites(A.tipo(a.tipo)).ancho);
+        else if (k === 'alto') a.alto = clamp(v, ...A.limites(A.tipo(a.tipo)).alto);
         else if (k === 'ante') a.ante = Math.max(0, v);
         else a[k] = v;
       } else if (k === 'lado') estirarLado(L, sel.i, clamp(v, 10, 5000));
@@ -1636,6 +1742,48 @@
   }
   function todo() { pintarTabs(); pintarTools(); pintarProps(); cacheLam = null; sucio = true; pedir(); }
 
+  // ── Protección: uso exclusivo de Alumfer ──────────────────
+  // Nada sale del sistema sin pasar antes por Alumfer: para descargar o
+  // compartir hay que enviar el plano (nombre y teléfono). Todo lo que se
+  // exporta lleva marca de agua con los datos de quien lo hizo. El DXF y
+  // las hojas sin marca son sólo para el taller (código de taller).
+  // En una página web no se puede impedir una captura de pantalla: por eso
+  // la marca de agua también está en la pantalla.
+  const HUELLA_TALLER = '1266efebc2edc53d24157e392bb06ba37f0dc44b118342c219096cde4266d049';
+  let taller = false;
+  try { taller = sessionStorage.getItem('alumfer-taller') === HUELLA_TALLER; } catch (_) {}
+  // firma del contenido: si el plano cambia después de enviarlo, hay que reenviarlo
+  function firma() {
+    const t = JSON.stringify([plano.laminas, plano.datos]);
+    let h = 2166136261;
+    for (let i = 0; i < t.length; i++) { h ^= t.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return (h >>> 0).toString(36);
+  }
+  const enviado = () => taller || !!(plano.envio && plano.envio.tel && plano.envio.firma === firma());
+  async function huella(txt) {
+    const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(txt));
+    return [...new Uint8Array(b)].map((x) => x.toString(16).padStart(2, '0')).join('');
+  }
+  async function pedirTaller() {
+    const c = prompt('Código de taller de Alumfer:');
+    if (!c) return;
+    let h = '';
+    try { h = await huella(c.trim().toUpperCase()); } catch (_) {}
+    if (h === HUELLA_TALLER) {
+      taller = true;
+      try { sessionStorage.setItem('alumfer-taller', h); } catch (_) {}
+      raiz.classList.add('is-taller');
+      aviso('Modo taller: DXF y hojas sin marca de agua habilitados.');
+      cacheLam = null; pedir();
+    } else aviso('Código incorrecto.');
+  }
+  function exigirEnvio(accion) {
+    if (enviado()) return true;
+    abrirEnviar(accion);
+    return false;
+  }
+  const textoMarca = () => 'ALUMFER · alumfer.com.ar' + (plano.datos.cliente ? ' · ' + plano.datos.cliente : '');
+
   // ── Exportar ───────────────────────────────────────────────
   let fuente64 = null;
   async function fuente() {
@@ -1661,17 +1809,20 @@
     return new Promise((ok) => c.toBlob(ok, 'image/png'));
   }
   async function exportarPng() {
+    if (!exigirEnvio('png')) return;
     const b = await pngBlob(plano.activa);
     bajar(b, nombreArchivo('png').replace('.png', '-' + (plano.activa + 1) + '.png'));
     ga('plano_png');
   }
   function exportarPdf() {
+    if (!exigirEnvio('pdf')) return;
     const box = $('#cad-print');
     box.innerHTML = plano.laminas.map((_, i) => `<div class="cad-print__hoja">${laminaSvg(i)}</div>`).join('');
     ga('plano_pdf');
     setTimeout(() => window.print(), 60);
   }
   function descargarDxf() {
+    if (!taller) { aviso('El DXF es sólo para el taller de Alumfer.'); return; }
     const txt = exportarDxf(), bytes = Uint8Array.from(txt, (c) => { const n = c.charCodeAt(0); return n < 256 ? n : 63; });
     bajar(new Blob([bytes], { type: 'application/dxf' }), nombreArchivo('dxf'));
     log('DXF descargado: abrilo en AutoCAD, LibreCAD o cualquier programa CAD. Unidades en cm.');
@@ -1716,10 +1867,29 @@
     return lin.join('\n');
   }
 
+  const AVISO_IMPRIMIR = '<div class="cad-print__aviso"><b>ALUMFER</b><p>Para imprimir o descargar el plano, primero envialo a Alumfer desde el botón «Enviar a Alumfer». Es gratis y sin compromiso.</p><p>alumfer.com.ar · (011) 6336-8643</p></div>';
+
   // ── Enviar a Alumfer ───────────────────────────────────────
   const dlgEnv = $('.cad-enviar');
-  function abrirEnviar() {
+  function marcarEnvio() {
     const f = $('form', dlgEnv);
+    plano.envio = { fecha: new Date().toISOString().slice(0, 10), tel: f['Teléfono'].value.trim(), nombre: f.Nombre.value.trim(), firma: firma() };
+    guardar(); estadoEnvio(); cacheLam = null; pedir();
+  }
+  function estadoEnvio() {
+    const ok = enviado();
+    dlgEnv.classList.toggle('is-enviado', ok);
+    $$('[data-env="pdf"], [data-env="png"]', dlgEnv).forEach((b) => { b.disabled = !ok; b.title = ok ? '' : 'Se habilita al enviar el plano'; });
+    $$('.cad-menu [data-act]', raiz).forEach((b) => b.classList.toggle('is-bloq', !ok && b.dataset.act !== 'dxf'));
+  }
+  function abrirEnviar(motivo) {
+    const f = $('form', dlgEnv);
+    const msj = $('.cad-enviar__motivo', dlgEnv);
+    if (msj) {
+      msj.hidden = !motivo || enviado();
+      msj.textContent = plano.envio ? 'Cambiaste el plano después de enviarlo: mandanos esta versión y se habilita la descarga.' : 'Para descargar, imprimir o compartir el plano, primero mandánoslo. Es gratis y sin compromiso: así lo tenemos para presupuestarte.';
+    }
+    estadoEnvio();
     f.Nombre.value = plano.datos.cliente || f.Nombre.value;
     f.Localidad.value = plano.datos.localidad || f.Localidad.value;
     $('.cad-enviar__resumen', dlgEnv).textContent = resumenTexto();
@@ -1728,10 +1898,12 @@
   }
   async function enviarWa() {
     const f = $('form', dlgEnv);
+    if (!f.Nombre.value.trim() || !f['Teléfono'].value.trim()) { f.reportValidity(); return; }
     plano.datos.cliente = f.Nombre.value.trim(); plano.datos.localidad = f.Localidad.value.trim(); guardar();
     const link = await linkPlano();
     const txt = `Hola, soy ${plano.datos.cliente || '(nombre)'}${plano.datos.localidad ? ', de ' + plano.datos.localidad : ''}. Les mando mi plano para presupuesto, hecho en alumfer.com.ar:\n\n` + resumenTexto(link) + (f.Consulta.value.trim() ? '\n\nComentario: ' + f.Consulta.value.trim() : '');
     window.open(`https://wa.me/${WA}?text=${encodeURIComponent(txt)}`, '_blank', 'noopener');
+    marcarEnvio();
     ga('plano_whatsapp');
   }
   async function enviarForm(e) {
@@ -1746,7 +1918,9 @@
       const data = await res.json();
       if (!data.success) throw new Error(data.message);
       ga('plano_formulario');
-      window.location.href = '/gracias.html';
+      marcarEnvio();
+      btn.disabled = false; btn.textContent = '¡Enviado!';
+      aviso('¡Listo! Recibimos tu plano. Ya podés descargarlo.');
     } catch (_) {
       btn.disabled = false; btn.textContent = lbl;
       alert('No pudimos enviar el plano. Probá por WhatsApp o llamanos al (011) 6336-8643.');
@@ -1808,6 +1982,7 @@
       if (a === 'biblioteca') abrirBiblioteca();
       else if (a === 'boceto') traerBoceto();
       else if (a === 'repartir') repartir();
+      else if (a === 'animar') animar(b.dataset.id);
       else if (a === 'real') {
         vistaReal = !vistaReal;
         try { localStorage.setItem('alumfer-plano-vista', vistaReal ? 'real' : 'tecnica'); } catch (_) {}
@@ -1843,9 +2018,14 @@
     dlgInicio.addEventListener('cancel', (e) => { if (!plano.laminas.length) e.preventDefault(); });
     dlgEnv.addEventListener('click', (e) => { if (e.target === dlgEnv || e.target.closest('[data-cerrar]')) dlgEnv.close(); if (e.target.closest('[data-env="wa"]')) enviarWa(); if (e.target.closest('[data-env="pdf"]')) exportarPdf(); if (e.target.closest('[data-env="png"]')) exportarPng(); });
     $('form', dlgEnv).addEventListener('submit', enviarForm);
-    window.addEventListener('afterprint', () => { $('#cad-print').innerHTML = ''; });
+    window.addEventListener('afterprint', () => { $('#cad-print').innerHTML = AVISO_IMPRIMIR; });
+    $('#cad-print').innerHTML = AVISO_IMPRIMIR;
+    // Ctrl/Cmd+P sin haber enviado: abre el envío
+    document.addEventListener('keydown', (e) => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'p' && !enviado()) { e.preventDefault(); abrirEnviar('pdf'); } }, true);
+    ui.svg.addEventListener('dragstart', (e) => e.preventDefault());
   }
   async function copiarLink() {
+    if (!exigirEnvio('link')) return;
     const l = await linkPlano();
     try { await navigator.clipboard.writeText(l); log('Link del plano copiado. Quien lo abra ve el plano y lo puede editar.'); }
     catch (_) { prompt('Copiá el link del plano:', l); }
@@ -1854,7 +2034,9 @@
 
   (async function iniciar() {
     setNivel(nivel, true);
+    if (taller) raiz.classList.add('is-taller');
     enlazar();
+    if (new URLSearchParams(location.search).has('taller') && !taller) setTimeout(pedirTaller, 400);
     medir();
     const hay = await cargar();
     const qs = new URLSearchParams(location.search), q = qs.get('nuevo'), boceto = qs.get('boceto') === '1';
@@ -1867,6 +2049,7 @@
       else if (q === 'techo' || q === 'fachada') { if (!plano.laminas.some((l) => l.tipo === q)) agregarLamina(q); else { plano.activa = plano.laminas.findIndex((l) => l.tipo === q); todo(); zoomExt(); } }
       $('[data-inicio="seguir"]', dlgInicio).hidden = false;
     }
+    estadoEnvio();
     log('Listo. Escribí ? y Enter para ver los comandos.');
     raiz.classList.add('is-ready');
   })();

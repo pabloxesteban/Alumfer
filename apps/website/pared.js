@@ -555,37 +555,42 @@
     }
   }
 
-  // Textura en perspectiva: grilla de triángulos con transformación afín
+  // Textura en perspectiva exacta: para cada píxel del destino se busca su
+  // punto en el dibujo con la homografía inversa (interpolación bilineal).
+  // Sin costuras, aunque el vidrio sea traslúcido.
   function deformar(g, img, sw, sh, P) {
-    const h = homografia([[0, 0], [sw, 0], [sw, sh], [0, sh]], P);
-    const N = 24;
-    for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) {
-      const x0 = sw * i / N, x1 = sw * (i + 1) / N, y0 = sh * j / N, y1 = sh * (j + 1) / N;
-      const a = [x0, y0], b = [x1, y0], c = [x1, y1], d = [x0, y1];
-      triangulo(g, img, a, b, c, aplicar(h, ...a), aplicar(h, ...b), aplicar(h, ...c));
-      triangulo(g, img, a, c, d, aplicar(h, ...a), aplicar(h, ...c), aplicar(h, ...d));
+    const W = g.canvas.width, H = g.canvas.height;
+    const sx = img.getContext('2d').getImageData(0, 0, sw, sh).data;
+    const inv = homografia(P, [[0, 0], [sw, 0], [sw, sh], [0, sh]]);
+    const xs = P.map((q) => q[0]), ys = P.map((q) => q[1]);
+    const x0 = Math.max(0, Math.floor(Math.min(...xs))), x1 = Math.min(W, Math.ceil(Math.max(...xs)));
+    const y0 = Math.max(0, Math.floor(Math.min(...ys))), y1 = Math.min(H, Math.ceil(Math.max(...ys)));
+    if (x1 <= x0 || y1 <= y0) return;
+    const bw = x1 - x0, dst = g.getImageData(x0, y0, bw, y1 - y0), d = dst.data;
+    const [a, b, c, e, f, h, m, n] = inv;
+    for (let y = y0; y < y1; y++) {
+      const py = y + 0.5;
+      for (let x = x0; x < x1; x++) {
+        const px = x + 0.5, w = m * px + n * py + 1;
+        const u = (a * px + b * py + c) / w - 0.5, v = (e * px + f * py + h) / w - 0.5;
+        if (u < -0.5 || v < -0.5 || u > sw - 0.5 || v > sh - 0.5) continue;
+        const ux = Math.max(0, Math.min(sw - 1, u)), vy = Math.max(0, Math.min(sh - 1, v));
+        const i0 = Math.floor(ux), j0 = Math.floor(vy), i1 = Math.min(sw - 1, i0 + 1), j1 = Math.min(sh - 1, j0 + 1);
+        const fx = ux - i0, fy = vy - j0;
+        const k00 = (j0 * sw + i0) * 4, k10 = (j0 * sw + i1) * 4, k01 = (j1 * sw + i0) * 4, k11 = (j1 * sw + i1) * 4;
+        const w00 = (1 - fx) * (1 - fy), w10 = fx * (1 - fy), w01 = (1 - fx) * fy, w11 = fx * fy;
+        const al = (sx[k00 + 3] * w00 + sx[k10 + 3] * w10 + sx[k01 + 3] * w01 + sx[k11 + 3] * w11) / 255;
+        if (al <= 0.002) continue;
+        const o = ((y - y0) * bw + (x - x0)) * 4;
+        for (let ch = 0; ch < 3; ch++) {
+          // canales premultiplicados para que los bordes no se oscurezcan
+          const pm = (sx[k00 + ch] * sx[k00 + 3] * w00 + sx[k10 + ch] * sx[k10 + 3] * w10 + sx[k01 + ch] * sx[k01 + 3] * w01 + sx[k11 + ch] * sx[k11 + 3] * w11) / 255;
+          d[o + ch] = pm + d[o + ch] * (1 - al);
+        }
+        d[o + 3] = 255;
+      }
     }
-  }
-  function triangulo(g, img, s0, s1, s2, d0, d1, d2) {
-    // agranda apenas el triángulo destino para que no se vean costuras
-    const cx = (d0[0] + d1[0] + d2[0]) / 3, cy = (d0[1] + d1[1] + d2[1]) / 3;
-    const ex = (p) => { const dx = p[0] - cx, dy = p[1] - cy, l = Math.hypot(dx, dy) || 1; return [p[0] + dx / l * 0.6, p[1] + dy / l * 0.6]; };
-    g.save();
-    g.beginPath(); const e0 = ex(d0), e1 = ex(d1), e2 = ex(d2);
-    g.moveTo(e0[0], e0[1]); g.lineTo(e1[0], e1[1]); g.lineTo(e2[0], e2[1]); g.closePath(); g.clip();
-    const [x0, y0] = s0, [x1, y1] = s1, [x2, y2] = s2;
-    const [u0, v0] = d0, [u1, v1] = d1, [u2, v2] = d2;
-    const den = x0 * (y1 - y2) + x1 * (y2 - y0) + x2 * (y0 - y1);
-    if (!den) { g.restore(); return; }
-    const k = (w0, w1, w2) => [
-      (w0 * (y1 - y2) + w1 * (y2 - y0) + w2 * (y0 - y1)) / den,
-      (w0 * (x2 - x1) + w1 * (x0 - x2) + w2 * (x1 - x0)) / den,
-      (w0 * (x1 * y2 - x2 * y1) + w1 * (x2 * y0 - x0 * y2) + w2 * (x0 * y1 - x1 * y0)) / den,
-    ];
-    const [a, c, e] = k(u0, u1, u2), [b, d, f] = k(v0, v1, v2);
-    g.transform(a, b, c, d, e, f);
-    g.drawImage(img, 0, 0);
-    g.restore();
+    g.putImageData(dst, x0, y0);
   }
   function firma(g, w, h) {
     const s = Math.max(1, w / 1000);

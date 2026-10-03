@@ -32,6 +32,8 @@
     'puerta-doble': MV + '<path d="M24 4v40"/><circle cx="21.5" cy="25" r="1.4" fill="currentColor"/><circle cx="26.5" cy="25" r="1.4" fill="currentColor"/>',
     'pbalcon-corr-2': MV + '<path d="M24 4v40"/><path d="M16 24h7m0 0-2.6-2.6M23 24l-2.6 2.6"/>',
     'pbalcon-corr-3': '<rect x="7" y="4" width="34" height="40" rx="1.5"/><path d="M18.3 4v40M29.7 4v40"/><path d="M10 24h6m0 0-2.4-2.4M16 24l-2.4 2.4"/>',
+    'pbalcon-abrir': MV + '<path d="M33 7 15 24l18 17"/><path d="M17 13h14"/><circle cx="31" cy="25" r="1.4" fill="currentColor"/>',
+    'puerta-tablero': MV + '<rect x="17" y="9" width="14" height="13" rx="1"/><rect x="17" y="27" width="14" height="12" rx="1"/><circle cx="33" cy="25" r="1.4" fill="currentColor"/>',
   };
   const icono = (id) => `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICO[id] || MA}</svg>`;
 
@@ -175,6 +177,7 @@
     if (document.activeElement !== altoIn) altoIn.value = item.alto;
     anchoRg.value = item.ancho; altoRg.value = item.alto;
     mosqRow.hidden = !t.mosq;
+    vidriosBx.closest('fieldset').hidden = !!t.sinVidrio;   // la puerta de tablero no lleva vidrio
     mosqIn.checked = !!item.mosquitero;
     cantIn.value = item.cantidad;
     notaIn.value = item.nota || '';
