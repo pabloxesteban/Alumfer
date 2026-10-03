@@ -402,3 +402,30 @@ con la página original (oscura). Se invirtió el tema base:
   abertura superpuesta, guía animada de "cómo medir", precio orientativo
   (sólo si la empresa lo aprueba), modo profesional para arquitectos con
   varias plantas/ambientes.
+
+## M. Sexta pasada: "Probalo en tu pared"
+
+Pedido: que la herramienta de la foto del vano sea lo más real posible,
+fluida en compu y celular, y que se use como las apps que la gente ya conoce
+(historias de Instagram/WhatsApp).
+
+- **Entrada**: "Sacar foto" (abre la cámara trasera), "Elegir de la galería"
+  o "pared de ejemplo" para curiosear sin foto. La foto no sale del teléfono.
+- **Editor tipo historia**: pantalla completa negra, "×" y "Listo" arriba,
+  opciones en círculos deslizables abajo (Tipo · Color · Vidrio · Luz),
+  ayuda inicial con mano animada que se muestra una sola vez.
+- **Gestos conocidos**: arrastrar con un dedo, pellizcar para agrandar y
+  girar, esquinas para encajarla en perspectiva; en compu, rueda del mouse
+  (Shift para girar), doble clic para reiniciar y teclado. El botón "atrás"
+  del celular cierra el editor en vez de salir de la página.
+- **Realismo**: medidas reales de la tipología, vidrio transparente que deja
+  ver la foto detrás (DVH, esmerilado y espejado con su aspecto propio),
+  sombra de apoyo en el vano y control de luz con "Igualar a la foto".
+- **Sin trabas**: la vista en vivo es sólo un `transform: matrix3d` por
+  cuadro (`requestAnimationFrame`), la foto se reduce a 1600 px y la imagen
+  final se arma recién al tocar "Listo". Medido en pruebas: ~17–19 ms por
+  movimiento del puntero.
+- **Salida**: JPG con marca "ALUMFER · vista ilustrativa", compartir directo
+  a WhatsApp (Web Share), guardar, abrir chat con el resumen o sumarlo al
+  boceto. Aclara que es ilustrativo y que la medida exacta se toma en la
+  visita.

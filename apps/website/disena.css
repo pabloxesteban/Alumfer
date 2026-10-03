@@ -182,3 +182,12 @@
   .plano.is-drawing .cotas .anim { stroke-dashoffset: 0; animation: none; }
   .plano.is-drawing .abertura, .plano.is-drawing .persona, .pieza { animation: none; }
 }
+
+/* Botón "Probalo en tu pared" junto al plano */
+.dz__pared { padding: 0.6rem 0.9rem; font-size: 0.85rem; }
+.dz__pared svg { width: 18px; height: 18px; }
+@media (max-width: 640px) {
+  .dz__bar { flex-wrap: nowrap; }
+  .dz__bar > .mono { display: none; }
+  .dz__pared { flex: 1; justify-content: center; }
+}

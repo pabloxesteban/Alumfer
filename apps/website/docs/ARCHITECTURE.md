@@ -65,6 +65,18 @@ Tres archivos, sin framework ni build:
    boceto en PNG y el formulario a `enviar.php` (Tipo = "Boceto desde el
    diseñador web"). Estilos en `disena.css`. No muestra precios.
 
+5. **Probalo en tu pared** (en el diseñador) — `pared.js` + `pared.css`.
+   El cliente saca o elige una foto; se procesa sólo en su navegador (no se
+   sube a ningún servidor). La abertura (`Aberturas.dibujar` en modo `foto`,
+   con el hueco del vidrio recortado por máscara para que se vea la foto
+   detrás) se pone encima con una homografía de 4 puntos: `matrix3d` para la
+   vista en vivo y una malla de triángulos en `<canvas>` para el JPG final,
+   que lleva la marca "vista ilustrativa". Gestos: arrastrar, pellizcar
+   (escala + giro), esquinas, rueda/Shift+rueda, flechas y +/−; el botón
+   atrás del celular cierra el editor (`history.pushState`). Desde el
+   resultado: compartir (Web Share con archivo), guardar, WhatsApp o
+   agregar al boceto (evento `pared:agregar` que escucha `disena.js`).
+
 Paleta: papel claro cálido, azul marino para secciones oscuras, azul de marca
 (`#1B6CC8`) en botones, banda de proceso y acentos. Motivo gráfico: grilla y
 cotas de plano. Las fotos de obra se presentan como copias impresas numeradas.

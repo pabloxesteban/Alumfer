@@ -90,7 +90,17 @@ window.Aberturas = (function () {
       marcoFill = 'url(#' + id + 'm)';
     }
     var vidrioFill;
-    if (v.id === 'esmerilado') {
+    if (opts.foto) {
+      // Modo foto: el vidrio deja ver lo que hay detrás en la foto del cliente
+      if (v.id === 'esmerilado') defs.push('<linearGradient id="' + id + 'g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EEF2F5" stop-opacity="0.9"/><stop offset="1" stop-color="#DDE4EA" stop-opacity="0.86"/></linearGradient>');
+      else if (v.id === 'espejado') defs.push('<linearGradient id="' + id + 'g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8FA4B8" stop-opacity="0.88"/><stop offset="0.45" stop-color="#DDE6EE" stop-opacity="0.9"/><stop offset="0.55" stop-color="#B9C8D5" stop-opacity="0.88"/><stop offset="1" stop-color="#6F869B" stop-opacity="0.9"/></linearGradient>');
+      else defs.push('<linearGradient id="' + id + 'g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#CFE3F5" stop-opacity="' + (v.id === 'dvh' ? 0.32 : 0.22) + '"/><stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.08"/><stop offset="1" stop-color="#BFD6EC" stop-opacity="' + (v.id === 'dvh' ? 0.3 : 0.2) + '"/></linearGradient>');
+      vidrioFill = 'url(#' + id + 'g)';
+      var luz = Math.max(0.4, Math.min(1.6, +opts.luz || 1));
+      defs.push('<filter id="' + id + 'L" color-interpolation-filters="sRGB"><feComponentTransfer><feFuncR type="linear" slope="' + luz + '"/><feFuncG type="linear" slope="' + luz + '"/><feFuncB type="linear" slope="' + luz + '"/></feComponentTransfer></filter>');
+      // sombra interior del marco: da profundidad dentro del vano
+      defs.push('<linearGradient id="' + id + 's" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0.28"/><stop offset="0.12" stop-color="#000" stop-opacity="0"/><stop offset="0.9" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.12"/></linearGradient>');
+    } else if (v.id === 'esmerilado') {
       defs.push('<pattern id="' + id + 'g" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="3" fill="#E6ECF1"/><circle cx="1" cy="1" r="0.45" fill="#C9D3DC"/><circle cx="2.4" cy="2.2" r="0.35" fill="#D5DDE4"/></pattern>');
       vidrioFill = 'url(#' + id + 'g)';
     } else if (v.id === 'espejado') {
@@ -129,12 +139,14 @@ window.Aberturas = (function () {
         : '<rect x="' + r1(x - l / 2) + '" y="' + r1(y - 0.9) + '" width="' + r1(l) + '" height="1.8" rx="0.9" fill="' + linea + '"/>';
     }
     function flecha(x, y, dir) {
+      if (opts.foto) return '';
       var l = Math.max(8, Math.min(22, W * 0.07)), a = l * 0.3;
       var x2 = x + dir * l;
       return '<path d="M' + r1(x) + ' ' + r1(y) + 'H' + r1(x2) + 'm' + r1(-dir * a) + ' ' + r1(-a) + 'l' + r1(dir * a) + ' ' + r1(a) + 'l' + r1(-dir * a) + ' ' + r1(a) + '" fill="none" stroke="' + acc + '" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>';
     }
     // Triángulo de apertura (punta hacia el lado de las bisagras)
     function apertura(x, y, w, h, lado) {
+      if (opts.foto) return '';
       var p;
       if (lado === 'izq') p = 'M' + r1(x + w) + ' ' + r1(y) + 'L' + r1(x) + ' ' + r1(y + h / 2) + 'L' + r1(x + w) + ' ' + r1(y + h);
       if (lado === 'der') p = 'M' + r1(x) + ' ' + r1(y) + 'L' + r1(x + w) + ' ' + r1(y + h / 2) + 'L' + r1(x) + ' ' + r1(y + h);
@@ -240,6 +252,19 @@ window.Aberturas = (function () {
       if (opts.persona && t.antepecho > 0) {
         cotas += '<text x="' + r1(fs * 0.5) + '" y="' + r1(H + t.antepecho / 2) + '" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="' + r1(fs * 0.8) + '" fill="currentColor" fill-opacity="0.6" text-anchor="start">≈' + t.antepecho + ' cm del piso</text>';
       }
+    }
+
+    if (opts.foto) {
+      // Sin cotas ni escena; trazos con grosor real para que escalen con la foto
+      var cuerpo = out.join('').replace(/ stroke-width="1" vector-effect="non-scaling-stroke"/g, ' stroke-width="' + r1(Math.max(0.25, Math.min(W, H) * 0.004)) + '"')
+        .replace(/stroke-width="1.4" vector-effect="non-scaling-stroke"/g, 'stroke-width="' + r1(Math.min(W, H) * 0.008) + '"');
+      // Los marcos se pintan llenos; una máscara les recorta el hueco del vidrio
+      // para que en la foto se vea de verdad lo que hay detrás.
+      var vidrios = cuerpo.match(new RegExp('<rect [^>]*fill="url\\(#' + id + 'g\\)"[^>]*/>', 'g')) || [];
+      var encima = cuerpo.match(new RegExp('<rect [^>]*fill="url\\(#' + id + 'h\\)"[^>]*/>|<path [^>]*stroke="#fff"[^>]*/>', 'g')) || [];
+      var mascara = '<mask id="' + id + 'k" maskUnits="userSpaceOnUse" x="0" y="0" width="' + W + '" height="' + H + '"><rect width="' + W + '" height="' + H + '" fill="#fff"/>' +
+        vidrios.map(function (r) { return r.replace(/fill="[^"]*"/, 'fill="#000"').replace(/ stroke="[^"]*"/, ''); }).join('') + '</mask>';
+      return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none"' + (opts.px ? ' width="' + opts.px + '" height="' + Math.round(opts.px * H / W) + '"' : '') + '><defs>' + defs.join('') + mascara + '</defs><g filter="url(#' + id + 'L)"><g mask="url(#' + id + 'k)">' + cuerpo + '</g>' + vidrios.join('') + encima.join('') + '<rect x="' + r1(F) + '" y="' + r1(F) + '" width="' + r1(W - 2 * F) + '" height="' + r1(H - 2 * F) + '" fill="url(#' + id + 's)"/></g></svg>';
     }
 
     var label = t.nombre + ', ' + W + ' por ' + H + ' centímetros, vidrio ' + v.nombre.toLowerCase() + ', color ' + c.nombre.toLowerCase();

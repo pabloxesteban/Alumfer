@@ -317,6 +317,15 @@
     if (typeof gtag !== 'undefined') gtag('event', 'boceto_whatsapp', { event_category: 'Disenador', value: lista.length });
   });
 
+  // Conexión con "Probalo en tu pared"
+  window.__dzItem = () => ({ ...item });
+  document.addEventListener('pared:agregar', (e) => {
+    const nuevoItem = { ...item, ...e.detail, cantidad: 1 };
+    lista.push(nuevoItem);
+    guardar();
+    renderLista();
+  });
+
   // Inicio
   personaIn.checked = persona;
   render(true);
