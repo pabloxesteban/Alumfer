@@ -640,3 +640,16 @@ tomar como referencia las apps modernas.
   mandar). El catálogo en el celular es una hoja desde abajo, con pestañas
   que se deslizan.
 
+
+## R. Galería editorial y animación de la empresa
+
+- **Galería** (`.archive`): grilla de 4 columnas (2 en el celular) con la
+  misma proporción para todas, sin marcos de papel ni numeración. La primera
+  foto vertical de cada filtro va destacada en grande (2×2); las apaisadas
+  ocupan doble ancho. El tipo de trabajo va sobre la foto; al pasar el mouse,
+  zoom suave. Cada tanda completa la última fila (sin huecos).
+- **"15+ años en el mercado"**: en vez de dos fotos, una animación en bucle
+  (SVG + CSS, sin librerías, ~12 s): se dibujan las cotas y el marco, entran
+  las hojas con el vidrio, la hoja abre y cierra, y aparecen "Medida exacta",
+  "Hecho en nuestro taller" y "Colocación en seco". Sólo corre cuando se ve
+  (IntersectionObserver) y respeta "reducir movimiento".

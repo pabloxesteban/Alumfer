@@ -41,7 +41,7 @@
   </script>
 
   <link rel="preload" as="image" href="obra-postigones-6.webp">
-  <link rel="stylesheet" href="/site.css?v=7">
+  <link rel="stylesheet" href="/site.css?v=8">
 </head>
 <body class="no-js">
   <a class="sr-only" href="#contenido">Saltar al contenido</a>
@@ -152,10 +152,58 @@
           <h2 class="display about__title" id="about-title">15+ años en el mercado. <span>Más de 40 de oficio.</span></h2>
           <p class="about__text">Somos una empresa familiar de la Zona Sur. Fabricamos e instalamos aberturas de aluminio a medida desde 2010, con más de 40 años de experiencia acumulada en el rubro. Todo se produce en nuestro taller, sin intermediarios ni subcontratos.</p>
         </div>
-        <div class="about__photos">
-          <figure class="rv-img"><img width="1200" height="1600" loading="lazy" src="obra-postigones-6.webp" alt="Postigones de aluminio símil madera fabricados por Alumfer"><figcaption class="mono">Postigones símil madera</figcaption></figure>
-          <figure class="rv-img"><img width="1021" height="1245" loading="lazy" src="obra-ventanas-7.webp" alt="Banderola de aluminio con vidrio texturado fabricada por Alumfer"><figcaption class="mono">Banderola con vidrio texturado</figcaption></figure>
-        </div>
+        <figure class="about__anim" aria-label="Animación: así se arma una abertura a medida en nuestro taller">
+          <svg class="ens" viewBox="0 0 520 470" role="img" aria-hidden="true">
+            <defs>
+              <pattern id="ens-grilla" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="currentColor" stroke-width="0.6"/></pattern>
+              <linearGradient id="ens-alu" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DCE3EA"/><stop offset="0.45" stop-color="#AEB9C5"/><stop offset="0.55" stop-color="#C6CFD8"/><stop offset="1" stop-color="#8794A3"/></linearGradient>
+              <linearGradient id="ens-vid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FB4E6" stop-opacity="0.38"/><stop offset="1" stop-color="#4A9DE8" stop-opacity="0.14"/></linearGradient>
+              <linearGradient id="ens-luz" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="0.5" stop-color="#fff" stop-opacity="0.55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+              <clipPath id="ens-c1"><rect x="78" y="150" width="134" height="196"/></clipPath>
+              <clipPath id="ens-c2"><rect x="222" y="150" width="134" height="196"/></clipPath>
+            </defs>
+            <rect class="ens-grilla" width="520" height="470" fill="url(#ens-grilla)"/>
+            <g class="ens-todo">
+              <!-- cotas -->
+              <g class="ens-cotas">
+                <path class="ens-cota" pathLength="1" d="M60 104H380M60 96v16M380 96v16"/>
+                <path class="ens-cota" pathLength="1" d="M34 130V370M26 130h16M26 370h16"/>
+                <text class="ens-cota-t" x="220" y="94" text-anchor="middle">1500</text>
+                <text class="ens-cota-t" x="22" y="250" text-anchor="middle" transform="rotate(-90 22 250)">1100</text>
+              </g>
+              <!-- marco -->
+              <path class="ens-marco" fill="url(#ens-alu)" fill-rule="evenodd" d="M60 130H380V370H60ZM76 146V354H364V146Z"/>
+              <path class="ens-marco-l" pathLength="1" d="M60 130H380V370H60Z"/>
+              <!-- hojas -->
+              <g class="ens-hoja-izq">
+                <path fill="url(#ens-alu)" fill-rule="evenodd" d="M70 142H220V354H70ZM78 150V346H212V150Z"/>
+                <rect class="ens-vidrio" x="78" y="150" width="134" height="196" fill="url(#ens-vid)"/>
+                <g clip-path="url(#ens-c1)"><rect class="ens-brillo" x="20" y="120" width="70" height="260" fill="url(#ens-luz)" transform="skewX(-18)"/></g>
+              </g>
+              <g class="ens-hoja-der">
+                <path fill="url(#ens-alu)" fill-rule="evenodd" d="M214 142H364V354H214ZM222 150V346H356V150Z"/>
+                <rect class="ens-vidrio" x="222" y="150" width="134" height="196" fill="url(#ens-vid)"/>
+                <g clip-path="url(#ens-c2)"><rect class="ens-brillo ens-brillo--2" x="160" y="120" width="70" height="260" fill="url(#ens-luz)" transform="skewX(-18)"/></g>
+                <rect class="ens-manija" x="225" y="236" width="5" height="28" rx="2"/>
+              </g>
+              <!-- detalle del perfil -->
+              <g class="ens-lupa">
+                <circle cx="380" cy="130" r="20"/>
+                <path d="M396 142 430 176"/>
+                <rect x="420" y="170" width="86" height="96" rx="4"/>
+                <path class="ens-perfil" d="M436 186h54v12h-10v34h10v12h-54v-12h10v-34h-10z"/>
+                <path class="ens-perfil-c" d="M452 198h22M452 232h22"/>
+                <text x="463" y="258" text-anchor="middle">CORTE</text>
+              </g>
+              <!-- lo que nos distingue -->
+              <g class="ens-chips">
+                <g class="ens-chip ens-chip--1"><rect x="18" y="404" width="128" height="32" rx="16"/><text x="82" y="424" text-anchor="middle">Medida exacta</text></g>
+                <g class="ens-chip ens-chip--2"><rect x="156" y="404" width="178" height="32" rx="16"/><text x="245" y="424" text-anchor="middle">Hecho en nuestro taller</text></g>
+                <g class="ens-chip ens-chip--3"><rect x="344" y="404" width="158" height="32" rx="16"/><text x="423" y="424" text-anchor="middle">Colocación en seco</text></g>
+              </g>
+            </g>
+          </svg>
+        </figure>
       </div>
       <div class="features">
         <div class="feature rv"><span class="mono feature__n">A</span><h3>Somos fabricantes</h3><p>Producimos en nuestro propio taller. Controlamos cada etapa y garantizamos calidad sin depender de terceros.</p></div>
@@ -797,7 +845,7 @@
     </div>
   </div>
 
-  <script src="/site.js?v=6"></script>
+  <script src="/site.js?v=7"></script>
 
   <script type="application/ld+json">
   {
