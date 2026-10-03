@@ -164,7 +164,8 @@
 .section--dark .btn--outline:hover { background: #fff; color: var(--steel); }
 
 /* ─── Reseñas ────────────────────────────────────────────── */
-.reviews-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.reviews-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 1100px) { .reviews-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .review-card { background: var(--steel-2); padding: 1.6rem; display: flex; flex-direction: column; gap: 1rem; border-top: 2px solid var(--blue-light); }
 .review-card__stars { color: #E9A23B; letter-spacing: 2px; }
 .review-card__text { font-size: 1.05rem; line-height: 1.5; }
@@ -309,3 +310,8 @@ a.nearby-link:hover { background: var(--blue); color: #fff; border-color: var(--
   .process-grid::after { display: none; }
   .phero__photo { transform: none; }
 }
+
+/* Formulario: elegir WhatsApp o email */
+.contact-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 0.5rem; }
+.contact-actions .btn { width: 100%; justify-content: center; }
+@media (max-width: 560px) { .contact-actions { grid-template-columns: 1fr; } }

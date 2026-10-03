@@ -41,7 +41,7 @@
   </script>
 
   <link rel="preload" as="image" href="obra-postigones-6.webp">
-  <link rel="stylesheet" href="/site.css?v=4">
+  <link rel="stylesheet" href="/site.css?v=5">
 </head>
 <body class="no-js">
   <a class="sr-only" href="#contenido">Saltar al contenido</a>
@@ -121,7 +121,7 @@
         <div class="hero__stats" aria-label="Alumfer en números">
           <div class="stat"><div class="stat__n">500<small>+</small></div><div class="stat__l mono">Obras realizadas</div></div>
           <div class="stat"><div class="stat__n">15<small>+</small></div><div class="stat__l mono">Años en el mercado</div></div>
-          <a class="stat" href="https://www.google.com/search?q=Alumfer+carpinter%C3%ADa+aluminio+Adrog%C3%BCe" target="_blank" rel="noopener" aria-label="4.5 de 5 en Google Reviews"><div class="stat__n">4.5<small>★</small></div><div class="stat__l mono">Google Reviews</div></a>
+          <a class="stat" href="https://www.google.com/search?q=Alumfer+carpinter%C3%ADa+aluminio+Adrog%C3%BCe" target="_blank" rel="noopener" aria-label="Ver reseñas en Google"><div class="stat__n">4,6<small>★</small></div><div class="stat__l mono">Google Reviews</div></a>
         </div>
       </div>
     </div>
@@ -679,15 +679,16 @@
       <div class="sec-tag mono"><b>08</b> Clientes</div>
       <div class="reviews__top" style="margin-top:2.5rem">
         <h2 class="h2 rv" id="reviews-title">Lo que dicen<br>nuestros clientes</h2>
-        <a class="rating" href="https://www.google.com/search?q=Alumfer+carpinter%C3%ADa+aluminio+Adrog%C3%BCe" target="_blank" rel="noopener" aria-label="4.5 de 5 estrellas en Google, 37 reseñas">
-          <span class="rating__n">4.5</span>
-          <span><span class="rating__stars" aria-hidden="true">★★★★★</span><span class="rating__meta" style="display:block">37 reseñas en Google →</span></span>
+        <a class="rating" href="https://www.google.com/search?q=Alumfer+carpinter%C3%ADa+aluminio+Adrog%C3%BCe" target="_blank" rel="noopener" aria-label="4,6 de 5 estrellas en Google, 26 reseñas">
+          <span class="rating__n">4,6</span>
+          <span><span class="rating__stars" aria-hidden="true">★★★★★</span><span class="rating__meta" style="display:block">26 reseñas en Google →</span></span>
         </a>
       </div>
       <div class="quotes">
-        <figure class="quote rv"><blockquote>“Alumfer nos hizo 4 mosquiteros a medida, súper bien todo! Precio, tiempo de entrega y calidad, 10 puntos, y muy confiable. Sin duda volvería a confiar en ellos.”</blockquote><footer class="mono"><b>Marcelo Valls</b><span>Local Guide · mar. 2025</span></footer></figure>
-        <figure class="quote rv"><blockquote>“Rápida respuesta. Vino un lunes a tomar medidas y el viernes estaban los mosquiteros colocados. Impecable. Súper recomiendo.”</blockquote><footer class="mono"><b>Julia Gutierrez</b><span>ene. 2025</span></footer></figure>
-        <figure class="quote rv"><blockquote>“Son súper profesionales, se comunicaron en todo momento para dar aviso y coordinar horarios. Los mosquiteros quedaron bien colocados, prolijos y estéticamente lindos. Los recomiendo!”</blockquote><footer class="mono"><b>Cecilia Vallejos</b><span>Local Guide · ago. 2024</span></footer></figure>
+        <figure class="quote rv"><blockquote>“Puntual. Prolijisimo. Todo de diez! Recomiendo”</blockquote><footer class="mono"><b>Marcela Robustelli</b><span>sept. 2026</span></footer></figure>
+        <figure class="quote rv"><blockquote>“Alumfer solicité dos trabajos en aluminio, realmente muy bien trabajo, muy prolijo y excelente relación precio/calidad, 100 % recomendable”</blockquote><footer class="mono"><b>Sergio Fernandez</b><span>sept. 2026</span></footer></figure>
+        <figure class="quote rv"><blockquote>“Muy conforme! Excelente trabajo, reemplazo de policarbonato y ampliación de techo.”</blockquote><footer class="mono"><b>Laura Fenómena</b><span>sept. 2026</span></footer></figure>
+        <figure class="quote rv"><blockquote>“Daniel nos realizo una reparación en una ventana dvh, impecable. Muchas gracias”</blockquote><footer class="mono"><b>Mila</b><span>sept. 2026</span></footer></figure>
       </div>
       <div class="guarantee" aria-labelledby="garantia-title">
         <div><span class="mono">Garantía</span><h3 id="garantia-title">Garantía Alumfer</h3><p>Fabricación e instalación.</p></div>
@@ -746,6 +747,7 @@
             <div class="field"><label for="nombre">Nombre</label><input type="text" id="nombre" name="Nombre" placeholder="Tu nombre" required autocomplete="given-name"></div>
             <div class="field"><label for="telefono">Teléfono</label><input type="tel" id="telefono" name="Teléfono" placeholder="11 XXXX-XXXX" required autocomplete="tel"></div>
           </div>
+          <div class="field"><label for="email">Email</label><input type="email" id="email" name="Email" placeholder="tu@email.com" required autocomplete="email"></div>
           <div class="form__row">
             <div class="field"><label for="tipo">Tipo de trabajo</label>
               <select id="tipo" name="Tipo" required>
@@ -759,7 +761,10 @@
           </div>
           <div class="field"><label for="mensaje">¿Qué necesitás?</label><textarea id="mensaje" name="Consulta" rows="4" placeholder="Ej: 3 ventanas corredizas 120×100 cm en Adrogué, para reemplazar las de hierro. O escribí lo que tenés en mente." required></textarea></div>
           <p class="form__note">¿Tenés fotos o planos? Mandalos por <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" target="_blank" rel="noopener">WhatsApp</a>.</p>
-          <button type="submit" class="btn btn--primary">Enviar consulta <span class="arrow" aria-hidden="true">→</span></button>
+          <div class="form__acts">
+            <button type="submit" class="btn btn--wa" data-channel="whatsapp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Enviar por WhatsApp</button>
+            <button type="submit" class="btn btn--primary" data-channel="email">Enviar por email <span class="arrow" aria-hidden="true">→</span></button>
+          </div>
         </form>
       </div>
     </div>
@@ -863,7 +868,7 @@
     </div>
   </div>
 
-  <script src="/site.js?v=3"></script>
+  <script src="/site.js?v=4"></script>
 
   <script type="application/ld+json">
   {
@@ -941,8 +946,8 @@
         },
         "aggregateRating": {
           "@type": "AggregateRating",
-          "ratingValue": "4.5",
-          "reviewCount": "37"
+          "ratingValue": "4.6",
+          "ratingCount": "26"
         },
         "sameAs": [
           "https://www.instagram.com/alumfercarpinteria",

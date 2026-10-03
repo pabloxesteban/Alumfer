@@ -638,7 +638,8 @@ ul, ol { list-style: none; }
 .rating__n { font-size: clamp(3.5rem, 7vw, 5.5rem); font-weight: 700; font-stretch: 112%; letter-spacing: -0.04em; line-height: 0.9; }
 .rating__stars { color: #E9A23B; letter-spacing: 2px; font-size: 1.1rem; }
 .rating__meta { color: var(--on-steel-2); font-size: 0.9rem; }
-.quotes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.quotes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 1100px) { .quotes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .quote { background: var(--steel-2); padding: 1.75rem; display: flex; flex-direction: column; gap: 1.25rem; border-top: 2px solid var(--blue-light); }
 .quote blockquote { font-size: 1.12rem; line-height: 1.5; letter-spacing: -0.005em; }
 .quote footer { margin-top: auto; display: flex; justify-content: space-between; gap: 1rem; color: var(--on-steel-3); font-size: 0.66rem; }
@@ -958,3 +959,8 @@ ul, ol { list-style: none; }
   .plan .dim-t { opacity: 1; }
   .rv, .rv-img { opacity: 1; transform: none; clip-path: none; }
 }
+
+/* Formulario: enviar por WhatsApp o por email */
+.form__acts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.form__acts .btn { justify-content: center; }
+@media (max-width: 560px) { .form__acts { grid-template-columns: 1fr; } }

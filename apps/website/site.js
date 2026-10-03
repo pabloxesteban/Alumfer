@@ -335,22 +335,45 @@
     update();
   }
 
-  // ─── Formulario → enviar.php ────────────────────────────
+  // ─── Formulario: el cliente elige WhatsApp o email ──────
+  // (mismo comportamiento que tenía main.js: botón con data-channel)
+  const WA_NUM = '5491163368643';
+  function consultaPorWhatsApp(data) {
+    const lineas = ['Hola Alumfer, quiero pedir un presupuesto.', ''];
+    for (const [k, v] of data.entries()) {
+      if (k === 'botcheck') continue;
+      const t = String(v).trim();
+      if (t) lineas.push(k === 'Consulta' ? `\n${t}` : `*${k}:* ${t}`);
+    }
+    lineas.push('', '[desde: formulario — alumfer.com.ar]');
+    const url = `https://wa.me/${WA_NUM}?text=${encodeURIComponent(lineas.join('\n'))}`;
+    if (typeof gtag !== 'undefined') gtag('event', 'whatsapp_click', { event_category: 'Contact', event_label: 'contact-form' });
+    // WhatsApp en otra pestaña y esta a gracias.html; si se bloquea la pestaña, WhatsApp acá mismo
+    const win = window.open(url, '_blank');
+    if (win) { win.opener = null; window.location.href = '/gracias.html'; } else window.location.href = url;
+  }
   $$('form[action$="enviar.php"]').forEach(form => form.addEventListener('submit', async (e) => {
+    if (form.closest('.cad')) return;
     e.preventDefault();
-    const btn = $('[type="submit"]', form);
+    const data = new FormData(form);
+    if (data.get('botcheck')) { window.location.href = '/gracias.html'; return; }
+    const btn = e.submitter || $('[type="submit"]', form);
+    if (btn && btn.dataset.channel === 'whatsapp') { consultaPorWhatsApp(data); return; }
+    const botones = $$('[type="submit"]', form);
     const label = btn.textContent;
+    botones.forEach(b => { b.disabled = true; });
     btn.classList.add('is-loading');
     btn.textContent = 'Enviando…';
     try {
-      const res = await fetch(form.action, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) });
-      const data = await res.json();
-      if (!data.success) throw new Error(data.message || 'error');
+      const res = await fetch(form.action, { method: 'POST', headers: { Accept: 'application/json' }, body: data });
+      const r = await res.json();
+      if (!r.success) throw new Error(r.message || 'error');
       window.location.href = '/gracias.html';
     } catch (_) {
+      botones.forEach(b => { b.disabled = false; });
       btn.classList.remove('is-loading');
       btn.textContent = label;
-      alert('No pudimos enviar la consulta. Escribinos por WhatsApp al (011) 6336-8643.');
+      alert('No pudimos enviar la consulta por email. Probá con el botón de WhatsApp o escribinos al (011) 6336-8643.');
     }
   }));
 

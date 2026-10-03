@@ -191,18 +191,10 @@ function em_shell(string $preheader, string $content): string {
 
         <!-- ░░ HEADER ░░ -->
         <tr>
-          <td style="background:#1A1C1E;border-radius:16px 16px 0 0;padding:26px 36px;" class="alf-pad">
+          <td bgcolor="#1A1C1E" style="background:#1A1C1E;border-radius:16px 16px 0 0;padding:26px 36px;" class="alf-pad">
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
               <td style="vertical-align:middle;">
-                <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
-                  <td style="vertical-align:middle;">
-                    <img src="https://alumfer.com.ar/solologo.png" width="48" height="34" alt="" style="display:block;border:0;outline:none;height:34px;width:48px;">
-                  </td>
-                  <td style="padding-left:12px;vertical-align:middle;">
-                    <div style="font-family:$font;font-size:20px;font-weight:700;letter-spacing:0.16em;color:#ffffff;line-height:1;">ALUMFER</div>
-                    <div style="font-family:$font;font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:#B0A99A;line-height:1;padding-top:6px;">Carpintería de aluminio</div>
-                  </td>
-                </tr></table>
+                <img src="https://alumfer.com.ar/email/alumfer-logo-blanco.png" width="216" height="39" alt="ALUMFER" style="display:block;width:216px;height:39px;border:0;outline:none;font-family:$font;font-size:16px;font-weight:700;letter-spacing:0.16em;color:#ffffff;">
               </td>
               <td align="right" style="vertical-align:middle;font-family:$font;font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,255,255,0.55);">
                 Aberturas a medida
@@ -250,6 +242,283 @@ function em_shell(string $preheader, string $content): string {
                 Recibiste este correo porque te contactaste con Alumfer a través de alumfer.com.ar.
               </td></tr>
             </table>
+          </td>
+        </tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>
+HTML;
+}
+
+/* ============================================================
+ *  EMAIL AL CLIENTE — confirmación de consulta
+ * ------------------------------------------------------------
+ *  Hero azul con el nombre, línea de tiempo con los pasos reales
+ *  hasta la colocación, accesos (fotos/medidas o WhatsApp), reseña
+ *  de Google y el resumen de la consulta.
+ *  Las imágenes viven en /email/ del sitio; si el cliente de
+ *  correo las bloquea, todo el contenido sigue legible en texto.
+ * ========================================================== */
+
+const ALF_FONT_HEAD = "'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif";
+
+/** Fecha en castellano: "2 de octubre de 2026". */
+function em_fecha_larga(int $ts): string {
+    $meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio',
+              'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+    return date('j', $ts) . ' de ' . $meses[(int)date('n', $ts) - 1] . ' de ' . date('Y', $ts);
+}
+
+/** ["tus ventanas", true] → cómo nombrar el trabajo en el texto (y si es plural). */
+function em_tipo_frase(string $tipo): array {
+    $map = [
+        'ventanas'      => ['tus ventanas', true],
+        'puertas'       => ['tus puertas', true],
+        'mosquiteros'   => ['tus mosquiteros', true],
+        'policarbonato' => ['tu techo de policarbonato', false],
+    ];
+    return $map[mb_strtolower(trim($tipo), 'UTF-8')] ?? ['tu proyecto', false];
+}
+
+/**
+ * $d = [
+ *   'nombre'    => string (crudo),
+ *   'tipo'      => string (crudo),
+ *   'localidad' => string (crudo, puede ser ''),
+ *   'consulta'  => string (crudo),
+ *   'numero'    => string, p. ej. "261002-1435",
+ *   'ts'        => int (timestamp de recepción),
+ * ]
+ */
+function em_cliente(array $d): string {
+    $h = fn(string $s): string => htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
+
+    $nombre    = $h(trim(preg_split('/\s+/', trim($d['nombre']))[0] ?? ''));
+    $tipoRaw   = trim($d['tipo']);
+    $tipo      = ($tipoRaw === '' || mb_strtolower($tipoRaw, 'UTF-8') === 'otros') ? 'A definir' : $h($tipoRaw);
+    [$sujeto]  = em_tipo_frase($tipoRaw);
+    $localidad = trim($d['localidad']) !== '' ? $h($d['localidad']) : 'A confirmar';
+    $mensaje   = nl2br($h($d['consulta']));
+    $numero    = $h($d['numero']);
+    $year      = date('Y', $d['ts']);
+
+    $mailto = $h('mailto:' . ALF_EMAIL . '?subject=' . rawurlencode('Consulta N° ' . $d['numero'] . ' — fotos y medidas'));
+    $wa     = $h('https://wa.me/' . ALF_WA_NUMBER . '?text=' . rawurlencode('Hola, les escribo por la consulta N° ' . $d['numero'] . '.'));
+    $google = $h('https://www.google.com/search?q=Alumfer+carpinter%C3%ADa+aluminio+Adrog%C3%BCe');
+
+    $site  = ALF_SITE;
+    $img   = ALF_SITE . '/email/';
+    $fh    = ALF_FONT_HEAD;
+    $fb    = ALF_FONT;
+    $pre   = $h('Te contamos cómo sigue, paso a paso, hasta la colocación.');
+
+    $ink   = '#16202B';
+    $text  = '#4B5563';
+    $muted = '#6B7A8C';
+    $outer = '#EAF0F7';
+    $tint  = '#F3F7FC';
+    $blue  = ALF_BLUE;
+    $navy  = '#0E4A94';
+    $green = '#178C44';
+
+    /* ── Línea de tiempo: pasos reales del proceso (FAQ del sitio) ──
+       Cada paso: nodo (PNG 48px) + tramo de línea de alto fijo; el texto
+       tiene el mismo alto total para que la línea llegue al nodo siguiente. */
+    $pasos = [
+        ['paso-hecho',       'Hoy',                        $green, 'Recibimos tu consulta',        'Llegó bien a nuestro equipo.'],
+        ['paso-presupuesto', 'En menos de 24 hs hábiles',  $blue,  'Te pasamos el presupuesto',    'Por teléfono o por email. Sin cargo.'],
+        ['paso-medicion',    'Sin cargo',                  $muted, 'Visita técnica y medición',    'Vamos a tu obra y medimos exacto.'],
+        ['paso-fabricacion', '1 a 3 semanas',              $muted, 'Fabricación en nuestro taller', 'A tu medida, sin intermediarios.'],
+        ['paso-colocacion',  'Instalación en seco',        $muted, 'Colocación',                   'Sin romper paredes ni revoques.'],
+    ];
+    $tramo = 37;   // alto del tramo de línea bajo cada nodo
+    $timeline = '';
+    $n = count($pasos);
+    foreach ($pasos as $i => [$nodo, $cuando, $color, $titulo, $detalle]) {
+        $ultimo = $i === $n - 1;
+        $linea  = $i === 0 ? 'border-left:2px solid #1EA952;' : 'border-left:2px dashed #BCD3EC;';
+        $timeline .= '<tr>'
+            . '<td width="48" valign="top" style="width:48px;">'
+            . '<img src="' . $img . $nodo . '.png" width="48" height="48" alt="" style="display:block;width:48px;height:48px;border:0;">'
+            . ($ultimo ? '' :
+                '<table role="presentation" width="48" cellpadding="0" cellspacing="0" border="0"><tr>'
+                . '<td width="23" style="width:23px;height:' . $tramo . 'px;font-size:0;line-height:0;">&nbsp;</td>'
+                . '<td class="' . ($i === 0 ? '' : 'alf-tl') . '" width="25" style="width:25px;height:' . $tramo . 'px;' . $linea . 'font-size:0;line-height:0;">&nbsp;</td>'
+                . '</tr></table>')
+            . '</td>'
+            . '<td valign="top" style="padding:3px 0 ' . ($ultimo ? 0 : 22) . 'px 14px;">'
+            . '<div style="font-family:' . $fb . ';font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;line-height:14px;color:' . $color . ';" class="' . ($color === $muted ? 'alf-label' : '') . '">' . $cuando . '</div>'
+            . '<div class="alf-ink" style="font-family:' . $fh . ';font-size:16px;font-weight:700;line-height:22px;color:' . $ink . ';padding-top:3px;">' . $titulo . '</div>'
+            . '<div class="alf-txt" style="font-family:' . $fb . ';font-size:14px;line-height:20px;color:' . $text . ';padding-top:1px;">' . $detalle . '</div>'
+            . '</td></tr>';
+    }
+
+    /* ── Accesos: tarjetas enteras clickeables, con ícono y flecha ── */
+    $acceso = function (string $href, string $icono, string $flecha, string $titulo, string $sub, string $bg, string $bd, string $cls, bool $blank) use ($fh, $fb, $ink, $text): string {
+        $target = $blank ? ' target="_blank"' : '';
+        return '<a href="' . $href . '"' . $target . ' style="display:block;text-decoration:none;">'
+            . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>'
+            . '<td class="' . $cls . '" bgcolor="' . $bg . '" style="background:' . $bg . ';border:1px solid ' . $bd . ';border-radius:18px;padding:16px;">'
+            . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>'
+            . '<td width="44" valign="middle" style="width:44px;"><img src="' . ALF_SITE . '/email/' . $icono . '.png" width="44" height="44" alt="" style="display:block;width:44px;height:44px;border:0;"></td>'
+            . '<td valign="middle" style="padding:0 10px 0 14px;">'
+            . '<div class="alf-ink" style="font-family:' . $fh . ';font-size:15px;font-weight:700;line-height:1.3;color:' . $ink . ';">' . $titulo . '</div>'
+            . '<div class="alf-txt" style="font-family:' . $fb . ';font-size:13px;line-height:1.4;color:' . $text . ';padding-top:2px;">' . $sub . '</div>'
+            . '</td>'
+            . '<td width="20" valign="middle" style="width:20px;"><img src="' . ALF_SITE . '/email/' . $flecha . '.png" width="20" height="20" alt="" style="display:block;width:20px;height:20px;border:0;"></td>'
+            . '</tr></table></td></tr></table></a>';
+    };
+    $accFotos = $acceso($mailto, 'accion-fotos', 'flecha-azul', 'Mandanos fotos o medidas', 'Te abre un email listo para adjuntarlas', '#FFFFFF', '#CFE0F3', 'alf-acc', false);
+    $accWa    = $acceso($wa, 'accion-whatsapp', 'flecha-verde', 'Seguimos por WhatsApp', '(011) 6336-8643', '#F2FBF5', '#C9EBD5', 'alf-acc alf-acc-wa', true);
+
+    $chip = fn(string $label, string $value): string =>
+        '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="display:inline-block;vertical-align:top;margin:0 8px 8px 0;"><tr>'
+        . '<td class="alf-chip" bgcolor="#FFFFFF" style="background:#FFFFFF;border-radius:999px;padding:7px 14px;white-space:nowrap;font-family:' . $fb . ';font-size:13px;line-height:1.2;color:' . $muted . ';">'
+        . $label . ' <strong class="alf-ink" style="color:' . $ink . ';font-weight:600;">' . $value . '</strong></td></tr></table>';
+
+    return <<<HTML
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta name="format-detection" content="telephone=no, address=no, email=no, date=no">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <title>Recibimos tu consulta — Alumfer</title>
+  <!--[if !mso]><!-->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <!--<![endif]-->
+  <!--[if mso]>
+  <noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
+  <style>td,div,p,a,h1{font-family:Arial,sans-serif!important;}</style>
+  <![endif]-->
+  <style>
+    html,body{margin:0!important;padding:0!important;width:100%!important;}
+    *{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;}
+    table,td{mso-table-lspace:0pt;mso-table-rspace:0pt;}
+    img{-ms-interpolation-mode:bicubic;border:0;outline:none;text-decoration:none;}
+    a{text-decoration:none;}
+    @media only screen and (max-width:620px){
+      .alf-container{width:100%!important;}
+      .alf-pad{padding-left:22px!important;padding-right:22px!important;}
+      .alf-h1{font-size:30px!important;}
+      .alf-deco,.alf-pill{display:none!important;}
+    }
+    @media (prefers-color-scheme: dark){
+      .alf-outer{background:#0F1418!important;}
+      .alf-paper{background:#1A2027!important;}
+      .alf-acc{background:#232B34!important;border-color:#2F3A46!important;}
+      .alf-acc-wa{background:#1D2B23!important;border-color:#264232!important;}
+      .alf-review{background:#2A2618!important;}
+      .alf-sum{background:#232B34!important;}
+      .alf-chip{background:#1A2027!important;}
+      .alf-foot{background:#151A20!important;}
+      .alf-tl{border-left-color:#3A4A5C!important;}
+      .alf-ink{color:#F1F4F8!important;}
+      .alf-txt{color:#C3CBD5!important;}
+      .alf-label{color:#8F9BAA!important;}
+      .alf-link{color:#6FB2F0!important;}
+    }
+  </style>
+</head>
+<body class="alf-outer" style="margin:0;padding:0;background:$outer;">
+  <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;line-height:1px;color:$outer;opacity:0;">$pre&nbsp;&#8199;&#65279;&#847;&nbsp;&#8199;&#65279;&#847;&nbsp;&#8199;&#65279;&#847;&nbsp;&#8199;&#65279;&#847;&nbsp;&#8199;&#65279;&#847;&nbsp;&#8199;&#65279;&#847;</div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="alf-outer" bgcolor="$outer" style="background:$outer;">
+    <tr><td align="center" style="padding:28px 12px 36px;">
+
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="alf-container" style="width:600px;max-width:600px;">
+
+        <!-- Hero azul (bgcolor de respaldo para clientes sin degradé) -->
+        <tr>
+          <td class="alf-pad" bgcolor="$blue" style="background:$blue;background-image:linear-gradient(135deg,$blue 0%,$navy 100%);border-radius:24px 24px 0 0;padding:28px 40px 40px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+              <td valign="middle">
+                <a href="$site" target="_blank" style="text-decoration:none;">
+                  <img src="{$img}alumfer-logo-blanco.png" width="190" height="34" alt="ALUMFER" style="display:block;width:190px;height:34px;border:0;font-family:$fh;font-size:18px;font-weight:700;letter-spacing:0.18em;color:#FFFFFF;">
+                </a>
+              </td>
+              <td class="alf-pill" align="right" valign="middle">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                  <td style="background:rgba(255,255,255,0.14);border-radius:999px;padding:7px 14px;font-family:$fb;font-size:12px;font-weight:600;line-height:1;color:#FFFFFF;white-space:nowrap;">N°&nbsp;$numero</td>
+                </tr></table>
+              </td>
+            </tr></table>
+
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:40px;"><tr>
+              <td valign="bottom">
+                <h1 class="alf-h1" style="margin:0;font-family:$fh;font-size:36px;line-height:1.12;font-weight:700;letter-spacing:-0.025em;color:#FFFFFF;">$nombre, recibimos tu&nbsp;consulta.</h1>
+                <p style="margin:14px 0 0;font-family:$fb;font-size:17px;line-height:1.55;color:#D6E8F7;">
+                  Te contamos cómo sigue, paso a paso, hasta la colocación de $sujeto.
+                </p>
+              </td>
+              <td class="alf-deco" width="120" align="right" valign="bottom" style="width:120px;padding-left:12px;">
+                <img src="{$img}hero-marca.png" width="120" height="84" alt="" style="display:block;width:120px;height:84px;border:0;">
+              </td>
+            </tr></table>
+          </td>
+        </tr>
+
+        <!-- Cuerpo -->
+        <tr>
+          <td class="alf-paper alf-pad" bgcolor="#FFFFFF" style="background:#FFFFFF;padding:36px 40px 36px;">
+
+            <!-- Línea de tiempo -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">$timeline</table>
+
+            <!-- Accesos -->
+            <p class="alf-ink" style="margin:40px 0 0;font-family:$fh;font-size:22px;line-height:1.3;font-weight:700;color:$ink;">¿Lo querés más rápido?</p>
+            <p class="alf-txt" style="margin:6px 0 16px;font-family:$fb;font-size:15px;line-height:1.6;color:$text;">
+              Con fotos del lugar o medidas aproximadas adelantamos el presupuesto.
+            </p>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr><td style="padding-bottom:10px;">$accFotos</td></tr>
+              <tr><td>$accWa</td></tr>
+            </table>
+
+            <!-- Reseña real de Google -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:28px;"><tr>
+              <td class="alf-review" bgcolor="#FFF6DD" style="background:#FFF6DD;border-radius:18px;padding:20px 22px;">
+                <div style="font-family:$fb;font-size:15px;line-height:1;color:#F5A800;letter-spacing:2px;">★★★★★</div>
+                <p class="alf-ink" style="margin:10px 0 0;font-family:$fh;font-size:18px;line-height:1.4;font-weight:700;color:$ink;">“Precio, tiempo de entrega y calidad, 10&nbsp;puntos.”</p>
+                <p class="alf-txt" style="margin:6px 0 0;font-family:$fb;font-size:13px;line-height:1.5;color:$text;">
+                  Marcelo V., mosquiteros a medida &nbsp;·&nbsp; <a href="$google" target="_blank" class="alf-link" style="color:$blue;font-weight:600;text-decoration:none;">4,5 en Google, 37&nbsp;reseñas</a>
+                </p>
+              </td>
+            </tr></table>
+
+            <!-- Resumen de la consulta -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:12px;"><tr>
+              <td class="alf-sum" bgcolor="$tint" style="background:$tint;border-radius:18px;padding:20px 22px 18px;">
+                <div class="alf-label" style="font-family:$fb;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:$muted;padding-bottom:12px;">Tu consulta</div>
+                <div>{$chip('Trabajo', $tipo)}{$chip('Obra en', $localidad)}</div>
+                <div class="alf-txt" style="font-family:$fb;font-size:14px;color:$text;line-height:1.6;padding-top:6px;">$mensaje</div>
+              </td>
+            </tr></table>
+
+          </td>
+        </tr>
+
+        <!-- Pie -->
+        <tr>
+          <td class="alf-foot alf-pad" bgcolor="#F6F9FC" style="background:#F6F9FC;border-radius:0 0 24px 24px;padding:22px 40px 24px;">
+            <p class="alf-txt" style="margin:0;font-family:$fb;font-size:13px;line-height:1.7;color:$text;">
+              <strong class="alf-ink" style="color:$ink;font-weight:600;">Alumfer</strong> · Av. San Martín 734, Adrogué<br>
+              <a href="https://wa.me/{$h(ALF_WA_NUMBER)}" target="_blank" class="alf-txt" style="color:$text;text-decoration:none;">(011) 6336-8643</a> &nbsp;·&nbsp;
+              <a href="$site" target="_blank" class="alf-link" style="color:$blue;font-weight:600;text-decoration:none;">alumfer.com.ar</a> &nbsp;·&nbsp;
+              <a href="{$h(ALF_IG)}" target="_blank" class="alf-link" style="color:$blue;font-weight:600;text-decoration:none;">Instagram</a>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding:16px 24px 0;font-family:$fb;font-size:11px;line-height:1.6;color:$muted;" class="alf-label">
+            Recibiste este email porque dejaste una consulta en alumfer.com.ar. © $year Alumfer.
           </td>
         </tr>
 

@@ -18,6 +18,8 @@
 
 require __DIR__ . '/email-template.php';
 
+date_default_timezone_set('America/Argentina/Buenos_Aires');
+
 /* ─── Configuración ─────────────────────────────────────── */
 const ADMIN_TO    = 'alumfercarpinteria@gmail.com';                  // recibe las consultas
 const FROM_EMAIL  = 'info@alumfer.com.ar';                           // remitente (casilla del dominio)
@@ -48,15 +50,18 @@ function field(string $name): string {
 $nombre    = field('Nombre');
 $telefono  = field('Teléfono');
 $emailRaw  = field('Email');
-$tipo      = field('Tipo');
+$tipo      = field('Tipo') !== '' ? field('Tipo') : 'Otros'; // el form de la home no lo manda
 $localidad = field('Localidad');
 $consulta  = field('Consulta');
 
 /* ─── Validación mínima ─────────────────────────────────── */
-if ($nombre === '' || $telefono === '' || $tipo === '' || $consulta === '') {
+if ($nombre === '' || $telefono === '' || $emailRaw === '' || $consulta === '') {
     respond(false, 'Faltan datos obligatorios.');
 }
-$emailCliente = ($emailRaw !== '' && filter_var($emailRaw, FILTER_VALIDATE_EMAIL)) ? $emailRaw : '';
+if (!filter_var($emailRaw, FILTER_VALIDATE_EMAIL)) {
+    respond(false, 'El email no es válido.');
+}
+$emailCliente = $emailRaw;
 
 /* ─── Plano en PDF (sólo desde /plano/) ─────────────────── */
 /* El navegador arma el PDF y lo sube en el campo "Plano". Se manda al
@@ -117,7 +122,9 @@ function subj(string $s): string {
  * ========================================================== */
 $waCliente   = wa_from_phone($telefono);
 $telLink      = 'tel:+' . preg_replace('/\D+/', '', $telefono);
-$fecha        = date('d/m/Y · H:i') . ' hs';
+$ahora        = time();
+$fecha        = date('d/m/Y · H:i', $ahora) . ' hs';
+$numero       = date('ymd-Hi', $ahora);               // N° de consulta: mismo en ambos emails
 
 $rows = [
     ['label' => 'Nombre',        'value' => e($nombre)],
@@ -132,7 +139,7 @@ if ($localidad !== '') {
     $rows[] = ['label' => 'Localidad de la obra', 'value' => e($localidad)];
 }
 
-$adminContent  = em_eyebrow('Nueva consulta web');
+$adminContent  = em_eyebrow('Nueva consulta web · N° ' . $numero);
 $adminContent .= em_h1('Consulta de ' . $nombre);
 $adminContent .= em_p('Recibida el <strong style="color:' . ALF_HEADING . ';">' . e($fecha) . '</strong> desde alumfer.com.ar.');
 $adminContent .= em_spacer(6);
@@ -151,40 +158,34 @@ $adminHtml = em_shell('Nueva consulta de ' . $nombre . ' — ' . $tipo, $adminCo
 /* ============================================================
  *  CONTENIDO — Confirmación al cliente
  * ========================================================== */
-$resumen = [
-    ['label' => 'Tipo de trabajo', 'value' => e($tipo)],
-];
-if ($localidad !== '') {
-    $resumen[] = ['label' => 'Localidad', 'value' => e($localidad)];
-}
-
 if ($planoPdf !== '') {
-    $cliContent  = em_eyebrow('Tu plano de Alumfer');
+    /* Plano desde /plano/: email propio, con el PDF adjunto */
+    $resumen = [['label' => 'N° de consulta', 'value' => e($numero)]];
+    if ($localidad !== '') {
+        $resumen[] = ['label' => 'Localidad', 'value' => e($localidad)];
+    }
+    $cliContent  = em_eyebrow('Tu plano de Alumfer · N° ' . $numero);
     $cliContent .= em_h1('¡Acá está tu plano, ' . $nombre . '!');
     $cliContent .= em_p('Te adjuntamos el PDF con tu plano técnico (cotas y planilla) y la vista ilustrativa en color. '
         . 'Ya lo tenemos para preparar tu presupuesto: te respondemos <strong style="color:' . ALF_HEADING . ';">en menos de 24 horas</strong>.');
     $cliContent .= em_p('Las medidas son las que cargaste vos: en la visita las verificamos sin cargo.', 'font-size:13px;color:' . ALF_CONCRETE . ';');
+    $cliContent .= em_spacer(6);
+    $cliContent .= '<div class="alf-data">' . em_data_table($resumen) . '</div>';
+    $cliContent .= em_spacer(10);
+    $cliContent .= '<div class="alf-quote">' . em_quote_box(e_nl($consulta)) . '</div>';
+    $cliContent .= em_spacer(20);
+    $cliContent .= em_p('<strong style="color:' . ALF_HEADING . ';">Alumfer</strong> — fabricantes de aberturas de aluminio a medida en Adrogué.', 'font-size:13px;color:' . ALF_CONCRETE . ';margin-bottom:0;');
+    $cliHtml = em_shell('Tu plano en PDF — te respondemos en menos de 24 hs', $cliContent);
 } else {
-$cliContent  = em_eyebrow('Recibimos tu consulta');
-$cliContent .= em_h1('¡Gracias, ' . $nombre . '!');
-$cliContent .= em_p('Recibimos tu consulta sobre <strong style="color:' . ALF_HEADING . ';">' . e($tipo) . '</strong> y ya estamos sobre ella. '
-    . 'Te vamos a responder <strong style="color:' . ALF_HEADING . ';">en menos de 24 horas</strong> por email o teléfono con tu presupuesto sin cargo.');
+    $cliHtml = em_cliente([
+        'nombre'    => $nombre,
+        'tipo'      => $tipo,
+        'localidad' => $localidad,
+        'consulta'  => $consulta,
+        'numero'    => $numero,
+        'ts'        => $ahora,
+    ]);
 }
-$cliContent .= em_spacer(6);
-$cliContent .= em_section_title('Esto es lo que nos contaste');
-$cliContent .= '<div class="alf-data">' . em_data_table($resumen) . '</div>';
-$cliContent .= em_spacer(10);
-$cliContent .= '<div class="alf-quote">' . em_quote_box(e_nl($consulta)) . '</div>';
-$cliContent .= em_spacer(26);
-$cliContent .= em_p('¿Tenés fotos, planos o medidas? Respondé este mismo email y sumalas: nos ayuda a preparar tu presupuesto más rápido.', 'margin-bottom:14px;');
-$cliContent .= em_button('Ver nuestros trabajos', ALF_SITE . '/#trabajos', 'ghost');
-$cliContent .= em_spacer(28);
-$cliContent .= em_divider();
-$cliContent .= em_spacer(20);
-$cliContent .= em_p('<strong style="color:' . ALF_HEADING . ';">Alumfer</strong> — fabricantes de aberturas de aluminio a medida en Adrogué. '
-    . 'Fabricación propia, asesoramiento personalizado e instalación profesional.', 'font-size:13px;color:' . ALF_CONCRETE . ';margin-bottom:0;');
-
-$cliHtml = em_shell($planoPdf !== '' ? 'Tu plano en PDF — te respondemos en menos de 24 hs' : 'Recibimos tu consulta — te respondemos en menos de 24 hs', $cliContent);
 
 /* ============================================================
  *  ENVÍO
@@ -228,7 +229,8 @@ $okAdmin  = @mail(ADMIN_TO, subj($asunto), $adminBody, implode("\r\n", $hAdmin),
 if ($emailCliente !== '') {
     $hCli = array_merge($headersBase, ['Reply-To: Alumfer <' . ADMIN_TO . '>']);
     if ($planoPdf !== '') { [$hCli, $cliBody] = con_adjunto($hCli, $cliHtml, $planoPdf, $archivoPlano); }
-    $okCli = @mail($emailCliente, subj($planoPdf !== '' ? 'Tu plano — Alumfer' : 'Recibimos tu consulta — Alumfer'), $cliBody, implode("\r\n", $hCli), $envelope);
+    $asuntoCli = $planoPdf !== '' ? strtok($nombre, ' ') . ', acá está tu plano (N° ' . $numero . ')' : strtok($nombre, ' ') . ', recibimos tu consulta (N° ' . $numero . ')';
+    @mail($emailCliente, subj($asuntoCli), $cliBody, implode("\r\n", $hCli), $envelope);
 }
 
 /* La consulta del admin es la crítica: su resultado define el éxito. */
