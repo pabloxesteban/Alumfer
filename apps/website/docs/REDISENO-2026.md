@@ -559,3 +559,31 @@ Pedido: que en el plano se vea la ventana simulada con su color y vidrio.
   solo para quedar liviano. `plano.js` 42 KB, `aberturas.js` 9 KB y
   `plano.css` 7 KB comprimidos: se activó la compresión (mod_deflate) en
   `.htaccess` para HTML, CSS, JS y SVG.
+
+## O. Octava pasada: todo en una sola herramienta, en 3D
+
+Pedido: la abertura en la foto no se puede deformar ("no existen las
+ventanas así"); había tres herramientas distintas (diseñador, foto y plano)
+y no se entendía; el simulador tiene que ser 3D, con paredes laterales y
+techo si hace falta, y más amigable.
+
+- **Foto sin deformar**: tirar de una esquina agranda o achica la abertura
+  en escala desde la esquina opuesta. Se sacó el modo de esquinas libres.
+- **Una sola herramienta** en `/disena-tu-abertura/` ("Diseñá tu proyecto"):
+  vista 3D + panel de 4 pasos (Paredes · Aberturas · Techo · Enviar). La
+  foto quedó como una acción de cada abertura ("Probar en una foto") y el
+  plano técnico como una vista ("Plano"), no como páginas aparte.
+- **3D** con CSS, sin librerías: pared principal, laterales, techo de
+  policarbonato con columnas, piso. Girar, acercar, tocar y arrastrar
+  aberturas sobre su pared. Las paredes vistas de atrás se vuelven
+  transparentes.
+- `/plano/` (CAD) queda para el taller; los clientes que entren por links
+  viejos llegan a la herramienta nueva (con `?nuevo=techo` abre el techo).
+  Los links de WhatsApp ahora abren `/disena-tu-abertura/#p=…` con
+  "Plano recibido · Descargar PDF" (y "Abrir en CAD" para el taller).
+- Se retiraron `disena.js` y `disena.css`. La lista del diseñador anterior
+  pasa sola a la pared principal.
+- Links del sitio: menú, pie y home dicen "Diseñá tu proyecto"; el botón
+  "Dibujá tu techo" de techos abre la herramienta con el techo.
+- Peso (comprimido): `proyecto.js` 17 KB, `proyecto.css` 6 KB.
+

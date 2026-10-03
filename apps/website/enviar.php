@@ -63,7 +63,7 @@ if (!filter_var($emailRaw, FILTER_VALIDATE_EMAIL)) {
 }
 $emailCliente = $emailRaw;
 
-/* ─── Plano en PDF (sólo desde /plano/) ─────────────────── */
+/* ─── Plano en PDF (sólo desde el diseñador) ───────────── */
 /* El navegador arma el PDF y lo sube en el campo "Plano". Se manda al
    cliente (por eso el email es obligatorio) y la copia a Alumfer.
    Para que nadie use el formulario para mandar archivos a cualquier
@@ -159,7 +159,7 @@ $adminHtml = em_shell('Nueva consulta de ' . $nombre . ' — ' . $tipo, $adminCo
  *  CONTENIDO — Confirmación al cliente
  * ========================================================== */
 if ($planoPdf !== '') {
-    /* Plano desde /plano/: email propio, con el PDF adjunto */
+    /* Plano desde el diseñador: email propio, con el PDF adjunto */
     $resumen = [['label' => 'N° de consulta', 'value' => e($numero)]];
     if ($localidad !== '') {
         $resumen[] = ['label' => 'Localidad', 'value' => e($localidad)];

@@ -2,18 +2,19 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diseñá tu abertura de aluminio: plano con medidas | Alumfer</title>
-  <meta name="description" content="Elegí el tipo de ventana o puerta, cargá tus medidas y mirá el plano a escala con color, vidrio y mosquitero. Armá tu lista y mandala por WhatsApp para pedir presupuesto.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Diseñá tu proyecto en 3D: aberturas y techo con tus medidas | Alumfer</title>
+  <meta name="description" content="Armá tu pared con ventanas y puertas de aluminio, sumá paredes laterales y techo de policarbonato, y miralo en 3D con color y vidrio. Mandanos el plano para el presupuesto.">
   <link rel="canonical" href="https://alumfer.com.ar/disena-tu-abertura/">
   <meta property="og:type"        content="website">
   <meta property="og:url"         content="https://alumfer.com.ar/disena-tu-abertura/">
-  <meta property="og:title"       content="Diseñá tu abertura | Alumfer">
-  <meta property="og:description" content="Dibujá tu ventana o puerta con tus medidas y mandanos la lista para el presupuesto.">
+  <meta property="og:title"       content="Diseñá tu proyecto en 3D | Alumfer">
+  <meta property="og:description" content="Ventanas, puertas y techo de policarbonato con tus medidas, en 3D. Mandanos el plano para el presupuesto.">
   <meta property="og:image"       content="https://alumfer.com.ar/og-alumfer.png?v=2">
   <meta property="og:locale"      content="es_AR">
   <meta property="og:site_name"   content="Alumfer Carpintería de Aluminio">
   <meta name="twitter:card"       content="summary_large_image">
+  <meta name="theme-color" content="#F4F6F8">
 
   <link rel="icon" href="/favicon.ico" sizes="48x48">
   <link rel="icon" type="image/png" href="/favicon.png?v=4" sizes="192x192">
@@ -30,340 +31,113 @@
 
   <link rel="preload" href="/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/site.css?v=5">
-  <link rel="stylesheet" href="/pages.css?v=4">
-  <link rel="stylesheet" href="/disena.css?v=3">
+  <link rel="stylesheet" href="/proyecto.css?v=1">
   <link rel="stylesheet" href="/pared.css?v=2">
 </head>
-<body class="no-js inner page-disena">
-  <a class="sr-only" href="#editor">Saltar al diseñador</a>
+<body class="page-proyecto">
+  <noscript><p class="pj-noscript">Para armar tu proyecto necesitás activar JavaScript. También podés escribirnos por WhatsApp al (011) 6336-8643.</p></noscript>
 
-  <!-- ── Barra superior: datos reales del local ─────────────── -->
-  <div class="topbar">
-    <div class="wrap">
-      <div class="topbar__group">
-        <a href="https://maps.google.com/?q=Av.+San+Martín+734+Adrogué" target="_blank" rel="noopener">Av. San Martín 734 · Adrogué</a>
-        <span class="topbar__group--hours">Lun a Vie 9–13 h · Sáb 9–14 h</span>
+  <div class="pj" id="pj">
+    <header class="pj-top">
+      <a class="pj-top__logo" href="/" aria-label="Alumfer, volver al inicio">
+        <img src="/solologo.webp" alt="" width="368" height="259">
+        <span>ALUMFER</span>
+      </a>
+      <h1 class="pj-top__t">Diseñá tu proyecto</h1>
+      <div class="pj-top__acts">
+        <button type="button" class="pj-ico" data-act="undo" aria-label="Deshacer" title="Deshacer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button>
+        <button type="button" class="pj-ico" data-act="nuevo" aria-label="Empezar de nuevo" title="Empezar de nuevo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <a class="pj-top__wa" href="https://wa.me/5491163368643?text=Hola%2C%20estoy%20armando%20mi%20proyecto%20en%20la%20web%20y%20tengo%20una%20consulta" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span>¿Dudas?</span></a>
       </div>
-      <div class="topbar__group">
-        <a href="tel:+5491163368643">(011) 6336-8643</a>
-        <a href="mailto:alumfercarpinteria@gmail.com">alumfercarpinteria@gmail.com</a>
+    </header>
+
+    <div class="pj-stage" data-recibido>
+      <div class="pj-3d" aria-label="Vista 3D del proyecto. Arrastrá para girar, tocá una abertura para editarla." role="img">
+        <div class="pj-cam"></div>
       </div>
+      <div class="pj-plano" hidden></div>
+      <div class="pj-marca" aria-hidden="true"></div>
+      <div class="pj-coach" hidden>
+        <p><b>Arrastrá</b> para girar · <b>pellizcá</b> o usá la rueda para acercar · <b>tocá</b> una abertura para editarla o arrastrala para moverla</p>
+      </div>
+      <div class="pj-tools" role="toolbar" aria-label="Vista">
+        <div class="pj-seg pj-seg--dark" role="group" aria-label="Tipo de vista">
+          <button type="button" data-vista="3d" aria-pressed="true">3D</button>
+          <button type="button" data-vista="plano" aria-pressed="false">Plano</button>
+        </div>
+        <button type="button" class="pj-ico pj-ico--dark" data-act="animar" aria-label="Ver cómo abren" title="Ver cómo abren"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+        <button type="button" class="pj-ico pj-ico--dark" data-act="zoom-" aria-label="Alejar" title="Alejar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+        <button type="button" class="pj-ico pj-ico--dark" data-act="zoom+" aria-label="Acercar" title="Acercar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <button type="button" class="pj-ico pj-ico--dark" data-act="centro" aria-label="Vista inicial" title="Vista inicial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>
+      </div>
+      <div class="pj-toast" role="status" aria-live="polite"></div>
     </div>
+
+    <aside class="pj-panel" aria-label="Pasos">
+      <nav class="pj-pasos" aria-label="Pasos del proyecto"></nav>
+      <div class="pj-panel__body"></div>
+      <div class="pj-panel__pie"></div>
+    </aside>
   </div>
 
-  <!-- ── Navegación ─────────────────────────────────────────── -->
-  <header class="nav">
-    <div class="wrap">
-      <a href="/" class="brand" aria-label="Alumfer — inicio">
-        <img width="368" height="259" src="/solologo.webp" alt="">
-        <span><span class="brand__name">ALUMFER</span><span class="brand__sub">Carpintería de aluminio</span></span>
-      </a>
-      <nav class="nav__links" aria-label="Principal">
-        <a href="/#trabajos">Trabajos</a>
-        <a href="/#proceso">Cómo trabajamos</a>
-        <a href="/#lineas">Líneas</a>
-        <a href="/disena-tu-abertura/" class="nav__new" aria-current="page">Diseñá tu abertura</a>
-        <a href="/guias/">Guías</a>
-        <a href="/#contacto">Contacto</a>
-      </nav>
-      <a href="https://wa.me/5491163368643?text=Hola%2C%20estoy%20usando%20el%20dise%C3%B1ador%20de%20aberturas%20y%20tengo%20una%20consulta" class="btn btn--primary nav__cta" target="_blank" rel="noopener">Pedir presupuesto <span class="arrow" aria-hidden="true">→</span></a>
-      <button class="nav__burger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>
+  <dialog class="pj-dlg pj-cat" aria-labelledby="cat-t">
+    <div class="pj-dlg__box pj-dlg__box--wide">
+      <div class="pj-dlg__head"><h2 id="cat-t" class="pj-dlg__title pj-cat__title">Agregar</h2><button type="button" class="pj-dlg__x" data-cerrar aria-label="Cerrar">×</button></div>
+      <div class="pj-cat__body"></div>
     </div>
-  </header>
-  <nav class="drawer" id="drawer" aria-label="Menú" aria-hidden="true">
-    <a href="/#trabajos">Trabajos <span>01</span></a>
-    <a href="/#proceso">Cómo trabajamos <span>02</span></a>
-    <a href="/#lineas">Líneas <span>03</span></a>
-    <a href="/disena-tu-abertura/">Diseñá tu abertura <span>04</span></a>
-    <a href="/guias/">Guías <span>05</span></a>
-    <a href="/#contacto">Contacto <span>06</span></a>
-    <a href="https://wa.me/5491163368643?text=Hola%2C%20estoy%20usando%20el%20dise%C3%B1ador%20de%20aberturas%20y%20tengo%20una%20consulta" class="btn btn--wa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pedir presupuesto por WhatsApp</a>
-    <div class="drawer__info">
-      <a href="tel:+5491163368643">(011) 6336-8643</a>
-      <span>Av. San Martín 734 · Adrogué</span>
-      <span>Lun a Vie 9–13 h · Sáb 9–14 h</span>
+  </dialog>
+
+  <dialog class="pj-dlg cad-enviar" aria-labelledby="env-t">
+    <div class="pj-dlg__box pj-dlg__box--wide">
+      <div class="pj-dlg__head"><h2 id="env-t" class="pj-dlg__title">Enviar el proyecto a Alumfer</h2><button type="button" class="pj-dlg__x" data-cerrar aria-label="Cerrar">×</button></div>
+      <p class="cad-enviar__motivo" hidden></p>
+      <form class="cad-enviar__grid" action="/enviar.php" method="POST">
+        <input type="hidden" name="Tipo" value="Plano desde el sitio web">
+        <input type="checkbox" name="botcheck" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="cad-enviar__campos">
+          <label class="pj-campo"><span>Nombre *</span><input name="Nombre" required autocomplete="name" maxlength="80"></label>
+          <label class="pj-campo"><span>Teléfono *</span><input name="Teléfono" required type="tel" inputmode="tel" autocomplete="tel" maxlength="40"></label>
+          <label class="pj-campo"><span>Email (te mandamos una copia del PDF)</span><input name="Email" type="email" inputmode="email" autocomplete="email" maxlength="120" required></label>
+          <label class="pj-campo"><span>Localidad de la obra</span><input name="Localidad" maxlength="80"></label>
+          <label class="pj-campo"><span>Comentario (opcional)</span><textarea name="Consulta" rows="3" maxlength="1500" placeholder="Ej.: es para un PH en planta baja, la pared es de ladrillo…"></textarea></label>
+        </div>
+        <div class="cad-enviar__lado">
+          <p class="pj-mini">Lo que nos llega</p>
+          <pre class="cad-enviar__resumen"></pre>
+          <p class="pj-ayuda">Por WhatsApp o por email nos llega tu proyecto completo. Si lo enviás por email, te mandamos también una copia del PDF (plano técnico y vista en color).</p>
+          <p class="cad-enviar__ok"></p>
+        </div>
+        <div class="cad-enviar__acts">
+          <button type="button" class="pj-btn pj-btn--wa" data-env="wa" formnovalidate><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span>Enviar por WhatsApp</span></button>
+          <button type="submit" class="pj-btn pj-btn--main">Enviar por email</button>
+          <button type="button" class="pj-btn cad-solo-taller" data-env="pdf">Descargar PDF (taller)</button>
+          <button type="button" class="pj-btn cad-solo-taller" data-env="png">Descargar imagen (taller)</button>
+          <p class="cad-legal">Herramienta de uso exclusivo para pedir presupuesto a Alumfer. Los planos llevan marca de agua con tus datos. Prohibida su reproducción o uso comercial por terceros. © Alumfer.</p>
+        </div>
+      </form>
     </div>
-  </nav>
+  </dialog>
 
-  <main id="contenido">
-
-  <section class="dz-head" aria-labelledby="dz-title">
-    <div class="wrap dz-head__grid">
-      <div>
-        <nav class="crumbs mono" aria-label="Ubicación"><a href="/">Inicio</a> <span aria-hidden="true">/</span> <span aria-current="page">Diseñá tu abertura</span></nav>
-        <p class="mono hero__kicker">Diseñador de aberturas</p>
-        <h1 class="display dz-head__title" id="dz-title">Diseñá tu abertura <strong>con tus medidas</strong></h1>
-      </div>
-      <ol class="dz-steps">
-        <li><span class="mono">01</span>Elegí el tipo</li>
-        <li><span class="mono">02</span>Cargá ancho y alto</li>
-        <li><span class="mono">03</span>Elegí color y vidrio</li>
-        <li><span class="mono">04</span>Mandanos la lista</li>
-      </ol>
-    </div>
-  </section>
-
-  <section class="dz" id="editor" aria-label="Editor">
-    <div class="wrap dz__grid">
-      <div class="dz__stage">
-        <div class="dz__board grid-paper">
-          <div id="plano" class="plano" aria-live="polite"></div>
-        </div>
-        <div class="dz__bar">
-          <span class="mono" id="plano-cap"></span>
-          <button type="button" class="btn btn--primary dz__pared" data-pared="galeria"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg> Probalo en tu pared</button>
-          <label class="toggle"><input type="checkbox" id="ver-persona"><span class="toggle__ui" aria-hidden="true"></span><span class="mono">Persona de 1,70 m</span></label>
-        </div>
-        <p class="dz__hint">Vista ilustrativa. Las medidas exactas las tomamos en la visita, sin cargo.</p>
-      </div>
-
-      <div class="dz__panel">
-        <fieldset class="dz__step">
-          <legend><span class="mono">01</span> Tipo de abertura</legend>
-          <div id="tipos" class="tipos"></div>
-        </fieldset>
-
-        <fieldset class="dz__step">
-          <legend><span class="mono">02</span> Medidas del vano</legend>
-          <div class="medidas">
-            <div class="medida">
-              <label class="mono" for="ancho">Ancho</label>
-              <div class="medida__ctrl">
-                <button type="button" class="paso" data-paso="ancho" data-delta="-5" aria-label="Restar 5 cm">−</button>
-                <span class="medida__num"><input type="number" inputmode="numeric" id="ancho" step="1"><span>cm</span></span>
-                <button type="button" class="paso" data-paso="ancho" data-delta="5" aria-label="Sumar 5 cm">+</button>
-              </div>
-              <input type="range" id="ancho-rango" step="5" aria-label="Ancho en centímetros">
-            </div>
-            <div class="medida">
-              <label class="mono" for="alto">Alto</label>
-              <div class="medida__ctrl">
-                <button type="button" class="paso" data-paso="alto" data-delta="-5" aria-label="Restar 5 cm">−</button>
-                <span class="medida__num"><input type="number" inputmode="numeric" id="alto" step="1"><span>cm</span></span>
-                <button type="button" class="paso" data-paso="alto" data-delta="5" aria-label="Sumar 5 cm">+</button>
-              </div>
-              <input type="range" id="alto-rango" step="5" aria-label="Alto en centímetros">
-            </div>
-          </div>
-          <p class="dz__tip">Medí el hueco de pared a pared y de abajo hacia arriba. Si no estás seguro, poné una medida aproximada: en la visita medimos exacto.</p>
-        </fieldset>
-
-        <fieldset class="dz__step">
-          <legend><span class="mono">03</span> Color <b class="dz__chosen mono" id="color-elegido"></b></legend>
-          <div id="colores"></div>
-        </fieldset>
-
-        <fieldset class="dz__step">
-          <legend><span class="mono">04</span> Vidrio <b class="dz__chosen mono" id="vidrio-elegido"></b></legend>
-          <div id="vidrios" class="chip-opts" role="radiogroup" aria-label="Tipo de vidrio"></div>
-          <div id="fila-mosquitero" class="toggle-row">
-            <label class="toggle"><input type="checkbox" id="mosquitero"><span class="toggle__ui" aria-hidden="true"></span><span>Con mosquitero</span></label>
-          </div>
-        </fieldset>
-
-        <fieldset class="dz__step">
-          <legend><span class="mono">05</span> Cantidad y dónde va</legend>
-          <div class="dz__row">
-            <div class="medida medida--sm">
-              <label class="mono" for="cantidad">Cantidad</label>
-              <div class="medida__ctrl">
-                <button type="button" class="paso" data-paso="cantidad" data-delta="-1" aria-label="Una menos">−</button>
-                <span class="medida__num"><input type="number" inputmode="numeric" id="cantidad" min="1" max="50" value="1"></span>
-                <button type="button" class="paso" data-paso="cantidad" data-delta="1" aria-label="Una más">+</button>
-              </div>
-            </div>
-            <div class="field dz__nota">
-              <label for="nota">Ubicación (opcional)</label>
-              <input type="text" id="nota" maxlength="80" placeholder="Ej: dormitorio, planta alta">
-            </div>
-          </div>
-        </fieldset>
-
-        <div class="dz__actions">
-          <button type="button" class="btn btn--primary" id="agregar"><span>Agregar a mi lista</span> <b aria-hidden="true">+</b></button>
-          <button type="button" class="btn btn--line" id="cancelar" hidden>Cancelar edición</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="pared-cta" id="pared" aria-labelledby="pared-title">
-    <div class="wrap">
-      <div class="sec-tag mono"><b>Nuevo</b> Probalo en tu pared</div>
-      <div class="pared-cta__grid">
-        <div class="pared-cta__text">
-          <h2 class="h2" id="pared-title">Sacale una foto a tu pared y mirá cómo queda</h2>
-          <p class="lead">Fotografiá el lugar donde va la abertura. La ponemos encima de tu foto: la movés con el dedo, la agrandás pellizcando y encajás las esquinas en el hueco. Después la compartís por WhatsApp o nos la mandás.</p>
-          <div class="pared-cta__btns">
-            <button type="button" class="btn btn--primary" data-pared="camara"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg> Sacar foto</button>
-            <button type="button" class="btn btn--line" data-pared="galeria"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/></svg> Elegir de la galería</button>
-          </div>
-          <button type="button" class="pared-cta__ejemplo" data-pared="ejemplo">¿No tenés una foto a mano? Probá con una pared de ejemplo</button>
-          <p class="pared-cta__priv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> Tu foto no se sube a ningún lado: se procesa en tu teléfono.</p>
-        </div>
-        <div class="phone" aria-hidden="true">
-          <div class="phone__screen">
-            <div class="phone__vano"></div>
-            <div class="phone__win">
-              <svg viewBox="0 0 150 110" preserveAspectRatio="none"><rect width="150" height="110" fill="#EEEEEA" stroke="#3C4248"/><rect x="6" y="6" width="71" height="98" fill="#EEEEEA" stroke="#3C4248"/><rect x="11" y="11" width="61" height="88" fill="#CFE3F5" fill-opacity="0.35" stroke="#3C4248"/><rect x="73" y="6" width="71" height="98" fill="#EEEEEA" stroke="#3C4248"/><rect x="78" y="11" width="61" height="88" fill="#CFE3F5" fill-opacity="0.35" stroke="#3C4248"/><rect x="74" y="48" width="2" height="14" fill="#3C4248"/></svg>
-              <span class="phone__dot" style="left:0;top:0"></span><span class="phone__dot" style="left:100%;top:0"></span><span class="phone__dot" style="left:100%;top:100%"></span><span class="phone__dot" style="left:0;top:100%"></span>
-            </div>
-            <span class="phone__finger"></span>
-            <div class="phone__bar"><i style="background:#EEEEEA"></i><i style="background:#1E1F21"></i><i style="background:#93491B"></i><i style="background:#C2C2C2"></i></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="dz-lista light" id="mi-lista" aria-labelledby="lista-title">
-    <div class="wrap">
-      <div class="sec-tag mono"><b>Mi lista</b> <span><span class="js-contador">0</span> aberturas</span></div>
-      <h2 class="h2" id="lista-title" style="margin-top:1.5rem">Tu boceto</h2>
-      <p class="dz-lista__vacia" id="lista-vacia">Todavía no agregaste aberturas. Armá la primera arriba y tocá <b>Agregar a mi lista</b>. Se guarda en este navegador.</p>
-      <ol class="piezas" id="lista"></ol>
-
-      <div class="envio" id="envio" hidden>
-        <div class="envio__card envio__card--wa">
-          <span class="mono">Opción 1 · la más rápida</span>
-          <h3 class="h3">Mandala por WhatsApp</h3>
-          <p>Se abre WhatsApp con la lista escrita. Si querés, sumá fotos del vano o el boceto descargado.</p>
-          <a href="https://wa.me/5491163368643?text=Hola%2C%20estoy%20usando%20el%20dise%C3%B1ador%20de%20aberturas%20y%20tengo%20una%20consulta" class="btn btn--wa" id="enviar-wa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Enviar por WhatsApp</a>
-        </div>
-        <div class="envio__card">
-          <span class="mono">Opción 2</span>
-          <h3 class="h3">Descargá el boceto</h3>
-          <p>Una imagen con el plano y las medidas de cada abertura, para guardar o compartir.</p>
-          <button type="button" class="btn btn--line" id="descargar">Descargar imagen <span aria-hidden="true">↓</span></button>
-        </div>
-        <form class="envio__card form" id="form-boceto" method="POST" action="/enviar.php" aria-labelledby="form-boceto-title">
-          <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <input type="hidden" name="Tipo" value="Boceto desde el diseñador web">
-          <span class="mono">Opción 3</span>
-          <h3 class="h3" id="form-boceto-title">Te llamamos nosotros</h3>
-          <div class="form__row">
-            <div class="field"><label for="b-nombre">Nombre</label><input type="text" id="b-nombre" name="Nombre" required autocomplete="given-name"></div>
-            <div class="field"><label for="b-tel">Teléfono</label><input type="tel" id="b-tel" name="Teléfono" required autocomplete="tel" placeholder="11 XXXX-XXXX"></div>
-          </div>
-          <div class="field"><label for="b-email">Email</label><input type="email" id="b-email" name="Email" required autocomplete="email" placeholder="tu@email.com"></div>
-          <div class="field"><label for="b-loc">Localidad (opcional)</label><input type="text" id="b-loc" name="Localidad" autocomplete="address-level2"></div>
-          <div class="field"><label for="consulta-boceto">Tu lista (podés sumar comentarios)</label><textarea id="consulta-boceto" name="Consulta" rows="5" required></textarea></div>
-          <button type="submit" class="btn btn--primary">Enviar boceto <span class="arrow" aria-hidden="true">→</span></button>
-        </form>
-      </div>
-      <a class="dz-aplano" href="/plano/?nuevo=fachada&amp;boceto=1">
-        <svg viewBox="0 0 120 70" aria-hidden="true"><rect x="4" y="6" width="112" height="52"/><rect class="c" x="16" y="18" width="34" height="24"/><path class="c" d="M33 18v24"/><rect class="c" x="66" y="14" width="22" height="44"/><path class="g" d="M4 64h112M16 66v-4M50 66v-4M66 66v-4M88 66v-4"/></svg>
-        <span><span class="mono">Nuevo · Plano con cotas</span><b>¿Van en la misma pared? Ubicalas en un plano de fachada</b><small>Pasamos tu lista a un plano con cotas, niveles y planilla de carpinterías. Lo descargás en PDF o DXF (AutoCAD).</small></span>
-        <i aria-hidden="true">→</i>
-      </a>
-    </div>
-  </section>
-
-  </main>
-
-  <a href="#mi-lista" class="dz-dock" aria-label="Ver mi lista"><span class="mono">Mi lista</span><b class="js-contador">0</b><span>Enviar →</span></a>
-
-  <!-- ── FOOTER ─────────────────────────────────────────────── -->
-  <footer class="footer">
-    <div class="wrap">
-      <div class="footer__grid">
-        <div>
-          <a href="/" class="brand" aria-label="Alumfer — inicio"><img width="368" height="259" src="/solologo.webp" alt=""><span><span class="brand__name">ALUMFER</span><span class="brand__sub">Carpintería de aluminio</span></span></a>
-          <p class="footer__tag">Fabricantes de aberturas de aluminio a medida. Zona Sur GBA y CABA.</p>
-          <div class="social">
-            <a href="https://www.instagram.com/alumfercarpinteria/" target="_blank" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-            <a href="https://www.facebook.com/alumfercarpinteria/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
-            <a href="https://www.tiktok.com/@alumfercarpinteria" target="_blank" rel="noopener" aria-label="TikTok"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg></a>
-            <a href="https://www.youtube.com/channel/UCLu-med6wUQKo_pRe_tQrqg" target="_blank" rel="noopener" aria-label="YouTube"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
-          </div>
-        </div>
-        <div>
-          <h4>Servicios</h4>
-          <ul>
-            <li><a href="/ventanas-de-aluminio/">Ventanas de aluminio</a></li>
-            <li><a href="/ventanas-dvh/">Ventanas DVH</a></li>
-            <li><a href="/puertas-de-aluminio/">Puertas de aluminio</a></li>
-            <li><a href="/mosquiteros-a-medida/">Mosquiteros a medida</a></li>
-            <li><a href="/cerramientos-de-aluminio/">Cerramientos de aluminio</a></li>
-            <li><a href="/techos-de-policarbonato/">Techos de policarbonato</a></li>
-            <li><a href="/disena-tu-abertura/">Diseñá tu abertura</a></li><li><a href="/plano/">Hacé tu plano</a></li>
-            <li><a href="/guias/">Guías</a></li>
-          </ul>
-        </div>
-        <div>
-          <details>
-            <summary><h4>Zonas</h4></summary>
-            <ul class="footer__zones">
-              <li><a href="/aberturas-de-aluminio-capital-federal/">Capital Federal</a></li>
-              <li><a href="/aberturas-de-aluminio-adrogue/">Adrogué</a></li>
-              <li><a href="/aberturas-de-aluminio-almirante-brown/">Almirante Brown</a></li>
-              <li><a href="/aberturas-de-aluminio-burzaco/">Burzaco</a></li>
-              <li><a href="/aberturas-de-aluminio-rafael-calzada/">Rafael Calzada</a></li>
-              <li><a href="/aberturas-de-aluminio-claypole/">Claypole</a></li>
-              <li><a href="/aberturas-de-aluminio-longchamps/">Longchamps</a></li>
-              <li><a href="/aberturas-de-aluminio-glew/">Glew</a></li>
-              <li><a href="/aberturas-de-aluminio-lomas-de-zamora/">Lomas de Zamora</a></li>
-              <li><a href="/aberturas-de-aluminio-banfield/">Banfield</a></li>
-              <li><a href="/aberturas-de-aluminio-temperley/">Temperley</a></li>
-              <li><a href="/aberturas-de-aluminio-llavallol/">Llavallol</a></li>
-              <li><a href="/aberturas-de-aluminio-turdera/">Turdera</a></li>
-              <li><a href="/aberturas-de-aluminio-lanus/">Lanús</a></li>
-              <li><a href="/aberturas-de-aluminio-gerli/">Gerli</a></li>
-              <li><a href="/aberturas-de-aluminio-valentin-alsina/">Valentín Alsina</a></li>
-              <li><a href="/aberturas-de-aluminio-avellaneda/">Avellaneda</a></li>
-              <li><a href="/aberturas-de-aluminio-quilmes/">Quilmes</a></li>
-              <li><a href="/aberturas-de-aluminio-bernal/">Bernal</a></li>
-              <li><a href="/aberturas-de-aluminio-ezpeleta/">Ezpeleta</a></li>
-              <li><a href="/aberturas-de-aluminio-berazategui/">Berazategui</a></li>
-              <li><a href="/aberturas-de-aluminio-florencio-varela/">Florencio Varela</a></li>
-              <li><a href="/aberturas-de-aluminio-monte-grande/">Monte Grande</a></li>
-              <li><a href="/aberturas-de-aluminio-luis-guillon/">Luis Guillón</a></li>
-              <li><a href="/aberturas-de-aluminio-ezeiza/">Ezeiza</a></li>
-              <li><a href="/aberturas-de-aluminio-tristan-suarez/">Tristán Suárez</a></li>
-              <li><a href="/aberturas-de-aluminio-canning/">Canning</a></li>
-            </ul>
-          </details>
-        </div>
-        <div>
-          <h4>Contacto</h4>
-          <ul>
-            <li><a href="https://wa.me/5491163368643?text=Hola%2C%20estoy%20usando%20el%20dise%C3%B1ador%20de%20aberturas%20y%20tengo%20una%20consulta" target="_blank" rel="noopener">WhatsApp: (011) 6336-8643</a></li>
-            <li><a href="mailto:alumfercarpinteria@gmail.com">alumfercarpinteria@gmail.com</a></li>
-            <li><a href="https://maps.google.com/?q=Av.+San+Martín+734+Adrogué" target="_blank" rel="noopener">Av. San Martín 734, Adrogué</a></li>
-            <li>Lun a Vie: 9 a 13 h</li>
-            <li>Sábados: 9 a 14 h</li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer__bottom"><span>© 2026 Alumfer · Adrogué, Buenos Aires</span><span>Av. San Martín 734 · (011) 6336-8643</span></div>
-    </div>
-  </footer>
-
-  <!-- Contacto rápido -->
-  <a href="https://wa.me/5491163368643?text=Hola%2C%20estoy%20usando%20el%20dise%C3%B1ador%20de%20aberturas%20y%20tengo%20una%20consulta" class="wa-float" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
-  <div class="mbar" aria-label="Contacto rápido">
-    <a href="tel:+5491163368643" class="btn btn--call" aria-label="Llamar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Llamar</a>
-    <a href="https://wa.me/5491163368643?text=Hola%2C%20estoy%20usando%20el%20dise%C3%B1ador%20de%20aberturas%20y%20tengo%20una%20consulta" class="btn btn--wa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pedir presupuesto</a>
-  </div>
+  <div id="cad-print" aria-hidden="true"></div>
 
   <script src="/aberturas.js?v=4"></script>
-  <script src="/disena.js?v=4"></script>
-  <script src="/pared.js?v=4"></script>
-  <script src="/site.js?v=4"></script>
+  <script src="/plano.js?v=6"></script>
+  <script src="/proyecto.js?v=1"></script>
+  <script src="/pared.js?v=5"></script>
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Diseñá tu abertura",
+    "name": "Diseñá tu proyecto",
     "url": "https://alumfer.com.ar/disena-tu-abertura/",
-    "description": "Herramienta para dibujar ventanas y puertas de aluminio con medidas y enviar el boceto a Alumfer.",
+    "description": "Herramienta para armar en 3D una pared con ventanas y puertas de aluminio, paredes laterales y techo de policarbonato, con medidas, y enviar el plano a Alumfer.",
     "isPartOf": { "@id": "https://alumfer.com.ar/#business" },
     "breadcrumb": {
       "@type": "BreadcrumbList",
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://alumfer.com.ar/" },
-        { "@type": "ListItem", "position": 2, "name": "Diseñá tu abertura", "item": "https://alumfer.com.ar/disena-tu-abertura/" }
+        { "@type": "ListItem", "position": 2, "name": "Diseñá tu proyecto", "item": "https://alumfer.com.ar/disena-tu-abertura/" }
       ]
     }
   }
