@@ -138,15 +138,27 @@ def fecha_corta(publish_time):
 
 
 def elegir(reseñas):
-    """Las TARJETAS mejores, respetando el orden de relevancia que da Google."""
+    """Las TARJETAS más nuevas, de la más reciente a la más vieja.
+
+    El criterio es la fecha y nada más. Así el archivo de datos se puede ir
+    engordando: se agregan las nuevas arriba, el script muestra las tres
+    últimas y las viejas quedan guardadas sin mostrarse. Si alguna reseña
+    después se borra de la ficha, la que había quedado afuera vuelve sola.
+    """
     candidatas = []
     for r in reseñas:
         texto = texto_de(r)
         estrellas = int(r.get("rating") or 0)
         nombre = (r.get("authorAttribution") or {}).get("displayName", "").strip()
+        cuando = (r.get("publishTime") or "")
         if estrellas < ESTRELLAS_MINIMO or not nombre or len(texto) < LARGO_MINIMO:
             continue
-        fecha = fecha_corta(r.get("publishTime"))
+        if not re.match(r"\d{4}-\d{2}", cuando):
+            # Sin fecha no se puede ordenar, y publicar en orden equivocado es
+            # peor que dejarla afuera.
+            print("  (sin fecha utilizable, queda afuera: %s)" % nombre)
+            continue
+        fecha = fecha_corta(cuando)
         if r.get("localGuide"):
             fecha = "Local Guide · " + fecha
         candidatas.append({
@@ -154,15 +166,14 @@ def elegir(reseñas):
             "estrellas": estrellas,
             "nombre": nombre,
             "fecha": fecha,
+            "cuando": cuando,
         })
 
-    # Primero las de 5 estrellas y que entren en la tarjeta sin recortar;
-    # el orden original de Google es el desempate, porque es por relevancia.
-    def prioridad(par):
-        i, c = par
-        return (-c["estrellas"], len(c["texto"]) > LARGO_IDEAL, i)
-
-    ordenadas = [c for _, c in sorted(enumerate(candidatas), key=prioridad)]
+    # De la más nueva a la más vieja. El orden del archivo desempata, así que
+    # dos reseñas del mismo día salen como están escritas.
+    ordenadas = [c for _, c in sorted(enumerate(candidatas),
+                                      key=lambda par: (par[1]["cuando"], -par[0]),
+                                      reverse=True)]
     elegidas = ordenadas[:TARJETAS]
 
     for c in elegidas:

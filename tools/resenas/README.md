@@ -12,13 +12,17 @@ corrida automática está apagada** y las reseñas se cargan a mano. Pero no hay
 que editar 28 páginas: se escriben una sola vez en un archivo y el mismo script
 las reparte.
 
-1. Copiá `ficha-ejemplo.json`, ponele los datos reales: la puntuación y la
-   cantidad que muestra la ficha, y tres reseñas con nombre, estrellas, fecha y
-   texto.
+Los datos vivos están en `ficha-actual.json`, ordenados **de la más nueva a la
+más vieja**. El script muestra las tres primeras que pasen los filtros y el
+resto queda archivado ahí sin mostrarse.
+
+1. Cuando entra una reseña nueva, copiá un bloque de `reviews`, ponelo **arriba
+   de todo** y completalo. La más vieja de las tres que estaban se corre sola.
+   Actualizá también `rating` y `userRatingCount` con lo que muestre el panel.
 2. Corré:
 
    ```sh
-   python3 tools/resenas/actualizar_resenas.py --json mi-ficha.json --dry-run
+   python3 tools/resenas/actualizar_resenas.py --json tools/resenas/ficha-actual.json --dry-run
    ```
 
    Eso te dice qué tres eligió y qué páginas cambiarían, sin escribir nada.
@@ -28,15 +32,24 @@ Sin el campo `id` en el archivo, los links de las páginas quedan como están. E
 resto es igual que en el modo automático: los mismos filtros, las mismas
 validaciones, y las 28 páginas más el `aggregateRating` siempre en sincronía.
 
+Dos cosas que se ganan archivando en vez de borrar: si una reseña se borra de la
+ficha, la que había quedado afuera vuelve sola; y queda el registro de qué
+mostró el sitio y cuándo.
+
+El campo `_pendientes` es para las que no se pueden publicar todavía —por
+ejemplo las que el panel muestra cortadas con "Ver la opinión completa"—. El
+script lo ignora.
+
 ## Cómo funciona
 
 `.github/workflows/resenas.yml` corre los lunes a la madrugada, llama a
 `actualizar_resenas.py`, y el script:
 
 1. le pide a la Places API de Google la puntuación, la cantidad y las reseñas;
-2. descarta las de menos de 4 estrellas y las de menos de 55 caracteres
-   ("Excelente" no convence a nadie);
-3. elige tres y reescribe el badge, las tarjetas y el `aggregateRating`;
+2. descarta las de menos de 4 estrellas, las de menos de 40 caracteres y las
+   que no tengan fecha utilizable;
+3. se queda con **las tres más nuevas** y reescribe el badge, las tarjetas y el
+   `aggregateRating`;
 4. si cambió algo, commitea a `main` y lanza el deploy.
 
 Si Google falla, responde raro o devuelve menos de tres reseñas publicables, el
