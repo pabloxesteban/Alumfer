@@ -3,7 +3,7 @@
 // El cliente saca o elige una foto del lugar y ve la abertura
 // encima, en perspectiva. Gestos como en las historias de
 // Instagram: arrastrar para mover, pellizcar para agrandar y
-// girar, esquinas para encajar en la pared. La foto nunca sale
+// girar, esquinas para agrandar en escala (siempre recta). La foto nunca sale
 // del dispositivo: todo se procesa en el navegador.
 // ============================================================
 
@@ -103,7 +103,7 @@
                 <p><b>Arrastrá</b> para moverla</p>
                 <p class="pe__touch"><b>Pellizcá</b> con dos dedos para agrandar o girar</p>
                 <p class="pe__mouse"><b>Rueda del mouse</b> para agrandar · <b>Shift + rueda</b> para girar</p>
-                <p><b>Mové las esquinas</b> para encajarla en tu pared</p>
+                <p><b>Tirá de una esquina</b> para agrandarla o achicarla en escala</p>
                 <button type="button" class="pe__pill" data-act="coach">¡Dale!</button>
               </div>
             </div>
@@ -111,7 +111,6 @@
           <div class="pe__tools">
             <div class="pe__quick">
               <button type="button" class="pe__chipbtn" data-act="encuadrar">${ICON.encuadrar}<span>Encuadrar</span></button>
-              <button type="button" class="pe__chipbtn" data-act="esquinas" aria-pressed="true">${ICON.esquinas}<span>Esquinas</span></button>
             </div>
             <div class="pe__tabs" role="tablist">
               <button type="button" role="tab" data-tab="tipo" aria-selected="true">Tipo</button>
@@ -438,7 +437,7 @@
       const p = norm(e);
       punteros.set(e.pointerId, p);
       const h = e.target.closest('.pe__h');
-      if (h && esquinas && punteros.size === 1) { modo = 'esquina'; esquina = +h.dataset.i; st.classList.add('is-dragging'); return; }
+      if (h && esquinas && punteros.size === 1) { modo = 'esquina'; esquina = +h.dataset.i; inicio = { pts: pts.map(q => q.slice()) }; st.classList.add('is-dragging'); return; }
       if (punteros.size === 2) {
         const g = dos();
         modo = 'pinch'; inicio = { pts: pts.map(q => q.slice()), ...g };
@@ -453,7 +452,12 @@
       const p = norm(e);
       punteros.set(e.pointerId, p);
       if (modo === 'esquina') {
-        pts[esquina] = [Math.max(-0.25, Math.min(1.25, p[0])), Math.max(-0.25, Math.min(1.25, p[1]))];
+        // Las aberturas son rectas: la esquina agranda o achica en escala,
+        // desde la esquina opuesta, sin deformar ni cambiar la proporción.
+        const ancla = inicio.pts[(esquina + 2) % 4], o = inicio.pts[esquina];
+        const v0 = [(o[0] - ancla[0]) * stageW, (o[1] - ancla[1]) * stageH], v = [(p[0] - ancla[0]) * stageW, (p[1] - ancla[1]) * stageH];
+        const s = Math.max(0.08, (v[0] * v0[0] + v[1] * v0[1]) / ((v0[0] * v0[0] + v0[1] * v0[1]) || 1));
+        pts = transformar(inicio.pts, ancla, ancla, s, 0);
       } else if (modo === 'mover') {
         const dx = p[0] - inicio.p[0], dy = p[1] - inicio.p[1];
         pts = inicio.pts.map(([x, y]) => [x + dx, y + dy]);
