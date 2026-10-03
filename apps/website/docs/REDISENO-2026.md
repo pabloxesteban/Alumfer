@@ -429,3 +429,38 @@ fluida en compu y celular, y que se use como las apps que la gente ya conoce
   a WhatsApp (Web Share), guardar, abrir chat con el resumen o sumarlo al
   boceto. Aclara que es ilustrativo y que la medida exacta se toma en la
   visita.
+
+## N. Séptima pasada: "Hacé tu plano" (estilo CAD, no una app de filtros)
+
+Pedido: poder dibujar un techo o un plano y mandarlo detallado para
+presupuestar, de la forma más profesional posible, estilo AutoCAD.
+
+- **Página propia `/plano/`**, a pantalla completa, con la lógica de un
+  programa de dibujo: espacio *Modelo* (fondo oscuro, grilla, cursor en cruz
+  con caja de selección, coordenadas X/Y, ícono de ejes, escala gráfica) y
+  *Presentación* (la lámina A4 tal como se imprime). Pestañas de láminas,
+  barra de herramientas, paleta de propiedades, línea de comandos (`?` lista
+  los comandos: AB, COL, Z, U, B, LAM, PDF, DXF…) y barra de estado con
+  GRILLA (F7), ORTO (F8) y REFENT (F3).
+- **Fachada con aberturas**: se insertan desde una biblioteca dibujada con
+  convención de planos (hojas, sentido de corredizas, triángulo de abrir
+  hacia las bisagras, mano izq./der.). Arrastrar con imán a bordes, centro y
+  alineaciones; pinzamientos para estirar; medidas exactas en Propiedades.
+  Cotas en cadena y de niveles automáticas, aviso en rojo si se superponen o
+  salen de la pared, y **planilla de carpinterías** (marca, medida, cantidad,
+  terminación, antepecho) con un mini dibujo de cada tipo.
+- **Techo de policarbonato**: planta poligonal con largos editables por lado,
+  lado contra la pared, columnas, altura en la pared y en el frente →
+  pendiente y superficie calculadas; **corte A-A** generado solo; materiales
+  reales del sitio (alveolar 4/6/8/10 mm, compacto o "que me asesoren").
+- **Salidas profesionales**: PDF con todas las láminas en A4 apaisado con
+  rótulo (cliente, localidad, escala, fecha, lámina n de N, "medidas a
+  verificar en obra"); PNG a 300 dpi; **DXF para AutoCAD** por capas
+  (verificado con un lector DXF: 0 errores); link que abre el plano
+  editable. Enviar a Alumfer por WhatsApp (resumen + link) o por formulario.
+- **Celular**: barra de herramientas abajo, propiedades en hoja deslizable
+  que se abre al tocar un objeto, pellizco para zoom, corte debajo de la
+  planta en pantalla vertical.
+- Accesos: desde la lista del diseñador ("Ubicalas en un plano de
+  fachada", trae la lista), desde la home, la página de techos ("Dibujá tu
+  techo") y el pie de todas las páginas.

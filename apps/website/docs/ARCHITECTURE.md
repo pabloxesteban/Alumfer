@@ -77,6 +77,25 @@ Tres archivos, sin framework ni build:
    resultado: compartir (Web Share con archivo), guardar, WhatsApp o
    agregar al boceto (evento `pared:agregar` que escucha `disena.js`).
 
+6. **Hacé tu plano (`/plano/`)** — `plano.js` + `plano.css`, página propia a
+   pantalla completa (sin el menú del sitio). Editor tipo CAD con láminas:
+   - *Fachada*: pared con aberturas (mismas tipologías de `aberturas.js`),
+     cotas automáticas en cadena (horizontal y de niveles), nivel ±0,00 NPT,
+     marcas V1/P1 (iguales = misma marca) y planilla de carpinterías.
+   - *Techo*: planta poligonal (rectángulo, en L o vértices libres), lado
+     contra la pared, columnas, pendiente calculada con las dos alturas,
+     superficie, línea y **corte A-A**.
+   Un solo motor genera primitivas en cm (líneas, polígonos, textos con
+   alto en mm de papel) y tres salidas: pantalla (espacio modelo con grilla,
+   pinzamientos, imán de 5 cm, ORTO, REFENT, línea de comandos), **lámina
+   A4** con rótulo y escala normalizada elegida sola (1:20 … 1:500) para
+   PDF (impresión) y PNG, y **DXF R12** por capas `ALF-*` en Windows-1252.
+   El plano se guarda en `localStorage` (`alumfer-plano-v1`) y viaja entero
+   comprimido en el link (`/plano/#p=…`), que es lo que se manda por
+   WhatsApp o por `enviar.php` (Tipo "Plano desde el sitio web").
+   `?nuevo=techo|fachada` abre directo; `&boceto=1` trae la lista del
+   diseñador. No muestra precios.
+
 Paleta: papel claro cálido, azul marino para secciones oscuras, azul de marca
 (`#1B6CC8`) en botones, banda de proceso y acentos. Motivo gráfico: grilla y
 cotas de plano. Las fotos de obra se presentan como copias impresas numeradas.

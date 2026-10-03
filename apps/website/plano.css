@@ -1,0 +1,322 @@
+/* ============================================================
+   ALUMFER — "Hacé tu plano" (editor CAD)
+   Interfaz de programa de dibujo: espacio modelo oscuro con
+   grilla, barra de herramientas, paleta de propiedades, línea
+   de comandos y barra de estado. En celular: barra inferior y
+   propiedades en hoja deslizable.
+   ============================================================ */
+
+.page-plano {
+  --c-bg: #0F141A;
+  --c-panel: #161D25;
+  --c-panel-2: #1D2630;
+  --c-line: #2A3542;
+  --c-text: #D7E0EA;
+  --c-dim: #8C9AAB;
+  --c-acc: #2F7BEA;
+  --c-acc-2: #5AA2F0;
+  background: var(--c-bg);
+  color: var(--c-text);
+  overflow: hidden;
+  overscroll-behavior: none;
+  height: 100%;
+}
+html:has(.page-plano) { height: 100%; overflow: hidden; }
+.cad-noscript { padding: 2rem; text-align: center; }
+
+.cad {
+  position: fixed; inset: 0;
+  display: grid;
+  grid-template-rows: 50px minmax(0, 1fr) auto 26px;
+  font-size: 0.875rem;
+  opacity: 0; transition: opacity 200ms;
+}
+.cad.is-ready { opacity: 1; }
+
+/* ─── Barra superior ─────────────────────────────────────── */
+.cad__top {
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 10px 0 12px;
+  background: var(--c-panel);
+  border-bottom: 1px solid var(--c-line);
+  min-width: 0;
+}
+.cad__logo { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.cad__logo img { width: 26px; height: 26px; }
+.cad__brand { display: grid; line-height: 1; font-weight: 800; font-stretch: 115%; letter-spacing: 0.04em; font-size: 0.9rem; }
+.cad__brand small { font-size: 0.62rem; font-weight: 400; letter-spacing: 0.14em; color: var(--c-acc-2); text-transform: uppercase; margin-top: 3px; }
+
+.cad__tabs { display: flex; align-items: stretch; gap: 2px; align-self: stretch; overflow-x: auto; scrollbar-width: none; flex: 1; min-width: 0; padding-top: 8px; }
+.cad__tabs::-webkit-scrollbar { display: none; }
+.cad__tab {
+  display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0;
+  padding: 0 14px; border-radius: 6px 6px 0 0;
+  color: var(--c-dim); font-size: 0.82rem; font-weight: 600; white-space: nowrap;
+  border: 1px solid transparent; border-bottom: 0;
+}
+.cad__tab:hover { color: var(--c-text); background: rgba(255,255,255,0.04); }
+.cad__tab[aria-selected="true"] { color: #fff; background: var(--c-bg); border-color: var(--c-line); box-shadow: inset 0 2px 0 var(--c-acc); }
+.cad__tab-ico { font-size: 0.8rem; color: var(--c-acc-2); }
+.cad__tab--add { font-size: 1.15rem; padding: 0 12px; }
+
+.cad__mode { display: flex; background: var(--c-bg); border: 1px solid var(--c-line); border-radius: 7px; padding: 2px; flex-shrink: 0; }
+.cad__mode button { padding: 5px 11px; border-radius: 5px; font-size: 0.78rem; font-weight: 600; color: var(--c-dim); }
+.cad__mode button[aria-pressed="true"] { background: var(--c-panel-2); color: #fff; box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset; }
+
+.cad__acts { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.cad__btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  height: 34px; padding: 0 12px; border-radius: 7px;
+  background: var(--c-panel-2); border: 1px solid var(--c-line);
+  font-weight: 600; font-size: 0.82rem; color: var(--c-text); white-space: nowrap;
+}
+.cad__btn svg { width: 17px; height: 17px; flex-shrink: 0; }
+.cad__btn:hover { border-color: #3B4858; color: #fff; }
+.cad__btn--main { background: var(--c-acc); border-color: var(--c-acc); color: #fff; }
+.cad__btn--main:hover { background: #1F66CF; }
+.cad__btn--wa { background: var(--wa); border-color: var(--wa); color: #fff; }
+.cad__btn--wa:hover { background: var(--wa-hover); }
+.cad__btn:disabled { opacity: 0.6; }
+
+.cad__export { position: relative; }
+.cad-menu {
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 30; width: 270px;
+  background: var(--c-panel); border: 1px solid var(--c-line); border-radius: 10px; padding: 6px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+}
+.cad-menu[hidden] { display: none; }
+.cad-menu button { display: grid; gap: 1px; width: 100%; text-align: left; padding: 9px 10px; border-radius: 7px; }
+.cad-menu button:hover { background: var(--c-panel-2); }
+.cad-menu b { font-size: 0.85rem; color: #fff; }
+.cad-menu span { font-size: 0.75rem; color: var(--c-dim); }
+
+/* ─── Cuerpo ─────────────────────────────────────────────── */
+.cad__body { display: grid; grid-template-columns: 72px minmax(0, 1fr) 320px; min-height: 0; }
+
+.cad__tools {
+  display: flex; flex-direction: column; gap: 2px; padding: 8px 6px;
+  background: var(--c-panel); border-right: 1px solid var(--c-line); overflow-y: auto;
+}
+.cad__tool {
+  display: grid; justify-items: center; gap: 3px; padding: 7px 2px; border-radius: 7px;
+  color: var(--c-dim); font-size: 0.62rem; font-weight: 600; line-height: 1.1; text-align: center;
+}
+.cad__tool svg { width: 22px; height: 22px; }
+.cad__tool:hover { color: #fff; background: rgba(255,255,255,0.05); }
+.cad__tool[aria-pressed="true"] { color: #fff; background: rgba(47,123,234,0.22); box-shadow: inset 0 0 0 1px rgba(47,123,234,0.6); }
+.cad__sep { height: 1px; background: var(--c-line); margin: 6px 4px; flex-shrink: 0; }
+
+.cad__view { position: relative; min-width: 0; min-height: 0; overflow: hidden; background: #1B222B; touch-action: none; }
+.cad__svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; max-width: none; font-family: var(--mono); -webkit-user-select: none; user-select: none; }
+.cad__view.is-pan .cad__svg { cursor: grabbing; }
+@media (hover: hover) and (pointer: fine) {
+  .cad:not(.is-lamina) .cad__svg { cursor: none; }
+  .cad:not(.is-lamina) .cad__view.is-pan .cad__svg { cursor: grabbing; }
+}
+.cad.is-lamina .cad__svg { cursor: grab; }
+
+/* cruz del cursor con caja de selección, como en CAD */
+.cad__cruz { position: absolute; left: 0; top: 0; width: 0; height: 0; pointer-events: none; z-index: 2; }
+.cad__cruz[hidden] { display: none; }
+.cad__cruz::before, .cad__cruz::after { content: ''; position: absolute; background: rgba(230, 236, 242, 0.55); }
+.cad__cruz::before { left: -60px; width: 120px; top: 0; height: 1px; }
+.cad__cruz::after { top: -60px; height: 120px; left: 0; width: 1px; }
+.cad__cruz i { position: absolute; left: -5px; top: -5px; width: 11px; height: 11px; border: 1px solid rgba(230,236,242,0.9); }
+.cad__view[data-herr="columna"] .cad__cruz i { border-color: #F2A65A; background: rgba(242,166,90,0.25); }
+
+.cad__hint {
+  position: absolute; left: 0; top: 0; z-index: 3; pointer-events: none;
+  padding: 4px 8px; border-radius: 4px; background: rgba(13, 18, 24, 0.92); border: 1px solid #3A4757;
+  font-family: var(--mono); font-size: 0.74rem; color: #E9EEF4; white-space: nowrap;
+}
+.cad__hint[hidden] { display: none; }
+
+.cad__escala {
+  position: absolute; left: 86px; bottom: 12px; height: 8px; pointer-events: none;
+  border: 1px solid #B7C3D0; border-top: 0;
+}
+.cad__escala::after { content: attr(data-l); position: absolute; left: 100%; bottom: -3px; margin-left: 6px; font-family: var(--mono); font-size: 0.7rem; color: #B7C3D0; white-space: nowrap; }
+.cad.is-lamina .cad__escala { display: none; }
+
+/* ─── Propiedades ────────────────────────────────────────── */
+.cad__props { display: flex; flex-direction: column; min-height: 0; background: var(--c-panel); border-left: 1px solid var(--c-line); }
+.cad__props-head { display: grid; grid-template-columns: 1fr; gap: 2px; text-align: left; padding: 12px 14px 10px; border-bottom: 1px solid var(--c-line); cursor: default; }
+.cad__props-head .mono { font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--c-dim); }
+.cad__props-head b { font-size: 0.95rem; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cad__props-head svg { display: none; }
+.cad__props-body { overflow-y: auto; padding: 12px 14px 20px; display: grid; gap: 12px; align-content: start; }
+
+.pp-grid { display: grid; gap: 10px; }
+.pp-grid--2 { grid-template-columns: 1fr 1fr; }
+.pp { display: grid; gap: 4px; min-width: 0; }
+.pp > span:first-child { font-size: 0.72rem; color: var(--c-dim); font-weight: 600; }
+.pp input[type="text"], .pp input[type="tel"], .pp input:not([type]), .pp select, .pp textarea, .pp__num {
+  width: 100%; min-width: 0; height: 36px; padding: 0 10px; border-radius: 6px;
+  background: var(--c-bg); border: 1px solid var(--c-line); color: #fff; font-size: 0.88rem;
+}
+.pp textarea { height: auto; padding: 8px 10px; resize: vertical; }
+.pp select { padding-right: 6px; }
+.pp select option, .pp select optgroup { background: #161D25; color: #fff; }
+.pp__num { display: flex; align-items: center; padding: 0 8px 0 0; }
+.pp__num input { flex: 1; min-width: 0; height: 100%; padding: 0 0 0 10px; font-family: var(--mono); font-size: 0.92rem; color: #fff; -moz-appearance: textfield; }
+.pp__num input::-webkit-inner-spin-button, .pp__num input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.pp__num i { font-style: normal; font-size: 0.72rem; color: var(--c-dim); font-family: var(--mono); }
+.pp input:focus, .pp select:focus, .pp textarea:focus, .pp__num:focus-within { outline: none; border-color: var(--c-acc); box-shadow: 0 0 0 3px rgba(47,123,234,0.25); }
+.pp--check { display: flex; align-items: center; gap: 8px; align-self: end; min-height: 36px; font-size: 0.85rem; cursor: pointer; }
+.pp--check input { width: 18px; height: 18px; accent-color: var(--c-acc); }
+.pp--check span { color: var(--c-text) !important; font-size: 0.85rem !important; }
+
+.pp-acts { display: flex; flex-wrap: wrap; gap: 6px; }
+.pp-acts button { padding: 7px 11px; border-radius: 6px; background: var(--c-panel-2); border: 1px solid var(--c-line); font-size: 0.8rem; font-weight: 600; }
+.pp-acts button:hover { border-color: #3B4858; }
+.pp-acts .is-main { background: var(--c-acc); border-color: var(--c-acc); color: #fff; }
+.pp-acts .is-danger { color: #FF9C9C; }
+.pp-acts .is-danger:hover { border-color: #8A3A3A; }
+.pp-sub { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--c-dim); font-family: var(--mono); font-weight: 500; margin-top: 4px; }
+.pp-ayuda, .pp-vacio { font-size: 0.78rem; color: var(--c-dim); line-height: 1.45; }
+.pp-list { display: grid; gap: 4px; }
+.pp-list button { display: grid; grid-template-columns: 34px 1fr auto; gap: 8px; align-items: center; width: 100%; text-align: left; padding: 7px 8px; border-radius: 6px; background: var(--c-bg); border: 1px solid var(--c-line); }
+.pp-list button:hover { border-color: var(--c-acc); }
+.pp-list b { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; border: 1px solid #5B6B7E; font-family: var(--mono); font-size: 0.74rem; }
+.pp-list span { display: grid; font-size: 0.8rem; font-weight: 600; line-height: 1.25; min-width: 0; }
+.pp-list small { font-size: 0.7rem; font-weight: 400; color: var(--c-dim); }
+.pp-list em { font-style: normal; font-family: var(--mono); font-size: 0.8rem; color: var(--c-acc-2); }
+.pp-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.pp-kpis div { display: grid; padding: 8px; border-radius: 6px; background: var(--c-bg); border: 1px solid var(--c-line); }
+.pp-kpis b { font-family: var(--mono); font-size: 1.05rem; color: #fff; font-weight: 500; }
+.pp-kpis span { font-size: 0.68rem; color: var(--c-dim); }
+.pp-rotulo { border-top: 1px solid var(--c-line); padding-top: 10px; }
+.pp-rotulo summary { cursor: pointer; font-size: 0.8rem; font-weight: 600; color: var(--c-dim); margin-bottom: 8px; }
+
+/* ─── Línea de comandos y estado ─────────────────────────── */
+.cad__cmd { display: grid; grid-template-columns: 1fr; background: var(--c-panel); border-top: 1px solid var(--c-line); padding: 4px 12px 6px; font-family: var(--mono); font-size: 0.74rem; }
+.cad__log { min-height: 2.6em; max-height: 3.9em; overflow: hidden; color: var(--c-dim); display: grid; align-content: end; }
+.cad__log p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cad__log p:last-child { color: var(--c-text); }
+.cad__cmd label { display: flex; align-items: center; gap: 8px; border-top: 1px dashed var(--c-line); padding-top: 4px; }
+.cad__cmd label span { color: var(--c-acc-2); }
+.cad__cmd input { flex: 1; font-family: var(--mono); font-size: 0.8rem; color: #fff; outline: none; }
+.cad__cmd input::placeholder { color: #5D6B7B; }
+
+.cad__status { display: flex; align-items: center; gap: 18px; padding: 0 12px; background: #0B1015; border-top: 1px solid var(--c-line); font-size: 0.7rem; color: var(--c-dim); white-space: nowrap; overflow: hidden; }
+.cad__status [data-st="xy"] { min-width: 190px; color: var(--c-text); }
+.cad__toggles { display: flex; gap: 4px; }
+.cad__toggles button { padding: 2px 7px; border-radius: 3px; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.06em; color: #5D6B7B; }
+.cad__toggles button[aria-pressed="true"] { color: var(--c-acc-2); background: rgba(47,123,234,0.14); }
+
+/* ─── Diálogos ───────────────────────────────────────────── */
+.cad-dlg { margin: auto; border: 0; padding: 0; background: transparent; color: var(--c-text); max-width: calc(100vw - 24px); max-height: calc(100dvh - 24px); }
+.cad-dlg::backdrop { background: rgba(5, 8, 12, 0.72); backdrop-filter: blur(3px); }
+.cad-dlg[open] { animation: cad-in 220ms var(--ease); }
+@keyframes cad-in { from { opacity: 0; transform: translateY(10px) scale(0.98); } }
+.cad-dlg__box { width: 560px; max-width: 100%; background: var(--c-panel); border: 1px solid var(--c-line); border-radius: 14px; padding: 22px; box-shadow: 0 30px 70px rgba(0,0,0,0.5); max-height: calc(100dvh - 24px); overflow-y: auto; }
+.cad-dlg__box--wide { width: 860px; }
+.cad-dlg__head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
+.cad-dlg__x { width: 36px; height: 36px; border-radius: 50%; font-size: 1.5rem; line-height: 1; color: var(--c-dim); }
+.cad-dlg__x:hover { background: var(--c-panel-2); color: #fff; }
+.cad-dlg__kicker { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--c-acc-2); margin-bottom: 6px; }
+.cad-dlg__title { font-size: 1.5rem; font-weight: 700; font-stretch: 108%; letter-spacing: -0.02em; line-height: 1.1; color: #fff; }
+.cad-dlg__nota { font-size: 0.8rem; color: var(--c-dim); line-height: 1.5; margin-top: 14px; }
+.cad-dlg__link { display: block; margin-top: 14px; color: var(--c-acc-2); font-weight: 600; }
+.cad-dlg__link[hidden] { display: none; }
+
+.cad-inicio__ops { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
+.cad-inicio__ops button { display: grid; gap: 6px; align-content: start; text-align: left; padding: 14px; border-radius: 10px; background: var(--c-bg); border: 1px solid var(--c-line); transition: border-color 150ms, transform 150ms; }
+.cad-inicio__ops button:hover { border-color: var(--c-acc); transform: translateY(-2px); }
+.cad-inicio__ops svg { width: 100%; height: auto; background: #1B222B; border-radius: 6px; padding: 8px; margin-bottom: 4px; fill: none; stroke: #E3E8EE; stroke-width: 1.5; }
+.cad-inicio__ops svg .c { stroke: #56C8F5; }
+.cad-inicio__ops svg .t { stroke: #C79BFF; }
+.cad-inicio__ops svg .g { stroke: #6FD37A; stroke-width: 1; }
+.cad-inicio__ops b { color: #fff; font-size: 0.98rem; }
+.cad-inicio__ops span { font-size: 0.8rem; color: var(--c-dim); line-height: 1.45; }
+
+.cad-lib__body h3 { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--c-dim); font-family: var(--mono); font-weight: 500; margin: 6px 0 8px; }
+.cad-lib__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: 8px; margin-bottom: 14px; }
+.cad-lib__item { display: grid; justify-items: center; gap: 4px; padding: 10px 8px; border-radius: 10px; background: #1B222B; border: 1px solid var(--c-line); text-align: center; }
+.cad-lib__item:hover { border-color: var(--c-acc); }
+.cad-lib__item svg { width: 72px; height: 58px; }
+.cad-lib__item span { font-size: 0.76rem; font-weight: 600; line-height: 1.2; }
+.cad-lib__item small { font-family: var(--mono); font-size: 0.66rem; color: var(--c-dim); }
+
+.cad-enviar__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.cad-enviar__campos { display: grid; gap: 10px; align-content: start; }
+.cad-enviar__lado { min-width: 0; }
+.cad-enviar__resumen { font-family: var(--mono); font-size: 0.7rem; line-height: 1.5; white-space: pre-wrap; word-break: break-word; background: var(--c-bg); border: 1px solid var(--c-line); border-radius: 8px; padding: 10px; max-height: 230px; overflow: auto; color: var(--c-text); }
+.cad-enviar__acts { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; }
+.cad-enviar__acts .cad__btn { height: 42px; padding: 0 16px; }
+
+/* ─── Impresión (PDF): sólo las láminas ──────────────────── */
+#cad-print { display: none; }
+@media print {
+  @page { size: A4 landscape; margin: 0; }
+  html, body, .page-plano { height: auto !important; overflow: visible !important; background: #fff !important; }
+  .cad, .cad-dlg { display: none !important; }
+  #cad-print { display: block; }
+  .cad-print__hoja { width: 297mm; height: 210mm; overflow: hidden; break-after: page; page-break-after: always; }
+  .cad-print__hoja:last-child { break-after: auto; page-break-after: auto; }
+  .cad-print__hoja svg { width: 297mm; height: 210mm; }
+}
+
+/* ─── Tablet chica y celular ─────────────────────────────── */
+@media (max-width: 1100px) {
+  .cad__body { grid-template-columns: 72px minmax(0, 1fr) 290px; }
+  .cad__brand small { display: none; }
+}
+@media (max-width: 899px) {
+  .cad { grid-template-rows: auto minmax(0, 1fr) auto; }
+  .cad__top { flex-wrap: wrap; gap: 6px 8px; padding: calc(6px + env(safe-area-inset-top)) 8px 0; }
+  .cad__logo { order: 1; }
+  .cad__brand { font-size: 0.8rem; }
+  .cad__acts { order: 2; margin-left: auto; }
+  .cad__tabs { order: 3; flex-basis: 100%; padding-top: 2px; }
+  .cad__tab { padding: 8px 12px; }
+  .cad__mode { display: none; }
+  .cad__btn { height: 36px; padding: 0 10px; }
+  .cad__export .cad__btn span { display: none; }
+  .cad__cmd, .cad__status { display: none; }
+
+  .cad__body { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); position: relative; }
+  .cad__view { grid-row: 1; }
+  .cad__tools {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+    flex-direction: row; justify-content: space-between; gap: 0; overflow-x: auto; scrollbar-width: none;
+    padding: 6px 6px calc(6px + env(safe-area-inset-bottom)); border-right: 0; border-top: 1px solid var(--c-line);
+  }
+  .cad__tools::-webkit-scrollbar { display: none; }
+  .cad__tool { flex: 1 1 0; min-width: 44px; padding: 6px 1px; font-size: 0.58rem; }
+  .cad__tool span[data-corto] { font-size: 0; }
+  .cad__tool span[data-corto]::after { content: attr(data-corto); font-size: 0.58rem; }
+  .cad__sep { width: 1px; height: auto; margin: 6px 2px; }
+  .cad__body { padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
+
+  .cad__props {
+    position: absolute; left: 0; right: 0; bottom: calc(62px + env(safe-area-inset-bottom)); z-index: 10;
+    max-height: 52px; border-left: 0; border-top: 1px solid var(--c-line);
+    border-radius: 14px 14px 0 0; box-shadow: 0 -12px 30px rgba(0,0,0,0.35); overflow: hidden;
+    transition: max-height 280ms var(--ease);
+  }
+  .cad.props-abiertas .cad__props { max-height: min(56vh, 460px); }
+  .cad__props-head { grid-template-columns: auto 1fr 22px; align-items: center; gap: 10px; padding: 0 14px; height: 52px; cursor: pointer; }
+  .cad__props-head::before { content: ''; position: absolute; left: 50%; top: 5px; width: 36px; height: 4px; margin-left: -18px; border-radius: 2px; background: #3A4757; }
+  .cad__props-head svg { display: block; width: 20px; height: 20px; transition: transform 250ms; color: var(--c-dim); }
+  .cad.props-abiertas .cad__props-head svg { transform: rotate(180deg); }
+  .cad__props-body { padding-bottom: 24px; }
+  .cad__escala { bottom: 66px; left: 70px; }
+  .cad.is-lamina .cad__props { display: none; }
+
+  .cad-dlg__box { padding: 18px 16px; border-radius: 14px; }
+  .cad-inicio__ops { grid-template-columns: 1fr; }
+  .cad-inicio__ops button { grid-template-columns: 110px 1fr; column-gap: 12px; }
+  .cad-inicio__ops svg { grid-row: span 2; margin: 0; }
+  .cad-nueva .cad-inicio__ops button { grid-template-columns: 1fr; }
+  .cad-enviar__grid { grid-template-columns: 1fr; }
+  .cad-enviar__lado { order: 3; }
+  .cad-enviar__acts { order: 2; }
+  .cad-enviar__acts .cad__btn { flex: 1 1 100%; }
+  .cad-lib__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .cad-lib__item svg { width: 60px; height: 48px; }
+}
+@media (max-width: 420px) {
+  .cad__btn--main span { font-size: 0.78rem; }
+  .cad-lib__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

@@ -593,6 +593,8 @@ ul, ol { list-style: none; }
 .disena-cta { background: var(--steel); }
 .disena-cta__grid { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: 2.5rem 4rem; align-items: center; margin-top: 2.5rem; }
 .disena-cta__text { display: grid; gap: 1.4rem; justify-items: start; }
+.disena-cta__plano { font-size: 0.92rem; color: var(--on-steel-2, var(--ink-2)); }
+.disena-cta__plano a { color: var(--blue-light); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 .checks { display: grid; gap: 0.6rem; }
 .checks li { position: relative; padding-left: 1.8rem; color: var(--ink-2); }
 .checks li::before { content: ''; position: absolute; left: 0; top: 0.3em; width: 1.1rem; height: 1.1rem; border-radius: 50%; background: var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m4 8.5 2.5 2.5L12 5.5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 80% no-repeat; }

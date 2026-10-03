@@ -191,3 +191,25 @@
   .dz__bar > .mono { display: none; }
   .dz__pared { flex: 1; justify-content: center; }
 }
+
+/* Pasar la lista al plano de fachada (/plano/) */
+.envio[hidden] + .dz-aplano { display: none; }
+.dz-aplano {
+  display: grid; grid-template-columns: 132px 1fr auto; gap: 18px; align-items: center;
+  margin-top: 18px; padding: 16px 20px; border-radius: var(--r);
+  background: #161D25; color: #D7E0EA; border: 1px solid #2A3542;
+  transition: border-color 200ms, transform 200ms var(--ease);
+}
+.dz-aplano:hover { border-color: #2F7BEA; transform: translateY(-2px); }
+.dz-aplano svg { width: 100%; height: auto; padding: 8px; border-radius: 4px; background: #1B222B; fill: none; stroke: #E3E8EE; stroke-width: 1.4; }
+.dz-aplano svg .c { stroke: #56C8F5; }
+.dz-aplano svg .g { stroke: #6FD37A; stroke-width: 1; }
+.dz-aplano > span { display: grid; gap: 4px; }
+.dz-aplano .mono { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: #5AA2F0; }
+.dz-aplano b { font-size: 1.05rem; color: #fff; line-height: 1.25; }
+.dz-aplano small { font-size: 0.85rem; color: #8C9AAB; line-height: 1.45; }
+.dz-aplano i { font-style: normal; font-size: 1.4rem; color: #5AA2F0; }
+@media (max-width: 640px) {
+  .dz-aplano { grid-template-columns: 1fr auto; padding: 14px; }
+  .dz-aplano svg { grid-column: 1 / -1; max-width: 200px; }
+}
