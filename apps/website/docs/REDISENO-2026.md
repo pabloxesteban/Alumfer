@@ -360,3 +360,21 @@ porque es de donde llega la mayoría de las visitas.
 - **Limpieza:** se borraron `tokens.css`, `base.css`, `components.css`,
   `animations.css` y `main.js` (ninguna página los usa). `tools/build-landings.mjs`
   queda marcado como obsoleto.
+
+---
+
+## K. Cuarta pasada: punto medio entre oscuro y claro
+
+El cliente encontró la versión clara "demasiado clara" y pidió un punto medio
+con la página original (oscura). Se invirtió el tema base:
+
+- **Base azul pizarra oscuro** (`#1E2935` / `#243242`): más claro que el carbón
+  casi negro del sitio original, pero oscuro.
+- **Negro como punto fuerte** (`#0D141C`): barra superior, navegación y pie.
+- **Papel claro sólo donde suma:** las fotos impresas, el panel de líneas, las
+  fichas, los complementos, el formulario y dos secciones enteras (archivo de
+  obra y preguntas frecuentes; en las internas, la franja de obras y las FAQ).
+- Los tokens claros se aplican con un "alcance claro" en `site.css`, así cada
+  tarjeta de papel mantiene tinta oscura sin duplicar estilos.
+- Los acentos de texto usan `--accent`: azul más luminoso sobre fondo oscuro y
+  azul de marca sobre papel.
