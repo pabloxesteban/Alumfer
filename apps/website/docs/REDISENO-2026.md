@@ -615,3 +615,28 @@ para un usuario promedio.
   "Ver cómo abren" y "De frente" escritos; vista de frente sin dar la
   espalda a las paredes laterales.
 
+## Q. Décima pasada: pensada para el celular, como las apps de ambientes
+
+Pedido: en el celular era poco claro y difícil de usar; poder arrastrar una
+abertura de una pared a otra; un "+" al lado de la pared para sumar otra;
+tomar como referencia las apps modernas.
+
+- **El 3D ocupa toda la pantalla.** Se sacó el panel de 4 pasos.
+- **Barra de abajo según lo elegido**: sin nada elegido, Agregar · Paredes ·
+  Techo · Ver abrir · De frente. Con una abertura: Medidas · Color · Vidrio ·
+  Más · Ver abrir · Borrar. Con una pared: + Abertura · Medidas · Color · Se ve
+  desde · (Quitar pared). Con el techo: Medidas · Alturas · Columnas ·
+  Material · Color · Quitar. En el celular va pegada abajo, de lado a lado.
+- **Hoja con un solo control**: en el celular sube desde abajo y el 3D se
+  reacomoda para que lo elegido quede a la vista; en la compu es una
+  tarjeta a la derecha y el 3D se corre a la izquierda.
+- **"+" anclados al 3D**: "+ Pared" a cada costado libre (con el lugar
+  marcado en punteado) y "+ Techo" arriba de la pared. Se dibujan en 2D
+  sobre el punto proyectado, así siempre se leen de frente.
+- **Arrastrar entre paredes**: al arrastrar una abertura se busca bajo el
+  dedo la pared más cercana que se ve de frente; si es otra, la abertura
+  pasa a esa pared y queda donde se soltó.
+- **"Enviar" siempre arriba** (se pinta en azul cuando ya hay algo para
+  mandar). El catálogo en el celular es una hoja desde abajo, con pestañas
+  que se deslizan.
+
