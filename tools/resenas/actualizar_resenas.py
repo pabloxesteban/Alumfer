@@ -44,7 +44,7 @@ WEB = RAIZ / "apps" / "website"
 # Con qué buscamos la ficha si no tenemos el place_id guardado.
 BUSQUEDA = "Alumfer Carpintería de Aluminio, Av. San Martín 734, Adrogué, Buenos Aires"
 
-TARJETAS = 3           # cuántas reseñas mostramos
+TARJETAS = 6           # cuántas reseñas mostramos
 LARGO_IDEAL = 300      # caracteres; más que esto descuadra la grilla
 LARGO_MINIMO = 40      # "Excelente" solo ocupa una tarjeta y no convence
 ESTRELLAS_MINIMO = 4   # no publicamos reseñas de 3 o menos
@@ -244,6 +244,11 @@ RE_BADGE = re.compile(r'[ \t]*<a href="[^"]*"\s*\n\s*class="google-badge".*?</a>
 RE_VER = re.compile(r'(<a href=")[^"]*("[^>]*class="btn btn--outline"\s*\n\s*'
                     r'target="_blank" rel="noopener">\s*\n\s*Ver las reseñas en Google)')
 RE_RATING = re.compile(r'([ \t]*)"aggregateRating":\s*\{.*?\n\s*\}', re.S)
+# El número del hero, arriba de todo. Está en más páginas que el bloque de
+# reseñas: también en las guías y en las fichas de producto.
+RE_HERO = re.compile(r'(class="hero__stat-link">)[0-9][.,][0-9](<span>)')
+RE_HERO_LINK = re.compile(r'(<a href=")[^"]*("[^>]*\n\s*aria-label="Ver reseñas en '
+                          r'Google" class="hero__stat-link")')
 
 
 def main():
@@ -299,21 +304,34 @@ def main():
     grid = html_tarjetas(elegidas)
     badge = html_badge(puntaje_visible, puntaje_visible, cantidad, url_resenas)
 
-    paginas = sorted(p for p in WEB.glob("*/index.html") if "reviews-grid" in p.read_text())
     inicio = WEB / "index.html"
-    if "reviews-grid" in inicio.read_text():
-        paginas.insert(0, inicio)
+    paginas = sorted(WEB.rglob("*.html"))
+    con_resenas = con_hero = 0
 
     cambiadas = []
     for p in paginas:
         t = original = p.read_text()
-        for rx, nuevo in ((RE_GRID, grid), (RE_BADGE, badge)):
-            t, n = rx.subn(lambda _m, v=nuevo: v, t, count=1)
+
+        if '<div class="reviews-grid">' in t:
+            con_resenas += 1
+            for rx, nuevo in ((RE_GRID, grid), (RE_BADGE, badge)):
+                t, n = rx.subn(lambda _m, v=nuevo: v, t, count=1)
+                if n != 1:
+                    raise SystemExit("No encontré el bloque esperado en %s. "
+                                     "No se escribió nada." % p.relative_to(RAIZ))
+            if url_resenas:
+                t = RE_VER.sub(lambda m: m.group(1) + escapar(url_resenas) + m.group(2), t)
+
+        if "hero__stat-link" in t:
+            con_hero += 1
+            t, n = RE_HERO.subn(lambda m: m.group(1) + puntaje_visible + m.group(2), t, count=1)
             if n != 1:
-                raise SystemExit("No encontré el bloque esperado en %s. "
+                raise SystemExit("No encontré la puntuación del hero en %s. "
                                  "No se escribió nada." % p.relative_to(RAIZ))
-        if url_resenas:
-            t = RE_VER.sub(lambda m: m.group(1) + escapar(url_resenas) + m.group(2), t)
+            if url_resenas:
+                t = RE_HERO_LINK.sub(
+                    lambda m: m.group(1) + escapar(url_resenas) + m.group(2), t)
+
         if p == inicio:
             t, n = RE_RATING.subn(
                 lambda m: '%s"aggregateRating": {\n%s  "@type": "AggregateRating",\n'
@@ -328,8 +346,9 @@ def main():
             if not args.dry_run:
                 p.write_text(t)
 
-    print("\n%d de %d páginas %s" % (len(cambiadas), len(paginas),
-                                     "cambiarían" if args.dry_run else "actualizadas"))
+    print("\n%d páginas %s · %d con bloque de reseñas, %d con el dato del hero"
+          % (len(cambiadas), "cambiarían" if args.dry_run else "actualizadas",
+             con_resenas, con_hero))
     return 0
 
 

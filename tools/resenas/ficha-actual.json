@@ -46,6 +46,28 @@
     },
     {
       "rating": 5,
+      "publishTime": "2026-09-05T00:00:00Z",
+      "authorAttribution": {
+        "displayName": "mila"
+      },
+      "originalText": {
+        "text": "Daniel nos realizo una reparación en una ventana dvh, impecable. Muchas gracias",
+        "languageCode": "es"
+      }
+    },
+    {
+      "rating": 5,
+      "publishTime": "2026-06-20T00:00:00Z",
+      "authorAttribution": {
+        "displayName": "Franco Redigonda"
+      },
+      "originalText": {
+        "text": "Excelente trabajo. Daniel nos hizo un cerramiento para el quincho y quedó impecable. Respondó rápido, cumplió con los plazos y trabajó de manera muy profesional. Muy recomendable.",
+        "languageCode": "es"
+      }
+    },
+    {
+      "rating": 5,
       "publishTime": "2025-03-15T00:00:00Z",
       "localGuide": true,
       "authorAttribution": {

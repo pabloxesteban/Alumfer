@@ -21,6 +21,8 @@
 .reveal-delay-2 { transition-delay: 160ms; }
 .reveal-delay-3 { transition-delay: 240ms; }
 .reveal-delay-4 { transition-delay: 320ms; }
+.reveal-delay-5 { transition-delay: 400ms; }
+.reveal-delay-6 { transition-delay: 480ms; }
 
 /* Stagger para grids (features-grid, info-grid) */
 /* Los delays se activan SOLO cuando el elemento también tiene .is-visible */

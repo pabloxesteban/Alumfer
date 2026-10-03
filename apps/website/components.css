@@ -1587,7 +1587,7 @@
 /* ─── TESTIMONIOS ─────────────────────────────────────────── */
 .reviews-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: var(--space-4);
 }
 
@@ -1669,6 +1669,9 @@
 .review-card__avatar--1 { background: #1B6CC8; }
 .review-card__avatar--2 { background: #2E7D32; }
 .review-card__avatar--3 { background: #6A1B9A; }
+.review-card__avatar--4 { background: #B3541E; }
+.review-card__avatar--5 { background: #00695C; }
+.review-card__avatar--6 { background: #AD1457; }
 
 /* Las estrellas que la reseña no tiene, cuando es de 4 y no de 5. */
 .review-card__stars-off { color: rgba(255, 255, 255, 0.22); }
