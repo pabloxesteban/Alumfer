@@ -20,15 +20,14 @@ Alumfer/
 │
 ├── apps/
 │   ├── website/          ← Sitio web (HTML + CSS + JS + PHP)
-│   │   ├── index.html
-│   │   ├── tokens.css     (copia sincronizada desde shared/)
-│   │   ├── base.css
-│   │   ├── components.css
-│   │   ├── animations.css
-│   │   ├── main.js
+│   │   ├── index.html     (home)
+│   │   ├── site.css       (sistema visual de todo el sitio)
+│   │   ├── pages.css      (páginas internas)
+│   │   ├── site.js        (interacciones)
+│   │   ├── fonts/         (Archivo + IBM Plex Mono, OFL)
 │   │   ├── enviar.php
 │   │   ├── docs/          (documentación técnica del sitio)
-│   │   └── tools/         (scripts de generación de landings)
+│   │   └── tools/         (scripts de generación de landings, obsoletos)
 │   │
 │   └── presupuestos/     ← App de presupuestos (uso interno, no se publica)
 │       ├── index.html

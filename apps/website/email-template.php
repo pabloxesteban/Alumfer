@@ -27,7 +27,7 @@ const ALF_ADDRESS    = 'Av. San Martín 734, Adrogué, Buenos Aires';
 const ALF_IG         = 'https://www.instagram.com/alumfercarpinteria/';
 const ALF_FB         = 'https://www.facebook.com/alumfercarpinteria/';
 
-/* ─── Paleta (espejo de tokens.css) ─────────────────────── */
+/* ─── Paleta (colores de marca, ver site.css) ─────────────────────── */
 const ALF_CARBON     = '#1A1C1E';
 const ALF_STEEL      = '#2E3338';
 const ALF_CONCRETE   = '#B0A99A';

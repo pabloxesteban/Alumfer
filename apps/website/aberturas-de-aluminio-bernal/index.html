@@ -24,10 +24,6 @@
   <meta name="twitter:description" content="Ventanas, puertas, postigones y cerramientos de aluminio a medida en Bernal Este y Oeste. Instalación en seco y presupuesto sin cargo en 24 h.">
   <meta name="twitter:image"      content="https://alumfer.com.ar/og-alumfer.png?v=2">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
   <link rel="icon" href="/favicon.ico" sizes="48x48">
   <link rel="icon" type="image/png" href="/favicon.png?v=4" sizes="192x192">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -40,64 +36,87 @@
     gtag('config', 'G-8N6BQW2FNJ');
   </script>
 
-  <link rel="stylesheet" href="/tokens.css?v=3">
-  <link rel="stylesheet" href="/base.css?v=2">
-  <link rel="stylesheet" href="/components.css?v=10">
-  <link rel="stylesheet" href="/animations.css?v=3">
+  <link rel="preload" href="/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/site.css?v=2">
+  <link rel="stylesheet" href="/pages.css?v=1">
 </head>
-<body>
+<body class="no-js inner">
+  <a class="sr-only" href="#contenido">Saltar al contenido</a>
 
+  <!-- ── Barra superior: datos reales del local ─────────────── -->
+  <div class="topbar">
+    <div class="wrap">
+      <div class="topbar__group">
+        <a href="https://maps.google.com/?q=Av.+San+Martín+734+Adrogué" target="_blank" rel="noopener">Av. San Martín 734 · Adrogué</a>
+        <span class="topbar__group--hours">Lun a Vie 9–13 h · Sáb 9–14 h</span>
+      </div>
+      <div class="topbar__group">
+        <a href="tel:+5491163368643">(011) 6336-8643</a>
+        <a href="mailto:alumfercarpinteria@gmail.com">alumfercarpinteria@gmail.com</a>
+      </div>
+    </div>
+  </div>
 
-  <nav class="navbar navbar--transparent" aria-label="Navegación principal">
-    <div class="navbar__inner">
-      <a href="/" class="navbar__logo" aria-label="Alumfer — inicio">
-        <img width="368" height="259" src="/solologo.webp" alt="" class="navbar__logo-img" aria-hidden="true">
-        <div class="navbar__logo-text">
-          <span class="navbar__logo-name">ALUMFER</span>
-          <span class="navbar__logo-sub">Carpintería de aluminio</span>
-        </div>
+  <!-- ── Navegación ─────────────────────────────────────────── -->
+  <header class="nav">
+    <div class="wrap">
+      <a href="/" class="brand" aria-label="Alumfer — inicio">
+        <img width="368" height="259" src="/solologo.webp" alt="">
+        <span><span class="brand__name">ALUMFER</span><span class="brand__sub">Carpintería de aluminio</span></span>
       </a>
-      <ul class="navbar__links" role="list">
-        <li><a href="/#nosotros"  class="navbar__link">Nosotros</a></li>
-        <li><a href="/#trabajos"  class="navbar__link">Trabajos</a></li>
-        <li><a href="/#productos" class="navbar__link">Productos</a></li>
-        <li><a href="/guias/" class="navbar__link">Guías</a></li>
-        <li><a href="#presupuesto" class="navbar__link">Contacto</a></li>
-      </ul>
-      <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto%20de%20aberturas%20en%20Bernal" class="btn btn--primary navbar__cta" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">Pedir presupuesto</a>
-      <button class="navbar__menu-btn" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+      <nav class="nav__links" aria-label="Principal">
+        <a href="/#trabajos">Trabajos</a>
+        <a href="/#proceso">Cómo trabajamos</a>
+        <a href="/#lineas">Líneas</a>
+        <a href="/#configurador">Vidrios y colores</a>
+        <a href="/guias/">Guías</a>
+        <a href="#presupuesto">Contacto</a>
+      </nav>
+      <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto%20de%20aberturas%20en%20Bernal" class="btn btn--primary nav__cta" target="_blank" rel="noopener">Pedir presupuesto <span class="arrow" aria-hidden="true">→</span></a>
+      <button class="nav__burger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+  <nav class="drawer" id="drawer" aria-label="Menú" aria-hidden="true">
+    <a href="/#trabajos">Trabajos <span>01</span></a>
+    <a href="/#proceso">Cómo trabajamos <span>02</span></a>
+    <a href="/#lineas">Líneas <span>03</span></a>
+    <a href="/#configurador">Vidrios y colores <span>04</span></a>
+    <a href="/guias/">Guías <span>05</span></a>
+    <a href="#presupuesto">Contacto <span>06</span></a>
+    <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto%20de%20aberturas%20en%20Bernal" class="btn btn--wa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pedir presupuesto por WhatsApp</a>
+    <div class="drawer__info">
+      <a href="tel:+5491163368643">(011) 6336-8643</a>
+      <span>Av. San Martín 734 · Adrogué</span>
+      <span>Lun a Vie 9–13 h · Sáb 9–14 h</span>
     </div>
   </nav>
 
-  <nav class="mobile-nav" aria-label="Menú mobile" aria-hidden="true">
-    <button class="mobile-nav__close" aria-label="Cerrar menú">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-    <a href="/#nosotros"  class="mobile-nav__link">Nosotros</a>
-    <a href="/#trabajos"  class="mobile-nav__link">Trabajos</a>
-    <a href="/#productos" class="mobile-nav__link">Productos</a>
-    <a href="/guias/" class="mobile-nav__link">Guías</a>
-    <a href="#presupuesto" class="mobile-nav__link">Contacto</a>
-    <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto%20de%20aberturas%20en%20Bernal" class="btn btn--primary mobile-nav__cta" target="_blank" rel="noopener">Pedir presupuesto</a>
-  </nav>
+  <main id="contenido">
 
-  <section class="hero" aria-label="Aberturas de aluminio en Bernal">
-    <div class="hero__bg"><img width="720" height="405" src="/obra-quincho-3.webp" alt="" aria-hidden="true" fetchpriority="high"></div>
-    <div class="hero__content">
-      <p class="hero__eyebrow hero--animate-0">Aberturas · Bernal</p>
-      <h1 class="hero__title hero--animate-1">Aberturas de aluminio<br><strong>en Bernal</strong></h1>
-      <p class="hero__subtitle hero--animate-2">Ventanas, puertas, mosquiteros y cerramientos.<br>Fabricamos, instalamos y garantizamos.</p>
-      <div class="hero__actions hero--animate-3">
-        <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto%20de%20aberturas%20en%20Bernal" class="btn btn--whatsapp btn--lg" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pedir presupuesto</a>
-        <a href="#servicios" class="btn btn--ghost btn--lg">Ver servicios</a>
+  <section class="phero" aria-label="Aberturas de aluminio en Bernal">
+    <div class="wrap phero__grid">
+      <div class="phero__text">
+        <nav class="crumbs mono" aria-label="Ubicación"><a href="/">Inicio</a> <span aria-hidden="true">/</span> <span aria-current="page">Aberturas en Bernal</span></nav>
+        <p class="mono hero__kicker">Aberturas · Bernal</p>
+        <h1 class="display phero__title">Aberturas de aluminio<br><strong>en Bernal</strong></h1>
+        <p class="lead">Ventanas, puertas, mosquiteros y cerramientos. Fabricamos, instalamos y garantizamos.</p>
+        <div class="hero__actions">
+          <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto%20de%20aberturas%20en%20Bernal" class="btn btn--wa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pedir presupuesto</a>
+          <a href="#servicios" class="btn btn--line">Ver servicios <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+        <div class="hero__stats" aria-label="Alumfer en números">
+          <div class="stat"><div class="stat__n">500<small>+</small></div><div class="stat__l mono">Obras realizadas</div></div>
+          <div class="stat"><div class="stat__n">15<small>+</small></div><div class="stat__l mono">Años en el mercado</div></div>
+          <a class="stat" href="https://www.google.com/search?q=Alumfer+carpinter%C3%ADa+aluminio+Adrog%C3%BCe" target="_blank" rel="noopener" aria-label="4.5 de 5 en Google Reviews"><div class="stat__n">4.5<small>★</small></div><div class="stat__l mono">Google Reviews</div></a>
+        </div>
       </div>
-      <div class="hero__stats" aria-label="Estadísticas">
-        <div><div class="hero__stat-num"><span class="count-up" data-target="500" data-suffix="+">500+</span></div><div class="hero__stat-label">Obras realizadas</div></div>
-        <div><div class="hero__stat-num"><span class="count-up" data-target="15" data-suffix="+">15+</span></div><div class="hero__stat-label">Años en el mercado</div></div>
-        <div><div class="hero__stat-num"><a href="https://www.google.com/search?q=Alumfer+carpinter%C3%ADa+aluminio+Adrog%C3%BCe" target="_blank" rel="noopener" aria-label="Ver reseñas en Google" class="hero__stat-link">4.5<span>★</span></a></div><div class="hero__stat-label">Google Reviews</div></div>
-      </div>
+      <figure class="phero__photo print">
+        <img width="720" height="405" src="/obra-quincho-3.webp" alt="Cerramiento de aluminio, trabajo de Alumfer" fetchpriority="high">
+        <figcaption class="mono"><span>Trabajo de Alumfer</span><b>Cerramiento</b></figcaption>
+      </figure>
     </div>
   </section>
+
 
   <section class="section section--dark" aria-labelledby="intro-title">
     <div class="container">
@@ -149,6 +168,19 @@
           </a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="section section--mid obras-strip" aria-labelledby="obras-title">
+    <div class="container">
+      <div class="section-header reveal"><p class="eyebrow">Trabajos de Alumfer</p><h2 id="obras-title">Algunos trabajos nuestros</h2></div>
+      <div class="obras-strip__grid">
+        <figure class="obras-strip__item"><img width="1200" height="1600" loading="lazy" src="/obra-postigones-6.webp" alt="Postigones símil madera, trabajo de Alumfer"><figcaption>Postigones símil madera</figcaption></figure>
+        <figure class="obras-strip__item"><img width="540" height="960" loading="lazy" src="/obra-ventanas-4.webp" alt="Ventana a medida para un vano triangular, trabajo de Alumfer"><figcaption>Ventana a medida para un vano triangular</figcaption></figure>
+        <figure class="obras-strip__item"><img width="900" height="1600" loading="lazy" src="/obra-puertas-5.webp" alt="Puerta blanca con vidrio repartido, trabajo de Alumfer"><figcaption>Puerta blanca con vidrio repartido</figcaption></figure>
+        <figure class="obras-strip__item"><img width="720" height="960" loading="lazy" src="/obra-techo2.webp" alt="Techo de policarbonato sobre estructura de aluminio, trabajo de Alumfer"><figcaption>Techo de policarbonato sobre estructura de aluminio</figcaption></figure>
+      </div>
+      <div class="section-cta-wrap"><a href="/#trabajos" class="btn btn--outline">Ver todos los trabajos →</a></div>
     </div>
   </section>
 
@@ -355,100 +387,91 @@
     </div>
   </section>
 
-  <footer class="footer" role="contentinfo">
-    <div class="container">
-      <div class="footer__inner footer__inner--wide">
-        <div class="footer__brand">
-          <a href="/" class="navbar__logo" aria-label="Alumfer — inicio" style="text-decoration:none">
-            <div class="navbar__logo-rule" aria-hidden="true"></div>
-            <div class="navbar__logo-text"><span class="navbar__logo-name">ALUMFER</span><span class="navbar__logo-sub">Carpintería de aluminio</span></div>
-          </a>
-          <p class="footer__tagline">Fabricantes de aberturas de aluminio a medida. Zona Sur GBA y CABA.</p>
-        </div>
-        <div class="footer__links">
-          <p class="footer__col-title">Servicios</p>
-          <ul role="list">
-            <li><a href="/ventanas-de-aluminio/" class="footer__link">Ventanas de aluminio</a></li>
-            <li><a href="/ventanas-dvh/" class="footer__link">Ventanas DVH</a></li>
-            <li><a href="/puertas-de-aluminio/" class="footer__link">Puertas de aluminio</a></li>
-            <li><a href="/mosquiteros-a-medida/" class="footer__link">Mosquiteros a medida</a></li>
-            <li><a href="/cerramientos-de-aluminio/" class="footer__link">Cerramientos de aluminio</a></li>
-            <li><a href="/techos-de-policarbonato/" class="footer__link">Techos de policarbonato</a></li>
-          </ul>
-        </div>
-        <div class="footer__links footer__links--zones">
-          <details class="footer__zones">
-          <summary class="footer__col-title footer__zones-toggle">Zonas</summary>
-          <ul role="list">
-            <li><a href="/aberturas-de-aluminio-capital-federal/" class="footer__link">Capital Federal</a></li>
-            <li><a href="/aberturas-de-aluminio-adrogue/" class="footer__link">Adrogué</a></li>
-            <li><a href="/aberturas-de-aluminio-almirante-brown/" class="footer__link">Almirante Brown</a></li>
-            <li><a href="/aberturas-de-aluminio-burzaco/" class="footer__link">Burzaco</a></li>
-            <li><a href="/aberturas-de-aluminio-rafael-calzada/" class="footer__link">Rafael Calzada</a></li>
-            <li><a href="/aberturas-de-aluminio-claypole/" class="footer__link">Claypole</a></li>
-            <li><a href="/aberturas-de-aluminio-longchamps/" class="footer__link">Longchamps</a></li>
-            <li><a href="/aberturas-de-aluminio-glew/" class="footer__link">Glew</a></li>
-            <li><a href="/aberturas-de-aluminio-lomas-de-zamora/" class="footer__link">Lomas de Zamora</a></li>
-            <li><a href="/aberturas-de-aluminio-banfield/" class="footer__link">Banfield</a></li>
-            <li><a href="/aberturas-de-aluminio-temperley/" class="footer__link">Temperley</a></li>
-            <li><a href="/aberturas-de-aluminio-llavallol/" class="footer__link">Llavallol</a></li>
-            <li><a href="/aberturas-de-aluminio-turdera/" class="footer__link">Turdera</a></li>
-            <li><a href="/aberturas-de-aluminio-lanus/" class="footer__link">Lanús</a></li>
-            <li><a href="/aberturas-de-aluminio-gerli/" class="footer__link">Gerli</a></li>
-            <li><a href="/aberturas-de-aluminio-valentin-alsina/" class="footer__link">Valentín Alsina</a></li>
-            <li><a href="/aberturas-de-aluminio-avellaneda/" class="footer__link">Avellaneda</a></li>
-            <li><a href="/aberturas-de-aluminio-quilmes/" class="footer__link">Quilmes</a></li>
-            <li><a class="footer__link" aria-current="page" style="color:var(--text-on-dark)">Bernal</a></li>
-            <li><a href="/aberturas-de-aluminio-ezpeleta/" class="footer__link">Ezpeleta</a></li>
-            <li><a href="/aberturas-de-aluminio-berazategui/" class="footer__link">Berazategui</a></li>
-            <li><a href="/aberturas-de-aluminio-florencio-varela/" class="footer__link">Florencio Varela</a></li>
-            <li><a href="/aberturas-de-aluminio-monte-grande/" class="footer__link">Monte Grande</a></li>
-            <li><a href="/aberturas-de-aluminio-luis-guillon/" class="footer__link">Luis Guillón</a></li>
-            <li><a href="/aberturas-de-aluminio-ezeiza/" class="footer__link">Ezeiza</a></li>
-            <li><a href="/aberturas-de-aluminio-tristan-suarez/" class="footer__link">Tristán Suárez</a></li>
-            <li><a href="/aberturas-de-aluminio-canning/" class="footer__link">Canning</a></li>
-          </ul>
-          </details>
-        </div>
-        <div class="footer__contact-col">
-          <p class="footer__col-title">Contacto</p>
-          <ul role="list">
-            <li><a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" class="footer__link" target="_blank" rel="noopener">WhatsApp: (011) 6336-8643</a></li>
-            <li><a href="mailto:alumfercarpinteria@gmail.com" class="footer__link">alumfercarpinteria@gmail.com</a></li>
-            <li><a href="https://maps.google.com/?q=Av.+San+Martín+734+Adrogué" class="footer__link" target="_blank" rel="noopener">Av. San Martín 734, Adrogué</a></li>
-            <li>
-              <span class="footer__link">Lun a Vie: 9 a 13 h</span>
-            </li>
-            <li>
-              <span class="footer__link">Sábados: 9 a 14 h</span>
-            </li>
-          </ul>
-        </div>
-        <div class="footer__social">
-          <p class="footer__col-title">Seguinos</p>
-          <div class="footer__social-links">
-            <a href="https://www.instagram.com/alumfercarpinteria/" class="footer__social-link" target="_blank" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-            <a href="https://www.facebook.com/alumfercarpinteria/" class="footer__social-link" target="_blank" rel="noopener" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+  </main>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__grid">
+        <div>
+          <a href="/" class="brand" aria-label="Alumfer — inicio"><img width="368" height="259" src="/solologo.webp" alt=""><span><span class="brand__name">ALUMFER</span><span class="brand__sub">Carpintería de aluminio</span></span></a>
+          <p class="footer__tag">Fabricantes de aberturas de aluminio a medida. Zona Sur GBA y CABA.</p>
+          <div class="social">
+            <a href="https://www.instagram.com/alumfercarpinteria/" target="_blank" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            <a href="https://www.facebook.com/alumfercarpinteria/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+            <a href="https://www.tiktok.com/@alumfercarpinteria" target="_blank" rel="noopener" aria-label="TikTok"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg></a>
+            <a href="https://www.youtube.com/channel/UCLu-med6wUQKo_pRe_tQrqg" target="_blank" rel="noopener" aria-label="YouTube"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
           </div>
         </div>
+        <div>
+          <h4>Servicios</h4>
+          <ul>
+            <li><a href="/ventanas-de-aluminio/">Ventanas de aluminio</a></li>
+            <li><a href="/ventanas-dvh/">Ventanas DVH</a></li>
+            <li><a href="/puertas-de-aluminio/">Puertas de aluminio</a></li>
+            <li><a href="/mosquiteros-a-medida/">Mosquiteros a medida</a></li>
+            <li><a href="/cerramientos-de-aluminio/">Cerramientos de aluminio</a></li>
+            <li><a href="/techos-de-policarbonato/">Techos de policarbonato</a></li>
+            <li><a href="/guias/">Guías</a></li>
+          </ul>
+        </div>
+        <div>
+          <details>
+            <summary><h4>Zonas</h4></summary>
+            <ul class="footer__zones">
+              <li><a href="/aberturas-de-aluminio-capital-federal/">Capital Federal</a></li>
+              <li><a href="/aberturas-de-aluminio-adrogue/">Adrogué</a></li>
+              <li><a href="/aberturas-de-aluminio-almirante-brown/">Almirante Brown</a></li>
+              <li><a href="/aberturas-de-aluminio-burzaco/">Burzaco</a></li>
+              <li><a href="/aberturas-de-aluminio-rafael-calzada/">Rafael Calzada</a></li>
+              <li><a href="/aberturas-de-aluminio-claypole/">Claypole</a></li>
+              <li><a href="/aberturas-de-aluminio-longchamps/">Longchamps</a></li>
+              <li><a href="/aberturas-de-aluminio-glew/">Glew</a></li>
+              <li><a href="/aberturas-de-aluminio-lomas-de-zamora/">Lomas de Zamora</a></li>
+              <li><a href="/aberturas-de-aluminio-banfield/">Banfield</a></li>
+              <li><a href="/aberturas-de-aluminio-temperley/">Temperley</a></li>
+              <li><a href="/aberturas-de-aluminio-llavallol/">Llavallol</a></li>
+              <li><a href="/aberturas-de-aluminio-turdera/">Turdera</a></li>
+              <li><a href="/aberturas-de-aluminio-lanus/">Lanús</a></li>
+              <li><a href="/aberturas-de-aluminio-gerli/">Gerli</a></li>
+              <li><a href="/aberturas-de-aluminio-valentin-alsina/">Valentín Alsina</a></li>
+              <li><a href="/aberturas-de-aluminio-avellaneda/">Avellaneda</a></li>
+              <li><a href="/aberturas-de-aluminio-quilmes/">Quilmes</a></li>
+              <li><a href="/aberturas-de-aluminio-bernal/">Bernal</a></li>
+              <li><a href="/aberturas-de-aluminio-ezpeleta/">Ezpeleta</a></li>
+              <li><a href="/aberturas-de-aluminio-berazategui/">Berazategui</a></li>
+              <li><a href="/aberturas-de-aluminio-florencio-varela/">Florencio Varela</a></li>
+              <li><a href="/aberturas-de-aluminio-monte-grande/">Monte Grande</a></li>
+              <li><a href="/aberturas-de-aluminio-luis-guillon/">Luis Guillón</a></li>
+              <li><a href="/aberturas-de-aluminio-ezeiza/">Ezeiza</a></li>
+              <li><a href="/aberturas-de-aluminio-tristan-suarez/">Tristán Suárez</a></li>
+              <li><a href="/aberturas-de-aluminio-canning/">Canning</a></li>
+            </ul>
+          </details>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <ul>
+            <li><a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto%20de%20aberturas%20en%20Bernal" target="_blank" rel="noopener">WhatsApp: (011) 6336-8643</a></li>
+            <li><a href="mailto:alumfercarpinteria@gmail.com">alumfercarpinteria@gmail.com</a></li>
+            <li><a href="https://maps.google.com/?q=Av.+San+Martín+734+Adrogué" target="_blank" rel="noopener">Av. San Martín 734, Adrogué</a></li>
+            <li>Lun a Vie: 9 a 13 h</li>
+            <li>Sábados: 9 a 14 h</li>
+          </ul>
+        </div>
       </div>
-      <div class="footer__bottom"><p class="footer__copy">© 2026 Alumfer. Adrogué, Buenos Aires.</p><p class="footer__copy">Av. San Martín 734 · (011) 6336-8643</p></div>
+      <div class="footer__bottom"><span>© 2026 Alumfer · Adrogué, Buenos Aires</span><span>Av. San Martín 734 · (011) 6336-8643</span></div>
     </div>
   </footer>
 
-  <div class="mobile-bar" aria-label="Contacto rápido">
-    <a href="tel:+5491163368643" class="mobile-bar__btn mobile-bar__btn--call" aria-label="Llamar a Alumfer">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14v2.92z"/></svg>
-      Llamar
-    </a>
-    <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto%20de%20aberturas%20en%20Bernal" class="mobile-bar__btn mobile-bar__btn--wa" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> WhatsApp</a>
+  <!-- Contacto rápido -->
+  <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto%20de%20aberturas%20en%20Bernal" class="wa-float" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+  <div class="mbar" aria-label="Contacto rápido">
+    <a href="tel:+5491163368643" class="btn btn--call" aria-label="Llamar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Llamar</a>
+    <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto%20de%20aberturas%20en%20Bernal" class="btn btn--wa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pedir presupuesto</a>
   </div>
 
-  <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto%20de%20aberturas%20en%20Bernal" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-  </a>
-
-  <script src="/main.js?v=3"></script>
+  <script src="/site.js?v=2"></script>
 
   <script type="application/ld+json">
   {

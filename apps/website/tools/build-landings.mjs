@@ -1,4 +1,7 @@
 // ============================================================
+//  ⚠ OBSOLETO (oct. 2026): genera el diseño anterior (tokens/base/components.css,
+//  main.js), que ya no existe. Las páginas se editan directo en su index.html,
+//  con site.css + pages.css + site.js. No correr sin reescribirlo.
 //  ALUMFER — Generador de landing pages (dev-time, sin build en deploy)
 // ------------------------------------------------------------
 //  Genera páginas estáticas de servicio y de localidad reutilizando el

@@ -332,3 +332,31 @@ Las demás páginas siguen con el sistema anterior hasta que se apruebe la home.
 
 Corrección de dato: el círculo de "Bronce colonial" era gris azulado (`#3A3F47`);
 se usa un marrón oscuro. Confirmar con una muestra real.
+
+---
+
+## J. Tercera pasada: todo el sitio, más azul y mobile propio
+
+Pedido del cliente: aplicar el sistema a todas las páginas, que el azul
+predomine un poco más (estaba "muy blanco y negro") y un mobile más trabajado,
+porque es de donde llega la mayoría de las visitas.
+
+- **Más azul:** las secciones oscuras pasan de gris carbón a azul marino
+  (`#0F2847`), "Así trabajamos" es una banda en azul de marca, los botones
+  principales, filtros y pestañas activas son azules, la barra superior es
+  azul y el hero tiene una grilla de plano en azul tenue.
+- **Todas las páginas** (6 de producto, 27 de zona, hub + 4 guías, gracias)
+  usan `site.css` + `pages.css` + `site.js`. Se conservó el `<head>` (SEO, OG,
+  GA4, evento de conversión) y el texto de cada página; se cambiaron la
+  navegación, el hero (ahora con miga de pan y la foto como copia impresa),
+  el footer y el contacto. Las páginas de zona suman una franja de 4 fotos de
+  obra (sin afirmar que sean de esa localidad).
+- **Mobile:** dock flotante Llamar/WhatsApp que se esconde sobre el formulario
+  y el pie, menú a pantalla completa en azul marino con teléfono y horarios,
+  tira de obras deslizable con imán, filtros en una fila, configurador con la
+  ventana fija arriba mientras se eligen vidrio y color, carruseles
+  deslizables para fichas, líneas, complementos y reseñas, y proceso como
+  línea de tiempo vertical.
+- **Limpieza:** se borraron `tokens.css`, `base.css`, `components.css`,
+  `animations.css` y `main.js` (ninguna página los usa). `tools/build-landings.mjs`
+  queda marcado como obsoleto.

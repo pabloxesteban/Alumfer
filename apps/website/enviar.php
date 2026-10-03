@@ -8,7 +8,7 @@
  *    2. Confirmación premium al cliente (si dejó email)
  *
  *  Devuelve JSON { "success": true } para mantener compatibilidad
- *  con el flujo existente de main.js (que luego redirige a gracias.html).
+ *  con el flujo existente de site.js (que luego redirige a gracias.html).
  *
  *  Requiere PHP 7.x+ (disponible en cPanel). Usa la función mail().
  *  Para máxima entregabilidad podés cambiar a SMTP autenticado:

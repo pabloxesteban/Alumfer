@@ -1,6 +1,6 @@
 // ============================================================
-// ALUMFER — home.js
-// Interacciones de la home: navegación, revelado, tira de obras,
+// ALUMFER — site.js
+// Interacciones de todo el sitio (cada bloque se activa sólo si su sección existe): navegación, revelado, tira de obras,
 // proceso, galería + lightbox, líneas, configurador, formulario
 // y medición GA4. Sin librerías.
 // ============================================================
@@ -35,8 +35,20 @@
   $$('a', drawer || document.createElement('div')).forEach(a => a.addEventListener('click', () => setDrawer(false)));
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setDrawer(false); });
 
+  // ─── Dock mobile: se esconde donde ya hay formulario o pie ──
+  const mbar = $('.mbar');
+  const hideZones = $$('#contacto, #presupuesto, .footer');
+  if (mbar && hideZones.length && 'IntersectionObserver' in window) {
+    const seen = new Set();
+    const dockObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => (e.isIntersecting ? seen.add(e.target) : seen.delete(e.target)));
+      mbar.classList.toggle('is-hidden', seen.size > 0);
+    }, { threshold: 0.15 });
+    hideZones.forEach(z => dockObs.observe(z));
+  }
+
   // ─── Revelado al entrar en pantalla ─────────────────────
-  const revealEls = $$('.rv, .rv-img');
+  const revealEls = $$('.rv, .rv-img, .reveal');
   if ('IntersectionObserver' in window && !reduceMotion) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -280,8 +292,7 @@
   }
 
   // ─── Formulario → enviar.php ────────────────────────────
-  const form = $('#form-cotizacion');
-  form?.addEventListener('submit', async (e) => {
+  $$('form[action$="enviar.php"]').forEach(form => form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = $('[type="submit"]', form);
     const label = btn.textContent;
@@ -297,7 +308,7 @@
       btn.textContent = label;
       alert('No pudimos enviar la consulta. Escribinos por WhatsApp al (011) 6336-8643.');
     }
-  });
+  }));
 
   // ─── GA4: WhatsApp (con sección de origen) y teléfono ───
   $$('a[href^="https://wa.me"]').forEach(el => el.addEventListener('click', () => {
