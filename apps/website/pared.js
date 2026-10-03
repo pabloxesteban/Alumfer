@@ -144,7 +144,7 @@
             <button type="button" class="pe__act pe__act--main" data-act="compartir">${ICON.compartir}<span>Compartir</span></button>
             <button type="button" class="pe__act" data-act="descargar">${ICON.bajar}<span>Guardar</span></button>
             <a class="pe__act pe__act--wa" data-act="wa" target="_blank" rel="noopener">${ICON.wa}<span>Mandar a Alumfer</span></a>
-            <button type="button" class="pe__act" data-act="agregar">${ICON.mas}<span>Agregar al boceto</span></button>
+            <button type="button" class="pe__act" data-act="agregar">${ICON.mas}<span>Usar en mi proyecto</span></button>
           </div>
           <p class="pe__note">Para mandarnos la foto: tocá <b>Compartir</b> y elegí WhatsApp, o guardala y adjuntala en el chat. Es una vista ilustrativa: en la visita medimos exacto, sin cargo.</p>
         </div>
@@ -213,7 +213,7 @@
       if (act === 'descargar') descargar();
       if (act === 'agregar') {
         document.dispatchEvent(new CustomEvent('pared:agregar', { detail: { ...item } }));
-        aviso('Agregada a tu boceto ✓');
+        aviso('Lista en tu proyecto ✓');
         ga('pared_agregar');
       }
       if (act === 'wa') ga('pared_whatsapp');

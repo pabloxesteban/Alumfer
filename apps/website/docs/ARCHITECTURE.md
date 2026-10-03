@@ -57,28 +57,49 @@ Tres archivos, sin framework ni build:
    configurador de vidrio y color, dock mobile que se esconde sobre el
    formulario, envío de cualquier `form[action$="enviar.php"]` y medición GA4.
 
-4. **Diseñador (`/disena-tu-abertura/`)** — `aberturas.js` dibuja cada
-   abertura a escala en SVG (12 tipologías, mismos nombres que la app de
-   presupuestos), con cotas, color, vidrio, mosquitero y persona de 1,70 m de
-   referencia. `disena.js` maneja el editor, la lista (guardada en el
-   navegador con `localStorage`), el envío por WhatsApp, la descarga del
-   boceto en PNG y el formulario a `enviar.php` (Tipo = "Boceto desde el
-   diseñador web"). Estilos en `disena.css`. No muestra precios.
+4. **Diseñá tu proyecto (`/disena-tu-abertura/`)** — la única herramienta
+   para clientes: `proyecto.js` + `proyecto.css`, a pantalla completa (sin el
+   menú del sitio). Vista **3D** del lugar hecha con CSS (cada cara es un
+   elemento con `matrix3d`, sin librerías): pared principal, paredes de los
+   costados (opcionales, con su largo), techo de policarbonato apoyado en la
+   pared principal (con columnas en el frente) y piso. Las aberturas son los
+   dibujos realistas de `aberturas.js`, así que se ven igual que en el PDF.
+   Se gira arrastrando el fondo, se acerca con la rueda o pellizcando, se
+   toca una abertura para editarla y se la arrastra sobre su pared (el punto
+   de la pantalla se lleva al plano de la pared resolviendo la proyección).
+   Una pared vista de atrás se vuelve transparente para no tapar.
+   Panel de 4 pasos: **Paredes** (ancho y alto, laterales, color, desde
+   dónde se mira) · **Aberturas** (catálogo de 23 tipologías, medidas,
+   ubicación, color, vidrio, agregados, línea, bisagras, "Ver cómo abre",
+   "Probar en una foto", duplicar, quitar) · **Techo** (largo, salida,
+   alturas, pendiente, columnas, policarbonato, color de la estructura) ·
+   **Enviar**. Arriba: deshacer y empezar de nuevo; abajo: 3D / Plano
+   (las láminas A4 tal cual salen en el PDF), ver cómo abren y vista inicial.
+   El modelo es el mismo del plano (`alumfer-plano-v1`): cada pared es una
+   lámina de fachada con `lado` (`principal`, `izquierda`, `derecha`) y el
+   techo es una lámina de techo rectangular contra la pared principal. La
+   lista del diseñador anterior (`alumfer-boceto-v1`) se pasa sola a la
+   pared principal la primera vez. `?nuevo=techo` abre con techo.
+   No muestra precios.
 
-5. **Probalo en tu pared** (en el diseñador) — `pared.js` + `pared.css`.
-   El cliente saca o elige una foto; se procesa sólo en su navegador (no se
-   sube a ningún servidor). La abertura (`Aberturas.dibujar` en modo `foto`,
-   con el hueco del vidrio recortado por máscara para que se vea la foto
-   detrás) se pone encima con una homografía de 4 puntos: `matrix3d` para la
-   vista en vivo y una malla de triángulos en `<canvas>` para el JPG final,
-   que lleva la marca "vista ilustrativa". Gestos: arrastrar, pellizcar
-   (escala + giro), esquinas, rueda/Shift+rueda, flechas y +/−; el botón
-   atrás del celular cierra el editor (`history.pushState`). Desde el
-   resultado: compartir (Web Share con archivo), guardar, WhatsApp o
-   agregar al boceto (evento `pared:agregar` que escucha `disena.js`).
+5. **Probar en una foto** (desde una abertura del proyecto) — `pared.js` +
+   `pared.css`. El cliente saca o elige una foto; se procesa sólo en su
+   navegador (no se sube a ningún servidor). La abertura se pone encima con
+   una homografía de 4 puntos: `matrix3d` para la vista en vivo y homografía
+   inversa por píxel en `<canvas>` para el JPG final, que lleva la marca
+   "vista ilustrativa". Gestos: arrastrar, pellizcar (escala + giro),
+   esquinas que **agrandan o achican en escala desde la esquina opuesta**
+   (la abertura nunca se deforma), rueda/Shift+rueda, flechas y +/−; el
+   botón atrás del celular cierra el editor. "Usar en mi proyecto" pasa el
+   tipo, color y vidrio a la abertura elegida (evento `pared:agregar`).
 
-6. **Hacé tu plano (`/plano/`)** — `plano.js` + `plano.css`, página propia a
-   pantalla completa (sin el menú del sitio). Editor tipo CAD con láminas:
+6. **Motor del plano y editor CAD (`plano.js`)** — `plano.js` es el motor
+   de la herramienta: láminas técnicas, PDF, link y envío. Con `#cad` en la
+   página (`/plano/`, `plano.css`) además arma el editor CAD completo, que
+   queda **sólo para el taller**: `/plano/` redirige a `/disena-tu-abertura/`
+   salvo con el código de taller guardado en ese navegador o `?taller` en la
+   URL (`noindex`, fuera del sitemap). Sin `#cad` expone el motor como
+   `window.PlanoMotor` para `proyecto.js`. Editor tipo CAD con láminas:
    - *Fachada*: pared con aberturas (mismas tipologías de `aberturas.js`),
      cotas automáticas en cadena (horizontal y de niveles), nivel ±0,00 NPT,
      marcas V1/P1 (iguales = misma marca) y planilla de carpinterías.
@@ -91,7 +112,7 @@ Tres archivos, sin framework ni build:
    A4** con rótulo y escala normalizada elegida sola (1:20 … 1:500) para
    PDF (impresión) y PNG, y **DXF R12** por capas `ALF-*` en Windows-1252.
    El plano se guarda en `localStorage` (`alumfer-plano-v1`) y viaja entero
-   comprimido en el link (`/plano/#p=…`), que es lo que se manda por
+   comprimido en el link (`/disena-tu-abertura/#p=…`), que es lo que se manda por
    WhatsApp o por `enviar.php` (Tipo "Plano desde el sitio web").
    `?nuevo=techo|fachada` abre directo; `&boceto=1` trae la lista del
    diseñador. No muestra precios.
@@ -126,7 +147,8 @@ Tres archivos, sin framework ni build:
    o el comando `TALLER` piden el código, que se valida contra su SHA-256
    (`HUELLA_TALLER` en `plano.js`; el código no está en el repositorio).
    Para cambiarlo: calcular el SHA-256 del nuevo código en mayúsculas y
-   reemplazar la constante. Una captura de pantalla no se puede impedir
+   reemplazar la constante en `plano.js` y en la redirección de
+   `plano/index.html`. Una captura de pantalla no se puede impedir
    desde una página web; por eso la marca de agua está también en pantalla.
 
 Paleta: papel claro cálido, azul marino para secciones oscuras, azul de marca

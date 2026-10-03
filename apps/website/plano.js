@@ -13,10 +13,12 @@
   'use strict';
 
   const A = window.Aberturas;
+  // Con #cad: editor CAD completo (taller). Sin #cad: sólo el motor
+  // (láminas, PDF, link y envío) para la herramienta de /disena-tu-abertura/.
   const raiz = document.getElementById('cad');
-  if (!A || !raiz) return;
+  if (!A) return;
 
-  const $  = (s, c = document) => c.querySelector(s);
+  const $  = (s, c = document) => (c ? c.querySelector(s) : null);
   const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
   const WA = '5491163368643';
   const CLAVE = 'alumfer-plano-v1';
@@ -796,7 +798,7 @@
   }
 
   // ── Render de pantalla ─────────────────────────────────────
-  function pedir() { if (!raf) raf = requestAnimationFrame(render); }
+  function pedir() { if (raiz && !raf) raf = requestAnimationFrame(render); }
   function grilla() {
     if (!toggles.grilla) return '';
     let paso = 10; while (paso * cam.z < 9) paso *= paso === 10 || paso === 100 ? 5 : 2;
@@ -1670,6 +1672,7 @@
     ga('plano_repartir');
   }
   function aviso(t) {
+    if (!raiz) { if (motor.aviso) motor.aviso(t); return; }
     log(t);
     let el = $('.cad__toast', raiz);
     if (!el) { el = document.createElement('div'); el.className = 'cad__toast'; el.setAttribute('role', 'status'); ui.view.appendChild(el); }
@@ -1780,7 +1783,8 @@
     if (h === HUELLA_TALLER) {
       taller = true;
       try { localStorage.setItem('alumfer-taller', h); } catch (_) {}
-      raiz.classList.add('is-taller'); document.body.classList.add('taller-on');
+      if (raiz) raiz.classList.add('is-taller');
+      document.body.classList.add('taller-on');
       aviso('Modo taller: DXF y hojas sin marca de agua habilitados.');
       cacheLam = null; pedir();
       return true;
@@ -1914,7 +1918,7 @@
     }
     return JSON.parse(new TextDecoder().decode(datos));
   }
-  async function linkPlano() { return location.origin + '/plano/#p=' + (await codificar()); }
+  async function linkPlano() { return location.origin + '/disena-tu-abertura/#p=' + (await codificar()); }
 
   function resumenTexto(link) {
     const refs = referencias(), lin = [];
@@ -2087,14 +2091,18 @@
     dlgNueva.addEventListener('click', (e) => { const b = e.target.closest('[data-nueva]'); if (b) { dlgNueva.close(); agregarLamina(b.dataset.nueva); } else if (e.target === dlgNueva || e.target.closest('[data-cerrar]')) dlgNueva.close(); });
     dlgInicio.addEventListener('click', (e) => { const nv = e.target.closest('[data-nivel]'); if (nv) { setNivel(nv.dataset.nivel); return; } const b = e.target.closest('[data-inicio]'); if (!b) return; if (b.dataset.inicio === 'seguir') { dlgInicio.close(); return; } arrancar(b.dataset.inicio); });
     dlgInicio.addEventListener('cancel', (e) => { if (!plano.laminas.length) e.preventDefault(); });
+    enlazarEnvio();
+    ui.svg.addEventListener('dragstart', (e) => e.preventDefault());
+  }
+  function enlazarEnvio() {
+    if (!dlgEnv) return;
     dlgEnv.addEventListener('click', (e) => { if (e.target === dlgEnv || e.target.closest('[data-cerrar]')) dlgEnv.close(); if (e.target.closest('[data-env="wa"]')) enviarWa(); if (e.target.closest('[data-env="pdf"]')) exportarPdf(); if (e.target.closest('[data-env="png"]')) exportarPng(); });
     dlgEnv.addEventListener('close', () => estadoEnvio(''));
     $('form', dlgEnv).addEventListener('submit', enviarForm);
-    window.addEventListener('afterprint', () => { $('#cad-print').innerHTML = AVISO_IMPRIMIR; });
-    $('#cad-print').innerHTML = AVISO_IMPRIMIR;
+    const prn = $('#cad-print');
+    if (prn) { window.addEventListener('afterprint', () => { prn.innerHTML = AVISO_IMPRIMIR; }); prn.innerHTML = AVISO_IMPRIMIR; }
     // Ctrl/Cmd+P sin haber enviado: abre el envío
     document.addEventListener('keydown', (e) => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'p' && !taller) { e.preventDefault(); abrirEnviar('pdf'); } }, true);
-    ui.svg.addEventListener('dragstart', (e) => e.preventDefault());
   }
   // Al abrir el link que llega por WhatsApp: botón para bajar el PDF.
   // Sólo con el código de taller (se pide una vez por dispositivo).
@@ -2103,10 +2111,12 @@
     b.className = 'cad-recibido';
     const quien = plano.envio && plano.envio.nombre ? ' de ' + esc(plano.envio.nombre) : plano.datos.cliente ? ' de ' + esc(plano.datos.cliente) : '';
     b.innerHTML = `<span><b>Plano recibido${quien}</b><small>${plano.laminas.length} lámina${plano.laminas.length > 1 ? 's' : ''}${plano.envio && plano.envio.tel ? ' · Tel. ' + esc(plano.envio.tel) : ''}</small></span><button type="button" class="cad__btn cad__btn--main" data-rec="pdf">Descargar PDF</button><button type="button" class="cad-recibido__x" data-rec="x" aria-label="Cerrar">×</button>`;
-    ui.view.appendChild(b);
+    if (!raiz && taller) b.querySelector('[data-rec="x"]').insertAdjacentHTML('beforebegin', '<a class="cad__btn" href="/plano/" data-rec="cad">Abrir en CAD</a>');
+    (ui.view || $('[data-recibido]') || document.body).appendChild(b);
     b.addEventListener('click', async (e) => {
       const x = e.target.closest('[data-rec]'); if (!x) return;
       if (x.dataset.rec === 'x') { b.remove(); return; }
+      if (x.dataset.rec === 'cad') return;
       if (!taller && !(await pedirTaller())) return;
       x.disabled = true; x.textContent = 'Armando…';
       bajar(await pdfPlano(), nombreArchivo('pdf'));
@@ -2122,7 +2132,26 @@
     ga('plano_link');
   }
 
+  // ── Motor para la herramienta de /disena-tu-abertura/ ──────
+  const motor = window.PlanoMotor = {
+    get: () => plano,
+    set: (p) => { plano = p; cacheLam = null; guardar(); },
+    guardar: () => { cacheLam = null; guardar(); },
+    cargar, nid, nuevaFachada, nuevoTecho, nuevaAbertura, planoVacio,
+    laminaSvg, pdf: pdfPlano, codificar, decodificar, resumen: resumenTexto, detalle: detalleItem, referencias,
+    svgAbertura, datosTecho, geoTecho, pendiente, abrirEnviar, barraRecibido, pedirTaller, enviado,
+    taller: () => taller, textoMarca, exportarDxf: descargarDxf, bajar, nombreArchivo,
+    tieneMano, conAcc, conLinea, PAREDES, MATERIALES, USOS, pared, material,
+    aviso: null,
+  };
+
   (async function iniciar() {
+    if (!raiz) {
+      if (taller) document.body.classList.add('taller-on');
+      enlazarEnvio();
+      document.dispatchEvent(new CustomEvent('plano:motor'));
+      return;
+    }
     setNivel(nivel, true);
     if (taller) { raiz.classList.add('is-taller'); document.body.classList.add('taller-on'); }
     enlazar();
@@ -2130,7 +2159,7 @@
     medir();
     const hay = await cargar();
     const qs = new URLSearchParams(location.search), q = qs.get('nuevo'), boceto = qs.get('boceto') === '1';
-    if (q || boceto) history.replaceState(null, '', location.pathname + location.hash);
+    if (q || boceto) history.replaceState(null, '', location.pathname + (qs.has('taller') ? '?taller' : '') + location.hash);
     if (!hay && (q === 'techo' || q === 'fachada')) arrancar(q, boceto);
     else if (!hay) { todo(); dlgInicio.showModal(); }
     else {
