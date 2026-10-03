@@ -30,8 +30,8 @@
   </script>
 
   <link rel="preload" href="/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/site.css?v=5">
-  <link rel="stylesheet" href="/proyecto.css?v=1">
+  <link rel="stylesheet" href="/site.css?v=6">
+  <link rel="stylesheet" href="/proyecto.css?v=2">
   <link rel="stylesheet" href="/pared.css?v=2">
 </head>
 <body class="page-proyecto">
@@ -58,17 +58,17 @@
       <div class="pj-plano" hidden></div>
       <div class="pj-marca" aria-hidden="true"></div>
       <div class="pj-coach" hidden>
-        <p><b>Arrastrá</b> para girar · <b>pellizcá</b> o usá la rueda para acercar · <b>tocá</b> una abertura para editarla o arrastrala para moverla</p>
+        <p><b>Tocá la pared</b> para poner una ventana o puerta · <b>arrastrá</b> el fondo para girar · <b>arrastrá</b> una abertura para moverla</p>
       </div>
       <div class="pj-tools" role="toolbar" aria-label="Vista">
         <div class="pj-seg pj-seg--dark" role="group" aria-label="Tipo de vista">
           <button type="button" data-vista="3d" aria-pressed="true">3D</button>
           <button type="button" data-vista="plano" aria-pressed="false">Plano</button>
         </div>
-        <button type="button" class="pj-ico pj-ico--dark" data-act="animar" aria-label="Ver cómo abren" title="Ver cómo abren"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
-        <button type="button" class="pj-ico pj-ico--dark" data-act="zoom-" aria-label="Alejar" title="Alejar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button>
-        <button type="button" class="pj-ico pj-ico--dark" data-act="zoom+" aria-label="Acercar" title="Acercar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
-        <button type="button" class="pj-ico pj-ico--dark" data-act="centro" aria-label="Vista inicial" title="Vista inicial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>
+        <button type="button" class="pj-tbtn" data-act="animar" title="Ver cómo abren"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span>Ver cómo abren</span></button>
+        <button type="button" class="pj-tbtn" data-act="centro" title="Volver a la vista de frente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg><span>De frente</span></button>
+        <button type="button" class="pj-ico pj-ico--dark pj-zoom" data-act="zoom-" aria-label="Alejar" title="Alejar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+        <button type="button" class="pj-ico pj-ico--dark pj-zoom" data-act="zoom+" aria-label="Acercar" title="Acercar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
       </div>
       <div class="pj-toast" role="status" aria-live="polite"></div>
     </div>
@@ -83,7 +83,23 @@
   <dialog class="pj-dlg pj-cat" aria-labelledby="cat-t">
     <div class="pj-dlg__box pj-dlg__box--wide">
       <div class="pj-dlg__head"><h2 id="cat-t" class="pj-dlg__title pj-cat__title">Agregar</h2><button type="button" class="pj-dlg__x" data-cerrar aria-label="Cerrar">×</button></div>
+      <div class="pj-seg pj-cat__tabs" role="group" aria-label="Tipo"></div>
       <div class="pj-cat__body"></div>
+    </div>
+  </dialog>
+
+  <dialog class="pj-dlg pj-inicio" aria-labelledby="ini-t">
+    <div class="pj-dlg__box pj-dlg__box--wide">
+      <p class="pj-mini">Diseñá tu proyecto · gratis y sin compromiso</p>
+      <h2 id="ini-t" class="pj-dlg__title">¿Qué querés armar?</h2>
+      <p class="pj-ayuda">Elegí una opción para empezar. Después podés cambiar todo.</p>
+      <div class="pj-inicio__grid">
+        <button type="button" data-inicio="pared"><svg viewBox="0 0 160 100" aria-hidden="true"><path class="pi" d="M20 88V18h120v70"/><rect class="v" x="34" y="34" width="44" height="30"/><path class="v" d="M56 34v30"/><rect class="v" x="96" y="30" width="28" height="58"/><path class="pi" d="M6 88h148"/></svg><b>Ventanas y puertas</b><span>En una pared de tu casa</span></button>
+        <button type="button" data-inicio="ambiente"><svg viewBox="0 0 160 100" aria-hidden="true"><path class="pi" d="M44 74V18h72v56M44 18 14 6v92l30-24M116 18l30-12v92l-30-24"/><rect class="v" x="62" y="32" width="36" height="24"/><path class="v" d="M80 32v24M22 30l14 4v22l-14-4zM138 30l-14 4v22l14-4z"/></svg><b>Un ambiente</b><span>Varias paredes, cada una con sus aberturas</span></button>
+        <button type="button" data-inicio="techo"><svg viewBox="0 0 160 100" aria-hidden="true"><path class="pi" d="M20 88V14"/><path class="t" d="M20 24 150 36"/><path class="pi" d="M144 36v52M84 30v58M6 88h148"/><rect class="v" x="30" y="44" width="34" height="28"/></svg><b>Un techo de policarbonato</b><span>Para el patio, la galería o el quincho</span></button>
+      </div>
+      <p class="pj-inicio__aviso pj-ayuda" hidden>Si elegís una opción, se empieza de cero y se borra el proyecto que tenés.</p>
+      <button type="button" class="pj-btn pj-inicio__seguir" data-inicio="seguir" hidden>Seguir con mi proyecto</button>
     </div>
   </dialog>
 
@@ -122,7 +138,7 @@
 
   <script src="/aberturas.js?v=4"></script>
   <script src="/plano.js?v=6"></script>
-  <script src="/proyecto.js?v=1"></script>
+  <script src="/proyecto.js?v=2"></script>
   <script src="/pared.js?v=5"></script>
 
   <script type="application/ld+json">

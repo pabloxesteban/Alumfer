@@ -587,3 +587,31 @@ techo si hace falta, y más amigable.
   "Dibujá tu techo" de techos abre la herramienta con el techo.
 - Peso (comprimido): `proyecto.js` 17 KB, `proyecto.css` 6 KB.
 
+## P. Novena pasada: aberturas en 3D y una herramienta más simple
+
+Pedido: sacar de la home "Probá vidrio y color" (ya está la herramienta de
+proyecto), que las aberturas se vean en 3D y que todo sea más intuitivo
+para un usuario promedio.
+
+- **Home**: se quitó el configurador de vidrio y color (HTML, su código en
+  `site.js` y sus estilos en `site.css`); las secciones se renumeraron.
+- **Aberturas en 3D**: cada pared tiene espesor (15 cm) y el vano está
+  recortado en la cara (`clip-path` evenodd). En cada vano: jambas con la
+  banda del marco en su color, la abertura metida 5 cm en la pared, el fondo
+  que se ve a través del vidrio y alféizar en las ventanas. Cantos de pared
+  arriba y en los extremos libres. El ladrillo visto ahora se ve.
+- **Inicio guiado** la primera vez: "¿Qué querés armar?" → Ventanas y
+  puertas · Un ambiente (3 paredes) · Un techo de policarbonato. "Nuevo"
+  vuelve a esa pantalla, con "Seguir con mi proyecto".
+- **Tocar la pared** abre "¿Qué va en esta parte de la pared?" y la
+  abertura queda donde se tocó. Las paredes vacías muestran un "+".
+- **Catálogo** por pestañas (Ventanas, Puertas, Cerramientos,
+  Complementos) con una frase simple de cómo funciona cada una.
+- **Panel**: cada paso tiene título y una línea de qué hacer. En la
+  abertura quedan a la vista medidas, color (los 6 más pedidos, el resto
+  con "Ver todos") y vidrio; ubicación exacta, bisagras y línea pasan a
+  "Más opciones".
+- **3D**: cotas de la pared activa y de la abertura elegida; barra con
+  "Ver cómo abren" y "De frente" escritos; vista de frente sin dar la
+  espalda a las paredes laterales.
+

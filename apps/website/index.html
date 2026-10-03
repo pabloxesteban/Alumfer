@@ -41,7 +41,7 @@
   </script>
 
   <link rel="preload" as="image" href="obra-postigones-6.webp">
-  <link rel="stylesheet" href="/site.css?v=5">
+  <link rel="stylesheet" href="/site.css?v=6">
 </head>
 <body class="no-js">
   <a class="sr-only" href="#contenido">Saltar al contenido</a>
@@ -520,80 +520,10 @@
     </div>
   </section>
 
-  <!-- ── CONFIGURADOR ───────────────────────────────────────── -->
-  <section class="section works" id="configurador" aria-labelledby="config-title">
-    <div class="wrap">
-      <div class="sec-head">
-        <div class="sec-tag mono"><b>05</b> Vidrios y terminaciones</div>
-        <h2 class="h2 rv" id="config-title">Probá vidrio y color antes de pedir</h2>
-        <p class="lead rv">Elegí un vidrio y una terminación: la ventana cambia al instante. Después mandanos la combinación por WhatsApp.</p>
-      </div>
-      <div class="config">
-        <div class="preview">
-          <div class="wall">
-          <div class="window" data-glass="transparente" role="img" aria-label="Vista ilustrativa de una ventana corrediza con el vidrio y el color elegidos">
-            <div class="window__sashes">
-              <div class="sash"><div class="sash__view" style="background-image:url('obra-quincho-4.webp')"></div><div class="sash__glass"></div><span class="dvh-mark"></span><span class="sash__handle"></span></div>
-              <div class="sash"><div class="sash__view" style="background-image:url('obra-quincho-4.webp')"></div><div class="sash__glass"></div><span class="dvh-mark"></span><span class="sash__handle"></span></div>
-            </div>
-          </div>
-          <span class="wall__sill" aria-hidden="true"></span>
-          </div>
-          <p class="preview__cap mono"><span>Vista ilustrativa · corrediza</span><span><b id="cap-glass">Transparente</b> · <b id="cap-color">Blanco</b></span></p>
-        </div>
-        <div class="config__controls">
-          <div class="ctrl">
-            <p class="ctrl__label mono"><span>Vidrio</span><b id="glass-name">Transparente</b></p>
-            <div class="glass-opts" role="radiogroup" aria-label="Tipo de vidrio">
-              <button type="button" class="glass-opt" role="radio" aria-checked="true" tabindex="0" data-glass="transparente" data-name="Transparente" data-desc="La opción estándar. Alta transmisión de luz natural, bajo costo. Compatible con todas las líneas de perfil. Ideal para la mayoría de las obras residenciales."><img src="transparente.webp" alt="" width="40" height="40" loading="lazy">Transparente</button>
-              <button type="button" class="glass-opt" role="radio" aria-checked="false" tabindex="-1" data-glass="esmerilado" data-name="Esmerilado" data-desc="Superficie tratada que difumina la visión sin bloquear la luz natural. Ideal para baños, puertas interiores y divisorios. Disponible en distintos grados de opacidad."><img src="esmerilado.webp" alt="" width="40" height="40" loading="lazy">Esmerilado</button>
-              <button type="button" class="glass-opt" role="radio" aria-checked="false" tabindex="-1" data-glass="espejado" data-name="Espejado" data-desc="Reflejo espejado desde el exterior durante el día, con visibilidad normal desde adentro. Muy usado en fachadas comerciales y oficinas. Aporta privacidad sin perder luminosidad interior."><img src="vidrioespejado.webp" alt="" width="40" height="40" loading="lazy">Espejado</button>
-              <button type="button" class="glass-opt" role="radio" aria-checked="false" tabindex="-1" data-glass="dvh" data-name="DVH" data-desc="Dos vidrios separados por una cámara de aire sellada. Reduce significativamente la pérdida de calor y el ingreso de ruido exterior. Ideal para zonas frías, departamentos en avenidas o proyectos con alta eficiencia energética."><img src="vidrio-dvh.webp" alt="" width="40" height="40" loading="lazy">DVH</button>
-            </div>
-            <p class="ctrl__desc" id="glass-desc"></p>
-          </div>
-          <div class="ctrl">
-            <p class="ctrl__label mono"><span>Terminación</span><b id="color-name">Pintura · Blanco</b></p>
-            <div class="swatch-group">
-              <p class="swatch-group__t mono">Pintura</p>
-              <div class="swatches" role="radiogroup" aria-label="Colores de pintura">
-                <button type="button" class="swatch" role="radio" aria-checked="true" tabindex="0" aria-label="Pintura Blanco" title="Blanco" style="background:#EEEEEA" data-group="Pintura" data-name="Blanco" data-frame="#EEEEEA" data-solid="#EEEEEA" data-desc="El color más solicitado en obras residenciales. También disponible en Blanco Brillante."></button>
-                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Pintura Negro" title="Negro" style="background:#1E1F21" data-group="Pintura" data-name="Negro" data-frame="#1E1F21" data-solid="#1E1F21" data-desc="Muy elegido en proyectos de arquitectura contemporánea. Combina con fachadas blancas y hormigón."></button>
-                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Pintura Bronce colonial" title="Bronce colonial" style="background:#4A3B30" data-group="Pintura" data-name="Bronce colonial" data-frame="#4A3B30" data-solid="#4A3B30" data-desc="Tono cálido y clásico. Ideal para fachadas con ladrillo, piedra o madera."></button>
-                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Pintura Gris" title="Gris" style="background:#8A8E94" data-group="Pintura" data-name="Gris" data-frame="#8A8E94" data-solid="#8A8E94" data-desc="Neutro y versátil. Acompaña estilos modernos e industriales."></button>
-                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Pintura Símil madera" title="Símil madera" style="background:linear-gradient(100deg,#8B4513,#B65E2A 30%,#7A3A10 55%,#A0501E)" data-group="Pintura" data-name="Símil madera" data-frame="linear-gradient(100deg,#8B4513,#B65E2A 30%,#7A3A10 55%,#A0501E)" data-solid="#93491B" data-desc="Toda la durabilidad del aluminio con la calidez visual de la madera. Sin mantenimiento."></button>
-                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Pintura Microtexturado" title="Microtexturado" style="background:#D2D2CF" data-group="Pintura" data-name="Microtexturado" data-frame="#D2D2CF" data-solid="#D2D2CF" data-desc="Acabado con textura fina. Muy resistente al roce y de fácil limpieza."></button>
-                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Pintura Azul" title="Azul" style="background:#1B4F8A" data-group="Pintura" data-name="Azul" data-frame="#1B4F8A" data-solid="#1B4F8A" data-desc="Desde navy hasta celeste. Muy usado en obras costeras y proyectos residenciales con carácter."></button>
-                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Pintura Verde" title="Verde" style="background:#2E7D32" data-group="Pintura" data-name="Verde" data-frame="#2E7D32" data-solid="#2E7D32" data-desc="Tono natural y fresco. Ideal para fachadas con vegetación, jardines o entornos rurales."></button>
-                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Pintura Rojo" title="Rojo" style="background:#B71C1C" data-group="Pintura" data-name="Rojo" data-frame="#B71C1C" data-solid="#B71C1C" data-desc="Terminación llamativa para fachadas comerciales o detalles de diseño con impacto visual."></button>
-                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Pintura Amarillo" title="Amarillo" style="background:#F9A825" data-group="Pintura" data-name="Amarillo" data-frame="#F9A825" data-solid="#F9A825" data-desc="Color cálido y vibrante para locales comerciales, señalética y proyectos de diseño."></button>
-              </div>
-            </div>
-            <div class="swatch-group">
-              <p class="swatch-group__t mono">Anodizado</p>
-              <div class="swatches" role="radiogroup" aria-label="Colores anodizados">
-                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Anodizado Natural" title="Natural" style="background:linear-gradient(100deg,#B8B8B8,#DADADA 40%,#A8A8A8)" data-group="Anodizado" data-name="Natural" data-frame="linear-gradient(100deg,#B8B8B8,#DADADA 40%,#A8A8A8)" data-solid="#C2C2C2" data-desc="Tono gris plateado propio del aluminio. Clásico, sobrio y de bajo mantenimiento."></button>
-                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Anodizado Oro" title="Oro" style="background:linear-gradient(100deg,#C8A84B,#E8C86A 40%,#B89438)" data-group="Anodizado" data-name="Oro" data-frame="linear-gradient(100deg,#C8A84B,#E8C86A 40%,#B89438)" data-solid="#CFAE52" data-desc="Acabado dorado elegante. Muy utilizado en locales comerciales y proyectos de alta gama."></button>
-                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Anodizado Negro" title="Negro" style="background:linear-gradient(100deg,#1A1A1A,#2E2E2E 40%,#111111)" data-group="Anodizado" data-name="Negro" data-frame="linear-gradient(100deg,#1A1A1A,#2E2E2E 40%,#111111)" data-solid="#202020" data-desc="Más resistente que el lacado, con una profundidad de color característica."></button>
-                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Anodizado Champagne" title="Champagne" style="background:linear-gradient(100deg,#D4C5A0,#E8DCC0 40%,#C4B590)" data-group="Anodizado" data-name="Champagne" data-frame="linear-gradient(100deg,#D4C5A0,#E8DCC0 40%,#C4B590)" data-solid="#D6C8A6" data-desc="Tono dorado suave y discreto. Aporta calidez y elegancia en ambientes residenciales."></button>
-                <button type="button" class="swatch" role="radio" aria-checked="false" tabindex="-1" aria-label="Anodizado Peltre" title="Peltre" style="background:linear-gradient(100deg,#8A8A8A,#A8A8A8 40%,#787878)" data-group="Anodizado" data-name="Peltre" data-frame="linear-gradient(100deg,#8A8A8A,#A8A8A8 40%,#787878)" data-solid="#909090" data-desc="Gris metálico con tonalidad fría. Muy usado en arquitectura contemporánea."></button>
-              </div>
-            </div>
-            <p class="ctrl__desc" id="color-desc"></p>
-          </div>
-          <div class="config__cta">
-            <a href="https://wa.me/5491163368643?text=Hola%2C%20quiero%20pedir%20un%20presupuesto" class="btn btn--wa" id="config-wa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pedir presupuesto con esta combinación</a>
-            <p class="config__note">Los colores en pantalla son aproximados. En la visita llevamos muestras.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ── DISEÑADOR (adelanto) ───────────────────────────────── -->
   <section class="section disena-cta" id="disena" aria-labelledby="disena-title">
     <div class="wrap">
-      <div class="sec-tag mono"><b>06</b> Diseñá tu proyecto</div>
+      <div class="sec-tag mono"><b>05</b> Diseñá tu proyecto</div>
       <div class="disena-cta__grid">
         <div class="disena-cta__text rv">
           <h2 class="h2" id="disena-title">Armá tu proyecto en 3D con tus medidas</h2>
@@ -635,7 +565,7 @@
   <section class="section" id="productos" aria-labelledby="extras-title">
     <div class="wrap">
       <div class="sec-head">
-        <div class="sec-tag mono"><b>07</b> Complementos y coberturas</div>
+        <div class="sec-tag mono"><b>06</b> Complementos y coberturas</div>
         <h2 class="h2 rv" id="extras-title">También hacemos</h2>
         <p class="lead rv">Lo que suele acompañar a una abertura nueva, y las coberturas para techos, pérgolas y divisiones.</p>
       </div>
@@ -675,7 +605,7 @@
   <!-- ── RESEÑAS + GARANTÍA ─────────────────────────────────── -->
   <section class="section steel on-steel" id="resenas" aria-labelledby="reviews-title">
     <div class="wrap">
-      <div class="sec-tag mono"><b>08</b> Clientes</div>
+      <div class="sec-tag mono"><b>07</b> Clientes</div>
       <div class="reviews__top" style="margin-top:2.5rem">
         <h2 class="h2 rv" id="reviews-title">Lo que dicen<br>nuestros clientes</h2>
         <a class="rating" href="https://www.google.com/search?q=Alumfer+carpinter%C3%ADa+aluminio+Adrog%C3%BCe" target="_blank" rel="noopener" aria-label="4,6 de 5 estrellas en Google, 26 reseñas">
@@ -702,7 +632,7 @@
   <section class="section" id="faq" aria-labelledby="faq-title">
     <div class="wrap faq__grid">
       <div class="faq__aside">
-        <div class="sec-tag mono"><b>09</b> Preguntas frecuentes</div>
+        <div class="sec-tag mono"><b>08</b> Preguntas frecuentes</div>
         <h2 class="h2" id="faq-title" style="margin-top:2rem">Lo que más nos preguntan</h2>
         <p>Si tu duda no está acá, escribinos: la respondemos el mismo día hábil.</p>
         <a href="https://wa.me/5491163368643?text=Hola%2C%20tengo%20una%20consulta" class="btn btn--line" target="_blank" rel="noopener">Hacer una consulta <span class="arrow" aria-hidden="true">→</span></a>
@@ -723,7 +653,7 @@
   <!-- ── CONTACTO ───────────────────────────────────────────── -->
   <section class="section steel on-steel" id="contacto" aria-labelledby="contact-title">
     <div class="wrap">
-      <div class="sec-tag mono"><b>10</b> Presupuesto sin cargo</div>
+      <div class="sec-tag mono"><b>09</b> Presupuesto sin cargo</div>
       <div class="contact__grid" style="margin-top:2.5rem">
         <div>
           <h2 class="display contact__title" id="contact-title">Pedinos tu cotización</h2>
@@ -867,7 +797,7 @@
     </div>
   </div>
 
-  <script src="/site.js?v=4"></script>
+  <script src="/site.js?v=5"></script>
 
   <script type="application/ld+json">
   {

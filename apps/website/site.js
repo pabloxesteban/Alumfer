@@ -1,7 +1,7 @@
 // ============================================================
 // ALUMFER — site.js
 // Interacciones de todo el sitio (cada bloque se activa sólo si su sección existe): navegación, revelado, tira de obras,
-// proceso, galería + lightbox, líneas, configurador, formulario
+// proceso, galería + lightbox, líneas, formulario
 // y medición GA4. Sin librerías.
 // ============================================================
 
@@ -285,55 +285,6 @@
     next.focus();
     next.click();
   }));
-
-  // ─── Configurador: vidrio + color ───────────────────────
-  const win = $('.window');
-  if (win) {
-    const glassOpts  = $$('.glass-opt');
-    const swatches   = $$('.swatch');
-    const glassName  = $('#glass-name');
-    const glassDesc  = $('#glass-desc');
-    const colorName  = $('#color-name');
-    const colorDesc  = $('#color-desc');
-    const capGlass   = $('#cap-glass');
-    const capColor   = $('#cap-color');
-    const cta        = $('#config-wa');
-    let glass = glassOpts.find(o => o.getAttribute('aria-checked') === 'true');
-    let color = swatches.find(o => o.getAttribute('aria-checked') === 'true');
-
-    const update = () => {
-      win.dataset.glass = glass.dataset.glass;
-      win.style.setProperty('--frame', color.dataset.frame);
-      win.style.setProperty('--frame-solid', color.dataset.solid);
-      glassName.textContent = glass.dataset.name;
-      glassDesc.textContent = glass.dataset.desc;
-      colorName.textContent = `${color.dataset.group} · ${color.dataset.name}`;
-      colorDesc.textContent = color.dataset.desc;
-      capGlass.textContent = glass.dataset.name;
-      capColor.textContent = color.dataset.name;
-      // las siglas (DVH) quedan en mayúscula
-      const lc = (t) => (t === t.toUpperCase() ? t : t.toLowerCase());
-      cta.href = waLink(`Hola, quiero un presupuesto de una abertura con vidrio ${lc(glass.dataset.name)} y color ${lc(color.dataset.name)} (${lc(color.dataset.group)}).`);
-    };
-    const pick = (list, el) => {
-      list.forEach(o => { o.setAttribute('aria-checked', String(o === el)); o.tabIndex = o === el ? 0 : -1; });
-      return el;
-    };
-    glassOpts.forEach(o => o.addEventListener('click', () => { glass = pick(glassOpts, o); update(); }));
-    swatches.forEach(o => o.addEventListener('click', () => { color = pick(swatches, o); update(); }));
-    // Flechas dentro de cada grupo de radios
-    $$('[role="radiogroup"]').forEach(group => group.addEventListener('keydown', (e) => {
-      if (!['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'].includes(e.key)) return;
-      const opts = $$('[role="radio"]', group.closest('.ctrl') || group);
-      const i = opts.indexOf(document.activeElement);
-      if (i < 0) return;
-      e.preventDefault();
-      const next = opts[(i + (e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1) + opts.length) % opts.length];
-      next.focus();
-      next.click();
-    }));
-    update();
-  }
 
   // ─── Formulario: el cliente elige WhatsApp o email ──────
   // (mismo comportamiento que tenía main.js: botón con data-channel)
