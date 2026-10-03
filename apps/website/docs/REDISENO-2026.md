@@ -657,3 +657,17 @@ tomar como referencia las apps modernas.
   trabado; una hoja se desliza por su guía y vuelve. Sólo corre cuando se ve
   (IntersectionObserver) y respeta "reducir movimiento". Se genera con
   `build_ens.py` a partir de `perfiles.json` (los trazos de potrace).
+
+## S. Animación de la empresa: un día en casa
+
+- Los cortes técnicos se reemplazaron por algo que entiende cualquiera: el
+  frente de una casa a lo largo de un día (SVG + CSS, 24 s, sin librerías),
+  con aberturas de las líneas que fabricamos y los usos que ya cuenta el sitio:
+  - Mañana: **Módena** corrediza; la hoja se corre y el **mosquitero** pasa
+    de su lugar sobre el paño fijo al lado abierto (como en la línea real).
+  - Mediodía: **Herrero** batiente en la cocina, abierta para ventilar.
+  - Tarde: **A30 New** puerta ventana, perfil más fino y más vidrio.
+  - Noche con lluvia: **DVH**; una lupa muestra los dos vidrios con la cámara.
+- Un texto corto por escena y una barrita de progreso. Sólo corre cuando se
+  ve; con "reducir movimiento" queda la casa de día, quieta, con un texto fijo.
+- Se genera con `build_casa.py` (reemplaza a `build_ens.py`).
