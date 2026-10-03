@@ -8,60 +8,91 @@
     "publishTime: si solo se sabe 'hace 3 semanas', estimar el día. Solo se usan el mes y el año."
   ],
   "_tomado_de_la_ficha": "2026-10-03",
-
   "rating": 4.6,
   "userRatingCount": 26,
-
   "reviews": [
     {
       "rating": 5,
       "publishTime": "2026-09-12T00:00:00Z",
-      "authorAttribution": { "displayName": "marcela robustelli" },
-      "originalText": { "text": "Puntual. Prolijisimo. Todo de diez! Recomiendo", "languageCode": "es" }
+      "authorAttribution": {
+        "displayName": "marcela robustelli"
+      },
+      "originalText": {
+        "text": "Puntual. Prolijisimo. Todo de diez! Recomiendo",
+        "languageCode": "es"
+      }
     },
     {
       "rating": 5,
       "publishTime": "2026-09-05T00:00:00Z",
-      "authorAttribution": { "displayName": "laura fenómena" },
-      "originalText": { "text": "Muy conforme! Excelente trabajo, reemplazo de policarbonato y ampliación de techo.", "languageCode": "es" }
+      "authorAttribution": {
+        "displayName": "Sergio Fernandez"
+      },
+      "originalText": {
+        "text": "Alumfer solicité dos trabajos en aluminio, realmente muy bien trabajo, muy prolijo y excelente relación precio/calidad, 100 % recomendable",
+        "languageCode": "es"
+      }
+    },
+    {
+      "rating": 5,
+      "publishTime": "2026-09-05T00:00:00Z",
+      "authorAttribution": {
+        "displayName": "laura fenómena"
+      },
+      "originalText": {
+        "text": "Muy conforme! Excelente trabajo, reemplazo de policarbonato y ampliación de techo.",
+        "languageCode": "es"
+      }
     },
     {
       "rating": 5,
       "publishTime": "2025-03-15T00:00:00Z",
       "localGuide": true,
-      "authorAttribution": { "displayName": "Marcelo Valls" },
-      "originalText": { "text": "Alumfer nos hizo 4 mosquiteros a medida, súper bien todo! Precio, tiempo de entrega y calidad, 10 puntos, y muy confiable. Sin duda volvería a confiar en ellos.", "languageCode": "es" }
+      "authorAttribution": {
+        "displayName": "Marcelo Valls"
+      },
+      "originalText": {
+        "text": "Alumfer nos hizo 4 mosquiteros a medida, súper bien todo! Precio, tiempo de entrega y calidad, 10 puntos, y muy confiable. Sin duda volvería a confiar en ellos.",
+        "languageCode": "es"
+      }
     },
     {
       "rating": 5,
       "publishTime": "2025-01-15T00:00:00Z",
-      "authorAttribution": { "displayName": "Julia Gutierrez" },
-      "originalText": { "text": "Rápida respuesta. Vino un lunes a tomar medidas y el viernes estaban los mosquiteros colocados. Impecable. Súper recomiendo.", "languageCode": "es" }
+      "authorAttribution": {
+        "displayName": "Julia Gutierrez"
+      },
+      "originalText": {
+        "text": "Rápida respuesta. Vino un lunes a tomar medidas y el viernes estaban los mosquiteros colocados. Impecable. Súper recomiendo.",
+        "languageCode": "es"
+      }
     },
     {
       "rating": 5,
       "publishTime": "2024-08-15T00:00:00Z",
       "localGuide": true,
-      "authorAttribution": { "displayName": "Cecilia Vallejos" },
-      "originalText": { "text": "Son súper profesionales, se comunicaron en todo momento para dar aviso y coordinar horarios. Los mosquiteros quedaron bien colocados, prolijos y estéticamente lindos. Los recomiendo!", "languageCode": "es" }
+      "authorAttribution": {
+        "displayName": "Cecilia Vallejos"
+      },
+      "originalText": {
+        "text": "Son súper profesionales, se comunicaron en todo momento para dar aviso y coordinar horarios. Los mosquiteros quedaron bien colocados, prolijos y estéticamente lindos. Los recomiendo!",
+        "languageCode": "es"
+      }
     }
   ],
-
   "_pendientes": [
-    {
-      "_por_que": "El texto aparece cortado con 'Ver la opinión completa' en la captura del panel. No se publica a medias. Con el texto completo, va arriba de laura fenómena por fecha.",
-      "rating": 5,
-      "publishTime": "2026-09-05T00:00:00Z",
-      "authorAttribution": { "displayName": "Sergio Fernandez" },
-      "originalText": { "text": "Alumfer solicité dos trabajos en aluminio, realmente muy bien trabajo, muy prolijo y excelente relación precio/calidad, 100 % recomendable", "languageCode": "es" }
-    },
     {
       "_por_que": "También cortada, y con 33 caracteres no llega al mínimo de 40 aunque se complete poco.",
       "rating": 5,
       "publishTime": "2026-09-05T00:00:00Z",
       "localGuide": true,
-      "authorAttribution": { "displayName": "marisol libertini" },
-      "originalText": { "text": "Excelente trato ,muy buen producto", "languageCode": "es" }
+      "authorAttribution": {
+        "displayName": "marisol libertini"
+      },
+      "originalText": {
+        "text": "Excelente trato ,muy buen producto",
+        "languageCode": "es"
+      }
     }
   ]
 }
