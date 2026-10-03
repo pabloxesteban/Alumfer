@@ -301,3 +301,34 @@ página de producto, una de localidad, el hub de guías, una guía y `gracias.ht
 - **Reseñas**: las 3 de la home son de mosquiteros. Elegir de Google alguna
   reseña real de ventanas, puertas o cerramientos.
 - **Foto horizontal para el hero** (ver lista de fotografías arriba).
+
+---
+
+## I. Segunda pasada: rediseño de la home (feedback del cliente)
+
+La primera pasada fue demasiado conservadora: sacó lo genérico pero no le dio
+a la web un lenguaje propio. El cliente pidió explícitamente algo más moderno,
+con otros colores, más imágenes e interacción en las secciones informativas.
+Se rehízo la home con un sistema visual nuevo, **sin inventar contenido**: todo
+el texto, las fotos, las líneas, los vidrios, los colores, las reseñas y las FAQ
+son los mismos del sitio.
+
+**Archivos:** `index.html`, `home.css` y `home.js` son autónomos (la home ya no
+carga `base.css`/`components.css`/`main.js`). Las fuentes están en `fonts/`
+(Archivo variable + IBM Plex Mono, licencia OFL), servidas desde el propio sitio.
+Las demás páginas siguen con el sistema anterior hasta que se apruebe la home.
+
+| Decisión | Por qué |
+|---|---|
+| Fondo claro cálido (hormigón) + secciones en acero azulado oscuro | Las fotos de celular se ven mucho mejor sobre claro; el gris oscuro uniforme era lo que más "template" parecía. El azul de marca queda como acento. |
+| Archivo (grotesca de ancho variable) + mono técnica | Sale de Inter. La mono para rótulos, números y medidas da lenguaje de plano/taller. |
+| Cotas de plano como motivo (hero, paso "medición") | "A medida" es la promesa central: se dibuja literalmente. |
+| Fotos como **archivo de obra**: copia impresa con marco blanco, número y tipo | Unifica fotos dispares sin retocarlas ni recortarlas (masonry, proporción original). Siguen siendo reales. |
+| Tira de obras en movimiento en el hero | 12 trabajos visibles en el primer pantallazo; volumen = prueba. Pausa al pasar el mouse; estática con movimiento reducido. |
+| Proceso interactivo | Cada paso tiene su panel: chat de ejemplo (marcado como tal), plano con cotas, foto de taller y foto colocada. |
+| Selector de líneas | Corte de perfil sobre papel cuadriculado + fichas con lo que dice el texto de cada línea (aberturas, vidrios, ideal para). Sin datos técnicos inventados. |
+| Configurador vidrio + color | Ventana ilustrativa que cambia en vivo; el botón manda la combinación por WhatsApp. Es información útil y a la vez un CTA. |
+| Formulario con "Tipo de trabajo" | **Bug corregido:** `enviar.php` exige `Tipo` y el formulario anterior de la home no lo enviaba, así que toda consulta desde la home fallaba. |
+
+Corrección de dato: el círculo de "Bronce colonial" era gris azulado (`#3A3F47`);
+se usa un marrón oscuro. Confirmar con una muestra real.
