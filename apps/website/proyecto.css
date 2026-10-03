@@ -31,7 +31,10 @@
 /* ─── Barra superior ─────────────────────────────────────── */
 .pj-top { display: flex; align-items: center; gap: 12px; padding: 0 12px 0 14px; background: rgba(255,255,255,0.92); border-bottom: 1px solid var(--pj-line); min-width: 0; z-index: 10; }
 .pj-top__logo { display: flex; align-items: center; gap: 8px; font-weight: 800; letter-spacing: 0.06em; font-size: 0.95rem; color: var(--pj-ink); text-decoration: none; }
-.pj-top__logo img { width: 34px; height: auto; filter: brightness(0) invert(22%) sepia(60%) saturate(2400%) hue-rotate(200deg) brightness(0.85); }
+.pj-top__logo img { width: 34px; height: auto; visibility: hidden; }
+/* el logo en el azul exacto de la marca (el archivo es blanco) */
+.pj-top__logo { position: relative; }
+.pj-top__logo::before { content: ''; position: absolute; left: 0; top: 50%; width: 34px; height: 24px; transform: translateY(-50%); background: var(--blue); -webkit-mask: url(/solologo.webp) center / contain no-repeat; mask: url(/solologo.webp) center / contain no-repeat; }
 .pj-top__t { font-size: 1rem; font-weight: 600; color: var(--pj-dim); padding-left: 12px; border-left: 1px solid var(--pj-line); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pj-top__acts { margin-left: auto; display: flex; align-items: center; gap: 4px; }
 .pj-top__wa { color: var(--wa) !important; }
