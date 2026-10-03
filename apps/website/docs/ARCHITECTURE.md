@@ -114,10 +114,14 @@ Tres archivos, sin framework ni build:
    la vista realista y la simulación "Ver cómo abren" del plano, y
    "Probalo en tu pared" (que ahora deforma la textura con homografía
    inversa por píxel, sin costuras).
-   **Protección**: para exportar (PDF, PNG, link) hay que enviar antes el
-   plano a Alumfer (nombre + teléfono); si el plano cambia, hay que
-   reenviarlo (firma del contenido). Todo lo exportado y la pantalla llevan
-   marca de agua; la lámina, además, la identificación de quien la generó.
+   **Protección**: los clientes no descargan nada desde la página. El PDF
+   (cada lámina en versión técnica y en versión ilustrativa en color) lo
+   arma el navegador (`pdfPlano`: JPEG por hoja dentro de un PDF propio,
+   sin librerías) y `enviar.php` lo manda adjunto al email del cliente y a
+   Alumfer (sólo PDF, ≤ 8 MB, máximo 6 planos por hora por IP). Por
+   WhatsApp se envía el resumen con el link del plano. La pantalla y las
+   hojas llevan marca de agua; la hoja, además, nombre, teléfono y fecha de
+   quien la pidió.
    El DXF y las hojas sin marca son sólo para el taller: `?taller` en la URL
    o el comando `TALLER` piden el código, que se valida contra su SHA-256
    (`HUELLA_TALLER` en `plano.js`; el código no está en el repositorio).

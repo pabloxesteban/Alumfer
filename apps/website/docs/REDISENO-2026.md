@@ -530,3 +530,20 @@ Pedido: que en el plano se vea la ventana simulada con su color y vidrio.
   - Límites honestos: una página web no puede bloquear capturas de pantalla
     ni impedir del todo que alguien copie el código; cobrar por guardar
     requiere una cuenta de Mercado Pago y un servidor (queda como opción).
+
+### N.4 PDF con la versión en color, y sin descargas desde la página
+
+- El PDF trae, por cada lámina, la **hoja técnica** y la **hoja ilustrativa
+  en color** (misma escala, mismas cotas y planilla; pared con su color o
+  ladrillo, aberturas con perfil, vidrio y agregados; techo traslúcido con
+  perfiles).
+- **No se descarga nada desde la página.** El cliente:
+  - lo manda por **WhatsApp** (resumen + link al chat de Alumfer), o
+  - deja su **email** y le llega el **PDF adjunto**; a Alumfer le llega
+    siempre la copia con el mismo PDF.
+- `enviar.php` acepta el adjunto sólo para planos, verifica que sea PDF,
+  limita el tamaño y frena a más de 6 planos por hora desde la misma IP
+  (para que nadie use el formulario para mandar archivos a cualquiera).
+- El taller (con código) sigue pudiendo descargar PDF, imagen y DXF.
+- Recomendación para el hosting: `upload_max_filesize` y `post_max_size`
+  de al menos 4 MB (el PDF se achica solo para quedar por debajo de 2 MB).

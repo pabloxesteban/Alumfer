@@ -539,13 +539,19 @@
     let s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${HOJA.w} ${HOJA.h}" width="${opts.px || HOJA.w + 'mm'}" height="${opts.px ? Math.round(opts.px * HOJA.h / HOJA.w) : HOJA.h + 'mm'}" font-family="'IBM Plex Mono', 'Courier New', monospace">`;
     if (opts.fuente) s += `<style>@font-face{font-family:'IBM Plex Mono';src:url(${opts.fuente}) format('woff2');}</style>`;
     s += `<rect width="${HOJA.w}" height="${HOJA.h}" fill="#fff"/>`;
-    s += aSvg(E.P, T, 1, 'papel');
+    let P = E.P;
+    if (opts.real) {
+      // versión ilustrativa en color: misma escala, mismas cotas
+      s += capaReal(L, P, { T, z: k, pre: 'rp' + idx, minPat: 0.6, tAb: () => 0 });
+      P = P.filter((q) => !(L.tipo === 'fachada' && q.obj && q.obj !== 'techo') && !q.placa);
+    }
+    s += aSvg(P, T, 1, 'papel');
     if (!taller && !opts.limpia) s += marcaLamina();
     // marco y rótulo
     const X0 = HOJA.x0, Y0 = HOJA.y0, X1 = HOJA.x1, Y1 = HOJA.y1, yr = Y1 - HOJA.rot, xc = X1 - HOJA.col;
     s += `<g fill="none" stroke="#000"><rect x="${X0}" y="${Y0}" width="${X1 - X0}" height="${Y1 - Y0}" stroke-width="0.5"/><path d="M${X0} ${yr}H${X1}M${xc} ${Y0}V${yr}" stroke-width="0.35"/></g>`;
     s += columnaLamina(L, xc, Y0, X1, yr);
-    s += rotulo(L, idx, E.den, X0, yr, X1, Y1);
+    s += rotulo(L, idx, E.den, X0, yr, X1, Y1, opts.real);
     // escala gráfica
     const paso = [10, 20, 25, 50, 100, 200, 500].find((v) => v * k >= 6) || 500;
     const bx = X0 + 4, by = yr - 5;
@@ -638,7 +644,7 @@
     ];
   }
 
-  function rotulo(L, idx, den, x0, y0, x1, y1) {
+  function rotulo(L, idx, den, x0, y0, x1, y1, real) {
     const h = y1 - y0, c1 = x0 + 68, c2 = c1 + 82, c3 = c2 + 62;
     let s = `<path d="M${c1} ${y0}V${y1}M${c2} ${y0}V${y1}M${c3} ${y0}V${y1}M${c2} ${y0 + h / 2}H${x1}" stroke="#000" stroke-width="0.25" fill="none"/>`;
     s += txt(x0 + 4, y0 + 9, 'ALUMFER', 5, { b: true, fam: 'Archivo, Arial, sans-serif' });
@@ -647,7 +653,7 @@
     s += txt(x0 + 4, y0 + 22.4, '(011) 6336-8643 · alumfer.com.ar', 1.8, { color: '#333' });
     s += txt(c1 + 3, y0 + 5, 'PLANO PARA PRESUPUESTO', 1.7, { color: '#444' });
     s += txt(c1 + 3, y0 + 11, L.nombre.toUpperCase(), 3.4, { b: true });
-    s += txt(c1 + 3, y0 + 16, L.tipo === 'fachada' ? 'Fachada · aberturas · vista desde el ' + (L.vista === 'exterior' ? 'exterior' : 'interior') : 'Techo · planta y corte A-A', 1.9);
+    s += txt(c1 + 3, y0 + 16, real ? 'Vista ilustrativa en color (colores y vidrios aproximados)' : L.tipo === 'fachada' ? 'Fachada · aberturas · vista desde el ' + (L.vista === 'exterior' ? 'exterior' : 'interior') : 'Techo · planta y corte A-A', 1.9);
     s += txt(c1 + 3, y0 + 22.4, 'Medidas en cm, tomadas por el cliente. A verificar en obra.', 1.6, { color: '#444' });
     s += txt(c2 + 3, y0 + 5, 'CLIENTE', 1.7, { color: '#444' });
     s += txt(c2 + 3, y0 + 10, plano.datos.cliente || '—', 2.4, { b: true });
@@ -879,33 +885,35 @@
     pedir();
     ga('plano_animar', { event_label: id ? A.tipo((L.items.find((i) => i.id === id) || {}).tipo || '').id : 'todas' });
   }
-  function capaReal(L, P) {
-    const z = cam.z, d = (pts) => pts.map((q, i) => (i ? 'L' : 'M') + aPant(q).map((v) => v.toFixed(1)).join(' ')).join('') + 'Z';
-    let s = `<defs><filter id="re-sombra" x="-70%" y="-20%" width="240%" height="150%"><feDropShadow dx="0" dy="${Math.max(1, 1.5 * z).toFixed(1)}" stdDeviation="${Math.max(1, 1.8 * z).toFixed(1)}" flood-color="#1B2530" flood-opacity="0.35"/></filter>` +
-      `<linearGradient id="re-cielo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9EC5E8"/><stop offset="0.62" stop-color="#DCEAF5"/><stop offset="0.63" stop-color="#9DB98A"/><stop offset="1" stop-color="#7E9B6C"/></linearGradient>` +
-      `<linearGradient id="re-adentro" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4A4F55"/><stop offset="1" stop-color="#2E3236"/></linearGradient>` +
-      `<linearGradient id="re-poli" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#B5D3EC"/><stop offset="0.45" stop-color="#E4F0F9"/><stop offset="0.55" stop-color="#D2E5F4"/><stop offset="1" stop-color="#A9CBE6"/></linearGradient>`;
+  // o: { T: mundo → destino, z: unidades destino por cm, pre: prefijo de ids, minPat, tAb: apertura por id }
+  function capaReal(L, P, o) {
+    o = o || {};
+    const T = o.T || aPant, z = o.z || cam.z, pre = o.pre || 're', minPat = o.minPat == null ? 3 : o.minPat, tAb = o.tAb || tAnim, d = (pts) => pts.map((q, i) => (i ? 'L' : 'M') + T(q).map((v) => v.toFixed(1)).join(' ')).join('') + 'Z';
+    let s = `<defs><filter id="${pre}-sombra" x="-70%" y="-20%" width="240%" height="150%"><feDropShadow dx="0" dy="${Math.max(minPat / 3, 1.5 * z).toFixed(1)}" stdDeviation="${Math.max(minPat / 3, 1.8 * z).toFixed(1)}" flood-color="#1B2530" flood-opacity="0.35"/></filter>` +
+      `<linearGradient id="${pre}-cielo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9EC5E8"/><stop offset="0.62" stop-color="#DCEAF5"/><stop offset="0.63" stop-color="#9DB98A"/><stop offset="1" stop-color="#7E9B6C"/></linearGradient>` +
+      `<linearGradient id="${pre}-adentro" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4A4F55"/><stop offset="1" stop-color="#2E3236"/></linearGradient>` +
+      `<linearGradient id="${pre}-poli" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#B5D3EC"/><stop offset="0.45" stop-color="#E4F0F9"/><stop offset="0.55" stop-color="#D2E5F4"/><stop offset="1" stop-color="#A9CBE6"/></linearGradient>`;
     const ladrillo = (x0, y0) => {
       const bw = 25 * z, bh = 6.5 * z;
-      if (bh < 3) return '';
-      return `<pattern id="re-ladrillo" patternUnits="userSpaceOnUse" width="${bw.toFixed(2)}" height="${(bh * 2).toFixed(2)}" x="${x0.toFixed(1)}" y="${y0.toFixed(1)}"><rect width="${bw}" height="${bh * 2}" fill="#B0614A"/><path d="M0 ${bh}H${bw}M0 ${bh * 2}H${bw}M${bw / 2} 0V${bh}M0 ${bh}V${bh * 2}" stroke="#E6D9CC" stroke-width="${Math.max(0.6, z * 0.9).toFixed(2)}" fill="none"/></pattern>`;
+      if (bh < minPat) return '';
+      return `<pattern id="${pre}-ladrillo" patternUnits="userSpaceOnUse" width="${bw.toFixed(2)}" height="${(bh * 2).toFixed(2)}" x="${x0.toFixed(1)}" y="${y0.toFixed(1)}"><rect width="${bw}" height="${bh * 2}" fill="#B0614A"/><path d="M0 ${bh}H${bw}M0 ${bh * 2}H${bw}M${bw / 2} 0V${bh}M0 ${bh}V${bh * 2}" stroke="#E6D9CC" stroke-width="${Math.max(minPat / 5, z * 0.9).toFixed(2)}" fill="none"/></pattern>`;
     };
     if (L.tipo === 'fachada') {
       const W = L.pared.ancho, H = L.pared.alto, pc = pared(L.paredColor);
-      const [ox, oy] = aPant([0, 0]);
+      const [ox, oy] = T([0, 0]);
       const pat = pc.id === 'ladrillo' ? ladrillo(ox, oy) : '';
       s += pat + '</defs>';
       // piso y pared
       s += `<path d="${d([[-30, 0], [W + 30, 0], [W + 30, -14], [-30, -14]])}" fill="#D9D3C8"/>`;
-      s += `<path d="${d([[0, 0], [W, 0], [W, H], [0, H]])}" fill="${pat ? 'url(#re-ladrillo)' : pc.color}"/>`;
+      s += `<path d="${d([[0, 0], [W, 0], [W, H], [0, H]])}" fill="${pat ? `url(#${pre}-ladrillo)` : pc.color}"/>`;
       // zócalo suave y luz cenital
       s += `<path d="${d([[0, 0], [W, 0], [W, 8], [0, 8]])}" fill="#000" fill-opacity="0.06"/>`;
       L.items.forEach((it) => {
-        const [x0, y0] = aPant([it.x, it.ante + it.alto]), w = it.ancho * z, h = it.alto * z;
+        const [x0, y0] = T([it.x, it.ante + it.alto]), w = it.ancho * z, h = it.alto * z;
         // lo que se ve a través del vidrio
-        s += `<rect x="${x0.toFixed(1)}" y="${y0.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" fill="url(#${L.vista === 'exterior' ? 're-adentro' : 're-cielo'})"/>`;
-        const svg = svgAbertura(it, tAnim(it.id)).replace('<svg ', `<svg x="0" y="0" width="${w.toFixed(1)}" height="${h.toFixed(1)}" `);
-        s += `<g filter="url(#re-sombra)" transform="translate(${x0.toFixed(1)} ${y0.toFixed(1)})">${svg}</g>`;
+        s += `<rect x="${x0.toFixed(1)}" y="${y0.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" fill="url(#${pre}-${L.vista === 'exterior' ? 'adentro' : 'cielo'})"/>`;
+        const svg = svgAbertura(it, tAb(it.id)).replace('<svg ', `<svg x="0" y="0" width="${w.toFixed(1)}" height="${h.toFixed(1)}" `);
+        s += `<g filter="url(#${pre}-sombra)" transform="translate(${x0.toFixed(1)} ${y0.toFixed(1)})">${svg}</g>`;
       });
       return s;
     }
@@ -916,12 +924,12 @@
       if (q.real === 'muro') s += `<path d="${d(q.p)}" fill="${pared('blanco').color}"/>`;
       else if (q.real === 'estr') s += `<path d="${d(q.p)}" fill="${estr}" stroke="#1F2933" stroke-opacity="0.35"/>`;
       else if (q.real === 'cubierta') {
-        s += `<path d="${d(q.p)}" fill="url(#re-poli)" fill-opacity="${comp ? 0.7 : 1}"/>`;
+        s += `<path d="${d(q.p)}" fill="url(#${pre}-poli)" fill-opacity="${comp ? 0.7 : 1}"/>`;
         if (q.angP != null) {
           // perfiles de aluminio a lo largo de la pendiente (ilustrativo)
-          const wpx = Math.max(1.6, 4 * z).toFixed(1);
-          let ds = rayado(q.p, q.angP, 105).map(([a, b]) => { const A1 = aPant(a), B1 = aPant(b); return `M${A1[0].toFixed(1)} ${A1[1].toFixed(1)}L${B1[0].toFixed(1)} ${B1[1].toFixed(1)}`; }).join('');
-          const wb = Math.max(2.4, 6 * z);
+          const wpx = Math.max(minPat / 2, 4 * z).toFixed(1);
+          let ds = rayado(q.p, q.angP, 105).map(([a, b]) => { const A1 = T(a), B1 = T(b); return `M${A1[0].toFixed(1)} ${A1[1].toFixed(1)}L${B1[0].toFixed(1)} ${B1[1].toFixed(1)}`; }).join('');
+          const wb = Math.max(minPat * 0.8, 6 * z);
           // borde oscuro debajo para que el perfil se lea en cualquier color
           s += `<path d="${ds}" stroke="#1F2933" stroke-opacity="0.35" stroke-width="${(+wpx + 1.6).toFixed(1)}" fill="none"/><path d="${ds}" stroke="${estr}" stroke-width="${wpx}" fill="none"/>`;
           s += `<path d="${d(q.p)}" fill="none" stroke="#1F2933" stroke-opacity="0.35" stroke-width="${(wb + 1.6).toFixed(1)}" stroke-linejoin="round"/><path d="${d(q.p)}" fill="none" stroke="${estr}" stroke-width="${wb.toFixed(1)}" stroke-linejoin="round"/>`;
@@ -1772,13 +1780,15 @@
     if (h === HUELLA_TALLER) {
       taller = true;
       try { sessionStorage.setItem('alumfer-taller', h); } catch (_) {}
-      raiz.classList.add('is-taller');
+      raiz.classList.add('is-taller'); document.body.classList.add('taller-on');
       aviso('Modo taller: DXF y hojas sin marca de agua habilitados.');
       cacheLam = null; pedir();
     } else aviso('Código incorrecto.');
   }
+  // Los clientes no descargan nada desde la página: el PDF les llega por
+  // email (y la copia a Alumfer). Las descargas directas son del taller.
   function exigirEnvio(accion) {
-    if (enviado()) return true;
+    if (taller) return true;
     abrirEnviar(accion);
     return false;
   }
@@ -1808,6 +1818,53 @@
     const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.drawImage(img, 0, 0, c.width, c.height);
     return new Promise((ok) => c.toBlob(ok, 'image/png'));
   }
+  // ── PDF: cada lámina en técnica + ilustrativa en color, como imágenes JPEG ──
+  async function jpegLamina(idx, real, px, q) {
+    const f = await fuente();
+    const svg = laminaSvg(idx, { px, fuente: f, real });
+    const img = new Image();
+    await new Promise((ok, mal) => { img.onload = ok; img.onerror = mal; img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); });
+    const h = Math.round(px * HOJA.h / HOJA.w), c = document.createElement('canvas'); c.width = px; c.height = h;
+    const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, px, h); g.drawImage(img, 0, 0, px, h);
+    const b = await new Promise((ok) => c.toBlob(ok, 'image/jpeg', q));
+    return { bytes: new Uint8Array(await b.arrayBuffer()), w: px, h };
+  }
+  function armarPdf(paginas) {
+    const enc = new TextEncoder(), partes = [], offs = [];
+    let len = 0;
+    const push = (x) => { const b = typeof x === 'string' ? enc.encode(x) : x; partes.push(b); len += b.length; };
+    const obj = (n, cuerpo, flujo) => {
+      offs[n] = len; push(`${n} 0 obj\n`); push(cuerpo);
+      if (flujo) { push('\nstream\n'); push(flujo); push('\nendstream'); }
+      push('\nendobj\n');
+    };
+    push('%PDF-1.4\n%\u00e2\u00e3\u00cf\u00d3\n');
+    const n = paginas.length, kids = paginas.map((_, i) => `${4 + i * 3} 0 R`).join(' ');
+    obj(1, '<< /Type /Catalog /Pages 2 0 R >>');
+    obj(2, `<< /Type /Pages /Kids [${kids}] /Count ${n} >>`);
+    obj(3, '<< /Title (Plano Alumfer) /Author (alumfer.com.ar) /Producer (alumfer.com.ar) /Subject (Uso exclusivo para presupuestar con Alumfer) >>');
+    paginas.forEach((pg, i) => {
+      const np = 4 + i * 3, nc = np + 1, ni = np + 2, cont = `q 842 0 0 595 0 0 cm /Im${i} Do Q`;
+      obj(np, `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 842 595] /Resources << /XObject << /Im${i} ${ni} 0 R >> >> /Contents ${nc} 0 R >>`);
+      obj(nc, `<< /Length ${cont.length} >>`, cont);
+      obj(ni, `<< /Type /XObject /Subtype /Image /Width ${pg.w} /Height ${pg.h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${pg.bytes.length} >>`, pg.bytes);
+    });
+    const total = 4 + n * 3, xref = len;
+    let x = `xref\n0 ${total}\n0000000000 65535 f \n`;
+    for (let k = 1; k < total; k++) x += String(offs[k]).padStart(10, '0') + ' 00000 n \n';
+    push(x + `trailer\n<< /Size ${total} /Root 1 0 R /Info 3 0 R >>\nstartxref\n${xref}\n%%EOF\n`);
+    return new Blob(partes, { type: 'application/pdf' });
+  }
+  // achica la resolución si el PDF quedaría muy pesado para el email
+  async function pdfPlano() {
+    for (const [px, q] of [[2000, 0.82], [1700, 0.74], [1400, 0.66]]) {
+      const pag = [];
+      for (let i = 0; i < plano.laminas.length; i++) { pag.push(await jpegLamina(i, false, px, q)); pag.push(await jpegLamina(i, true, px, q)); }
+      const pdf = armarPdf(pag);
+      if (pdf.size < 1900 * 1024 || px === 1400) return pdf;
+    }
+  }
+
   async function exportarPng() {
     if (!exigirEnvio('png')) return;
     const b = await pngBlob(plano.activa);
@@ -1817,7 +1874,7 @@
   function exportarPdf() {
     if (!exigirEnvio('pdf')) return;
     const box = $('#cad-print');
-    box.innerHTML = plano.laminas.map((_, i) => `<div class="cad-print__hoja">${laminaSvg(i)}</div>`).join('');
+    box.innerHTML = plano.laminas.map((_, i) => `<div class="cad-print__hoja">${laminaSvg(i)}</div><div class="cad-print__hoja">${laminaSvg(i, { real: true })}</div>`).join('');
     ga('plano_pdf');
     setTimeout(() => window.print(), 60);
   }
@@ -1874,22 +1931,20 @@
   function marcarEnvio() {
     const f = $('form', dlgEnv);
     plano.envio = { fecha: new Date().toISOString().slice(0, 10), tel: f['Teléfono'].value.trim(), nombre: f.Nombre.value.trim(), firma: firma() };
-    guardar(); estadoEnvio(); cacheLam = null; pedir();
+    guardar(); cacheLam = null; pedir();
   }
-  function estadoEnvio() {
-    const ok = enviado();
-    dlgEnv.classList.toggle('is-enviado', ok);
-    $$('[data-env="pdf"], [data-env="png"]', dlgEnv).forEach((b) => { b.disabled = !ok; b.title = ok ? '' : 'Se habilita al enviar el plano'; });
-    $$('.cad-menu [data-act]', raiz).forEach((b) => b.classList.toggle('is-bloq', !ok && b.dataset.act !== 'dxf'));
+  function estadoEnvio(texto) {
+    dlgEnv.classList.toggle('is-enviado', !!texto);
+    const ok = $('.cad-enviar__ok', dlgEnv); if (ok && texto) ok.textContent = texto;
   }
   function abrirEnviar(motivo) {
     const f = $('form', dlgEnv);
     const msj = $('.cad-enviar__motivo', dlgEnv);
+    estadoEnvio('');
     if (msj) {
-      msj.hidden = !motivo || enviado();
-      msj.textContent = plano.envio ? 'Cambiaste el plano después de enviarlo: mandanos esta versión y se habilita la descarga.' : 'Para descargar, imprimir o compartir el plano, primero mandánoslo. Es gratis y sin compromiso: así lo tenemos para presupuestarte.';
+      msj.hidden = !motivo;
+      msj.textContent = 'El plano no se descarga desde la página: mandalo por WhatsApp o dejanos tu email y te llega el PDF (técnico y en color). Es gratis y sin compromiso.';
     }
-    estadoEnvio();
     f.Nombre.value = plano.datos.cliente || f.Nombre.value;
     f.Localidad.value = plano.datos.localidad || f.Localidad.value;
     $('.cad-enviar__resumen', dlgEnv).textContent = resumenTexto();
@@ -1904,26 +1959,32 @@
     const txt = `Hola, soy ${plano.datos.cliente || '(nombre)'}${plano.datos.localidad ? ', de ' + plano.datos.localidad : ''}. Les mando mi plano para presupuesto, hecho en alumfer.com.ar:\n\n` + resumenTexto(link) + (f.Consulta.value.trim() ? '\n\nComentario: ' + f.Consulta.value.trim() : '');
     window.open(`https://wa.me/${WA}?text=${encodeURIComponent(txt)}`, '_blank', 'noopener');
     marcarEnvio();
+    estadoEnvio('✓ Abrimos WhatsApp con tu plano. Si además querés el PDF, dejanos tu email y tocá «Recibir el PDF por email».');
     ga('plano_whatsapp');
   }
   async function enviarForm(e) {
     e.preventDefault();
     const f = e.target, btn = $('[type="submit"]', f), lbl = btn.textContent;
     plano.datos.cliente = f.Nombre.value.trim(); plano.datos.localidad = f.Localidad.value.trim(); guardar();
-    btn.disabled = true; btn.textContent = 'Enviando…';
+    btn.disabled = true; btn.textContent = 'Armando el PDF…';
+    marcarEnvio();   // la marca de agua del PDF lleva nombre, teléfono y fecha
     try {
+      const pdf = await pdfPlano();
+      btn.textContent = 'Enviando…';
       const fd = new FormData(f);
+      fd.set('Plano', new File([pdf], 'plano-alumfer.pdf', { type: 'application/pdf' }));
       fd.set('Consulta', (f.Consulta.value.trim() ? f.Consulta.value.trim() + '\n\n' : '') + 'PLANO DESDE LA WEB\n' + resumenTexto(await linkPlano()));
       const res = await fetch('/enviar.php', { method: 'POST', headers: { Accept: 'application/json' }, body: fd });
       const data = await res.json();
       if (!data.success) throw new Error(data.message);
       ga('plano_formulario');
       marcarEnvio();
-      btn.disabled = false; btn.textContent = '¡Enviado!';
-      aviso('¡Listo! Recibimos tu plano. Ya podés descargarlo.');
-    } catch (_) {
       btn.disabled = false; btn.textContent = lbl;
-      alert('No pudimos enviar el plano. Probá por WhatsApp o llamanos al (011) 6336-8643.');
+      estadoEnvio(`✓ ¡Listo! Te mandamos el PDF a ${f.Email.value.trim()} y nosotros ya lo tenemos para presupuestarte.`);
+      aviso('Plano enviado. Revisá tu email.');
+    } catch (err) {
+      btn.disabled = false; btn.textContent = lbl;
+      alert((err && err.message && err.message.length < 140 ? err.message + '\n\n' : '') + 'No pudimos enviar el plano. Probá por WhatsApp o llamanos al (011) 6336-8643.');
     }
   }
 
@@ -2017,11 +2078,12 @@
     dlgInicio.addEventListener('click', (e) => { const nv = e.target.closest('[data-nivel]'); if (nv) { setNivel(nv.dataset.nivel); return; } const b = e.target.closest('[data-inicio]'); if (!b) return; if (b.dataset.inicio === 'seguir') { dlgInicio.close(); return; } arrancar(b.dataset.inicio); });
     dlgInicio.addEventListener('cancel', (e) => { if (!plano.laminas.length) e.preventDefault(); });
     dlgEnv.addEventListener('click', (e) => { if (e.target === dlgEnv || e.target.closest('[data-cerrar]')) dlgEnv.close(); if (e.target.closest('[data-env="wa"]')) enviarWa(); if (e.target.closest('[data-env="pdf"]')) exportarPdf(); if (e.target.closest('[data-env="png"]')) exportarPng(); });
+    dlgEnv.addEventListener('close', () => estadoEnvio(''));
     $('form', dlgEnv).addEventListener('submit', enviarForm);
     window.addEventListener('afterprint', () => { $('#cad-print').innerHTML = AVISO_IMPRIMIR; });
     $('#cad-print').innerHTML = AVISO_IMPRIMIR;
     // Ctrl/Cmd+P sin haber enviado: abre el envío
-    document.addEventListener('keydown', (e) => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'p' && !enviado()) { e.preventDefault(); abrirEnviar('pdf'); } }, true);
+    document.addEventListener('keydown', (e) => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'p' && !taller) { e.preventDefault(); abrirEnviar('pdf'); } }, true);
     ui.svg.addEventListener('dragstart', (e) => e.preventDefault());
   }
   async function copiarLink() {
@@ -2034,7 +2096,7 @@
 
   (async function iniciar() {
     setNivel(nivel, true);
-    if (taller) raiz.classList.add('is-taller');
+    if (taller) { raiz.classList.add('is-taller'); document.body.classList.add('taller-on'); }
     enlazar();
     if (new URLSearchParams(location.search).has('taller') && !taller) setTimeout(pedirTaller, 400);
     medir();
@@ -2049,11 +2111,10 @@
       else if (q === 'techo' || q === 'fachada') { if (!plano.laminas.some((l) => l.tipo === q)) agregarLamina(q); else { plano.activa = plano.laminas.findIndex((l) => l.tipo === q); todo(); zoomExt(); } }
       $('[data-inicio="seguir"]', dlgInicio).hidden = false;
     }
-    estadoEnvio();
     log('Listo. Escribí ? y Enter para ver los comandos.');
     raiz.classList.add('is-ready');
   })();
 
   // para pruebas automáticas
-  window.__plano = { get: () => plano, pant: (p) => aPant(p), dxf: exportarDxf, lamina: (i) => laminaSvg(i == null ? plano.activa : i), escala: (i) => escalaLamina(plano.laminas[i == null ? plano.activa : i]).den, codificar, decodificar, cam };
+  window.__plano = { pdf: pdfPlano, get: () => plano, pant: (p) => aPant(p), dxf: exportarDxf, lamina: (i) => laminaSvg(i == null ? plano.activa : i), escala: (i) => escalaLamina(plano.laminas[i == null ? plano.activa : i]).den, codificar, decodificar, cam };
 })();

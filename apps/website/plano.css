@@ -481,3 +481,6 @@ html:has(.page-plano) { height: 100%; overflow: hidden; }
 .cad-print__aviso { display: grid; place-items: center; align-content: center; gap: 10px; height: 180mm; text-align: center; font-family: Arial, sans-serif; }
 .cad-print__aviso b { font-size: 28pt; letter-spacing: 0.08em; }
 .cad-print__aviso p { font-size: 13pt; max-width: 140mm; }
+/* Sólo el taller descarga directo; los clientes reciben el PDF por email */
+.cad:not(.is-taller) .cad-solo-taller, body:not(.taller-on) .cad-enviar .cad-solo-taller { display: none !important; }
+.cad-enviar__ok:empty { display: none !important; }
