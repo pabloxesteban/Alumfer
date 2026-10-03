@@ -486,3 +486,19 @@ momento (selector arriba y en la pantalla de inicio); el plano es el mismo.
     cambio; se quitan del dibujo las letras de lados y el corte (que sigue
     en la hoja final).
 - **Avanzado**: la interfaz CAD de antes, sin cambios.
+
+### N.2 Vista realista en el plano
+
+Pedido: que en el plano se vea la ventana simulada con su color y vidrio.
+
+- Botón **Vista realista** (encendido por defecto, en Simple y Avanzado):
+  ventanas y puertas con el color del perfil, el vidrio (transparente,
+  esmerilado, espejado, DVH) y el mosquitero, con el mismo motor del
+  diseñador y de "Probalo en tu pared"; a través del vidrio se ve cielo si
+  la pared se mira desde adentro, o el interior si se mira desde afuera.
+- **Color de la pared**: blanca, arena, gris, gris oscuro o ladrillo visto,
+  más la opción "La estás mirando desde adentro/afuera".
+- **Techos**: policarbonato traslúcido con los perfiles de aluminio en el
+  color elegido (ilustrativo, no indica la separación real de perfiles).
+- Las cotas, marcas y avisos siguen encima. La hoja que se manda (PDF/PNG)
+  y el DXF quedan en formato técnico, que es lo que sirve para presupuestar.

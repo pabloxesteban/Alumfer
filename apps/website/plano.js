@@ -269,7 +269,7 @@
   // ── Escena: fachada ─────────────────────────────────────────
   function escenaFachada(L, k, ctx) {
     const P = [], W = L.pared.ancho, H = L.pared.alto, refs = ctx.refs;
-    P.push(Pg([[0, 0], [W, 0], [W, H], [0, H]], 'MURO'));
+    P.push(Pg([[0, 0], [W, 0], [W, H], [0, H]], 'MURO', { real: 'pared' }));
     const ext = 18 + 4 / k;
     P.push(Ln([-ext, 0], [W + ext, 0], 'MURO', { grueso: true }));
     rayado([[-ext, 0], [W + ext, 0], [W + ext, -2.5 / k], [-ext, -2.5 / k]], 45, 1.3 / k).forEach((s) => P.push(Ln(s[0], s[1], 'RAYADO')));
@@ -317,7 +317,7 @@
     // pared de apoyo (hacia afuera del techo), rayada
     const e = 15, oa = [g.a[0] - g.inx * e, g.a[1] - g.iny * e], ob = [g.b[0] - g.inx * e, g.b[1] - g.iny * e];
     const muro = [g.a, g.b, ob, oa];
-    P.push(Pg(muro, 'MURO'));
+    P.push(Pg(muro, 'MURO', { real: 'muro' }));
     rayado(muro, 45, 1.3 / k).forEach((s) => P.push(Ln(s[0], s[1], 'RAYADO')));
     const mm = [(oa[0] + ob[0]) / 2 - g.inx * 2.4 / k, (oa[1] + ob[1]) / 2 - g.iny * 2.4 / k];
     let angM = Math.atan2(g.uy, g.ux) * 180 / Math.PI; if (angM > 90.5 || angM <= -89.5) angM += 180;
@@ -325,8 +325,8 @@
 
     // sentido de las placas: paralelo a la pendiente
     const angP = Math.atan2(g.iny, g.inx) * 180 / Math.PI;
-    rayado(p, angP, Math.max(30, 6 / k)).forEach((s) => P.push(Ln(s[0], s[1], 'RAYADO')));
-    P.push(Pg(p, 'TECHO', { obj: 'techo' }));
+    rayado(p, angP, Math.max(30, 6 / k)).forEach((s) => P.push(Ln(s[0], s[1], 'RAYADO', { placa: true })));
+    P.push(Pg(p, 'TECHO', { obj: 'techo', real: 'cubierta', angP }));
 
     // columnas
     (L.columnas || []).forEach((c) => {
@@ -387,10 +387,10 @@
     P.push(Ln(C(-15 - ext, 0), C(D + ext, 0), 'MURO', { grueso: true }));
     rayado([C(-15 - ext, 0), C(D + ext, 0), C(D + ext, -2.5 / k), C(-15 - ext, -2.5 / k)], 45, 1.3 / k).forEach((s) => P.push(Ln(s[0], s[1], 'RAYADO')));
     const mur = [C(-15, 0), C(0, 0), C(0, ha + 40), C(-15, ha + 40)];
-    P.push(Pg(mur, 'MURO')); rayado(mur, 45, 1.3 / k).forEach((s) => P.push(Ln(s[0], s[1], 'RAYADO')));
+    P.push(Pg(mur, 'MURO', { real: 'muro' })); rayado(mur, 45, 1.3 / k).forEach((s) => P.push(Ln(s[0], s[1], 'RAYADO')));
     const esp = 6;
-    P.push(Pg([C(0, ha), C(D, hb), C(D, hb + esp), C(0, ha + esp)], 'TECHO'));
-    P.push(Pg([C(D - 8, 0), C(D, 0), C(D, hb), C(D - 8, hb)], 'ESTR', (L.columnas || []).length ? {} : { trazo: 'DASH' }));
+    P.push(Pg([C(0, ha), C(D, hb), C(D, hb + esp), C(0, ha + esp)], 'TECHO', { real: 'cubierta' }));
+    P.push(Pg([C(D - 8, 0), C(D, 0), C(D, hb), C(D - 8, hb)], 'ESTR', (L.columnas || []).length ? { real: 'estr' } : { trazo: 'DASH' }));
     cota(P, C(0, 0), C(0, ha), 8 + 15 * k, k);
     cota(P, C(D, 0), C(D, hb), -8, k);
     cota(P, C(0, 0), C(D, 0), -8, k, null, { desde: 4 });
@@ -750,8 +750,13 @@
       return;
     }
     const k = kPant();
-    const P = escena(L, k, apilarPant(), flagsPant());
+    let P = escena(L, k, apilarPant(), flagsPant());
     let s = `<rect width="${vw}" height="${vh}" fill="${fondoPant()}"/>` + grilla();
+    if (vistaReal) {
+      s += capaReal(L, P);
+      // las líneas técnicas de las aberturas y de las placas las reemplaza el dibujo realista
+      P = P.filter((q) => !(L.tipo === 'fachada' && q.obj && q.obj !== 'techo') && !q.placa);
+    }
     s += aSvg(P, aPant, mmpx(), 'pantalla');
     s += overlay(L, P);
     // ícono de ejes (SCU) en la esquina, como en CAD
@@ -762,6 +767,79 @@
     // escala gráfica en pantalla
     let paso = 10; while (paso * cam.z < 60) paso *= paso === 10 || paso === 100 || paso === 1000 ? 5 : 2;
     if (ui.escala) { ui.escala.style.width = Math.round(paso * cam.z) + 'px'; ui.escala.dataset.l = paso >= 100 ? (paso / 100) + ' m' : paso + ' cm'; }
+  }
+
+  // ── Vista realista (sólo pantalla): aberturas con color y vidrio ──
+  const PAREDES = [
+    { id: 'blanco', nombre: 'Blanca', color: '#F0EDE6' },
+    { id: 'arena', nombre: 'Arena', color: '#E4D5BA' },
+    { id: 'gris', nombre: 'Gris', color: '#C8CBCE' },
+    { id: 'grafito', nombre: 'Gris oscuro', color: '#6D7277' },
+    { id: 'ladrillo', nombre: 'Ladrillo visto', color: '#B0614A' },
+  ];
+  const pared = (id) => PAREDES.find((x) => x.id === id) || PAREDES[0];
+  let vistaReal = true;
+  try { vistaReal = localStorage.getItem('alumfer-plano-vista') !== 'tecnica'; } catch (_) {}
+  const cacheAb = new Map();
+  function svgAbertura(it) {
+    const key = [it.tipo, Math.round(it.ancho), Math.round(it.alto), it.color, it.vidrio, it.mosquitero ? 1 : 0].join('|');
+    if (!cacheAb.has(key)) {
+      if (cacheAb.size > 150) cacheAb.clear();
+      cacheAb.set(key, A.dibujar({ tipo: it.tipo, ancho: it.ancho, alto: it.alto, color: it.color, vidrio: it.vidrio, mosquitero: it.mosquitero }, { foto: true, luz: 1 }));
+    }
+    return cacheAb.get(key);
+  }
+  function capaReal(L, P) {
+    const z = cam.z, d = (pts) => pts.map((q, i) => (i ? 'L' : 'M') + aPant(q).map((v) => v.toFixed(1)).join(' ')).join('') + 'Z';
+    let s = `<defs><filter id="re-sombra" x="-10%" y="-10%" width="130%" height="140%"><feDropShadow dx="0" dy="${Math.max(1, 1.5 * z).toFixed(1)}" stdDeviation="${Math.max(1, 1.8 * z).toFixed(1)}" flood-color="#1B2530" flood-opacity="0.35"/></filter>` +
+      `<linearGradient id="re-cielo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9EC5E8"/><stop offset="0.62" stop-color="#DCEAF5"/><stop offset="0.63" stop-color="#9DB98A"/><stop offset="1" stop-color="#7E9B6C"/></linearGradient>` +
+      `<linearGradient id="re-adentro" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4A4F55"/><stop offset="1" stop-color="#2E3236"/></linearGradient>` +
+      `<linearGradient id="re-poli" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#B5D3EC"/><stop offset="0.45" stop-color="#E4F0F9"/><stop offset="0.55" stop-color="#D2E5F4"/><stop offset="1" stop-color="#A9CBE6"/></linearGradient>`;
+    const ladrillo = (x0, y0) => {
+      const bw = 25 * z, bh = 6.5 * z;
+      if (bh < 3) return '';
+      return `<pattern id="re-ladrillo" patternUnits="userSpaceOnUse" width="${bw.toFixed(2)}" height="${(bh * 2).toFixed(2)}" x="${x0.toFixed(1)}" y="${y0.toFixed(1)}"><rect width="${bw}" height="${bh * 2}" fill="#B0614A"/><path d="M0 ${bh}H${bw}M0 ${bh * 2}H${bw}M${bw / 2} 0V${bh}M0 ${bh}V${bh * 2}" stroke="#E6D9CC" stroke-width="${Math.max(0.6, z * 0.9).toFixed(2)}" fill="none"/></pattern>`;
+    };
+    if (L.tipo === 'fachada') {
+      const W = L.pared.ancho, H = L.pared.alto, pc = pared(L.paredColor);
+      const [ox, oy] = aPant([0, 0]);
+      const pat = pc.id === 'ladrillo' ? ladrillo(ox, oy) : '';
+      s += pat + '</defs>';
+      // piso y pared
+      s += `<path d="${d([[-30, 0], [W + 30, 0], [W + 30, -14], [-30, -14]])}" fill="#D9D3C8"/>`;
+      s += `<path d="${d([[0, 0], [W, 0], [W, H], [0, H]])}" fill="${pat ? 'url(#re-ladrillo)' : pc.color}"/>`;
+      // zócalo suave y luz cenital
+      s += `<path d="${d([[0, 0], [W, 0], [W, 8], [0, 8]])}" fill="#000" fill-opacity="0.06"/>`;
+      L.items.forEach((it) => {
+        const [x0, y0] = aPant([it.x, it.ante + it.alto]), w = it.ancho * z, h = it.alto * z;
+        // lo que se ve a través del vidrio
+        s += `<rect x="${x0.toFixed(1)}" y="${y0.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" fill="url(#${L.vista === 'exterior' ? 're-adentro' : 're-cielo'})"/>`;
+        const svg = svgAbertura(it).replace('<svg ', `<svg x="0" y="0" width="${w.toFixed(1)}" height="${h.toFixed(1)}" `);
+        const espejo = tieneMano(A.tipo(it.tipo)) && it.mano === 'der';
+        s += `<g filter="url(#re-sombra)" transform="translate(${x0.toFixed(1)} ${y0.toFixed(1)})${espejo ? ` translate(${w.toFixed(1)} 0) scale(-1 1)` : ''}">${svg}</g>`;
+      });
+      return s;
+    }
+    s += '</defs>';
+    const estr = A.color(L.color).solido, comp = L.material === 'compacto';
+    P.forEach((q) => {
+      if (!q.real || q.t !== 'p') return;
+      if (q.real === 'muro') s += `<path d="${d(q.p)}" fill="${pared('blanco').color}"/>`;
+      else if (q.real === 'estr') s += `<path d="${d(q.p)}" fill="${estr}" stroke="#1F2933" stroke-opacity="0.35"/>`;
+      else if (q.real === 'cubierta') {
+        s += `<path d="${d(q.p)}" fill="url(#re-poli)" fill-opacity="${comp ? 0.7 : 1}"/>`;
+        if (q.angP != null) {
+          // perfiles de aluminio a lo largo de la pendiente (ilustrativo)
+          const wpx = Math.max(1.6, 4 * z).toFixed(1);
+          let ds = rayado(q.p, q.angP, 105).map(([a, b]) => { const A1 = aPant(a), B1 = aPant(b); return `M${A1[0].toFixed(1)} ${A1[1].toFixed(1)}L${B1[0].toFixed(1)} ${B1[1].toFixed(1)}`; }).join('');
+          const wb = Math.max(2.4, 6 * z);
+          // borde oscuro debajo para que el perfil se lea en cualquier color
+          s += `<path d="${ds}" stroke="#1F2933" stroke-opacity="0.35" stroke-width="${(+wpx + 1.6).toFixed(1)}" fill="none"/><path d="${ds}" stroke="${estr}" stroke-width="${wpx}" fill="none"/>`;
+          s += `<path d="${d(q.p)}" fill="none" stroke="#1F2933" stroke-opacity="0.35" stroke-width="${(wb + 1.6).toFixed(1)}" stroke-linejoin="round"/><path d="${d(q.p)}" fill="none" stroke="${estr}" stroke-width="${wb.toFixed(1)}" stroke-linejoin="round"/>`;
+        }
+      }
+    });
+    return s;
   }
 
   // selección, pinzamientos (grips) y avisos sobre la vista
@@ -1151,6 +1229,7 @@
     redo: '<path d="M15 7l5 5-5 5"/><path d="M20 12H9a5 5 0 000 10h3"/>',
     lam: '<rect x="3" y="5" width="18" height="14"/><path d="M14 15h7M14 15v4"/>',
     del: '<path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/>',
+    real: '<path d="M3 17l5-6 4 4 3-3 6 5"/><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="16" cy="8.5" r="1.6"/>',
     rep: '<path d="M3 5v14M21 5v14"/><rect x="6" y="8" width="4" height="8"/><rect x="14" y="8" width="4" height="8"/>',
   };
   const icono = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">${ICO[k]}</svg>`;
@@ -1165,6 +1244,7 @@
       } else {
         s += b('col', 'Agregar columna', `data-herr="columna" aria-pressed="${herramienta === 'columna'}"`, 'Columna');
       }
+      s += b('real', 'Vista realista', `data-act="real" aria-pressed="${vistaReal}"`, 'Realista');
       s += b('undo', 'Deshacer', 'data-act="undo"') + b('zoom', 'Ver todo', 'data-act="zoom"');
       s += b('lam', modo === 'lamina' ? 'Volver a dibujar' : 'Ver la hoja', 'data-act="modo"', modo === 'lamina' ? 'Dibujar' : 'Ver hoja');
       ui.tools.innerHTML = s.replace(' class="is-main"', '').replace('class="cad__tool" data-act="biblioteca"', 'class="cad__tool cad__tool--main" data-act="biblioteca"');
@@ -1180,6 +1260,7 @@
       s += b('ele', 'En L', 'data-forma="ele"');
     }
     s += '<span class="cad__sep" aria-hidden="true"></span>';
+    s += b('real', 'Realista', `data-act="real" aria-pressed="${vistaReal}"`);
     s += b('zoom', 'Encuadrar', 'data-act="zoom"', 'Ver todo') + b('undo', 'Deshacer', 'data-act="undo"') + b('redo', 'Rehacer', 'data-act="redo"');
     s += b('lam', 'Lámina', 'data-act="modo"');
     ui.tools.innerHTML = s;
@@ -1233,7 +1314,10 @@
     const datos = `<div class="ps-datos"><label class="pp"><span>Tu nombre</span><input type="text" data-d="cliente" value="${esc(plano.datos.cliente)}" maxlength="60" autocomplete="name"></label><label class="pp"><span>Localidad de la obra</span><input type="text" data-d="localidad" value="${esc(plano.datos.localidad)}" maxlength="60"></label></div>` +
       `<div class="ps-fin"><button type="button" class="ps-boton ps-boton--line" data-act="modo">Ver cómo queda la hoja</button><button type="button" class="ps-boton" data-act="enviar">Enviar a Alumfer</button></div>`;
     if (L.tipo === 'fachada') {
-      s += paso(1, 'Medí la pared', `<div class="ps-grid">${numS('p.ancho', 'Ancho', L.pared.ancho, { ayuda: 'De punta a punta' })}${numS('p.alto', 'Alto', L.pared.alto, { ayuda: 'Del piso al techo' })}</div>`);
+      const pc = pared(L.paredColor).id;
+      s += paso(1, 'Medí la pared', `<div class="ps-grid">${numS('p.ancho', 'Ancho', L.pared.ancho, { ayuda: 'De punta a punta' })}${numS('p.alto', 'Alto', L.pared.alto, { ayuda: 'Del piso al techo' })}</div>` +
+        `<div class="ps-pared"><span class="ps__lbl"><span>Color de la pared</span></span><div role="group" aria-label="Color de la pared">${PAREDES.map((x) => `<button type="button" data-pcolor="${x.id}" aria-pressed="${x.id === pc}" title="${x.nombre}"><i class="${x.id === 'ladrillo' ? 'is-ladrillo' : ''}" style="background:${x.color}"></i><span>${x.nombre}</span></button>`).join('')}</div></div>` +
+        selS('vista', 'La estás mirando desde', opt('interior', 'Adentro de la casa', L.vista) + opt('exterior', 'Afuera (la calle o el patio)', L.vista)));
       const items = L.items.slice().sort((a, b) => a.x - b.x);
       let lista = items.map((a) => {
         const t = A.tipo(a.tipo), abierta = sel && sel.tipo === 'ab' && sel.id === a.id;
@@ -1313,6 +1397,7 @@
       titulo = (sel && sel.tipo === 'pared') ? 'Pared' : L.nombre;
       s += `<div class="pp-grid pp-grid--2">${num('p.ancho', 'Ancho de la pared', L.pared.ancho, ' min="50"')}${num('p.alto', 'Alto de la pared', L.pared.alto, ' min="50"')}</div>`;
       s += `<div class="pp-grid pp-grid--2"><label class="pp"><span>Nombre de la lámina</span><input type="text" data-k="nombre" value="${esc(L.nombre)}" maxlength="40"></label>${selCampo('vista', 'Vista desde el', opt('interior', 'Interior', L.vista) + opt('exterior', 'Exterior', L.vista))}</div>`;
+      s += `<div class="pp-grid">${selCampo('paredColor', 'Color de la pared (vista realista)', PAREDES.map((x) => opt(x.id, x.nombre, pared(L.paredColor).id)).join(''))}</div>`;
       const filas = planilla(L, refs);
       s += `<h4 class="pp-sub">Planilla de carpinterías</h4>`;
       s += filas.length ? `<ul class="pp-list">${filas.map((f) => `<li><button type="button" data-ir="${f.it.id}"><b>${f.ref}</b><span>${esc(A.tipo(f.it.tipo).nombre)}<small>${fmt(f.it.ancho)} × ${fmt(f.it.alto)} cm · ${esc(detalleItem(f.it))}</small></span><em>× ${f.cant}</em></button></li>`).join('')}</ul>` : '<p class="pp-vacio">Todavía no hay aberturas. Tocá <b>Abertura</b> para agregar la primera.</p>';
@@ -1358,7 +1443,8 @@
     if (el.dataset.id) sel = { tipo: 'ab', id: el.dataset.id };
     if (k.startsWith('s.')) { cambio(() => formaParam(L, k.slice(2), v), null, true); zoomSuave(); return; }
     cambio(() => {
-      if (k === 'p.ancho') L.pared.ancho = clamp(v, 50, 3000);
+      if (k === 'paredColor' || k === 'vista') L[k] = v;
+      else if (k === 'p.ancho') L.pared.ancho = clamp(v, 50, 3000);
       else if (k === 'p.alto') L.pared.alto = clamp(v, 50, 1500);
       else if (L.tipo === 'fachada' && sel && sel.tipo === 'ab') {
         const a = L.items.find((i) => i.id === sel.id);
@@ -1396,6 +1482,8 @@
       if (inp) { inp.value = Math.max(0, Math.round((parseFloat(inp.value) || 0) + +st.dataset.delta)); inp.dispatchEvent(new Event('change', { bubbles: true })); }
       return;
     }
+    const pcb = e.target.closest('[data-pcolor]');
+    if (pcb) { cambio(() => { lam().paredColor = pcb.dataset.pcolor; }); if (!vistaReal) aviso('El color de la pared se ve con la vista realista.'); return; }
     const fz = e.target.closest('[data-sforma]');
     if (fz) { cambio(() => formaParam(lam(), 'forma', fz.dataset.sforma), fz.dataset.sforma === 'ele' ? 'Forma en L.' : 'Forma rectangular.'); zoomExt(); return; }
     const b = e.target.closest('[data-pp], [data-ir]'); if (!b) return;
@@ -1720,6 +1808,13 @@
       if (a === 'biblioteca') abrirBiblioteca();
       else if (a === 'boceto') traerBoceto();
       else if (a === 'repartir') repartir();
+      else if (a === 'real') {
+        vistaReal = !vistaReal;
+        try { localStorage.setItem('alumfer-plano-vista', vistaReal ? 'real' : 'tecnica'); } catch (_) {}
+        pintarTools(); pedir();
+        aviso(vistaReal ? 'Vista realista: colores y vidrios ilustrativos. La hoja final sale en formato técnico.' : 'Vista técnica, como sale en la hoja.');
+        ga('plano_vista', { event_label: vistaReal ? 'real' : 'tecnica' });
+      }
       else if (a === 'zoom') zoomExt();
       else if (a === 'undo') deshacer();
       else if (a === 'redo') rehacerFn();

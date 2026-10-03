@@ -451,3 +451,11 @@ html:has(.page-plano) { height: 100%; overflow: hidden; }
   .cad__btn--main span { font-size: 0.78rem; }
   .cad-lib__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* Color de la pared (modo simple) */
+.ps-pared { display: grid; gap: 6px; }
+.ps-pared div { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.ps-pared button { display: grid; justify-items: center; gap: 4px; padding: 6px 2px; border-radius: 10px; border: 1px solid var(--c-line); background: #fff; font-size: 0.66rem; font-weight: 600; color: var(--c-dim); line-height: 1.15; text-align: center; }
+.ps-pared button i { width: 28px; height: 28px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12); }
+.ps-pared button i.is-ladrillo { background-image: repeating-linear-gradient(0deg, transparent 0 6px, #E6D9CC 6px 7px) !important; background-color: #B0614A; }
+.ps-pared button[aria-pressed="true"] { border-color: var(--c-acc); box-shadow: inset 0 0 0 1px var(--c-acc); color: var(--c-text); }

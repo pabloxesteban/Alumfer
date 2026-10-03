@@ -99,6 +99,12 @@ Tres archivos, sin framework ni build:
    (por defecto: lienzo claro, panel paso a paso con −/+, formas de techo
    paramétricas rectángulo/L, "Repartir parejo", sin comandos ni vértices) y
    **Avanzado** (la interfaz CAD completa). Cambiar de nivel no toca el plano.
+   **Vista realista** (sólo en pantalla, `alumfer-plano-vista`): las
+   aberturas se dibujan con `Aberturas.dibujar` en modo `foto` (color,
+   vidrio, mosquitero; en caché por medida), sobre la pared con su color
+   (`paredColor`) y cielo o interior detrás del vidrio según la vista; el
+   techo muestra el policarbonato y los perfiles en el color elegido. La
+   hoja (PDF/PNG) y el DXF siguen siendo técnicos.
 
 Paleta: papel claro cálido, azul marino para secciones oscuras, azul de marca
 (`#1B6CC8`) en botones, banda de proceso y acentos. Motivo gráfico: grilla y
