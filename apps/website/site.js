@@ -164,7 +164,7 @@
   }
 
   // ─── Animación de la empresa: sólo corre cuando se ve ───
-  const ens = $('.ens');
+  const ens = $('.casa');
   if (ens && 'IntersectionObserver' in window) {
     ens.classList.add('is-pausado');
     new IntersectionObserver((es) => es.forEach((e) => ens.classList.toggle('is-pausado', !e.isIntersecting)), { threshold: 0.15 }).observe(ens);

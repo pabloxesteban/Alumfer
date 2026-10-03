@@ -329,71 +329,150 @@ ul, ol { list-style: none; }
 .about__title { font-size: clamp(2.4rem, 5.4vw, 4.6rem); }
 .about__title span { color: var(--on-steel-3); }
 .about__text { margin-top: 1.75rem; color: var(--on-steel-2); font-size: 1.08rem; max-width: 48ch; }
-/* Animación: cortes reales de la línea Módena (se repite sola, 16 s).
-   Escena 1: corte vertical; escena 2: encuentro central que se abre. */
+/* Animación: un día en una casa (24 s, en loop). Mañana: Módena corrediza
+   con mosquitero; mediodía: Herrero batiente; tarde: A30 New puerta
+   ventana; noche con lluvia: DVH. */
 .about__anim { position: relative; margin: 0; width: 100%; max-width: 560px; justify-self: end; }
-.ens { display: block; width: 100%; height: auto; overflow: hidden; color: rgba(238,241,244,0.06); font-family: var(--mono); }
-.ens * { animation-duration: 16s; animation-iteration-count: infinite; animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); animation-fill-mode: both; }
-.ens.is-pausado * { animation-play-state: paused; }
-.ens-alu { fill: url(#ens-alu); stroke: #6E7C8B; stroke-width: 0.12; }
-.ens-traza { fill: none; stroke: #4A9DE8; stroke-width: 0.35; stroke-dasharray: 1; }
-.ens-vid { fill: rgba(127,180,230,0.38); stroke: rgba(200,225,250,0.55); stroke-width: 0.2; }
-.ens-bur { fill: #232A33; }
-.ens-rueda-c { fill: #2B323B; stroke: #8996A4; stroke-width: 0.5; }
-.ens-rueda-e { fill: #B4BFCA; }
-.ens-rueda-r { stroke: #8996A4; stroke-width: 0.5; }
-.ens-tapa { fill: #0F2847; }
-.ens-quiebre { fill: none; stroke: #4A9DE8; stroke-width: 0.35; }
-.ens-hoja--atras { opacity: 0.55; }
-.ens-titulo { fill: #4A9DE8; font-size: 11px; letter-spacing: 0.16em; }
-.ens-ref circle { fill: #4A9DE8; }
-.ens-ref path { fill: none; stroke: rgba(74,157,232,0.75); stroke-width: 1; }
-.ens-ref text { fill: #EEF1F4; font-size: 12.5px; letter-spacing: 0.01em; }
-.ens-flecha { stroke: #4A9DE8 !important; stroke-width: 1.4 !important; }
+.casa { display: block; width: 100%; height: auto; overflow: hidden; border-radius: 6px; font-family: var(--mono); }
+.casa * { animation-duration: 24s; animation-iteration-count: infinite; animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); animation-fill-mode: both; }
+.casa.is-pausado * { animation-play-state: paused; }
 
-/* escena 1: 0–7,5 s */
-.ens-e1 { animation-name: ens-e1; }
-.ens-t1 { animation-name: ens-traza1; }
-.ens-marco1 { animation-name: ens-marco1; }
-.ens-hoja-cab { animation-name: ens-cab; }
-.ens-hoja-zoc { animation-name: ens-zoc; }
-.ens-hoja .ens-vid, .ens-hoja .ens-bur { animation-name: ens-vidrio1; }
-.ens-rueda { animation-name: ens-rueda; transform-box: view-box; }
-.ens-ref1-1 { animation-name: ens-r11; } .ens-ref1-2 { animation-name: ens-r12; } .ens-ref1-3 { animation-name: ens-r13; }
-.ens-ref1-4 { animation-name: ens-r14; } .ens-ref1-5 { animation-name: ens-r15; } .ens-ref1-6 { animation-name: ens-r16; }
-@keyframes ens-e1 { 0% { opacity: 0; } 2%, 44% { opacity: 1; } 47%, 100% { opacity: 0; } }
-@keyframes ens-traza1 { 0%, 2% { stroke-dashoffset: 1; } 13%, 100% { stroke-dashoffset: 0; } }
-@keyframes ens-marco1 { 0%, 11% { opacity: 0; } 16%, 100% { opacity: 1; } }
-@keyframes ens-cab { 0%, 15% { opacity: 0; transform: translateY(-14px); } 21%, 100% { opacity: 1; transform: none; } }
-@keyframes ens-zoc { 0%, 15% { opacity: 0; transform: translateY(14px); } 21%, 100% { opacity: 1; transform: none; } }
-@keyframes ens-vidrio1 { 0%, 20% { opacity: 0; } 25%, 100% { opacity: 1; } }
-@keyframes ens-rueda { 0%, 23% { opacity: 0; transform: rotate(-90deg) scale(0.6); } 27% { opacity: 1; transform: rotate(0) scale(1.08); } 29%, 100% { opacity: 1; transform: none; } }
-@keyframes ens-r11 { 0%, 25% { opacity: 0; } 27%, 100% { opacity: 1; } }
-@keyframes ens-r12 { 0%, 27% { opacity: 0; } 29%, 100% { opacity: 1; } }
-@keyframes ens-r13 { 0%, 29% { opacity: 0; } 31%, 100% { opacity: 1; } }
-@keyframes ens-r14 { 0%, 31% { opacity: 0; } 33%, 100% { opacity: 1; } }
-@keyframes ens-r15 { 0%, 33% { opacity: 0; } 35%, 100% { opacity: 1; } }
-@keyframes ens-r16 { 0%, 35% { opacity: 0; } 37%, 100% { opacity: 1; } }
+.casa-estrellas circle { fill: #fff; }
+.casa-sol-h { fill: rgba(255,226,150,0.35); }
+.casa-sol-c { fill: #FFE08A; }
+.casa-luna-c { fill: #EEF1F4; }
+.casa-luna-s { fill: #0E2140; }
+.casa-nube { fill: rgba(255,255,255,0.85); }
+.casa-tormenta path { fill: #3B4A5E; }
+.casa-arbol { fill: #3E7A55; stroke: #4A3A2C; stroke-width: 4; stroke-linecap: round; }
+.casa-pared { fill: #DCE2E8; }
+.casa-sombra { fill: rgba(10,28,51,0.12); }
+.casa-techo { fill: #2A3644; }
+.casa-suelo { fill: #4B7D5A; }
+.casa-int { fill: #33414F; }
+.casa-tela { fill: #E9DCC6; transform-box: fill-box; transform-origin: 50% 0; }
+.casa-mueble { fill: #4A5968; stroke: #4A5968; stroke-width: 2; }
+.casa-planta { fill: #5E9C6E; }
+.casa-luzpiso { fill: rgba(255,230,170,0.5); opacity: 0; }
+.casa-calida { fill: #F5C46E; }
+.casa-oscuro { fill: #0A1C33; opacity: 0; }
+.casa-alu { fill: #F4F6F8; stroke: #9AA6B2; stroke-width: 0.6; }
+.casa-marco { fill: #E6EAEE; }
+.casa-alfeizar { fill: #B9C2CC; }
+.casa-vid { fill: rgba(150,196,236,0.42); }
+.casa-brillo { fill: rgba(255,255,255,0.28); }
+.casa-malla { opacity: 0.9; }
+.casa-mosca-c { fill: #1E2328; }
+.casa-mosca-a { stroke: #1E2328; stroke-width: 0.7; fill: none; }
+.casa-vapor path { fill: none; stroke: rgba(255,255,255,0.8); stroke-width: 1.6; stroke-linecap: round; }
+.casa-gotas path { stroke: rgba(200,225,250,0.85); stroke-width: 1.2; stroke-linecap: round; }
+.casa-onda { fill: none; stroke: #F7C978; stroke-width: 2.5; stroke-linecap: round; transform-box: view-box; }
+.casa-guia { stroke: #4A9DE8; stroke-width: 1; stroke-dasharray: 3 3; fill: none; }
+.casa-lupa-f { fill: #0F2847; }
+.casa-lupa-afuera { fill: #1D3557; }
+.casa-lupa-adentro { fill: #5A4A36; }
+.casa-lupa-vid { fill: #9CCBF0; }
+.casa-lupa-camara { fill: rgba(156,203,240,0.18); }
+.casa-lupa-gotas path { stroke: #C8E1FA; stroke-width: 1.4; stroke-linecap: round; }
+.casa-lupa-frio { stroke: #9CCBF0; stroke-width: 1.6; fill: none; stroke-linecap: round; }
+.casa-lupa-calor { stroke: #F7C978; stroke-width: 1.6; fill: none; stroke-linecap: round; }
+.casa-lupa-borde { fill: none; stroke: #4A9DE8; stroke-width: 2; }
+.casa-lupa-t { fill: #EEF1F4; font-size: 10px; text-anchor: middle; letter-spacing: 0.04em; paint-order: stroke; stroke: rgba(10,28,51,0.85); stroke-width: 3px; }
+.casa-cap-t { fill: #4A9DE8; font-size: 11px; letter-spacing: 0.14em; }
+.casa-cap-d { fill: #EEF1F4; font-family: var(--font); font-size: 15.5px; }
+.casa-pt { fill: rgba(238,241,244,0.22); }
+.casa-estatico { display: none; }
 
-/* escena 2: 7,5–16 s */
-.ens-e2 { animation-name: ens-e2; }
-.ens-t2 { animation-name: ens-traza2; }
-.ens-marco2 { animation-name: ens-marco2; }
-.ens-hA .ens-vid, .ens-hA .ens-bur, .ens-hB .ens-vid, .ens-hB .ens-bur { animation-name: ens-vidrio2; }
-.ens-hB { animation-name: ens-desliza; }
-.ens-ref2-1 { animation-name: ens-r21; } .ens-ref2-2 { animation-name: ens-r22; } .ens-ref2-3 { animation-name: ens-r23; }
-.ens-ref2-2 { animation-name: ens-r22; }
-.ens-ref2-4 { animation-name: ens-r24; }
-@keyframes ens-e2 { 0%, 46% { opacity: 0; } 49%, 95% { opacity: 1; } 99%, 100% { opacity: 0; } }
-@keyframes ens-traza2 { 0%, 47% { stroke-dashoffset: 1; } 56%, 100% { stroke-dashoffset: 0; } }
-@keyframes ens-marco2 { 0%, 55% { opacity: 0; } 59%, 100% { opacity: 1; } }
-@keyframes ens-vidrio2 { 0%, 57.5% { opacity: 0; } 61%, 100% { opacity: 1; } }
-@keyframes ens-desliza { 0%, 68.75% { transform: none; } 76%, 82.5% { transform: translateX(-56px); } 90%, 100% { transform: none; } }
-@keyframes ens-r21 { 0%, 61% { opacity: 0; } 63%, 100% { opacity: 1; } }
-@keyframes ens-r22 { 0%, 63% { opacity: 0; } 65%, 68% { opacity: 1; } 70%, 88% { opacity: 0; } 91%, 100% { opacity: 1; } }
-@keyframes ens-r23 { 0%, 65% { opacity: 0; } 67%, 100% { opacity: 1; } }
-@keyframes ens-r24 { 0%, 69% { opacity: 0; } 72%, 86% { opacity: 1; } 89%, 100% { opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .ens * { animation: none !important; } .ens-e2 { display: none; } }
+/* cielo */
+.casa-tarde { animation-name: casa-tarde; }
+.casa-noche, .casa-estrellas, .casa-luna { animation-name: casa-noche; }
+.casa-sol { animation-name: casa-sol; }
+.casa-nubes { animation-name: casa-nubes; }
+.casa-tormenta { animation-name: casa-tormenta; }
+.casa-luz { animation-name: casa-luz; }
+.casa-oscuro { animation-name: casa-oscuro; }
+.casa-arbol--a { animation-name: casa-arbol; }
+@keyframes casa-tarde { 0%, 52% { opacity: 0; } 60%, 66% { opacity: 1; } 74%, 100% { opacity: 0; } }
+@keyframes casa-noche { 0%, 64% { opacity: 0; } 72%, 92% { opacity: 1; } 99%, 100% { opacity: 0; } }
+@keyframes casa-sol { 0% { transform: translate(-30px, 300px); } 6% { transform: translate(40px, 150px); } 32% { transform: translate(260px, 46px); } 58% { transform: translate(470px, 140px); } 66%, 100% { transform: translate(540px, 300px); } }
+@keyframes casa-nubes { 0% { transform: translateX(-20px); opacity: 1; } 60% { transform: translateX(40px); opacity: 1; } 68%, 100% { transform: translateX(50px); opacity: 0; } }
+@keyframes casa-tormenta { 0%, 62% { opacity: 0; transform: translateY(-30px); } 70%, 88% { opacity: 1; transform: none; } 94%, 100% { opacity: 0; transform: translateY(-30px); } }
+@keyframes casa-luz { 0%, 64% { opacity: 0; } 72%, 92% { opacity: 0.68; } 98%, 100% { opacity: 0; } }
+@keyframes casa-arbol { 0%, 56% { opacity: 1; } 72%, 92% { opacity: 0.45; } 99%, 100% { opacity: 1; } }
+@keyframes casa-oscuro { 0%, 56% { opacity: 0; } 64% { opacity: 0.25; } 72%, 92% { opacity: 0.62; } 99%, 100% { opacity: 0; } }
+
+/* mañana: Módena + mosquitero */
+.casa-mod-hoja { animation-name: casa-mod; }
+.casa-mosq { animation-name: casa-mosq; }
+.casa-cortina .casa-tela { animation-name: casa-cortina; }
+.casa-mosca { animation-name: casa-mosca; }
+@keyframes casa-mod { 0%, 6% { transform: none; } 11%, 27% { transform: translateX(-74px); } 32%, 100% { transform: none; } }
+@keyframes casa-mosq { 0%, 12% { transform: none; } 16%, 23% { transform: translateX(72px); } 27%, 100% { transform: none; } }
+@keyframes casa-cortina { 0%, 11% { transform: none; } 14% { transform: skewX(7deg); } 17% { transform: skewX(-2deg); } 20% { transform: skewX(6deg); } 23% { transform: skewX(-1deg); } 27%, 100% { transform: none; } }
+@keyframes casa-mosca {
+  0%, 15% { opacity: 0; transform: translate(250px, 222px); }
+  16% { opacity: 1; transform: translate(240px, 228px); }
+  17.5% { transform: translate(196px, 252px); }
+  18.5% { transform: translate(226px, 236px); }
+  19.5% { transform: translate(184px, 268px); }
+  20.5% { transform: translate(230px, 252px); }
+  22% { opacity: 1; transform: translate(262px, 210px); }
+  23%, 100% { opacity: 0; transform: translate(280px, 196px); }
+}
+
+/* mediodía: Herrero batiente */
+.casa-bat { animation-name: casa-bat; transform-box: fill-box; transform-origin: 0 50%; }
+.casa-vapor { animation-name: casa-vapor; }
+.casa-vapor path { animation: casa-sube 3s linear infinite; }
+.casa-vapor path:nth-child(2) { animation-delay: -1s; }
+.casa-vapor path:nth-child(3) { animation-delay: -2s; }
+@keyframes casa-bat { 0%, 29% { transform: none; } 34%, 44% { transform: scaleX(0.32) skewY(-14deg); } 49%, 100% { transform: none; } }
+@keyframes casa-vapor { 0%, 33% { opacity: 0; } 36%, 44% { opacity: 1; } 47%, 100% { opacity: 0; } }
+@keyframes casa-sube { 0% { transform: translateY(6px); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(-34px); opacity: 0; } }
+
+/* tarde: A30 New */
+.casa-puerta { animation-name: casa-puerta; }
+.casa-luzpiso { animation-name: casa-luzpiso; }
+@keyframes casa-puerta { 0%, 50% { transform: none; } 55%, 63% { transform: translateX(54px); } 68%, 100% { transform: none; } }
+@keyframes casa-luzpiso { 0%, 53% { opacity: 0; } 57%, 62% { opacity: 1; } 66%, 100% { opacity: 0; } }
+
+/* noche: lluvia, ruido y DVH */
+.casa-lluvia { animation-name: casa-lluvia; }
+.casa-gotas { animation: casa-cae 0.7s linear infinite; }
+.casa-gotas--2 { animation-delay: -0.35s; }
+.casa-ondas { animation-name: casa-ondas; }
+.casa-onda { animation: casa-onda 2.4s ease-out infinite; }
+.casa-onda--2 { animation-delay: -0.8s; }
+.casa-onda--3 { animation-delay: -1.6s; }
+.casa-lupa { animation-name: casa-lupa; transform-box: view-box; transform-origin: 300px 330px; }
+@keyframes casa-lluvia { 0%, 68% { opacity: 0; } 72%, 88% { opacity: 1; } 92%, 100% { opacity: 0; } }
+@keyframes casa-cae { from { transform: translateY(-120px); } to { transform: translateY(260px); } }
+@keyframes casa-ondas { 0%, 72% { opacity: 0; } 75%, 88% { opacity: 1; } 91%, 100% { opacity: 0; } }
+@keyframes casa-onda { 0% { transform: translateX(0); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateX(46px); opacity: 0; } }
+@keyframes casa-lupa { 0%, 73% { opacity: 0; transform: scale(0.6); } 77%, 89% { opacity: 1; transform: none; } 92%, 100% { opacity: 0; transform: scale(0.6); } }
+
+/* textos y progreso */
+.casa-cap--1 { animation-name: casa-c1; }
+.casa-cap--2 { animation-name: casa-c2; }
+.casa-cap--3 { animation-name: casa-c3; }
+.casa-cap--4 { animation-name: casa-c4; }
+.casa-cap { opacity: 0; }
+@keyframes casa-c1 { 0%, 3% { opacity: 0; } 5%, 24% { opacity: 1; } 26%, 100% { opacity: 0; } }
+@keyframes casa-c2 { 0%, 27% { opacity: 0; } 29%, 46% { opacity: 1; } 48%, 100% { opacity: 0; } }
+@keyframes casa-c3 { 0%, 49% { opacity: 0; } 51%, 66% { opacity: 1; } 68%, 100% { opacity: 0; } }
+@keyframes casa-c4 { 0%, 70% { opacity: 0; } 72%, 91% { opacity: 1; } 93%, 100% { opacity: 0; } }
+.casa-pt--1 { animation-name: casa-p1; } .casa-pt--2 { animation-name: casa-p2; } .casa-pt--3 { animation-name: casa-p3; } .casa-pt--4 { animation-name: casa-p4; }
+@keyframes casa-p1 { 0%, 3% { fill: rgba(238,241,244,0.22); } 5%, 24% { fill: #4A9DE8; } 26%, 100% { fill: rgba(238,241,244,0.22); } }
+@keyframes casa-p2 { 0%, 27% { fill: rgba(238,241,244,0.22); } 29%, 46% { fill: #4A9DE8; } 48%, 100% { fill: rgba(238,241,244,0.22); } }
+@keyframes casa-p3 { 0%, 49% { fill: rgba(238,241,244,0.22); } 51%, 66% { fill: #4A9DE8; } 68%, 100% { fill: rgba(238,241,244,0.22); } }
+@keyframes casa-p4 { 0%, 70% { fill: rgba(238,241,244,0.22); } 72%, 91% { fill: #4A9DE8; } 93%, 100% { fill: rgba(238,241,244,0.22); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .casa * { animation: none !important; }
+  .casa-tarde, .casa-noche, .casa-estrellas, .casa-luna, .casa-tormenta, .casa-luz, .casa-oscuro, .casa-lluvia, .casa-ondas, .casa-lupa, .casa-vapor, .casa-mosca, .casa-cap, .casa-pt { display: none; }
+  .casa-sol { transform: translate(260px, 46px); }
+  .casa-estatico { display: inline; }
+}
 .features {
   margin-top: clamp(3rem, 6vw, 5rem);
   display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
