@@ -57,6 +57,14 @@ Tres archivos, sin framework ni build:
    configurador de vidrio y color, dock mobile que se esconde sobre el
    formulario, envío de cualquier `form[action$="enviar.php"]` y medición GA4.
 
+4. **Diseñador (`/disena-tu-abertura/`)** — `aberturas.js` dibuja cada
+   abertura a escala en SVG (12 tipologías, mismos nombres que la app de
+   presupuestos), con cotas, color, vidrio, mosquitero y persona de 1,70 m de
+   referencia. `disena.js` maneja el editor, la lista (guardada en el
+   navegador con `localStorage`), el envío por WhatsApp, la descarga del
+   boceto en PNG y el formulario a `enviar.php` (Tipo = "Boceto desde el
+   diseñador web"). Estilos en `disena.css`. No muestra precios.
+
 Paleta: papel claro cálido, azul marino para secciones oscuras, azul de marca
 (`#1B6CC8`) en botones, banda de proceso y acentos. Motivo gráfico: grilla y
 cotas de plano. Las fotos de obra se presentan como copias impresas numeradas.

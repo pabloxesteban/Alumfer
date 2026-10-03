@@ -47,6 +47,50 @@
     hideZones.forEach(z => dockObs.observe(z));
   }
 
+  // ─── Dibujos animados en las fichas informativas ────────
+  // Cada ficha recibe el dibujo de la abertura de la que habla (según su
+  // título). Se trazan al entrar en pantalla y después se mueven en loop.
+  const L = (d, i = 0) => `class="d" pathLength="1" style="--i:${i}" ${d}`;
+  const FX = {
+    corr: `<rect ${L('x="4" y="6" width="56" height="36" rx="1"')}/><rect ${L('x="8" y="10" width="25" height="28"', 1)}/><g class="mv-slide"><rect class="glass" ${L('x="31" y="10" width="25" height="28"', 2)}/><path ${L('d="M35 21v6"', 3)}/></g><path ${L('d="M40 46h12m0 0-3-2.5m3 2.5-3 2.5"', 3)}/>`,
+    abrir: `<rect ${L('x="10" y="4" width="44" height="40" rx="1"')}/><g class="mv-swing"><rect class="glass" ${L('x="14" y="8" width="36" height="32"', 1)}/><path ${L('d="M50 8 14 24l36 16"', 2)} stroke-dasharray="2 2.5"/><path ${L('d="M46 22v5"', 3)}/></g>`,
+    band: `<rect ${L('x="4" y="10" width="56" height="28" rx="1"')}/><g class="mv-tilt"><rect class="glass" ${L('x="8" y="14" width="48" height="20"', 1)}/><path ${L('d="M8 34 32 14l24 20"', 2)} stroke-dasharray="2 2.5"/></g>`,
+    puerta: `<path ${L('d="M4 46h56"')}/><rect ${L('x="18" y="3" width="28" height="43" rx="1"', 1)}/><g class="mv-swing"><rect class="glass" ${L('x="21" y="6" width="22" height="40"', 2)}/><path ${L('d="M21 30h22"', 3)}/><path ${L('d="M39 24v5"', 3)}/></g>`,
+    mosq: `<rect ${L('x="4" y="6" width="56" height="36" rx="1"')}/><rect ${L('x="8" y="10" width="25" height="28"', 1)}/><g class="mv-slide"><rect ${L('x="31" y="10" width="25" height="28"', 2)}/><path class="mesh" ${L('d="M31 15h25M31 20h25M31 25h25M31 30h25M31 35h25M36 10v28M41 10v28M46 10v28M51 10v28"', 3)}/></g>`,
+    dvh: `<path ${L('d="M30 4v40M38 4v40"')}/><path class="air" ${L('d="M30 4h8M30 44h8"', 1)}/><g class="mv-cold"><path ${L('d="M4 16h18m0 0-4-3m4 3-4 3"', 2)}/><path ${L('d="M4 32h18m0 0-4-3m4 3-4 3"', 3)}/></g><g class="mv-warm"><path ${L('d="M60 24H46m0 0 4-3m-4 3 4 3"', 4)}/></g>`,
+    cerr: `<path ${L('d="M2 12 32 4l30 8"')}/><path ${L('d="M4 44h56"', 1)}/><rect ${L('x="6" y="14" width="52" height="30"', 1)}/><path ${L('d="M19 14v30M45 14v30"', 2)}/><g class="mv-slide"><rect class="glass" ${L('x="26" y="16" width="16" height="26"', 3)}/></g>`,
+    techo: `<path ${L('d="M4 22 60 12"')}/><path ${L('d="M8 21v23M56 13v31"', 1)}/><path ${L('d="M4 44h56"', 2)}/><g class="mv-rain"><path ${L('d="M18 2v5M30 0v5M42 1v5M52 -1v5"', 3)}/></g>`,
+    seco: `<path class="wall" ${L('d="M4 4h12v40H4zM48 4h12v40H48z"')}/><g class="mv-insert"><rect ${L('x="18" y="8" width="28" height="34" rx="1"', 1)}/><path ${L('d="M32 8v34"', 2)}/></g>`,
+    cota: `<rect class="glass" ${L('x="12" y="4" width="40" height="30" rx="1"')}/><path ${L('d="M32 4v30"', 1)}/><path ${L('d="M12 40h40M12 37v6M52 37v6"', 2)}/><path ${L('d="M6 4v30M3 4h6M3 34h6"', 3)}/><circle class="mv-dot" cx="12" cy="40" r="1.8" fill="currentColor" stroke="none"/>`,
+    taller: `<g class="mv-join-l"><path ${L('d="M6 38V12h8v18h12v8z"')}/></g><g class="mv-join-r"><path ${L('d="M58 38V12h-8v18H38v8z"', 1)}/></g><path ${L('d="M4 44h56"', 2)}/>`,
+    envio: `<path ${L('d="M2 44h60"')}/><g class="mv-drive"><path ${L('d="M6 18h30v20H6zM36 24h10l6 7v7H36z"', 1)}/><circle ${L('cx="15" cy="39" r="4"', 2)}/><circle ${L('cx="44" cy="39" r="4"', 2)}/><rect class="glass" ${L('x="10" y="21" width="14" height="13"', 3)}/></g>`,
+  };
+  const pickFx = (t) => {
+    t = t.toLowerCase();
+    const rules = [
+      [/dvh|doble vidri|vidriado|avenida|ruido|fr[ií]o|t[eé]rmic|ac[uú]stic|aislaci/, 'dvh'],
+      [/mosquiter/, 'mosq'],
+      [/corrediz/, 'corr'],
+      [/banderol|ventiluz|oscilo/, 'band'],
+      [/batient|de abrir|abrir/, 'abrir'],
+      [/puerta|local|frente|acceso/, 'puerta'],
+      [/cerramient|quincho|galer|balc/, 'cerr'],
+      [/techo|policarb|p[eé]rgola|patio/, 'techo'],
+      [/seco|marco existente|reemplaz|casa|romper|obra/, 'seco'],
+      [/env[ií]o|entreg|retir/, 'envio'],
+      [/f[aá]brica|fabric|taller|directo|intermediar|a[nñ]os/, 'taller'],
+    ];
+    const hit = rules.find(([re]) => re.test(t));
+    return hit ? hit[1] : 'cota';
+  };
+  $$('.feature').forEach(card => {
+    const title = $('.feature__title, h3', card);
+    if (!title || $('.fx-ico', card)) return;
+    const kind = pickFx(title.textContent);
+    const ico = `<svg class="fx-ico fx-${kind}" viewBox="0 0 64 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${FX[kind]}</svg>`;
+    title.insertAdjacentHTML('beforebegin', ico);
+  });
+
   // ─── Revelado al entrar en pantalla ─────────────────────
   const revealEls = $$('.rv, .rv-img, .reveal');
   if ('IntersectionObserver' in window && !reduceMotion) {

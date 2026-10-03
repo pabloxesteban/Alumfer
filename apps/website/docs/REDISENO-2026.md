@@ -378,3 +378,27 @@ con la página original (oscura). Se invirtió el tema base:
   tarjeta de papel mantiene tinta oscura sin duplicar estilos.
 - Los acentos de texto usan `--accent`: azul más luminoso sobre fondo oscuro y
   azul de marca sobre papel.
+
+---
+
+## L. Quinta pasada: animación con sentido y diseñador de aberturas
+
+- **Fichas informativas con dibujos animados:** cada ficha recibe el dibujo de
+  lo que describe (según su título): corrediza que se desliza, hoja que se
+  abre, banderola que se inclina, mosquitero, frío que rebota contra el DVH,
+  lluvia sobre el techo, abertura que entra en el vano (colocación en seco),
+  perfiles que se unen a 45° (fábrica). Se trazan al entrar en pantalla y se
+  mueven en loop suave; con movimiento reducido quedan quietos.
+- **Líneas de tiempo:** la línea se dibuja, los números aparecen en secuencia
+  y un punto de luz la recorre (horizontal en desktop, vertical en mobile).
+  Los rótulos de sección se subrayan como una cota que se traza.
+- **Diseñador de aberturas** (`/disena-tu-abertura/`, en el menú y con un
+  adelanto animado en la home): tipología, medidas (con límites 30–400 ×
+  30–260 cm), color, vidrio, mosquitero, cantidad y ubicación; plano a escala
+  con cotas y persona de 1,70 m; lista editable que se guarda en el navegador;
+  envío por WhatsApp, descarga del boceto en PNG o formulario por email.
+  Se probaron las 2.880 combinaciones de dibujo como SVG válido.
+- **Ideas para siguientes pasos** (no implementadas): foto del vano con la
+  abertura superpuesta, guía animada de "cómo medir", precio orientativo
+  (sólo si la empresa lo aprueba), modo profesional para arquitectos con
+  varias plantas/ambientes.
