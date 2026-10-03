@@ -44,7 +44,7 @@ WEB = RAIZ / "apps" / "website"
 # Con qué buscamos la ficha si no tenemos el place_id guardado.
 BUSQUEDA = "Alumfer Carpintería de Aluminio, Av. San Martín 734, Adrogué, Buenos Aires"
 
-TARJETAS = 6           # cuántas reseñas mostramos
+TARJETAS = 4           # cuántas reseñas mostramos
 LARGO_IDEAL = 300      # caracteres; más que esto descuadra la grilla
 LARGO_MINIMO = 40      # "Excelente" solo ocupa una tarjeta y no convence
 ESTRELLAS_MINIMO = 4   # no publicamos reseñas de 3 o menos

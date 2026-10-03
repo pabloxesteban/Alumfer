@@ -1587,8 +1587,19 @@
 /* ─── TESTIMONIOS ─────────────────────────────────────────── */
 .reviews-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  /* Cantidad de columnas fija en vez de auto-fill: con auto-fill el navegador
+     decide cuántas entran y, según el ancho, dejaba una tarjeta sola colgando
+     en una segunda fila. Así las filas siempre quedan completas. */
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-4);
+}
+
+/* 1128px es el ancho a partir del cual entran las cuatro en una sola fila.
+   Debajo de eso van 2 y 2; debajo de 768px pasa a ser un carrusel. */
+@media (min-width: 1128px) {
+  .reviews-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .review-card {
