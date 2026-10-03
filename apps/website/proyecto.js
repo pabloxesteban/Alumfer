@@ -30,19 +30,18 @@
 
   const LADOS = { principal: 'Pared principal', izquierda: 'Pared izquierda', derecha: 'Pared derecha' };
   const CORTO = { principal: 'Principal', izquierda: 'Izquierda', derecha: 'Derecha' };
-  const PASOS = ['Paredes', 'Aberturas', 'Techo', 'Enviar'];
   const ui = {
     stage: $('.pj-stage', raiz), v3d: $('.pj-3d', raiz), cam: $('.pj-cam', raiz), plano: $('.pj-plano', raiz),
-    panel: $('.pj-panel__body', raiz), pasos: $('.pj-pasos', raiz), pie: $('.pj-panel__pie', raiz),
-    toast: $('.pj-toast', raiz), coach: $('.pj-coach', raiz), marca: $('.pj-marca', raiz), cat: $('.pj-cat'),
+    dock: $('.pj-dock', raiz), hoja: $('.pj-hojita', raiz), hojaBody: $('.pj-hojita__body', raiz), puntos: $('.pj-puntos', raiz),
+    toast: $('.pj-toast', raiz), coach: $('.pj-coach', raiz), marca: $('.pj-marca', raiz), cat: $('.pj-cat'), ini: $('.pj-inicio'),
   };
 
   // ── Estado de la herramienta ───────────────────────────────
-  let paso = clamp(+leer('alumfer-proyecto-paso', '1') || 1, 1, 4);
   let selId = null;               // abertura seleccionada
   let ladoAct = 'principal';      // pared donde se agregan aberturas
   let vista = '3d';
   let catModo = 'nueva';          // catálogo: agregar o cambiar el tipo
+  let lugar = null;               // punto de la pared que se tocó para agregar
   let hojaIdx = 0, hojaReal = false, hojaZoom = 1;
   const cam = { yaw: -16, pitch: 11, zoom: 1 };
   let historial = [], rehacer = [];
@@ -155,6 +154,7 @@
   // La pared principal está en z = 0; las laterales salen hacia
   // adelante; el techo apoya en la pared principal.
   let S = 1, PERSP = 1200, C = new DOMMatrix(), centro = [0, 0, 0];
+  let OY = 0, OX = 0;  // el centro del 3D se corre para dejar lugar a la barra y a la hoja
   const caras = {};    // lado/elemento → DOMMatrix de la cara (px)
   let anim = null;     // { t0, id }
   const T_ABRE = 1300, T_QUIETO = 900, T_CIERRA = 1100;
@@ -200,15 +200,30 @@
   }
   // Escala para que todo entre en la vista (la perspectiva escala con S,
   // así que alcanza con medir una vez con S = 1)
+  // cuánto tapan abajo la barra y (en el celular) la hoja abierta
+  function tapaAbajo() {
+    const cel = ui.v3d.clientWidth < 760;
+    if (!cel) return 110;
+    return Math.max(150, (ui.dock.offsetHeight || 140) + (ui.hoja.hidden ? 0 : ui.hoja.offsetHeight) + 12);
+  }
+  // en escritorio la hoja va a la derecha
+  function tapaDerecha() { return ui.v3d.clientWidth >= 760 && !ui.hoja.hidden ? 400 : 0; }
+  let ultAbajo = 0, ultDerecha = 0;
   function encuadrar() {
     const r = ui.v3d.getBoundingClientRect(); if (!r.width || !principal()) return;
+    const abajo = tapaAbajo(), arriba = 56, derecha = tapaDerecha();
+    OY = Math.round((arriba - abajo) / 2); OX = -Math.round(derecha / 2);
+    ui.cam.style.top = `calc(50% + ${OY}px)`; ui.cam.style.left = `calc(50% + ${OX}px)`;
+    ui.v3d.style.perspectiveOrigin = `calc(50% + ${OX}px) calc(50% + ${OY}px)`;
+    const altoUtil = r.height - abajo - arriba;
+    ultAbajo = abajo; ultDerecha = derecha;
     const m = medidas();
     centro = [m.W / 2, Math.max(m.H, m.T ? m.T.alta : 0) * 0.46, m.prof * 0.45];
     const diag = Math.hypot(m.W + 80, m.H, m.prof + 40);
     S = 1; PERSP = diag * 3; matCam();
     let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
     caja().forEach(([x, y, z]) => { const [a, b] = proyectar(aCss(x, y, z)); x0 = Math.min(x0, a); x1 = Math.max(x1, a); y0 = Math.min(y0, b); y1 = Math.max(y1, b); });
-    const fit = Math.min(r.width * 0.86 / (x1 - x0 || 1), r.height * 0.8 / (y1 - y0 || 1));
+    const fit = Math.min((r.width - derecha) * (r.width < 760 ? 0.98 : 0.86) / (x1 - x0 || 1), altoUtil * 0.92 / (y1 - y0 || 1));
     S = clamp(fit * cam.zoom, 0.05, 20);
     PERSP = diag * 3 * S;
     ui.v3d.style.perspective = Math.round(PERSP) + 'px';
@@ -216,22 +231,82 @@
   }
 
   const FONDOS = { interior: 'linear-gradient(180deg,#9EC5E8 0%,#DCEAF5 60%,#9DB98A 61%,#7E9B6C 100%)', exterior: 'linear-gradient(135deg,#4A4F55,#2E3236)' };
-  const LADRILLO = (s) => `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='50' height='26'><rect width='50' height='26' fill='#B0614A'/><path d='M0 .6H50M0 13.6H50M.6 0V13M25.6 13V26' stroke='#E6D9CC' stroke-width='1.2'/></svg>`)}") 0 0/${(25 * s).toFixed(2)}px ${(13 * s).toFixed(2)}px`;
+  // va dentro de style="…": sin comillas dobles
+  const LADRILLO = (s) => `url('data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='50' height='26'><rect width='50' height='26' fill='#B0614A'/><path d='M0 .6H50M0 13.6H50M.6 0V13M25.6 13V26' stroke='#E6D9CC' stroke-width='1.2'/></svg>`).replace(/'/g, '%27')}') 0 0/${(25 * s).toFixed(2)}px ${(13 * s).toFixed(2)}px`;
 
-  function htmlPared(L, lado) {
-    const pc = M.pared(L.paredColor), W = L.pared.ancho, H = L.pared.alto;
-    const sombra = lado === 'principal' ? 0 : 0.1;
+  // Una pared con espesor: la cara (con los vanos recortados), los
+  // cantos que se ven y, en cada vano, jambas, la abertura metida en la
+  // pared, el fondo que se ve a través del vidrio y el alféizar.
+  const ESP = 15, PROF_AB = 5;   // espesor de pared y profundidad del marco (cm)
+  const px = (v) => (v * S).toFixed(1);
+  function cara(cls, w, h, m, estilo, attrs) {
+    return `<div class="pj-cara ${cls}"${attrs || ''} style="width:${px(w)}px;height:${px(h)}px;transform:${m};${estilo || ''}"></div>`;
+  }
+  function htmlPared(L, lado, Mw) {
+    const pc = M.pared(L.paredColor), W = L.pared.ancho, H = L.pared.alto, de = ` data-de="${lado}"`;
     const fondo = pc.id === 'ladrillo' ? LADRILLO(S) : pc.color;
-    let s = `<div class="pj-cara pj-pared${ladoAct === lado ? ' is-activa' : ''}" data-lado="${lado}" style="width:${(W * S).toFixed(1)}px;height:${(H * S).toFixed(1)}px;background:${fondo}">`;
-    s += `<i class="pj-pared__luz" style="opacity:${sombra}"></i>`;
+    const luz = lado === 'principal' ? 1 : 0.93;
+    const T = (x, y, z) => Mw.translate(x * S, y * S, z * S);
+    // cara con los vanos como agujeros (evenodd)
+    let d = `M0 0H${px(W)}V${px(H)}H0Z`;
+    L.items.forEach((it) => { const y = H - it.ante - it.alto; d += `M${px(it.x)} ${px(y)}h${px(it.ancho)}v${px(it.alto)}h${px(-it.ancho)}Z`; });
+    let s = `<div class="pj-cara pj-pared${selPared() === lado ? ' is-activa' : ''}" data-lado="${lado}"${de} style="width:${px(W)}px;height:${px(H)}px;background:${fondo};filter:brightness(${luz});clip-path:path(evenodd,'${d}');transform:${Mw}"></div>`;
+    // cantos: arriba siempre; a los costados si la pared termina libre
+    const canto = `background:${pc.id === 'ladrillo' ? '#C9B8A6' : pc.color};filter:brightness(1.04)`;
+    s += cara('pj-canto', W, ESP, T(0, 0, -ESP).rotate(90, 0, 0), canto, de);
+    const libreIzq = lado === 'izquierda' || (lado === 'principal' && !fach('izquierda'));
+    const libreDer = lado === 'derecha' || (lado === 'principal' && !fach('derecha'));
+    if (libreIzq) s += cara('pj-canto', ESP, H, T(0, 0, -ESP).rotate(0, -90, 0), canto + ';filter:brightness(.9)', de);
+    if (libreDer) s += cara('pj-canto', ESP, H, T(W, 0, 0).rotate(0, 90, 0), canto + ';filter:brightness(.9)', de);
     L.items.forEach((it) => {
-      const sel = it.id === selId ? ' is-sel' : '';
-      s += `<div class="pj-ab${sel}" data-id="${it.id}" style="left:${(it.x * S).toFixed(1)}px;top:${((H - it.ante - it.alto) * S).toFixed(1)}px;width:${(it.ancho * S).toFixed(1)}px;height:${(it.alto * S).toFixed(1)}px">` +
-        `<i class="pj-ab__fondo" style="background:${FONDOS[L.vista === 'exterior' ? 'exterior' : 'interior']}"></i>` +
-        `<div class="pj-ab__svg">${svgAb(it)}</div>` +
-        (sel ? `<span class="pj-ab__tag">${fmt(it.ancho)} × ${fmt(it.alto)}</span>` : '') + '</div>';
+      const t = A.tipo(it.tipo), col = A.color(it.color).solido, x = it.x, y = H - it.ante - it.alto, w = it.ancho, h = it.alto;
+      const sel = it.id === selId ? ' is-sel' : '', da = `${de} data-id="${it.id}" data-lado="${lado}"`;
+      // banda del marco sobre las jambas (a la profundidad de la abertura)
+      const a0 = ((PROF_AB - 0.5) / ESP * 100).toFixed(1), a1 = ((PROF_AB + 4) / ESP * 100).toFixed(1);
+      const rev = pc.id === 'ladrillo' ? '#D9CFC3' : pc.color;   // revoque del vano
+      const banda = (dir) => `background:linear-gradient(${dir},${rev} ${a0}%,${col} ${a0}%,${col} ${a1}%,${rev} ${a1}%)`;
+      // fondo: lo que se ve a través del vidrio
+      s += cara('pj-ab-fondo', w, h, T(x, y, -ESP - 1), `background:${FONDOS[L.vista === 'exterior' ? 'exterior' : 'interior']}`, da);
+      // jambas: arriba (más sombra), abajo, izquierda, derecha
+      s += cara('pj-jamba', w, ESP, T(x, y, 0).rotate(-90, 0, 0), banda('180deg') + ';filter:brightness(.72)', da);
+      s += cara('pj-jamba', w, ESP, T(x, y + h, -ESP).rotate(90, 0, 0), banda('0deg') + ';filter:brightness(.97)', da);
+      s += cara('pj-jamba', ESP, h, T(x, y, 0).rotate(0, 90, 0), banda('90deg') + ';filter:brightness(.86)', da);
+      s += cara('pj-jamba', ESP, h, T(x + w, y, -ESP).rotate(0, -90, 0), banda('270deg') + ';filter:brightness(.86)', da);
+      // la abertura, metida en la pared
+      s += `<div class="pj-cara pj-ab${sel}"${da} style="width:${px(w)}px;height:${px(h)}px;transform:${T(x, y, -PROF_AB)}"><div class="pj-ab__svg">${svgAb(it)}</div></div>`;
+      // alféizar en las ventanas
+      if (it.ante > 20 && t.grupo !== 'Puertas') {
+        const sale = 5, ga = 4, ext = 6;
+        s += cara('pj-alfeizar', w + ext * 2, sale, T(x - ext, y + h, 0).rotate(90, 0, 0), 'filter:brightness(1.03)', da);
+        s += cara('pj-alfeizar', w + ext * 2, ga, T(x - ext, y + h, sale), 'filter:brightness(.82)', da);
+      }
     });
-    s += `<span class="pj-pared__tag">${CORTO[lado]} · ${coma(W / 100, 2)} m</span>`;
+    s += infoPared(L, lado, T(0, 0, 0.6));
+    return s;
+  }
+  // Rótulo, cotas y "tocá para agregar" (sobre la pared, sin recortar)
+  function infoPared(L, lado, m) {
+    const W = L.pared.ancho, H = L.pared.alto, act = selPared() === lado || !!(selId && L.items.some((i) => i.id === selId));
+    let svg = '';
+    const linea = (x1, y1, x2, y2, txt, vert) => {
+      const mx = (x1 + x2) / 2, my = (y1 + y2) / 2, tk = 5;
+      const marcas = vert ? `M${x1 - tk} ${y1}h${tk * 2}M${x2 - tk} ${y2}h${tk * 2}` : `M${x1} ${y1 - tk}v${tk * 2}M${x2} ${y2 - tk}v${tk * 2}`;
+      const tx = vert ? mx - 9 : mx, ty = vert ? my : my - 9;
+      return `<path d="M${x1} ${y1}L${x2} ${y2}${marcas}"/><text x="${tx}" y="${ty}"${vert ? ` transform="rotate(-90 ${tx} ${ty})"` : ''}>${txt}</text>`;
+    };
+    if (act) {
+      svg += linea(10, H * S - 14, W * S - 10, H * S - 14, coma(W / 100, 2) + ' m');
+      svg += linea(W * S - 16, 10, W * S - 16, H * S - 26, coma(H / 100, 2) + ' m', true);
+    }
+    const sel = selId && L.items.find((i) => i.id === selId);
+    if (sel) {
+      const x = sel.x * S, y = (H - sel.ante - sel.alto) * S, w = sel.ancho * S, h = sel.alto * S;
+      svg += `<g class="is-sel">${linea(x, y - 12, x + w, y - 12, fmt(sel.ancho) + ' cm')}${linea(x - 12, y, x - 12, y + h, fmt(sel.alto) + ' cm', true)}</g>`;
+    }
+    let s = `<div class="pj-cara pj-info" data-de="${lado}" style="width:${px(W)}px;height:${px(H)}px;transform:${m}">`;
+    s += `<span class="pj-pared__tag">${LADOS[lado]}</span>`;
+    if (svg) s += `<svg class="pj-cotas" width="${px(W)}" height="${px(H)}">${svg}</svg>`;
+    if (!L.items.length) s += `<button type="button" class="pj-mas" data-mas="${lado}"><b>+</b><span>Ventana o puerta</span></button>`;
     return s + '</div>';
   }
   function svgAb(it) {
@@ -256,9 +331,12 @@
     const pisoT = (60 * S).toFixed(2);
     s += `<div class="pj-cara pj-piso" data-m="piso" style="width:${(K.piso.w * S).toFixed(1)}px;height:${(K.piso.h * S).toFixed(1)}px;background-size:${pisoT}px ${pisoT}px"></div>`;
     if (K.sombra) s += `<div class="pj-cara pj-sombra" data-m="sombra" style="width:${(K.sombra.w * S).toFixed(1)}px;height:${(K.sombra.h * S).toFixed(1)}px"></div>`;
-    s += htmlPared(m.P, 'principal').replace('class="pj-cara', 'data-m="principal" class="pj-cara');
-    if (m.I) s += htmlPared(m.I, 'izquierda').replace('class="pj-cara', 'data-m="izquierda" class="pj-cara');
-    if (m.D) s += htmlPared(m.D, 'derecha').replace('class="pj-cara', 'data-m="derecha" class="pj-cara');
+    s += htmlPared(m.P, 'principal', K.principal);
+    // donde podría ir una pared lateral: contorno punteado (el + va encima, en 2D)
+    if (!m.I) s += cara('pj-fantasma', 220, m.H, new DOMMatrix().translate(0, -m.H * S, 220 * S).rotate(0, 90, 0));
+    if (!m.D) s += cara('pj-fantasma', 220, m.H, new DOMMatrix().translate(m.W * S, -m.H * S, 0).rotate(0, -90, 0));
+    if (m.I) s += htmlPared(m.I, 'izquierda', K.izquierda);
+    if (m.D) s += htmlPared(m.D, 'derecha', K.derecha);
     // columnas: cajas de 8 × 8 cm
     if (m.T) {
       const r = m.r, col = A.color(m.T.color).solido, a = 8;
@@ -285,11 +363,26 @@
     ui.cam.style.transform = String(C);
     // una pared vista de atrás se vuelve transparente: no tapa lo de adentro
     ['principal', 'izquierda', 'derecha'].forEach((lado) => {
-      const el = $(`.pj-pared[data-lado="${lado}"]`, ui.cam); if (!el || !caras[lado]) return;
+      if (!caras[lado]) return;
       const T = C.multiply(caras[lado]), O = T.transformPoint(new DOMPoint(0, 0, 0)), N = T.transformPoint(new DOMPoint(0, 0, 1));
       const n = [N.x - O.x, N.y - O.y, N.z - O.z], ojo = [-O.x, -O.y, PERSP - O.z];
-      el.classList.toggle('is-espalda', n[0] * ojo[0] + n[1] * ojo[1] + n[2] * ojo[2] < 0);
+      ui.cam.classList.toggle('espalda-' + lado, n[0] * ojo[0] + n[1] * ojo[1] + n[2] * ojo[2] < 0);
     });
+    puntos();
+  }
+  // Botones "+" anclados a puntos del 3D (siempre de frente y nítidos)
+  function puntos() {
+    if (!ui.puntos || !principal()) return;
+    const m = medidas(), r = ui.v3d.getBoundingClientRect(), cx = r.width / 2 + OX, cy = r.height / 2 + OY;
+    const lista = [];
+    if (!m.I) lista.push(['izquierda', [0, m.H * 0.4, 170], 'Pared']);
+    if (!m.D) lista.push(['derecha', [m.W, m.H * 0.4, 170], 'Pared']);
+    if (!m.T) lista.push(['techo', [m.W / 2, m.H + 28, 0], 'Techo']);
+    ui.puntos.innerHTML = vista !== '3d' ? '' : lista.map(([k, [x, y, z], t]) => {
+      const [sx, sy] = proyectar(aCss(x, y, z));
+      const px = clamp(cx + sx, 62, r.width - 62 - tapaDerecha()), py = clamp(cy + sy, 70, r.height - 170);
+      return `<button type="button" class="pj-punto" data-agregar="${k}" style="left:${px.toFixed(0)}px;top:${py.toFixed(0)}px" aria-label="Agregar ${k === 'techo' ? 'techo' : 'pared ' + k}"><b>+</b><span>${t}</span></button>`;
+    }).join('');
   }
   // solo redibuja las aberturas (animación)
   function repintarAberturas() {
@@ -311,9 +404,12 @@
     requestAnimationFrame(paso);
     ga('proyecto_animar');
   }
+  // De frente: un poco de costado para que se lea en 3D, sin dar la
+  // espalda a ninguna pared lateral
+  function yawFrente() { const I = fach('izquierda'), D = fach('derecha'); return I && D ? 0 : D ? 16 : -16; }
   // Gira la cámara hacia una pared
   function mirar(lado) {
-    const obj = lado === 'izquierda' ? -42 : lado === 'derecha' ? 42 : -16;
+    const obj = lado === 'izquierda' ? -42 : lado === 'derecha' ? 42 : yawFrente();
     const y0 = cam.yaw, t0 = performance.now();
     const f = () => {
       const k = Math.min(1, (performance.now() - t0) / 450), e = 1 - Math.pow(1 - k, 3);
@@ -335,13 +431,16 @@
     return [(c1 * b2 - c2 * b1) / det, (a1 * c2 - a2 * c1) / det];
   }
 
+  function bajo(x, y) {
+    return document.elementsFromPoint(x, y).find((el) => el.closest('[data-id], .pj-pared, .pj-techo')) || null;
+  }
   // ── Gestos en el 3D: girar, acercar, tocar, arrastrar ──────
   function gestos() {
     const v = ui.v3d, punteros = new Map();
     let g = null;   // { modo: 'orbita'|'ab'|'pinch', ... }
-    const rel = (e) => { const r = v.getBoundingClientRect(); return [e.clientX - r.left - r.width / 2, e.clientY - r.top - r.height / 2]; };
+    const rel = (e) => { const r = v.getBoundingClientRect(); return [e.clientX - r.left - r.width / 2 - OX, e.clientY - r.top - r.height / 2 - OY]; };
     v.addEventListener('pointerdown', (e) => {
-      if (e.button > 0) return;
+      if (e.button > 0 || e.target.closest('.pj-mas')) return;
       cerrarCoach();
       punteros.set(e.pointerId, [e.clientX, e.clientY]);
       v.setPointerCapture(e.pointerId);
@@ -350,11 +449,16 @@
         g = { modo: 'pinch', d0: Math.hypot(a[0] - b[0], a[1] - b[1]), z0: cam.zoom };
         return;
       }
-      const ab = e.target.closest('.pj-ab'), pared = e.target.closest('.pj-pared');
-      const base = { x0: e.clientX, y0: e.clientY, movio: false, blanco: e.target };
-      if (ab && pared) {
-        const r = buscar(ab.dataset.id), lado = pared.dataset.lado, l0 = sobreCara(caras[lado], ...rel(e));
-        g = Object.assign(base, { modo: 'ab', id: ab.dataset.id, lado, l0, x: r.it.x, ante: r.it.ante, antes: foto() });
+      // el destino del evento no respeta el vano recortado en la pared
+      // (clip-path en 3D): se busca qué hay de verdad bajo el dedo
+      const blanco = bajo(e.clientX, e.clientY) || e.target;
+      const ab = blanco.closest('[data-id]');
+      const base = { x0: e.clientX, y0: e.clientY, movio: false, blanco, punto: rel(e) };
+      if (ab && buscar(ab.dataset.id)) {
+        const r = buscar(ab.dataset.id), lado = r.L.lado, l0 = sobreCara(caras[lado], ...rel(e));
+        // dónde se agarró, relativo a la abertura (cm)
+        const off = l0 ? [l0[0] / S - r.it.x, (r.L.pared.alto - l0[1] / S) - r.it.ante] : [r.it.ancho / 2, r.it.alto / 2];
+        g = Object.assign(base, { modo: 'ab', id: ab.dataset.id, lado, l0, off, antes: foto() });
       } else g = Object.assign(base, { modo: 'orbita', yaw: cam.yaw, pitch: cam.pitch });
     });
     v.addEventListener('pointermove', (e) => {
@@ -373,20 +477,36 @@
         cam.pitch = clamp(g.pitch - dy * 0.22, -4, 60);
         camara();
       } else if (g.modo === 'ab' && g.l0) {
-        const l = sobreCara(caras[g.lado], ...rel(e)); if (!l) return;
         const r = buscar(g.id); if (!r) return;
-        const L = r.L, it = r.it;
-        let nx = g.x + (l[0] - g.l0[0]) / S, na = g.ante - (l[1] - g.l0[1]) / S;
+        const it = r.it, pto = rel(e);
+        // ¿sobre qué pared está el dedo? (la más cercana que se ve de frente)
+        let L = r.L, l = sobreCara(caras[L.lado], ...pto), mejor = -Infinity;
+        paredes().forEach((P) => {
+          if (ui.cam.classList.contains('espalda-' + P.lado) || !caras[P.lado] || it.ancho > P.pared.ancho) return;
+          const q = sobreCara(caras[P.lado], ...pto); if (!q) return;
+          const qx = q[0] / S, qy = q[1] / S;
+          if (qx < -10 || qx > P.pared.ancho + 10 || qy < -10 || qy > P.pared.alto + 10) return;
+          const z = C.multiply(caras[P.lado]).transformPoint(new DOMPoint(q[0], q[1], 0)).z;
+          if (z > mejor) { mejor = z; L = P; l = q; }
+        });
+        if (!l) return;
+        if (L !== r.L) {
+          // pasa a otra pared
+          r.L.items.splice(r.L.items.indexOf(it), 1); L.items.push(it);
+          g.lado = L.lado; ladoAct = L.lado;
+          if (it.alto > L.pared.alto) it.alto = L.pared.alto;
+          aviso(`A la ${LADOS[L.lado].toLowerCase()}`);
+        }
+        let nx = l[0] / S - g.off[0], na = (L.pared.alto - l[1] / S) - g.off[1];
         nx = clamp(Math.round(nx), 0, Math.max(0, L.pared.ancho - it.ancho));
         na = clamp(Math.round(na), 0, Math.max(0, L.pared.alto - it.alto));
         if (na < 4) na = 0;
         // imán al centro de la pared
         const cxp = (L.pared.ancho - it.ancho) / 2;
         if (Math.abs(nx - cxp) < 6) nx = Math.round(cxp);
-        if (nx !== it.x || na !== it.ante) {
+        if (nx !== it.x || na !== it.ante || g.lado !== r.L.lado) {
           it.x = nx; it.ante = na; selId = g.id;
-          const el = $(`.pj-ab[data-id="${g.id}"]`, ui.cam);
-          if (el) { el.style.left = (nx * S).toFixed(1) + 'px'; el.style.top = ((L.pared.alto - na - it.alto) * S).toFixed(1) + 'px'; }
+          if (!g.raf) g.raf = requestAnimationFrame(() => { if (g) g.raf = 0; escena3d(); });
         }
       }
     });
@@ -399,7 +519,7 @@
       if (g.modo === 'ab' && g.movio) {
         historial.push(g.antes); rehacer = []; M.guardar();
         seleccionar(g.id, true);
-      } else if (!g.movio) tocar(g.blanco);
+      } else if (!g.movio) tocar(g.blanco, g.punto);
       g = null;
     };
     v.addEventListener('pointerup', fin);
@@ -409,29 +529,38 @@
       cam.zoom = clamp(cam.zoom * Math.exp(-e.deltaY * 0.0012), 0.45, 3.5);
       encuadrar();
     }, { passive: false });
-    v.addEventListener('dblclick', () => { cam.zoom = 1; cam.yaw = -16; cam.pitch = 11; encuadrar(); });
+    v.addEventListener('click', (e) => {
+      const b = e.target.closest('.pj-mas'); if (!b) return;
+      ladoAct = b.dataset.mas; lugar = { lado: ladoAct, x: fach(ladoAct).pared.ancho / 2 };
+      catModo = 'nueva'; abrirCatalogo();
+    });
+    ui.puntos.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-agregar]'); if (!b) return;
+      cerrarCoach();
+      if (b.dataset.agregar === 'techo') acciones({ dataset: { act: 'techo' } });
+      else agregarPared(b.dataset.agregar);
+    });
+    v.addEventListener('dblclick', () => { cam.zoom = 1; cam.yaw = yawFrente(); cam.pitch = 11; encuadrar(); });
   }
-  function tocar(el) {
-    const ab = el.closest && el.closest('.pj-ab');
-    if (ab) { seleccionar(ab.dataset.id); return; }
+  // Tocar la pared: "¿qué va acá?" y la abertura queda donde se tocó
+  function tocar(el, punto) {
+    const ab = el.closest && el.closest('[data-id]');
+    if (ab && buscar(ab.dataset.id)) { seleccionar(ab.dataset.id); return; }
     const pared = el.closest && el.closest('.pj-pared');
     if (pared) {
-      ladoAct = pared.dataset.lado;
-      if (paso !== 2 || selId) { selId = null; irPaso(2, true); }
-      escena3d(); pintarPanel();
-      aviso(`${LADOS[ladoAct]}: tocá «Agregar abertura» para sumar una acá.`);
+      const lado = pared.dataset.lado, l = punto && sobreCara(caras[lado], ...punto);
+      elegirPared(lado, l ? [l[0] / S] : null);
       return;
     }
-    if (el.closest && el.closest('.pj-techo')) { irPaso(3); return; }
-    if (selId) { selId = null; escena3d(); pintarPanel(); }
+    if (el.closest && el.closest('.pj-techo')) { elegirTecho(); return; }
+    if (selId || selOtro) soltar();
   }
   function seleccionar(id, sinMirar) {
     const r = buscar(id); if (!r) return;
-    selId = id; ladoAct = r.L.lado;
-    if (paso !== 2) irPaso(2, true);
+    if (selId !== id) { colTodos = false; if (!sinMirar) hojaAct = null; }
+    selId = id; selOtro = null; ladoAct = r.L.lado;
     escena3d(); pintarPanel();
-    ui.panel.scrollTop = 0;
-    if (!sinMirar) mirar(r.L.lado);
+    if (!sinMirar && r.L.lado !== 'principal') mirar(r.L.lado);
   }
 
   // ════════════════════════════════════════════════════════════
@@ -452,15 +581,20 @@
     ui.plano.hidden = v !== 'plano'; ui.v3d.hidden = v === 'plano';
     if (v === 'plano') {
       const r = selId && buscar(selId);
-      hojaIdx = r ? pl().laminas.indexOf(r.L) : paso === 3 && techo() ? pl().laminas.indexOf(techo()) : hojaIdx;
+      hojaIdx = r ? pl().laminas.indexOf(r.L) : selOtro === 'techo' && techo() ? pl().laminas.indexOf(techo()) : hojaIdx;
       pintarHoja();
     } else requestAnimationFrame(encuadrar);
+    puntos();
     ga('proyecto_vista', { event_label: v });
   }
 
   // ════════════════════════════════════════════════════════════
-  //  PANEL DE PASOS
+  //  INTERFAZ: barra contextual + hoja con un solo control
   // ════════════════════════════════════════════════════════════
+  // Como en las apps de diseño de ambientes: el 3D ocupa toda la
+  // pantalla; abajo, una barra que cambia según lo que está elegido
+  // (nada, una abertura, una pared o el techo) y, al tocar una opción,
+  // una hoja con sólo ese control.
   const num = (k, label, v, o) => {
     o = o || {};
     const id = o.id ? ` data-id="${o.id}"` : '', d = o.paso || 5;
@@ -471,23 +605,118 @@
   };
   const opt = (v, t, cur) => `<option value="${esc(v)}"${String(v) === String(cur) ? ' selected' : ''}>${esc(t)}</option>`;
   const seg = (k, opciones, cur, id) => `<div class="pj-seg" role="group">${opciones.map(([v, t]) => `<button type="button" data-set="${k}"${id ? ` data-id="${id}"` : ''} data-v="${v}" aria-pressed="${String(v) === String(cur)}">${t}</button>`).join('')}</div>`;
-  const bloque = (titulo, cuerpo, ayuda) => `<section class="pj-bloque"><h3>${titulo}</h3>${ayuda ? `<p class="pj-ayuda">${ayuda}</p>` : ''}${cuerpo}</section>`;
+  const bloque = (titulo, cuerpo, ayuda) => `<section class="pj-bloque">${titulo ? `<h3>${titulo}</h3>` : ''}${ayuda ? `<p class="pj-ayuda">${ayuda}</p>` : ''}${cuerpo}</section>`;
+  const COMUNES = ['blanco', 'negro', 'bronce', 'gris', 'simil-madera', 'anod-natural'];
+  let colTodos = false;
   const colores = (k, cur, id) => {
-    const grupos = {};
-    A.COLORES.forEach((c) => { (grupos[c.grupo] = grupos[c.grupo] || []).push(c); });
+    const todos = colTodos || !COMUNES.includes(cur), grupos = {};
+    A.COLORES.filter((c) => todos || COMUNES.includes(c.id)).forEach((c) => { (grupos[todos ? c.grupo : 'Los más pedidos'] = grupos[todos ? c.grupo : 'Los más pedidos'] || []).push(c); });
     return Object.entries(grupos).map(([g, cs]) => `<div class="pj-colores"><span class="pj-mini">${g}</span><div>${cs.map((c) => `<button type="button" data-set="${k}"${id ? ` data-id="${id}"` : ''} data-v="${c.id}" aria-pressed="${c.id === cur}" title="${esc(c.nombre)}" aria-label="${esc(c.nombre)}"><i style="background:${c.grad ? `linear-gradient(135deg,${c.grad.join(',')})` : c.solido}"></i></button>`).join('')}</div></div>`).join('') +
-      `<p class="pj-elegido">${esc(A.color(cur).grupo === 'Anodizado' ? 'Anodizado ' + A.color(cur).nombre.toLowerCase() : A.color(cur).nombre)}</p>`;
+      `<p class="pj-elegido">${esc(A.color(cur).grupo === 'Anodizado' ? 'Anodizado ' + A.color(cur).nombre.toLowerCase() : A.color(cur).nombre)}` +
+      (todos ? '' : ` · <button type="button" class="pj-link" data-act="colores">Ver todos (${A.COLORES.length})</button>`) + '</p>';
   };
+  const ICO = {
+    mas: '<path d="M12 5v14M5 12h14"/>',
+    medidas: '<path d="M3 17 17 3l4 4L7 21z"/><path d="m7 13 2 2M10 10l2 2M13 7l2 2"/>',
+    color: '<circle cx="12" cy="12" r="9"/><circle cx="8" cy="10" r="1.4" fill="currentColor"/><circle cx="12" cy="7.5" r="1.4" fill="currentColor"/><circle cx="16" cy="10" r="1.4" fill="currentColor"/><path d="M12 21a3 3 0 0 1 0-6h1.5a2.5 2.5 0 0 0 0-5"/>',
+    vidrio: '<rect x="4" y="3" width="16" height="18" rx="1"/><path d="m8 15 4-4M11 17l6-6"/>',
+    opciones: '<circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/>',
+    abrir: '<path d="M8 5v14l11-7z"/>',
+    duplicar: '<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>',
+    borrar: '<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>',
+    paredes: '<path d="M3 20V6l9-3 9 3v14"/><path d="M3 20h18M9 20v-6h6v6"/>',
+    techo: '<path d="M2 9 12 4l10 5"/><path d="M5 9v11M19 9v11M2 20h20"/>',
+    frente: '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>',
+    alturas: '<path d="M12 3v18M8 7l4-4 4 4M8 17l4 4 4-4"/>',
+    columnas: '<path d="M6 4v16M12 4v16M18 4v16M3 20h18"/>',
+    material: '<path d="M3 7h18M3 12h18M3 17h18"/>',
+    ojo: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+    x: '<path d="M6 6l12 12M18 6 6 18"/>',
+  };
+  const ico = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICO[k]}</svg>`;
+  const chip = (k, txt, o) => { o = o || {}; return `<button type="button" class="pj-chip${o.main ? ' is-main' : ''}${o.peligro ? ' is-peligro' : ''}${hojaAct === k ? ' is-on' : ''}" data-chip="${k}"${o.act ? ` data-act="${o.act}"` : ''}>${ico(o.ico || k)}<span>${txt}</span></button>`; };
 
-  function htmlParedes() {
-    const P = principal(), I = fach('izquierda'), D = fach('derecha'), pc = M.pared(P.paredColor).id;
-    let s = bloque('Pared principal', `<div class="pj-grid">${num('p.ancho', 'Ancho', P.pared.ancho, { ayuda: 'De punta a punta' })}${num('p.alto', 'Alto', P.pared.alto, { ayuda: 'Del piso al techo' })}</div>`, 'Es la pared que tenés enfrente. Medila con un metro, en centímetros.');
-    const lateral = (lado, L) => `<div class="pj-lat${L ? ' is-on' : ''}"><label class="pj-sw"><input type="checkbox" data-lat="${lado}"${L ? ' checked' : ''}><span class="pj-sw__ui" aria-hidden="true"></span><span>${LADOS[lado]}</span></label>` +
-      (L ? num('lat.' + lado, 'Largo', L.pared.ancho, { ayuda: 'Desde la esquina hacia adelante' }) : '') + '</div>';
-    s += bloque('Paredes de los costados', `<div class="pj-lats">${lateral('izquierda', I)}${lateral('derecha', D)}</div>`, 'Sumalas si llevan aberturas o si el techo se apoya en ellas. Tienen el mismo alto que la principal.');
-    s += bloque('Color de las paredes', `<div class="pj-pcolor" role="group" aria-label="Color de las paredes">${M.PAREDES.map((x) => `<button type="button" data-pcolor="${x.id}" aria-pressed="${x.id === pc}"><i class="${x.id === 'ladrillo' ? 'is-ladrillo' : ''}" style="background:${x.color}"></i><span>${x.nombre}</span></button>`).join('')}</div>`, 'Sólo para que se vea parecido. No cambia el presupuesto.');
-    s += bloque('¿Desde dónde la mirás?', seg('vista', [['interior', 'Desde adentro'], ['exterior', 'Desde afuera']], P.vista === 'exterior' ? 'exterior' : 'interior'), 'Así sabemos para qué lado abren las hojas.');
-    return s;
+  let selOtro = null;     // 'pared:<lado>' | 'techo' (lo elegido que no es una abertura)
+  let hojaAct = null;     // control abierto en la hoja
+  const selPared = () => (selOtro && selOtro.startsWith('pared:') ? selOtro.slice(6) : null);
+
+  // ── Barra de abajo según lo elegido ─────────────────────────
+  function htmlDock() {
+    if (selId && buscar(selId)) {
+      const { it, L } = buscar(selId), t = A.tipo(it.tipo);
+      return `<div class="pj-dock__cab"><span class="pj-dock__img">${mini(it, 34)}</span><span class="pj-dock__tit"><b>${esc(t.nombre)}</b><small>${fmt(it.ancho)} × ${fmt(it.alto)} cm · ${CORTO[L.lado]}</small></span><button type="button" class="pj-dock__x" data-act="soltar" aria-label="Listo">${ico('x')}</button></div>` +
+        `<div class="pj-dock__chips">${chip('medidas', 'Medidas')}${chip('color', 'Color')}${t.sinVidrio ? '' : chip('vidrio', 'Vidrio')}${chip('opciones', 'Más')}${chip('abrir', 'Ver abrir', { act: 'animar' })}${chip('borrar', 'Borrar', { act: 'borrar', peligro: true })}</div>`;
+    }
+    const lado = selPared();
+    if (lado && fach(lado)) {
+      const L = fach(lado);
+      return `<div class="pj-dock__cab"><span class="pj-dock__ico">${ico('paredes')}</span><span class="pj-dock__tit"><b>${LADOS[lado]}</b><small>${coma(L.pared.ancho / 100, 2)} × ${coma(L.pared.alto / 100, 2)} m · ${L.items.length} abertura${L.items.length === 1 ? '' : 's'}</small></span><button type="button" class="pj-dock__x" data-act="soltar" aria-label="Listo">${ico('x')}</button></div>` +
+        `<div class="pj-dock__chips">${chip('agregar', 'Abertura', { act: 'catalogo', ico: 'mas', main: true })}${chip('medidas', 'Medidas')}${chip('color', 'Color')}${chip('vista', 'Se ve desde', { ico: 'ojo' })}${L.items.length > 1 ? chip('repartir', 'Repartir', { act: 'repartir', ico: 'columnas' }) : ''}${lado !== 'principal' ? chip('borrar', 'Quitar pared', { act: 'quitar-pared', peligro: true }) : ''}</div>`;
+    }
+    if (selOtro === 'techo' && techo()) {
+      const T = techo(), r = rectTecho(T);
+      return `<div class="pj-dock__cab"><span class="pj-dock__ico">${ico('techo')}</span><span class="pj-dock__tit"><b>Techo de policarbonato</b><small>${coma(r.ancho * r.salida / 10000, 2)} m² · pendiente ${coma(Math.max(0, M.pendiente(T)), 1)} %</small></span><button type="button" class="pj-dock__x" data-act="soltar" aria-label="Listo">${ico('x')}</button></div>` +
+        `<div class="pj-dock__chips">${chip('medidas', 'Medidas')}${chip('alturas', 'Alturas')}${chip('columnas', 'Columnas')}${chip('material', 'Material')}${chip('color', 'Color')}${chip('borrar', 'Quitar', { act: 'techo-no', peligro: true })}</div>`;
+    }
+    // nada elegido: lo principal, grande
+    const hay = paredes().some((L) => L.items.length);
+    return `<div class="pj-dock__chips pj-dock__chips--base">${chip('agregar', 'Agregar', { act: 'catalogo', ico: 'mas', main: true })}${chip('paredes', 'Paredes')}${chip('techo', 'Techo', { act: 'techo' })}${hay ? chip('abrir', 'Ver abrir', { act: 'animar' }) : ''}${chip('frente', 'De frente', { act: 'centro' })}</div>`;
+  }
+
+  // ── Hoja: el control elegido ────────────────────────────────
+  function htmlHoja() {
+    if (!hojaAct) return null;
+    if (selId && buscar(selId)) {
+      const { it, L } = buscar(selId), t = A.tipo(it.tipo), lim = A.limites(t);
+      if (hojaAct === 'medidas') return ['Medidas del hueco', bloque('', `<div class="pj-grid">${num('ancho', 'Ancho', it.ancho, { id: it.id, ayuda: `${lim.ancho[0]} a ${lim.ancho[1]} cm` })}${num('alto', 'Alto', it.alto, { id: it.id, ayuda: `${lim.alto[0]} a ${lim.alto[1]} cm` })}</div>`, 'Medí el hueco en la pared, en centímetros.') +
+        bloque('Ubicación', `<div class="pj-grid">${num('x', 'Desde la izquierda', it.x, { id: it.id })}${num('ante', 'Desde el piso', it.ante, { id: it.id, ayuda: t.grupo === 'Puertas' ? 'En puertas va 0' : '' })}</div><div class="pj-acts"><button type="button" class="pj-btn pj-btn--sm" data-ab="centrar">Centrar en la pared</button></div>`, 'O arrastrala en el dibujo, incluso a otra pared.')];
+      if (hojaAct === 'color') return ['Color del aluminio', colores('color', it.color, it.id)];
+      if (hojaAct === 'vidrio') {
+        const extras = [];
+        if (t.mosq) extras.push(['mosquitero', 'Mosquitero']);
+        if (M.conAcc(t)) extras.push(['reja', 'Reja'], ['postigon', 'Postigón']);
+        return ['Vidrio', seg('vidrio', A.VIDRIOS.map((v) => [v.id, v.nombre.replace(' (doble vidriado)', '')]), it.vidrio, it.id) +
+          (extras.length ? bloque('Agregados', `<div class="pj-chks">${extras.map(([k, n]) => `<label class="pj-chk"><input type="checkbox" data-k="${k}" data-id="${it.id}"${it[k] ? ' checked' : ''}><span>${n}</span></label>`).join('')}</div>`) : '')];
+      }
+      if (hojaAct === 'opciones') {
+        let s = `<div class="pj-acts"><button type="button" class="pj-btn" data-act="cambiar">Cambiar por otra</button><button type="button" class="pj-btn" data-act="duplicar">Duplicar</button>` +
+          `<div class="pj-foto"><button type="button" class="pj-btn" data-act="foto" aria-expanded="false">Probar en una foto</button><div class="pj-foto__menu" hidden><button type="button" data-pared="camara">Sacar foto</button><button type="button" data-pared="galeria">Elegir de la galería</button><button type="button" data-pared="ejemplo">Pared de ejemplo</button></div></div></div>`;
+        if (t.sinVidrio && (t.mosq || M.conAcc(t))) s += bloque('Agregados', `<div class="pj-chks">${[t.mosq ? ['mosquitero', 'Mosquitero'] : null, ...(M.conAcc(t) ? [['reja', 'Reja'], ['postigon', 'Postigón']] : [])].filter(Boolean).map(([k, n]) => `<label class="pj-chk"><input type="checkbox" data-k="${k}" data-id="${it.id}"${it[k] ? ' checked' : ''}><span>${n}</span></label>`).join('')}</div>`);
+        if (M.tieneMano(t)) s += bloque('Bisagras', seg('mano', [['izq', 'A la izquierda'], ['der', 'A la derecha']], it.mano, it.id));
+        if (M.conLinea(t)) s += bloque('Línea de aluminio', `<select class="pj-select" data-k="linea" data-id="${it.id}">${A.LINEAS.map((l) => opt(l.id, l.nombre, it.linea || 'asesorar')).join('')}</select>`, 'Si no sabés, dejá «Que me asesoren».');
+        const av = avisos(L);
+        if (av.length) s += `<ul class="pj-avisos">${av.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`;
+        return ['Más opciones', s];
+      }
+      return null;
+    }
+    const lado = selPared();
+    if (lado && fach(lado)) {
+      const L = fach(lado), pc = M.pared(L.paredColor).id;
+      if (hojaAct === 'medidas') return [LADOS[lado], lado === 'principal'
+        ? `<div class="pj-grid">${num('p.ancho', 'Ancho', L.pared.ancho, { ayuda: 'De punta a punta' })}${num('p.alto', 'Alto', L.pared.alto, { ayuda: 'Del piso al techo' })}</div><p class="pj-ayuda">Las paredes de los costados tienen el mismo alto.</p>`
+        : `<div class="pj-grid">${num('lat.' + lado, 'Largo', L.pared.ancho, { ayuda: 'Desde la esquina' })}${num('p.alto', 'Alto', L.pared.alto, { ayuda: 'Igual en todas' })}</div>`];
+      if (hojaAct === 'color') return ['Color de las paredes', `<div class="pj-pcolor" role="group" aria-label="Color de las paredes">${M.PAREDES.map((x) => `<button type="button" data-pcolor="${x.id}" aria-pressed="${x.id === pc}"><i class="${x.id === 'ladrillo' ? 'is-ladrillo' : ''}" style="background:${x.color}"></i><span>${x.nombre}</span></button>`).join('')}</div><p class="pj-ayuda">Sólo para que se vea parecido.</p>`];
+      if (hojaAct === 'vista') return ['¿Desde dónde la mirás?', seg('vista', [['interior', 'Desde adentro'], ['exterior', 'Desde afuera']], L.vista === 'exterior' ? 'exterior' : 'interior') + '<p class="pj-ayuda">Así sabemos para qué lado abren las hojas.</p>'];
+      return null;
+    }
+    if (selOtro === 'techo' && techo()) {
+      const T = techo(), r = rectTecho(T);
+      if (hojaAct === 'medidas') return ['Medidas del techo', `<div class="pj-grid">${num('t.ancho', 'Largo contra la pared', r.ancho)}${num('t.salida', 'Cuánto sale', r.salida, { ayuda: 'Hasta el frente' })}</div>`];
+      if (hojaAct === 'alturas') return ['Alturas', `<div class="pj-grid">${num('t.alta', 'En la pared', T.alta, { ayuda: 'Desde el piso' })}${num('t.baja', 'En el frente', T.baja, { ayuda: 'Altura libre' })}</div><p class="pj-dato">Pendiente <b>${coma(Math.max(0, M.pendiente(T)), 1)} %</b></p>`];
+      if (hojaAct === 'columnas') return ['Columnas', num('t.col', 'Cantidad', (T.columnas || []).length, { paso: 1, unidad: 'u.', ayuda: 'En el frente del techo' }) + '<p class="pj-ayuda">Poné 0 si el techo se apoya en las paredes de los costados.</p>'];
+      if (hojaAct === 'material') return ['Policarbonato', `<select class="pj-select" data-t="material">${M.MATERIALES.map((m) => opt(m.id, m.nombre, T.material)).join('')}</select>` + bloque('Es para', `<select class="pj-select" data-t="uso">${M.USOS.map((u) => opt(u, u, T.uso)).join('')}</select>`)];
+      if (hojaAct === 'color') return ['Color de la estructura', colores('t.color', T.color)];
+      return null;
+    }
+    if (hojaAct === 'paredes') {
+      const P = principal(), I = fach('izquierda'), D = fach('derecha');
+      const lateral = (lado, L) => `<div class="pj-lat${L ? ' is-on' : ''}"><label class="pj-sw"><input type="checkbox" data-lat="${lado}"${L ? ' checked' : ''}><span class="pj-sw__ui" aria-hidden="true"></span><span>${CORTO[lado]}</span></label>` +
+        (L ? num('lat.' + lado, 'Largo', L.pared.ancho) : '') + '</div>';
+      return ['Paredes', bloque('Pared principal', `<div class="pj-grid">${num('p.ancho', 'Ancho', P.pared.ancho, { ayuda: 'De punta a punta' })}${num('p.alto', 'Alto', P.pared.alto, { ayuda: 'Del piso al techo' })}</div>`) +
+        bloque('A los costados', `<div class="pj-lats">${lateral('izquierda', I)}${lateral('derecha', D)}</div>`, 'También con el + al lado de la pared, en el dibujo.')];
+    }
+    return null;
   }
 
   function avisos(L) {
@@ -503,107 +732,36 @@
     return out;
   }
 
-  function htmlAberturas() {
-    const refs = M.referencias(), lados = paredes().map((L) => L.lado);
-    if (selId) return htmlEditor(refs);
-    let s = '';
-    s += `<div class="pj-agregar">${lados.length > 1 ? `<div><span class="pj-mini">¿En qué pared?</span>${seg('lado', lados.map((l) => [l, CORTO[l]]), ladoAct)}</div>` : ''}` +
-      `<button type="button" class="pj-btn pj-btn--main pj-btn--xl" data-act="catalogo">+ Agregar ventana o puerta</button></div>`;
-    const total = paredes().reduce((n, L) => n + L.items.length, 0);
-    if (!total) {
-      s += `<p class="pj-vacio">Todavía no hay ninguna. Tocá <b>Agregar</b> y elegí qué va${lados.length > 1 ? ' en la pared marcada' : ''}. Después la podés mover con el dedo en el dibujo.</p>`;
-      return s;
-    }
-    paredes().forEach((L) => {
-      if (!L.items.length) return;
-      s += `<h3 class="pj-lista__t">${LADOS[L.lado]}</h3><ul class="pj-lista">`;
-      L.items.slice().sort((a, b) => a.x - b.x).forEach((it) => {
-        const t = A.tipo(it.tipo);
-        s += `<li><button type="button" data-sel="${it.id}"><span class="pj-lista__img">${mini(it, 40)}</span><span class="pj-lista__txt"><b>${esc(t.nombre)}</b><small>${fmt(it.ancho)} × ${fmt(it.alto)} cm · ${esc(A.color(it.color).nombre)}</small></span><em>${refs.de(it)}</em></button></li>`;
-      });
-      s += '</ul>';
-      const av = avisos(L);
-      if (av.length) s += `<ul class="pj-avisos">${av.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>`;
-    });
-    s += `<div class="pj-acts"><button type="button" class="pj-btn" data-act="animar">▶ Ver cómo abren</button>${fach(ladoAct).items.length > 1 ? '<button type="button" class="pj-btn" data-act="repartir">Repartir parejo</button>' : ''}</div>`;
-    s += '<p class="pj-ayuda">Tocá una abertura (acá o en el dibujo) para cambiar medidas, color o vidrio. Arrastrala en el dibujo para ubicarla.</p>';
-    return s;
-  }
-
-  function htmlEditor(refs) {
-    const r = buscar(selId), it = r.it, L = r.L, t = A.tipo(it.tipo), lim = A.limites(t);
-    let s = `<div class="pj-ed__head"><button type="button" class="pj-volver" data-act="lista" aria-label="Volver a la lista">←</button>` +
-      `<span class="pj-ed__img">${mini(it, 52)}</span><span class="pj-ed__tit"><small>${refs.de(it)} · ${LADOS[L.lado]}</small><b>${esc(t.nombre)}</b></span>` +
-      `<button type="button" class="pj-btn pj-btn--sm" data-act="cambiar">Cambiar</button></div>`;
-    s += bloque('Medidas', `<div class="pj-grid">${num('ancho', 'Ancho', it.ancho, { id: it.id, ayuda: `${lim.ancho[0]} a ${lim.ancho[1]} cm` })}${num('alto', 'Alto', it.alto, { id: it.id, ayuda: `${lim.alto[0]} a ${lim.alto[1]} cm` })}</div>`, 'El hueco en la pared (vano), en centímetros.');
-    s += bloque('Ubicación', `<div class="pj-grid">${num('x', 'Desde la izquierda', it.x, { id: it.id, ayuda: 'Desde el borde de la pared' })}${num('ante', 'Desde el piso', it.ante, { id: it.id, ayuda: t.grupo === 'Puertas' ? 'En puertas va 0' : 'Hasta el borde de abajo' })}</div><div class="pj-acts"><button type="button" class="pj-btn pj-btn--sm" data-ab="centrar">Centrar en la pared</button></div>`, 'También la podés arrastrar en el dibujo.');
-    s += bloque('Color del aluminio', colores('color', it.color, it.id));
-    if (!t.sinVidrio) s += bloque('Vidrio', seg('vidrio', A.VIDRIOS.map((v) => [v.id, v.nombre.replace(' (doble vidriado)', '')]), it.vidrio, it.id));
-    const extras = [];
-    if (t.mosq) extras.push(['mosquitero', 'Mosquitero']);
-    if (M.conAcc(t)) extras.push(['reja', 'Reja'], ['postigon', 'Postigón']);
-    if (extras.length) s += bloque('Agregados', `<div class="pj-chks">${extras.map(([k, n]) => `<label class="pj-chk"><input type="checkbox" data-k="${k}" data-id="${it.id}"${it[k] ? ' checked' : ''}><span>${n}</span></label>`).join('')}</div>`);
-    if (M.tieneMano(t)) s += bloque('Bisagras', seg('mano', [['izq', 'A la izquierda'], ['der', 'A la derecha']], it.mano, it.id));
-    if (M.conLinea(t)) s += bloque('Línea de aluminio', `<select class="pj-select" data-k="linea" data-id="${it.id}">${A.LINEAS.map((l) => opt(l.id, l.nombre, it.linea || 'asesorar')).join('')}</select>`, 'Si no sabés, dejá «Que me asesoren».');
-    s += `<div class="pj-acts pj-acts--ed"><button type="button" class="pj-btn pj-btn--main" data-act="animar" data-id="${it.id}">▶ Ver cómo abre</button>` +
-      `<div class="pj-foto"><button type="button" class="pj-btn" data-act="foto" aria-expanded="false">Probar en una foto</button><div class="pj-foto__menu" hidden><button type="button" data-pared="camara">Sacar foto</button><button type="button" data-pared="galeria">Elegir de la galería</button><button type="button" data-pared="ejemplo">Pared de ejemplo</button></div></div>` +
-      `<button type="button" class="pj-btn" data-ab="duplicar">Duplicar</button><button type="button" class="pj-btn pj-btn--peligro" data-ab="borrar">Quitar</button></div>`;
-    const av = avisos(L).filter((x) => x.startsWith(refs.de(it)) || x.includes(' y ' + refs.de(it)));
-    if (av.length) s += `<ul class="pj-avisos">${av.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`;
-    s += `<button type="button" class="pj-btn pj-btn--xl pj-listo" data-act="lista">Listo</button>`;
-    return s;
-  }
-
-  function htmlTecho() {
-    const T = techo();
-    if (!T) {
-      return `<div class="pj-techo0"><svg viewBox="0 0 200 110" aria-hidden="true"><path class="m" d="M20 10v92"/><path class="t" d="M20 26L184 40"/><path class="c" d="M176 40v62M100 33v69"/><path class="p" d="M6 102h188"/></svg>` +
-        `<h3>¿Lleva techo de policarbonato?</h3><p>Opcional. Se apoya en la pared principal y sale hacia adelante, con columnas o sobre las paredes de los costados.</p>` +
-        `<button type="button" class="pj-btn pj-btn--main pj-btn--xl" data-act="techo-si">+ Agregar techo</button><button type="button" class="pj-btn pj-btn--xl" data-act="siguiente">No lleva techo, seguir</button></div>`;
-    }
-    const r = rectTecho(T), pend = Math.max(0, M.pendiente(T)), sup = r.ancho * r.salida / 10000;
-    let s = bloque('Medidas', `<div class="pj-grid">${num('t.ancho', 'Largo contra la pared', r.ancho, { ayuda: 'El lado que apoya' })}${num('t.salida', 'Cuánto sale', r.salida, { ayuda: 'Hasta el frente' })}</div>`);
-    s += bloque('Alturas', `<div class="pj-grid">${num('t.alta', 'En la pared', T.alta, { ayuda: 'Desde el piso' })}${num('t.baja', 'En el frente', T.baja, { ayuda: 'Altura libre' })}</div><p class="pj-dato">Pendiente <b>${coma(pend, 1)} %</b> · Superficie <b>${coma(sup, 2)} m²</b></p>`);
-    s += bloque('Columnas', num('t.col', 'Cantidad', (T.columnas || []).length, { paso: 1, unidad: 'u.', ayuda: 'Van en el frente' }), 'Poné 0 si el techo se apoya en las paredes de los costados.');
-    s += bloque('Policarbonato', `<select class="pj-select" data-t="material">${M.MATERIALES.map((m) => opt(m.id, m.nombre, T.material)).join('')}</select>`);
-    s += bloque('Color de la estructura', colores('t.color', T.color));
-    s += bloque('Es para', `<select class="pj-select" data-t="uso">${M.USOS.map((u) => opt(u, u, T.uso)).join('')}</select>`);
-    s += `<div class="pj-acts"><button type="button" class="pj-btn pj-btn--peligro" data-act="techo-no">Quitar el techo</button></div>`;
-    return s;
-  }
-
-  function htmlEnviar() {
-    const p = pl(), n = paredes().reduce((k, L) => k + L.items.length, 0), T = techo();
-    const filas = paredes().map((L) => `<li><b>${LADOS[L.lado]}</b><span>${fmt(L.pared.ancho)} × ${fmt(L.pared.alto)} cm · ${L.items.length} abertura${L.items.length === 1 ? '' : 's'}</span></li>`).join('') +
-      (T ? `<li><b>Techo</b><span>${coma(rectTecho(T).ancho * rectTecho(T).salida / 10000, 2)} m² · ${esc(M.material(T.material).nombre)}</span></li>` : '');
-    let s = bloque('Tu proyecto', `<ul class="pj-resumen">${filas}</ul>${!n && !T ? '<p class="pj-avisos">Todavía no agregaste aberturas ni techo.</p>' : ''}<div class="pj-acts"><button type="button" class="pj-btn" data-vista="plano">Ver el plano técnico</button>${n ? '<button type="button" class="pj-btn" data-act="animar">▶ Ver cómo abren</button>' : ''}</div>`);
-    s += bloque('Tus datos', `<div class="pj-campos"><label class="pj-campo"><span>Tu nombre</span><input type="text" data-d="cliente" value="${esc(p.datos.cliente || '')}" maxlength="60" autocomplete="name"></label><label class="pj-campo"><span>Localidad de la obra</span><input type="text" data-d="localidad" value="${esc(p.datos.localidad || '')}" maxlength="60" autocomplete="address-level2"></label></div>`, 'Salen en el rótulo del plano.');
-    s += `<button type="button" class="pj-btn pj-btn--main pj-btn--xl" data-act="enviar">Enviar a Alumfer</button>`;
-    s += `<p class="pj-ayuda">Nos llega el plano completo (técnico y en color) para presupuestarte. Lo mandás por WhatsApp o por email; por email te llega también una copia del PDF. Gratis y sin compromiso.</p>`;
-    return s;
-  }
-
   function pintarPanel() {
     const ae = document.activeElement;
-    const foco = ae && ui.panel.contains(ae) && (ae.dataset.k || ae.dataset.d) ? `[data-${ae.dataset.k ? 'k' : 'd'}="${ae.dataset.k || ae.dataset.d}"]` : null;
-    ui.pasos.innerHTML = PASOS.map((t, i) => `<button type="button" data-ir="${i + 1}" aria-current="${paso === i + 1 ? 'step' : 'false'}"><b>${i + 1}</b><span>${t}</span></button>`).join('');
-    ui.panel.innerHTML = [htmlParedes, htmlAberturas, htmlTecho, htmlEnviar][paso - 1]();
-    ui.panel.dataset.paso = paso;
-    const ant = paso > 1 ? `<button type="button" class="pj-btn" data-ir="${paso - 1}">← ${PASOS[paso - 2]}</button>` : '<span></span>';
-    const sig = paso < 4 ? `<button type="button" class="pj-btn pj-btn--main" data-ir="${paso + 1}">${PASOS[paso]} →</button>` : '';
-    ui.pie.innerHTML = selId && paso === 2 ? '' : ant + sig;
-    if (foco) { const el = $(foco, ui.panel); if (el) el.focus(); }
+    const foco = ae && ui.hoja.contains(ae) && ae.dataset.k ? `[data-k="${ae.dataset.k}"]` : null;
+    ui.dock.innerHTML = htmlDock();
+    const h = htmlHoja();
+    if (!h) { hojaAct = null; ui.hoja.hidden = true; ui.dock.querySelectorAll('.pj-chip.is-on').forEach((c) => c.classList.remove('is-on')); }
+    else {
+      ui.hoja.hidden = false;
+      $('.pj-hoja__t', ui.hoja).innerHTML = h[0];
+      ui.hojaBody.innerHTML = h[1];
+    }
+    raiz.classList.toggle('con-hoja', !!h);
+    if (vista === '3d' && (Math.abs(tapaAbajo() - ultAbajo) > 12 || tapaDerecha() !== ultDerecha)) encuadrar();
+    if (foco) { const el = $(foco, ui.hoja); if (el) el.focus(); }
+    $$('[data-act="enviar"]', raiz).forEach((b) => { b.classList.toggle('is-listo', paredes().some((L) => L.items.length) || !!techo()); });
   }
-  function irPaso(n, sinPintar) {
-    paso = clamp(n, 1, 4); escribir('alumfer-proyecto-paso', String(paso));
-    if (paso !== 2) selId = null;
-    if (!sinPintar) { pintarPanel(); escena3d(); ui.panel.scrollTop = 0; }
-    // con techo: desde arriba para verlo, desde abajo para ver las aberturas
-    if (techo() && vista === '3d') { cam.pitch = paso === 3 ? Math.max(cam.pitch, 18) : paso === 2 ? Math.min(cam.pitch, 4) : cam.pitch; camara(); }
-    ga('proyecto_paso', { event_label: PASOS[paso - 1] });
+  function abrirHoja(k) { hojaAct = hojaAct === k ? null : k; colTodos = false; pintarPanel(); ui.hojaBody.scrollTop = 0; }
+  function soltar() { selId = null; selOtro = null; hojaAct = null; escena3d(); pintarPanel(); }
+  function elegirPared(lado, punto) {
+    selId = null; selOtro = 'pared:' + lado; ladoAct = lado; hojaAct = null;
+    lugar = punto ? { lado, x: punto[0] } : null;
+    escena3d(); pintarPanel();
+  }
+  function elegirTecho() {
+    selId = null; selOtro = 'techo'; hojaAct = null;
+    escena3d(); pintarPanel();
+    if (vista === '3d') { cam.pitch = Math.max(cam.pitch, 18); camara(); }
   }
 
-  // ── Cambios desde el panel ─────────────────────────────────
+  // ── Cambios desde la hoja ──────────────────────────────────
   function valor(k, id, v) {
     const P = principal();
     if (k === 'p.ancho') {
@@ -637,108 +795,140 @@
       });
     }
   }
+  function agregarPared(lado) {
+    if (fach(lado)) return;
+    cambio(() => { pl().laminas.push(nuevaPared(lado, 300)); }, { encuadre: true });
+    elegirPared(lado);
+    cam.yaw = yawFrente(); encuadrar();
+    aviso(`${LADOS[lado]} agregada ✓`);
+    ga('proyecto_lateral', { event_label: lado });
+  }
+  function quitarPared(lado) {
+    cambio(() => { const p = pl(), L = fach(lado); p.laminas.splice(p.laminas.indexOf(L), 1); if (ladoAct === lado) ladoAct = 'principal'; selOtro = null; hojaAct = null; }, { encuadre: true });
+    cam.yaw = yawFrente(); encuadrar();
+    aviso('Pared quitada. Podés deshacer con ↶.');
+  }
   function onPanelChange(e) {
     const el = e.target;
     if (el.matches('input[type="number"][data-k]')) { valor(el.dataset.k, el.dataset.id, +el.value || 0); return; }
-    if (el.matches('[data-lat]')) {
-      const lado = el.dataset.lat;
-      cambio(() => {
-        const p = pl();
-        if (el.checked) p.laminas.push(nuevaPared(lado, 300));
-        else { const L = fach(lado); p.laminas.splice(p.laminas.indexOf(L), 1); if (ladoAct === lado) ladoAct = 'principal'; }
-      }, { encuadre: true });
-      if (el.checked) mirar(lado);
-      ga('proyecto_lateral', { event_label: lado });
-      return;
-    }
+    if (el.matches('[data-lat]')) { if (el.checked) agregarPared(el.dataset.lat); else quitarPared(el.dataset.lat); hojaAct = 'paredes'; selOtro = null; pintarPanel(); return; }
     if (el.matches('input[type="checkbox"][data-k]')) { const r = buscar(el.dataset.id); if (r) cambio(() => { r.it[el.dataset.k] = el.checked; }); return; }
     if (el.matches('select[data-k]')) { const r = buscar(el.dataset.id); if (r) cambio(() => { r.it[el.dataset.k] = el.value; }); return; }
-    if (el.matches('select[data-t]')) { const T = techo(); cambio(() => { T[el.dataset.t] = el.value; }); return; }
-    if (el.matches('[data-d]')) { pl().datos[el.dataset.d] = el.value.trim(); M.guardar(); }
+    if (el.matches('select[data-t]')) { const T = techo(); cambio(() => { T[el.dataset.t] = el.value; }); }
   }
   function onPanelClick(e) {
     const b = e.target.closest('button'); if (!b) return;
     if (b.dataset.paso) {
-      const inp = $(`input[data-k="${b.dataset.paso}"]${b.dataset.id ? `[data-id="${b.dataset.id}"]` : ''}`, ui.panel);
+      const inp = $(`input[data-k="${b.dataset.paso}"]${b.dataset.id ? `[data-id="${b.dataset.id}"]` : ''}`, ui.hoja);
       valor(b.dataset.paso, b.dataset.id, (+inp.value || 0) + +b.dataset.delta);
       return;
     }
-    if (b.dataset.sel) { seleccionar(b.dataset.sel); return; }
     if (b.dataset.pcolor) { cambio(() => { paredes().forEach((L) => { L.paredColor = b.dataset.pcolor; }); }); return; }
     if (b.dataset.set) {
       const k = b.dataset.set, v = b.dataset.v;
-      if (k === 'lado') { ladoAct = v; escena3d(); pintarPanel(); mirar(v); return; }
       if (k === 'vista') { cambio(() => { paredes().forEach((L) => { L.vista = v; }); }); return; }
       if (k === 't.color') { cambio(() => { techo().color = v; }); return; }
       const r = buscar(b.dataset.id); if (r) cambio(() => { r.it[k] = v; });
       return;
     }
-    if (b.dataset.ab) {
-      const r = buscar(selId); if (!r) return;
-      const { L, it } = r;
-      if (b.dataset.ab === 'centrar') cambio(() => { it.x = Math.round((L.pared.ancho - it.ancho) / 2); });
-      if (b.dataset.ab === 'duplicar') {
-        cambio(() => {
-          const n = Object.assign({}, it, { id: M.nid() });
-          n.x = it.x + it.ancho + 30;
-          if (n.x + n.ancho > L.pared.ancho) n.x = Math.max(0, it.x - n.ancho - 30);
-          L.items.push(n); selId = n.id;
-        });
-        aviso('Duplicada. Arrastrala para ubicarla.');
-      }
-      if (b.dataset.ab === 'borrar') { cambio(() => { L.items.splice(L.items.indexOf(it), 1); selId = null; }); aviso('Abertura quitada. Podés deshacer con ↶.'); }
-      return;
-    }
+    if (b.dataset.ab === 'centrar') { const r = buscar(selId); if (r) cambio(() => { r.it.x = Math.round((r.L.pared.ancho - r.it.ancho) / 2); }); return; }
     acciones(b);
   }
   function acciones(b) {
     const a = b.dataset.act;
-    if (b.dataset.ir) { selId = null; irPaso(+b.dataset.ir); return; }
     if (b.dataset.vista) { setVista(b.dataset.vista); return; }
+    if (b.dataset.chip && !a) { abrirHoja(b.dataset.chip); return; }
     if (!a) return;
     if (a === 'catalogo') { catModo = 'nueva'; abrirCatalogo(); }
     else if (a === 'cambiar') { catModo = 'cambiar'; abrirCatalogo(); }
-    else if (a === 'lista') { selId = null; pintarPanel(); escena3d(); ui.panel.scrollTop = 0; }
-    else if (a === 'animar') animar(b.dataset.id);
+    else if (a === 'soltar') soltar();
+    else if (a === 'animar') animar(selId);
     else if (a === 'repartir') repartir();
+    else if (a === 'duplicar') duplicar();
+    else if (a === 'borrar') borrar();
+    else if (a === 'quitar-pared') quitarPared(selPared());
     else if (a === 'foto') { const m = b.nextElementSibling; m.hidden = !m.hidden; b.setAttribute('aria-expanded', String(!m.hidden)); }
-    else if (a === 'techo-si') { cambio(() => { pl().laminas.push(crearTecho()); }, { encuadre: true }); cam.pitch = 20; camara(); ga('proyecto_techo'); }
-    else if (a === 'techo-no') { cambio(() => { const p = pl(); p.laminas.splice(p.laminas.indexOf(techo()), 1); }, { encuadre: true }); }
-    else if (a === 'siguiente') irPaso(paso + 1);
+    else if (a === 'techo') { if (!techo()) { cambio(() => { pl().laminas.push(crearTecho()); }, { encuadre: true }); aviso('Techo agregado ✓'); ga('proyecto_techo'); } elegirTecho(); }
+    else if (a === 'techo-no') { cambio(() => { const p = pl(); p.laminas.splice(p.laminas.indexOf(techo()), 1); selOtro = null; hojaAct = null; }, { encuadre: true }); }
     else if (a === 'enviar') { M.abrirEnviar(); ga('proyecto_enviar'); }
     else if (a === 'undo') deshacer();
     else if (a === 'redo') rehacerFn();
-    else if (a === 'centro') { cam.yaw = -16; cam.pitch = paso === 3 && techo() ? 20 : 11; cam.zoom = 1; encuadrar(); }
+    else if (a === 'centro') { cam.yaw = yawFrente(); cam.pitch = selOtro === 'techo' ? 20 : 11; cam.zoom = 1; encuadrar(); }
     else if (a === 'zoom+') { cam.zoom = clamp(cam.zoom * 1.25, 0.45, 3.5); encuadrar(); }
     else if (a === 'zoom-') { cam.zoom = clamp(cam.zoom / 1.25, 0.45, 3.5); encuadrar(); }
-    else if (a === 'nuevo') nuevo();
+    else if (a === 'nuevo') abrirInicio(true);
+    else if (a === 'colores') { colTodos = true; const k = hojaAct; pintarPanel(); hojaAct = k; }
+    else if (a === 'cerrar-hoja') { hojaAct = null; pintarPanel(); }
+  }
+  function duplicar() {
+    const r = buscar(selId); if (!r) return;
+    const { L, it } = r;
+    cambio(() => {
+      const n = Object.assign({}, it, { id: M.nid() });
+      n.x = it.x + it.ancho + 30;
+      if (n.x + n.ancho > L.pared.ancho) n.x = Math.max(0, it.x - n.ancho - 30);
+      L.items.push(n); selId = n.id;
+    });
+    aviso('Duplicada ✓ Arrastrala para ubicarla');
+  }
+  function borrar() {
+    const r = buscar(selId); if (!r) return;
+    cambio(() => { r.L.items.splice(r.L.items.indexOf(r.it), 1); selId = null; hojaAct = null; });
+    aviso('Borrada. Podés deshacer con ↶.');
   }
   function repartir() {
-    const L = fach(ladoAct); if (!L || L.items.length < 2) return;
+    const L = fach(selPared() || ladoAct); if (!L || L.items.length < 2) return;
     const it = L.items.slice().sort((a, b) => a.x - b.x), total = it.reduce((s, x) => s + x.ancho, 0);
     const gap = (L.pared.ancho - total) / (it.length + 1);
-    if (gap < 0) { aviso('No entran todas en la pared: agrandá el ancho de la pared.'); return; }
+    if (gap < 0) { aviso('No entran todas: agrandá la pared.'); return; }
     cambio(() => { let x = gap; it.forEach((a) => { a.x = Math.round(x); x += a.ancho + gap; }); });
-    aviso('Repartidas parejo en la ' + LADOS[ladoAct].toLowerCase() + '.');
+    aviso('Repartidas parejo ✓');
   }
-  function nuevo() {
-    if (!confirm('¿Empezar un proyecto nuevo? Se borra el que tenés en este navegador.')) return;
-    cambio(() => { const p = M.planoVacio(); p.laminas.push(nuevaPared('principal', 400)); M.set(p); selId = null; ladoAct = 'principal'; }, { encuadre: true });
-    irPaso(1);
+  // ── Inicio guiado: "¿Qué querés armar?" ────────────────────
+  function abrirInicio(hayProyecto) {
+    $('[data-inicio="seguir"]', ui.ini).hidden = !hayProyecto;
+    $('.pj-inicio__aviso', ui.ini).hidden = !hayProyecto;
+    ui.ini.showModal();
+  }
+  function empezar(que) {
+    cambio(() => {
+      const p = M.planoVacio(); M.set(p);
+      p.laminas.push(nuevaPared('principal', 400));
+      if (que === 'ambiente') { p.laminas.push(nuevaPared('izquierda', 300), nuevaPared('derecha', 300)); }
+      if (que === 'techo') p.laminas.push(crearTecho());
+      selId = null; ladoAct = 'principal';
+    }, { encuadre: true });
+    historial = []; $$('[data-act="undo"]', raiz).forEach((b) => { b.disabled = true; });
+    cam.yaw = yawFrente(); cam.zoom = 1; cam.pitch = 11;
+    encuadrar();
+    if (que === 'techo') elegirTecho(); else soltar();
+    ga('proyecto_inicio', { event_label: que });
   }
 
   // ── Catálogo de aberturas ──────────────────────────────────
+  // qué hace cada una, en palabras simples
+  const QUE_HACE = {
+    corr: 'Las hojas se deslizan', abrir: 'Abre con bisagras', band: 'Abre arriba, para ventilar', oscilo: 'Abre o se inclina',
+    fijo: 'No abre, deja pasar la luz', puerta: 'Con vidrio, abre con bisagras', ciega: 'Sin vidrio, abre con bisagras',
+    cerramiento: 'Cierra una galería o un quincho', baranda: 'Para balcones y escaleras', 'porton-corr': 'Se desliza al costado',
+    'porton-levad': 'Sube y queda arriba', 'bajo-mesada': 'Puertas para el mueble de cocina', 'mosq-corr': 'Contra insectos, se desliza',
+    'mosq-fijo': 'Contra insectos, fijo', postigon: 'Hojas que cierran por fuera', reja: 'Seguridad para ventanas y puertas',
+  };
+  let catGrupo = 'Ventanas';
+  function pintarCatalogo() {
+    const grupos = [...new Set(A.TIPOS.map((t) => t.grupo))];
+    $('.pj-cat__tabs', ui.cat).innerHTML = grupos.map((g) => `<button type="button" data-grupo="${g}" aria-pressed="${g === catGrupo}">${g}</button>`).join('');
+    $('.pj-cat__body', ui.cat).innerHTML = `<div class="pj-cat__grid">${A.TIPOS.filter((t) => t.grupo === catGrupo).map((t) => {
+      const it = { tipo: t.id, ancho: t.ancho, alto: t.alto, color: 'blanco', vidrio: 'transparente' };
+      return `<button type="button" data-tipo="${t.id}"><span>${mini(it, 64)}</span><b>${esc(t.nombre)}</b><small>${esc(QUE_HACE[t.id] || QUE_HACE[t.kind] || '')}</small></button>`;
+    }).join('')}</div>`;
+  }
   function abrirCatalogo() {
-    if (!ui.cat.dataset.ok) {
-      const grupos = {};
-      A.TIPOS.forEach((t) => { (grupos[t.grupo] = grupos[t.grupo] || []).push(t); });
-      $('.pj-cat__body', ui.cat).innerHTML = Object.entries(grupos).map(([g, ts]) => `<h3>${g}</h3><div class="pj-cat__grid">${ts.map((t) => {
-        const it = { tipo: t.id, ancho: t.ancho, alto: t.alto, color: 'blanco', vidrio: 'transparente' };
-        return `<button type="button" data-tipo="${t.id}"><span>${mini(it, 64)}</span><b>${esc(t.nombre)}</b></button>`;
-      }).join('')}</div>`).join('');
-      ui.cat.dataset.ok = '1';
-    }
-    $('.pj-cat__title', ui.cat).textContent = catModo === 'cambiar' ? 'Cambiar el tipo' : `Agregar en la ${LADOS[ladoAct].toLowerCase()}`;
+    if (catModo === 'cambiar') { const r = buscar(selId); if (r) catGrupo = A.tipo(r.it.tipo).grupo; }
+    pintarCatalogo();
+    const lados = paredes().map((L) => L.lado), donde = $('.pj-cat__donde', ui.cat);
+    donde.innerHTML = catModo === 'nueva' && !lugar && lados.length > 1 ? `<span class="pj-mini">En la pared</span>${seg('cat-lado', lados.map((l) => [l, CORTO[l]]), ladoAct)}` : '';
+    $('.pj-cat__title', ui.cat).textContent = catModo === 'cambiar' ? 'Cambiar por otra' : lugar ? '¿Qué va en esta parte de la pared?' : `¿Qué va en la ${LADOS[ladoAct].toLowerCase()}?`;
     ui.cat.showModal();
   }
   function elegirTipo(tipoId) {
@@ -753,10 +943,12 @@
       });
       return;
     }
-    const L = fach(ladoAct);
-    // primer hueco libre de izquierda a derecha
+    const L = fach(ladoAct), aca = lugar && lugar.lado === ladoAct ? lugar : null;
+    lugar = null;
+    // donde se tocó la pared; si no, el primer hueco libre de izquierda a derecha
     let x = 40;
-    L.items.slice().sort((a, b) => a.x - b.x).forEach((o) => { if (x + t.ancho > o.x - 20 && x < o.x + o.ancho + 20) x = o.x + o.ancho + 40; });
+    if (aca) x = clamp(Math.round(aca.x - t.ancho / 2), 0, Math.max(0, L.pared.ancho - t.ancho));
+    else L.items.slice().sort((a, b) => a.x - b.x).forEach((o) => { if (x + t.ancho > o.x - 20 && x < o.x + o.ancho + 20) x = o.x + o.ancho + 40; });
     cambio(() => {
       const ult = paredes().flatMap((P) => P.items).slice(-1)[0];
       const it = M.nuevaAbertura(tipoId, x, ult ? { color: ult.color } : {});
@@ -764,9 +956,9 @@
       if (x + t.ancho > L.pared.ancho) { it.x = Math.max(0, Math.round((L.pared.ancho - it.ancho) / 2)); }
       L.items.push(it); selId = it.id;
     });
-    ui.panel.scrollTop = 0;
-    mirar(ladoAct);
-    aviso(`${t.nombre}: cargá las medidas o arrastrala en el dibujo.`);
+    selOtro = null; hojaAct = 'medidas'; pintarPanel();
+    if (ladoAct !== 'principal') mirar(ladoAct);
+    aviso('Agregada ✓ Arrastrala para moverla');
     ga('proyecto_abertura', { event_label: tipoId });
   }
 
@@ -781,7 +973,6 @@
       if (+d.ancho) extra.ancho = +d.ancho;
       if (+d.alto) extra.alto = +d.alto;
       cambio(() => { const it = M.nuevaAbertura(d.tipo, 40, extra); L.items.push(it); selId = it.id; });
-      irPaso(2);
     }
   });
 
@@ -817,19 +1008,28 @@
   }
 
   function enlazar() {
-    ui.panel.addEventListener('change', onPanelChange);
-    ui.panel.addEventListener('click', onPanelClick);
-    ui.panel.addEventListener('pointerdown', cerrarCoach);
-    ui.panel.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.matches('input')) e.target.blur(); });
-    ui.pie.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) acciones(b); });
-    ui.pasos.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) acciones(b); });
-    $$('.pj-tools, .pj-top', raiz).forEach((el) => el.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) acciones(b); }));
+    ui.hoja.addEventListener('change', onPanelChange);
+    ui.hoja.addEventListener('click', onPanelClick);
+    ui.hoja.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.matches('input')) e.target.blur(); });
+    ui.dock.addEventListener('click', (e) => { cerrarCoach(); const b = e.target.closest('button'); if (b) acciones(b); });
+    $$('.pj-vistas, .pj-top', raiz).forEach((el) => el.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) acciones(b); }));
     ui.plano.addEventListener('click', (e) => {
       const b = e.target.closest('button'); if (!b) return;
       if (b.dataset.hoja) { hojaIdx = +b.dataset.hoja; pintarHoja(); }
       if (b.dataset.hreal) { hojaReal = b.dataset.hreal === '1'; pintarHoja(); }
     });
+    ui.cat.addEventListener('close', () => { lugar = null; });
+    ui.ini.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-inicio]'); if (!b) return;
+      ui.ini.close();
+      if (b.dataset.inicio !== 'seguir') empezar(b.dataset.inicio);
+    });
+    ui.ini.addEventListener('cancel', (e) => { if ($('[data-inicio="seguir"]', ui.ini).hidden) e.preventDefault(); });
     ui.cat.addEventListener('click', (e) => {
+      const cl = e.target.closest('[data-set="cat-lado"]');
+      if (cl) { ladoAct = cl.dataset.v; $$('[data-set="cat-lado"]', ui.cat).forEach((x) => x.setAttribute('aria-pressed', String(x === cl))); return; }
+      const gr = e.target.closest('[data-grupo]');
+      if (gr) { catGrupo = gr.dataset.grupo; pintarCatalogo(); return; }
       const b = e.target.closest('[data-tipo]');
       if (b) { ui.cat.close(); elegirTipo(b.dataset.tipo); }
       else if (e.target === ui.cat || e.target.closest('[data-cerrar]')) ui.cat.close();
@@ -837,11 +1037,12 @@
     document.addEventListener('keydown', (e) => {
       if (e.target.matches('input, textarea, select')) return;
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); e.shiftKey ? rehacerFn() : deshacer(); }
-      else if ((e.key === 'Delete' || e.key === 'Backspace') && selId) { const r = buscar(selId); cambio(() => { r.L.items.splice(r.L.items.indexOf(r.it), 1); selId = null; }); }
-      else if (e.key === 'Escape' && selId && !document.querySelector('dialog[open]')) { selId = null; pintarPanel(); escena3d(); }
+      else if ((e.key === 'Delete' || e.key === 'Backspace') && selId) borrar();
+      else if (e.key === 'Escape' && (selId || selOtro || hojaAct) && !document.querySelector('dialog[open]')) { if (hojaAct) { hojaAct = null; pintarPanel(); } else soltar(); }
     });
     document.addEventListener('click', (e) => { if (!e.target.closest('.pj-foto')) $$('.pj-foto__menu', raiz).forEach((m) => { m.hidden = true; }); });
     new ResizeObserver(() => { if (vista === '3d') encuadrar(); }).observe(ui.v3d);
+    new ResizeObserver(() => { raiz.style.setProperty('--dock-h', ui.dock.offsetHeight + 'px'); }).observe(ui.dock);
     gestos();
   }
 
@@ -849,10 +1050,13 @@
     const hay = await M.cargar();
     if (!hay) { const p = M.planoVacio(); p.laminas.push(nuevaPared('principal', 400)); M.set(p); }
     normalizar();
+    cam.yaw = yawFrente();
     enlazar();
-    if (!hay && migrarBoceto()) { paso = 2; aviso('Pasamos tu lista de aberturas a la pared principal.'); }
+    let guiar = !hay;
+    if (!hay && migrarBoceto()) { guiar = false; aviso('Pasamos tu lista de aberturas a la pared principal.'); }
     const qs = new URLSearchParams(location.search);
-    if (qs.get('nuevo') === 'techo') { if (!techo()) pl().laminas.push(crearTecho()); normalizar(); paso = 3; }
+    if (qs.get('nuevo') === 'techo') { if (!techo()) pl().laminas.push(crearTecho()); normalizar(); selOtro = 'techo'; cam.pitch = 18; guiar = false; }
+    if (guiar) setTimeout(() => abrirInicio(false), 150);
     if (qs.has('nuevo') || qs.has('boceto')) history.replaceState(null, '', location.pathname + location.hash);
     M.guardar();
     if (leer('alumfer-proyecto-coach', '') !== '1') { ui.coach.hidden = false; setTimeout(cerrarCoach, 9000); }
@@ -865,5 +1069,6 @@
   iniciar();
 
   // para pruebas automáticas
-  window.__proyecto = { get: pl, cam, sel: () => selId, paso: () => paso, proyectar: (x, y, z) => proyectar(aCss(x, y, z)), escala: () => S, encuadrar };
+  window.__proyecto = { get: pl, cam, sel: () => selId, foco: () => selOtro, hoja: () => hojaAct,
+    pantalla: (x, y, z) => { const r = ui.v3d.getBoundingClientRect(), [sx, sy] = proyectar(aCss(x, y, z)); return [r.left + r.width / 2 + OX + sx, r.top + r.height / 2 + OY + sy]; }, proyectar: (x, y, z) => proyectar(aCss(x, y, z)), escala: () => S, encuadrar };
 })();

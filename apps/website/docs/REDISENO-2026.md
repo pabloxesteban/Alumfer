@@ -587,3 +587,56 @@ techo si hace falta, y más amigable.
   "Dibujá tu techo" de techos abre la herramienta con el techo.
 - Peso (comprimido): `proyecto.js` 17 KB, `proyecto.css` 6 KB.
 
+## P. Novena pasada: aberturas en 3D y una herramienta más simple
+
+Pedido: sacar de la home "Probá vidrio y color" (ya está la herramienta de
+proyecto), que las aberturas se vean en 3D y que todo sea más intuitivo
+para un usuario promedio.
+
+- **Home**: se quitó el configurador de vidrio y color (HTML, su código en
+  `site.js` y sus estilos en `site.css`); las secciones se renumeraron.
+- **Aberturas en 3D**: cada pared tiene espesor (15 cm) y el vano está
+  recortado en la cara (`clip-path` evenodd). En cada vano: jambas con la
+  banda del marco en su color, la abertura metida 5 cm en la pared, el fondo
+  que se ve a través del vidrio y alféizar en las ventanas. Cantos de pared
+  arriba y en los extremos libres. El ladrillo visto ahora se ve.
+- **Inicio guiado** la primera vez: "¿Qué querés armar?" → Ventanas y
+  puertas · Un ambiente (3 paredes) · Un techo de policarbonato. "Nuevo"
+  vuelve a esa pantalla, con "Seguir con mi proyecto".
+- **Tocar la pared** abre "¿Qué va en esta parte de la pared?" y la
+  abertura queda donde se tocó. Las paredes vacías muestran un "+".
+- **Catálogo** por pestañas (Ventanas, Puertas, Cerramientos,
+  Complementos) con una frase simple de cómo funciona cada una.
+- **Panel**: cada paso tiene título y una línea de qué hacer. En la
+  abertura quedan a la vista medidas, color (los 6 más pedidos, el resto
+  con "Ver todos") y vidrio; ubicación exacta, bisagras y línea pasan a
+  "Más opciones".
+- **3D**: cotas de la pared activa y de la abertura elegida; barra con
+  "Ver cómo abren" y "De frente" escritos; vista de frente sin dar la
+  espalda a las paredes laterales.
+
+## Q. Décima pasada: pensada para el celular, como las apps de ambientes
+
+Pedido: en el celular era poco claro y difícil de usar; poder arrastrar una
+abertura de una pared a otra; un "+" al lado de la pared para sumar otra;
+tomar como referencia las apps modernas.
+
+- **El 3D ocupa toda la pantalla.** Se sacó el panel de 4 pasos.
+- **Barra de abajo según lo elegido**: sin nada elegido, Agregar · Paredes ·
+  Techo · Ver abrir · De frente. Con una abertura: Medidas · Color · Vidrio ·
+  Más · Ver abrir · Borrar. Con una pared: + Abertura · Medidas · Color · Se ve
+  desde · (Quitar pared). Con el techo: Medidas · Alturas · Columnas ·
+  Material · Color · Quitar. En el celular va pegada abajo, de lado a lado.
+- **Hoja con un solo control**: en el celular sube desde abajo y el 3D se
+  reacomoda para que lo elegido quede a la vista; en la compu es una
+  tarjeta a la derecha y el 3D se corre a la izquierda.
+- **"+" anclados al 3D**: "+ Pared" a cada costado libre (con el lugar
+  marcado en punteado) y "+ Techo" arriba de la pared. Se dibujan en 2D
+  sobre el punto proyectado, así siempre se leen de frente.
+- **Arrastrar entre paredes**: al arrastrar una abertura se busca bajo el
+  dedo la pared más cercana que se ve de frente; si es otra, la abertura
+  pasa a esa pared y queda donde se soltó.
+- **"Enviar" siempre arriba** (se pinta en azul cuando ya hay algo para
+  mandar). El catálogo en el celular es una hoja desde abajo, con pestañas
+  que se deslizan.
+

@@ -68,13 +68,13 @@ Tres archivos, sin framework ni build:
    toca una abertura para editarla y se la arrastra sobre su pared (el punto
    de la pantalla se lleva al plano de la pared resolviendo la proyección).
    Una pared vista de atrás se vuelve transparente para no tapar.
-   Panel de 4 pasos: **Paredes** (ancho y alto, laterales, color, desde
-   dónde se mira) · **Aberturas** (catálogo de 23 tipologías, medidas,
-   ubicación, color, vidrio, agregados, línea, bisagras, "Ver cómo abre",
-   "Probar en una foto", duplicar, quitar) · **Techo** (largo, salida,
-   alturas, pendiente, columnas, policarbonato, color de la estructura) ·
-   **Enviar**. Arriba: deshacer y empezar de nuevo; abajo: 3D / Plano
-   (las láminas A4 tal cual salen en el PDF), ver cómo abren y vista inicial.
+   Interfaz: el 3D a pantalla completa, una barra abajo que cambia según lo
+   elegido (nada, abertura, pared o techo) y una hoja con un solo control
+   (abajo en el celular, a la derecha en la compu). "+ Pared" y "+ Techo"
+   flotan anclados al 3D; tocar una pared la elige y "+ Abertura" la pone
+   donde se tocó; una abertura se puede arrastrar a otra pared. Arriba:
+   deshacer, empezar de nuevo, WhatsApp y "Enviar"; arriba a la izquierda,
+   3D / Plano (las láminas A4 tal cual salen en el PDF).
    El modelo es el mismo del plano (`alumfer-plano-v1`): cada pared es una
    lámina de fachada con `lado` (`principal`, `izquierda`, `derecha`) y el
    techo es una lámina de techo rectangular contra la pared principal. La
