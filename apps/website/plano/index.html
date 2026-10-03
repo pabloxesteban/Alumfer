@@ -30,7 +30,7 @@
 
   <link rel="preload" href="/fonts/ibm-plex-mono-400-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/site.css?v=4">
-  <link rel="stylesheet" href="/plano.css?v=1">
+  <link rel="stylesheet" href="/plano.css?v=2">
 </head>
 <body class="page-plano">
   <noscript><p class="cad-noscript">Para dibujar el plano necesitás activar JavaScript. También podés escribirnos por WhatsApp al (011) 6336-8643.</p></noscript>
@@ -42,6 +42,10 @@
         <span class="cad__brand">ALUMFER<small class="mono">Plano</small></span>
       </a>
       <nav class="cad__tabs" role="tablist" aria-label="Láminas"></nav>
+      <div class="cad__nivel" role="group" aria-label="Modo de dibujo">
+        <button type="button" data-nivel="simple" aria-pressed="true" title="Paso a paso, sin saber de planos">Simple</button>
+        <button type="button" data-nivel="avanzado" aria-pressed="false" title="Herramientas de CAD, como AutoCAD">Avanzado</button>
+      </div>
       <div class="cad__mode" role="group" aria-label="Espacio de trabajo">
         <button type="button" data-modo="modelo" aria-pressed="true">Modelo</button>
         <button type="button" data-modo="lamina" aria-pressed="false">Presentación</button>
@@ -98,6 +102,13 @@
     <div class="cad-dlg__box">
       <p class="mono cad-dlg__kicker">Plano para presupuesto</p>
       <h1 id="ini-t" class="cad-dlg__title">¿Qué querés dibujar?</h1>
+      <div class="cad-inicio__nivel">
+        <span>¿Cómo querés dibujar?</span>
+        <div role="group" aria-label="Modo de dibujo">
+          <button type="button" data-nivel="simple" aria-pressed="true"><b>Simple</b><small>Paso a paso, con tus medidas</small></button>
+          <button type="button" data-nivel="avanzado" aria-pressed="false"><b>Avanzado</b><small>Como AutoCAD: vértices, comandos</small></button>
+        </div>
+      </div>
       <div class="cad-inicio__ops">
         <button type="button" data-inicio="fachada">
           <svg viewBox="0 0 120 80" aria-hidden="true"><rect x="6" y="8" width="108" height="62"/><rect class="c" x="18" y="24" width="38" height="28"/><path class="c" d="M37 24v28"/><rect class="c" x="70" y="18" width="26" height="52"/><path class="g" d="M6 74h108M18 76v-2M56 76v-2M70 76v-2M96 76v-2"/></svg>
@@ -160,6 +171,6 @@
   <div id="cad-print" aria-hidden="true"></div>
 
   <script src="/aberturas.js?v=3"></script>
-  <script src="/plano.js?v=1"></script>
+  <script src="/plano.js?v=2"></script>
 </body>
 </html>

@@ -44,6 +44,16 @@
     ESTR:   { pant: '#F2A65A', papel: 0.5,  aci: 30 },
     RAYADO: { pant: '#66768A', papel: 0.09, aci: 8 },
   };
+  // Modo simple: lienzo claro, como papel
+  const CLARO = {
+    MURO: '#2B3A4A', CARP: '#1B6CC8', VIDRIO: '#8DB8E6', APERT: '#C27C0E', COTA: '#1F8A54',
+    TEXTO: '#1F2933', NIVEL: '#C94444', TECHO: '#7246C9', ESTR: '#D17A22', RAYADO: '#AAB6C3',
+  };
+  let nivel = 'simple';
+  try { nivel = localStorage.getItem('alumfer-plano-nivel') || (matchMedia('(pointer: fine)').matches ? 'simple' : 'simple'); } catch (_) {}
+  const simple = () => nivel === 'simple';
+  const colPant = (c) => (simple() ? CLARO[c] || CLARO.TEXTO : (CAPAS[c] || CAPAS.TEXTO).pant);
+  const fondoPant = () => (simple() ? '#F7F9FB' : '#1B222B');
   const TRAZOS = { DASH: { pant: '7 5', papel: '1.6 1', dxf: 'DASHED' }, EJE: { pant: '16 4 3 4', papel: '5 1 0.6 1', dxf: 'CENTER' } };
 
   const MATERIALES = [
@@ -349,7 +359,7 @@
       cota(P, a, b, sg * (8 + extra), k);
       const m = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2], l = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1;
       const nx = -(b[1] - a[1]) / l * -sg, ny = (b[0] - a[0]) / l * -sg; // hacia adentro
-      P.push(Tx([m[0] + nx * 3.2 / k, m[1] + ny * 3.2 / k], String.fromCharCode(65 + i), 2.2, 'COTA', { al: 'middle', negrita: true, lado: i }));
+      if (!ctx.limpio) P.push(Tx([m[0] + nx * 3.2 / k, m[1] + ny * 3.2 / k], String.fromCharCode(65 + i), 2.2, 'COTA', { al: 'middle', negrita: true, lado: i }));
     }
 
     // línea de corte A-A: perpendicular a la pared, corrida del centro
@@ -358,12 +368,15 @@
     const base = [pc[0] - g.inx * dw, pc[1] - g.iny * dw];
     const c0 = [base[0] - g.inx * (15 + 10 / k), base[1] - g.iny * (15 + 10 / k)];
     const c1 = [base[0] + g.inx * (g.prof + 10 / k), base[1] + g.iny * (g.prof + 10 / k)];
-    P.push(Ln(c0, c1, 'NIVEL', { trazo: 'EJE' }));
-    [c0, c1].forEach((q) => P.push(Tx([q[0] + g.ux * 2.4 / k, q[1] + g.uy * 2.4 / k], 'A', 2.6, 'NIVEL', { al: 'middle', negrita: true })));
+    if (!ctx.sinCorte) {
+      P.push(Ln(c0, c1, 'NIVEL', { trazo: 'EJE' }));
+      [c0, c1].forEach((q) => P.push(Tx([q[0] + g.ux * 2.4 / k, q[1] + g.uy * 2.4 / k], 'A', 2.6, 'NIVEL', { al: 'middle', negrita: true })));
+    }
 
     const ep = extension(P, k);
     P.push(Tx([(ep.x0 + ep.x1) / 2, ep.y0 - 6 / k], (L.nombre + ' · planta').toUpperCase(), 3, 'TEXTO', { al: 'middle', negrita: true, titulo: true }));
 
+    if (ctx.sinCorte) return P;
     // ── corte A-A: a la derecha de la planta, o debajo si conviene ──
     const D0 = geoTecho(L).prof;
     const ox = ctx.apilar ? (ep.x0 + ep.x1) / 2 - D0 / 2 : ep.x1 + 15 + 32 / k;
@@ -387,8 +400,8 @@
     return P;
   }
 
-  function escena(L, k, apilar) {
-    const ctx = { refs: referencias(), apilar: !!apilar };
+  function escena(L, k, apilar, pant) {
+    const ctx = Object.assign({ refs: referencias(), apilar: !!apilar }, pant || {});
     return L.tipo === 'techo' ? escenaTecho(L, k, ctx) : escenaFachada(L, k, ctx);
   }
   function extension(P, k) {
@@ -413,22 +426,22 @@
       if (q.t === 'x') {
         const [x, y] = T(q.p);
         const fs = q.h * u;
-        const col = papel ? '#000' : cap.pant;
+        const col = papel ? '#000' : colPant(q.c);
         const rot = q.rot ? ` transform="rotate(${num(-q.rot)} ${num(x)} ${num(y)})"` : '';
         const anc = q.al === 'start' ? 'start' : q.al === 'end' ? 'end' : 'middle';
-        const fondo = q.fondo && !papel ? ` paint-order="stroke" stroke="#1B222B" stroke-width="${num(fs * 0.5)}"` : (q.fondo ? ` paint-order="stroke" stroke="#fff" stroke-width="${num(fs * 0.5)}"` : '');
+        const fondo = q.fondo && !papel ? ` paint-order="stroke" stroke="${fondoPant()}" stroke-width="${num(fs * 0.5)}"` : (q.fondo ? ` paint-order="stroke" stroke="#fff" stroke-width="${num(fs * 0.5)}"` : '');
         resto.push(`<text x="${num(x)}" y="${num(y)}" font-size="${num(fs)}" fill="${col}" text-anchor="${anc}" dominant-baseline="central"${q.negrita ? ' font-weight="600"' : ''}${rot}${fondo}>${esc(q.s)}</text>`);
         return;
       }
       if (q.t === 'c') {
         const [x, y] = T(q.p), r = Math.abs(T([q.p[0] + q.r, q.p[1]])[0] - x);
         const sw = papel ? cap.papel : 1;
-        resto.push(`<circle cx="${num(x)}" cy="${num(y)}" r="${num(r)}" fill="${papel ? '#fff' : '#1B222B'}" stroke="${papel ? '#000' : cap.pant}" stroke-width="${sw}"/>`);
+        resto.push(`<circle cx="${num(x)}" cy="${num(y)}" r="${num(r)}" fill="${papel ? '#fff' : fondoPant()}" stroke="${papel ? '#000' : colPant(q.c)}" stroke-width="${sw}"/>`);
         return;
       }
       if (q.relleno) {
         const d = q.p.map((p, i) => (i ? 'L' : 'M') + T(p).map(num).join(' ')).join('') + 'Z';
-        resto.push(`<path d="${d}" fill="${papel ? '#000' : cap.pant}" fill-opacity="${papel ? 1 : 0.8}" stroke="${papel ? '#000' : cap.pant}" stroke-width="${papel ? cap.papel : 1}"/>`);
+        resto.push(`<path d="${d}" fill="${papel ? '#000' : colPant(q.c)}" fill-opacity="${papel ? 1 : 0.8}" stroke="${papel ? '#000' : colPant(q.c)}" stroke-width="${papel ? cap.papel : 1}"/>`);
         return;
       }
       const key = q.c + '|' + (q.trazo || '') + '|' + (q.grueso ? 1 : 0);
@@ -443,7 +456,7 @@
       let sw = papel ? cap.papel : (c === 'MURO' ? 1.6 : c === 'CARP' || c === 'TECHO' || c === 'ESTR' ? 1.3 : 1);
       if (gr === '1') sw = papel ? Math.max(sw, 0.35) : sw + 0.8;
       const dash = tr ? ` stroke-dasharray="${TRAZOS[tr][papel ? 'papel' : 'pant']}"` : '';
-      const color = papel ? (c === 'RAYADO' ? '#555' : '#000') : cap.pant;
+      const color = papel ? (c === 'RAYADO' ? '#555' : '#000') : colPant(c);
       s += `<path d="${ds.join('')}" fill="none" stroke="${color}" stroke-width="${sw}"${dash} stroke-linecap="round" stroke-linejoin="round"${papel ? '' : ' vector-effect="non-scaling-stroke"'}/>`;
     });
     return s + resto.join('');
@@ -686,8 +699,10 @@
   // ── Coordenadas ────────────────────────────────────────────
   const aPant = ([x, y]) => [vw / 2 + (x - cam.cx) * cam.z, vh / 2 - (y - cam.cy) * cam.z];
   const aMundo = (sx, sy) => [cam.cx + (sx - vw / 2) / cam.z, cam.cy - (sy - vh / 2) / cam.z];
-  const kPant = () => cam.z / MMPX;
+  const kPant = () => cam.z / mmpx();
   const apilarPant = () => vh > vw * 1.1;
+  const mmpx = () => (vw < 600 ? 3.1 : MMPX);
+  const flagsPant = () => (simple() ? { limpio: true, sinCorte: vw < 600 || vh > vw * 0.9 } : null);
   let camTocada = false;
 
   function medir() {
@@ -701,7 +716,7 @@
     if (modo === 'lamina') { const z = Math.min((vw - 32) / HOJA.w, (vh - 32) / HOJA.h); Object.assign(camL, { cx: HOJA.w / 2, cy: HOJA.h / 2, z }); pedir(); return; }
     // dos pasadas: el tamaño de las anotaciones depende del zoom
     for (let i = 0; i < 3; i++) {
-      const b = extension(escena(L, kPant(), apilarPant()), kPant());
+      const b = extension(escena(L, kPant(), apilarPant(), flagsPant()), kPant());
       const pad = tactil ? 28 : 48;
       cam.z = clamp(Math.min((vw - pad * 2) / Math.max(10, b.x1 - b.x0), (vh - pad * 2) / Math.max(10, b.y1 - b.y0)), 0.05, 40);
       cam.cx = (b.x0 + b.x1) / 2; cam.cy = (b.y0 + b.y1) / 2;
@@ -719,7 +734,8 @@
     let d1 = '', d2 = '';
     for (let x = Math.floor(x0 / paso) * paso; x <= x1; x += paso) { const sx = aPant([x, 0])[0].toFixed(1); (Math.abs(x % mayor) < 1e-6 ? (d2 += `M${sx} 0V${vh}`) : (d1 += `M${sx} 0V${vh}`)); }
     for (let y = Math.floor(y0 / paso) * paso; y <= y1; y += paso) { const sy = aPant([0, y])[1].toFixed(1); (Math.abs(y % mayor) < 1e-6 ? (d2 += `M0 ${sy}H${vw}`) : (d1 += `M0 ${sy}H${vw}`)); }
-    return `<path d="${d1}" stroke="#2A3440" stroke-width="1"/><path d="${d2}" stroke="#34404E" stroke-width="1"/>`;
+    const [c1, c2] = simple() ? ['#E9EEF3', '#D5DEE7'] : ['#2A3440', '#34404E'];
+    return `<path d="${d1}" stroke="${c1}" stroke-width="1"/><path d="${d2}" stroke="${c2}" stroke-width="1"/>`;
   }
 
   function render() {
@@ -729,18 +745,18 @@
     if (modo === 'lamina') {
       if (!cacheLam) cacheLam = laminaSvg(plano.activa).replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '');
       const tx = vw / 2 - camL.cx * camL.z, ty = vh / 2 - camL.cy * camL.z;
-      ui.svg.innerHTML = `<rect width="${vw}" height="${vh}" fill="#3A4350"/><g transform="matrix(${camL.z},0,0,${camL.z},${tx},${ty})" font-family="'IBM Plex Mono', monospace"><rect x="1.2" y="1.6" width="${HOJA.w}" height="${HOJA.h}" fill="#000" opacity="0.35"/>${cacheLam}</g>`;
+      ui.svg.innerHTML = `<rect width="${vw}" height="${vh}" fill="${simple() ? '#DCE3EA' : '#3A4350'}"/><g transform="matrix(${camL.z},0,0,${camL.z},${tx},${ty})" font-family="'IBM Plex Mono', monospace"><rect x="1.2" y="1.6" width="${HOJA.w}" height="${HOJA.h}" fill="#000" opacity="0.35"/>${cacheLam}</g>`;
       ui.zoom.textContent = Math.round(camL.z / 3.78 * 100) + '%';
       return;
     }
     const k = kPant();
-    const P = escena(L, k, apilarPant());
-    let s = `<rect width="${vw}" height="${vh}" fill="#1B222B"/>` + grilla();
-    s += aSvg(P, aPant, MMPX, 'pantalla');
+    const P = escena(L, k, apilarPant(), flagsPant());
+    let s = `<rect width="${vw}" height="${vh}" fill="${fondoPant()}"/>` + grilla();
+    s += aSvg(P, aPant, mmpx(), 'pantalla');
     s += overlay(L, P);
     // ícono de ejes (SCU) en la esquina, como en CAD
     const ux = 18, uy = vh - (innerWidth < 900 ? 72 : 18);
-    s += `<g stroke-width="1.5" font-size="10" opacity="0.85"><path d="M${ux} ${uy}h26" stroke="#E25555"/><path d="M${ux} ${uy}v-26" stroke="#4FCB6B"/><rect x="${ux - 3}" y="${uy - 3}" width="6" height="6" fill="none" stroke="#C9D3DD" stroke-width="1"/><text x="${ux + 29}" y="${uy + 4}" fill="#E25555" stroke="none">X</text><text x="${ux - 3}" y="${uy - 30}" fill="#4FCB6B" stroke="none">Y</text></g>`;
+    if (!simple()) s += `<g stroke-width="1.5" font-size="10" opacity="0.85"><path d="M${ux} ${uy}h26" stroke="#E25555"/><path d="M${ux} ${uy}v-26" stroke="#4FCB6B"/><rect x="${ux - 3}" y="${uy - 3}" width="6" height="6" fill="none" stroke="#C9D3DD" stroke-width="1"/><text x="${ux + 29}" y="${uy + 4}" fill="#E25555" stroke="none">X</text><text x="${ux - 3}" y="${uy - 30}" fill="#4FCB6B" stroke="none">Y</text></g>`;
     ui.svg.innerHTML = s;
     ui.zoom.textContent = '1 m = ' + Math.round(cam.z * 100) + ' px';
     // escala gráfica en pantalla
@@ -751,7 +767,11 @@
   // selección, pinzamientos (grips) y avisos sobre la vista
   function overlay(L, P) {
     let s = '';
-    const g = (p, hot, cls) => { const [x, y] = aPant(p), r = tactil ? 7 : 4.5; return `<rect class="${cls || ''}" x="${x - r}" y="${y - r}" width="${r * 2}" height="${r * 2}" fill="${hot ? '#E25555' : '#2F7BEA'}" stroke="#fff" stroke-width="1"/>`; };
+    const g = (p, hot, cls) => {
+      const [x, y] = aPant(p), r = tactil ? 7 : 4.5;
+      if (simple()) return `<circle cx="${x}" cy="${y}" r="${r + 2}" fill="#fff" stroke="${hot ? '#E25555' : '#1B6CC8'}" stroke-width="2.5"/>`;
+      return `<rect class="${cls || ''}" x="${x - r}" y="${y - r}" width="${r * 2}" height="${r * 2}" fill="${hot ? '#E25555' : '#2F7BEA'}" stroke="#fff" stroke-width="1"/>`;
+    };
     const contorno = (pts, color) => `<path d="${pts.map((p, i) => (i ? 'L' : 'M') + aPant(p).map((v) => v.toFixed(1)).join(' ')).join('')}Z" fill="${color}" fill-opacity="0.08" stroke="${color}" stroke-width="1.4" stroke-dasharray="6 4"/>`;
     if (L.tipo === 'fachada') {
       // avisos: superpuestas o fuera de la pared
@@ -764,7 +784,7 @@
       if (hover && hover.tipo === 'ab' && !(sel && sel.id === hover.id)) { const a = L.items.find((i) => i.id === hover.id); if (a) s += contorno(rectItem(a), '#9DB7D6'); }
       if (sel && sel.tipo === 'ab') {
         const a = L.items.find((i) => i.id === sel.id);
-        if (a) { s += contorno(rectItem(a), '#2F7BEA'); gripsItem(a).forEach((q) => { s += g(q.p, drag && drag.grip === q.n); }); }
+        if (a) { s += contorno(rectItem(a), '#2F7BEA'); gripsItem(a).forEach((q) => { s += g(q.p, drag && drag.grip === q.n); }); if (simple()) s += etiquetaSel(a); }
       }
       if (sel && sel.tipo === 'pared') s += contorno([[0, 0], [L.pared.ancho, 0], [L.pared.ancho, L.pared.alto], [0, L.pared.alto]], '#2F7BEA') + g([L.pared.ancho, L.pared.alto]);
     } else {
@@ -772,8 +792,8 @@
       if (sel && (sel.tipo === 'techo')) s += contorno(p, '#2F7BEA');
       if (sel && sel.tipo === 'lado') { const a = aPant(p[sel.i]), b = aPant(p[(sel.i + 1) % p.length]); s += `<path d="M${a[0]} ${a[1]}L${b[0]} ${b[1]}" stroke="#2F7BEA" stroke-width="5" stroke-opacity="0.6"/>`; }
       if (hover && hover.tipo === 'lado' && !(sel && sel.tipo === 'lado' && sel.i === hover.i)) { const a = aPant(p[hover.i]), b = aPant(p[(hover.i + 1) % p.length]); s += `<path d="M${a[0]} ${a[1]}L${b[0]} ${b[1]}" stroke="#9DB7D6" stroke-width="4" stroke-opacity="0.5"/>`; }
-      p.forEach((q, i) => { s += g(q, sel && sel.tipo === 'vert' && sel.i === i); });
-      p.forEach((q, i) => { const r = p[(i + 1) % p.length], m = aPant([(q[0] + r[0]) / 2, (q[1] + r[1]) / 2]), rr = tactil ? 6 : 4; s += `<path d="M${m[0]} ${m[1] - rr}L${m[0] + rr} ${m[1]}L${m[0]} ${m[1] + rr}L${m[0] - rr} ${m[1]}Z" fill="${sel && sel.tipo === 'lado' && sel.i === i ? '#E25555' : '#2F7BEA'}" stroke="#fff"/>`; });
+      if (!simple()) p.forEach((q, i) => { s += g(q, sel && sel.tipo === 'vert' && sel.i === i); });
+      if (!simple()) p.forEach((q, i) => { const r = p[(i + 1) % p.length], m = aPant([(q[0] + r[0]) / 2, (q[1] + r[1]) / 2]), rr = tactil ? 6 : 4; s += `<path d="M${m[0]} ${m[1] - rr}L${m[0] + rr} ${m[1]}L${m[0]} ${m[1] + rr}L${m[0] - rr} ${m[1]}Z" fill="${sel && sel.tipo === 'lado' && sel.i === i ? '#E25555' : '#2F7BEA'}" stroke="#fff"/>`; });
       (L.columnas || []).forEach((c) => { if (sel && sel.tipo === 'col' && sel.id === c.id) s += contorno([[c.x - 7, c.y - 7], [c.x + 7, c.y - 7], [c.x + 7, c.y + 7], [c.x - 7, c.y + 7]], '#2F7BEA'); });
     }
     if (snapInfo) {
@@ -783,9 +803,15 @@
     }
     return s;
   }
+  // cartel con la medida sobre la abertura elegida (modo simple)
+  function etiquetaSel(a) {
+    const [x, y] = aPant([a.x + a.ancho / 2, a.ante + a.alto / 2]), t = `${fmt(a.ancho)} × ${fmt(a.alto)} cm`, w = t.length * 7.4 + 18;
+    return `<g transform="translate(${x - w / 2} ${y - 12})"><rect width="${w}" height="24" rx="12" fill="#1B6CC8"/><text x="${w / 2}" y="16.5" text-anchor="middle" font-size="12.5" font-weight="600" fill="#fff">${t}</text></g>`;
+  }
   const rectItem = (a) => [[a.x, a.ante], [a.x + a.ancho, a.ante], [a.x + a.ancho, a.ante + a.alto], [a.x, a.ante + a.alto]];
   function gripsItem(a) {
     const x0 = a.x, x1 = a.x + a.ancho, y0 = a.ante, y1 = a.ante + a.alto, xm = (x0 + x1) / 2, ym = (y0 + y1) / 2;
+    if (simple()) return [{ n: 'se', p: [x1, y0] }, { n: 'ne', p: [x1, y1] }, { n: 'sw', p: [x0, y0] }, { n: 'nw', p: [x0, y1] }];
     return [
       { n: 'sw', p: [x0, y0] }, { n: 'se', p: [x1, y0] }, { n: 'ne', p: [x1, y1] }, { n: 'nw', p: [x0, y1] },
       { n: 's', p: [xm, y0] }, { n: 'e', p: [x1, ym] }, { n: 'n', p: [xm, y1] }, { n: 'w', p: [x0, ym] },
@@ -807,9 +833,10 @@
       return null;
     }
     const p = L.pts;
+    for (const c of L.columnas || []) if (Math.abs(w[0] - c.x) <= 5 + t && Math.abs(w[1] - c.y) <= 5 + t) return { tipo: 'col', id: c.id };
+    if (simple()) return dentro(w, p) ? { tipo: 'techo' } : null;
     for (let i = 0; i < p.length; i++) { const [px, py] = aPant(p[i]); if (Math.hypot(px - sx, py - sy) <= tol()) return { tipo: 'vert', i }; }
     for (let i = 0; i < p.length; i++) { const r = p[(i + 1) % p.length], [px, py] = aPant([(p[i][0] + r[0]) / 2, (p[i][1] + r[1]) / 2]); if (Math.hypot(px - sx, py - sy) <= tol()) return { tipo: 'medio', i }; }
-    for (const c of L.columnas || []) if (Math.abs(w[0] - c.x) <= 5 + t && Math.abs(w[1] - c.y) <= 5 + t) return { tipo: 'col', id: c.id };
     for (let i = 0; i < p.length; i++) if (distSeg(w, p[i], p[(i + 1) % p.length]) <= t) return { tipo: 'lado', i };
     if (dentro(w, p)) return { tipo: 'techo' };
     return null;
@@ -973,7 +1000,7 @@
     if (drag && drag.movido) { guardar(); pintarProps(); }
     // celular: tocar un objeto abre sus propiedades; tocar el vacío las cierra
     if (drag && !drag.movido && !drag.movido2 && innerWidth < 900 && modo === 'modelo' && (drag.tipo !== 'pan' || drag.suave)) raiz.classList.add('props-abiertas');
-    if (drag && drag.tipo === 'pan' && !drag.suave && !drag.movido2 && innerWidth < 900 && !sel) raiz.classList.remove('props-abiertas');
+    if (drag && drag.tipo === 'pan' && !drag.suave && !drag.movido2 && innerWidth < 900 && !sel && !simple()) raiz.classList.remove('props-abiertas');
     if (punteros.size === 0) { drag = null; snapInfo = null; tip(); pedir(); }
   }
 
@@ -1085,10 +1112,24 @@
     ui.view.dataset.herr = h || '';
     if (h === 'columna') log('COLUMNA  Tocá dónde va cada columna, o escribí X,Y en cm. Esc para terminar.');
   }
+  // Simple (paso a paso, lienzo claro) o Avanzado (CAD completo): el plano es el mismo
+  function setNivel(n, sinGuardar) {
+    nivel = n === 'avanzado' ? 'avanzado' : 'simple';
+    if (!sinGuardar) { try { localStorage.setItem('alumfer-plano-nivel', nivel); } catch (_) {} }
+    document.body.classList.toggle('nivel-simple', simple());
+    raiz.classList.toggle('is-simple', simple());
+    $$('[data-nivel]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.nivel === nivel)));
+    if (simple()) { setHerramienta(null); if (sel && sel.tipo !== 'ab' && sel.tipo !== 'col') sel = null; if (innerWidth < 900) raiz.classList.add('props-abiertas'); }
+    if (dlgLib) delete dlgLib.dataset.ok;   // los dibujitos cambian de colores
+    hover = null; todo();
+    requestAnimationFrame(() => { medir(); zoomExt(); });
+    if (!sinGuardar) { log(simple() ? 'Modo simple: completá los pasos del panel.' : 'Modo avanzado: herramientas de CAD, línea de comandos y vértices libres.'); ga('plano_nivel', { event_label: nivel }); }
+  }
   function setModo(m) {
     modo = m;
     $$('[data-modo]', raiz).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.modo === m)));
     raiz.classList.toggle('is-lamina', m === 'lamina');
+    if (simple()) pintarTools();
     if (m === 'lamina') { cacheLam = null; zoomExt(); }
     sucio = true; pedir();
   }
@@ -1110,11 +1151,25 @@
     redo: '<path d="M15 7l5 5-5 5"/><path d="M20 12H9a5 5 0 000 10h3"/>',
     lam: '<rect x="3" y="5" width="18" height="14"/><path d="M14 15h7M14 15v4"/>',
     del: '<path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/>',
+    rep: '<path d="M3 5v14M21 5v14"/><rect x="6" y="8" width="4" height="8"/><rect x="14" y="8" width="4" height="8"/>',
   };
   const icono = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">${ICO[k]}</svg>`;
   function pintarTools() {
     const L = lam(); if (!L) return;
     const b = (k, label, attr, corto) => `<button type="button" class="cad__tool" ${attr} title="${label}">${icono(k)}<span${corto ? ` data-corto="${corto}"` : ''}>${label}</span></button>`;
+    if (simple()) {
+      let s = '';
+      if (L.tipo === 'fachada') {
+        s += b('ab', 'Agregar ventana o puerta', 'data-act="biblioteca" class="is-main"', 'Agregar');
+        s += b('rep', 'Repartir parejo', 'data-act="repartir"', 'Repartir');
+      } else {
+        s += b('col', 'Agregar columna', `data-herr="columna" aria-pressed="${herramienta === 'columna'}"`, 'Columna');
+      }
+      s += b('undo', 'Deshacer', 'data-act="undo"') + b('zoom', 'Ver todo', 'data-act="zoom"');
+      s += b('lam', modo === 'lamina' ? 'Volver a dibujar' : 'Ver la hoja', 'data-act="modo"', modo === 'lamina' ? 'Dibujar' : 'Ver hoja');
+      ui.tools.innerHTML = s.replace(' class="is-main"', '').replace('class="cad__tool" data-act="biblioteca"', 'class="cad__tool cad__tool--main" data-act="biblioteca"');
+      return;
+    }
     let s = b('sel', 'Seleccionar', `data-herr="sel" aria-pressed="${!herramienta}"`, 'Elegir');
     if (L.tipo === 'fachada') {
       s += b('ab', 'Abertura', 'data-act="biblioteca"');
@@ -1145,8 +1200,103 @@
     return Object.entries(grupos).map(([g, o]) => `<optgroup label="${g}">${o.join('')}</optgroup>`).join('');
   }
 
+  // ── Panel paso a paso (modo simple) ────────────────────────
+  function numS(k, label, v, o) {
+    o = o || {};
+    const id = o.id ? ` data-id="${o.id}"` : '', paso = o.paso || 5;
+    return `<div class="ps"><label class="ps__lbl"><span>${o.n ? `<i class="ps__n">${o.n}</i>` : ''}${label}</span>${o.ayuda ? `<small>${o.ayuda}</small>` : ''}</label>` +
+      `<div class="ps__ctrl"><button type="button" class="ps__btn" data-paso="${k}"${id} data-delta="${-paso}" aria-label="Restar ${paso} cm">−</button>` +
+      `<span class="ps__num"><input type="number" inputmode="numeric" step="1" data-k="${k}"${id} value="${Math.round(v)}" aria-label="${esc(label)}"><i>cm</i></span>` +
+      `<button type="button" class="ps__btn" data-paso="${k}"${id} data-delta="${paso}" aria-label="Sumar ${paso} cm">+</button></div></div>`;
+  }
+  const selS = (k, label, opciones, id) => `<label class="ps ps--sel"><span class="ps__lbl"><span>${label}</span></span><select data-k="${k}"${id ? ` data-id="${id}"` : ''}>${opciones}</select></label>`;
+  const paso = (n, titulo, cuerpo, extra) => `<section class="pp-paso${extra || ''}"><h3><b>${n}</b>${titulo}</h3>${cuerpo}</section>`;
+  const ICONO_L = (f) => f === 'ele'
+    ? '<svg viewBox="0 0 120 84" aria-hidden="true"><path class="m" d="M16 8h98"/><path d="M18 12h94v34H64v34H18z"/><text x="64" y="27">1</text><text x="103" y="33">2</text><text x="41" y="74">3</text><text x="8" y="50">4</text></svg>'
+    : '<svg viewBox="0 0 120 84" aria-hidden="true"><path class="m" d="M16 8h98"/><path d="M18 12h94v62H18z"/><text x="64" y="30">1</text><text x="103" y="48">2</text></svg>';
+
+  function avisosFachada(L, refs) {
+    const out = [];
+    L.items.forEach((a) => {
+      if (a.x < -0.5 || a.x + a.ancho > L.pared.ancho + 0.5) out.push(`${refs.de(a)} se sale de la pared por el costado.`);
+      if (a.ante + a.alto > L.pared.alto + 0.5) out.push(`${refs.de(a)} queda más alta que la pared.`);
+    });
+    L.items.forEach((a, i) => L.items.slice(i + 1).forEach((b) => {
+      if (a.x < b.x + b.ancho - 0.5 && b.x < a.x + a.ancho - 0.5 && a.ante < b.ante + b.alto - 0.5 && b.ante < a.ante + a.alto - 0.5) out.push(`${refs.de(a)} y ${refs.de(b)} se superponen.`);
+    }));
+    return out;
+  }
+
+  function propsSimple(L) {
+    let s = '';
+    const refs = referencias();
+    const datos = `<div class="ps-datos"><label class="pp"><span>Tu nombre</span><input type="text" data-d="cliente" value="${esc(plano.datos.cliente)}" maxlength="60" autocomplete="name"></label><label class="pp"><span>Localidad de la obra</span><input type="text" data-d="localidad" value="${esc(plano.datos.localidad)}" maxlength="60"></label></div>` +
+      `<div class="ps-fin"><button type="button" class="ps-boton ps-boton--line" data-act="modo">Ver cómo queda la hoja</button><button type="button" class="ps-boton" data-act="enviar">Enviar a Alumfer</button></div>`;
+    if (L.tipo === 'fachada') {
+      s += paso(1, 'Medí la pared', `<div class="ps-grid">${numS('p.ancho', 'Ancho', L.pared.ancho, { ayuda: 'De punta a punta' })}${numS('p.alto', 'Alto', L.pared.alto, { ayuda: 'Del piso al techo' })}</div>`);
+      const items = L.items.slice().sort((a, b) => a.x - b.x);
+      let lista = items.map((a) => {
+        const t = A.tipo(a.tipo), abierta = sel && sel.tipo === 'ab' && sel.id === a.id;
+        let c = `<div class="ps-item${abierta ? ' is-open' : ''}"><button type="button" class="ps-item__head" data-ir="${a.id}" aria-expanded="${abierta}"><b>${refs.de(a)}</b><span>${esc(t.nombre)}<small>${fmt(a.ancho)} × ${fmt(a.alto)} cm</small></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>`;
+        if (abierta) {
+          c += `<div class="ps-item__body">${selS('tipo', 'Tipo', opcionesTipo(a.tipo), a.id)}`;
+          c += `<div class="ps-grid">${numS('ancho', 'Ancho', a.ancho, { id: a.id })}${numS('alto', 'Alto', a.alto, { id: a.id })}</div>`;
+          c += `<div class="ps-grid">${numS('x', 'Desde la izquierda', a.x, { id: a.id, ayuda: 'Desde el borde de la pared' })}${numS('ante', 'Desde el piso', a.ante, { id: a.id, ayuda: t.grupo === 'Puertas' ? 'En puertas va 0' : 'Hasta el borde de abajo' })}</div>`;
+          c += `<div class="ps-grid">${selS('color', 'Color', opcionesColor(a.color), a.id)}${selS('vidrio', 'Vidrio', A.VIDRIOS.map((v) => opt(v.id, v.nombre.replace(' (doble vidriado)', ''), a.vidrio)).join(''), a.id)}</div>`;
+          if (tieneMano(t)) c += selS('mano', 'Bisagras', opt('izq', 'A la izquierda', a.mano) + opt('der', 'A la derecha', a.mano), a.id);
+          if (t.mosq) c += `<label class="pp pp--check"><input type="checkbox" data-k="mosquitero" data-id="${a.id}"${a.mosquitero ? ' checked' : ''}><span>Con mosquitero</span></label>`;
+          c += `<div class="pp-acts"><button type="button" data-pp="centrar" data-id="${a.id}">Centrar</button><button type="button" data-pp="duplicar" data-id="${a.id}">Duplicar</button><button type="button" class="is-danger" data-pp="borrar" data-id="${a.id}">Borrar</button></div></div>`;
+        }
+        return c + '</div>';
+      }).join('');
+      if (!items.length) lista = '<p class="pp-vacio">Todavía no hay ninguna. Tocá el botón de abajo y elegí qué va en esta pared.</p>';
+      const av = avisosFachada(L, refs);
+      lista += av.length ? `<ul class="ps-avisos">${av.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : '';
+      lista += `<div class="ps-fin"><button type="button" class="ps-boton" data-act="biblioteca">+ Agregar ventana o puerta</button>${items.length > 1 ? '<button type="button" class="ps-boton ps-boton--line" data-act="repartir">Repartir parejo</button>' : ''}</div>`;
+      lista += items.length ? '<p class="ps-ayuda">También podés arrastrarlas en el dibujo. Tocá una para cambiar sus medidas.</p>' : '';
+      s += paso(2, 'Ventanas y puertas', lista);
+      s += paso(3, 'Tus datos y envío', datos);
+      return s;
+    }
+    // techo
+    if (sel && sel.tipo === 'col') {
+      s += `<section class="pp-paso pp-paso--sel"><h3>Columna</h3><p class="ps-ayuda">Arrastrala en el dibujo para ubicarla.</p><div class="pp-acts"><button type="button" class="is-danger" data-pp="borrar">Borrar columna</button><button type="button" data-pp="deselec">Listo</button></div></section>`;
+    }
+    const f = paramForma(L);
+    let c1 = `<div class="ps-formas"><button type="button" data-sforma="rect" aria-pressed="${!!f && f.forma === 'rect'}">${ICONO_L('rect')}<span>Rectangular</span></button><button type="button" data-sforma="ele" aria-pressed="${!!f && f.forma === 'ele'}">${ICONO_L('ele')}<span>En L</span></button></div>`;
+    if (!f) c1 += '<p class="ps-ayuda">Esta forma la dibujaste a mano en el modo Avanzado. Podés seguir editándola ahí, o elegir una forma de arriba.</p>';
+    s += paso(1, '¿Qué forma tiene?', c1);
+    let c2 = '';
+    if (f && f.forma === 'ele') {
+      c2 += `<div class="ps-grid">${numS('s.W', 'Largo contra la pared', f.W, { n: 1 })}${numS('s.hc', 'Salida de la parte corta', f.hc, { n: 2 })}</div>`;
+      c2 += `<div class="ps-grid">${numS('s.w2', 'Ancho de la parte larga', f.w2, { n: 3 })}${numS('s.H', 'Salida de la parte larga', f.H, { n: 4 })}</div>`;
+    } else if (f) {
+      c2 += `<div class="ps-grid">${numS('s.W', 'Largo contra la pared', f.W, { n: 1, ayuda: 'El lado que se apoya en la pared' })}${numS('s.H', 'Cuánto sale de la pared', f.H, { n: 2, ayuda: 'Hasta el frente del techo' })}</div>`;
+    } else {
+      c2 += `<p class="ps-ayuda">Superficie: <b>${coma(Math.abs(areaFirmada(L.pts)) / 10000, 2)} m²</b>. Los largos de cada lado se cambian en el modo Avanzado.</p>`;
+    }
+    s += paso(2, 'Medidas', c2);
+    const pend = Math.max(0, pendiente(L));
+    s += paso(3, 'Alturas', `<div class="ps-corte"><svg viewBox="0 0 160 70" aria-hidden="true"><path class="m" d="M6 4v62"/><path class="t" d="M10 14L150 26"/><path class="c" d="M146 26v40"/><path class="p" d="M2 66h156"/><text x="22" y="46">1</text><text x="134" y="52">2</text></svg></div>` +
+      `<div class="ps-grid">${numS('alta', 'Altura en la pared', L.alta, { n: 1, ayuda: 'Desde el piso' })}${numS('baja', 'Altura en el frente', L.baja, { n: 2, ayuda: 'Del lado libre' })}</div>` +
+      `<p class="ps-resumen">Pendiente <b>${coma(pend, 1)} %</b> · Superficie <b>${coma(Math.abs(areaFirmada(L.pts)) / 10000, 2)} m²</b></p>`);
+    s += paso(4, 'Cubierta y estructura', `${selS('material', 'Policarbonato', MATERIALES.map((m) => opt(m.id, m.nombre, L.material)).join(''))}<div class="ps-grid">${selS('uso', 'Para', USOS.map((u) => opt(u, u, L.uso)).join(''))}${selS('color', 'Color de la estructura', opcionesColor(L.color))}</div><p class="ps-ayuda">¿Hay columnas o apoyos? Tocá <b>Agregar columna</b> y marcalos en el dibujo.</p>`);
+    s += paso(5, 'Tus datos y envío', datos);
+    return s;
+  }
+
   function pintarProps() {
     const L = lam(); if (!L || !ui.props) return;
+    if (simple()) {
+      const ae = document.activeElement, foco = ae && ui.props.contains(ae) && (ae.dataset.k || ae.dataset.d) ? `[data-${ae.dataset.k ? 'k' : 'd'}="${ae.dataset.k || ae.dataset.d}"]${ae.dataset.id ? `[data-id="${ae.dataset.id}"]` : ''}` : null;
+      const sc = ui.props.scrollTop;
+      ui.props.innerHTML = propsSimple(L);
+      ui.props.scrollTop = sc;
+      if (foco) { const f = $(foco, ui.props); if (f) f.focus(); }
+      $('.cad__props-title', raiz).textContent = L.tipo === 'fachada' ? 'Paso a paso · ' + L.nombre : 'Paso a paso · ' + L.nombre;
+      raiz.classList.toggle('has-sel', !!sel);
+      return;
+    }
     let s = '', titulo = '';
     const refs = referencias();
     if (L.tipo === 'fachada' && sel && sel.tipo === 'ab') {
@@ -1205,8 +1355,12 @@
     const k = el.dataset.k; if (!k) return;
     const v = el.type === 'checkbox' ? el.checked : el.type === 'number' ? parseFloat(String(el.value).replace(',', '.')) : el.value;
     if (el.type === 'number' && !isFinite(v)) { pintarProps(); return; }
+    if (el.dataset.id) sel = { tipo: 'ab', id: el.dataset.id };
+    if (k.startsWith('s.')) { cambio(() => formaParam(L, k.slice(2), v), null, true); zoomSuave(); return; }
     cambio(() => {
-      if (L.tipo === 'fachada' && sel && sel.tipo === 'ab') {
+      if (k === 'p.ancho') L.pared.ancho = clamp(v, 50, 3000);
+      else if (k === 'p.alto') L.pared.alto = clamp(v, 50, 1500);
+      else if (L.tipo === 'fachada' && sel && sel.tipo === 'ab') {
         const a = L.items.find((i) => i.id === sel.id);
         if (k === 'tipo') {
           const t = A.tipo(v), prev = A.tipo(a.tipo);
@@ -1217,9 +1371,7 @@
         else if (k === 'alto') a.alto = clamp(v, A.LIMITES.alto[0], A.LIMITES.alto[1]);
         else if (k === 'ante') a.ante = Math.max(0, v);
         else a[k] = v;
-      } else if (k === 'p.ancho') L.pared.ancho = clamp(v, 50, 3000);
-      else if (k === 'p.alto') L.pared.alto = clamp(v, 50, 1500);
-      else if (k === 'lado') estirarLado(L, sel.i, clamp(v, 10, 5000));
+      } else if (k === 'lado') estirarLado(L, sel.i, clamp(v, 10, 5000));
       else if (k === 'apoyo') { if (v) L.apoyo = sel.i; }
       else if (k === 'vx') L.pts[sel.i][0] = v;
       else if (k === 'vy') L.pts[sel.i][1] = v;
@@ -1238,10 +1390,23 @@
   }
 
   function onPropClick(e) {
+    const st = e.target.closest('[data-paso]');
+    if (st) {
+      const q = `[data-k="${st.dataset.paso}"]${st.dataset.id ? `[data-id="${st.dataset.id}"]` : ''}`, inp = $(q, ui.props);
+      if (inp) { inp.value = Math.max(0, Math.round((parseFloat(inp.value) || 0) + +st.dataset.delta)); inp.dispatchEvent(new Event('change', { bubbles: true })); }
+      return;
+    }
+    const fz = e.target.closest('[data-sforma]');
+    if (fz) { cambio(() => formaParam(lam(), 'forma', fz.dataset.sforma), fz.dataset.sforma === 'ele' ? 'Forma en L.' : 'Forma rectangular.'); zoomExt(); return; }
     const b = e.target.closest('[data-pp], [data-ir]'); if (!b) return;
     const L = lam();
-    if (b.dataset.ir) { sel = { tipo: 'ab', id: b.dataset.ir }; pintarProps(); pedir(); return; }
+    if (b.dataset.ir) {
+      const ya = sel && sel.tipo === 'ab' && sel.id === b.dataset.ir;
+      sel = ya && simple() ? null : { tipo: 'ab', id: b.dataset.ir }; pintarProps(); pedir(); return;
+    }
+    if (b.dataset.id) sel = { tipo: 'ab', id: b.dataset.id };
     const a = b.dataset.pp;
+    if (a === 'deselec') { sel = null; pintarProps(); pedir(); return; }
     if (a === 'borrar') borrarSel();
     else if (a === 'duplicar') {
       const o = L.items.find((i) => i.id === sel.id);
@@ -1257,6 +1422,58 @@
   }
 
   // ── Formas de techo ────────────────────────────────────────
+  // Rectángulo o L con medidas en palabras (modo simple). Devuelve null si
+  // la forma se editó libremente en el modo avanzado.
+  const generarL = (W, H, w2, hc) => [[0, H], [W, H], [W, H - hc], [w2, H - hc], [w2, 0], [0, 0]];
+  function paramForma(L) {
+    const p = L.pts, b = bbox(p), W = n2(b.x1 - b.x0), H = n2(b.y1 - b.y0);
+    const igual = (q) => q.length === p.length && q.every((v, i) => Math.abs(v[0] + b.x0 - p[i][0]) < 0.6 && Math.abs(v[1] + b.y0 - p[i][1]) < 0.6);
+    if (L.apoyo === 0 && igual([[0, H], [W, H], [W, 0], [0, 0]])) return { forma: 'rect', W, H };
+    if (L.apoyo === 0 && p.length === 6) {
+      const w2 = n2(p[3][0] - b.x0), hc = n2(H - (p[3][1] - b.y0));
+      if (igual(generarL(W, H, w2, hc))) return { forma: 'ele', W, H, w2, hc };
+    }
+    return null;
+  }
+  function formaParam(L, k, v) {
+    const f = paramForma(L) || { forma: 'rect', W: 400, H: 300 };
+    const b = bbox(L.pts);
+    if (k === 'forma') {
+      if (v === 'ele' && f.forma !== 'ele') Object.assign(f, { forma: 'ele', w2: Math.round(f.W * 0.55 / 5) * 5, hc: Math.round(f.H * 0.5 / 5) * 5 });
+      else f.forma = v;
+    } else f[k] = Math.round(v);
+    f.W = clamp(f.W, 50, 3000); f.H = clamp(f.H, 50, 2000);
+    let q;
+    if (f.forma === 'ele') {
+      f.w2 = clamp(f.w2 || f.W / 2, 20, f.W - 20); f.hc = clamp(f.hc || f.H / 2, 20, f.H - 20);
+      q = generarL(f.W, f.H, f.w2, f.hc);
+    } else q = [[0, f.H], [f.W, f.H], [f.W, 0], [0, 0]];
+    const ox = isFinite(b.x0) ? b.x0 : 0, oy = isFinite(b.y0) ? b.y0 : 0;
+    L.pts = q.map(([x, y]) => [n2(x + ox), n2(y + oy)]);
+    L.apoyo = 0;
+  }
+  // tras cambiar medidas grandes, reencuadra si el dibujo se salió de la vista
+  function zoomSuave() {
+    const L = lam(), b = extension(escena(L, kPant(), apilarPant(), flagsPant()), kPant());
+    const [x0, y0] = aPant([b.x0, b.y1]), [x1, y1] = aPant([b.x1, b.y0]);
+    if (x0 < 0 || y0 < 0 || x1 > vw || y1 > vh || (x1 - x0) < vw * 0.35) zoomExt();
+  }
+  // Repartir parejo: mismas separaciones entre aberturas y a los bordes
+  function repartir() {
+    const L = lam(); if (L.tipo !== 'fachada' || !L.items.length) return;
+    const it = L.items.slice().sort((a, b) => a.x - b.x), total = it.reduce((s, a) => s + a.ancho, 0);
+    const gap = (L.pared.ancho - total) / (it.length + 1);
+    if (gap < 0) { aviso('No entran todas en la pared: agrandá el ancho de la pared.'); return; }
+    cambio(() => { let x = gap; it.forEach((a) => { const o = L.items.find((i) => i.id === a.id); o.x = n2(x); x += a.ancho + gap; }); }, 'Aberturas repartidas parejo.');
+    ga('plano_repartir');
+  }
+  function aviso(t) {
+    log(t);
+    let el = $('.cad__toast', raiz);
+    if (!el) { el = document.createElement('div'); el.className = 'cad__toast'; el.setAttribute('role', 'status'); ui.view.appendChild(el); }
+    el.textContent = t; el.classList.add('is-on');
+    clearTimeout(aviso.t); aviso.t = setTimeout(() => el.classList.remove('is-on'), 2600);
+  }
   function forma(tipoF) {
     const L = lam(), b = bbox(L.pts), W = Math.round(b.x1 - b.x0) || 400, H = Math.round(b.y1 - b.y0) || 300;
     cambio(() => {
@@ -1491,16 +1708,18 @@
     new ResizeObserver(() => { medir(); if (!camTocada) zoomExt(); }).observe(ui.view);
 
     raiz.addEventListener('click', (e) => {
-      const b = e.target.closest('[data-act], [data-herr], [data-lam], [data-modo], [data-tg], [data-forma]');
+      const b = e.target.closest('[data-act], [data-herr], [data-lam], [data-modo], [data-tg], [data-forma], [data-nivel]');
       if (!b) return;
       if (b.dataset.lam != null) { plano.activa = +b.dataset.lam; sel = null; guardar(); todo(); zoomExt(); return; }
       if (b.dataset.herr) { setHerramienta(b.dataset.herr === 'sel' ? null : b.dataset.herr); return; }
       if (b.dataset.modo) { setModo(b.dataset.modo); return; }
       if (b.dataset.tg) { alternar(b.dataset.tg); return; }
       if (b.dataset.forma) { forma(b.dataset.forma); return; }
+      if (b.dataset.nivel) { setNivel(b.dataset.nivel); return; }
       const a = b.dataset.act;
       if (a === 'biblioteca') abrirBiblioteca();
       else if (a === 'boceto') traerBoceto();
+      else if (a === 'repartir') repartir();
       else if (a === 'zoom') zoomExt();
       else if (a === 'undo') deshacer();
       else if (a === 'redo') rehacerFn();
@@ -1525,7 +1744,7 @@
 
     dlgLib.addEventListener('click', (e) => { const b = e.target.closest('[data-tipo]'); if (b) { dlgLib.close(); insertar(b.dataset.tipo); } else if (e.target === dlgLib || e.target.closest('[data-cerrar]')) dlgLib.close(); });
     dlgNueva.addEventListener('click', (e) => { const b = e.target.closest('[data-nueva]'); if (b) { dlgNueva.close(); agregarLamina(b.dataset.nueva); } else if (e.target === dlgNueva || e.target.closest('[data-cerrar]')) dlgNueva.close(); });
-    dlgInicio.addEventListener('click', (e) => { const b = e.target.closest('[data-inicio]'); if (!b) return; if (b.dataset.inicio === 'seguir') { dlgInicio.close(); return; } arrancar(b.dataset.inicio); });
+    dlgInicio.addEventListener('click', (e) => { const nv = e.target.closest('[data-nivel]'); if (nv) { setNivel(nv.dataset.nivel); return; } const b = e.target.closest('[data-inicio]'); if (!b) return; if (b.dataset.inicio === 'seguir') { dlgInicio.close(); return; } arrancar(b.dataset.inicio); });
     dlgInicio.addEventListener('cancel', (e) => { if (!plano.laminas.length) e.preventDefault(); });
     dlgEnv.addEventListener('click', (e) => { if (e.target === dlgEnv || e.target.closest('[data-cerrar]')) dlgEnv.close(); if (e.target.closest('[data-env="wa"]')) enviarWa(); if (e.target.closest('[data-env="pdf"]')) exportarPdf(); if (e.target.closest('[data-env="png"]')) exportarPng(); });
     $('form', dlgEnv).addEventListener('submit', enviarForm);
@@ -1539,6 +1758,7 @@
   }
 
   (async function iniciar() {
+    setNivel(nivel, true);
     enlazar();
     medir();
     const hay = await cargar();

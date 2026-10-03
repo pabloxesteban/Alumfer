@@ -245,6 +245,124 @@ html:has(.page-plano) { height: 100%; overflow: hidden; }
 .cad-enviar__acts { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; }
 .cad-enviar__acts .cad__btn { height: 42px; padding: 0 16px; }
 
+/* ─── Selector Simple / Avanzado ─────────────────────────── */
+.cad__nivel { display: flex; flex-shrink: 0; padding: 2px; border-radius: 999px; background: var(--c-bg); border: 1px solid var(--c-line); }
+.cad__nivel button { padding: 5px 12px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; color: var(--c-dim); }
+.cad__nivel button[aria-pressed="true"] { background: var(--c-acc); color: #fff; }
+.cad-inicio__nivel { display: grid; gap: 8px; margin-top: 16px; }
+.cad-inicio__nivel > span { font-size: 0.8rem; font-weight: 600; color: var(--c-dim); }
+.cad-inicio__nivel div { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.cad-inicio__nivel button { display: grid; gap: 1px; text-align: left; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--c-line); background: var(--c-bg); }
+.cad-inicio__nivel button b { font-size: 0.92rem; color: var(--c-text); }
+.cad-inicio__nivel button small { font-size: 0.74rem; color: var(--c-dim); }
+.cad-inicio__nivel button[aria-pressed="true"] { border-color: var(--c-acc); box-shadow: inset 0 0 0 1px var(--c-acc); }
+.cad-inicio__nivel + .cad-inicio__ops { margin-top: 12px; }
+
+/* ─── Aviso flotante ─────────────────────────────────────── */
+.cad__toast { position: absolute; left: 50%; top: 14px; z-index: 6; transform: translate(-50%, -10px); opacity: 0; pointer-events: none; max-width: calc(100% - 32px); padding: 9px 14px; border-radius: 10px; background: #1F2933; color: #fff; font-size: 0.85rem; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.25); transition: opacity 200ms, transform 250ms var(--ease); }
+.cad__toast.is-on { opacity: 1; transform: translate(-50%, 0); }
+
+/* ─── Modo simple: claro, guiado, sin herramientas de CAD ── */
+.page-plano.nivel-simple {
+  --c-bg: #EEF2F6;
+  --c-panel: #FFFFFF;
+  --c-panel-2: #F3F6F9;
+  --c-line: #DCE3EA;
+  --c-text: #1F2933;
+  --c-dim: #5F6B7A;
+  --c-acc: #1B6CC8;
+  --c-acc-2: #1B6CC8;
+  background: var(--c-bg);
+}
+.cad.is-simple { grid-template-rows: 56px minmax(0, 1fr); }
+.cad.is-simple .cad__mode, .cad.is-simple .cad__cmd, .cad.is-simple .cad__status, .cad.is-simple .cad__cruz { display: none !important; }
+.cad.is-simple:not(.is-lamina) .cad__svg { cursor: default; }
+.cad.is-simple .cad__view { background: #F7F9FB; }
+.cad.is-simple .cad__body { grid-template-columns: 96px minmax(0, 1fr) 380px; }
+.cad.is-simple .cad__tab[aria-selected="true"] { color: var(--c-text); background: #F7F9FB; }
+.cad.is-simple .cad__tool { font-size: 0.68rem; padding: 10px 4px; }
+.cad.is-simple .cad__tool:hover { color: var(--c-text); background: var(--c-panel-2); }
+.cad.is-simple .cad__tool--main { background: var(--c-acc); color: #fff; }
+.cad.is-simple .cad__tool--main:hover { background: #12509A; color: #fff; }
+.cad.is-simple .cad__tool[aria-pressed="true"] { color: var(--c-acc); background: #E6EFFA; box-shadow: inset 0 0 0 1px #9CC0EA; }
+.cad.is-simple .cad__props-head b { color: var(--c-text); }
+.cad.is-simple .cad__btn:hover { color: var(--c-text); border-color: #B9C6D3; }
+.cad.is-simple .cad__btn--main, .cad.is-simple .cad__btn--main:hover { color: #fff; }
+.cad.is-simple .cad__escala { border-color: #5F6B7A; }
+.cad.is-simple .cad__escala::after { color: #5F6B7A; }
+.cad.is-simple .cad__brand { color: var(--c-text); }
+.cad.is-simple .cad__logo img { filter: brightness(0.18); }
+.cad.is-simple .cad__props-head .mono { display: none; }
+.nivel-simple .cad-menu b, .nivel-simple .cad-dlg__title, .nivel-simple .cad-inicio__ops b, .nivel-simple .pp-kpis b { color: var(--c-text); }
+.nivel-simple .pp input[type="text"], .nivel-simple .pp input[type="tel"], .nivel-simple .pp input:not([type]), .nivel-simple .pp select, .nivel-simple .pp textarea, .nivel-simple .pp__num, .nivel-simple .pp__num input { color: var(--c-text); background: #fff; }
+.nivel-simple .pp select option, .nivel-simple .pp select optgroup { background: #fff; color: var(--c-text); }
+.nivel-simple .cad-inicio__ops svg, .nivel-simple .cad-lib__item { background: #F7F9FB; }
+.nivel-simple .cad-inicio__ops svg { stroke: #2B3A4A; }
+.nivel-simple .cad-inicio__ops svg .c { stroke: #1B6CC8; }
+.nivel-simple .cad-inicio__ops svg .t { stroke: #7246C9; }
+.nivel-simple .cad-inicio__ops svg .g { stroke: #1F8A54; }
+.nivel-simple .cad-dlg::backdrop { background: rgba(20, 30, 42, 0.45); }
+.nivel-simple .cad-enviar__resumen { background: #F7F9FB; }
+.nivel-simple .pp-acts button:hover { border-color: #B9C6D3; }
+.nivel-simple .pp-acts .is-danger { color: #C23B3B; }
+
+/* pasos */
+.pp-paso { display: grid; gap: 12px; padding: 14px; border-radius: 12px; background: var(--c-panel-2); border: 1px solid var(--c-line); }
+.pp-paso h3 { display: flex; align-items: center; gap: 10px; font-size: 1rem; font-weight: 700; color: var(--c-text); letter-spacing: -0.01em; }
+.pp-paso h3 b { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--c-acc); color: #fff; font-size: 0.8rem; flex-shrink: 0; }
+.pp-paso--sel { border-color: var(--c-acc); box-shadow: inset 0 0 0 1px var(--c-acc); }
+.ps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: end; }
+.ps { display: grid; gap: 5px; min-width: 0; align-content: start; }
+.ps__lbl { display: grid; gap: 1px; }
+.ps__lbl > span { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; color: var(--c-text); }
+.ps__lbl small { font-size: 0.7rem; color: var(--c-dim); line-height: 1.3; }
+.ps__n { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--c-acc); color: var(--c-acc); font-style: normal; font-size: 0.66rem; font-weight: 700; flex-shrink: 0; }
+.ps__ctrl { display: grid; grid-template-columns: 38px minmax(0, 1fr) 38px; height: 42px; border-radius: 10px; border: 1px solid var(--c-line); background: #fff; overflow: hidden; }
+.ps__ctrl:focus-within { border-color: var(--c-acc); box-shadow: 0 0 0 3px rgba(27,108,200,0.18); }
+.ps__btn { font-size: 1.25rem; font-weight: 600; color: var(--c-acc); background: #F3F7FC; }
+.ps__btn:hover { background: #E3EDF9; }
+.ps__btn:active { background: #CFE0F5; }
+.ps__num { display: flex; align-items: center; justify-content: center; gap: 3px; min-width: 0; }
+.ps__num input { width: 100%; min-width: 0; text-align: center; font-family: var(--mono); font-size: 1.02rem; font-weight: 500; color: var(--c-text); outline: none; -moz-appearance: textfield; }
+.ps__num input::-webkit-inner-spin-button, .ps__num input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.ps__num i { font-style: normal; font-size: 0.72rem; color: var(--c-dim); padding-right: 6px; }
+.ps--sel select { width: 100%; height: 42px; padding: 0 10px; border-radius: 10px; border: 1px solid var(--c-line); background: #fff; color: var(--c-text); font-size: 0.9rem; }
+.ps--sel select:focus { outline: none; border-color: var(--c-acc); box-shadow: 0 0 0 3px rgba(27,108,200,0.18); }
+.ps-ayuda { font-size: 0.8rem; color: var(--c-dim); line-height: 1.45; }
+.ps-resumen { font-size: 0.86rem; color: var(--c-text); }
+.ps-resumen b { font-family: var(--mono); font-weight: 500; color: var(--c-acc); }
+.ps-avisos { display: grid; gap: 4px; }
+.ps-avisos li { padding: 7px 10px; border-radius: 8px; background: #FDECEC; color: #A02828; font-size: 0.8rem; font-weight: 600; }
+.ps-avisos li::before { content: '⚠ '; }
+.ps-fin { display: flex; flex-wrap: wrap; gap: 8px; }
+.ps-boton { flex: 1 1 auto; min-height: 44px; padding: 0 16px; border-radius: 10px; background: var(--c-acc); color: #fff; font-weight: 700; font-size: 0.9rem; }
+.ps-boton:hover { background: #12509A; }
+.ps-boton--line { background: #fff; color: var(--c-acc); border: 1px solid #9CC0EA; }
+.ps-boton--line:hover { background: #F3F7FC; }
+.ps-datos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ps-item { border-radius: 10px; background: #fff; border: 1px solid var(--c-line); overflow: hidden; }
+.ps-item.is-open { border-color: var(--c-acc); box-shadow: 0 0 0 1px var(--c-acc); }
+.ps-item__head { display: grid; grid-template-columns: 34px 1fr 20px; gap: 10px; align-items: center; width: 100%; padding: 9px 10px; text-align: left; }
+.ps-item__head b { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #2B3A4A; font-family: var(--mono); font-size: 0.74rem; color: var(--c-text); }
+.ps-item__head span { display: grid; font-size: 0.86rem; font-weight: 700; color: var(--c-text); line-height: 1.25; }
+.ps-item__head small { font-family: var(--mono); font-size: 0.74rem; font-weight: 400; color: var(--c-dim); }
+.ps-item__head svg { width: 20px; height: 20px; fill: none; stroke: var(--c-dim); stroke-width: 2; transition: transform 200ms; }
+.ps-item.is-open .ps-item__head svg { transform: rotate(180deg); }
+.ps-item__body { display: grid; gap: 10px; padding: 4px 10px 12px; }
+.ps-item .pp--check span { color: var(--c-text) !important; }
+.ps-formas { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ps-formas button { display: grid; justify-items: center; gap: 4px; padding: 10px; border-radius: 10px; background: #fff; border: 1px solid var(--c-line); font-weight: 700; font-size: 0.85rem; color: var(--c-text); }
+.ps-formas button[aria-pressed="true"] { border-color: var(--c-acc); box-shadow: inset 0 0 0 1px var(--c-acc); color: var(--c-acc); }
+.ps-formas svg, .ps-corte svg { width: 100%; max-width: 150px; height: auto; fill: none; stroke: #7246C9; stroke-width: 2; }
+.ps-formas svg .m { stroke: #2B3A4A; stroke-width: 5; }
+.ps-formas svg text, .ps-corte svg text { fill: var(--c-acc); stroke: none; font-family: var(--mono); font-size: 11px; font-weight: 700; text-anchor: middle; }
+.ps-corte { display: grid; justify-items: center; padding: 6px; border-radius: 10px; background: #fff; border: 1px solid var(--c-line); }
+.ps-corte svg { max-width: 220px; stroke-width: 2; }
+.ps-corte svg .m { stroke: #2B3A4A; stroke-width: 6; }
+.ps-corte svg .t { stroke: #7246C9; stroke-width: 3; }
+.ps-corte svg .c { stroke: #D17A22; stroke-dasharray: 4 3; }
+.ps-corte svg .p { stroke: #AAB6C3; }
+
 /* ─── Impresión (PDF): sólo las láminas ──────────────────── */
 #cad-print { display: none; }
 @media print {
@@ -271,6 +389,19 @@ html:has(.page-plano) { height: 100%; overflow: hidden; }
   .cad__tabs { order: 3; flex-basis: 100%; padding-top: 2px; }
   .cad__tab { padding: 8px 12px; }
   .cad__mode { display: none; }
+  .cad__nivel { order: 4; align-self: center; }
+  .cad__nivel button { padding: 5px 10px; font-size: 0.74rem; }
+  .cad__tabs { flex: 1 1 calc(100% - 170px); }
+  .cad.is-simple { grid-template-rows: auto minmax(0, 1fr); }
+  .cad.is-simple .cad__body { grid-template-columns: minmax(0, 1fr); }
+  .cad.is-simple.props-abiertas .cad__props { max-height: min(58vh, 520px); }
+  .ps-datos { grid-template-columns: 1fr; }
+  .cad-inicio__nivel div { grid-template-columns: 1fr 1fr; }
+  /* simple: dibujo arriba y pasos abajo (el dibujo nunca queda tapado) */
+  .cad.is-simple .cad__body { grid-template-rows: minmax(0, 1fr) auto; }
+  .cad.is-simple .cad__props { position: relative; bottom: auto; grid-row: 2; box-shadow: 0 -8px 24px rgba(20,30,42,0.1); }
+  .cad.is-simple.props-abiertas .cad__props { max-height: 46vh; }
+  .cad.is-simple .cad__escala { bottom: 12px; }
   .cad__btn { height: 36px; padding: 0 10px; }
   .cad__export .cad__btn span { display: none; }
   .cad__cmd, .cad__status { display: none; }
@@ -296,8 +427,8 @@ html:has(.page-plano) { height: 100%; overflow: hidden; }
     transition: max-height 280ms var(--ease);
   }
   .cad.props-abiertas .cad__props { max-height: min(56vh, 460px); }
-  .cad__props-head { grid-template-columns: auto 1fr 22px; align-items: center; gap: 10px; padding: 0 14px; height: 52px; cursor: pointer; }
-  .cad__props-head::before { content: ''; position: absolute; left: 50%; top: 5px; width: 36px; height: 4px; margin-left: -18px; border-radius: 2px; background: #3A4757; }
+  .cad__props-head { grid-template-columns: auto 1fr 22px; align-items: center; gap: 10px; padding: 8px 14px 0; height: 52px; cursor: pointer; }
+  .cad__props-head::before { content: ''; position: absolute; left: 50%; top: 6px; width: 36px; height: 4px; margin-left: -18px; border-radius: 2px; background: #3A4757; }
   .cad__props-head svg { display: block; width: 20px; height: 20px; transition: transform 250ms; color: var(--c-dim); }
   .cad.props-abiertas .cad__props-head svg { transform: rotate(180deg); }
   .cad__props-body { padding-bottom: 24px; }

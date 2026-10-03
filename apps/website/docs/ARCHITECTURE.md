@@ -95,6 +95,10 @@ Tres archivos, sin framework ni build:
    WhatsApp o por `enviar.php` (Tipo "Plano desde el sitio web").
    `?nuevo=techo|fachada` abre directo; `&boceto=1` trae la lista del
    diseñador. No muestra precios.
+   Dos niveles sobre el mismo plano (`alumfer-plano-nivel`): **Simple**
+   (por defecto: lienzo claro, panel paso a paso con −/+, formas de techo
+   paramétricas rectángulo/L, "Repartir parejo", sin comandos ni vértices) y
+   **Avanzado** (la interfaz CAD completa). Cambiar de nivel no toca el plano.
 
 Paleta: papel claro cálido, azul marino para secciones oscuras, azul de marca
 (`#1B6CC8`) en botones, banda de proceso y acentos. Motivo gráfico: grilla y

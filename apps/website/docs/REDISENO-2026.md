@@ -464,3 +464,25 @@ presupuestar, de la forma más profesional posible, estilo AutoCAD.
 - Accesos: desde la lista del diseñador ("Ubicalas en un plano de
   fachada", trae la lista), desde la home, la página de techos ("Dibujá tu
   techo") y el pie de todas las páginas.
+
+### N.1 Modo Simple y modo Avanzado
+
+El editor CAD es cómodo para quien usa AutoCAD, no para cualquiera. Ahora el
+plano abre en **Simple** y se puede pasar a **Avanzado** en cualquier
+momento (selector arriba y en la pantalla de inicio); el plano es el mismo.
+
+- **Simple**: lienzo claro tipo papel, sin línea de comandos, barra de
+  estado, ORTO/REFENT ni vértices. Panel guiado por pasos con palabras
+  comunes y campos grandes con − / + (de a 5 cm):
+  - Fachada: 1) Medí la pared → 2) Ventanas y puertas (tarjetas
+    desplegables: medida, "desde la izquierda", "desde el piso", color,
+    vidrio, bisagras) con **Repartir parejo** y avisos en palabras ("V1 y P1
+    se superponen") → 3) Tus datos y envío.
+  - Techo: 1) ¿Qué forma tiene? (rectangular / en L, con dibujito numerado)
+    → 2) Medidas numeradas igual que el dibujito → 3) Alturas (con un mini
+    corte, pendiente y superficie al instante) → 4) Cubierta y estructura →
+    5) Tus datos y envío.
+  - En el celular el dibujo queda arriba y los pasos abajo, para ver cada
+    cambio; se quitan del dibujo las letras de lados y el corte (que sigue
+    en la hoja final).
+- **Avanzado**: la interfaz CAD de antes, sin cambios.
