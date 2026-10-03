@@ -547,3 +547,15 @@ Pedido: que en el plano se vea la ventana simulada con su color y vidrio.
 - El taller (con código) sigue pudiendo descargar PDF, imagen y DXF.
 - Recomendación para el hosting: `upload_max_filesize` y `post_max_size`
   de al menos 4 MB (el PDF se achica solo para quedar por debajo de 2 MB).
+
+### N.5 Ajustes finales antes de publicar
+
+- Botón **"Enviar por email"** (el cliente envía el plano; le llega una copia
+  del PDF).
+- **WhatsApp**: el mensaje lleva el link del plano. Al abrirlo aparece
+  "Plano recibido · Descargar PDF"; la descarga pide el código de taller
+  una sola vez por dispositivo (queda recordado en ese celular o compu).
+- **Peso**: PDF de 2 láminas (4 hojas, técnica + color) ≈ 270 KB; se ajusta
+  solo para quedar liviano. `plano.js` 42 KB, `aberturas.js` 9 KB y
+  `plano.css` 7 KB comprimidos: se activó la compresión (mod_deflate) en
+  `.htaccess` para HTML, CSS, JS y SVG.

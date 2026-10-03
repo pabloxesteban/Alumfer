@@ -484,3 +484,9 @@ html:has(.page-plano) { height: 100%; overflow: hidden; }
 /* Sólo el taller descarga directo; los clientes reciben el PDF por email */
 .cad:not(.is-taller) .cad-solo-taller, body:not(.taller-on) .cad-enviar .cad-solo-taller { display: none !important; }
 .cad-enviar__ok:empty { display: none !important; }
+/* Plano recibido por link (WhatsApp): descarga del PDF para Alumfer */
+.cad-recibido { position: absolute; left: 50%; top: 12px; z-index: 7; transform: translateX(-50%); display: flex; align-items: center; gap: 12px; max-width: calc(100% - 24px); padding: 8px 8px 8px 14px; border-radius: 12px; background: #0F2847; color: #fff; box-shadow: 0 12px 30px rgba(0,0,0,0.3); }
+.cad-recibido span { display: grid; line-height: 1.2; min-width: 0; }
+.cad-recibido b { font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cad-recibido small { font-size: 0.74rem; opacity: 0.75; }
+.cad-recibido__x { width: 32px; height: 32px; border-radius: 50%; font-size: 1.3rem; color: #fff; flex-shrink: 0; }

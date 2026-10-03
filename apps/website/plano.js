@@ -1759,7 +1759,7 @@
   // la marca de agua también está en la pantalla.
   const HUELLA_TALLER = '1266efebc2edc53d24157e392bb06ba37f0dc44b118342c219096cde4266d049';
   let taller = false;
-  try { taller = sessionStorage.getItem('alumfer-taller') === HUELLA_TALLER; } catch (_) {}
+  try { taller = localStorage.getItem('alumfer-taller') === HUELLA_TALLER; } catch (_) {}
   // firma del contenido: si el plano cambia después de enviarlo, hay que reenviarlo
   function firma() {
     const t = JSON.stringify([plano.laminas, plano.datos]);
@@ -1773,17 +1773,20 @@
     return [...new Uint8Array(b)].map((x) => x.toString(16).padStart(2, '0')).join('');
   }
   async function pedirTaller() {
-    const c = prompt('Código de taller de Alumfer:');
-    if (!c) return;
+    const c = prompt('Código de taller de Alumfer (se pide una sola vez en este dispositivo):');
+    if (!c) return false;
     let h = '';
     try { h = await huella(c.trim().toUpperCase()); } catch (_) {}
     if (h === HUELLA_TALLER) {
       taller = true;
-      try { sessionStorage.setItem('alumfer-taller', h); } catch (_) {}
+      try { localStorage.setItem('alumfer-taller', h); } catch (_) {}
       raiz.classList.add('is-taller'); document.body.classList.add('taller-on');
       aviso('Modo taller: DXF y hojas sin marca de agua habilitados.');
       cacheLam = null; pedir();
-    } else aviso('Código incorrecto.');
+      return true;
+    }
+    aviso('Código incorrecto.');
+    return false;
   }
   // Los clientes no descargan nada desde la página: el PDF les llega por
   // email (y la copia a Alumfer). Las descargas directas son del taller.
@@ -1857,11 +1860,11 @@
   }
   // achica la resolución si el PDF quedaría muy pesado para el email
   async function pdfPlano() {
-    for (const [px, q] of [[2000, 0.82], [1700, 0.74], [1400, 0.66]]) {
+    for (const [px, q] of [[1754, 0.72], [1500, 0.64], [1300, 0.58]]) {
       const pag = [];
       for (let i = 0; i < plano.laminas.length; i++) { pag.push(await jpegLamina(i, false, px, q)); pag.push(await jpegLamina(i, true, px, q)); }
       const pdf = armarPdf(pag);
-      if (pdf.size < 1900 * 1024 || px === 1400) return pdf;
+      if (pdf.size < 120 * 1024 * plano.laminas.length + 120 * 1024 || px === 1300) return pdf;
     }
   }
 
@@ -1871,7 +1874,13 @@
     bajar(b, nombreArchivo('png').replace('.png', '-' + (plano.activa + 1) + '.png'));
     ga('plano_png');
   }
-  function exportarPdf() {
+  async function exportarPdf() {
+    if (!exigirEnvio('pdf')) return;
+    aviso('Armando el PDF…');
+    bajar(await pdfPlano(), nombreArchivo('pdf'));
+    ga('plano_pdf');
+  }
+  function imprimirPdf() {
     if (!exigirEnvio('pdf')) return;
     const box = $('#cad-print');
     box.innerHTML = plano.laminas.map((_, i) => `<div class="cad-print__hoja">${laminaSvg(i)}</div><div class="cad-print__hoja">${laminaSvg(i, { real: true })}</div>`).join('');
@@ -1920,7 +1929,7 @@
         datosTecho(L).forEach(([k, v]) => lin.push(`  ${k}: ${v.replace(/\u00a0/g, ' ')}`));
       }
     });
-    if (link) lin.push('', 'Plano completo (se abre y se edita en la web): ' + link);
+    if (link) lin.push('', 'Plano completo, con descarga del PDF para Alumfer: ' + link);
     return lin.join('\n');
   }
 
@@ -1943,7 +1952,7 @@
     estadoEnvio('');
     if (msj) {
       msj.hidden = !motivo;
-      msj.textContent = 'El plano no se descarga desde la página: mandalo por WhatsApp o dejanos tu email y te llega el PDF (técnico y en color). Es gratis y sin compromiso.';
+      msj.textContent = 'El plano no se descarga desde la página: envialo por WhatsApp o por email. Por email te mandamos también una copia del PDF (técnico y en color). Es gratis y sin compromiso.';
     }
     f.Nombre.value = plano.datos.cliente || f.Nombre.value;
     f.Localidad.value = plano.datos.localidad || f.Localidad.value;
@@ -1959,7 +1968,7 @@
     const txt = `Hola, soy ${plano.datos.cliente || '(nombre)'}${plano.datos.localidad ? ', de ' + plano.datos.localidad : ''}. Les mando mi plano para presupuesto, hecho en alumfer.com.ar:\n\n` + resumenTexto(link) + (f.Consulta.value.trim() ? '\n\nComentario: ' + f.Consulta.value.trim() : '');
     window.open(`https://wa.me/${WA}?text=${encodeURIComponent(txt)}`, '_blank', 'noopener');
     marcarEnvio();
-    estadoEnvio('✓ Abrimos WhatsApp con tu plano. Si además querés el PDF, dejanos tu email y tocá «Recibir el PDF por email».');
+    estadoEnvio('✓ Abrimos WhatsApp con tu plano. Si además querés una copia en PDF, poné tu email y tocá «Enviar por email».');
     ga('plano_whatsapp');
   }
   async function enviarForm(e) {
@@ -1980,7 +1989,7 @@
       ga('plano_formulario');
       marcarEnvio();
       btn.disabled = false; btn.textContent = lbl;
-      estadoEnvio(`✓ ¡Listo! Te mandamos el PDF a ${f.Email.value.trim()} y nosotros ya lo tenemos para presupuestarte.`);
+      estadoEnvio(`✓ ¡Enviado! Te mandamos una copia del PDF a ${f.Email.value.trim()} y nosotros ya lo tenemos para presupuestarte.`);
       aviso('Plano enviado. Revisá tu email.');
     } catch (err) {
       btn.disabled = false; btn.textContent = lbl;
@@ -2010,6 +2019,7 @@
           plano = p; plano.activa = 0; guardar();
           history.replaceState(null, '', location.pathname);
           log('Plano compartido abierto. Lo que cambies queda guardado en este navegador.');
+          setTimeout(barraRecibido, 300);
           return true;
         }
       } catch (_) { log('No se pudo abrir el link del plano.'); }
@@ -2085,6 +2095,24 @@
     // Ctrl/Cmd+P sin haber enviado: abre el envío
     document.addEventListener('keydown', (e) => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'p' && !taller) { e.preventDefault(); abrirEnviar('pdf'); } }, true);
     ui.svg.addEventListener('dragstart', (e) => e.preventDefault());
+  }
+  // Al abrir el link que llega por WhatsApp: botón para bajar el PDF.
+  // Sólo con el código de taller (se pide una vez por dispositivo).
+  function barraRecibido() {
+    const b = document.createElement('div');
+    b.className = 'cad-recibido';
+    const quien = plano.envio && plano.envio.nombre ? ' de ' + esc(plano.envio.nombre) : plano.datos.cliente ? ' de ' + esc(plano.datos.cliente) : '';
+    b.innerHTML = `<span><b>Plano recibido${quien}</b><small>${plano.laminas.length} lámina${plano.laminas.length > 1 ? 's' : ''}${plano.envio && plano.envio.tel ? ' · Tel. ' + esc(plano.envio.tel) : ''}</small></span><button type="button" class="cad__btn cad__btn--main" data-rec="pdf">Descargar PDF</button><button type="button" class="cad-recibido__x" data-rec="x" aria-label="Cerrar">×</button>`;
+    ui.view.appendChild(b);
+    b.addEventListener('click', async (e) => {
+      const x = e.target.closest('[data-rec]'); if (!x) return;
+      if (x.dataset.rec === 'x') { b.remove(); return; }
+      if (!taller && !(await pedirTaller())) return;
+      x.disabled = true; x.textContent = 'Armando…';
+      bajar(await pdfPlano(), nombreArchivo('pdf'));
+      x.disabled = false; x.textContent = 'Descargar PDF';
+      ga('plano_pdf_recibido');
+    });
   }
   async function copiarLink() {
     if (!exigirEnvio('link')) return;
