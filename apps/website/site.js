@@ -296,7 +296,6 @@
       const t = String(v).trim();
       if (t) lineas.push(k === 'Consulta' ? `\n${t}` : `*${k}:* ${t}`);
     }
-    lineas.push('', '[desde: formulario — alumfer.com.ar]');
     const url = `https://wa.me/${WA_NUM}?text=${encodeURIComponent(lineas.join('\n'))}`;
     if (typeof gtag !== 'undefined') gtag('event', 'whatsapp_click', { event_category: 'Contact', event_label: 'contact-form' });
     // WhatsApp en otra pestaña y esta a gracias.html; si se bloquea la pestaña, WhatsApp acá mismo
@@ -336,15 +335,8 @@
       || (el.closest('.lightbox') ? 'lightbox' : null)
       || (el.classList.contains('wa-float') ? 'float-button' : null)
       || 'other';
+    // el origen queda en GA4; el mensaje que ve el cliente va limpio
     if (typeof gtag !== 'undefined') gtag('event', 'whatsapp_click', { event_category: 'Contact', event_label: section });
-    try {
-      const url = new URL(el.href);
-      const base = url.searchParams.get('text') || '';
-      if (base && !base.includes('[desde:')) {
-        url.searchParams.set('text', `${base}\n[desde: ${section} — alumfer.com.ar]`);
-        el.href = url.toString();
-      }
-    } catch (_) {}
   }));
   $$('a[href^="tel:"]').forEach(el => el.addEventListener('click', () => {
     if (typeof gtag !== 'undefined') gtag('event', 'phone_click', { event_category: 'Contact', event_label: 'tel_link' });
