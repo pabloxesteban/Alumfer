@@ -604,7 +604,7 @@
     const pad = 10 * s, x = 16 * s, y = h - 16 * s - 30 * s;
     g.fillStyle = 'rgba(13,20,28,0.72)';
     if (g.roundRect) { g.beginPath(); g.roundRect(x, y, tw + pad * 2 + 12 * s, 30 * s, 15 * s); g.fill(); } else g.fillRect(x, y, tw + pad * 2 + 12 * s, 30 * s);
-    g.fillStyle = '#5AA2F0'; g.beginPath(); g.arc(x + pad + 3 * s, y + 15 * s, 4 * s, 0, Math.PI * 2); g.fill();
+    g.fillStyle = '#4A9DE8'; g.beginPath(); g.arc(x + pad + 3 * s, y + 15 * s, 4 * s, 0, Math.PI * 2); g.fill();
     g.fillStyle = '#fff'; g.textBaseline = 'middle';
     g.fillText(txt, x + pad + 12 * s, y + 15.5 * s);
   }
