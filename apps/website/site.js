@@ -163,6 +163,13 @@
     show(0);
   }
 
+  // ─── Animación de la empresa: sólo corre cuando se ve ───
+  const ens = $('.ens');
+  if (ens && 'IntersectionObserver' in window) {
+    ens.classList.add('is-pausado');
+    new IntersectionObserver((es) => es.forEach((e) => ens.classList.toggle('is-pausado', !e.isIntersecting)), { threshold: 0.15 }).observe(ens);
+  }
+
   // ─── Galería: filtros, "ver más" y lightbox ─────────────
   const archive = $('.archive');
   if (archive) {
@@ -187,10 +194,21 @@
     const matching = () => items.filter(it => cat === 'todos' || it.dataset.cat === cat);
     const visible  = () => items.filter(it => !it.hidden);
 
+    // fotos apaisadas a doble ancho
+    items.forEach(it => { const img = $('img', it); if (img && +img.getAttribute('width') > +img.getAttribute('height') * 1.2) it.classList.add('is-ancho'); });
     const render = () => {
       const list = matching();
-      items.forEach(it => { it.hidden = true; });
-      list.slice(0, limit).forEach(it => { it.hidden = false; });
+      items.forEach(it => { it.hidden = true; it.classList.remove('is-grande'); });
+      // la primera vertical de cada filtro, destacada en grande
+      const destacada = list.slice(0, limit).find(it => !it.classList.contains('is-ancho'));
+      if (destacada) destacada.classList.add('is-grande');
+      // completar la última fila de la grilla (sin huecos)
+      const cols = getComputedStyle(archive).gridTemplateColumns.split(' ').length;
+      const celdas = (it) => (it.classList.contains('is-grande') ? (cols > 2 ? 4 : 2) : it.classList.contains('is-ancho') ? 2 : 1);
+      let n = Math.min(limit, list.length), total = list.slice(0, n).reduce((t, it) => t + celdas(it), 0);
+      while (total % cols && n < list.length) { total += celdas(list[n]); n++; }
+      list.slice(0, n).forEach(it => { it.hidden = false; });
+      limit = Math.max(limit, n);
       if (moreBtn) {
         const rest = list.length - limit;
         moreBtn.hidden = rest <= 0;

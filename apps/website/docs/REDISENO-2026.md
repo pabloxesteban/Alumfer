@@ -640,3 +640,20 @@ tomar como referencia las apps modernas.
   mandar). El catálogo en el celular es una hoja desde abajo, con pestañas
   que se deslizan.
 
+
+## R. Galería editorial y animación de la empresa
+
+- **Galería** (`.archive`): grilla de 4 columnas (2 en el celular) con la
+  misma proporción para todas, sin marcos de papel ni numeración. La primera
+  foto vertical de cada filtro va destacada en grande (2×2); las apaisadas
+  ocupan doble ancho. El tipo de trabajo va sobre la foto; al pasar el mouse,
+  zoom suave. Cada tanda completa la última fila (sin huecos).
+- **"15+ años en el mercado"**: en vez de dos fotos, una animación en bucle
+  (SVG + CSS, sin librerías, 16 s) con los **perfiles reales de la línea
+  Módena**, calcados en 1:1 del catálogo técnico (umbral y dintel 6200,
+  zócalo y cabezal 6204, parante central 6207) y encastrados como en los
+  cortes VC del catálogo. Escena 1: corte vertical (dintel, hojas sobre sus
+  guías, vidrio con burlete, rodamiento, umbral). Escena 2: encuentro central
+  trabado; una hoja se desliza por su guía y vuelve. Sólo corre cuando se ve
+  (IntersectionObserver) y respeta "reducir movimiento". Se genera con
+  `build_ens.py` a partir de `perfiles.json` (los trazos de potrace).
