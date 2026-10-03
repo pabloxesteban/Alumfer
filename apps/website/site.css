@@ -329,49 +329,71 @@ ul, ol { list-style: none; }
 .about__title { font-size: clamp(2.4rem, 5.4vw, 4.6rem); }
 .about__title span { color: var(--on-steel-3); }
 .about__text { margin-top: 1.75rem; color: var(--on-steel-2); font-size: 1.08rem; max-width: 48ch; }
-/* Animación: así se arma una abertura (se repite sola) */
+/* Animación: cortes reales de la línea Módena (se repite sola, 16 s).
+   Escena 1: corte vertical; escena 2: encuentro central que se abre. */
 .about__anim { position: relative; margin: 0; width: 100%; max-width: 560px; justify-self: end; }
-.ens { display: block; width: 100%; height: auto; overflow: visible; color: rgba(238,241,244,0.07); font-family: var(--mono); }
-.ens * { animation-duration: 12s; animation-iteration-count: infinite; animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); animation-fill-mode: both; }
+.ens { display: block; width: 100%; height: auto; overflow: hidden; color: rgba(238,241,244,0.06); font-family: var(--mono); }
+.ens * { animation-duration: 16s; animation-iteration-count: infinite; animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); animation-fill-mode: both; }
 .ens.is-pausado * { animation-play-state: paused; }
-.ens-cota { fill: none; stroke: #4A9DE8; stroke-width: 1.4; stroke-dasharray: 1; animation-name: ens-trazo-cota; }
-.ens-cota-t { fill: #4A9DE8; font-size: 13px; letter-spacing: 0.08em; animation-name: ens-cota-t; }
-.ens-marco { animation-name: ens-marco; }
-.ens-marco-l { fill: none; stroke: #4A9DE8; stroke-width: 1.6; stroke-dasharray: 1; animation-name: ens-trazo-marco; }
-.ens-hoja-izq { animation-name: ens-hoja-izq; }
-.ens-hoja-der { animation-name: ens-hoja-der; }
-.ens-vidrio { animation-name: ens-vidrio; }
-.ens-brillo { animation-name: ens-brillo; }
-.ens-brillo--2 { animation-name: ens-brillo-2; }
-.ens-manija { fill: #2E3A47; animation-name: ens-aparece-55; }
-.ens-lupa { animation-name: ens-lupa; }
-.ens-lupa circle, .ens-lupa > path:first-of-type { fill: none; stroke: #4A9DE8; stroke-width: 1.2; stroke-dasharray: 4 3; }
-.ens-lupa rect { fill: rgba(15,40,71,0.85); stroke: rgba(74,157,232,0.6); stroke-width: 1; }
-.ens-perfil { fill: url(#ens-alu); stroke: #DCE3EA; stroke-width: 0.6; }
-.ens-perfil-c { stroke: #2E3A47; stroke-width: 1; }
-.ens-lupa text { fill: rgba(238,241,244,0.6); font-size: 9px; letter-spacing: 0.16em; }
-.ens-chip rect { fill: rgba(74,157,232,0.12); stroke: rgba(74,157,232,0.55); stroke-width: 1; }
-.ens-chip text { fill: #EEF1F4; font-size: 11.5px; letter-spacing: 0.02em; }
-.ens-chip--1 { animation-name: ens-chip-1; }
-.ens-chip--2 { animation-name: ens-chip-2; }
-.ens-chip--3 { animation-name: ens-chip-3; }
-.ens-todo { animation-name: ens-todo; }
-@keyframes ens-trazo-cota { 0%, 3% { stroke-dashoffset: 1; } 12%, 100% { stroke-dashoffset: 0; } }
-@keyframes ens-cota-t { 0%, 10% { opacity: 0; } 15%, 100% { opacity: 1; } }
-@keyframes ens-trazo-marco { 0%, 10% { stroke-dashoffset: 1; opacity: 1; } 25% { stroke-dashoffset: 0; opacity: 1; } 32%, 100% { stroke-dashoffset: 0; opacity: 0; } }
-@keyframes ens-marco { 0%, 24% { opacity: 0; } 31%, 100% { opacity: 1; } }
-@keyframes ens-lupa { 0%, 28% { opacity: 0; transform: translateY(6px); } 34%, 100% { opacity: 1; transform: none; } }
-@keyframes ens-hoja-izq { 0%, 32% { opacity: 0; transform: translateX(-70px); } 42%, 100% { opacity: 1; transform: none; } }
-@keyframes ens-hoja-der { 0%, 34% { opacity: 0; transform: translateX(70px); } 44% { opacity: 1; transform: none; } 66% { transform: none; } 74%, 82% { transform: translateX(-118px); } 90%, 100% { opacity: 1; transform: none; } }
-@keyframes ens-vidrio { 0%, 44% { opacity: 0; } 50%, 100% { opacity: 1; } }
-@keyframes ens-brillo { 0%, 48% { transform: skewX(-18deg) translateX(-140px); } 58%, 100% { transform: skewX(-18deg) translateX(260px); } }
-@keyframes ens-brillo-2 { 0%, 50% { transform: skewX(-18deg) translateX(-140px); } 60%, 100% { transform: skewX(-18deg) translateX(260px); } }
-@keyframes ens-aparece-55 { 0%, 52% { opacity: 0; } 56%, 100% { opacity: 1; } }
-@keyframes ens-chip-1 { 0%, 56% { opacity: 0; transform: translateY(8px); } 60%, 100% { opacity: 1; transform: none; } }
-@keyframes ens-chip-2 { 0%, 61% { opacity: 0; transform: translateY(8px); } 65%, 100% { opacity: 1; transform: none; } }
-@keyframes ens-chip-3 { 0%, 66% { opacity: 0; transform: translateY(8px); } 70%, 100% { opacity: 1; transform: none; } }
-@keyframes ens-todo { 0%, 92% { opacity: 1; } 97%, 100% { opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .ens * { animation: none !important; } }
+.ens-alu { fill: url(#ens-alu); stroke: #6E7C8B; stroke-width: 0.12; }
+.ens-traza { fill: none; stroke: #4A9DE8; stroke-width: 0.35; stroke-dasharray: 1; }
+.ens-vid { fill: rgba(127,180,230,0.38); stroke: rgba(200,225,250,0.55); stroke-width: 0.2; }
+.ens-bur { fill: #232A33; }
+.ens-rueda-c { fill: #2B323B; stroke: #8996A4; stroke-width: 0.5; }
+.ens-rueda-e { fill: #B4BFCA; }
+.ens-rueda-r { stroke: #8996A4; stroke-width: 0.5; }
+.ens-tapa { fill: #0F2847; }
+.ens-quiebre { fill: none; stroke: #4A9DE8; stroke-width: 0.35; }
+.ens-hoja--atras { opacity: 0.55; }
+.ens-titulo { fill: #4A9DE8; font-size: 11px; letter-spacing: 0.16em; }
+.ens-ref circle { fill: #4A9DE8; }
+.ens-ref path { fill: none; stroke: rgba(74,157,232,0.75); stroke-width: 1; }
+.ens-ref text { fill: #EEF1F4; font-size: 12.5px; letter-spacing: 0.01em; }
+.ens-flecha { stroke: #4A9DE8 !important; stroke-width: 1.4 !important; }
+
+/* escena 1: 0–7,5 s */
+.ens-e1 { animation-name: ens-e1; }
+.ens-t1 { animation-name: ens-traza1; }
+.ens-marco1 { animation-name: ens-marco1; }
+.ens-hoja-cab { animation-name: ens-cab; }
+.ens-hoja-zoc { animation-name: ens-zoc; }
+.ens-hoja .ens-vid, .ens-hoja .ens-bur { animation-name: ens-vidrio1; }
+.ens-rueda { animation-name: ens-rueda; transform-box: view-box; }
+.ens-ref1-1 { animation-name: ens-r11; } .ens-ref1-2 { animation-name: ens-r12; } .ens-ref1-3 { animation-name: ens-r13; }
+.ens-ref1-4 { animation-name: ens-r14; } .ens-ref1-5 { animation-name: ens-r15; } .ens-ref1-6 { animation-name: ens-r16; }
+@keyframes ens-e1 { 0% { opacity: 0; } 2%, 44% { opacity: 1; } 47%, 100% { opacity: 0; } }
+@keyframes ens-traza1 { 0%, 2% { stroke-dashoffset: 1; } 13%, 100% { stroke-dashoffset: 0; } }
+@keyframes ens-marco1 { 0%, 11% { opacity: 0; } 16%, 100% { opacity: 1; } }
+@keyframes ens-cab { 0%, 15% { opacity: 0; transform: translateY(-14px); } 21%, 100% { opacity: 1; transform: none; } }
+@keyframes ens-zoc { 0%, 15% { opacity: 0; transform: translateY(14px); } 21%, 100% { opacity: 1; transform: none; } }
+@keyframes ens-vidrio1 { 0%, 20% { opacity: 0; } 25%, 100% { opacity: 1; } }
+@keyframes ens-rueda { 0%, 23% { opacity: 0; transform: rotate(-90deg) scale(0.6); } 27% { opacity: 1; transform: rotate(0) scale(1.08); } 29%, 100% { opacity: 1; transform: none; } }
+@keyframes ens-r11 { 0%, 25% { opacity: 0; } 27%, 100% { opacity: 1; } }
+@keyframes ens-r12 { 0%, 27% { opacity: 0; } 29%, 100% { opacity: 1; } }
+@keyframes ens-r13 { 0%, 29% { opacity: 0; } 31%, 100% { opacity: 1; } }
+@keyframes ens-r14 { 0%, 31% { opacity: 0; } 33%, 100% { opacity: 1; } }
+@keyframes ens-r15 { 0%, 33% { opacity: 0; } 35%, 100% { opacity: 1; } }
+@keyframes ens-r16 { 0%, 35% { opacity: 0; } 37%, 100% { opacity: 1; } }
+
+/* escena 2: 7,5–16 s */
+.ens-e2 { animation-name: ens-e2; }
+.ens-t2 { animation-name: ens-traza2; }
+.ens-marco2 { animation-name: ens-marco2; }
+.ens-hA .ens-vid, .ens-hA .ens-bur, .ens-hB .ens-vid, .ens-hB .ens-bur { animation-name: ens-vidrio2; }
+.ens-hB { animation-name: ens-desliza; }
+.ens-ref2-1 { animation-name: ens-r21; } .ens-ref2-2 { animation-name: ens-r22; } .ens-ref2-3 { animation-name: ens-r23; }
+.ens-ref2-2 { animation-name: ens-r22; }
+.ens-ref2-4 { animation-name: ens-r24; }
+@keyframes ens-e2 { 0%, 46% { opacity: 0; } 49%, 95% { opacity: 1; } 99%, 100% { opacity: 0; } }
+@keyframes ens-traza2 { 0%, 47% { stroke-dashoffset: 1; } 56%, 100% { stroke-dashoffset: 0; } }
+@keyframes ens-marco2 { 0%, 55% { opacity: 0; } 59%, 100% { opacity: 1; } }
+@keyframes ens-vidrio2 { 0%, 57.5% { opacity: 0; } 61%, 100% { opacity: 1; } }
+@keyframes ens-desliza { 0%, 68.75% { transform: none; } 76%, 82.5% { transform: translateX(-56px); } 90%, 100% { transform: none; } }
+@keyframes ens-r21 { 0%, 61% { opacity: 0; } 63%, 100% { opacity: 1; } }
+@keyframes ens-r22 { 0%, 63% { opacity: 0; } 65%, 68% { opacity: 1; } 70%, 88% { opacity: 0; } 91%, 100% { opacity: 1; } }
+@keyframes ens-r23 { 0%, 65% { opacity: 0; } 67%, 100% { opacity: 1; } }
+@keyframes ens-r24 { 0%, 69% { opacity: 0; } 72%, 86% { opacity: 1; } 89%, 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .ens * { animation: none !important; } .ens-e2 { display: none; } }
 .features {
   margin-top: clamp(3rem, 6vw, 5rem);
   display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));

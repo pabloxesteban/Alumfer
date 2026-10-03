@@ -649,7 +649,11 @@ tomar como referencia las apps modernas.
   ocupan doble ancho. El tipo de trabajo va sobre la foto; al pasar el mouse,
   zoom suave. Cada tanda completa la última fila (sin huecos).
 - **"15+ años en el mercado"**: en vez de dos fotos, una animación en bucle
-  (SVG + CSS, sin librerías, ~12 s): se dibujan las cotas y el marco, entran
-  las hojas con el vidrio, la hoja abre y cierra, y aparecen "Medida exacta",
-  "Hecho en nuestro taller" y "Colocación en seco". Sólo corre cuando se ve
-  (IntersectionObserver) y respeta "reducir movimiento".
+  (SVG + CSS, sin librerías, 16 s) con los **perfiles reales de la línea
+  Módena**, calcados en 1:1 del catálogo técnico (umbral y dintel 6200,
+  zócalo y cabezal 6204, parante central 6207) y encastrados como en los
+  cortes VC del catálogo. Escena 1: corte vertical (dintel, hojas sobre sus
+  guías, vidrio con burlete, rodamiento, umbral). Escena 2: encuentro central
+  trabado; una hoja se desliza por su guía y vuelve. Sólo corre cuando se ve
+  (IntersectionObserver) y respeta "reducir movimiento". Se genera con
+  `build_ens.py` a partir de `perfiles.json` (los trazos de potrace).
