@@ -671,3 +671,17 @@ tomar como referencia las apps modernas.
 - Un texto corto por escena y una barrita de progreso. Sólo corre cuando se
   ve; con "reducir movimiento" queda la casa de día, quieta, con un texto fijo.
 - Se genera con `build_casa.py` (reemplaza a `build_ens.py`).
+
+## T. Diseñador y planos fuera de servicio (por ahora)
+
+- Hasta tener precios y el catálogo real de productos, el sitio no muestra
+  nada de diseñar ni dibujar planos: se sacaron el enlace "Diseñá tu
+  proyecto" del menú, del menú del celular y del pie de todas las páginas, la
+  sección de la home (las siguientes se renumeraron 05–08), el "Dibujá tu
+  techo" de la página de techos y la URL del sitemap.
+- `/disena-tu-abertura/` y `/plano/` siguen en el servidor pero con
+  `noindex` y redirigen al inicio, salvo para el taller (código guardado o
+  `?taller` en la URL). Para volver a activarlo: quitar ese script de
+  `disena-tu-abertura/index.html` y reponer los enlaces.
+- Los estilos `.disena-cta` y `.nav__new` quedan en `site.css` para cuando
+  vuelva.
