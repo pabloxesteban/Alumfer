@@ -1,0 +1,27 @@
+{
+  "_comentario": "Plantilla para cargar las reseñas a mano, mientras no haya clave de API. Se usa así: python3 tools/resenas/actualizar_resenas.py --json tools/resenas/ficha-ejemplo.json. Borrá el campo id si no tenés el place_id: sin él, los links de las páginas quedan como están.",
+
+  "rating": 4.5,
+  "userRatingCount": 37,
+
+  "reviews": [
+    {
+      "rating": 5,
+      "publishTime": "2026-08-14T00:00:00Z",
+      "authorAttribution": { "displayName": "Nombre Apellido" },
+      "originalText": { "text": "El texto de la reseña, tal cual lo escribió la persona.", "languageCode": "es" }
+    },
+    {
+      "rating": 5,
+      "publishTime": "2026-06-02T00:00:00Z",
+      "authorAttribution": { "displayName": "Otro Nombre" },
+      "originalText": { "text": "Otra reseña. Hacen falta por lo menos tres de 4 estrellas o más y de más de 55 caracteres, o el script no escribe nada.", "languageCode": "es" }
+    },
+    {
+      "rating": 4,
+      "publishTime": "2026-03-21T00:00:00Z",
+      "authorAttribution": { "displayName": "Tercera Persona" },
+      "originalText": { "text": "La fecha solo se usa para el mes y el año que se muestran abajo del nombre, así que el día puede ir en 01.", "languageCode": "es" }
+    }
+  ]
+}
