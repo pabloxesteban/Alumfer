@@ -115,6 +115,40 @@ fast, and built to bring in inquiries.
 
 ---
 
+## Pendiente inmediato: actualizar el proyecto en Behance
+
+El sitio se rediseñó y las láminas y los videos ya están rehechos en esta
+rama. Falta reemplazarlos en el proyecto publicado de Behance. Eso se hace
+desde una sesión local con Claude in Chrome, porque Behance no tiene API y la
+sesión de Pablo está abierta en su Chrome.
+
+**Archivos** (rama `claude/focused-keller-3gizz1`): `portfolio/behance/laminas/`
+y `portfolio/behance/video/`.
+
+**Pasos en Behance** (proyecto "Alumfer — Corporate Website" → Edit project):
+
+1. Borrar todas las imágenes y videos actuales. **No borrar** el módulo de
+   texto de contacto del final.
+2. Subir, a ancho completo y en este orden: `01-cover.jpg`, `02-overview.jpg`,
+   `03-information-architecture.jpg`, `04-brand-system.jpg`,
+   `05-homepage-hero.jpg`, `desktop-walkthrough.mp4`, `06-homepage.jpg`,
+   `07-project-gallery.jpg`, `08-process-and-catalog.jpg`,
+   `09-reviews-and-contact.jpg`, `10-mobile.jpg`, `mobile-walkthrough.mp4`,
+   `11-local-search-pages.jpg`, `12-buyer-guides.jpg`, `13-build.jpg`,
+   `14-closing.jpg`. El módulo de texto de contacto queda al final.
+3. Espaciado entre módulos 0 y fondo `#EAE7E1`.
+4. Portada (Project cover): `cover-808x632.jpg`, encuadre completo.
+5. Descripción: reemplazar los dos párrafos bajo "THE APPROACH" y la última
+   oración de "THE RESULT" por los de `portfolio/behance/README.md`,
+   sección 3.
+6. Tools: quitar GSAP.
+7. No tocar título, etiquetas ni categorías.
+8. **Antes de guardar, mostrarle a Pablo cómo quedó y esperar su OK.** Si
+   aparece una ventana del sistema para elegir archivos que Claude no puede
+   manejar, pedirle a Pablo que los seleccione.
+
+---
+
 ## Pendientes
 
 1. **Experiencia en LinkedIn:** falta que Pablo indique los trabajos reales en
