@@ -20,9 +20,10 @@ const p = await ctx.newPage();
 p.on('requestfailed', r => console.error('falló', r.url(), r.failure()?.errorText));
 p.on('response', r => { if (r.status() >= 400) console.error('HTTP', r.status(), r.url()); });
 await p.goto(base + 'boards.html', { waitUntil: 'networkidle' });
-await p.evaluate(async()=>{ await Promise.all(['300 40px Inter','400 16px Inter','500 34px Inter','600 40px Inter','600 84px Montserrat'].map(f=>document.fonts.load(f))); await document.fonts.ready; });
-const ok = await p.evaluate(()=>['Inter','Montserrat'].every(n=>[...document.fonts].some(f=>f.family.replace(/"/g,'')===n && f.status==='loaded')));
-if (!ok) { console.error('No cargaron las tipografías (Inter y Montserrat)'); process.exit(1); } await p.waitForTimeout(800);
+await p.evaluate(async()=>{ await Promise.all(['400 16px Inter','500 34px Inter','800 72px Archivo','700 46px Archivo','400 17px "IBM Plex Mono"'].map(f=>document.fonts.load(f))); await document.fonts.ready; });
+const ok = await p.evaluate(()=>['Inter','Archivo','IBM Plex Mono'].every(n=>[...document.fonts].some(f=>f.family.replace(/"/g,'')===n && f.status==='loaded')));
+await p.evaluate(()=>window.pageReady);
+if (!ok) { console.error('No cargaron las tipografías (Inter, Archivo e IBM Plex Mono)'); process.exit(1); } await p.waitForTimeout(800);
 const ids = await p.$$eval('section.board', s=>s.map(e=>e.id));
 const names={b01:'01-cover',b02:'02-overview',bmap:'03-information-architecture',b03:'04-brand-system',b04:'05-homepage-hero',b05:'06-homepage',b06:'07-project-gallery',b07:'08-process-and-catalog',b08:'09-reviews-and-contact',b09:'10-mobile',b10:'11-local-search-pages',b11:'12-buyer-guides',b12:'13-build',b13:'14-closing',thumb:'cover-808x632',banner:'../perfil/banner-3200x410',bannertype:'../perfil/banner-typographic-3200x410'};
 for (const id of ids) {
@@ -34,7 +35,7 @@ for (const id of ids) {
 const pv = await ctx.newPage();
 await pv.setViewportSize({ width:1920, height:1080 });
 await pv.goto(base + 'video-placas.html', { waitUntil: 'networkidle' });
-await pv.evaluate(async()=>{ await Promise.all(['600 88px Montserrat','400 24px Inter'].map(f=>document.fonts.load(f))); await document.fonts.ready; });
+await pv.evaluate(async()=>{ await Promise.all(['800 80px Archivo','400 20px "IBM Plex Mono"','400 24px Inter'].map(f=>document.fonts.load(f))); await document.fonts.ready; });
 for (const id of ['intro-desktop','intro-mobile','outro']) {
   await (await pv.$('#'+id)).screenshot({ path: new URL(`../_raw/video/card-${id}.png`, import.meta.url).pathname, scale: 'css' });
 }

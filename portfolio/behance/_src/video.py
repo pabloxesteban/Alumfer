@@ -61,26 +61,28 @@ def y_expr(segs, scale):
 
 
 def section(m, sel, offset=0):
-    return max(0, min(m['sections'][sel] - m['navH'] + offset, m['height'] - VIEW[m['kind']]))
+    """Parada en una sección: su título queda justo debajo de la barra fija."""
+    return max(0, min(m['sections'][sel] - m['navH'] + offset, m['height'] - m['viewportH']))
 
 
 d, mo = meta['desk'], meta['mob']
-d['kind'], mo['kind'] = 'desk', 'mob'
-VIEW = {'desk': 810, 'mob': mo['viewportH']}   # escritorio: ventana 1440x810 (16:9)
 
 desk_stops = [0,
               section(d, '#nosotros'),
               section(d, '#trabajos'),
-              section(d, '.process-section'),
-              section(d, '#productos', 380),
-              section(d, 'section[aria-labelledby=reviews-title]'),
+              section(d, '#proceso'),
+              section(d, '#lineas'),
+              section(d, '#productos'),
+              section(d, '#resenas'),
               section(d, '#faq'),
               section(d, '#contacto'),
-              d['height'] - VIEW['desk']]
+              d['height'] - d['viewportH']]
 mob_stops = [0,
+             section(mo, '#nosotros'),
              section(mo, '#trabajos'),
-             section(mo, '#productos'),
-             section(mo, 'section[aria-labelledby=reviews-title]'),
+             section(mo, '#proceso'),
+             section(mo, '#lineas'),
+             section(mo, '#resenas'),
              section(mo, '#contacto')]
 
 dseg, dlen = timeline(desk_stops)
@@ -93,8 +95,10 @@ PW = round(mo['width'] * PH / mo['viewportH'])
 PX, PY = (W - PW) // 2, (H - PH) // 2
 R = 44  # radio de las esquinas de la pantalla
 
-nav_switch = dseg[0][1] + 0.25   # la barra pasa a sólida al empezar a bajar
-mnav_switch = mseg[0][1] + 0.25
+# La barra de navegación es sticky: se superpone arriba cuando la página pasó la franja superior.
+# La barra inferior del celular se esconde cuando aparece el formulario de contacto, como en el sitio.
+d_y, m_y = y_expr(dseg, 1), y_expr(mseg, 1)
+mbar_off = mo['sections']['#contacto'] - mo['viewportH'] + 120
 
 def render(out, scene_inputs, scene_graph, scene_len, intro_card):
     """Placa de apertura -> escena -> placa de cierre, con fundidos."""
@@ -121,28 +125,24 @@ def render(out, scene_inputs, scene_graph, scene_len, intro_card):
 
 os.makedirs(OUT_DIR, exist_ok=True)
 
-# Escritorio: pantalla completa, barra de navegación fija superpuesta
+# Escritorio: pantalla completa, barra de navegación superpuesta
 render(os.path.join(OUT_DIR, 'desktop-walkthrough.mp4'),
-       [('desk-full.png', dlen), ('desk-nav-top.png', dlen), ('desk-nav-solid.png', dlen)],
+       [('desk-full.png', dlen), ('desk-nav.png', dlen)],
        f"""
-[0:v]format=rgb24,crop={d['width'] * 2}:{VIEW['desk'] * 2}:0:'{y_expr(dseg, 2)}',scale={W}:{H}:flags=lanczos,setsar=1[dpage];
-[1:v]scale={W}:-1:flags=lanczos[dnav0];
-[2:v]scale={W}:-1:flags=lanczos[dnav1];
-[dpage][dnav0]overlay=0:0:enable='lt(t,{nav_switch:.3f})'[d1];
-[d1][dnav1]overlay=0:0:enable='gte(t,{nav_switch:.3f})',fps={FPS},format=yuv420p[scene];""",
+[0:v]format=rgb24,crop={round(d['width'] * d['dsf'])}:{round(d['viewportH'] * d['dsf'])}:0:'{y_expr(dseg, d['dsf'])}',scale={W}:{H}:flags=lanczos,setsar=1[dpage];
+[1:v]scale={W}:-1:flags=lanczos[dnav];
+[dpage][dnav]overlay=0:0:enable='gte({d_y},{d['navTop']})',fps={FPS},format=yuv420p[scene];""",
        dlen, 'card-intro-desktop.png')
 
-# Celular: pantalla grande centrada, barra superior y barra de contacto fijas
+# Celular: pantalla grande centrada, barra superior y barra de contacto
 render(os.path.join(OUT_DIR, 'mobile-walkthrough.mp4'),
-       [('mob-full.png', mlen), ('mob-nav-top.png', mlen), ('mob-nav-solid.png', mlen), ('mob-bar.png', mlen)],
+       [('mob-full.png', mlen), ('mob-nav.png', mlen), ('mob-bar.png', mlen)],
        f"""
-[0:v]format=rgb24,crop={mo['width'] * 3}:{mo['viewportH'] * 3}:0:'{y_expr(mseg, 3)}',scale={PW}:{PH}:flags=lanczos,setsar=1[mpage];
-[1:v]scale={PW}:-1:flags=lanczos[mnav0];
-[2:v]scale={PW}:-1:flags=lanczos[mnav1];
-[3:v]scale={PW}:-1:flags=lanczos[mbar];
-[mpage][mnav0]overlay=0:0:enable='lt(t,{mnav_switch:.3f})'[m1];
-[m1][mnav1]overlay=0:0:enable='gte(t,{mnav_switch:.3f})'[m2];
-[m2][mbar]overlay=0:{round(meta['mobBarTop'] * PH / mo['viewportH'])},format=yuva444p,
+[0:v]format=rgb24,crop={round(mo['width'] * mo['dsf'])}:{round(mo['viewportH'] * mo['dsf'])}:0:'{y_expr(mseg, mo['dsf'])}',scale={PW}:{PH}:flags=lanczos,setsar=1[mpage];
+[1:v]scale={PW}:-1:flags=lanczos[mnav];
+[2:v]scale={PW}:-1:flags=lanczos[mbar];
+[mpage][mnav]overlay=0:0:enable='gte({m_y},{mo['navTop']})'[m1];
+[m1][mbar]overlay=0:{round(meta['mobBarTop'] * PH / mo['viewportH'])}:enable='lt({m_y},{mbar_off})',format=yuva444p,
   geq=lum='lum(X,Y)':cb='cb(X,Y)':cr='cr(X,Y)':a='if(gt(abs(X-{PW / 2}),{PW / 2 - R})*gt(abs(Y-{PH / 2}),{PH / 2 - R})*gt(hypot(abs(X-{PW / 2})-{PW / 2 - R},abs(Y-{PH / 2})-{PH / 2 - R}),{R}),0,255)'[mscreen];
 color=c=0xE1DDD5:s={W}x{H}:r={FPS}:d={mlen:.3f}[mbg];
 [mbg][mscreen]overlay={PX}:{PY}:shortest=1,format=yuv420p[scene];""",

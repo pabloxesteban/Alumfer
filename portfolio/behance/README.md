@@ -10,7 +10,7 @@ se copia tal cual en Behance, en inglés.**
 ```
 portfolio/behance/
 ├── laminas/          ← las láminas en inglés (2800 px de ancho, JPG)
-├── video/            ← desktop-walkthrough.mp4 (42 s) y mobile-walkthrough.mp4 (28 s), 1920×1080
+├── video/            ← desktop-walkthrough.mp4 (48 s) y mobile-walkthrough.mp4 (36 s), 1920×1080
 ├── perfil/           ← banner del perfil
 ├── _src/             ← fuente de las láminas y scripts para regenerarlas
 ├── PERFIL.md         ← perfil y marca propia (textos en inglés)
@@ -38,7 +38,7 @@ Spacing / Background color).
 | 6 | `video/desktop-walkthrough.mp4` | **Video:** el sitio funcionando en escritorio |
 | 7 | `06-homepage.jpg` | La página completa de un vistazo |
 | 8 | `07-project-gallery.jpg` | Galería de obras |
-| 9 | `08-process-and-catalog.jpg` | Proceso y catálogo |
+| 9 | `08-process-and-catalog.jpg` | Proceso y líneas de perfiles |
 | 10 | `09-reviews-and-contact.jpg` | Confianza y contacto |
 | 11 | `10-mobile.jpg` | La versión celular |
 | 12 | `video/mobile-walkthrough.mp4` | **Video:** el sitio funcionando en celular |
@@ -77,6 +77,9 @@ Use the full frame when cropping.
 
 - Inglés estadounidense en todos los textos: *aluminum*, *catalog*, *color*,
   *grays*.
+- Las láminas usan Inter para los textos de la presentación (es la tipografía
+  de tu marca personal, igual en todos tus proyectos) y muestran el logotipo y
+  las tipografías de Alumfer (Archivo e IBM Plex Mono) tal como están en el sitio.
 - Terminología del rubro revisada: *double glazing* (DVH), *insect screens*
   (mosquiteros), *dry installation* (colocación en seco), *profile system*
   (línea de aluminio), *enclosures* (cerramientos).
@@ -123,7 +126,7 @@ web design, website, ui/ux, ux design, landing page, corporate website, responsi
 **Tools used** (elegir de la lista que sugiere Behance al escribir)
 
 ```
-Figma, Visual Studio Code, HTML, CSS, JavaScript, PHP, GSAP, GitHub
+Figma, Visual Studio Code, HTML, CSS, JavaScript, PHP, GitHub
 ```
 
 *Dejá solo las que realmente usaste.*
@@ -153,12 +156,12 @@ THE CHALLENGE
 A manufacturer earns trust through three things: finished work, technical knowledge and fast answers. The website had to carry all three: show real projects, explain product lines and glazing in plain language, and make a quote request effortless on any device.
 
 THE APPROACH
-I structured the content before designing a single screen, around four customer intents: finding a product, finding a local supplier, researching before buying, and asking for a price. The visual system comes from the trade itself, concrete and steel grays with a single blue accent, and keeps the company's existing logo intact.
+I structured the content before designing a single screen, around four customer intents: finding a product, finding a local supplier, researching before buying, and asking for a price. The visual language comes from the workshop's own plans: dimension lines, numbered sections, an archive of finished work and monospaced labels, in night blue and navy with a single bright blue for actions. The company's symbol stays intact.
 
-The homepage reads the way a customer decides: who the company is, finished work, how the process works, the product catalog, client reviews, warranty, questions and contact. On mobile, call and WhatsApp stay within thumb's reach on every screen.
+The homepage reads the way a customer decides: who the company is, finished work, how the process works, the five profile systems, client reviews and warranty, questions and contact. On mobile, call and quote request stay within thumb's reach on every screen.
 
 THE RESULT
-A 38-page site: a homepage, 6 service pages, 27 location pages for local search, and 4 long-form buyer guides written in the workshop's own voice. Built as a lightweight static site, fast on mid-range phones and easy to maintain, with structured data and automated deployment.
+A 38-page site: a homepage, 6 service pages, 27 location pages for local search, and 4 long-form buyer guides written in the workshop's own voice. Built as a lightweight static site with no framework, fast on mid-range phones and easy to maintain, with structured data and automated deployment.
 
 Site language: Spanish.
 ```
@@ -211,8 +214,11 @@ python3 portfolio/behance/_src/video.py
 ```
 
 Requiere Playwright con Chromium y ffmpeg (`pip install imageio-ffmpeg`).
+El mapa de Google del formulario de contacto no carga desde el entorno de
+captura, así que se oculta en las capturas en lugar de mostrar un recuadro vacío.
 Las paradas del video, sus pausas y la duración de cada desplazamiento se
 ajustan en `_src/video.py`. Las
 capturas en crudo (`_raw/`) no se versionan porque pesan ~30 MB. El diseño de
-las láminas está en `_src/boards.html`; las tipografías (Inter y Montserrat)
-están en `_src/fonts/` para que el resultado no dependa de la red.
+las láminas está en `_src/boards.html`; Inter está en `_src/fonts/` y las
+tipografías de Alumfer se toman de `apps/website/fonts/`, para que el resultado
+no dependa de la red.

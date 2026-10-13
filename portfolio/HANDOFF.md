@@ -39,8 +39,8 @@ obras). Diseñado y desarrollado por Pablo.
 
 - 38 páginas: inicio, 6 páginas de servicio, 27 páginas por localidad para
   búsquedas locales y 4 guías largas para clientes.
-- Sitio estático (HTML, CSS por capas con variables, JavaScript sin
-  dependencias), GSAP para animación, formulario en PHP, datos estructurados
+- Sitio estático (HTML, CSS con variables, JavaScript sin dependencias),
+  ilustraciones SVG animadas con CSS, formulario en PHP, datos estructurados
   (LocalBusiness, FAQPage), WebP, Google Analytics 4, publicación automática
   con GitHub Actions.
 - Repositorio: `pabloxesteban/Alumfer` (el sitio vive en `apps/website/`).
@@ -58,7 +58,7 @@ Todo en `portfolio/behance/` (rama `claude/focused-keller-3gizz1`):
 
 - `laminas/`: 14 láminas en inglés a 2800 px de ancho + portada de grilla
   `cover-808x632.jpg`.
-- `video/`: `desktop-walkthrough.mp4` (42 s) y `mobile-walkthrough.mp4` (28 s).
+- `video/`: `desktop-walkthrough.mp4` (48 s) y `mobile-walkthrough.mp4` (36 s).
 - `perfil/`: banner tipográfico (elegido) y banner con pantallas (alternativa).
 - `README.md`: orden de carga definitivo, campos del proyecto (título, tags,
   categorías, herramientas, descripción) y texto de contacto final.
@@ -69,7 +69,10 @@ Todo en `portfolio/behance/` (rama `claude/focused-keller-3gizz1`):
 
 **Sistema visual de las láminas:** fondo `#EAE7E1`, Inter (500 títulos, 400
 textos) y el logotipo de Alumfer tal como es (isotipo a la izquierda, ALUMFER
-en mayúsculas en Montserrat 600). Estilo editorial sobrio: sin brillos, sin
+en mayúsculas en Archivo 800 expandida, bajada en IBM Plex Mono). En octubre de
+2026 el sitio se rediseñó (azul noche y marino, Archivo + IBM Plex Mono,
+lenguaje de plano técnico) y las láminas y los videos se rehicieron con el
+sitio nuevo. Estilo editorial sobrio: sin brillos, sin
 etiquetas numeradas, sin marcos de dispositivo falsos. Pablo pidió
 explícitamente que nada se vea "hecho por IA".
 
