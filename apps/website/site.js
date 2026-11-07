@@ -27,6 +27,9 @@
   const setDrawer = (open) => {
     if (!burger || !drawer) return;
     burger.setAttribute('aria-expanded', String(open));
+    // El menú arranca justo debajo de la barra de navegación (la barra del local la corre hacia abajo arriba de todo)
+    const nav = burger.closest('.nav');
+    if (open && nav) drawer.style.top = Math.max(0, nav.getBoundingClientRect().bottom) + 'px';
     drawer.classList.toggle('is-open', open);
     drawer.setAttribute('aria-hidden', String(!open));
     document.body.style.overflow = open ? 'hidden' : '';
