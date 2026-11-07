@@ -1,25 +1,27 @@
 # Plan de publicidad paga — Google Ads + Meta Ads (Nov 2026)
 
-> Plan de prueba de 3 meses con **US$100/mes en total** (~US$70 Google, ~US$30 Meta).
+> Plan de prueba con **US$100/mes**. **Mes 1: todo a Google** (~US$3,30/día).
+> Meta (Parte B) queda para el mes 2, solo si Google ya está andando y medido.
 > Está escrito para pegarlo en **Claude en Chrome** y que vaya armando las campañas.
-> Hay dos bloques independientes: **PARTE A (Google)** y **PARTE B (Meta)**.
-> Pegá uno por vez, en sesiones separadas.
+> Hay dos bloques independientes: **PARTE A (Google)**, que se arma ahora, y **PARTE B (Meta)**, que se arma más adelante.
+> Si en el mes 2 sumás Meta, el presupuesto pasa a ~US$70 Google + ~US$30 Meta (bajar Google a ~US$2,30/día).
 
 ---
 
 ## Antes de pegar (lo hacés vos, no el agente)
 
 1. Iniciá sesión en Chrome con la cuenta de Google del negocio (la misma del Perfil de Google y de Analytics).
-2. Para Meta: iniciá sesión en Facebook con la cuenta que administra la página **alumfercarpinteria** y verificá que el **WhatsApp Business** del negocio (+54 11 6336-8643) esté vinculado a la página. Se hace en *Configuración de la página → WhatsApp*.
+2. Solo cuando armes Meta (mes 2): iniciá sesión en Facebook con la cuenta que administra la página **alumfercarpinteria** y verificá que el **WhatsApp Business** del negocio (+54 11 6336-8643) esté vinculado a la página. Se hace en *Configuración de la página → WhatsApp*.
 3. **Los datos de la tarjeta los cargás vos.** El plan le indica al agente que se frene en ese paso.
-4. Los montos se cargan **en pesos**. Convertí al dólar del día: US$2,30/día (Google) y US$1/día (Meta). A eso se le pueden sumar IVA y percepciones que cobra el banco.
+4. Los montos se cargan **en pesos**. Convertí al dólar del día: US$3,30/día para Google en el mes 1 (si en el mes 2 sumás Meta: US$2,30/día Google y US$1/día Meta). A eso se le pueden sumar IVA y percepciones que cobra el banco.
 
-## Alcance esperado con US$100/mes (estimación, no promesa)
+## Alcance esperado (estimación, no promesa)
 
 | Canal | Presupuesto | Qué podés esperar por mes (aprox.) |
 |---|---|---|
-| Google Búsqueda | ~US$70 | 2.000–6.000 veces que aparece el anuncio · 150–400 clics · **10–35 consultas** (WhatsApp, formulario o llamada) |
-| Meta (IG + FB) | ~US$30 | **4.000–12.000 personas** de la zona lo ven (10.000–30.000 impresiones) · **15–50 conversaciones** de WhatsApp, de calidad más variable |
+| **Mes 1: Google Búsqueda** | ~US$100 | 3.000–8.500 veces que aparece el anuncio · 200–550 clics · **15–50 consultas** (WhatsApp, formulario o llamada) |
+| Mes 2+, si sumás Meta: Google | ~US$70 | 2.000–6.000 veces que aparece el anuncio · 150–400 clics · **10–35 consultas** |
+| Mes 2+, si sumás Meta: Meta (IG + FB) | ~US$30 | **4.000–12.000 personas** de la zona lo ven (10.000–30.000 impresiones) · **15–50 conversaciones** de WhatsApp, de calidad más variable |
 
 - Son rangos típicos para servicios locales en Argentina, no datos de tu cuenta. Los números reales los da cada plataforma al armar la campaña. El agente tiene que anotarlos (ver "Informe final" en cada parte).
 - En Google el límite no es solo la plata: si poca gente busca esas palabras en la zona, quizás no se gasta todo el presupuesto. Eso es buena señal: no se paga de más.
@@ -76,7 +78,7 @@ PASO 4 — Crear la campaña
 - Opciones de ubicación (desplegar "Opciones de ubicación"): elegir "Presencia: personas que están o suelen estar en las ubicaciones incluidas". NO la opción recomendada de "presencia o interés".
 - Idiomas: español.
 - Segmentos de audiencia: no agregar ninguno.
-- Presupuesto diario: el equivalente en pesos a US$2,30 (te lo confirmo yo antes de guardar; preguntame el monto).
+- Presupuesto diario: el equivalente en pesos a US$3,30 (te lo confirmo yo antes de guardar; preguntame el monto).
 - Oferta: "Clics" / "Maximizar clics". Tildar "Establecer un límite máximo de oferta de CPC" y preguntarme el monto (aprox. el equivalente a US$0,50).
 - Programación de anuncios: lunes a sábado, de 8:00 a 21:00.
 - Fecha de inicio: hoy. Sin fecha de finalización.
@@ -225,6 +227,8 @@ INFORME FINAL (dámelo al terminar)
 
 # PARTE B — Pegar en Claude en Chrome: META ADS (Instagram + Facebook)
 
+> **Para el mes 2.** Antes de armarla, bajá el presupuesto diario de Google a ~US$2,30 para mantener el total en US$100.
+
 ```
 Sos mi asistente para armar una campaña en el Administrador de anuncios de Meta (adsmanager.facebook.com) para mi negocio. Trabajá paso a paso con estas reglas:
 
@@ -318,7 +322,7 @@ INFORME FINAL (dámelo al terminar)
 
 **Cada semana (15 minutos):**
 - Google → Palabras clave → **Términos de búsqueda**: lo que no tenga que ver con hacer una obra (ej. "perfil", "precio por kilo", otra marca) va a la lista "Negativas Alumfer".
-- Meta → mirá cuántas conversaciones hubo y costo por conversación. Si un anuncio gasta y no trae mensajes en 7–10 días, pausalo.
+- Meta (desde el mes 2) → mirá cuántas conversaciones hubo y costo por conversación. Si un anuncio gasta y no trae mensajes en 7–10 días, pausalo.
 - Anotá en una planilla cada consulta con: fecha, de dónde vino (Google / Instagram / Facebook / orgánico), qué pidió, y si se cerró. Preguntar "¿cómo nos encontraste?" en el primer mensaje.
 
 **A los 30 días:** si Google tiene 15+ conversiones, cambiar la oferta a "Maximizar conversiones".
