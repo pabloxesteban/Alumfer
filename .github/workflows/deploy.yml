@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Descargar el repositorio
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # para saber qué páginas cambiaron (aviso a IndexNow)
 
       - name: Subir archivos por FTP a cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -40,3 +42,9 @@ jobs:
             preview-vidrios.html
             preview-email-admin.html
             preview-email-cliente.html
+
+      - name: Avisar a Bing y otros buscadores (IndexNow)
+        continue-on-error: true   # si falla el aviso, el sitio ya quedó publicado igual
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: python3 .github/scripts/indexnow.py
