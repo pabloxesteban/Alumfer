@@ -488,7 +488,7 @@ function em_cliente(array $d): string {
                 <div style="font-family:$fb;font-size:15px;line-height:1;color:#F5A800;letter-spacing:2px;">★★★★★</div>
                 <p class="alf-ink" style="margin:10px 0 0;font-family:$fh;font-size:18px;line-height:1.4;font-weight:700;color:$ink;">“Precio, tiempo de entrega y calidad, 10&nbsp;puntos.”</p>
                 <p class="alf-txt" style="margin:6px 0 0;font-family:$fb;font-size:13px;line-height:1.5;color:$text;">
-                  Marcelo V., mosquiteros a medida &nbsp;·&nbsp; <a href="$google" target="_blank" class="alf-link" style="color:$blue;font-weight:600;text-decoration:none;">4,5 en Google, 37&nbsp;reseñas</a>
+                  Marcelo V., mosquiteros a medida &nbsp;·&nbsp; <a href="$google" target="_blank" class="alf-link" style="color:$blue;font-weight:600;text-decoration:none;">4,6 en Google, 26&nbsp;reseñas</a>
                 </p>
               </td>
             </tr></table>
