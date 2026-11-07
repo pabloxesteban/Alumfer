@@ -1016,3 +1016,6 @@ ul, ol { list-style: none; }
 .form__acts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .form__acts .btn { justify-content: center; }
 @media (max-width: 560px) { .form__acts { grid-template-columns: 1fr; } }
+
+.reviews__ask { margin-top: 1.5rem; color: var(--on-steel-2); }
+.reviews__ask a { color: var(--blue-light); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }

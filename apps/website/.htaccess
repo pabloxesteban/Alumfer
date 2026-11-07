@@ -15,7 +15,13 @@
 
   RewriteCond %{THE_REQUEST} ^[A-Z]+\s/(([^?\s]*/)?)index\.html[?\s] [NC]
   RewriteRule ^ https://alumfer.com.ar/%1 [R=301,L]
+
+  # Link corto para pedir reseñas: alumfer.com.ar/resena
+  RewriteRule ^resenas?/?$ https://g.page/r/CYcaEIOUzeHeEBM/review [R=302,L]
 </IfModule>
+
+# Página propia para direcciones que no existen
+ErrorDocument 404 /404.html
 
 # ============================================================
 #  Alumfer — Cache control

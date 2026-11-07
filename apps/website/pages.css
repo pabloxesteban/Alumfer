@@ -368,3 +368,8 @@ a.nearby-link:hover { background: var(--blue); color: #fff; border-color: var(--
   .compare td::before { content: attr(data-label) ": "; font-weight: 600; color: var(--ink); }
 }
 .section-intro + .compare-wrap { margin-top: 1.75rem; }
+
+/* ─── Página 404 ─────────────────────────────────────────── */
+.notfound__links { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.notfound__links a { display: inline-block; padding: 0.55rem 0.9rem; border: 1px solid var(--rule); color: var(--ink); text-decoration: none; }
+.notfound__links a:hover, .notfound__links a:focus-visible { border-color: var(--blue); color: var(--accent); }
