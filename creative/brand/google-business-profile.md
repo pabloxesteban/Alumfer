@@ -233,3 +233,37 @@ Ejemplo aprobado:
 > Gracias, Julia! Que disfrutes los mosquiteros, sobre todo ahora que llega el calor.
 >
 > Daniel - Alumfer
+
+---
+
+## Por qué no aparecemos en "carpintería de aluminio zona sur" (diagnóstico 7/11/2026)
+
+El bloque "Sitios" con mapa es el paquete local. Google lo arma con tres factores: **relevancia**
+(categoría, nombre, servicios, web), **distancia** a quien busca y **prominencia** (reseñas, fotos,
+actividad, enlaces). La búsqueda que se probó se hizo **con la ubicación en Palermo**: desde ahí
+Adrogué queda a ~20 km y Google prefiere negocios de CABA o del borde sur (Retiro, Gerli). La palabra
+"zona sur" pesa menos que la ubicación del teléfono. Antes de sacar conclusiones, probar la misma
+búsqueda desde Adrogué, Lomas o Lanús (o en Maps moviendo el mapa a Zona Sur).
+
+Contra los que sí aparecen: TEKNOSUR (71 reseñas), almatcerramientos (133), Aluminio Sur (20). Con
+26 reseñas, la brecha de prominencia es la principal, y es la única que depende de nosotros.
+
+Qué mueve la aguja, por orden:
+
+1. **Reseñas**: llegar a 50 y después a 100. Pedirla al terminar cada obra con
+   `https://alumfer.com.ar/resena`. Ideal que el cliente mencione el trabajo y la localidad con sus
+   palabras (no se lo dictamos: Google detecta reseñas guionadas).
+2. **Categorías**: los que aparecen usan "Proveedor de aluminio" y "Ventana de aluminio". Sumar
+   *Proveedor de aluminio* (o la que más se acerque a carpintería de aluminio) como secundaria si
+   no está.
+3. **Fotos y publicaciones** semanales, con geoetiqueta natural (fotos sacadas en la obra).
+4. **Enlaces desde la web a la ficha exacta**: hecho el 7/11/2026. Todos los links "Cómo llegar" y
+   el `hasMap`/`sameAs` del LocalBusiness apuntan a la ficha por su CID
+   (`https://www.google.com/maps?cid=16060343783917623943`), en vez de a una búsqueda de la
+   dirección. La home pasó a titularse "Carpintería de Aluminio en Zona Sur GBA".
+5. **Citas locales** con nombre, dirección y teléfono idénticos: Bing Places, Apple Business
+   Connect, Páginas Amarillas, Guía Local, Cylex, Mercado Libre servicios, cámaras de comercio de
+   Almirante Brown.
+
+Qué **no** hacer: agregar "Zona Sur" o palabras clave al nombre de la ficha, ni cargar una
+dirección falsa en CABA. Las dos cosas se castigan con suspensión.
