@@ -194,3 +194,42 @@ Si tenés media hora, hacelo en este orden:
 Si me pasás capturas de la ficha —la pestaña de información, las categorías y
 la sección de fotos— puedo revisar qué falta y qué está mal cargado. Sin eso
 esto es el material; con eso es un diagnóstico.
+
+---
+
+## Estado al 7/11/2026 (cargado por la extensión de Chrome)
+
+- **Nombre en las fichas:** Alumfer - Carpintería de Aluminio (con guion). En el sitio figura como
+  `alternateName` del LocalBusiness.
+- **Categoría principal:** Ventana de aluminio. **Secundarias:** Fabricante de puertas, Servicio de
+  instalación de ventanas, Tienda de puertas mosquiteras. No hay categoría adecuada para techos ni
+  cerramientos.
+- 11 servicios, 20 áreas de servicio (el máximo), descripción cargada, web `https://alumfer.com.ar`,
+  Facebook agregado.
+- 26 reseñas, 4,6 estrellas, todas respondidas.
+- **Link para pedir reseñas:** https://g.page/r/CYcaEIOUzeHeEBM/review, también como
+  `https://alumfer.com.ar/resena` (redirección en `.htaccess`), para mandar por WhatsApp después de
+  cada obra.
+- Bing Places: importada desde Google y sincronizada. Falta cargar el email y volver a apretar
+  "Sync" cuando Google apruebe las categorías.
+- Publicaciones semanales: ver `creative/content/drafts/perfil-google-publicaciones-nov-2026.md`.
+
+## Cómo responder reseñas (aprobado por el dueño)
+
+- Se responde desde el Perfil de Negocio (sale como "Respuesta del propietario"). Firma
+  "Daniel - Alumfer" en una línea aparte.
+- Cálido y cercano, con "vos". Sin "¡" al principio (sí "!" al final). Pocas oraciones.
+- Nombrar al cliente. Mencionar el trabajo sólo en general (mosquiteros, quincho, DVH): no repetir
+  los detalles que contó el cliente, ni plazos, ni ambientes.
+- Si la reseña es vieja: "Perdón la demora en responder".
+- No hablar de Daniel en tercera persona, porque firma él.
+- Nombrar zona o dirección (Adrogué, Zona Sur, Av. San Martín 734) sólo si suena natural. No
+  inventar datos.
+- Reseñas negativas: tono directo y sereno, sin discutir. Invitar a seguir por WhatsApp
+  11-6336-8643. Mostrarle el borrador al dueño antes de publicar.
+
+Ejemplo aprobado:
+
+> Gracias, Julia! Que disfrutes los mosquiteros, sobre todo ahora que llega el calor.
+>
+> Daniel - Alumfer
