@@ -374,6 +374,16 @@ def main():
             if url_resenas:
                 t = RE_VER.sub(lambda m: m.group(1) + escapar(url_resenas) + m.group(2), t)
 
+        # Páginas de servicio: muestran reseñas elegidas a mano por tema
+        # (clase reviews-grid--tema), que este script NO reemplaza. Solo se
+        # mantiene al día el badge con la puntuación y la cantidad.
+        if '<div class="reviews-grid reviews-grid--tema">' in t:
+            con_resenas += 1
+            t, n = RE_BADGE.subn(lambda _m: badge, t, count=1)
+            if n != 1:
+                raise SystemExit("No encontré el badge en %s. "
+                                 "No se escribió nada." % p.relative_to(RAIZ))
+
         if "hero__stat-link" in t:
             con_hero += 1
             t, n = RE_HERO.subn(lambda m: m.group(1) + puntaje_visible + m.group(2), t, count=1)
