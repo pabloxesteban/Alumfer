@@ -348,3 +348,22 @@ a.nearby-link:hover { background: var(--blue); color: #fff; border-color: var(--
   .toc ol::-webkit-scrollbar { display: none; }
   .toc a { white-space: nowrap; }
 }
+
+/* ─── Tabla comparativa ─────────────────────────────────── */
+.compare-wrap { overflow-x: auto; margin-bottom: 1.5rem; border: 1px solid var(--rule); }
+.compare { --ink: #15171A; --ink-2: #3F444B; --rule: rgba(21, 23, 26, 0.12); width: 100%; min-width: 560px; border-collapse: collapse; background: var(--sheet); color: var(--ink-2); font-size: 0.97rem; line-height: 1.5; }
+.compare th, .compare td { padding: 0.9rem 1.1rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--rule); }
+.compare thead th { font-size: 0.95rem; font-weight: 600; color: var(--ink); background: var(--blue-tint); border-bottom: 2px solid var(--blue); }
+.compare tbody th { font-weight: 600; color: var(--ink); width: 28%; }
+.compare tbody tr:last-child th, .compare tbody tr:last-child td { border-bottom: 0; }
+.compare td:last-child { color: var(--ink); }
+@media (max-width: 640px) {
+  .compare-wrap { border: 0; overflow: visible; }
+  .compare { min-width: 0; background: none; }
+  .compare thead { display: none; }
+  .compare tbody tr { display: block; margin-bottom: 10px; background: var(--sheet); border: 1px solid var(--rule); border-left: 3px solid var(--blue); }
+  .compare tbody th, .compare tbody td { display: block; width: auto; border: 0; padding: 0.35rem 1rem; }
+  .compare tbody th { padding-top: 0.9rem; font-size: 1rem; }
+  .compare tbody td:last-child { padding-bottom: 0.9rem; }
+  .compare td::before { content: attr(data-label) ": "; font-weight: 600; color: var(--ink); }
+}
