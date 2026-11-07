@@ -234,7 +234,7 @@ apunta a los términos **paraguas + marca + local genérico**.
 
 | Cambio | Antes | Ahora | Beneficio |
 |--------|-------|-------|-----------|
-| `<title>` | "Alumfer — Aberturas de Aluminio a Medida \| Buenos Aires" | "Aberturas de Aluminio a Medida en Zona Sur GBA \| Alumfer" | Keyword-first + modificador local fuerte |
+| `<title>` | "Alumfer — Aberturas de Aluminio a Medida \| Buenos Aires" | "Carpintería de Aluminio en Zona Sur GBA · Aberturas a Medida \| Alumfer" (nov 2026, alineado con el nombre de la ficha) | Keyword-first + modificador local fuerte |
 | JSON-LD tipo | `LocalBusiness` | `["LocalBusiness","HomeAndConstructionBusiness"]` + `@id` + `slogan` + `knowsLanguage` | Tipo más específico, entidad enlazable |
 | JSON-LD servicios | — | `hasOfferCatalog` con 8 servicios | Relevancia para keywords de servicio sin página nueva |
 | `alt` de galería | genéricos repetidos ("Ventanas de aluminio") | descriptivos con producto + marca + zona | Image SEO + accesibilidad |

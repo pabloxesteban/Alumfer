@@ -291,7 +291,7 @@ const footer = (current) => `
           <ul role="list">
             <li><a href="${wa('Hola, quiero pedir un presupuesto')}" class="footer__link" target="_blank" rel="noopener">WhatsApp: (011) 6336-8643</a></li>
             <li><a href="mailto:alumfercarpinteria@gmail.com" class="footer__link">alumfercarpinteria@gmail.com</a></li>
-            <li><a href="https://maps.google.com/?q=Av.+San+Martín+734+Adrogué" class="footer__link" target="_blank" rel="noopener">Av. San Martín 734, Adrogué</a></li>
+            <li><a href="https://www.google.com/maps?cid=16060343783917623943" class="footer__link" target="_blank" rel="noopener">Av. San Martín 734, Adrogué</a></li>
           </ul>
         </div>
         <div class="footer__social">
