@@ -376,3 +376,6 @@ a.nearby-link:hover { background: var(--blue); color: #fff; border-color: var(--
 
 .feature__desc a { text-decoration: underline; text-underline-offset: 3px; }
 .section--dark .feature__desc a { color: #8EC2F2; }
+.section-intro + .zonas { margin-top: 1.5rem; }
+.section .zonas a { color: var(--ink) !important; text-decoration: none !important; }
+.section .zonas a:hover, .section .zonas a:focus-visible { color: var(--accent) !important; }
