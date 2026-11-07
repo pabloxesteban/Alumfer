@@ -763,7 +763,7 @@ ul, ol { list-style: none; }
 .footer .brand__name { color: #fff; }
 .footer .brand__sub { color: rgba(255,255,255,0.45); }
 .footer__tag { margin-top: 1.25rem; max-width: 30ch; }
-.footer .footer__h { font-family: var(--mono); font-size: 0.66rem; line-height: 1.6; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.4); font-weight: 500; margin-bottom: 1rem; }
+.footer .footer__h { font-family: var(--mono); font-size: 0.66rem; line-height: 1.6; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.62); font-weight: 500; margin-bottom: 1rem; }
 .footer li + li { margin-top: 0.45rem; }
 .footer a:hover { color: #fff; }
 .footer details summary { cursor: pointer; list-style: none; }
@@ -775,7 +775,7 @@ ul, ol { list-style: none; }
 .social a { width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,0.16); border-radius: var(--r); }
 .social a:hover { border-color: #fff; }
 .social svg { width: 17px; height: 17px; fill: currentColor; }
-.footer__bottom { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+.footer__bottom { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
 
 /* ─── WhatsApp flotante + barra mobile ───────────────────── */
 .wa-float {

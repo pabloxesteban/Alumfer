@@ -133,7 +133,7 @@
   font-family: var(--mono); font-size: 0.75rem; font-weight: 500;
 }
 .process-step__title { margin-top: 1.25rem; font-size: 1.15rem; font-weight: 600; }
-.process-step__desc { margin-top: 0.5rem; color: rgba(255,255,255,0.85); font-size: 0.94rem; line-height: 1.55; }
+.process-step__desc { margin-top: 0.5rem; color: #fff; font-size: 0.94rem; line-height: 1.55; }
 
 /* ─── Líneas en páginas de producto ──────────────────────── */
 .product-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
@@ -175,7 +175,7 @@
 .review-card__footer { margin-top: auto; display: flex; align-items: center; gap: 0.75rem; }
 .review-card__avatar { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--blue); font-family: var(--mono); font-size: 0.7rem; }
 .review-card__author { font-weight: 600; font-size: 0.92rem; }
-.review-card__location { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--on-steel-3); }
+.review-card__location { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--on-steel-2); }
 .google-badge { display: inline-flex; align-items: center; gap: 0.5rem; justify-self: start; padding: 0.5rem 0.8rem; border: 1px solid var(--rule-steel); border-radius: var(--r); font-size: 0.88rem; color: var(--on-steel-2); text-decoration: none !important; }
 .google-badge__g { font-weight: 700; color: #fff; }
 .google-badge__stars { color: #E9A23B; letter-spacing: 1px; }
@@ -373,3 +373,6 @@ a.nearby-link:hover { background: var(--blue); color: #fff; border-color: var(--
 .notfound__links { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .notfound__links a { display: inline-block; padding: 0.55rem 0.9rem; border: 1px solid var(--rule); color: var(--ink); text-decoration: none; }
 .notfound__links a:hover, .notfound__links a:focus-visible { border-color: var(--blue); color: var(--accent); }
+
+.feature__desc a { text-decoration: underline; text-underline-offset: 3px; }
+.section--dark .feature__desc a { color: #8EC2F2; }
