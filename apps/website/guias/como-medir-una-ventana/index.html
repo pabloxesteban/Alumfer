@@ -37,8 +37,8 @@
   </script>
 
   <link rel="preload" href="/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/site.css?v=11">
-  <link rel="stylesheet" href="/pages.css?v=5">
+  <link rel="stylesheet" href="/site.css?v=12">
+  <link rel="stylesheet" href="/pages.css?v=6">
 </head>
 <body class="no-js inner">
   <a class="sr-only" href="#contenido">Saltar al contenido</a>
@@ -94,8 +94,7 @@
   <section class="phero phero--compact" aria-label="Cómo medir una ventana">
     <div class="wrap phero__grid">
       <div class="phero__text">
-        <nav class="crumbs mono" aria-label="Ubicación"><a href="/">Inicio</a> <span aria-hidden="true">/</span> <a href="/guias/">Guías</a> <span aria-hidden="true">/</span> <span aria-current="page">Cómo medir una ventana</span></nav>
-        <p class="mono hero__kicker">Guía · Medidas</p>
+        <nav class="crumbs" aria-label="Ubicación"><a href="/">Inicio</a> <span aria-hidden="true">/</span> <a href="/guias/">Guías</a> <span aria-hidden="true">/</span> <span aria-current="page">Cómo medir una ventana</span></nav>
         <h1 class="display phero__title">Cómo medir una ventana<br><strong>para pedir presupuesto</strong></h1>
         <p class="lead">Dónde medir, qué anotar y qué fotos mandarnos. Cinco minutos con una cinta métrica.</p>
         <div class="hero__actions">
@@ -108,18 +107,27 @@
     </div>
   </section>
 
-  <section class="section section--dark" aria-labelledby="intro-title">
+  <nav class="toc" aria-label="En esta guía">
+    <div class="wrap">
+      <p class="toc__t">En esta guía</p>
+      <ol><li><a href="#intro-title">Medí el vano, no la ventana vieja</a></li><li><a href="#pasos-title">Paso a paso</a></li><li><a href="#casos-title">Qué medir en cada situación</a></li><li><a href="#errores-title">Los errores que más vemos</a></li><li><a href="#datos-title">Qué mandarnos para el presupuesto</a></li><li><a href="#faq-title">Preguntas frecuentes</a></li></ol>
+    </div>
+  </nav>
+
+  <section class="section section--dark section--prose" aria-labelledby="intro-title">
     <div class="container">
-      <div class="section-header reveal"><p class="eyebrow">La respuesta corta</p><h2 id="intro-title">Medí el vano, no la ventana vieja</h2></div>
-      <p class="reveal section-intro">Para pedir un presupuesto alcanza con <strong>el ancho y el alto del vano, medidos en tres puntos cada uno</strong>, más un par de fotos. Con eso te pasamos un precio estimado. La medida final para fabricar la tomamos nosotros en la visita, que es sin cargo: así, si algo no coincide, el error es nuestro y no tuyo.</p>
-      <p class="reveal section-intro">El error más común es medir la hoja de la ventana vieja, o el vidrio. Lo que importa es el hueco donde va la ventana: de pared a pared si el vano está vacío, o la luz interior del marco existente si vamos a <a href="/guias/colocacion-en-seco/">colocar en seco</a> sobre él.</p>
-      <p class="reveal section-intro">Medí en milímetros, o en centímetros con un decimal. Redondear a 120 una medida que da 118,5 parece poco, pero es la diferencia entre una ventana que entra y una que no.</p>
+      <div class="section-header reveal"><h2 id="intro-title">Medí el vano, no la ventana vieja</h2></div>
+      <div class="prose">
+        <p class="reveal">Para pedir un presupuesto alcanza con <strong>el ancho y el alto del vano, medidos en tres puntos cada uno</strong>, más un par de fotos. Con eso te pasamos un precio estimado. La medida final para fabricar la tomamos nosotros en la visita, que es sin cargo: así, si algo no coincide, el error es nuestro y no tuyo.</p>
+        <p class="reveal">El error más común es medir la hoja de la ventana vieja, o el vidrio. Lo que importa es el hueco donde va la ventana: de pared a pared si el vano está vacío, o la luz interior del marco existente si vamos a <a href="/guias/colocacion-en-seco/">colocar en seco</a> sobre él.</p>
+        <p class="reveal">Medí en milímetros, o en centímetros con un decimal. Redondear a 120 una medida que da 118,5 parece poco, pero es la diferencia entre una ventana que entra y una que no.</p>
+      </div>
     </div>
   </section>
 
   <section class="section section--mid process-section" aria-labelledby="pasos-title">
     <div class="container">
-      <p class="eyebrow reveal" id="pasos-title">Paso a paso</p>
+      <div class="section-header reveal"><h2 id="pasos-title">Paso a paso</h2></div>
       <div class="process-grid">
         <div class="process-step reveal reveal--stagger-1">
           <div class="process-step__num">01</div>
@@ -147,7 +155,7 @@
 
   <section class="section section--mid" aria-labelledby="casos-title">
     <div class="container">
-      <div class="section-header reveal"><p class="eyebrow">Según tu caso</p><h2 id="casos-title">Qué medir en cada situación</h2></div>
+      <div class="section-header reveal"><h2 id="casos-title">Qué medir en cada situación</h2></div>
       <div class="features-grid">
         <div class="feature reveal reveal--stagger-1">
           <h3 class="feature__title">Cambio de ventana en seco</h3>
@@ -171,7 +179,7 @@
 
   <section class="section section--dark" aria-labelledby="errores-title">
     <div class="container">
-      <div class="section-header reveal"><p class="eyebrow">Para no repetir</p><h2 id="errores-title">Los errores que más vemos</h2></div>
+      <div class="section-header reveal"><h2 id="errores-title">Los errores que más vemos</h2></div>
       <div class="features-grid">
         <div class="feature reveal reveal--stagger-1">
           <h3 class="feature__title">Medir la hoja o el vidrio</h3>
@@ -193,17 +201,19 @@
     </div>
   </section>
 
-  <section class="section section--mid" aria-labelledby="datos-title">
+  <section class="section section--mid section--prose" aria-labelledby="datos-title">
     <div class="container">
-      <div class="section-header reveal"><p class="eyebrow">Lo que te pedimos</p><h2 id="datos-title">Qué mandarnos para el presupuesto</h2></div>
-      <p class="reveal section-intro">Con estos datos te podemos pasar un precio estimado por WhatsApp o por email: <strong>cuántas aberturas son, las medidas de cada una, si son corredizas o batientes, el color, si llevan vidrio simple o <a href="/guias/conviene-el-dvh/">DVH</a>, si querés mosquitero y en qué localidad estás.</strong></p>
-      <p class="reveal section-intro">Si no sabés qué línea o qué vidrio conviene, no hace falta que lo decidas antes: contanos para qué ambiente es y si da a la calle, y te lo recomendamos nosotros. Para eso también está la guía de <a href="/guias/que-linea-de-aluminio-elegir/">qué línea de aluminio elegir</a>.</p>
+      <div class="section-header reveal"><h2 id="datos-title">Qué mandarnos para el presupuesto</h2></div>
+      <div class="prose">
+        <p class="reveal">Con estos datos te podemos pasar un precio estimado por WhatsApp o por email: <strong>cuántas aberturas son, las medidas de cada una, si son corredizas o batientes, el color, si llevan vidrio simple o <a href="/guias/conviene-el-dvh/">DVH</a>, si querés mosquitero y en qué localidad estás.</strong></p>
+        <p class="reveal">Si no sabés qué línea o qué vidrio conviene, no hace falta que lo decidas antes: contanos para qué ambiente es y si da a la calle, y te lo recomendamos nosotros. Para eso también está la guía de <a href="/guias/que-linea-de-aluminio-elegir/">qué línea de aluminio elegir</a>.</p>
+      </div>
     </div>
   </section>
 
   <section class="section section--mid" id="faq" aria-labelledby="faq-title">
     <div class="container">
-      <div class="section-header reveal"><p class="eyebrow">Preguntas frecuentes</p><h2 id="faq-title">Lo que más nos preguntan</h2></div>
+      <div class="section-header reveal"><h2 id="faq-title">Lo que más nos preguntan</h2></div>
       <div class="faq-list">
         <details class="faq-item reveal"><summary class="faq-item__q">¿Qué medida hay que tomar para cambiar una ventana?</summary><p class="faq-item__a">El ancho y el alto del vano, en tres puntos cada uno (arriba, medio y abajo; izquierda, centro y derecha), y anotar la menor. Si se coloca en seco sobre el marco existente, se mide la luz interior de ese marco.</p></details>
         <details class="faq-item reveal"><summary class="faq-item__q">¿Mido la ventana vieja o el hueco?</summary><p class="faq-item__a">El hueco o el marco, nunca la hoja ni el vidrio, que son más chicos que el vano.</p></details>
@@ -214,9 +224,9 @@
     </div>
   </section>
 
-  <section class="section section--mid" aria-labelledby="otras-title">
+  <section class="section section--mid section--prose" aria-labelledby="otras-title">
     <div class="container">
-      <div class="section-header reveal"><p class="eyebrow">Seguí leyendo</p><h2 id="otras-title">Otras guías</h2></div>
+      <div class="section-header reveal"><h2 id="otras-title">Otras guías</h2></div>
       <div class="features-grid">
         <div class="feature reveal reveal--stagger-1">
           <a href="/guias/conviene-el-dvh/" style="text-decoration:none;color:inherit">
@@ -249,7 +259,9 @@
           </a>
         </div>
       </div>
-      <p class="reveal section-intro">Están todas en <a href="/guias/">guías de aberturas de aluminio</a>.</p>
+      <div class="prose">
+        <p class="reveal">Están todas en <a href="/guias/">guías de aberturas de aluminio</a>.</p>
+      </div>
     </div>
   </section>
 
@@ -258,7 +270,7 @@
       <div class="contact-grid">
         <div class="contact-left">
           <div class="contact-header">
-            <div class="section-header reveal"><p class="eyebrow">Presupuesto sin cargo</p><h2 id="contact-title">Pedí tu presupuesto<br>de aberturas de aluminio</h2></div>
+            <div class="section-header reveal"><h2 id="contact-title">Pedí tu presupuesto<br>de aberturas de aluminio</h2></div>
             <div class="ruled reveal contact-desc"><p class="contact-desc__text">Completá el formulario o escribinos por WhatsApp. Respondemos en menos de 24 horas.</p></div>
           </div>
         </div>
