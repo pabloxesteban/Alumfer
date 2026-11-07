@@ -30,6 +30,12 @@ El presupuesto y la visita de medición son sin cargo.
 - [Qué línea de aluminio elegir](https://alumfer.com.ar/guias/que-linea-de-aluminio-elegir/):
   las cinco líneas que fabrican —Herrero, Rotonda 640, Módena 1, Módena 2 y A30
   New—, para qué sirve cada una y qué mira Alumfer para decidir.
+- [Cómo medir una ventana](https://alumfer.com.ar/guias/como-medir-una-ventana/): cómo
+  medir el vano para pedir presupuesto (tres medidas por lado, anotar la menor, en
+  milímetros), qué fotos mandar, qué medir en cada caso y los errores comunes.
+- [Ventana que entra aire o agua](https://alumfer.com.ar/guias/ventana-que-entra-aire-o-agua/):
+  las cuatro causas (felpas o burletes gastados, desagües del riel tapados, sellado
+  vencido, marco torcido), cómo reconocerlas y cuándo conviene reparar o cambiar.
 
 ## Productos
 
@@ -60,3 +66,7 @@ Cada localidad tiene una página propia con el tipo de obra habitual de esa zona
   `LocalBusiness` en la portada, y `Service`, `BreadcrumbList` y `FAQPage` en el
   resto. Las respuestas del `FAQPage` son la fuente más precisa y citable.
 - Sitemap: https://alumfer.com.ar/sitemap.xml
+
+## La empresa
+
+- [Sobre Alumfer](https://alumfer.com.ar/nosotros/): empresa familiar, desde 2010, más de 500 obras, taller propio, cómo trabaja y dónde.
