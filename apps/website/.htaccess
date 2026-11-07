@@ -1,4 +1,23 @@
 # ============================================================
+#  Una sola dirección por página (para Google)
+#  http:// y www. van a https://alumfer.com.ar con 301, y
+#  /index.html va a la carpeta (/ventanas-de-aluminio/index.html
+#  → /ventanas-de-aluminio/). Si el hosting termina el HTTPS en
+#  un proxy, X-Forwarded-Proto evita el bucle de redirecciones.
+# ============================================================
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  RewriteCond %{HTTP_HOST} ^www\. [NC,OR]
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://alumfer.com.ar%{REQUEST_URI} [R=301,L]
+
+  RewriteCond %{THE_REQUEST} ^[A-Z]+\s/(([^?\s]*/)?)index\.html[?\s] [NC]
+  RewriteRule ^ https://alumfer.com.ar/%1 [R=301,L]
+</IfModule>
+
+# ============================================================
 #  Alumfer — Cache control
 #  Evita que el navegador mezcle versiones viejas (HTML/JS) en
 #  caché. El HTML se revalida siempre; los assets versionados

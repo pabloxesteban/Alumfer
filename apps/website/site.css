@@ -58,8 +58,8 @@
   --blue-soft:  #DCE8F6;
   --blue-tint:  #E6EDF6;
   --blue-light: #4A9DE8;
-  --wa:         #1FAF5A;
-  --wa-hover:   #17994E;
+  --wa:         #15803F;   /* contraste 5:1 con texto blanco */
+  --wa-hover:   #116B34;
 
   --font:  'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono:  'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
@@ -760,13 +760,13 @@ ul, ol { list-style: none; }
 .footer .brand__name { color: #fff; }
 .footer .brand__sub { color: rgba(255,255,255,0.45); }
 .footer__tag { margin-top: 1.25rem; max-width: 30ch; }
-.footer h4 { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.4); font-weight: 500; margin-bottom: 1rem; }
+.footer .footer__h { font-family: var(--mono); font-size: 0.66rem; line-height: 1.6; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.4); font-weight: 500; margin-bottom: 1rem; }
 .footer li + li { margin-top: 0.45rem; }
 .footer a:hover { color: #fff; }
 .footer details summary { cursor: pointer; list-style: none; }
 .footer details summary::-webkit-details-marker { display: none; }
-.footer details summary h4::after { content: ' +'; }
-.footer details[open] summary h4::after { content: ' −'; }
+.footer details summary .footer__h::after { content: ' +'; }
+.footer details[open] summary .footer__h::after { content: ' −'; }
 .footer__zones { columns: 2; column-gap: 1rem; font-size: 0.85rem; }
 .social { display: flex; gap: 0.5rem; margin-top: 1.25rem; }
 .social a { width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,0.16); border-radius: var(--r); }
