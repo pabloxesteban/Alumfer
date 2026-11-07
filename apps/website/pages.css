@@ -367,3 +367,4 @@ a.nearby-link:hover { background: var(--blue); color: #fff; border-color: var(--
   .compare tbody td:last-child { padding-bottom: 0.9rem; }
   .compare td::before { content: attr(data-label) ": "; font-weight: 600; color: var(--ink); }
 }
+.section-intro + .compare-wrap { margin-top: 1.75rem; }

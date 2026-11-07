@@ -210,6 +210,8 @@ ul, ol { list-style: none; }
 }
 .topbar a:hover { color: #fff; }
 .topbar__group { display: flex; gap: 1.5rem; }
+.topbar__addr { display: inline-flex; align-items: center; gap: 0.4rem; }
+.topbar__pin { flex-shrink: 0; color: var(--blue-light); }
 
 .nav {
   position: sticky;
@@ -879,7 +881,8 @@ ul, ol { list-style: none; }
 /* ─── Mobile: la mayoría de las visitas. Diseño propio, tipo app ── */
 @media (max-width: 640px) {
   :root { --nav-h: 60px; --gutter: 1.1rem; }
-  .topbar { display: none; }
+  .topbar .wrap { justify-content: center; }
+  .topbar__group:not(:first-child), .topbar__group > :not(.topbar__addr) { display: none; }
   .section { padding-block: 3.75rem; }
   .sec-head { margin-bottom: 1.75rem; gap: 1rem; }
   .sec-tag { padding-bottom: 0.7rem; }
