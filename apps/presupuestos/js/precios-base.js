@@ -66,9 +66,9 @@ window.PRECIOS_BASE = {
     // Rejas: lo único de hierro que hace Alumfer. Sin línea ni color de aluminio.
     { id: 'reja',       grupo: 'Complementos', nombre: 'Reja de hierro redondo',  precioM2: 180000, minM2: 0.70, sinVidrio: true, sinLinea: true, sinColor: true },
     { id: 'reja-2',     grupo: 'Complementos', nombre: 'Reja de hierro cuadrado', precioM2: 200000, minM2: 0.70, sinVidrio: true, sinLinea: true, sinColor: true },
-    // Cortinas solas, para cuando se presupuestan sin abertura.
-    { id: 'cortina-pvc-cajon', grupo: 'Complementos', nombre: 'Cortina de enrollar PVC con cajón', precioM2: 175000, minM2: 0.80, sinVidrio: true, sinLinea: true, sinColor: true },
-    { id: 'cortina-pvc-sola',  grupo: 'Complementos', nombre: 'Cortina de enrollar PVC sin cajón', precioM2: 145000, minM2: 0.80, sinVidrio: true, sinLinea: true, sinColor: true }
+    // Cortinas solas, para cuando se presupuestan sin abertura. Por ahora solo en blanco.
+    { id: 'cortina-pvc-cajon', grupo: 'Complementos', nombre: 'Cortina de enrollar PVC con cajón', precioM2: 175000, minM2: 0.80, sinVidrio: true, sinLinea: true, sinColor: true, colorFijo: 'blanca' },
+    { id: 'cortina-pvc-sola',  grupo: 'Complementos', nombre: 'Cortina de enrollar PVC sin cajón', precioM2: 145000, minM2: 0.80, sinVidrio: true, sinLinea: true, sinColor: true, colorFijo: 'blanca' }
   ],
 
   /* Precio por m² del vidrio (o del policarbonato en techos). */
@@ -146,7 +146,7 @@ window.PRECIOS_BASE = {
     { id: 'mosquitero',   nombre: 'Mosquitero',                 modo: 'm2',     precio:  95000 },
     { id: 'premarco',     nombre: 'Premarco de aluminio',       modo: 'ml',     precio:  22000, ayuda: 'cubre el marco viejo de chapa' },
     { id: 'contramarco',  nombre: 'Contramarco / tapajuntas',   modo: 'ml',     precio:  18000 },
-    { id: 'cortina-pvc',  nombre: 'Cortina de enrollar PVC',    modo: 'm2',     precio: 145000 },
+    { id: 'cortina-pvc',  nombre: 'Cortina de enrollar PVC',    modo: 'm2',     precio: 145000, colorFijo: 'blanca' },
     { id: 'cortina-alu',  nombre: 'Cortina de enrollar aluminio',modo: 'm2',    precio: 210000 },
     // Una sola casilla "Reja"; al marcarla se pregunta el tipo (familia 'reja').
     { id: 'reja-adic',    nombre: 'Reja de hierro redondo',     modo: 'm2',     precio: 180000, familia: 'reja' },
@@ -175,6 +175,8 @@ window.PRECIOS_BASE = {
     validezDias: 7,
     anticipoPct: 50,
     redondeo: 1000,           // redondea el total de cada ítem a múltiplos de $1.000
+    largoBarra: 6000,         // barras de aluminio de 6 m (para la lista de compras)
+    corteSierra: 5,           // mm que se pierden en cada corte
     plazoEntrega: '20 a 30 días hábiles desde la seña y la toma de medidas definitiva.',
     formaPago: 'Efectivo o transferencia bancaria.'
   },

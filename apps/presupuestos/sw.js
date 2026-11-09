@@ -15,7 +15,7 @@
    Si no, el navegador no se entera de que hay algo nuevo.
    ============================================================ */
 
-var VERSION = '2026-11-09.6';
+var VERSION = '2026-11-09.7';
 var CACHE = 'alumfer-presupuestos-' + VERSION;
 
 var ARCHIVOS = [
@@ -34,6 +34,7 @@ var ARCHIVOS = [
   'js/iconos.js',
   'js/precios-base.js',
   'js/calculo.js',
+  'js/materiales.js',
   'js/almacenamiento.js',
   'js/documento.js',
   'js/vendor/jspdf.umd.min.js',

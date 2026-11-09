@@ -223,6 +223,17 @@
       </details>
       </div>
     </section>
+
+    <!-- Solo para Alumfer: no sale en el PDF ni en el WhatsApp del cliente -->
+    <section class="tarjeta tarjeta--interna" id="tarjeta-compras" hidden>
+      <header class="tarjeta__header">
+        <h2><span class="paso paso--interno" aria-hidden="true">✓</span> Para hacer las compras</h2>
+        <span class="etiqueta-interna">Solo para vos</span>
+      </header>
+      <p class="guia">Cuántas barras de aluminio de 6 m hay que comprar, qué vidrios y cuánto sobra.
+        <strong>Esto no le llega al cliente.</strong></p>
+      <button class="btn btn--oscuro btn--grande btn--bloque" id="btn-compras" data-icono="lista">Ver los materiales</button>
+    </section>
   </section>
 
   <!-- ════════ ANTERIORES ════════ -->
@@ -355,6 +366,14 @@
           <span>Plazo de entrega (sale impreso)</span>
           <input type="text" id="gen-plazo">
         </label>
+        <label class="campo">
+          <span>Largo de la barra de aluminio (m)</span>
+          <input type="number" id="gen-barra" step="0.1" min="1" inputmode="decimal">
+        </label>
+        <label class="campo">
+          <span>Lo que se pierde en cada corte (mm)</span>
+          <input type="number" id="gen-corte" step="1" min="0" inputmode="numeric">
+        </label>
         <label class="campo campo--ancho">
           <span>Forma de pago (sale impresa)</span>
           <input type="text" id="gen-pago" placeholder="Ej.: Efectivo o transferencia bancaria.">
@@ -415,6 +434,17 @@
   </div>
 </div>
 
+<!-- Materiales para comprar (uso interno) -->
+<div class="modal" id="modal-compras" hidden>
+  <div class="modal__caja" role="dialog" aria-modal="true" aria-labelledby="compras-titulo">
+    <header class="modal__header">
+      <h2 id="compras-titulo">Para hacer las compras</h2>
+      <button class="btn btn--fantasma" id="btn-cerrar-compras" data-icono="cerrar">Cerrar</button>
+    </header>
+    <div class="modal__cuerpo" id="compras-cuerpo"></div>
+  </div>
+</div>
+
 <!-- Elegir línea, vidrio o color -->
 <div class="modal" id="modal-opciones" hidden>
   <div class="modal__caja modal__caja--chica" role="dialog" aria-modal="true" aria-labelledby="opciones-titulo">
@@ -459,6 +489,7 @@
 <script src="js/iconos.js"></script>
 <script src="js/precios-base.js"></script>
 <script src="js/calculo.js"></script>
+<script src="js/materiales.js"></script>
 <script src="js/almacenamiento.js"></script>
 <script src="js/documento.js"></script>
 <script src="js/vendor/jspdf.umd.min.js"></script>

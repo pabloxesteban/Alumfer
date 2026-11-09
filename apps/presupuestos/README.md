@@ -130,6 +130,27 @@ vidrio en las otras*: un cambio de color en toda la obra es un solo toque.
 Cada tipo arranca con su medida típica (puerta 90 × 205) o con la de otra igual
 ya cargada. Las medidas son de afuera a afuera del marco.
 
+## Para hacer las compras (solo para Alumfer)
+
+Debajo del paso 3 está la tarjeta **Para hacer las compras → Ver los
+materiales**. Con las aberturas del presupuesto calcula, **aproximado**:
+
+- Cuántas **barras de aluminio de 6 m** comprar por línea, perfil y color
+  (marco, hojas, premarco, tapajuntas, mosquitero), cuánto se usa, cuánto sobra
+  y qué retazos quedan. Las piezas curvas (arcos, redondas) se avisan aparte.
+- Los **vidrios**: cada paño con su medida, agrupados por tipo, y los m².
+- Rejas de hierro y cortinas de PVC en **m²**.
+- Los **kilos** de aluminio y su costo, si se carga el peso por metro de cada
+  línea en *Precios → Líneas* (el precio del kilo ya está arriba en Precios).
+
+Cada pieza se cuenta con la medida de afuera a afuera, sin los descuentos de
+fabricación de cada línea: sobra un poco y nunca falta. El largo de la barra y
+lo que se pierde en cada corte se cambian en *Precios → Valores por defecto*.
+
+**Esto nunca le llega al cliente**: no sale en el PDF ni en el WhatsApp del
+presupuesto. La lista se puede mandar por WhatsApp (al proveedor o a uno mismo)
+o copiar.
+
 ## Entregar el presupuesto
 
 | Botón | En el celular | En la computadora |
@@ -268,6 +289,7 @@ apps/presupuestos/
     ├── dolar.js          Cotización del blue, con fuente de respaldo
     ├── formato.js        Moneda, fechas, teléfonos, parsing de números
     ├── calculo.js        Motor de cálculo (funciones puras, sin DOM)
+    ├── materiales.js     Lista de compras aproximada (sin DOM)
     ├── almacenamiento.js localStorage, numeración e import/export
     ├── documento.js      Hoja imprimible, condiciones, mensajes de WhatsApp y email
     ├── pdf.js            PDF del presupuesto (A4, varias páginas)

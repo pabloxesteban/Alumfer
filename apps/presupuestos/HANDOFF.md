@@ -28,7 +28,7 @@ guarda sus propios datos en `localStorage` — no hay servidor ni sincronizació
 - `main` incluye **todo** lo de presupuestos más trabajo del sitio hecho en otras
   sesiones (PRs #39 a #48).
 - Rama de la última sesión: `claude/intelligent-maxwell-d43hn3`, igual a `main`.
-- Versión publicada: **2026-11-09.3** (.1: PDF real, compartir, clientes, Tu empresa · .2: rediseño suave y palabras claras · .3: hojas como pregunta y una abertura abierta a la vez · .4: vidrio en dos pasos, formas especiales y ¿Dónde va? · .5: catálogo completo del sitio · .6: obras grandes al estilo OP 2.1, rejas de hierro).
+- Versión publicada: **2026-11-09.3** (.1: PDF real, compartir, clientes, Tu empresa · .2: rediseño suave y palabras claras · .3: hojas como pregunta y una abertura abierta a la vez · .4: vidrio en dos pasos, formas especiales y ¿Dónde va? · .5: catálogo completo del sitio · .6: obras grandes al estilo OP 2.1, rejas de hierro · .7: lista de materiales para comprar, cortinas blancas).
 
 **Flujo de publicación (Pablo lo autorizó explícitamente, no hay que preguntar
 cada vez):** commit en la rama → `git checkout main && git merge --ff-only <rama>`
@@ -54,6 +54,7 @@ apps/presupuestos/
     ├── dolar.js          Blue: dolarapi.com, con bluelytics de respaldo
     ├── precios-base.js   Lista de fábrica (semilla) + datos de la empresa
     ├── calculo.js        Motor de cálculo puro, sin DOM (se puede probar en Node)
+    ├── materiales.js     Lista de compras aproximada (barras de 6 m, vidrios), sin DOM
     ├── almacenamiento.js localStorage, numeración anual, export/import
     ├── documento.js      Hoja imprimible, condiciones, textos de WhatsApp y email
     ├── pdf.js            PDF A4 real (jsPDF), con dibujos, varias páginas
@@ -240,7 +241,34 @@ Documentación completa en `apps/presupuestos/README.md`.
     - No se copió el "grupo de productos" acoplado (PF1a, PF1b…, precio global):
       necesita perfiles de acople y su precio. Si hiciera falta, el lugar ya
       agrupa y suma.
-27. Los efectos `:hover` de lo que se toca van dentro de `@media (hover: hover)`:
+27. **Lista de materiales para comprar** ("Para hacer las compras", tarjeta
+    punteada debajo del paso 3; `js/materiales.js`, puro y probable en Node).
+    Pedido de Pablo inspirado en el cómputo y la optimización lineal de OP 2.1.
+    **Es solo para Alumfer: no la usan `documento.js` ni `pdf.js`, así que
+    nunca llega al cliente** (lo verifica la prueba).
+    - Sin la base de perfiles de OP (códigos, descuentos de fabricación), es
+      **aproximada y del lado seguro**: piezas con la medida de afuera a afuera.
+      Marco (puertas sin umbral, de 3 lados; formas: lados reales, arco y
+      redonda como pieza curvada), hojas (ancho / hojas × alto), premarco,
+      tapajuntas y hoja de mosquitero cuando se marcan.
+    - Agrupa por **línea + perfil + color** (como se compran) y acomoda en
+      barras de `generales.largoBarra` (6 m) dejando `corteSierra` (5 mm) por
+      corte: el más largo primero, en la primera barra donde entre. Muestra
+      barras, metros usados, sobrante y retazos (desde 30 cm; los más chicos se
+      cuentan como "recortes chicos"). Piezas más largas que la barra: empalme.
+    - Vidrios: un paño por hoja con su medida (cm), agrupados por tipo, y m².
+      Formas: el rectángulo que las contiene, marcado "corte especial".
+    - Rejas de hierro y cortinas de PVC: en m² (no son barras de aluminio).
+    - **Kilos**: solo si en Precios → Líneas se carga "Peso (kg por metro)"
+      (`kgMetro`); se calculan sobre las barras compradas. Con el precio del
+      kilo cargado arriba en Precios, muestra el costo aproximado en pesos.
+    - Largo de barra, corte y peso por metro se toman **de los datos de hoy**,
+      aunque el presupuesto sea viejo (no son precios).
+    - La lista se puede mandar por WhatsApp sin número (WhatsApp pregunta a
+      quién: el proveedor o uno mismo) o copiar.
+28. **Cortinas de PVC: solo blancas** (`colorFijo: 'blanca'` en las tipologías
+    y en el agregado): no piden color y el presupuesto dice "blanca".
+29. Los efectos `:hover` de lo que se toca van dentro de `@media (hover: hover)`:
     en pantallas táctiles el hover queda pegado después del toque.
 
 ---
@@ -264,8 +292,10 @@ Documentación completa en `apps/presupuestos/README.md`.
    el PDF a WhatsApp y a Gmail, y "Descargar PDF" en iPhone. En la sesión se
    probó en Chromium con `navigator.share` simulado; la lista para compartir de
    verdad no se puede abrir en un navegador de prueba.
-1. **Colores de las cortinas de PVC**: el sitio dice "blanco y distintos
-   colores", sin lista. Hoy la cortina no pide color.
+1. **Afinar la lista de materiales con los datos reales de cada línea**: peso
+   por metro (para los kilos y el costo) y, si se quiere precisión de taller,
+   los descuentos de fabricación de cada perfil y qué perfiles lleva cada
+   tipología. Hoy es una estimación del lado seguro.
 1. **Validar con el papá cómo cobra las formas especiales** (¿rectángulo que
    la contiene + recargo?, ¿cuánto por arco/curvado?) y cargar los recargos en
    Precios → Formas especiales.
@@ -296,6 +326,9 @@ motor = guardado → PDF descargado → compartir por WhatsApp y email (share
 simulado con `addInitScript`) → reintento con `NotAllowedError` → sugerencia de
 cliente en un presupuesto nuevo → presupuesto de 22 aberturas en 3 páginas →
 logo propio → computadora sin share (abre `wa.me` + descarga) → hoja impresa.
+Prueba de la lista de materiales (17 chequeos): barras, retazos, curvado,
+vidrios, m², kilos con peso por metro, barra de 6,5 m, y que **ni el PDF ni el
+WhatsApp del cliente** tengan nada de materiales.
 Prueba de un quincho de varias piezas (12 chequeos): códigos, lista agrupada
 con subtotales, color y vidrio aplicados a todas sin tocar la reja, rejas
 redondo/cuadrado, aclaración de medidas. Prueba del catálogo (26 chequeos).

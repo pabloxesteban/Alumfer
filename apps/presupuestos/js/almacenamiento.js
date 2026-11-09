@@ -115,7 +115,7 @@ window.Almacenamiento = (function () {
   /* Productos de fábrica que se dejaron de ofrecer (Alumfer trabaja aluminio y vidrio; de hierro, solo rejas). */
   var QUITADOS = { adicionales: ['refuerzo', 'cierrapuertas', 'zocalo'] };
   /* Datos de cada producto que no son precio y vienen de fábrica: se completan siempre. */
-  var MARCAS = ['grupo', 'sinLinea', 'sinColor', 'sinVidrio', 'familia'];
+  var MARCAS = ['grupo', 'sinLinea', 'sinColor', 'sinVidrio', 'familia', 'colorFijo'];
 
   /**
    * Pone al día la lista guardada con el catálogo de fábrica, una sola vez por

@@ -503,6 +503,43 @@ textarea { resize: vertical; min-height: 4rem; }
 }
 .logo-empresa__botones { display: flex; flex-direction: column; gap: var(--space-2); }
 
+/* ─── Para hacer las compras (solo para Alumfer) ─────────── */
+.tarjeta--interna { background: #fffaf0; border: 2px dashed #e7c96b; box-shadow: none; }
+.paso--interno { background: #8a6a12; }
+.etiqueta-interna {
+  font-size: var(--text-sm); font-weight: 700; color: #6b520e; background: #fbe7a8;
+  border-radius: 999px; padding: var(--space-1) var(--space-3);
+}
+.btn--oscuro { background: var(--carbon); color: #fff; }
+@media (hover: hover) { .btn--oscuro:hover { background: var(--steel); } }
+
+.compras-aviso {
+  margin: 0 0 var(--space-5); padding: var(--space-4); border-radius: 14px;
+  background: #fff7e0; border: 1.5px solid #f0d58a; font-size: var(--text-base);
+}
+.compras-resumen { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: var(--space-3); margin-bottom: var(--space-3); }
+.compras-dato { background: #fff; border-radius: 16px; padding: var(--space-4); box-shadow: var(--sombra); display: flex; flex-direction: column; }
+.compras-dato strong { font-family: 'Montserrat', var(--font); font-size: var(--text-xl); line-height: 1.1; font-variant-numeric: tabular-nums; }
+.compras-dato span { font-size: var(--text-sm); color: var(--text-secondary); }
+.compras-titulo { font-size: var(--text-md); margin: var(--space-6) 0 var(--space-3); }
+.compras-grupo {
+  margin: var(--space-4) 0 var(--space-2); font-size: var(--text-sm); font-weight: 700;
+  text-transform: uppercase; letter-spacing: var(--tracking-wide); color: #10508f;
+}
+.compras-fila {
+  background: #fff; border: 1.5px solid var(--border-light); border-radius: 16px;
+  padding: var(--space-3) var(--space-4); margin-bottom: var(--space-2);
+  display: flex; flex-direction: column; gap: 2px;
+}
+.compras-fila__titulo { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3); }
+.compras-fila__titulo strong { font-size: var(--text-md); }
+.compras-fila__titulo b { font-family: 'Montserrat', var(--font); font-size: var(--text-lg); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.compras-fila > span { font-size: var(--text-sm); color: var(--text-secondary); }
+.compras-ojo { color: #7a5600 !important; font-weight: 600; }
+.compras-panos { margin: var(--space-1) 0 0; padding-left: var(--space-5); font-variant-numeric: tabular-nums; }
+.compras-panos em { color: #7a5600; font-style: normal; font-size: var(--text-sm); }
+.compras-acciones { margin-top: var(--space-6); }
+
 /* ─── Barra fija de total ────────────────────────────────── */
 .barra-total {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;

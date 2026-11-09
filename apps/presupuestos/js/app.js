@@ -932,6 +932,7 @@
     $('btn-agregar-item').lastChild.textContent = hay ? 'Agregar otra abertura' : 'Agregar una abertura';
     $('entrega').hidden = !hay;
     $('entrega-vacia').hidden = hay;
+    $('tarjeta-compras').hidden = !hay;
     renderTotales();
   }
 
@@ -1148,12 +1149,15 @@
     $('gen-redondeo').value = precios.generales.redondeo;
     $('gen-plazo').value = precios.generales.plazoEntrega || '';
     $('gen-pago').value = precios.generales.formaPago || '';
+    $('gen-barra').value = (Number(precios.generales.largoBarra) || 6000) / 1000;
+    $('gen-corte').value = precios.generales.corteSierra != null ? precios.generales.corteSierra : 5;
     renderEmpresa();
 
     tablaEditable('tabla-lineas', precios.lineas, [
       { campo: 'nombre', etiqueta: 'Línea', clase: 'col-nombre' },
       { campo: 'ayuda', etiqueta: 'Descripción' },
-      { campo: 'factor', etiqueta: 'Multiplicador', tipo: 'numero', paso: 0.01, clase: 'col-min' }
+      { campo: 'factor', etiqueta: 'Multiplicador', tipo: 'numero', paso: 0.01, clase: 'col-min' },
+      { campo: 'kgMetro', etiqueta: 'Peso (kg por metro)', tipo: 'numero', paso: 0.01, clase: 'col-min' }
     ], { prefijo: 'ln_', nuevo: { nombre: 'Línea nueva', factor: 1 } });
 
     tablaEditable('tabla-tipologias', precios.tipologias, [
@@ -1520,6 +1524,159 @@
       : 'Se abre WhatsApp con el resumen y el PDF queda en <strong>Descargas</strong> para adjuntarlo con el clip.';
   }
 
+  /* ════════ Para hacer las compras (solo para Alumfer) ════════ */
+
+  /*
+   * Lista de materiales aproximada: barras de aluminio, vidrios y lo que va
+   * por m². Es de uso interno: no se usa en documento.js ni en pdf.js, así
+   * que nunca le llega al cliente.
+   */
+  var M = window.Materiales;
+
+  function metros(mm) { return F.numero(mm / 1000, 2) + ' m'; }
+  function cm(mm) { return F.numero(mm / 10, 0); }
+
+  /** Retazos que sirven (desde 30 cm) uno por uno; los más chicos, contados. */
+  function retazosTexto(retazos) {
+    var sirven = retazos.filter(function (x) { return x >= 300; });
+    var chicos = retazos.length - sirven.length;
+    if (!retazos.length) return '';
+    return '<span>' + (sirven.length ? 'Retazos que quedan: ' + sirven.map(metros).join(' · ') : 'Sin retazos que sirvan') +
+      (chicos ? (sirven.length ? ', y ' : ' (') + chicos + (chicos === 1 ? ' recorte chico' : ' recortes chicos') + (sirven.length ? '' : ')') : '') +
+      '</span>';
+  }
+
+  function abrirCompras() {
+    if (!actual.items.length) return;
+    leerFormulario();
+    // Medidas y lo que se usa: las del presupuesto. Barra, corte y peso por metro
+    // no son precios: se toman de los datos de hoy (Precios), aunque el presupuesto sea viejo.
+    var p = Object.assign({}, preciosDelPresupuesto());
+    p.generales = Object.assign({}, p.generales, {
+      largoBarra: precios.generales.largoBarra, corteSierra: precios.generales.corteSierra
+    });
+    p.lineas = (p.lineas || []).map(function (l) {
+      var hoy = C.buscar(precios.lineas, l.id);
+      return Object.assign({}, l, { kgMetro: hoy ? hoy.kgMetro : l.kgMetro });
+    });
+    var m = M.calcular(actual, p);
+    var t = m.totales;
+    var barra = F.numero(m.largoBarra / 1000, m.largoBarra % 1000 ? 1 : 0) + ' m';
+    var h = [];
+
+    h.push('<p class="compras-aviso"><strong>Solo para vos:</strong> esto no sale en el presupuesto del cliente. ' +
+      'Es aproximado: cada pieza se cuenta con la medida de afuera a afuera, sin los descuentos de cada línea, ' +
+      'así que sobra un poco y nunca falta.</p>');
+
+    // Resumen grande
+    var kgTxt = '';
+    if (t.kg > 0) {
+      var alu = precios.aluminio || {};
+      var dolar = window.Dolar.guardado();
+      var kilo = Number(alu.precio) || 0;
+      var kiloArs = alu.moneda === 'ars' ? kilo : (dolar && dolar.venta ? kilo * dolar.venta : 0);
+      kgTxt = '<div class="compras-dato"><strong>≈ ' + F.numero(t.kg, 0) + ' kg</strong><span>de aluminio' +
+        (t.kgCompleto ? '' : ' (faltan líneas sin peso)') +
+        (kiloArs ? ' · ≈ ' + F.moneda(t.kg * kiloArs) : '') + '</span></div>';
+    }
+    h.push('<div class="compras-resumen">' +
+      '<div class="compras-dato"><strong>' + t.barras + (t.barras === 1 ? ' barra' : ' barras') + '</strong><span>de aluminio de ' + barra + '</span></div>' +
+      '<div class="compras-dato"><strong>≈ ' + F.numero(t.metrosSobran, 1) + ' m</strong><span>sobran en retazos</span></div>' +
+      (t.m2Vidrio ? '<div class="compras-dato"><strong>' + F.numero(t.m2Vidrio, 2) + ' m²</strong><span>de vidrio o placa</span></div>' : '') +
+      kgTxt +
+    '</div>');
+    if (!t.kg) h.push('<p class="apunte">Para ver los kilos y lo que cuesta el aluminio, cargá el peso por metro de cada línea en <strong>Precios → Líneas</strong>.</p>');
+
+    // Aluminio
+    if (m.perfiles.length) {
+      h.push('<h3 class="compras-titulo">Aluminio, en barras de ' + barra + '</h3>');
+      var grupoAnterior = '';
+      m.perfiles.forEach(function (g) {
+        var cab = [g.linea ? 'Línea ' + g.linea : '', g.color].filter(Boolean).join(' · ');
+        if (cab !== grupoAnterior) { grupoAnterior = cab; h.push('<p class="compras-grupo">' + F.escapar(cab || 'Sin línea') + '</p>'); }
+        h.push('<div class="compras-fila">' +
+          '<div class="compras-fila__titulo"><strong>' + F.escapar(g.perfil) + '</strong>' +
+            '<b>' + g.barras + (g.barras === 1 ? ' barra' : ' barras') + '</b></div>' +
+          '<span>' + g.piezas + (g.piezas === 1 ? ' pieza' : ' piezas') + ' · se usan ' + metros(g.usadoMm) + ' · sobran ' + metros(g.sobranteMm) + '</span>' +
+          retazosTexto(g.retazos) +
+          (g.curvas ? '<span class="compras-ojo">Va curvado: ' + g.curvas + (g.curvas === 1 ? ' pieza' : ' piezas') + ' para curvar.</span>' : '') +
+          (g.empalmes ? '<span class="compras-ojo">' + g.empalmes + (g.empalmes === 1 ? ' pieza es' : ' piezas son') + ' más larga que la barra: lleva empalme.</span>' : '') +
+          (g.kg ? '<span>≈ ' + F.numero(g.kg, 1) + ' kg</span>' : '') +
+        '</div>');
+      });
+    }
+
+    // Vidrios
+    if (m.vidrios.length) {
+      h.push('<h3 class="compras-titulo">Vidrios y placas</h3>');
+      m.vidrios.forEach(function (v) {
+        h.push('<div class="compras-fila">' +
+          '<div class="compras-fila__titulo"><strong>' + F.escapar(v.vidrio) + '</strong>' +
+            '<b>' + F.numero(v.m2, 2) + ' m²</b></div>' +
+          '<ul class="compras-panos">' + v.panos.map(function (q) {
+            return '<li><b>' + q.cantidad + ' ×</b> ' + cm(q.ancho) + ' × ' + cm(q.alto) + ' cm' +
+              (q.especial ? ' <em>(corte ' + ({ inclinada: 'inclinado', triangulo: 'triangular', arco: 'con arco', redonda: 'redondo' }[q.especial] || 'especial') + ')</em>' : '') + '</li>';
+          }).join('') + '</ul>' +
+        '</div>');
+      });
+    }
+
+    // Por m²
+    if (m.m2.length) {
+      h.push('<h3 class="compras-titulo">Por metro cuadrado</h3>');
+      m.m2.forEach(function (x) {
+        h.push('<div class="compras-fila"><div class="compras-fila__titulo"><strong>' + F.escapar(x.nombre) + '</strong>' +
+          '<b>' + F.numero(x.m2, 2) + ' m²</b></div><span>' + x.unidades + (x.unidades === 1 ? ' unidad' : ' unidades') + '</span></div>');
+      });
+    }
+
+    h.push('<div class="acciones-finales compras-acciones">' +
+      '<button class="btn btn--whatsapp btn--grande btn--bloque" id="btn-compras-whatsapp" data-icono="whatsapp">Mandar la lista por WhatsApp</button>' +
+      '<button class="btn btn--fantasma btn--bloque" id="btn-compras-copiar" data-icono="copiar">Copiar la lista</button>' +
+    '</div>');
+
+    $('compras-cuerpo').innerHTML = h.join('');
+    ponerIconos($('compras-cuerpo'));
+    $('compras-cuerpo')._texto = textoCompras(m, barra);
+    $('modal-compras').hidden = false;
+    $('compras-cuerpo').scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function cerrarCompras() {
+    $('modal-compras').hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  /** La lista en texto, para mandarla al proveedor o guardarla. */
+  function textoCompras(m, barra) {
+    var L = [];
+    var cli = (actual.cliente && actual.cliente.nombre) || '';
+    L.push('*Materiales ' + (actual.numero || '') + (cli ? ' — ' + cli : '') + '* (aproximado)');
+    if (m.perfiles.length) {
+      L.push('', '*Aluminio (barras de ' + barra + ')*');
+      m.perfiles.forEach(function (g) {
+        L.push('• ' + [g.linea ? 'Línea ' + g.linea : '', g.perfil, g.color].filter(Boolean).join(' · ') + ': ' +
+          g.barras + (g.barras === 1 ? ' barra' : ' barras') + (g.curvas ? ' (curvado)' : ''));
+      });
+      L.push('Total: ' + m.totales.barras + ' barras' + (m.totales.kg ? ' · ≈ ' + F.numero(m.totales.kg, 0) + ' kg' : ''));
+    }
+    if (m.vidrios.length) {
+      L.push('', '*Vidrios y placas*');
+      m.vidrios.forEach(function (v) {
+        L.push('• ' + v.vidrio + ' (' + F.numero(v.m2, 2) + ' m²):');
+        v.panos.forEach(function (q) {
+          L.push('   ' + q.cantidad + ' × ' + cm(q.ancho) + ' × ' + cm(q.alto) + ' cm' + (q.especial ? ' (corte especial)' : ''));
+        });
+      });
+    }
+    if (m.m2.length) {
+      L.push('', '*Por metro cuadrado*');
+      m.m2.forEach(function (x) { L.push('• ' + x.nombre + ': ' + F.numero(x.m2, 2) + ' m²'); });
+    }
+    return L.join('\n');
+  }
+
   /* ════════ Clientes anteriores ════════ */
 
   function sugerirClientes() {
@@ -1641,6 +1798,7 @@
       if (ev.key === 'Escape' && !$('modal-tipos').hidden) cerrarSelectorTipo();
       if (ev.key === 'Escape' && !$('modal-listo').hidden) cerrarListo();
       if (ev.key === 'Escape' && !$('modal-opciones').hidden) cerrarOpciones();
+      if (ev.key === 'Escape' && !$('modal-compras').hidden) cerrarCompras();
     });
 
     var lista = $('lista-items');
@@ -1815,6 +1973,22 @@
     $('btn-listo-cancelar').addEventListener('click', cerrarListo);
 
     $('btn-cerrar-opciones').addEventListener('click', cerrarOpciones);
+
+    $('btn-compras').addEventListener('click', abrirCompras);
+    $('btn-cerrar-compras').addEventListener('click', cerrarCompras);
+    $('modal-compras').addEventListener('click', function (ev) {
+      if (ev.target === $('modal-compras')) return cerrarCompras();
+      var texto = $('compras-cuerpo')._texto || '';
+      if (ev.target.closest('#btn-compras-whatsapp')) {
+        // Sin número: WhatsApp pregunta a quién (al proveedor, o a uno mismo para tenerla).
+        window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
+      }
+      if (ev.target.closest('#btn-compras-copiar')) {
+        copiar(texto.replace(/\*/g, ''))
+          .then(function () { avisar('Lista copiada'); })
+          .catch(function () { avisar('No se pudo copiar automáticamente.', 'error'); });
+      }
+    });
     $('modal-opciones').addEventListener('click', function (ev) {
       if (ev.target === $('modal-opciones')) return cerrarOpciones();
       var op = ev.target.closest('[data-opcion]');
@@ -1944,6 +2118,15 @@
       A.guardarPrecios(precios);
       renderPrecios();
       avisar('Precios originales restaurados');
+    });
+
+    ['gen-barra', 'gen-corte'].forEach(function (id) {
+      $(id).addEventListener('input', function () {
+        // No son precios: no marcan los presupuestos como calculados con precios viejos.
+        precios.generales.largoBarra = Math.round(F.aNumero($('gen-barra').value) * 1000) || 6000;
+        precios.generales.corteSierra = F.aNumero($('gen-corte').value);
+        A.guardarPrecios(precios);
+      });
     });
 
     ['gen-min-m2', 'gen-redondeo', 'gen-plazo', 'gen-pago'].forEach(function (id) {

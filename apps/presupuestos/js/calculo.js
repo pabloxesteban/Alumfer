@@ -139,6 +139,7 @@ window.Calculo = (function () {
     var forma = formaDe(item);
     if (forma !== 'rect') partes.push('forma ' + NOMBRE_FORMA[forma]);
     if (linea) partes.push('Línea ' + linea.nombre);
+    if (tip && tip.colorFijo) partes.push(tip.colorFijo);           // cortinas de PVC: solo blancas
     if (color) partes.push(color.nombre.toLowerCase());
     if (tip && !tip.sinVidrio && vidrio && vidrio.id !== 'sin') {
       // "vidrio Simple 4 mm"; los paneles ya dicen qué son ("Poliestireno Bebé", "Policarbonato alveolar 6 mm opal").
@@ -148,7 +149,8 @@ window.Calculo = (function () {
     }
     (item.adicionales || []).forEach(function (aid) {
       var ad = buscar(precios.adicionales, aid);
-      if (ad) partes.push('con ' + ad.nombre.toLowerCase());
+      // Primera letra en minúscula, sin tocar siglas: "con cortina de enrollar PVC blanca".
+      if (ad) partes.push('con ' + ad.nombre.charAt(0).toLowerCase() + ad.nombre.slice(1) + (ad.colorFijo ? ' ' + ad.colorFijo : ''));
     });
     return {
       titulo: tip ? tip.nombre : 'Ítem',
