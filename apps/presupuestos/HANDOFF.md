@@ -23,6 +23,34 @@ guarda sus propios datos en `localStorage` — no hay servidor ni sincronizació
 
 ---
 
+## 1 bis. Lo que se espera ahora (9/11)
+
+**La prioridad de Pablo es que los precios sean los reales.** Va a hablar con
+su papá para averiguar las fórmulas y los precios. Las preguntas que se le
+pasaron para esa charla:
+
+1. ¿Cómo calcula hoy un precio? ¿Por m² según el tipo de abertura (es lo que
+   hace la app), o desde los costos (kilos de aluminio × precio del kilo +
+   vidrio + herrajes + mano de obra) multiplicados por un coeficiente? **Si es
+   lo segundo, el motor de `calculo.js` hay que cambiarlo.**
+2. ¿Cuánto vale cada tipo de abertura (o su $/m²)? ¿Cobra un mínimo en las chicas?
+3. ¿Cuánto más cara es cada línea respecto de la Herrero?
+4. ¿Cuánto recarga cada color, pintado y anodizado?
+5. Vidrios: ¿cuánto cobra y cuánto paga el m² de cada uno?
+6. Mosquitero, premarco, tapajuntas, cortina, reja: ¿cómo los cobra (por m²,
+   por metro, por unidad) y cuánto?
+7. Colocación y flete: ¿porcentaje, por m² o monto fijo?
+8. Formas especiales (inclinadas, triangulares, arcos, redondas): ¿cómo las cobra?
+9. ¿Redondea los precios? ¿Cuánta seña pide? ¿Cuántos días vale el presupuesto?
+   ¿Forma de pago y plazo de entrega?
+10. ¿Factura con IVA o da precio final?
+11. Para la ganancia: precio del kilo, peso por metro de cada línea, herrajes y
+    mano de obra por abertura.
+12. Para la lista de materiales: descuentos de fabricación de cada perfil por línea.
+
+**Los precios reales se cargan desde la app (pestaña Precios), nunca en
+`precios-base.js`: el repo es público.**
+
 ## 2. Estado del repositorio
 
 - `main` incluye **todo** lo de presupuestos más trabajo del sitio hecho en otras
@@ -381,7 +409,18 @@ Por valor para el negocio y riesgo, en este orden:
    mucho, no entrarían en la copia de seguridad y no compensaba.
 5. Resumen del mes: cuánto se presupuestó, cuánto se aceptó.
 
-### Base de datos en la nube (consultado el 9/11, sin decidir)
+### Base de datos en la nube: **Firebase elegido, en pausa** (9/11)
+
+Pablo eligió Firebase y después lo dejó para más adelante: primero quiere
+los precios y fórmulas reales. Ya se le pasó la guía de la consola (crear
+proyecto "Alumfer Presupuestos" sin Analytics ni Gemini y **sin pasar a
+Blaze**; app web sin Hosting; Authentication → Google + dominio autorizado
+`pabloxesteban.github.io`; Firestore Standard en `southamerica-east1`, **modo
+producción**). Para retomar hace falta que mande el `firebaseConfig` y los dos
+emails de Google con acceso; ahí se le pasan las reglas (solo esos emails) y
+se implementa el login, la sincronización y la subida de lo existente.
+
+#### Opciones evaluadas
 
 Hoy todo vive en `localStorage` de un teléfono. Pablo preguntó por una forma
 económica de guardarlo en una base de datos. Volumen: cada presupuesto pesa
