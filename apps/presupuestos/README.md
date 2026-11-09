@@ -9,6 +9,9 @@ Está pensada para usarse sin práctica previa: la pantalla va en tres pasos
 tocando su dibujo, las medidas van en centímetros y todo lo que se usa poco
 queda plegado.
 
+> Para retomar el trabajo desde cero —decisiones tomadas, pendientes y trampas ya
+> encontradas— está [`HANDOFF.md`](HANDOFF.md).
+
 > **Es de uso interno.** No se publica en alumfer.com.ar: el workflow de FTP
 > solo sube `apps/website/`. Se sirve aparte, por GitHub Pages (ver abajo).
 

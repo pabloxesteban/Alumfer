@@ -37,7 +37,7 @@ jobs:
           fi
 
           CAMBIOS=$(git diff --name-only "$ANTES" "${{ github.sha }}" -- apps/presupuestos/ \
-                    | grep -v -E 'apps/presupuestos/(README\.md|sw\.js)$' || true)
+                    | grep -v -E 'apps/presupuestos/.*\.md$|apps/presupuestos/sw\.js$' || true)
 
           if [ -z "$CAMBIOS" ]; then
             echo "No cambió ningún archivo que se sirva desde el celular."
