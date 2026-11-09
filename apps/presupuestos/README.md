@@ -120,9 +120,15 @@ usan (WhatsApp y PDF), así no hay que buscarlos.
    rejas, postigones y cortinas no piden línea; las cortinas de PVC tampoco color.
 6. **Listo:** la abertura queda resumida en un renglón; se toca para cambiarla.
 
-**Un quincho:** cada pieza (corredizas, paños fijos, el triángulo del frontis)
-se carga como una abertura y se marca *¿Dónde va? → Quincho*. En el PDF salen
-juntas bajo el título QUINCHO con su subtotal.
+**Un quincho u obra grande:** cada pieza (corredizas, paños fijos, el
+triángulo del frontis) se carga como una abertura y se marca *¿Dónde va? →
+Quincho*. En la pantalla y en el PDF salen juntas bajo el título QUINCHO con su
+subtotal. Cada abertura tiene un código (V1, PF1, P1, PB1, R1…) para hablar de
+"la V3" con el cliente y en la obra. Al elegir línea o color está la casilla
+*Cambiarlo también en las otras aberturas*, y en el vidrio el botón *Poner este
+vidrio en las otras*: un cambio de color en toda la obra es un solo toque.
+Cada tipo arranca con su medida típica (puerta 90 × 205) o con la de otra igual
+ya cargada. Las medidas son de afuera a afuera del marco.
 
 ## Entregar el presupuesto
 

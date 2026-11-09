@@ -63,9 +63,9 @@ window.PRECIOS_BASE = {
     { id: 'mosq-corr',  grupo: 'Complementos', nombre: 'Mosquitero corredizo',  precioM2:  95000, minM2: 0.50, sinVidrio: true, sinLinea: true },
     { id: 'mosq-fijo',  grupo: 'Complementos', nombre: 'Mosquitero fijo',       precioM2:  75000, minM2: 0.40, sinVidrio: true, sinLinea: true },
     { id: 'postigon',   grupo: 'Complementos', nombre: 'Postigón de aluminio',  precioM2: 230000, minM2: 0.80, sinVidrio: true, sinLinea: true },
-    // Dos estilos de reja: los nombres definitivos los pasa Alumfer (se pueden cambiar en Precios).
-    { id: 'reja',       grupo: 'Complementos', nombre: 'Reja de aluminio tipo 1', precioM2: 180000, minM2: 0.70, sinVidrio: true, sinLinea: true },
-    { id: 'reja-2',     grupo: 'Complementos', nombre: 'Reja de aluminio tipo 2', precioM2: 200000, minM2: 0.70, sinVidrio: true, sinLinea: true },
+    // Rejas: lo único de hierro que hace Alumfer. Sin línea ni color de aluminio.
+    { id: 'reja',       grupo: 'Complementos', nombre: 'Reja de hierro redondo',  precioM2: 180000, minM2: 0.70, sinVidrio: true, sinLinea: true, sinColor: true },
+    { id: 'reja-2',     grupo: 'Complementos', nombre: 'Reja de hierro cuadrado', precioM2: 200000, minM2: 0.70, sinVidrio: true, sinLinea: true, sinColor: true },
     // Cortinas solas, para cuando se presupuestan sin abertura.
     { id: 'cortina-pvc-cajon', grupo: 'Complementos', nombre: 'Cortina de enrollar PVC con cajón', precioM2: 175000, minM2: 0.80, sinVidrio: true, sinLinea: true, sinColor: true },
     { id: 'cortina-pvc-sola',  grupo: 'Complementos', nombre: 'Cortina de enrollar PVC sin cajón', precioM2: 145000, minM2: 0.80, sinVidrio: true, sinLinea: true, sinColor: true }
@@ -149,8 +149,8 @@ window.PRECIOS_BASE = {
     { id: 'cortina-pvc',  nombre: 'Cortina de enrollar PVC',    modo: 'm2',     precio: 145000 },
     { id: 'cortina-alu',  nombre: 'Cortina de enrollar aluminio',modo: 'm2',    precio: 210000 },
     // Una sola casilla "Reja"; al marcarla se pregunta el tipo (familia 'reja').
-    { id: 'reja-adic',    nombre: 'Reja de aluminio tipo 1',    modo: 'm2',     precio: 180000, familia: 'reja' },
-    { id: 'reja-adic-2',  nombre: 'Reja de aluminio tipo 2',    modo: 'm2',     precio: 200000, familia: 'reja' },
+    { id: 'reja-adic',    nombre: 'Reja de hierro redondo',     modo: 'm2',     precio: 180000, familia: 'reja' },
+    { id: 'reja-adic-2',  nombre: 'Reja de hierro cuadrado',    modo: 'm2',     precio: 200000, familia: 'reja' },
     { id: 'multipunto',   nombre: 'Cierre multipunto',          modo: 'unidad', precio:  95000 }
   ],
 

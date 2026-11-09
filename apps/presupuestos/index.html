@@ -128,7 +128,8 @@
         <h2><span class="paso">2</span> ¿Qué aberturas lleva?</h2>
         <span class="apunte" id="resumen-items"></span>
       </header>
-      <p class="guia">Agregá una por una. Si hay varias iguales, cargala una vez y poné cuántas son.</p>
+      <p class="guia">Agregá una por una. Si hay varias iguales, cargala una vez y poné cuántas son.
+        En una obra grande, marcá en cada una dónde va (Quincho, Baño…) y quedan agrupadas.</p>
 
       <div id="lista-items" class="lista-items"></div>
 
@@ -422,6 +423,11 @@
       <button class="btn btn--fantasma" id="btn-cerrar-opciones" data-icono="cerrar">Cerrar</button>
     </header>
     <div class="modal__cuerpo">
+      <label class="opciones-todas" id="opciones-todas" hidden>
+        <input type="checkbox" id="opciones-todas-check">
+        <span class="extra__tilde" aria-hidden="true"></span>
+        <span id="opciones-todas-texto">Cambiarlo también en las otras aberturas</span>
+      </label>
       <div class="opciones" id="opciones-lista"></div>
     </div>
   </div>

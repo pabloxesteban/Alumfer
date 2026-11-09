@@ -28,7 +28,7 @@ guarda sus propios datos en `localStorage` — no hay servidor ni sincronizació
 - `main` incluye **todo** lo de presupuestos más trabajo del sitio hecho en otras
   sesiones (PRs #39 a #48).
 - Rama de la última sesión: `claude/intelligent-maxwell-d43hn3`, igual a `main`.
-- Versión publicada: **2026-11-09.3** (.1: PDF real, compartir, clientes, Tu empresa · .2: rediseño suave y palabras claras · .3: hojas como pregunta y una abertura abierta a la vez · .4: vidrio en dos pasos, formas especiales y ¿Dónde va? · .5: catálogo completo del sitio).
+- Versión publicada: **2026-11-09.3** (.1: PDF real, compartir, clientes, Tu empresa · .2: rediseño suave y palabras claras · .3: hojas como pregunta y una abertura abierta a la vez · .4: vidrio en dos pasos, formas especiales y ¿Dónde va? · .5: catálogo completo del sitio · .6: obras grandes al estilo OP 2.1, rejas de hierro).
 
 **Flujo de publicación (Pablo lo autorizó explícitamente, no hay que preguntar
 cada vez):** commit en la rama → `git checkout main && git merge --ff-only <rama>`
@@ -203,9 +203,10 @@ Documentación completa en `apps/presupuestos/README.md`.
       (para presupuestar cortinas solas) y **Reja de aluminio** tipo 1 / tipo 2.
       `sinLinea` (mosquiteros, postigón, rejas, cortinas) no pide línea ni
       aplica su factor; `sinColor` (cortinas PVC) no pide color ni recarga.
-    - **Los dos tipos de reja se llaman "tipo 1" y "tipo 2" hasta que Pablo pase
-      los nombres.** Se pueden renombrar en Precios (Aberturas y Adicionales):
-      los botones toman el nombre de la lista (`etiquetasDe` / `distintivos`).
+    - **Rejas: de hierro redondo y cuadrado** (lo único de hierro que hace
+      Alumfer; el sitio ya lo decía bien). `sinLinea` y `sinColor`: no llevan
+      línea ni color de aluminio. Los botones toman el nombre de la lista
+      (`etiquetasDe` / `distintivos`): "Redondo" / "Cuadrado".
     - Todos los precios nuevos son de referencia, como el resto.
 25. **Migración del catálogo** (`Almacenamiento.actualizarCatalogo`, una vez por
     `catalogo` de `precios-base.js`, hoy 2): en la lista guardada del teléfono
@@ -215,7 +216,31 @@ Documentación completa en `apps/presupuestos/README.md`.
     presupuestos viejos solo reciben los renombres (`actualizarNombres`), nunca
     altas ni bajas, para que sus totales no cambien. **Si se vuelve a cambiar
     el catálogo, subir `catalogo`.**
-26. Los efectos `:hover` de lo que se toca van dentro de `@media (hover: hover)`:
+26. **Obras con muchas aberturas, basado en OP 2.1** (el software de cómputo de
+    Aluar/Megevand Soft que Pablo tomó como referencia; manual público:
+    megevandsoft.com/documentos/ManualUsuarioOP2.1.pdf). Se tomó lo que sirve
+    a alguien no técnico, sin su complejidad (acoples, cortes, optimización):
+    - **Código por abertura** como el "Título" de OP: `Calculo.codigos()` →
+      V (ventanas), PF (paño fijo), P (puertas), PB (puerta balcón), CE, B, T,
+      PO, BM, M (mosquitero), PT (postigón), R (reja), C (cortina). Se numera
+      por tipo en el orden de carga y no se guarda (se recalcula). Sale en la
+      ficha, los renglones, el PDF (columna "Ítem"), la hoja impresa y el WhatsApp.
+    - **Ubicación** (ya estaba como ¿Dónde va?) ahora también agrupa la
+      **pantalla**: título por lugar con cantidad y subtotal (`nodosAgrupados`),
+      igual que el PDF.
+    - **"Aplicar a todos los productos"** de OP: en la lista de línea y de color,
+      la casilla "Cambiarlo también en las otras N aberturas"; en el vidrio, el
+      botón "Poner este vidrio en las otras N". Solo a las que llevan ese dato
+      (`aplicables`): una reja no recibe color, una cortina no recibe vidrio,
+      una línea no se pone donde la tipología no la admite.
+    - **Medidas "de afuera a afuera" del marco**, como dice OP, aclarado bajo las
+      medidas. Cada tipo arranca con su medida típica (`MEDIDA_INICIAL`, las del
+      diseñador del sitio: puerta 90 × 205, etc.) o con la de otra abertura igual
+      ya cargada en la obra.
+    - No se copió el "grupo de productos" acoplado (PF1a, PF1b…, precio global):
+      necesita perfiles de acople y su precio. Si hiciera falta, el lugar ya
+      agrupa y suma.
+27. Los efectos `:hover` de lo que se toca van dentro de `@media (hover: hover)`:
     en pantallas táctiles el hover queda pegado después del toque.
 
 ---
@@ -239,10 +264,6 @@ Documentación completa en `apps/presupuestos/README.md`.
    el PDF a WhatsApp y a Gmail, y "Descargar PDF" en iPhone. En la sesión se
    probó en Chromium con `navigator.share` simulado; la lista para compartir de
    verdad no se puede abrir en un navegador de prueba.
-1. **Nombres de los dos tipos de reja** (Pablo los va a pasar): cambiar
-   "Reja de aluminio tipo 1/2" en `precios-base.js` (tipologías `reja`,
-   `reja-2` y adicionales `reja-adic`, `reja-adic-2`), sumar los nombres viejos
-   a `RENOMBRES` y subir `catalogo` para que lleguen a los teléfonos.
 1. **Colores de las cortinas de PVC**: el sitio dice "blanco y distintos
    colores", sin lista. Hoy la cortina no pide color.
 1. **Validar con el papá cómo cobra las formas especiales** (¿rectángulo que
@@ -275,6 +296,9 @@ motor = guardado → PDF descargado → compartir por WhatsApp y email (share
 simulado con `addInitScript`) → reintento con `NotAllowedError` → sugerencia de
 cliente en un presupuesto nuevo → presupuesto de 22 aberturas en 3 páginas →
 logo propio → computadora sin share (abre `wa.me` + descarga) → hoja impresa.
+Prueba de un quincho de varias piezas (12 chequeos): códigos, lista agrupada
+con subtotales, color y vidrio aplicados a todas sin tocar la reja, rejas
+redondo/cuadrado, aclaración de medidas. Prueba del catálogo (26 chequeos).
 Prueba de vidrios, formas y lugares (21 chequeos): tipos y espesores, precio
 que cambia con el espesor, formas con sus medidas, recargo 0 % = rectángulo,
 diámetro, lugares en los renglones, PDF agrupado con subtotales.
@@ -312,6 +336,8 @@ cd apps/presupuestos && python3 -m http.server 8777
   inyectar el HTML y usar `emulateMedia({ media: 'print' })`.
 - Con dos `<details>` en el paso 3, `details:last-of-type` ya no apunta a
   "Observaciones y ajustes": buscar el `summary` por texto.
+- `.item__resumen-texto b` pinta de oscuro cualquier `<b>` del renglón: el
+  código (`.codigo`) necesita su color con más prioridad.
 - `.espesor` (botón redondo) pisa a `.espesor--textura` si tienen la misma
   especificidad: las fichas con foto usan `.espesores .espesor--textura`.
 - Una IIFE metida en una concatenación de strings tiene que devolver `''`, si

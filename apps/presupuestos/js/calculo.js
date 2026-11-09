@@ -156,6 +156,32 @@ window.Calculo = (function () {
     };
   }
 
+  /*
+   * Código de cada abertura, como el "título" de los programas de cómputo
+   * (V1, V2, PF1…): sirve para hablar de "la V3" en la obra, en el plano y
+   * con el cliente. Se numera por tipo, en el orden de carga.
+   */
+  var PREFIJOS = {
+    'vent-corr-2': 'V', 'vent-corr-3': 'V', 'vent-corr-4': 'V', 'vent-abrir-1': 'V', 'vent-abrir-2': 'V',
+    'banderola': 'V', 'oscilo': 'V', 'pano-fijo': 'PF',
+    'puerta-abrir': 'P', 'puerta-doble': 'P', 'puerta-tablero': 'P',
+    'pbalcon-corr-2': 'PB', 'pbalcon-corr-3': 'PB', 'pbalcon-abrir': 'PB',
+    'cerramiento': 'CE', 'baranda': 'B', 'techo-policarb': 'T', 'porton-corr': 'PO', 'porton-levad': 'PO',
+    'bajo-mesada': 'BM', 'mosq-corr': 'M', 'mosq-fijo': 'M', 'postigon': 'PT', 'reja': 'R', 'reja-2': 'R',
+    'cortina-pvc-cajon': 'C', 'cortina-pvc-sola': 'C'
+  };
+  var PREFIJO_GRUPO = { Ventanas: 'V', Puertas: 'P', Cerramientos: 'CE', Complementos: 'X' };
+
+  function codigos(items, precios) {
+    var cuenta = {};
+    return (items || []).map(function (it) {
+      var tip = buscar(precios.tipologias, it.tipologiaId);
+      var pre = PREFIJOS[it.tipologiaId] || (tip && PREFIJO_GRUPO[tip.grupo]) || 'A';
+      cuenta[pre] = (cuenta[pre] || 0) + 1;
+      return pre + cuenta[pre];
+    });
+  }
+
   /** Totales del presupuesto. `ajustes` pisa lo que venga de precios.generales. */
   function calcularPresupuesto(presupuesto, precios) {
     var g = precios.generales || {};
@@ -191,6 +217,7 @@ window.Calculo = (function () {
 
     return {
       lineas: lineas,
+      codigos: codigos(presupuesto.items, precios),
       unidades: unidades,
       m2Total: m2Total,
       subtotal: subtotal,
@@ -238,6 +265,7 @@ window.Calculo = (function () {
     ajustarPrecios: ajustarPrecios,
     redondear: redondear,
     formaDe: formaDe,
+    codigos: codigos,
     FORMAS: FORMAS
   };
 })();

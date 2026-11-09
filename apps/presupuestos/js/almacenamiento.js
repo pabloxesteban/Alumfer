@@ -89,10 +89,12 @@ window.Almacenamiento = (function () {
     },
     adicionales: {
       premarco: [['Premarco de chapa'], 'Premarco de aluminio'],
-      'reja-adic': [['Reja de seguridad'], 'Reja de aluminio tipo 1']
+      'reja-adic': [['Reja de seguridad', 'Reja de aluminio tipo 1'], 'Reja de hierro redondo'],
+      'reja-adic-2': [['Reja de aluminio tipo 2'], 'Reja de hierro cuadrado']
     },
     tipologias: {
-      reja: [['Reja de seguridad'], 'Reja de aluminio tipo 1']
+      reja: [['Reja de seguridad', 'Reja de aluminio tipo 1'], 'Reja de hierro redondo'],
+      'reja-2': [['Reja de aluminio tipo 2'], 'Reja de hierro cuadrado']
     }
   };
 
@@ -110,7 +112,7 @@ window.Almacenamiento = (function () {
     return precios;
   }
 
-  /* Productos de fábrica que se dejaron de ofrecer (Alumfer solo trabaja aluminio y vidrio). */
+  /* Productos de fábrica que se dejaron de ofrecer (Alumfer trabaja aluminio y vidrio; de hierro, solo rejas). */
   var QUITADOS = { adicionales: ['refuerzo', 'cierrapuertas', 'zocalo'] };
   /* Datos de cada producto que no son precio y vienen de fábrica: se completan siempre. */
   var MARCAS = ['grupo', 'sinLinea', 'sinColor', 'sinVidrio', 'familia'];

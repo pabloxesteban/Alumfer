@@ -31,13 +31,13 @@ window.PDF = (function () {
 
   /* Columnas de la tabla: [clave, título, ancho, alineación] */
   var COLS = [
-    ['n', '#', 7, 'center'],
+    ['n', 'Ítem', 11, 'center'],
     ['dibujo', '', 14, 'center'],
     ['desc', 'Descripción', 0, 'left'],     // 0 = lo que sobra
-    ['medidas', 'Medidas', 25, 'center'],
+    ['medidas', 'Medidas', 24, 'center'],
     ['cant', 'Cant.', 12, 'center'],
     ['unit', 'Unitario', 24, 'right'],
-    ['importe', 'Importe', 28, 'right']
+    ['importe', 'Importe', 26, 'right']
   ];
   (function () {
     var fijo = 0;
@@ -307,8 +307,8 @@ window.PDF = (function () {
       if (y + alto > LIMITE) { nuevaPagina(); encabezadoTabla(); }
 
       var base = y + 5.5;
-      color(GRIS); letra(9);
-      texto(String(numero), COLS[0].x + COLS[0][2] / 2, base, { align: 'center' });
+      color(CARBON); letra(9, 'bold');
+      texto((r.codigos && r.codigos[i]) || String(numero), COLS[0].x + COLS[0][2] / 2, base, { align: 'center' });
 
       var png = dibujos[claveDibujo(item, l)];
       if (png) doc.addImage(png, 'PNG', COLS[1].x + 1.5, y + 2, 11, 11);

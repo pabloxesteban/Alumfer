@@ -25,7 +25,8 @@
   var temporizadorGuardado = null;
   var itemAlQueCambiarTipo = null;   // id del ítem abierto en el selector, o null si es uno nuevo
   var itemAbierto = null;            // la única abertura desplegada; las demás se ven resumidas
-  var itemQueEntra = null;           // solo la recién agregada se anima: si no, cada toque haría parpadear la ficha
+  var itemQueEntra = null;
+  var codigosActuales = [];          // V1, PF1, P1… de cada abertura, en el orden de carga           // solo la recién agregada se anima: si no, cada toque haría parpadear la ficha
 
   /*
    * Tipos que son el mismo modelo con distinta cantidad de hojas (o forma de
@@ -48,7 +49,7 @@
       variantes: [['porton-corr', 'Corredizo'], ['porton-levad', 'Levadizo']] },
     // Etiqueta null: se toma del nombre en la lista de precios, así al renombrar
     // los tipos de reja en Precios el botón dice el nombre nuevo.
-    { nombre: 'Reja de aluminio', pregunta: '¿Qué tipo de reja?', resumen: '2 tipos',
+    { nombre: 'Reja de hierro', pregunta: '¿Redondo o cuadrado?', resumen: 'redondo o cuadrado',
       variantes: [['reja', null], ['reja-2', null]] },
     { nombre: 'Cortina de enrollar PVC', pregunta: '¿Lleva cajón?', resumen: 'con o sin cajón',
       variantes: [['cortina-pvc-cajon', 'Con cajón'], ['cortina-pvc-sola', 'Sin cajón']] }
@@ -135,6 +136,17 @@
   var FORMAS_UI = [['rect', 'Recta'], ['inclinada', 'Inclinada'], ['triangulo', 'Triangular'],
                    ['arco', 'Con arco'], ['redonda', 'Redonda']];
   var TIPOS_CON_FORMA = ['pano-fijo', 'banderola', 'vent-abrir-1', 'cerramiento', 'mosq-fijo', 'reja', 'reja-2'];
+
+  /* Medida con la que arranca cada tipo, en cm (las mismas del diseñador del sitio). */
+  var MEDIDA_INICIAL = {
+    'vent-corr-2': [150, 110], 'vent-corr-3': [200, 110], 'vent-corr-4': [260, 120], 'vent-abrir-1': [60, 90],
+    'vent-abrir-2': [120, 110], 'banderola': [60, 40], 'oscilo': [70, 110], 'pano-fijo': [100, 100],
+    'puerta-abrir': [90, 205], 'puerta-doble': [150, 205], 'puerta-tablero': [90, 205],
+    'pbalcon-corr-2': [180, 205], 'pbalcon-corr-3': [240, 205], 'pbalcon-abrir': [140, 205],
+    'cerramiento': [400, 220], 'baranda': [300, 100], 'techo-policarb': [300, 300], 'porton-corr': [300, 200],
+    'porton-levad': [250, 210], 'bajo-mesada': [120, 85], 'mosq-corr': [150, 110], 'mosq-fijo': [100, 100],
+    'postigon': [150, 110], 'reja': [150, 110], 'reja-2': [150, 110]
+  };
 
   /* ¿Dónde va? Lugares comunes; se suman los que ya se usaron en el presupuesto. */
   var LUGARES = ['Cocina', 'Baño', 'Dormitorio', 'Living', 'Quincho', 'Frente'];
@@ -416,6 +428,11 @@
     } else {
       var nuevo = C.itemNuevo(p);
       nuevo.tipologiaId = tipoId;
+      // Medida: la de otra abertura igual de esta obra (suelen repetirse) o la típica del tipo.
+      var igual = actual.items.slice().reverse().filter(function (it) { return it.tipologiaId === tipoId; })[0];
+      var inicial = MEDIDA_INICIAL[tipoId];
+      if (igual) { nuevo.ancho = igual.ancho; nuevo.alto = igual.alto; if (igual.forma) { nuevo.forma = igual.forma; nuevo.alto2 = igual.alto2; } }
+      else if (inicial) { nuevo.ancho = inicial[0] * 10; nuevo.alto = inicial[1] * 10; }
       if (tip && tip.lineas) nuevo.lineaId = tip.lineas[0];
       if (tip && tip.sinVidrio) nuevo.vidrioId = 'sin';
       var ultimo = actual.items[actual.items.length - 1];
@@ -569,6 +586,13 @@
         }).join('') +
         '</div></div>';
     }
+    var distintas = aplicables('vidrioId', item).filter(function (it) {
+      return it.vidrioId !== item.vidrioId || (it.tono || '') !== (item.tono || '');
+    }).length;
+    var botonTodas = distintas
+      ? '<button type="button" class="btn btn--fantasma btn--sm btn--bloque" data-accion="vidrio-a-todas">' +
+          'Poner este vidrio en las otras ' + (distintas === 1 ? 'abertura' : distintas + ' aberturas') + '</button>'
+      : '';
     if (/^policarb/.test(item.vidrioId)) {
       var tono = item.tono || TONOS_PLACA[0];
       html += '<div class="campo"><span id="tono-' + item.id + '">¿De qué color es la placa?</span>' +
@@ -579,7 +603,7 @@
             '" data-tono="' + t + '">' + t + '</button>';
         }).join('') + '</div></div>';
     }
-    return html;
+    return html + botonTodas;
   }
 
   /** ¿Dónde va? Opcional: sirve para que el cliente reconozca cada abertura y agrupa el PDF. */
@@ -642,7 +666,8 @@
       '<div class="item__tipo">' +
         '<span class="item__dibujo">' + I.abertura(item.tipologiaId, tip && tip.grupo) + '</span>' +
         '<span class="item__nombre">' +
-          '<span>Abertura ' + (indice + 1) + '</span>' +
+          '<span><b class="codigo">' + F.escapar(codigosActuales[indice] || '') + '</b>' +
+            (item.lugar ? ' · ' + F.escapar(item.lugar) : '') + '</span>' +
           '<strong>' + F.escapar(fam ? fam.nombre : (tip ? tip.nombre : 'Abertura')) + '</strong>' +
         '</span>' +
         '<button class="btn btn--fantasma btn--sm" data-accion="cambiar-tipo" data-icono="cambiar">Cambiar tipo</button>' +
@@ -664,6 +689,7 @@
       bloqueForma(item) +
       bloqueMedidas(item) +
       '<p class="item__equivale" data-equivale></p>' +
+      '<p class="item__ayuda-medida">Medida de afuera a afuera del marco, en centímetros.</p>' +
 
       '<div class="campo"><span id="cant-' + item.id + '">¿Cuántas iguales?</span>' +
         '<div class="contador" role="group" aria-labelledby="cant-' + item.id + '">' +
@@ -731,7 +757,8 @@
       '<button type="button" class="item__resumen" data-accion="abrir-item">' +
         '<span class="item__dibujo">' + (r.forma !== 'rect' ? I.forma(r.forma) : I.abertura(item.tipologiaId, tip && tip.grupo)) + '</span>' +
         '<span class="item__resumen-texto">' +
-          '<span class="item__resumen-n">Abertura ' + (indice + 1) + (r.lugar ? ' · ' + F.escapar(r.lugar) : '') + '</span>' +
+          '<span class="item__resumen-n"><b class="codigo">' + F.escapar(codigosActuales[indice] || '') + '</b>' +
+            (r.lugar ? ' · ' + F.escapar(r.lugar) : '') + '</span>' +
           '<strong>' + F.escapar(tip ? tip.nombre : 'Abertura') + '</strong>' +
           '<span>' + F.medidasItem(r) +
             (r.cantidad > 1 ? ' · <b>' + r.cantidad + ' iguales</b>' : '') + '</span>' +
@@ -743,6 +770,39 @@
         '</span>' +
       '</button>';
     return nodo;
+  }
+
+  /**
+   * Las aberturas en pantalla, agrupadas igual que en el PDF: si alguna tiene
+   * lugar ("Quincho", "Baño"), un título por lugar con su subtotal, en el orden
+   * en que aparecen. Así un quincho de muchas piezas se lee de un vistazo.
+   */
+  function nodosAgrupados(p) {
+    var hayLugar = actual.items.some(function (it) { return String(it.lugar || '').trim(); });
+    var nodo = function (it) {
+      var i = actual.items.indexOf(it);
+      return it.id === itemAbierto ? nodoItem(it, i) : nodoResumen(it, i);
+    };
+    if (!hayLugar) return actual.items.map(nodo);
+
+    var grupos = [], porLugar = {};
+    actual.items.forEach(function (it) {
+      var k = String(it.lugar || '').trim();
+      if (!porLugar[k]) { porLugar[k] = { lugar: k || 'Sin lugar', items: [] }; grupos.push(porLugar[k]); }
+      porLugar[k].items.push(it);
+    });
+    var nodos = [];
+    grupos.forEach(function (g) {
+      var subtotal = 0, unidades = 0;
+      g.items.forEach(function (it) { var r = C.calcularItem(it, p); subtotal += r.total; unidades += r.cantidad; });
+      var h = document.createElement('div');
+      h.className = 'grupo-lugar';
+      h.innerHTML = '<strong>' + F.escapar(g.lugar) + '</strong>' +
+        '<span>' + unidades + (unidades === 1 ? ' abertura' : ' aberturas') + ' · ' + F.moneda(subtotal) + '</span>';
+      nodos.push(h);
+      g.items.forEach(function (it) { nodos.push(nodo(it)); });
+    });
+    return nodos;
   }
 
   /** Lleva a la vista una abertura, debajo de la barra de arriba. */
@@ -776,6 +836,12 @@
         (activo ? '<span class="opcion__elegida">Elegida</span>' : '') +
       '</button>';
     }).join('');
+    var otras = aplicables(campo, item).length;
+    $('opciones-todas').hidden = otras === 0;
+    $('opciones-todas-check').checked = false;
+    $('opciones-todas-texto').textContent = 'Cambiarlo también en las otras ' +
+      (otras === 1 ? 'abertura' : otras + ' aberturas') + ' de este presupuesto';
+
     $('modal-opciones').hidden = false;
     document.body.style.overflow = 'hidden';
     var activa = $('opciones-lista').querySelector('.is-activa') || $('opciones-lista').firstChild;
@@ -788,18 +854,50 @@
     eligiendo = null;
   }
 
+  /**
+   * Las otras aberturas a las que se puede pasar una línea, un color o un
+   * vidrio (como "aplicar a todos los productos" de los programas de cómputo):
+   * no a las que no llevan ese dato ni a las que no admiten esa línea.
+   */
+  function aplicables(campo, item, valor) {
+    var p = preciosDelPresupuesto();
+    return actual.items.filter(function (it) {
+      if (it === item) return false;
+      var tip = C.buscar(p.tipologias, it.tipologiaId);
+      if (campo === 'lineaId') {
+        if (tip && tip.sinLinea) return false;
+        if (valor && tip && tip.lineas && tip.lineas.indexOf(valor) === -1) return false;
+      }
+      if (campo === 'colorId' && tip && tip.sinColor) return false;
+      if (campo === 'vidrioId' && tip && tip.sinVidrio) return false;
+      return true;
+    });
+  }
+
+  function aplicarATodas(campo, item, valor) {
+    var otras = aplicables(campo, item, valor);
+    otras.forEach(function (it) {
+      it[campo] = valor;
+      if (campo === 'vidrioId' && /^policarb/.test(valor)) it.tono = item.tono || TONOS_PLACA[0];
+    });
+    return otras.length;
+  }
+
   function elegirOpcion(id) {
     if (!eligiendo) return;
     var item = itemPorId(eligiendo.itemId);
     var campo = eligiendo.campo;
+    var aTodas = $('opciones-todas-check').checked;
     cerrarOpciones();
     if (!item) return;
     item[campo] = id;
+    var cambiadas = aTodas ? aplicarATodas(campo, item, id) : 0;
     hayCambios = true;
     render();
     autoguardar();
     var x = C.buscar(opcionesDe(campo, item), id);
-    avisar(ROTULOS[campo] + ': ' + (x ? x.nombre : ''));
+    avisar(ROTULOS[campo] + ': ' + (x ? x.nombre : '') +
+      (cambiadas ? ' (también en ' + (cambiadas === 1 ? 'otra abertura' : 'otras ' + cambiadas) + ')' : ''));
   }
 
   function pintarPieItem(nodo, item) {
@@ -825,9 +923,9 @@
 
   function render() {
     var lista = $('lista-items');
-    lista.replaceChildren.apply(lista, actual.items.map(function (it, i) {
-      return it.id === itemAbierto ? nodoItem(it, i) : nodoResumen(it, i);
-    }));
+    var p = preciosDelPresupuesto();
+    codigosActuales = C.codigos(actual.items, p);
+    lista.replaceChildren.apply(lista, nodosAgrupados(p));
     itemQueEntra = null;
     var hay = actual.items.length > 0;
     $('items-vacio').hidden = hay;
@@ -840,7 +938,7 @@
   /** Recalcula sin reconstruir los campos, para no perder el foco al tipear. */
   function refrescarCalculos() {
     Array.prototype.forEach.call($('lista-items').children, function (nodo) {
-      if (nodo.classList.contains('item--cerrado')) return;   // las resumidas no cambian al tipear en otra
+      if (!nodo.classList.contains('item--abierto')) return;   // resumidas y títulos no cambian al tipear en otra
       var item = itemPorId(nodo.dataset.id);
       if (item) pintarPieItem(nodo, item);
     });
@@ -1658,11 +1756,19 @@
         mostrarItem(item.id);
         return;
       }
+      if (boton.dataset.accion === 'vidrio-a-todas') {
+        var n = aplicarATodas('vidrioId', item, item.vidrioId);
+        hayCambios = true;
+        render();
+        autoguardar();
+        avisar('Vidrio cambiado en ' + (n === 1 ? 'otra abertura' : 'otras ' + n));
+        return;
+      }
       if (boton.dataset.accion === 'listo') {
         itemAbierto = null;
         render();
         mostrarItem(item.id);
-        avisar('Abertura ' + (actual.items.indexOf(item) + 1) + ' lista');
+        avisar((codigosActuales[actual.items.indexOf(item)] || 'Abertura') + ' lista');
         return;
       }
       if (boton.dataset.accion === 'mas' || boton.dataset.accion === 'menos') {

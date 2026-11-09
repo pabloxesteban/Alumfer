@@ -51,7 +51,7 @@ window.Documento = (function () {
       var item = (presupuesto.items || [])[i] || {};
       return '' +
         '<tr>' +
-          '<td class="c">' + (i + 1) + '</td>' +
+          '<td class="c"><strong>' + esc((r.codigos && r.codigos[i]) || (i + 1)) + '</strong></td>' +
           '<td>' + lineaDescripcion(l) +
             (item.nota ? '<br><span class="hoja-nota">' + esc(item.nota) + '</span>' : '') +
           '</td>' +
@@ -110,7 +110,7 @@ window.Documento = (function () {
 
       '<table class="hoja-tabla">' +
         '<thead><tr>' +
-          '<th class="c">#</th><th>Descripción</th><th class="c">Medidas</th>' +
+          '<th class="c">Ítem</th><th>Descripción</th><th class="c">Medidas</th>' +
           '<th class="c">Cant.</th><th class="d">Unitario</th><th class="d">Importe</th>' +
         '</tr></thead>' +
         '<tbody>' + filas + '</tbody>' +
@@ -161,7 +161,7 @@ window.Documento = (function () {
 
     r.lineas.forEach(function (l, i) {
       var d = l.descripcion;
-      L.push((i + 1) + '. *' + (l.lugar ? l.lugar + ': ' : '') + d.titulo + '* — ' + F.medidasItem(l) +
+      L.push(((r.codigos && r.codigos[i]) || (i + 1)) + '. *' + (l.lugar ? l.lugar + ': ' : '') + d.titulo + '* — ' + F.medidasItem(l) +
              (l.cantidad > 1 ? ' (x' + l.cantidad + ')' : ''));
       if (d.detalle) L.push('   ' + d.detalle);
       L.push('   ' + F.moneda(l.total));
