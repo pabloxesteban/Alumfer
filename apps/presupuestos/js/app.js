@@ -1418,8 +1418,10 @@
 
     cont.innerHTML =
       '<div class="dolar">' +
-        '<span class="dolar__dato"><span>Compra</span><strong>' + F.moneda(valor.compra) + '</strong></span>' +
-        '<span class="dolar__dato"><span>Venta</span><strong>' + F.moneda(valor.venta) + '</strong></span>' +
+        // Un solo número: el blue al que se compran los dólares (la "venta" de la casa
+        // de cambio, el más caro). El "compra" (lo que te pagan si vendés) confundía.
+        '<span class="dolar__dato"><span>Dólar blue (lo que pagás por cada dólar)</span><strong>' + F.moneda(valor.venta) + '</strong></span>' +
+        '<p class="dolar__pie">Es el que usa la app para todas las cuentas. No se usa el dólar oficial.</p>' +
         '<p class="dolar__pie' + (delDia ? '' : ' dolar__pie--viejo') + '">' +
           (estado === 'sin-conexion' ? 'Sin conexión, último valor guardado: ' : 'Actualizado ') +
           F.escapar(F.fechaHoraRelativa(valor.consultado)) +

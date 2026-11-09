@@ -236,8 +236,10 @@ Al total se le aplican, en este orden: descuento general, colocación
 
 ## El dólar blue
 
-Arriba de la pestaña **Precios** se muestra la cotización del blue (compra y
-venta), que es la referencia real para mover los precios del aluminio. Se
+Arriba de la pestaña **Precios** se muestra la cotización del **dólar blue**:
+un solo número, el que se paga por cada dólar (la "venta" de la casa de
+cambio, el más caro). Es el que usa la app para todas las cuentas; **el dólar
+oficial no se usa nunca**. Se
 consulta a [dolarapi.com](https://dolarapi.com) y, si no responde, a
 [bluelytics.com.ar](https://bluelytics.com.ar). Las dos son gratis y no
 necesitan clave.

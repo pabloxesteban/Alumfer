@@ -51,12 +51,22 @@ pasaron para esa charla:
 **Los precios reales se cargan desde la app (pestaña Precios), nunca en
 `precios-base.js`: el repo es público.**
 
+**Planilla para completar con el papá** (privada, en la cuenta de Pablo):
+<https://claude.ai/artifact/3YUMhr9X1whec6JXeDTVWj>. Tiene esas preguntas y más
+(cada abertura, cada color, cada vidrio con lo que cobra y lo que paga,
+agregados, flete, condiciones, costos, descuentos de fabricación). Cada
+respuesta se guarda sola en la base de la página (colección `respuestas`, un
+documento por campo, `{texto, actualizado}`). **Cuando Pablo avise que está
+completa, leerla con `ArtifactData` → `list` de `respuestas`** y, con eso,
+ajustar el motor (pregunta `metodo.forma`) y armar los precios. Los importes se
+cargan en la app (Precios) o con una copia de seguridad, nunca en el código.
+
 ## 2. Estado del repositorio
 
 - `main` incluye **todo** lo de presupuestos más trabajo del sitio hecho en otras
   sesiones (PRs #39 a #48).
 - Rama de la última sesión: `claude/intelligent-maxwell-d43hn3`, igual a `main`.
-- Versión publicada: **2026-11-09.3** (.1: PDF real, compartir, clientes, Tu empresa · .2: rediseño suave y palabras claras · .3: hojas como pregunta y una abertura abierta a la vez · .4: vidrio en dos pasos, formas especiales y ¿Dónde va? · .5: catálogo completo del sitio · .6: obras grandes al estilo OP 2.1, rejas de hierro · .7: lista de materiales para comprar, cortinas blancas · .8: "tiras" en vez de "barras" · .9: botón Guardar, Guardados, copia de seguridad, seguimiento, resumen del mes y ganancia).
+- Versión publicada: **2026-11-09.3** (.1: PDF real, compartir, clientes, Tu empresa · .2: rediseño suave y palabras claras · .3: hojas como pregunta y una abertura abierta a la vez · .4: vidrio en dos pasos, formas especiales y ¿Dónde va? · .5: catálogo completo del sitio · .6: obras grandes al estilo OP 2.1, rejas de hierro · .7: lista de materiales para comprar, cortinas blancas · .8: "tiras" en vez de "barras" · .9: botón Guardar, Guardados, copia de seguridad, seguimiento, resumen del mes y ganancia · .10: el dólar muestra solo el blue venta).
 
 **Flujo de publicación (Pablo lo autorizó explícitamente, no hay que preguntar
 cada vez):** commit en la rama → `git checkout main && git merge --ff-only <rama>`
@@ -115,7 +125,10 @@ Documentación completa en `apps/presupuestos/README.md`.
    necesita un botón y ver dónde quedó). Hace lo mismo al instante y muestra
    "Guardado como P-…, buscalo en Guardados por «nombre» o el número". La
    pestaña "Anteriores" pasó a llamarse **"Guardados"**.
-8. **Dólar blue** (no oficial) en Precios; el total muestra el equivalente en USD
+8. **Dólar blue** (no oficial; Pablo insistió: todo se maneja con el blue, que
+   es más caro). Se muestra **solo el blue venta** (lo que se paga por cada
+   dólar); el "compra" se sacó de la pantalla porque se confundía con el
+   oficial. En Precios; el total muestra el equivalente en USD
    **solo en pantalla**: no sale en el PDF ni en el WhatsApp del cliente.
 9. **El kilo de aluminio se carga a mano**: no hay API gratis y con CORS que lo
    dé, y el precio local del extruido lo pasa el proveedor.
