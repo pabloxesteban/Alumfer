@@ -377,8 +377,31 @@ Por valor para el negocio y riesgo, en este orden:
 3. **Presupuesto aceptado → hoja de taller** (como el "parte de producción"
    de OP): códigos, medidas, línea, color, vidrio y la lista de materiales,
    más el registro de la seña cobrada y el saldo.
-4. Fotos de la obra por abertura (con la cámara del teléfono), uso interno.
+4. ~~Fotos de la obra por abertura~~: **descartado por Pablo** (9/11). Pesan
+   mucho, no entrarían en la copia de seguridad y no compensaba.
 5. Resumen del mes: cuánto se presupuestó, cuánto se aceptó.
+
+### Base de datos en la nube (consultado el 9/11, sin decidir)
+
+Hoy todo vive en `localStorage` de un teléfono. Pablo preguntó por una forma
+económica de guardarlo en una base de datos. Volumen: cada presupuesto pesa
+~25 KB (incluye la copia de precios); mil por año son ~25 MB.
+
+Recomendado: **Firebase Firestore, plan gratis (Spark)**: 1 GiB y 50.000
+lecturas / 20.000 escrituras por día según las guías de 2026 (verificar en
+firebase.google.com/pricing); no se pausa por falta de uso; trae modo sin
+conexión y sincroniza solo al volver la señal (clave en obra); login "Entrar
+con Google" una vez por teléfono y reglas que solo dejan entrar a los emails
+de Pablo y su papá. La configuración de Firebase no es secreta (la seguridad
+son las reglas), así que puede ir en el repo público. El SDK se copiaría en
+`js/vendor/` como jsPDF, para que ande sin internet y sin build step.
+`localStorage` quedaría como copia local. Necesita que Pablo cree el proyecto
+en la consola de Firebase con su cuenta de Google y pase la configuración.
+
+Descartadas: Supabase gratis (500 MB, pero se pausa tras 7 días sin uso y no
+sincroniza sin conexión); Cloudflare D1 (5 GB gratis, pero requiere escribir
+y mantener un Worker y armar el login aparte); Google Sheets con Apps Script
+(lento, frágil, seguridad floja).
 
 ## 7. Cómo probar
 
