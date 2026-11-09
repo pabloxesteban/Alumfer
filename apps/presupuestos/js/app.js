@@ -24,6 +24,45 @@
   var hayCambios = false;
   var temporizadorGuardado = null;
   var itemAlQueCambiarTipo = null;   // id del ítem abierto en el selector, o null si es uno nuevo
+  var itemAbierto = null;            // la única abertura desplegada; las demás se ven resumidas
+
+  /*
+   * Tipos que son el mismo modelo con distinta cantidad de hojas (o forma de
+   * abrir). En el selector aparecen una sola vez y en la ficha se pregunta
+   * "¿Cuántas hojas?" con botones. Los precios siguen siendo por tipo exacto.
+   * La primera variante es la más común y la que se elige por defecto.
+   */
+  var FAMILIAS = [
+    { nombre: 'Ventana corrediza', pregunta: '¿Cuántas hojas?', resumen: '2, 3 o 4 hojas',
+      variantes: [['vent-corr-2', '2 hojas'], ['vent-corr-3', '3 hojas'], ['vent-corr-4', '4 hojas']] },
+    { nombre: 'Ventana de abrir', pregunta: '¿Cuántas hojas?', resumen: '1 o 2 hojas',
+      variantes: [['vent-abrir-1', '1 hoja'], ['vent-abrir-2', '2 hojas']] },
+    { nombre: 'Puerta de abrir', pregunta: '¿Cuántas hojas?', resumen: '1 o 2 hojas',
+      variantes: [['puerta-abrir', '1 hoja'], ['puerta-doble', '2 hojas']] },
+    { nombre: 'Puerta balcón corrediza', pregunta: '¿Cuántas hojas?', resumen: '2 o 3 hojas',
+      variantes: [['pbalcon-corr-2', '2 hojas'], ['pbalcon-corr-3', '3 hojas']] },
+    { nombre: 'Mosquitero', pregunta: '¿Cómo es?', resumen: 'corredizo o fijo',
+      variantes: [['mosq-corr', 'Corredizo'], ['mosq-fijo', 'Fijo']] },
+    { nombre: 'Portón', pregunta: '¿Cómo abre?', resumen: 'corredizo o levadizo',
+      variantes: [['porton-corr', 'Corredizo'], ['porton-levad', 'Levadizo']] }
+  ];
+
+  function familiaDe(tipoId) {
+    for (var i = 0; i < FAMILIAS.length; i++) {
+      for (var j = 0; j < FAMILIAS[i].variantes.length; j++) {
+        if (FAMILIAS[i].variantes[j][0] === tipoId) return FAMILIAS[i];
+      }
+    }
+    return null;
+  }
+
+  /** Variantes que existen en la lista de precios de hoy o en la del presupuesto. */
+  function variantesDe(familia) {
+    var p = preciosDelPresupuesto();
+    return familia.variantes.filter(function (v) {
+      return C.buscar(precios.tipologias, v[0]) || C.buscar(p.tipologias, v[0]);
+    });
+  }
 
   function $(id) { return document.getElementById(id); }
   function clonar(x) { return JSON.parse(JSON.stringify(x)); }
@@ -106,6 +145,7 @@
 
   function abrir(presupuesto) {
     actual = presupuesto;
+    itemAbierto = null;                      // al abrir se ven todas resumidas
     $('sugerencias-clientes').hidden = true;
     if (!actual.precios) actual.precios = clonar(precios);
     A.actualizarNombres(actual.precios);   // solo nombres más claros; los precios no se tocan
@@ -213,9 +253,23 @@
       porGrupo[t.grupo].push(t);
     });
 
+    var familiaActual = item ? familiaDe(item.tipologiaId) : null;
+    var yaPuestas = [];
+
     $('grilla-tipos').innerHTML = grupos.map(function (g) {
       return '<h3 class="tipos-grupo">' + F.escapar(g) + '</h3><div class="tipos-grilla">' +
         porGrupo[g].map(function (t) {
+          var fam = familiaDe(t.id);
+          if (fam) {
+            if (yaPuestas.indexOf(fam) > -1) return '';      // el modelo va una sola vez
+            yaPuestas.push(fam);
+            var vars = variantesDe(fam);
+            // Si se está cambiando una abertura del mismo modelo, se conserva su variante.
+            var destino = fam === familiaActual ? item.tipologiaId : vars[0][0];
+            return '<button class="tipo-tile' + (fam === familiaActual ? ' is-activo' : '') + '" data-tipo="' + destino + '">' +
+              I.abertura(destino, t.grupo) + '<span>' + F.escapar(fam.nombre) + '</span>' +
+              (vars.length > 1 ? '<small>' + F.escapar(fam.resumen) + '</small>' : '') + '</button>';
+          }
           var activo = item && item.tipologiaId === t.id;
           return '<button class="tipo-tile' + (activo ? ' is-activo' : '') + '" data-tipo="' + t.id + '">' +
             I.abertura(t.id, t.grupo) + '<span>' + F.escapar(t.nombre) + '</span></button>';
@@ -233,26 +287,37 @@
     itemAlQueCambiarTipo = null;
   }
 
-  function elegirTipo(tipoId) {
+  /**
+   * Tipología con precio en el presupuesto abierto. Si es una agregada después
+   * de empezarlo, no tiene precio viejo que conservar: entra con el de hoy.
+   */
+  function tipologiaParaPresupuesto(tipoId) {
     var p = preciosDelPresupuesto();
     var tip = C.buscar(p.tipologias, tipoId);
+    if (tip) return tip;
+    var deHoy = C.buscar(precios.tipologias, tipoId);
+    return deHoy ? insertarEnGrupo(p.tipologias, clonar(deHoy), 'grupo') : null;
+  }
 
-    // Tipología agregada después de empezar el presupuesto: no tiene precio
-    // viejo que conservar, así que entra con el de hoy.
-    if (!tip) {
-      var deHoy = C.buscar(precios.tipologias, tipoId);
-      if (!deHoy) return cerrarSelectorTipo();
-      tip = insertarEnGrupo(p.tipologias, clonar(deHoy), 'grupo');
-    }
+  /** Cambia el tipo de una abertura ya cargada, dejando línea y vidrio válidos. */
+  function cambiarTipologia(item, tipoId) {
+    var tip = tipologiaParaPresupuesto(tipoId);
+    if (!tip) return false;
+    item.tipologiaId = tipoId;
+    if (tip.lineas && tip.lineas.indexOf(item.lineaId) === -1) item.lineaId = tip.lineas[0];
+    if (tip.sinVidrio) item.vidrioId = 'sin';
+    else if (item.vidrioId === 'sin') item.vidrioId = 'float4';
+    return true;
+  }
+
+  function elegirTipo(tipoId) {
+    var p = preciosDelPresupuesto();
+    var tip = tipologiaParaPresupuesto(tipoId);
+    if (!tip) return cerrarSelectorTipo();
 
     if (itemAlQueCambiarTipo) {
       var item = itemPorId(itemAlQueCambiarTipo);
-      if (item) {
-        item.tipologiaId = tipoId;
-        if (tip && tip.lineas && tip.lineas.indexOf(item.lineaId) === -1) item.lineaId = tip.lineas[0];
-        if (tip && tip.sinVidrio) item.vidrioId = 'sin';
-        else if (item.vidrioId === 'sin') item.vidrioId = 'float4';
-      }
+      if (item) cambiarTipologia(item, tipoId);
       cerrarSelectorTipo();
       render();
     } else {
@@ -267,11 +332,10 @@
         if (!tip || !tip.sinVidrio) nuevo.vidrioId = ultimo.vidrioId === 'sin' ? 'float4' : ultimo.vidrioId;
       }
       actual.items.push(nuevo);
+      itemAbierto = nuevo.id;          // la nueva queda abierta; las demás se resumen
       cerrarSelectorTipo();
       render();
-      var nodos = $('lista-items').children;
-      var ultimoNodo = nodos[nodos.length - 1];
-      if (ultimoNodo) ultimoNodo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      mostrarItem(nuevo.id);
     }
 
     hayCambios = true;
@@ -340,24 +404,39 @@
       if ((item.adicionales || []).indexOf(ad.id) > -1) hayElegidoEnElResto = true;
     });
 
+    var fam = familiaDe(item.tipologiaId);
+    var vars = fam ? variantesDe(fam) : [];
+
     var nodo = document.createElement('div');
-    nodo.className = 'item';
+    nodo.className = 'item item--abierto';
     nodo.dataset.id = item.id;
     nodo.innerHTML = '' +
       '<div class="item__tipo">' +
         '<span class="item__dibujo">' + I.abertura(item.tipologiaId, tip && tip.grupo) + '</span>' +
         '<span class="item__nombre">' +
           '<span>Abertura ' + (indice + 1) + '</span>' +
-          '<strong>' + F.escapar(tip ? tip.nombre : 'Abertura') + '</strong>' +
+          '<strong>' + F.escapar(fam ? fam.nombre : (tip ? tip.nombre : 'Abertura')) + '</strong>' +
         '</span>' +
         '<button class="btn btn--fantasma btn--sm" data-accion="cambiar-tipo" data-icono="cambiar">Cambiar tipo</button>' +
       '</div>' +
 
+      (vars.length > 1
+        ? '<div class="campo"><span id="var-' + item.id + '">' + F.escapar(fam.pregunta) + '</span>' +
+            '<div class="variantes" role="radiogroup" aria-labelledby="var-' + item.id + '">' +
+            vars.map(function (v) {
+              var activa = v[0] === item.tipologiaId;
+              return '<button type="button" class="variante' + (activa ? ' is-activa' : '') + '" role="radio" ' +
+                'aria-checked="' + activa + '" data-variante="' + v[0] + '">' +
+                I.abertura(v[0], tip && tip.grupo) + '<span>' + F.escapar(v[1]) + '</span></button>';
+            }).join('') +
+            '</div></div>'
+        : '') +
+
       '<div class="item__medidas">' +
-        '<label class="campo"><span>Ancho</span>' +
+        '<label class="campo"><span>' + I.ui('ancho') + ' Ancho</span>' +
           '<span class="con-unidad"><input type="number" data-campo="anchoCm" min="0" step="1" inputmode="numeric" value="' + (item.ancho / 10) + '"><span>cm</span></span></label>' +
         '<span class="item__por" aria-hidden="true">×</span>' +
-        '<label class="campo"><span>Alto</span>' +
+        '<label class="campo"><span>' + I.ui('alto') + ' Alto</span>' +
           '<span class="con-unidad"><input type="number" data-campo="altoCm" min="0" step="1" inputmode="numeric" value="' + (item.alto / 10) + '"><span>cm</span></span></label>' +
       '</div>' +
       '<p class="item__equivale" data-equivale></p>' +
@@ -399,8 +478,9 @@
 
       '<div class="item__pie">' +
         '<div class="item__total" data-total></div>' +
+        '<button class="btn btn--primario btn--grande btn--bloque" data-accion="listo" data-icono="guardar">Listo</button>' +
         '<div class="item__acciones">' +
-          '<button class="btn btn--fantasma btn--sm" data-accion="duplicar" data-icono="duplicar">Otra igual</button>' +
+          '<button class="btn btn--fantasma btn--sm" data-accion="duplicar" data-icono="duplicar">Agregar otra igual</button>' +
           '<button class="btn btn--fantasma btn--sm btn--peligro" data-accion="borrar" data-icono="borrar">Quitar</button>' +
         '</div>' +
       '</div>';
@@ -408,6 +488,38 @@
     ponerIconos(nodo);
     pintarPieItem(nodo, item);
     return nodo;
+  }
+
+  /** Abertura ya cargada, en un renglón: se toca para volver a abrirla. */
+  function nodoResumen(item, indice) {
+    var p = preciosDelPresupuesto();
+    var tip = C.buscar(p.tipologias, item.tipologiaId);
+    var r = C.calcularItem(item, p);
+    var nodo = document.createElement('div');
+    nodo.className = 'item item--cerrado';
+    nodo.dataset.id = item.id;
+    nodo.innerHTML =
+      '<button type="button" class="item__resumen" data-accion="abrir-item">' +
+        '<span class="item__dibujo">' + I.abertura(item.tipologiaId, tip && tip.grupo) + '</span>' +
+        '<span class="item__resumen-texto">' +
+          '<span class="item__resumen-n">Abertura ' + (indice + 1) + '</span>' +
+          '<strong>' + F.escapar(tip ? tip.nombre : 'Abertura') + '</strong>' +
+          '<span>' + F.medidasMetros(r.anchoMm, r.altoMm) +
+            (r.cantidad > 1 ? ' · <b>' + r.cantidad + ' iguales</b>' : '') + '</span>' +
+          (r.descripcion.detalle ? '<span class="item__resumen-detalle">' + F.escapar(r.descripcion.detalle) + '</span>' : '') +
+          '<span class="item__resumen-precio">' +
+            '<strong>' + F.moneda(r.total) + '</strong>' +
+            '<span class="item__resumen-cambiar">Cambiar</span>' +
+          '</span>' +
+        '</span>' +
+      '</button>';
+    return nodo;
+  }
+
+  /** Lleva a la vista una abertura, debajo de la barra de arriba. */
+  function mostrarItem(id) {
+    var nodo = $('lista-items').querySelector('[data-id="' + id + '"]');
+    if (nodo) nodo.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   /* ════════ Lista de opciones (línea, vidrio, color) ════════ */
@@ -474,7 +586,9 @@
 
   function render() {
     var lista = $('lista-items');
-    lista.replaceChildren.apply(lista, actual.items.map(nodoItem));
+    lista.replaceChildren.apply(lista, actual.items.map(function (it, i) {
+      return it.id === itemAbierto ? nodoItem(it, i) : nodoResumen(it, i);
+    }));
     var hay = actual.items.length > 0;
     $('items-vacio').hidden = hay;
     $('btn-agregar-item').lastChild.textContent = hay ? 'Agregar otra abertura' : 'Agregar una abertura';
@@ -486,6 +600,7 @@
   /** Recalcula sin reconstruir los campos, para no perder el foco al tipear. */
   function refrescarCalculos() {
     Array.prototype.forEach.call($('lista-items').children, function (nodo) {
+      if (nodo.classList.contains('item--cerrado')) return;   // las resumidas no cambian al tipear en otra
       var item = itemPorId(nodo.dataset.id);
       if (item) pintarPieItem(nodo, item);
     });
@@ -1216,6 +1331,16 @@
     });
 
     lista.addEventListener('click', function (ev) {
+      var variante = ev.target.closest('[data-variante]');
+      if (variante) {
+        var iv = itemPorId(variante.closest('.item').dataset.id);
+        if (iv && iv.tipologiaId !== variante.dataset.variante && cambiarTipologia(iv, variante.dataset.variante)) {
+          hayCambios = true;
+          render();
+          autoguardar();
+        }
+        return;
+      }
       var elegir = ev.target.closest('[data-elegir]');
       if (elegir) {
         var it = itemPorId(elegir.closest('.item').dataset.id);
@@ -1231,6 +1356,19 @@
       if (boton.dataset.accion === 'cambiar-tipo') {
         return abrirSelectorTipo(item.id);
       }
+      if (boton.dataset.accion === 'abrir-item') {
+        itemAbierto = item.id;
+        render();
+        mostrarItem(item.id);
+        return;
+      }
+      if (boton.dataset.accion === 'listo') {
+        itemAbierto = null;
+        render();
+        mostrarItem(item.id);
+        avisar('Abertura ' + (actual.items.indexOf(item) + 1) + ' lista');
+        return;
+      }
       if (boton.dataset.accion === 'mas' || boton.dataset.accion === 'menos') {
         item.cantidad = Math.max(1, (Math.round(item.cantidad) || 1) + (boton.dataset.accion === 'mas' ? 1 : -1));
         nodo.querySelector('[data-campo="cantidad"]').value = item.cantidad;
@@ -1243,12 +1381,18 @@
         var copia = clonar(item);
         copia.id = idUnico('it_');
         actual.items.splice(actual.items.indexOf(item) + 1, 0, copia);
+        itemAbierto = copia.id;        // queda abierta la copia, lista para cambiarle la medida
+        render();
+        mostrarItem(copia.id);
+        avisar('Agregada otra igual: cambiale lo que haga falta');
       } else if (boton.dataset.accion === 'borrar') {
         var tip = C.buscar(preciosDelPresupuesto().tipologias, item.tipologiaId);
-        if (!confirm('¿Borrar "' + (tip ? tip.nombre : 'esta abertura') + '" del presupuesto?')) return;
+        if (!confirm('¿Quitar "' + (tip ? tip.nombre : 'esta abertura') + '" del presupuesto?')) return;
         actual.items.splice(actual.items.indexOf(item), 1);
+        if (itemAbierto === item.id) itemAbierto = null;
+        render();
+        avisar('Abertura quitada');
       }
-      render();
       hayCambios = true;
       autoguardar();
     });

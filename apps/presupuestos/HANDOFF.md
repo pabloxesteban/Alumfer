@@ -28,7 +28,7 @@ guarda sus propios datos en `localStorage` — no hay servidor ni sincronizació
 - `main` incluye **todo** lo de presupuestos más trabajo del sitio hecho en otras
   sesiones (PRs #39 a #48).
 - Rama de la última sesión: `claude/intelligent-maxwell-d43hn3`, igual a `main`.
-- Versión publicada: **2026-11-09.2** (rediseño más suave y palabras más claras, sobre la .1: PDF real, compartir, clientes, Tu empresa).
+- Versión publicada: **2026-11-09.3** (.1: PDF real, compartir, clientes, Tu empresa · .2: rediseño suave y palabras claras · .3: hojas como pregunta y una abertura abierta a la vez).
 
 **Flujo de publicación (Pablo lo autorizó explícitamente, no hay que preguntar
 cada vez):** commit en la rama → `git checkout main && git merge --ff-only <rama>`
@@ -139,6 +139,25 @@ Documentación completa en `apps/presupuestos/README.md`.
       nombre. `scroll-padding` para que el teclado no deje un campo tapado por
       las barras fijas. Los tokens del sistema de diseño no se tocaron: los
       valores propios están en `:root` de `estilos.css`.
+18. **Hojas como pregunta, no como tipo distinto.** `FAMILIAS` en `app.js` agrupa
+    tipologías que son el mismo modelo: ventana corrediza (2/3/4 hojas), de
+    abrir (1/2), puerta de abrir (1/2), puerta balcón corrediza (2/3),
+    mosquitero (corredizo/fijo), portón (corredizo/levadizo). El selector
+    muestra cada modelo una vez (17 dibujos en vez de 24) con "2, 3 o 4 hojas"
+    abajo, y la ficha pregunta "¿Cuántas hojas?" con botones con dibujo. La
+    primera variante es la de por defecto. **Los precios siguen siendo por
+    tipología exacta**: el motor y la lista no cambiaron; el PDF dice el nombre
+    completo ("Ventana corrediza 3 hojas"). Una tipología nueva agregada en
+    Precios aparece sola, sin familia. Si se agregan variantes con ids nuevos,
+    sumarlas a `FAMILIAS`.
+19. **Una sola abertura abierta a la vez** (`itemAbierto`, no se guarda). Las
+    demás se ven como un renglón (dibujo, nombre, medidas, "N iguales",
+    detalle, precio, "Cambiar") que se toca para abrirla. La abierta termina
+    con un botón grande "Listo". Al agregar o duplicar, queda abierta la nueva;
+    al abrir un presupuesto, todas resumidas. `refrescarCalculos()` saltea las
+    resumidas. Ancho y alto llevan flechas ↔ ↕.
+20. Los efectos `:hover` de lo que se toca van dentro de `@media (hover: hover)`:
+    en pantallas táctiles el hover queda pegado después del toque.
 
 ---
 
@@ -188,7 +207,7 @@ motor = guardado → PDF descargado → compartir por WhatsApp y email (share
 simulado con `addInitScript`) → reintento con `NotAllowedError` → sugerencia de
 cliente en un presupuesto nuevo → presupuesto de 22 aberturas en 3 páginas →
 logo propio → computadora sin share (abre `wa.me` + descarga) → hoja impresa.
-Y después del rediseño (17 chequeos más): renombre de nombres guardados viejos
+Y después del rediseño (23 chequeos más, incluidas las hojas y el acordeón): renombre de nombres guardados viejos
 respetando los puestos a mano, paso 3 vacío, − y +, lista de vidrios sin
 "Float", cambio de vidrio recalcula, muestras de color, agregado tildado,
 mínimo explicado, PDF con "vidrio Simple".
@@ -222,6 +241,12 @@ cd apps/presupuestos && python3 -m http.server 8777
   inyectar el HTML y usar `emulateMedia({ media: 'print' })`.
 - Con dos `<details>` en el paso 3, `details:last-of-type` ya no apunta a
   "Observaciones y ajustes": buscar el `summary` por texto.
+- GitHub a veces marca como fallidos el chequeo de `VERSION` (con 0 trabajos)
+  o el despliegue de Pages sin que haya error en el código: pasó con la .2, y
+  Pages siguió sirviendo la .1. Se resuelve con el push siguiente. Siempre
+  verificar con `curl .../sw.js | grep VERSION` que lo publicado es lo nuevo.
+- Con el acordeón, en las pruebas solo la última abertura agregada está
+  abierta: tocar `.item__resumen` antes de llenar campos de otra.
 - Playwright no tiene en cuenta las barras fijas al llevar un elemento a la
   vista: hacer `scrollIntoView({ block: 'center' })` antes de tocar.
 - Los precios guardados reemplazan la lista entera de fábrica: si un teléfono
