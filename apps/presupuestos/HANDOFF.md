@@ -72,7 +72,7 @@ cargan en la app (Precios) o con una copia de seguridad, nunca en el código.
 - `main` incluye **todo** lo de presupuestos más trabajo del sitio hecho en otras
   sesiones (PRs #39 a #48).
 - Rama de la última sesión: `claude/intelligent-maxwell-d43hn3`, igual a `main`.
-- Versión publicada: **2026-11-09.3** (.1: PDF real, compartir, clientes, Tu empresa · .2: rediseño suave y palabras claras · .3: hojas como pregunta y una abertura abierta a la vez · .4: vidrio en dos pasos, formas especiales y ¿Dónde va? · .5: catálogo completo del sitio · .6: obras grandes al estilo OP 2.1, rejas de hierro · .7: lista de materiales para comprar, cortinas blancas · .8: "tiras" en vez de "barras" · .9: botón Guardar, Guardados, copia de seguridad, seguimiento, resumen del mes y ganancia · .10: el dólar muestra solo el blue venta).
+- Versión publicada: **2026-11-09.3** (.1: PDF real, compartir, clientes, Tu empresa · .2: rediseño suave y palabras claras · .3: hojas como pregunta y una abertura abierta a la vez · .4: vidrio en dos pasos, formas especiales y ¿Dónde va? · .5: catálogo completo del sitio · .6: obras grandes al estilo OP 2.1, rejas de hierro · .7: lista de materiales para comprar, cortinas blancas · .8: "tiras" en vez de "barras" · .9: botón Guardar, Guardados, copia de seguridad, seguimiento, resumen del mes y ganancia · .10: el dólar muestra solo el blue venta · .11: otro trabajo con precio a mano y precio a mano por abertura).
 
 **Flujo de publicación (Pablo lo autorizó explícitamente, no hay que preguntar
 cada vez):** commit en la rama → `git checkout main && git merge --ff-only <rama>`
@@ -359,7 +359,22 @@ Documentación completa en `apps/presupuestos/README.md`.
 32. **Resumen del mes** (arriba en Guardados, "solo para vos"): cuántos
     presupuestos y por cuánto, cuántos aceptados y por cuánto, % de aceptación
     sobre los que contestaron y ganancia aproximada de los aceptados.
-33. Los efectos `:hover` de lo que se toca van dentro de `@media (hover: hover)`:
+33. **"Otro trabajo"** (`tipologiaId: 'libre'`, grupo "Otros" al final del
+    selector): lo que no está en el catálogo (reparación, vidrio suelto,
+    retiro de aberturas viejas, andamio). Campos `descripcionLibre`,
+    `modoLibre` ('unidad' | 'm2', con medidas si es por m²), `precioLibre`,
+    `cantidad`, `costoLibre` (opcional, para la ganancia), lugar y nota.
+    `Calculo.calcularLibre()`: sin línea, color, vidrio ni redondeo. Código
+    **O1, O2…**; en el PDF va con su descripción y "—" en medidas si es por
+    unidad. No entra en la lista de materiales, no suma herrajes ni mano de
+    obra en la ganancia, y "cambiarlo en las otras aberturas" lo saltea.
+34. **Precio a mano por abertura** (`item.precioManual`, en el desplegable
+    "Precio a mano, descuento o nota"): si es mayor que 0 reemplaza al unitario
+    calculado (que queda en `unitarioCalculado`). En la app se ve "Precio
+    puesto a mano · el calculado era $ X" y el renglón dice "Precio a mano";
+    **en el PDF y el WhatsApp del cliente solo sale el precio**. Actualizar el
+    presupuesto a precios de hoy no lo pisa.
+35. Los efectos `:hover` de lo que se toca van dentro de `@media (hover: hover)`:
     en pantallas táctiles el hover queda pegado después del toque.
 
 ---
@@ -470,6 +485,7 @@ motor = guardado → PDF descargado → compartir por WhatsApp y email (share
 simulado con `addInitScript`) → reintento con `NotAllowedError` → sugerencia de
 cliente en un presupuesto nuevo → presupuesto de 22 aberturas en 3 páginas →
 logo propio → computadora sin share (abre `wa.me` + descarga) → hoja impresa.
+Prueba de otro trabajo y precio a mano (17 chequeos), incluido el PDF.
 Prueba de guardado, seguimiento, copia, mes y ganancia (22 chequeos), incluido
 que la ganancia no llegue al cliente.
 Prueba de la lista de materiales (17 chequeos): barras, retazos, curvado,

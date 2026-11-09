@@ -122,7 +122,7 @@ window.PDF = (function () {
     r.lineas.forEach(function (l, i) {
       var it = items[i] || {};
       var k = claveDibujo(it, l);
-      if (!(k in tipos)) tipos[k] = l.forma !== 'rect' ? I.forma(l.forma) : I.abertura(it.tipologiaId, l.tipologia && l.tipologia.grupo);
+      if (!(k in tipos)) tipos[k] = l.libre ? I.ui('lapiz') : l.forma !== 'rect' ? I.forma(l.forma) : I.abertura(it.tipologiaId, l.tipologia && l.tipologia.grupo);
     });
     var ids = Object.keys(tipos);
 

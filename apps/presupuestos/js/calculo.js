@@ -57,8 +57,35 @@ window.Calculo = (function () {
     };
   }
 
+  /**
+   * "Otro trabajo": lo que no está en el catálogo (una reparación, un vidrio
+   * suelto, retirar aberturas viejas). Precio puesto a mano, por unidad o por
+   * m²; sin línea, vidrio, color ni redondeo.
+   */
+  function calcularLibre(item) {
+    var cantidad = Math.max(0, Math.round(num(item.cantidad))) || 0;
+    var porM2 = item.modoLibre === 'm2';
+    var anchoMm = porM2 ? Math.max(0, num(item.ancho)) : 0;
+    var altoMm = porM2 ? Math.max(0, num(item.alto)) : 0;
+    var m2 = (anchoMm / 1000) * (altoMm / 1000);
+    var precio = Math.max(0, num(item.precioLibre));
+    var unitario = Math.round(porM2 ? precio * m2 : precio);
+    return {
+      tipologia: null, linea: null, vidrio: null, color: null, sinVidrio: true,
+      libre: true, modoLibre: porM2 ? 'm2' : 'unidad',
+      anchoMm: anchoMm, altoMm: altoMm, alto2Mm: 0, cantidad: cantidad,
+      forma: 'rect', recargoForma: 0, lugar: String(item.lugar || '').trim(),
+      m2Real: m2, m2Fact: m2, m2Total: m2 * cantidad, aplicaMinimo: false, perimetro: 0,
+      importeAluminio: 0, importeVidrio: 0, adicionales: [], importeAdicionales: 0,
+      descuentoPct: 0, descuentoImporte: 0, manual: false, unitarioCalculado: unitario,
+      unitario: unitario, total: unitario * cantidad,
+      descripcion: { titulo: String(item.descripcionLibre || '').trim() || 'Otro trabajo', detalle: '' }
+    };
+  }
+
   /** Detalle completo de un ítem. Nunca lanza: los ids desconocidos valen 0. */
   function calcularItem(item, precios) {
+    if (item.tipologiaId === 'libre') return calcularLibre(item);
     var g = precios.generales || {};
     var tip    = buscar(precios.tipologias, item.tipologiaId);
     // Mosquiteros, rejas, postigones y cortinas no llevan línea de perfil; las
@@ -106,7 +133,10 @@ window.Calculo = (function () {
 
     var descuentoPct = Math.min(100, Math.max(0, num(item.descuentoPct)));
     var unitarioBruto = importeAluminio + importeVidrio + importeAdicionales;
-    var unitario = redondear(unitarioBruto * (1 - descuentoPct / 100), g.redondeo);
+    var unitarioCalculado = redondear(unitarioBruto * (1 - descuentoPct / 100), g.redondeo);
+    // Precio puesto a mano (un caso especial, un cliente de siempre): manda sobre el calculado.
+    var manual = num(item.precioManual) > 0;
+    var unitario = manual ? Math.round(num(item.precioManual)) : unitarioCalculado;
     var total = unitario * cantidad;
 
     return {
@@ -123,6 +153,8 @@ window.Calculo = (function () {
       importeAdicionales: importeAdicionales,
       descuentoPct: descuentoPct,
       descuentoImporte: unitarioBruto * (descuentoPct / 100),
+      manual: manual,
+      unitarioCalculado: unitarioCalculado,
       unitario: unitario,
       total: total,
       descripcion: descripcionItem(item, precios)
@@ -170,7 +202,7 @@ window.Calculo = (function () {
     'pbalcon-corr-2': 'PB', 'pbalcon-corr-3': 'PB', 'pbalcon-abrir': 'PB',
     'cerramiento': 'CE', 'baranda': 'B', 'techo-policarb': 'T', 'porton-corr': 'PO', 'porton-levad': 'PO',
     'bajo-mesada': 'BM', 'mosq-corr': 'M', 'mosq-fijo': 'M', 'postigon': 'PT', 'reja': 'R', 'reja-2': 'R',
-    'cortina-pvc-cajon': 'C', 'cortina-pvc-sola': 'C'
+    'cortina-pvc-cajon': 'C', 'cortina-pvc-sola': 'C', 'libre': 'O'
   };
   var PREFIJO_GRUPO = { Ventanas: 'V', Puertas: 'P', Cerramientos: 'CE', Complementos: 'X' };
 

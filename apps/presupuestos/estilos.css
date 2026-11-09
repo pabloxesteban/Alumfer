@@ -297,6 +297,17 @@ textarea { resize: vertical; min-height: 4rem; }
 .campo > span svg { width: 1.15em; height: 1.15em; vertical-align: -.2em; color: var(--blue); }
 .tipo-tile small { font-size: .8rem; color: var(--text-secondary); line-height: 1.2; }
 
+/* Precio puesto a mano (solo se ve en la app) y "Otro trabajo" */
+.marca-manual { display: block; font-size: var(--text-sm); font-weight: 600; color: #7a5600; }
+.con-unidad--pesos input { padding-left: 2.2rem; padding-right: var(--space-4); }
+.con-unidad--pesos .prefijo {
+  position: absolute; left: var(--space-4); right: auto; top: 50%; transform: translateY(-50%);
+  color: var(--text-secondary); font-size: var(--text-md); pointer-events: none;
+}
+.tipo-tile--libre { border-style: dashed; }
+.tipo-tile--libre svg { width: 3rem; height: 3rem; color: var(--blue); }
+.item__dibujo svg[viewBox="0 0 24 24"] { width: 2.4rem; height: 2.4rem; }
+
 /* Código de cada abertura (V1, PF1…) */
 .item .codigo, .codigo {           /* gana a ".item__resumen-texto b", que lo dejaba negro sobre negro */
   color: #fff !important; text-transform: none;

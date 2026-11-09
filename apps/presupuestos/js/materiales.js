@@ -76,6 +76,7 @@ window.Materiales = (function () {
     var cant = l.cantidad;
     if (!cant || !l.anchoMm || !l.altoMm) return out;
 
+    if (l.libre) return out;   // otro trabajo: no lleva tiras ni vidrios que calcular
     var titulo = l.descripcion.titulo;
     if (EN_M2.test(item.tipologiaId)) {
       out.m2.push({ nombre: titulo + (tip && tip.colorFijo ? ' ' + tip.colorFijo : ''), m2: l.m2Real * cant, unidades: cant,
@@ -289,7 +290,14 @@ window.Materiales = (function () {
       if (num(x.costoM2) > 0) costos.comprado += x.m2 * num(x.costoM2);
       else faltan.push('el costo por m² de ' + x.nombre);
     });
-    var aberturas = r.unidades;
+    // Otros trabajos: lo que se anotó que cuestan (opcional) y no suman herrajes ni mano de obra.
+    var libres = 0;
+    (presupuesto.items || []).forEach(function (it, i) {
+      if (it.tipologiaId !== 'libre') return;
+      costos.comprado += num(it.costoLibre) * r.lineas[i].cantidad;
+      libres += r.lineas[i].cantidad;
+    });
+    var aberturas = r.unidades - libres;
     costos.herrajes = aberturas * num(g.costoHerrajes);
     costos.manoObra = aberturas * num(g.costoManoObra);
     if (!num(g.costoHerrajes)) faltan.push('herrajes y accesorios por abertura');

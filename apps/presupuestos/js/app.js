@@ -400,11 +400,33 @@
           return '<button class="tipo-tile' + (activo ? ' is-activo' : '') + '" data-tipo="' + t.id + '">' +
             I.abertura(t.id, t.grupo) + '<span>' + F.escapar(t.nombre) + '</span></button>';
         }).join('') + '</div>';
-    }).join('');
+    }).join('') +
+    // Lo que no está en el catálogo: se describe y se le pone el precio a mano.
+    (item ? '' : '<h3 class="tipos-grupo">Otros</h3><div class="tipos-grilla">' +
+      '<button class="tipo-tile tipo-tile--libre" data-tipo="libre">' + I.ui('lapiz') +
+        '<span>Otro trabajo</span><small>reparación, vidrio suelto, retiro… con precio a mano</small></button></div>');
 
     $('modal-tipos').hidden = false;
     document.querySelector('.modal__cuerpo').scrollTop = 0;
     document.body.style.overflow = 'hidden';
+  }
+
+  /** "Otro trabajo": lo que no está en el catálogo, con precio puesto a mano. */
+  function agregarLibre() {
+    var nuevo = {
+      id: idUnico('it_'), tipologiaId: 'libre', descripcionLibre: '', modoLibre: 'unidad',
+      precioLibre: 0, costoLibre: 0, ancho: 1000, alto: 1000, cantidad: 1,
+      adicionales: [], descuentoPct: 0, nota: '', vidrioId: 'sin'
+    };
+    actual.items.push(nuevo);
+    itemAbierto = itemQueEntra = nuevo.id;
+    cerrarSelectorTipo();
+    render();
+    mostrarItem(nuevo.id);
+    var campo = $('lista-items').querySelector('[data-id="' + nuevo.id + '"] [data-campo="descripcionLibre"]');
+    if (campo) campo.focus();
+    hayCambios = true;
+    autoguardar();
   }
 
   function cerrarSelectorTipo() {
@@ -438,6 +460,7 @@
   }
 
   function elegirTipo(tipoId) {
+    if (tipoId === 'libre') return agregarLibre();
     var p = preciosDelPresupuesto();
     var tip = tipologiaParaPresupuesto(tipoId);
     if (!tip) return cerrarSelectorTipo();
@@ -648,7 +671,63 @@
     '</div>';
   }
 
+  function nodoLibre(item, indice) {
+    var porM2 = item.modoLibre === 'm2';
+    var nodo = document.createElement('div');
+    nodo.className = 'item item--abierto' + (item.id === itemQueEntra ? ' item--entra' : '');
+    nodo.dataset.id = item.id;
+    nodo.innerHTML = '' +
+      '<div class="item__tipo">' +
+        '<span class="item__dibujo">' + I.ui('lapiz') + '</span>' +
+        '<span class="item__nombre"><span><b class="codigo">' + F.escapar(codigosActuales[indice] || '') + '</b>' +
+          (item.lugar ? ' · ' + F.escapar(item.lugar) : '') + '</span><strong>Otro trabajo</strong></span>' +
+      '</div>' +
+      '<label class="campo"><span>¿Qué es? (sale así en el presupuesto)</span>' +
+        '<input type="text" data-campo="descripcionLibre" value="' + F.escapar(item.descripcionLibre || '') + '" ' +
+        'placeholder="Ej.: Retiro de las aberturas viejas"></label>' +
+      '<div class="campo"><span id="modo-' + item.id + '">¿Cómo lo cobrás?</span>' +
+        '<div class="espesores" role="radiogroup" aria-labelledby="modo-' + item.id + '">' +
+          [['unidad', 'Precio por unidad'], ['m2', 'Por m²']].map(function (m) {
+            var activa = (item.modoLibre || 'unidad') === m[0];
+            return '<button type="button" class="espesor' + (activa ? ' is-activa' : '') + '" role="radio" aria-checked="' + activa +
+              '" data-modo-libre="' + m[0] + '">' + m[1] + '</button>';
+          }).join('') +
+        '</div></div>' +
+      (porM2 ? bloqueMedidas(item) + '<p class="item__equivale" data-equivale></p>' : '<p class="item__equivale" data-equivale hidden></p>') +
+      '<label class="campo"><span>' + (porM2 ? 'Precio del m²' : 'Precio de cada uno') + '</span>' +
+        '<span class="con-unidad con-unidad--pesos"><span class="prefijo">$</span><input type="number" data-campo="precioLibre" min="0" step="1000" inputmode="numeric" value="' +
+        (item.precioLibre || '') + '" placeholder="0"></span></label>' +
+      '<div class="campo"><span id="cant-' + item.id + '">¿Cuántos?</span>' +
+        '<div class="contador" role="group" aria-labelledby="cant-' + item.id + '">' +
+          '<button type="button" class="contador__btn" data-accion="menos" aria-label="Uno menos">−</button>' +
+          '<input type="number" data-campo="cantidad" min="1" step="1" inputmode="numeric" value="' + item.cantidad + '" aria-labelledby="cant-' + item.id + '">' +
+          '<button type="button" class="contador__btn" data-accion="mas" aria-label="Uno más">+</button>' +
+        '</div></div>' +
+      bloqueLugar(item) +
+      '<details class="desplegable desplegable--suave"' + ((item.costoLibre || item.nota) ? ' open' : '') + '>' +
+        '<summary>Lo que te cuesta y nota</summary>' +
+        '<div class="grilla-campos">' +
+          '<label class="campo"><span>Lo que te cuesta a vos, cada uno (solo para vos)</span>' +
+            '<input type="number" data-campo="costoLibre" min="0" step="1000" inputmode="numeric" value="' + (item.costoLibre || '') + '" placeholder="Para calcular la ganancia"></label>' +
+          '<label class="campo campo--ancho"><span>Nota (sale en el presupuesto)</span>' +
+            '<input type="text" data-campo="nota" value="' + F.escapar(item.nota || '') + '" placeholder="Opcional"></label>' +
+        '</div>' +
+      '</details>' +
+      '<div class="item__pie">' +
+        '<div class="item__total" data-total></div>' +
+        '<button class="btn btn--primario btn--grande btn--bloque" data-accion="listo" data-icono="guardar">Listo</button>' +
+        '<div class="item__acciones">' +
+          '<button class="btn btn--fantasma btn--sm" data-accion="duplicar" data-icono="duplicar">Agregar otro igual</button>' +
+          '<button class="btn btn--fantasma btn--sm btn--peligro" data-accion="borrar" data-icono="borrar">Quitar</button>' +
+        '</div>' +
+      '</div>';
+    ponerIconos(nodo);
+    pintarPieItem(nodo, item);
+    return nodo;
+  }
+
   function nodoItem(item, indice) {
+    if (item.tipologiaId === 'libre') return nodoLibre(item, indice);
     var p = preciosDelPresupuesto();
     var tip = C.buscar(p.tipologias, item.tipologiaId);
     var sinVidrio = !!(tip && tip.sinVidrio);
@@ -743,9 +822,12 @@
         preguntasExtra +
       '</div>' +
 
-      '<details class="desplegable desplegable--suave"' + ((item.descuentoPct || item.nota) ? ' open' : '') + '>' +
-        '<summary>Descuento o nota para esta abertura</summary>' +
+      '<details class="desplegable desplegable--suave"' + ((item.descuentoPct || item.nota || item.precioManual) ? ' open' : '') + '>' +
+        '<summary>Precio a mano, descuento o nota</summary>' +
         '<div class="grilla-campos">' +
+          '<label class="campo campo--ancho"><span>Precio a mano, de cada una <em class="opcional">(si querés cobrar otro precio)</em></span>' +
+            '<span class="con-unidad con-unidad--pesos"><span class="prefijo">$</span><input type="number" data-campo="precioManual" min="0" step="1000" inputmode="numeric" value="' +
+            (item.precioManual || '') + '" placeholder="Vacío: usa el precio calculado"></span></label>' +
           '<label class="campo"><span>Descuento (%)</span>' +
             '<input type="number" data-campo="descuentoPct" min="0" max="100" step="1" inputmode="numeric" value="' + item.descuentoPct + '"></label>' +
           '<label class="campo campo--ancho"><span>Nota (sale en el presupuesto)</span>' +
@@ -777,14 +859,15 @@
     nodo.dataset.id = item.id;
     nodo.innerHTML =
       '<button type="button" class="item__resumen" data-accion="abrir-item">' +
-        '<span class="item__dibujo">' + (r.forma !== 'rect' ? I.forma(r.forma) : I.abertura(item.tipologiaId, tip && tip.grupo)) + '</span>' +
+        '<span class="item__dibujo">' + (r.libre ? I.ui('lapiz') : r.forma !== 'rect' ? I.forma(r.forma) : I.abertura(item.tipologiaId, tip && tip.grupo)) + '</span>' +
         '<span class="item__resumen-texto">' +
           '<span class="item__resumen-n"><b class="codigo">' + F.escapar(codigosActuales[indice] || '') + '</b>' +
             (r.lugar ? ' · ' + F.escapar(r.lugar) : '') + '</span>' +
-          '<strong>' + F.escapar(tip ? tip.nombre : 'Abertura') + '</strong>' +
-          '<span>' + F.medidasItem(r) +
+          '<strong>' + F.escapar(r.libre ? r.descripcion.titulo : (tip ? tip.nombre : 'Abertura')) + '</strong>' +
+          '<span>' + (r.libre && r.modoLibre !== 'm2' ? (r.cantidad > 1 ? '' : '1 unidad') : F.medidasItem(r)) +
             (r.cantidad > 1 ? ' · <b>' + r.cantidad + ' iguales</b>' : '') + '</span>' +
           (r.descripcion.detalle ? '<span class="item__resumen-detalle">' + F.escapar(r.descripcion.detalle) + '</span>' : '') +
+          (r.manual ? '<span class="marca-manual">Precio a mano</span>' : '') +
           '<span class="item__resumen-precio">' +
             '<strong>' + F.moneda(r.total) + '</strong>' +
             '<span class="item__resumen-cambiar">Cambiar</span>' +
@@ -884,7 +967,7 @@
   function aplicables(campo, item, valor) {
     var p = preciosDelPresupuesto();
     return actual.items.filter(function (it) {
-      if (it === item) return false;
+      if (it === item || it.tipologiaId === 'libre') return false;   // un "otro trabajo" no lleva línea, color ni vidrio
       var tip = C.buscar(p.tipologias, it.tipologiaId);
       if (campo === 'lineaId') {
         if (tip && tip.sinLinea) return false;
@@ -924,6 +1007,15 @@
 
   function pintarPieItem(nodo, item) {
     var r = C.calcularItem(item, preciosDelPresupuesto());
+    if (r.libre) {
+      var eq = nodo.querySelector('[data-equivale]');
+      if (eq && r.modoLibre === 'm2') eq.textContent = 'Son ' + F.medidasMetros(r.anchoMm, r.altoMm) + ' (' + F.numero(r.m2Real, 2) + ' m²)';
+      nodo.querySelector('[data-total]').innerHTML =
+        '<span>' + (r.cantidad > 1 ? r.cantidad + ' × ' + F.moneda(r.unitario) : 'Precio') + '</span>' +
+        '<strong>' + F.moneda(r.total) + '</strong>' +
+        (r.unitario ? '' : '<span class="marca-minimo">Poné el precio</span>');
+      return;
+    }
 
     var caja = F.medidasMetros(r.anchoMm, Math.max(r.altoMm, r.alto2Mm || 0));
     nodo.querySelector('[data-equivale]').innerHTML =
@@ -935,7 +1027,9 @@
 
     nodo.querySelector('[data-total]').innerHTML =
       '<span>' + (r.cantidad > 1 ? r.cantidad + ' × ' + F.moneda(r.unitario) : 'Precio') + '</span>' +
-      '<strong>' + F.moneda(r.total) + '</strong>';
+      '<strong>' + F.moneda(r.total) + '</strong>' +
+      // Solo para quien presupuesta: el cliente ve el precio, no esta aclaración.
+      (r.manual ? '<span class="marca-manual">Precio puesto a mano · el calculado era ' + F.moneda(r.unitarioCalculado) + '</span>' : '');
   }
 
   function itemPorId(id) {
@@ -2127,6 +2221,12 @@
     });
 
     lista.addEventListener('click', function (ev) {
+      var modoLibre = ev.target.closest('[data-modo-libre]');
+      if (modoLibre) {
+        var il = itemPorId(modoLibre.closest('.item').dataset.id);
+        if (il) { il.modoLibre = modoLibre.dataset.modoLibre; hayCambios = true; render(); autoguardar(); }
+        return;
+      }
       var tocado = ev.target.closest('[data-forma],[data-vidrio],[data-lugar],[data-tono],[data-adicional-tipo]');
       if (tocado) {
         var itx = itemPorId(tocado.closest('.item').dataset.id);

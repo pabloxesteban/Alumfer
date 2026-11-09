@@ -15,7 +15,7 @@
    Si no, el navegador no se entera de que hay algo nuevo.
    ============================================================ */
 
-var VERSION = '2026-11-09.10';
+var VERSION = '2026-11-09.11';
 var CACHE = 'alumfer-presupuestos-' + VERSION;
 
 var ARCHIVOS = [

@@ -120,6 +120,15 @@ usan (WhatsApp y PDF), así no hay que buscarlos.
    rejas, postigones y cortinas no piden línea; las cortinas de PVC tampoco color.
 6. **Listo:** la abertura queda resumida en un renglón; se toca para cambiarla.
 
+**Lo que no está en el catálogo:** al final del selector está **Otro trabajo**
+(una reparación, un vidrio suelto, retirar las aberturas viejas…): se escribe
+qué es y se le pone el precio, por unidad o por m². Sale en el presupuesto con
+su código (O1, O2…).
+
+**Cobrar otro precio:** en cada abertura, *Precio a mano, descuento o nota →
+Precio a mano* reemplaza el precio calculado. La app recuerda cuál era el
+calculado (solo se ve en la app); al cliente le llega solo el precio.
+
 **Un quincho u obra grande:** cada pieza (corredizas, paños fijos, el
 triángulo del frontis) se carga como una abertura y se marca *¿Dónde va? →
 Quincho*. En la pantalla y en el PDF salen juntas bajo el título QUINCHO con su

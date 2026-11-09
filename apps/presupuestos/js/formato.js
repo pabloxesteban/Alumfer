@@ -55,6 +55,7 @@ window.Formato = (function () {
    * "1,50 × 1,10 m", inclinada "1,50 × 1,10 / 0,80 m", redonda "Ø 0,80 m".
    */
   function medidasItem(l) {
+    if (l.libre && l.modoLibre !== 'm2') return '—';   // otro trabajo por unidad: no tiene medidas
     if (l.forma === 'redonda') return 'Ø ' + numero(l.anchoMm / 1000, 2) + ' m';
     if (l.forma === 'inclinada') {
       return numero(l.anchoMm / 1000, 2) + ' × ' + numero(l.altoMm / 1000, 2) + ' / ' + numero(l.alto2Mm / 1000, 2) + ' m';
