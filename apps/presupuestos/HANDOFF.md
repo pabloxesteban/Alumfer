@@ -55,8 +55,14 @@ pasaron para esa charla:
 <https://claude.ai/artifact/3YUMhr9X1whec6JXeDTVWj>. Tiene esas preguntas y más
 (cada abertura, cada color, cada vidrio con lo que cobra y lo que paga,
 agregados, flete, condiciones, costos, descuentos de fabricación). Cada
-respuesta se guarda sola en la base de la página (colección `respuestas`, un
-documento por campo, `{texto, actualizado}`). **Cuando Pablo avise que está
+respuesta se guarda sola en la base de la página. Desde la versión 2 es una
+entrevista guiada (una pregunta por pantalla, 5 bloques: lo indispensable,
+demás aberturas, líneas y colores, vidrios y agregados, costos y materiales).
+Colección `respuestas`: un documento por campo, `{texto, actualizado}`, con
+ids como `metodo.forma`, `ab.vent-corr-2.precio`, `ab.vent-corr-2.modo`,
+`vidrio.simple-4.cobra` / `.paga`, `linea.modena` (%), `color.negro` (%),
+`agregado.premarco.cobra`, `costo.peso.herrero`, `material.descuentos.<línea>`.
+Colección `pendientes`: `{despues: true}` por pantalla que el papá «no sabe». **Cuando Pablo avise que está
 completa, leerla con `ArtifactData` → `list` de `respuestas`** y, con eso,
 ajustar el motor (pregunta `metodo.forma`) y armar los precios. Los importes se
 cargan en la app (Precios) o con una copia de seguridad, nunca en el código.
