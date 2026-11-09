@@ -175,7 +175,10 @@ window.PRECIOS_BASE = {
     validezDias: 7,
     anticipoPct: 50,
     redondeo: 1000,           // redondea el total de cada ítem a múltiplos de $1.000
-    largoBarra: 6000,         // barras de aluminio de 6 m (para la lista de compras)
+    largoBarra: 6000,         // tiras de aluminio de 6 m (para la lista de compras)
+    costoHerrajes: 0,         // $ por abertura, para la ganancia aproximada (lo carga Alumfer)
+    costoManoObra: 0,         // $ por abertura, ídem
+    diasSeguimiento: 3,       // días sin respuesta para "volver a llamar"
     corteSierra: 5,           // mm que se pierden en cada corte
     plazoEntrega: '20 a 30 días hábiles desde la seña y la toma de medidas definitiva.',
     formaPago: 'Efectivo o transferencia bancaria.'

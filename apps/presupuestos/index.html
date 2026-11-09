@@ -33,7 +33,7 @@
 
   <nav class="barra__tabs" role="tablist">
     <button class="tab is-activa" data-vista="presupuesto" data-icono="presupuesto" role="tab" aria-selected="true">Presupuesto</button>
-    <button class="tab" data-vista="historial" data-icono="historial" role="tab" aria-selected="false">Anteriores <span class="tab__badge" id="badge-historial">0</span></button>
+    <button class="tab" data-vista="historial" data-icono="historial" role="tab" aria-selected="false">Guardados <span class="tab__badge" id="badge-historial">0</span><span class="tab__alerta" id="alerta-historial" hidden aria-label="Hay presupuestos para volver a llamar"></span></button>
     <button class="tab" data-vista="precios" data-icono="precios" role="tab" aria-selected="false">Precios</button>
   </nav>
 
@@ -50,6 +50,14 @@
   <span class="instalar__botones">
     <button class="btn btn--claro btn--sm" id="btn-instalar">Instalar</button>
     <button class="btn btn--fantasma btn--sm" id="btn-instalar-no">Ahora no</button>
+  </span>
+</div>
+
+<div class="aviso-copia" id="aviso-copia" hidden>
+  <span id="aviso-copia-texto">Guardá una copia de tus presupuestos, por si se rompe o se pierde el teléfono.</span>
+  <span class="instalar__botones">
+    <button class="btn btn--claro btn--sm" id="btn-copia-aviso">Guardar copia</button>
+    <button class="btn btn--fantasma btn--sm" id="btn-copia-luego">Más tarde</button>
   </span>
 </div>
 
@@ -154,6 +162,8 @@
       <div class="totales" id="totales"></div>
 
       <div class="acciones-finales">
+        <button class="btn btn--guardar btn--grande btn--bloque" id="btn-guardar" data-icono="guardar">Guardar presupuesto</button>
+        <div class="confirmacion-guardado" id="confirmacion-guardado" role="status" hidden></div>
         <button class="btn btn--whatsapp btn--grande btn--bloque" id="btn-whatsapp" data-icono="whatsapp">Enviar por WhatsApp</button>
         <p class="apunte acciones-finales__ayuda" id="ayuda-whatsapp">Se abre la lista para compartir: elegí <strong>WhatsApp</strong> y después el contacto. El PDF va adjunto.</p>
         <button class="btn btn--primario btn--grande btn--bloque" id="btn-pdf" data-icono="descargar">Descargar PDF</button>
@@ -227,30 +237,56 @@
     <!-- Solo para Alumfer: no sale en el PDF ni en el WhatsApp del cliente -->
     <section class="tarjeta tarjeta--interna" id="tarjeta-compras" hidden>
       <header class="tarjeta__header">
-        <h2><span class="paso paso--interno" aria-hidden="true">✓</span> Para hacer las compras</h2>
+        <h2><span class="paso paso--interno" aria-hidden="true">✓</span> Ganancia y compras</h2>
         <span class="etiqueta-interna">Solo para vos</span>
       </header>
-      <p class="guia">Cuántas tiras de aluminio de 6 m hay que comprar, qué vidrios y cuánto sobra.
-        <strong>Esto no le llega al cliente.</strong></p>
-      <button class="btn btn--oscuro btn--grande btn--bloque" id="btn-compras" data-icono="lista">Ver los materiales</button>
+      <p class="guia">Cuánto deja este presupuesto, cuántas tiras de aluminio de 6 m hay que comprar,
+        qué vidrios y cuánto sobra. <strong>Esto no le llega al cliente.</strong></p>
+      <div class="ganancia" id="ganancia-resumen"></div>
+      <button class="btn btn--oscuro btn--grande btn--bloque" id="btn-compras" data-icono="lista">Ver el detalle y los materiales</button>
     </section>
   </section>
 
-  <!-- ════════ ANTERIORES ════════ -->
+  <!-- ════════ GUARDADOS ════════ -->
   <section class="vista" id="vista-historial" hidden>
+    <section class="tarjeta tarjeta--interna" id="tarjeta-mes" hidden>
+      <header class="tarjeta__header">
+        <h2 id="mes-titulo">Este mes</h2>
+        <span class="etiqueta-interna">Solo para vos</span>
+      </header>
+      <div class="compras-resumen" id="mes-datos"></div>
+    </section>
+
+    <section class="tarjeta tarjeta--llamar" id="tarjeta-llamar" hidden>
+      <header class="tarjeta__header">
+        <h2>Para volver a llamar</h2>
+      </header>
+      <p class="guia" id="llamar-guia">Se los mandaste hace unos días y todavía no contestaron.</p>
+      <div id="lista-llamar" class="lista-historial"></div>
+    </section>
+
     <section class="tarjeta">
       <header class="tarjeta__header">
-        <h2>Presupuestos anteriores</h2>
+        <h2>Presupuestos guardados</h2>
       </header>
       <label class="campo">
-        <span>Buscar por cliente o número</span>
-        <input type="search" id="buscar-historial" placeholder="Ej.: Gómez">
+        <span>Buscar por nombre del cliente o número</span>
+        <input type="search" id="buscar-historial" placeholder="Ej.: Gómez o 0012">
       </label>
       <div id="lista-historial" class="lista-historial"></div>
+    </section>
+
+    <section class="tarjeta">
+      <header class="tarjeta__header">
+        <h2>Copia de seguridad</h2>
+      </header>
+      <p class="guia">Los presupuestos se guardan en este teléfono. Si se rompe o se pierde, se pierden con él.
+        Cada tanto guardá una copia: se manda por WhatsApp (por ejemplo, a Pablo) o a Drive.</p>
+      <p class="apunte" id="copia-ultima"></p>
       <div class="acciones-finales">
-        <button class="btn btn--fantasma btn--bloque" id="btn-exportar">Guardar una copia de todo</button>
+        <button class="btn btn--primario btn--grande btn--bloque" id="btn-exportar" data-icono="guardar">Guardar una copia ahora</button>
         <button class="btn btn--fantasma btn--bloque" id="btn-importar">Recuperar una copia</button>
-        <input type="file" id="archivo-importar" accept="application/json" hidden>
+        <input type="file" id="archivo-importar" accept=".json,application/json,text/plain,application/octet-stream" hidden>
       </div>
     </section>
   </section>
@@ -378,6 +414,24 @@
           <span>Forma de pago (sale impresa)</span>
           <input type="text" id="gen-pago" placeholder="Ej.: Efectivo o transferencia bancaria.">
         </label>
+      </div>
+    </section>
+
+    <section class="tarjeta tarjeta--interna">
+      <header class="tarjeta__header">
+        <h2>Costos, para calcular la ganancia</h2>
+        <span class="etiqueta-interna">Solo para vos</span>
+      </header>
+      <p class="guia">La ganancia de cada presupuesto se calcula con lo que pagás: el kilo de aluminio (arriba),
+        el peso por metro de cada línea (en Líneas), lo que pagás el m² de cada vidrio (en Vidrios) y estos dos valores.
+        Lo que no cargues cuenta como cero y la app te avisa.</p>
+      <div class="grilla-campos">
+        <label class="campo"><span>Herrajes y accesorios, por abertura ($)</span>
+          <input type="number" id="gen-herrajes" min="0" step="1000" inputmode="numeric"></label>
+        <label class="campo"><span>Mano de obra, por abertura ($)</span>
+          <input type="number" id="gen-mano-obra" min="0" step="1000" inputmode="numeric"></label>
+        <label class="campo"><span>Días para volver a llamar a un cliente</span>
+          <input type="number" id="gen-dias-llamar" min="1" step="1" inputmode="numeric"></label>
       </div>
     </section>
 

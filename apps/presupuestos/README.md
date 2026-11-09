@@ -62,7 +62,7 @@ corriendo se ve al final de la pestaña *Precios*.
 > Cada teléfono guarda sus propios presupuestos y sus propios precios. No se
 > sincronizan entre dispositivos: lo que se carga en el celular no aparece en
 > la computadora. Para pasar datos de uno a otro está la copia de seguridad en
-> *Anteriores*.
+> *Guardados*.
 
 ### Qué se ve y qué no
 
@@ -94,7 +94,7 @@ franja amarilla y conviene usar el comando de arriba.
 | Pestaña | Para qué |
 |---------|----------|
 | **Presupuesto** | Cargar cliente, aberturas y ajustes. Es la pantalla de trabajo. |
-| **Anteriores** | Reabrir, repetir o borrar presupuestos guardados. Copia de seguridad. |
+| **Guardados** | Buscar por nombre, número o teléfono; reabrir, repetir o borrar. Arriba: el resumen del mes y los presupuestos "para volver a llamar". Copia de seguridad. |
 | **Precios** | Editar la lista y aplicar aumentos por inflación. |
 
 Abajo de todo queda fija una barra con el total y los dos botones que más se
@@ -129,6 +129,33 @@ subtotal. Cada abertura tiene un código (V1, PF1, P1, PB1, R1…) para hablar d
 vidrio en las otras*: un cambio de color en toda la obra es un solo toque.
 Cada tipo arranca con su medida típica (puerta 90 × 205) o con la de otra igual
 ya cargada. Las medidas son de afuera a afuera del marco.
+
+## Guardar y no perder nada
+
+El botón **Guardar presupuesto** (paso 3) lo guarda y dice con qué número y
+cómo encontrarlo en **Guardados**. Igual la app guarda sola cada cambio.
+
+Todo vive en el teléfono: si se rompe, se pierde. Por eso, cada 7 días (si
+hubo cambios) aparece arriba una franja **"Guardá una copia"**: el botón manda
+un archivo por WhatsApp, Drive o email. Para recuperarlo: *Guardados → Recuperar
+una copia*.
+
+## Para volver a llamar
+
+Los presupuestos enviados que pasaron 3 días sin respuesta (se cambia en
+*Precios → Costos*) aparecen arriba en Guardados, y la pestaña muestra un punto
+naranja. **Preguntarle por WhatsApp** abre el chat del cliente con un mensaje
+listo; también están **Aceptó**, **No aceptó** y **Más tarde**.
+
+## Ganancia (solo para Alumfer)
+
+La tarjeta **Ganancia y compras** muestra cuánto deja el presupuesto: lo que se
+cobra sin IVA menos aluminio, vidrios, lo que se compra hecho, herrajes y mano
+de obra. Los costos se cargan en *Precios* (kilo de aluminio, peso por metro de
+cada línea, lo que se paga el m² de cada vidrio, herrajes y mano de obra por
+abertura). Lo que falta cargar se avisa. **No sale ni en el PDF ni en el
+WhatsApp del cliente.** En Guardados hay un resumen del mes con lo
+presupuestado, lo aceptado y la ganancia.
 
 ## Para hacer las compras (solo para Alumfer)
 
@@ -264,7 +291,7 @@ precios de hoy.
 En el `localStorage` del navegador de esta máquina. No hay servidor ni nube:
 si borrás los datos del navegador o cambiás de computadora, se pierden.
 
-Por eso, cada tanto: **Anteriores → Guardar una copia de todo** descarga un
+Por eso, cada tanto: **Guardados → Guardar una copia ahora** descarga un
 `.json` con todos los presupuestos y la lista de precios. **Recuperar una copia**
 lo vuelve a cargar.
 

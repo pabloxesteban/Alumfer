@@ -249,6 +249,7 @@
 
   function abrir(presupuesto) {
     actual = presupuesto;
+    $('confirmacion-guardado').hidden = true;
     itemAbierto = null;                      // al abrir se ven todas resumidas
     $('sugerencias-clientes').hidden = true;
     if (!actual.precios) actual.precios = clonar(precios);
@@ -326,6 +327,27 @@
     marcarGuardado('presupuesto-guardado');
     renderHistorial();
     if (!silencioso) avisar('Presupuesto ' + actual.numero + ' guardado');
+  }
+
+  /**
+   * Botón "Guardar presupuesto". La app ya guarda sola cada cambio, pero quien
+   * no está acostumbrado necesita un botón y ver que quedó guardado y dónde
+   * encontrarlo. Hace lo mismo que el guardado automático, al instante.
+   */
+  function guardarConAviso() {
+    leerFormulario();
+    if (!actual.items.length && !actual.cliente.nombre) {
+      return avisar('Todavía no hay nada para guardar: poné el nombre del cliente o agregá una abertura.', 'error');
+    }
+    clearTimeout(temporizadorGuardado);
+    guardar(true);
+    var cli = actual.cliente.nombre;
+    $('confirmacion-guardado').innerHTML = '<strong>✓ Guardado como ' + F.escapar(actual.numero) + '</strong>' +
+      '<span>Para volver a verlo: pestaña <b>Guardados</b> y buscá ' +
+      (cli ? '«' + F.escapar(cli.split(' ')[0]) + '» o ' : '') + 'el número ' + F.escapar(actual.numero.split('-').pop()) + '.</span>';
+    $('confirmacion-guardado').hidden = false;
+    avisar('Presupuesto ' + actual.numero + ' guardado');
+    revisarCopia();
   }
 
   /** Guarda solo lo que ya vale la pena conservar, sin molestar. */
@@ -992,12 +1014,180 @@
       : '';
 
     $('barra-total-valor').textContent = F.moneda(r.total);
+    renderGanancia();
     $('barra-total').hidden = !actual.items.length;
   }
 
-  /* ════════ Anteriores ════════ */
+  /* ════════ Copia de seguridad ════════ */
+
+  /*
+   * Todo vive en el teléfono. La copia es un archivo que se manda por la lista
+   * para compartir (WhatsApp a Pablo, Drive, email) y se recupera con
+   * "Recuperar una copia". Se recuerda cada 7 días si hubo cambios.
+   */
+  var CLAVE_COPIA = 'alumfer.copia.v1';
+  function infoCopia() {
+    try { return JSON.parse(window.localStorage.getItem(CLAVE_COPIA)) || {}; } catch (e) { return {}; }
+  }
+  function anotarCopia(cambios) {
+    var info = infoCopia();
+    Object.assign(info, cambios);
+    try { window.localStorage.setItem(CLAVE_COPIA, JSON.stringify(info)); } catch (e) {}
+  }
+
+  /** Huella de lo guardado: si cambió desde la última copia, conviene otra. */
+  function huella() {
+    var lista = A.listar();   // ya viene ordenada por última modificación
+    return lista.length + '|' + ((lista[0] && lista[0].modificado) || '');
+  }
+
+  function revisarCopia() {
+    var cantidad = A.listar().length;
+    var info = infoCopia();
+    var ahora = Date.now();
+    var hace = info.fecha ? (ahora - new Date(info.fecha).getTime()) / DIA : Infinity;
+    var pospuesta = info.luegoHasta && new Date(info.luegoHasta).getTime() > ahora;
+    var hayNovedades = info.huella !== huella();
+    var toca = cantidad >= 3 && hayNovedades && hace >= 7 && !pospuesta;
+    $('aviso-copia').hidden = !toca;
+    if (toca) {
+      $('aviso-copia-texto').textContent = info.fecha
+        ? 'Hace ' + Math.floor(hace) + ' días que no guardás una copia de tus ' + cantidad + ' presupuestos.'
+        : 'Guardá una copia de tus ' + cantidad + ' presupuestos, por si se rompe o se pierde el teléfono.';
+    }
+  }
+
+  function renderCopiaUltima() {
+    var info = infoCopia();
+    $('copia-ultima').textContent = info.fecha
+      ? 'Última copia: ' + F.fechaHoraRelativa(info.fecha) + '.'
+      : 'Todavía no guardaste ninguna copia.';
+  }
+
+  function guardarCopia() {
+    var datos = JSON.stringify(A.exportarTodo(), null, 2);
+    var nombre = 'Copia presupuestos Alumfer ' + F.fechaISO() + '.json';
+    var listo = function () {
+      anotarCopia({ fecha: new Date().toISOString(), huella: huella(), luegoHasta: null });
+      revisarCopia();
+      renderCopiaUltima();
+    };
+    var archivo = window.File ? new File([datos], nombre, { type: 'application/json' }) : null;
+    var puede = false;
+    try { puede = !!(archivo && navigator.canShare && navigator.canShare({ files: [archivo] })); } catch (e) {}
+    if (puede) {
+      navigator.share({ files: [archivo], title: 'Copia de los presupuestos', text: 'Copia de los presupuestos de Alumfer del ' + F.fechaCorta(F.fechaISO()) })
+        .then(function () { listo(); avisar('Copia guardada'); })
+        .catch(function (err) { if (!err || err.name !== 'AbortError') avisar('No se pudo compartir la copia.', 'error'); });
+      return;
+    }
+    var enlace = document.createElement('a');
+    enlace.href = URL.createObjectURL(new Blob([datos], { type: 'application/json' }));
+    enlace.download = nombre;
+    document.body.appendChild(enlace);
+    enlace.click();
+    enlace.remove();
+    setTimeout(function () { URL.revokeObjectURL(enlace.href); }, 60000);
+    listo();
+    avisar('Copia guardada en Descargas');
+  }
+
+  /* ════════ Guardados ════════ */
 
   var ESTADOS = { borrador: 'En preparación', enviado: 'Enviado', aceptado: 'Aceptado', rechazado: 'Rechazado' };
+
+  var DIA = 86400000;
+
+  /** Presupuestos enviados que pasaron los días configurados sin respuesta. */
+  function paraLlamar() {
+    var dias = Number(precios.generales.diasSeguimiento) || 3;
+    var ahora = Date.now();
+    return A.listar().filter(function (p) {
+      if (p.estado !== 'enviado') return false;
+      if (p.llamarDesde && new Date(p.llamarDesde).getTime() > ahora) return false;   // "más tarde"
+      var desde = new Date(p.ultimoSeguimiento || p.enviadoEl || p.modificado).getTime();
+      return ahora - desde >= dias * DIA;
+    });
+  }
+
+  function venceEl(p) {
+    var g = (p.precios && p.precios.generales) || precios.generales;
+    var a = p.ajustes || {};
+    return F.sumarDias(p.fecha || F.fechaISO(), a.validezDias != null ? a.validezDias : g.validezDias);
+  }
+
+  function renderLlamar() {
+    var lista = paraLlamar();
+    $('alerta-historial').hidden = !lista.length;
+    $('tarjeta-llamar').hidden = !lista.length;
+    if (!lista.length) return;
+    $('llamar-guia').textContent = lista.length === 1
+      ? 'Se lo mandaste hace unos días y todavía no contestó. ¿Le escribimos?'
+      : 'Se los mandaste hace unos días y todavía no contestaron. ¿Les escribimos?';
+    var hoy = F.fechaISO();
+    $('lista-llamar').innerHTML = lista.map(function (p) {
+      var cli = p.cliente || {};
+      var dias = Math.floor((Date.now() - new Date(p.ultimoSeguimiento || p.enviadoEl || p.modificado).getTime()) / DIA);
+      var vence = venceEl(p);
+      var vencido = vence < hoy;
+      return '<div class="llamar-fila" data-id="' + p.id + '">' +
+        '<div class="llamar-fila__datos"><strong>' + F.escapar(cli.nombre || 'Sin nombre') + '</strong>' +
+          '<span>' + F.escapar(p.numero || '') + ' · ' + F.moneda(p.total || 0) + '</span>' +
+          '<span>' + (p.ultimoSeguimiento ? 'Le escribiste hace ' : 'Se lo mandaste hace ') + dias + (dias === 1 ? ' día' : ' días') +
+            (vencido ? ' · <b class="vencido">venció el ' + F.fechaCorta(vence) + '</b>' : ' · vence el ' + F.fechaCorta(vence)) + '</span>' +
+        '</div>' +
+        '<button class="btn btn--whatsapp btn--bloque" data-accion="seguir" data-icono="whatsapp">Preguntarle por WhatsApp</button>' +
+        '<div class="llamar-fila__acciones">' +
+          '<button class="btn btn--fantasma btn--sm" data-accion="acepto">Aceptó</button>' +
+          '<button class="btn btn--fantasma btn--sm" data-accion="no-acepto">No aceptó</button>' +
+          '<button class="btn btn--fantasma btn--sm" data-accion="luego">Más tarde</button>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+    ponerIconos($('lista-llamar'));
+  }
+
+  /** Mensaje para preguntarle al cliente si vio el presupuesto. */
+  function mensajeSeguimiento(p) {
+    var cli = p.cliente || {};
+    var nombre = String(cli.nombre || '').trim().split(/\s+/)[0];
+    var e = precios.empresa || {};
+    return 'Hola' + (nombre ? ' ' + nombre : '') + ', ¿cómo estás? Te escribo de ' + (e.nombre || 'Alumfer') +
+      ' por el presupuesto ' + (p.numero || '') + ' que te mandé el ' + F.fechaCorta((p.enviadoEl || p.fecha || '').slice(0, 10)) +
+      '. ¿Pudiste verlo? Si tenés alguna duda o querés cambiar algo, avisame y lo vemos.';
+  }
+
+  /** Resumen del mes (solo para Alumfer): presupuestado, aceptado y lo que deja. */
+  function renderMes() {
+    var mes = F.fechaISO().slice(0, 7);
+    var delMes = A.listar().filter(function (p) { return String(p.fecha || '').slice(0, 7) === mes && (p.items || []).length; });
+    $('tarjeta-mes').hidden = !delMes.length;
+    if (!delMes.length) return;
+    var nombreMes = new Date().toLocaleDateString('es-AR', { month: 'long' });
+    $('mes-titulo').textContent = 'En ' + nombreMes;
+    var total = 0, aceptados = [], totalAceptado = 0, contestados = 0, ganancia = 0, completa = true, conCostos = false;
+    delMes.forEach(function (p) {
+      total += p.total || 0;
+      if (p.estado === 'aceptado' || p.estado === 'rechazado') contestados++;
+      if (p.estado === 'aceptado') {
+        aceptados.push(p);
+        totalAceptado += p.total || 0;
+        var gn = gananciaDe(p);
+        ganancia += gn.ganancia;
+        if (!gn.completa) completa = false;
+        if (gn.costoTotal) conCostos = true;
+      }
+    });
+    var dato = function (fuerte, texto) {
+      return '<div class="compras-dato"><strong>' + fuerte + '</strong><span>' + texto + '</span></div>';
+    };
+    $('mes-datos').innerHTML =
+      dato(delMes.length, (delMes.length === 1 ? 'presupuesto' : 'presupuestos') + ' por ' + F.moneda(total)) +
+      dato(aceptados.length, (aceptados.length === 1 ? 'aceptado' : 'aceptados') + ' por ' + F.moneda(totalAceptado)) +
+      (contestados ? dato(F.numero(aceptados.length / contestados * 100, 0) + ' %', 'de los que contestaron, aceptaron') : '') +
+      (aceptados.length && conCostos ? dato(F.moneda(ganancia), 'de ganancia aproximada' + (completa ? '' : ' (faltan costos)')) : '') +
+      (aceptados.length && !conCostos ? dato('—', 'ganancia: cargá tus costos en Precios para verla') : '');
+  }
 
   function renderHistorial() {
     var lista = A.listar();
@@ -1007,9 +1197,14 @@
       lista = lista.filter(function (p) {
         return (p.numero || '').toLowerCase().indexOf(q) > -1 ||
                ((p.cliente && p.cliente.nombre) || '').toLowerCase().indexOf(q) > -1 ||
-               ((p.cliente && p.cliente.localidad) || '').toLowerCase().indexOf(q) > -1;
+               ((p.cliente && p.cliente.localidad) || '').toLowerCase().indexOf(q) > -1 ||
+               (q.replace(/\D/g, '').length >= 3 &&
+                String((p.cliente && p.cliente.telefono) || '').replace(/\D/g, '').indexOf(q.replace(/\D/g, '')) > -1);
       });
     }
+    renderLlamar();
+    renderMes();
+    renderCopiaUltima();
 
     var cont = $('lista-historial');
     if (!lista.length) {
@@ -1051,6 +1246,8 @@
    * Tabla editable genérica.
    * columnas: [{campo, etiqueta, tipo: 'texto'|'numero'|'porcentaje'|'check'|'select', clase, opciones}]
    */
+  var CAMPOS_DE_COSTO = ['costoM2', 'costo', 'kgMetro'];
+
   function tablaEditable(contenedorId, lista, columnas, opts) {
     opts = opts || {};
     var cont = $(contenedorId);
@@ -1113,7 +1310,9 @@
       else if (ev.target.dataset.porcentaje) x[campo] = F.aNumero(ev.target.value) / 100;
       else if (ev.target.type === 'number') x[campo] = F.aNumero(ev.target.value);
       else x[campo] = ev.target.value;
-      guardarPrecios();
+      // Costos y peso por metro no son precios de venta: no marcan los presupuestos como desactualizados.
+      if (CAMPOS_DE_COSTO.indexOf(campo) > -1) { A.guardarPrecios(precios); marcarGuardado('precios-guardado'); }
+      else guardarPrecios();
     });
 
     cont.addEventListener('click', function (ev) {
@@ -1150,6 +1349,9 @@
     $('gen-plazo').value = precios.generales.plazoEntrega || '';
     $('gen-pago').value = precios.generales.formaPago || '';
     $('gen-barra').value = (Number(precios.generales.largoBarra) || 6000) / 1000;
+    $('gen-herrajes').value = precios.generales.costoHerrajes || '';
+    $('gen-mano-obra').value = precios.generales.costoManoObra || '';
+    $('gen-dias-llamar').value = precios.generales.diasSeguimiento || 3;
     $('gen-corte').value = precios.generales.corteSierra != null ? precios.generales.corteSierra : 5;
     renderEmpresa();
 
@@ -1164,13 +1366,15 @@
       { campo: 'nombre', etiqueta: 'Abertura', clase: 'col-nombre' },
       { campo: 'precioM2', etiqueta: '$ / m²', tipo: 'numero', paso: 1000, clase: 'col-num' },
       { campo: 'minM2', etiqueta: 'm² mínimos', tipo: 'numero', paso: 0.05, clase: 'col-min' },
+      { campo: 'costoM2', etiqueta: 'Costo $/m² (si lo comprás hecho)', tipo: 'numero', paso: 1000, clase: 'col-num' },
       { campo: 'sinVidrio', etiqueta: 'Sin vidrio', tipo: 'check', clase: 'col-min' }
     ], { agrupar: 'grupo', prefijo: 'tp_', nuevo: { grupo: 'Otros', nombre: 'Abertura nueva', precioM2: 0, minM2: 0.5 } });
 
     tablaEditable('tabla-vidrios', precios.vidrios, [
       { campo: 'nombre', etiqueta: 'Vidrio', clase: 'col-nombre' },
       { campo: 'ayuda', etiqueta: 'Descripción' },
-      { campo: 'precioM2', etiqueta: '$ / m²', tipo: 'numero', paso: 1000, clase: 'col-num' }
+      { campo: 'precioM2', etiqueta: '$ / m²', tipo: 'numero', paso: 1000, clase: 'col-num' },
+      { campo: 'costoM2', etiqueta: 'Lo que pagás $/m²', tipo: 'numero', paso: 1000, clase: 'col-num' }
     ], { prefijo: 'vd_', nuevo: { nombre: 'Vidrio nuevo', precioM2: 0 } });
 
     tablaEditable('tabla-colores', precios.colores, [
@@ -1189,7 +1393,8 @@
       { campo: 'modo', etiqueta: 'Se cobra', tipo: 'select', clase: 'col-min', opciones: [
         { valor: 'm2', texto: 'Por m²' }, { valor: 'ml', texto: 'Por metro lineal' }, { valor: 'unidad', texto: 'Por unidad' }
       ] },
-      { campo: 'precio', etiqueta: 'Precio', tipo: 'numero', paso: 1000, clase: 'col-num' }
+      { campo: 'precio', etiqueta: 'Precio', tipo: 'numero', paso: 1000, clase: 'col-num' },
+      { campo: 'costo', etiqueta: 'Lo que te cuesta', tipo: 'numero', paso: 1000, clase: 'col-num' }
     ], { prefijo: 'ad_', nuevo: { nombre: 'Adicional nuevo', modo: 'unidad', precio: 0 } });
   }
 
@@ -1325,7 +1530,8 @@
       if (h.length > 12) h.splice(0, h.length - 12);
     }
 
-    guardarPrecios();
+    // El kilo no cambia ningún precio de venta: no marca los presupuestos como desactualizados.
+    A.guardarPrecios(precios);
     marcarGuardado('aluminio-guardado');
     renderAluminio();
   }
@@ -1441,9 +1647,10 @@
     alTocarListo = null;
   }
 
-  /** Lo enviado deja de estar "en preparación", así se ve en Anteriores. */
+  /** Lo enviado deja de estar "en preparación", así se ve en Guardados. */
   function marcarEnviado() {
-    if (actual.estado !== 'borrador') return;
+    if (!actual.enviadoEl) actual.enviadoEl = new Date().toISOString();   // para saber cuándo volver a llamar
+    if (actual.estado !== 'borrador') return guardar(true);
     $('pre-estado').value = 'enviado';
     guardar(true);
     avisar('Quedó marcado como "Enviado al cliente"');
@@ -1534,6 +1741,59 @@
   var M = window.Materiales;
 
   function metros(mm) { return F.numero(mm / 1000, 2) + ' m'; }
+
+  /**
+   * Precios para compras y ganancia: los precios de venta son los del
+   * presupuesto (los que se le pasaron al cliente), pero costos, peso por
+   * metro, largo de tira y corte se toman de los datos de hoy, aunque el
+   * presupuesto sea viejo: no son precios de venta.
+   */
+  function preciosCompras(pres) {
+    var p = Object.assign({}, (pres && pres.precios) || precios);
+    var g = precios.generales;
+    p.generales = Object.assign({}, p.generales, {
+      largoBarra: g.largoBarra, corteSierra: g.corteSierra,
+      costoHerrajes: g.costoHerrajes, costoManoObra: g.costoManoObra
+    });
+    ['lineas', 'vidrios', 'tipologias', 'adicionales'].forEach(function (k) {
+      p[k] = (p[k] || []).map(function (x) {
+        var hoy = C.buscar(precios[k], x.id) || {};
+        var copia = Object.assign({}, x);
+        CAMPOS_DE_COSTO.forEach(function (c) { if (hoy[c] != null) copia[c] = hoy[c]; });
+        return copia;
+      });
+    });
+    return p;
+  }
+
+  /** Precio del kilo de aluminio en pesos (0 si no se cargó o falta el dólar). */
+  function kiloEnPesos() {
+    var alu = precios.aluminio || {};
+    var kilo = Number(alu.precio) || 0;
+    if (alu.moneda === 'ars') return kilo;
+    var dolar = window.Dolar.guardado();
+    return dolar && dolar.venta ? kilo * dolar.venta : 0;
+  }
+
+  function gananciaDe(pres) { return M.ganancia(pres, preciosCompras(pres), kiloEnPesos()); }
+
+  /** "Ganancia aproximada" en la tarjeta interna, debajo del paso 3. */
+  function renderGanancia() {
+    var cont = $('ganancia-resumen');
+    if (!cont || !actual.items.length) return;
+    var gn = gananciaDe(actual);
+    // Sin ningún costo cargado la "ganancia" sería todo lo cobrado: mejor no mostrar un número engañoso.
+    if (!gn.costoTotal) {
+      cont.innerHTML = '<p class="ganancia__falta ganancia__falta--sola">Para ver cuánto te deja, cargá tus costos en ' +
+        '<strong>Precios</strong> (precio del kilo de aluminio, peso por metro, lo que pagás el vidrio, herrajes y mano de obra).</p>';
+      return;
+    }
+    cont.innerHTML =
+      '<div class="ganancia__monto"><span>Ganancia aproximada</span><strong>' + F.moneda(gn.ganancia) + '</strong>' +
+        '<em>' + F.numero(gn.porcentaje, 0) + ' % de lo que cobrás sin IVA</em></div>' +
+      (gn.completa ? '' : '<p class="ganancia__falta">Faltan costos por cargar en Precios, así que en realidad es menos. ' +
+        'Tocá el botón de abajo para ver cuáles.</p>');
+  }
   function cm(mm) { return F.numero(mm / 10, 0); }
 
   /** Retazos que sirven (desde 30 cm) uno por uno; los más chicos, contados. */
@@ -1549,21 +1809,27 @@
   function abrirCompras() {
     if (!actual.items.length) return;
     leerFormulario();
-    // Medidas y lo que se usa: las del presupuesto. Barra, corte y peso por metro
-    // no son precios: se toman de los datos de hoy (Precios), aunque el presupuesto sea viejo.
-    var p = Object.assign({}, preciosDelPresupuesto());
-    p.generales = Object.assign({}, p.generales, {
-      largoBarra: precios.generales.largoBarra, corteSierra: precios.generales.corteSierra
-    });
-    p.lineas = (p.lineas || []).map(function (l) {
-      var hoy = C.buscar(precios.lineas, l.id);
-      return Object.assign({}, l, { kgMetro: hoy ? hoy.kgMetro : l.kgMetro });
-    });
+    var p = preciosCompras(actual);
     var m = M.calcular(actual, p);
     var t = m.totales;
     var barra = F.numero(m.largoBarra / 1000, m.largoBarra % 1000 ? 1 : 0) + ' m';
     var h = [];
 
+    var gn = M.ganancia(actual, p, kiloEnPesos());
+    h.push('<h3 class="compras-titulo compras-titulo--primero">Ganancia aproximada</h3>' +
+      '<div class="compras-fila ganancia-detalle">' +
+        filaGanancia('Cobrás (sin IVA)', gn.venta) +
+        filaGanancia('− Aluminio', -gn.costos.aluminio) +
+        filaGanancia('− Vidrios y placas', -gn.costos.vidrio) +
+        (gn.costos.comprado ? filaGanancia('− Lo que comprás hecho (rejas, cortinas)', -gn.costos.comprado) : '') +
+        filaGanancia('− Herrajes y accesorios', -gn.costos.herrajes) +
+        filaGanancia('− Mano de obra', -gn.costos.manoObra) +
+        '<div class="ganancia-detalle__total"><span>Te queda</span><strong>' + F.moneda(gn.ganancia) +
+          ' <small>(' + F.numero(gn.porcentaje, 0) + ' %)</small></strong></div>' +
+      '</div>' +
+      (gn.completa ? '' : '<p class="ganancia__falta">Para que el número sea real, cargá en <strong>Precios</strong>: ' +
+        F.escapar(gn.faltan.join(', ')) + '.</p>'));
+    h.push('<h3 class="compras-titulo">Materiales para comprar</h3>');
     h.push('<p class="compras-aviso"><strong>Solo para vos:</strong> esto no sale en el presupuesto del cliente. ' +
       'Es aproximado: cada pieza se cuenta con la medida de afuera a afuera, sin los descuentos de cada línea, ' +
       'así que sobra un poco y nunca falta.</p>');
@@ -1641,6 +1907,11 @@
     $('modal-compras').hidden = false;
     $('compras-cuerpo').scrollTop = 0;
     document.body.style.overflow = 'hidden';
+  }
+
+  function filaGanancia(rotulo, valor) {
+    return '<div class="ganancia-detalle__fila"><span>' + F.escapar(rotulo) + '</span><span>' +
+      (valor < 0 ? '− ' : '') + F.moneda(Math.abs(valor)) + '</span></div>';
   }
 
   function cerrarCompras() {
@@ -2016,6 +2287,35 @@
     // Anteriores
     $('buscar-historial').addEventListener('input', function () { renderHistorial(); });
 
+    $('lista-llamar').addEventListener('click', function (ev) {
+      var boton = ev.target.closest('button[data-accion]');
+      if (!boton) return;
+      var p = A.obtener(boton.closest('.llamar-fila').dataset.id);
+      if (!p) return;
+      var accion = boton.dataset.accion;
+      if (accion === 'seguir') {
+        var tel = F.telefonoWhatsapp(p.cliente && p.cliente.telefono);
+        window.open('https://wa.me/' + tel + '?text=' + encodeURIComponent(mensajeSeguimiento(p)), '_blank');
+        p.ultimoSeguimiento = new Date().toISOString();       // vuelve a aparecer si sigue sin contestar
+      } else if (accion === 'acepto') {
+        p.estado = 'aceptado';
+        avisar('¡Bien! Quedó como aceptado');
+      } else if (accion === 'no-acepto') {
+        p.estado = 'rechazado';
+        avisar('Quedó como no aceptado');
+      } else if (accion === 'luego') {
+        p.llamarDesde = new Date(Date.now() + 2 * DIA).toISOString();
+        avisar('Te lo vuelvo a mostrar en 2 días');
+      }
+      A.guardar(p);
+      // Si está abierto en la pantalla principal, que el guardado automático no lo pise.
+      if (actual && actual.id === p.id) {
+        ['estado', 'ultimoSeguimiento', 'llamarDesde'].forEach(function (k) { actual[k] = p[k]; });
+        $('pre-estado').value = p.estado;
+      }
+      renderHistorial();
+    });
+
     $('lista-historial').addEventListener('click', function (ev) {
       var boton = ev.target.closest('button[data-accion]');
       if (!boton) return;
@@ -2043,15 +2343,13 @@
       }
     });
 
-    $('btn-exportar').addEventListener('click', function () {
-      var datos = JSON.stringify(A.exportarTodo(), null, 2);
-      var enlace = document.createElement('a');
-      enlace.href = URL.createObjectURL(new Blob([datos], { type: 'application/json' }));
-      enlace.download = 'alumfer-presupuestos-' + F.fechaISO() + '.json';
-      enlace.click();
-      URL.revokeObjectURL(enlace.href);
-      avisar('Copia guardada en Descargas');
+    $('btn-exportar').addEventListener('click', guardarCopia);
+    $('btn-copia-aviso').addEventListener('click', guardarCopia);
+    $('btn-copia-luego').addEventListener('click', function () {
+      anotarCopia({ luegoHasta: new Date(Date.now() + 2 * DIA).toISOString() });
+      $('aviso-copia').hidden = true;
     });
+    $('btn-guardar').addEventListener('click', guardarConAviso);
 
     $('btn-importar').addEventListener('click', function () { $('archivo-importar').click(); });
 
@@ -2120,6 +2418,16 @@
       avisar('Precios originales restaurados');
     });
 
+    ['gen-herrajes', 'gen-mano-obra', 'gen-dias-llamar'].forEach(function (id) {
+      $(id).addEventListener('input', function () {
+        precios.generales.costoHerrajes = F.aNumero($('gen-herrajes').value);
+        precios.generales.costoManoObra = F.aNumero($('gen-mano-obra').value);
+        precios.generales.diasSeguimiento = Math.max(1, Math.round(F.aNumero($('gen-dias-llamar').value)) || 3);
+        A.guardarPrecios(precios);      // no son precios de venta
+        marcarGuardado('precios-guardado');
+      });
+    });
+
     ['gen-barra', 'gen-corte'].forEach(function (id) {
       $(id).addEventListener('input', function () {
         // No son precios: no marcan los presupuestos como calculados con precios viejos.
@@ -2171,7 +2479,7 @@
     // Atajos
     document.addEventListener('keydown', function (ev) {
       if (!(ev.ctrlKey || ev.metaKey)) return;
-      if (ev.key === 's') { ev.preventDefault(); guardar(); }
+      if (ev.key === 's') { ev.preventDefault(); guardarConAviso(); }
       if (ev.key === 'p') { ev.preventDefault(); imprimir(); }
     });
 
@@ -2297,6 +2605,8 @@
 
   function iniciar() {
     if (!A.disponible) $('aviso-almacenamiento').hidden = false;
+    // Que el navegador no borre los datos solo cuando le falta espacio.
+    if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function () {});
     ponerIconos();
     ayudaEntrega();
     configurarActualizaciones();
@@ -2307,6 +2617,7 @@
     var ultimos = A.listar();
     abrir(ultimos.length && ultimos[0].estado === 'borrador' ? ultimos[0] : presupuestoNuevo());
     conectarEventos();
+    revisarCopia();
   }
 
   document.addEventListener('DOMContentLoaded', iniciar);

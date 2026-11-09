@@ -28,7 +28,7 @@ guarda sus propios datos en `localStorage` — no hay servidor ni sincronizació
 - `main` incluye **todo** lo de presupuestos más trabajo del sitio hecho en otras
   sesiones (PRs #39 a #48).
 - Rama de la última sesión: `claude/intelligent-maxwell-d43hn3`, igual a `main`.
-- Versión publicada: **2026-11-09.3** (.1: PDF real, compartir, clientes, Tu empresa · .2: rediseño suave y palabras claras · .3: hojas como pregunta y una abertura abierta a la vez · .4: vidrio en dos pasos, formas especiales y ¿Dónde va? · .5: catálogo completo del sitio · .6: obras grandes al estilo OP 2.1, rejas de hierro · .7: lista de materiales para comprar, cortinas blancas · .8: "tiras" en vez de "barras").
+- Versión publicada: **2026-11-09.3** (.1: PDF real, compartir, clientes, Tu empresa · .2: rediseño suave y palabras claras · .3: hojas como pregunta y una abertura abierta a la vez · .4: vidrio en dos pasos, formas especiales y ¿Dónde va? · .5: catálogo completo del sitio · .6: obras grandes al estilo OP 2.1, rejas de hierro · .7: lista de materiales para comprar, cortinas blancas · .8: "tiras" en vez de "barras" · .9: botón Guardar, Guardados, copia de seguridad, seguimiento, resumen del mes y ganancia).
 
 **Flujo de publicación (Pablo lo autorizó explícitamente, no hay que preguntar
 cada vez):** commit en la rama → `git checkout main && git merge --ff-only <rama>`
@@ -82,7 +82,11 @@ Documentación completa en `apps/presupuestos/README.md`.
    calculó: reabrir uno viejo muestra lo que se le pasó al cliente. El selector de
    tipos, en cambio, ofrece el catálogo de hoy, y si se elige una tipología que la
    copia no tiene, se copia con su precio actual.
-7. **Todo se guarda solo**, sin botón de guardar, con un cartel verde "Guardado ✓".
+7. **Todo se guarda solo**, con un cartel verde "Guardado ✓". **Desde la .9
+   además hay un botón "Guardar presupuesto"** (Pablo lo pidió: el papá
+   necesita un botón y ver dónde quedó). Hace lo mismo al instante y muestra
+   "Guardado como P-…, buscalo en Guardados por «nombre» o el número". La
+   pestaña "Anteriores" pasó a llamarse **"Guardados"**.
 8. **Dólar blue** (no oficial) en Precios; el total muestra el equivalente en USD
    **solo en pantalla**: no sale en el PDF ni en el WhatsApp del cliente.
 9. **El kilo de aluminio se carga a mano**: no hay API gratis y con CORS que lo
@@ -272,7 +276,43 @@ Documentación completa en `apps/presupuestos/README.md`.
       los precisos de cada línea; cuando estén, restarlos en `piezasItem()`.
 28. **Cortinas de PVC: solo blancas** (`colorFijo: 'blanca'` en las tipologías
     y en el agregado): no piden color y el presupuesto dice "blanca".
-29. Los efectos `:hover` de lo que se toca van dentro de `@media (hover: hover)`:
+29. **Copia de seguridad** (todo vive en un teléfono): botón "Guardar una
+    copia ahora" en Guardados y franja marrón arriba cuando hay 3 o más
+    presupuestos, pasaron 7 días desde la última copia y hubo cambios ("Más
+    tarde" la pospone 2 días). La copia es el mismo `.json` de siempre, pero se
+    manda con la lista para compartir (WhatsApp a Pablo, Drive, email); sin
+    esa opción, se descarga. Fecha y huella de la última copia en
+    `alumfer.copia.v1`. Al arrancar se pide `navigator.storage.persist()` para
+    que el navegador no borre los datos solo. "Recuperar una copia" acepta
+    también archivos que WhatsApp entrega sin tipo.
+30. **Seguimiento: "Para volver a llamar"** (arriba en Guardados, con punto
+    naranja en la pestaña): presupuestos en estado Enviado cuya fecha de envío
+    (`enviadoEl`, se anota al compartir) o último seguimiento
+    (`ultimoSeguimiento`) tiene `generales.diasSeguimiento` días o más (3,
+    configurable en Precios → Costos). Botones: "Preguntarle por WhatsApp"
+    (mensaje armado al número del cliente; anota el seguimiento), "Aceptó",
+    "No aceptó", "Más tarde" (`llamarDesde` = +2 días). Muestra la fecha de
+    vencimiento y avisa si ya venció. Si el presupuesto está abierto en la
+    pantalla principal, los cambios se copian a `actual` para que el guardado
+    automático no los pise.
+31. **Ganancia aproximada (solo para Alumfer)**: `Materiales.ganancia()` =
+    total sin IVA − (kilos de las tiras a comprar × precio del kilo en pesos +
+    m² de vidrio × lo que se paga el m² + lo que se compra hecho × costo/m² +
+    herrajes y mano de obra por abertura). No inventa costos: los que faltan
+    cuentan 0 y se listan en `faltan`. **Sin ningún costo cargado no muestra
+    número** (sería igual a lo cobrado), pide cargarlos. Se ve en la tarjeta
+    "Ganancia y compras" y con el detalle en la pantalla de materiales. Los
+    costos son columnas nuevas en Precios (Vidrios: "Lo que pagás $/m²";
+    Aberturas: "Costo $/m² (si lo comprás hecho)"; Adicionales: "Lo que te
+    cuesta") y la tarjeta "Costos" (herrajes y mano de obra por abertura).
+    Costos, peso por metro y precio del kilo **no** suben `revision` (no son
+    precios de venta) y se toman de los datos de hoy aunque el presupuesto sea
+    viejo (`preciosCompras`). Ni el PDF ni el WhatsApp del cliente la incluyen
+    (lo verifica la prueba).
+32. **Resumen del mes** (arriba en Guardados, "solo para vos"): cuántos
+    presupuestos y por cuánto, cuántos aceptados y por cuánto, % de aceptación
+    sobre los que contestaron y ganancia aproximada de los aceptados.
+33. Los efectos `:hover` de lo que se toca van dentro de `@media (hover: hover)`:
     en pantallas táctiles el hover queda pegado después del toque.
 
 ---
@@ -323,6 +363,9 @@ Documentación completa en `apps/presupuestos/README.md`.
 
 ### Próximos pasos propuestos (9/11, a elegir con Pablo)
 
+Hechos en la .9: 1 (botón Guardar, copia de seguridad), 2 (seguimiento) y 5
+(resumen del mes + ganancia). Siguen pendientes:
+
 Por valor para el negocio y riesgo, en este orden:
 1. **Que no se pierda nada**: hoy todo vive en un solo teléfono y la copia de
    seguridad es manual. Primero, un recordatorio y una copia de un toque que
@@ -346,6 +389,8 @@ motor = guardado → PDF descargado → compartir por WhatsApp y email (share
 simulado con `addInitScript`) → reintento con `NotAllowedError` → sugerencia de
 cliente en un presupuesto nuevo → presupuesto de 22 aberturas en 3 páginas →
 logo propio → computadora sin share (abre `wa.me` + descarga) → hoja impresa.
+Prueba de guardado, seguimiento, copia, mes y ganancia (22 chequeos), incluido
+que la ganancia no llegue al cliente.
 Prueba de la lista de materiales (17 chequeos): barras, retazos, curvado,
 vidrios, m², kilos con peso por metro, barra de 6,5 m, y que **ni el PDF ni el
 WhatsApp del cliente** tengan nada de materiales.

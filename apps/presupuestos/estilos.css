@@ -540,6 +540,60 @@ textarea { resize: vertical; min-height: 4rem; }
 .compras-panos em { color: #7a5600; font-style: normal; font-size: var(--text-sm); }
 .compras-acciones { margin-top: var(--space-6); }
 
+/* ─── Guardar ───────────────────────────────────────────── */
+.btn--guardar { background: #fff; color: #10508f; border: 2.5px solid var(--blue); font-weight: 700; }
+@media (hover: hover) { .btn--guardar:hover { background: var(--blue-faint); } }
+.confirmacion-guardado {
+  display: flex; flex-direction: column; gap: var(--space-1);
+  padding: var(--space-4); border-radius: 16px; background: #e3f6e9; border: 2px solid #8fd1a6; color: #14532b;
+  animation: aparecer var(--dur-standard) var(--ease);
+}
+.confirmacion-guardado strong { font-size: var(--text-md); }
+
+/* Aviso de copia de seguridad (arriba, como el de instalar) */
+.aviso-copia {
+  display: flex; align-items: center; justify-content: center; gap: var(--space-4); flex-wrap: wrap;
+  padding: var(--space-3) var(--space-5); background: #7a5600; color: #fff; font-size: var(--text-base);
+}
+.aviso-copia .btn--fantasma { background: transparent; color: #fff; border-color: rgba(255,255,255,.5); }
+
+/* Pestaña Guardados: punto naranja si hay a quién volver a llamar */
+.tab__alerta { position: absolute; top: 6px; left: calc(50% - 1.6rem); width: .8rem; height: .8rem; border-radius: 999px; background: #f59e0b; box-shadow: 0 0 0 2px var(--carbon); }
+.tab { position: relative; }
+
+/* Para volver a llamar */
+.tarjeta--llamar { border: 2px solid #f59e0b; }
+.llamar-fila {
+  display: flex; flex-direction: column; gap: var(--space-3);
+  padding: var(--space-4); border: 1.5px solid var(--border-light); border-radius: 18px; background: #fff;
+}
+.llamar-fila__datos { display: flex; flex-direction: column; }
+.llamar-fila__datos strong { font-size: var(--text-md); }
+.llamar-fila__datos span { font-size: var(--text-sm); color: var(--text-secondary); }
+.llamar-fila__acciones { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.llamar-fila__acciones .btn { flex: 1; }
+.vencido { color: #a8342a; }
+
+/* Ganancia (solo para Alumfer) */
+.ganancia { margin-bottom: var(--space-4); }
+.ganancia__monto {
+  display: flex; flex-direction: column; padding: var(--space-4); border-radius: 16px; background: #fff; box-shadow: var(--sombra);
+}
+.ganancia__monto span { font-size: var(--text-sm); color: var(--text-secondary); }
+.ganancia__monto strong { font-family: 'Montserrat', var(--font); font-size: var(--text-2xl); line-height: 1.1; color: #14532b; font-variant-numeric: tabular-nums; }
+.ganancia__monto em { font-style: normal; font-size: var(--text-sm); color: var(--text-secondary); }
+.ganancia__falta { margin: var(--space-2) 0 0; font-size: var(--text-sm); color: #7a5600; }
+.ganancia__falta--sola { margin: 0; padding: var(--space-4); background: #fff; border-radius: 16px; font-size: var(--text-base); }
+.ganancia-detalle { gap: var(--space-1); }
+.ganancia-detalle__fila { display: flex; justify-content: space-between; gap: var(--space-3); font-variant-numeric: tabular-nums; }
+.ganancia-detalle__fila span:first-child { color: var(--text-secondary); }
+.ganancia-detalle__total {
+  display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3);
+  margin-top: var(--space-2); padding-top: var(--space-2); border-top: 2px solid var(--carbon);
+}
+.ganancia-detalle__total strong { font-family: 'Montserrat', var(--font); font-size: var(--text-lg); color: #14532b; }
+.compras-titulo--primero { margin-top: 0; }
+
 /* ─── Barra fija de total ────────────────────────────────── */
 .barra-total {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;

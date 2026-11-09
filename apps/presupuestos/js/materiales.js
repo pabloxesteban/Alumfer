@@ -78,7 +78,8 @@ window.Materiales = (function () {
 
     var titulo = l.descripcion.titulo;
     if (EN_M2.test(item.tipologiaId)) {
-      out.m2.push({ nombre: titulo + (tip && tip.colorFijo ? ' ' + tip.colorFijo : ''), m2: l.m2Real * cant, unidades: cant });
+      out.m2.push({ nombre: titulo + (tip && tip.colorFijo ? ' ' + tip.colorFijo : ''), m2: l.m2Real * cant, unidades: cant,
+                    costoM2: tip && tip.costoM2 });
       return out;
     }
 
@@ -119,11 +120,12 @@ window.Materiales = (function () {
       });
       if (id === 'cortina-pvc' || id === 'cortina-alu') {
         var ad = C.buscar(precios.adicionales, id);
-        out.m2.push({ nombre: ad ? ad.nombre + (ad.colorFijo ? ' ' + ad.colorFijo : '') : id, m2: l.m2Real * cant, unidades: cant });
+        out.m2.push({ nombre: ad ? ad.nombre + (ad.colorFijo ? ' ' + ad.colorFijo : '') : id, m2: l.m2Real * cant, unidades: cant,
+                      costoM2: ad && ad.costo });
       }
       if (id === 'reja-adic' || id === 'reja-adic-2') {
         var rj = C.buscar(precios.adicionales, id);
-        out.m2.push({ nombre: rj ? rj.nombre : 'Reja', m2: l.m2Real * cant, unidades: cant });
+        out.m2.push({ nombre: rj ? rj.nombre : 'Reja', m2: l.m2Real * cant, unidades: cant, costoM2: rj && rj.costo });
       }
     });
 
@@ -133,6 +135,7 @@ window.Materiales = (function () {
       var ancho = hojas ? anchoHoja : l.anchoMm;
       var especial = l.forma && l.forma !== 'rect';
       out.vidrios.push({
+        id: l.vidrio.id, costoM2: l.vidrio.costoM2,
         vidrio: l.vidrio.nombre + (item.tono && /^policarb/.test(l.vidrio.id) ? ' ' + item.tono.toLowerCase() : ''),
         ancho: r10(ancho), alto: r10(Math.max(l.altoMm, l.alto2Mm || 0)),
         cantidad: panos * cant, especial: especial ? l.forma : '',
@@ -203,7 +206,7 @@ window.Materiales = (function () {
         if (x.curva) porClave[x.clave].curvas++;
       });
       p.vidrios.forEach(function (v) {
-        if (!vidrios[v.vidrio]) { vidrios[v.vidrio] = { vidrio: v.vidrio, panos: [], m2: 0, cantidad: 0 }; listaVidrios.push(vidrios[v.vidrio]); }
+        if (!vidrios[v.vidrio]) { vidrios[v.vidrio] = { vidrio: v.vidrio, costoM2: v.costoM2, panos: [], m2: 0, cantidad: 0 }; listaVidrios.push(vidrios[v.vidrio]); }
         var grupo = vidrios[v.vidrio];
         var igual = grupo.panos.filter(function (q) { return q.ancho === v.ancho && q.alto === v.alto && q.especial === v.especial; })[0];
         if (igual) igual.cantidad += v.cantidad;
@@ -212,7 +215,7 @@ window.Materiales = (function () {
         grupo.cantidad += v.cantidad;
       });
       p.m2.forEach(function (x) {
-        if (!m2[x.nombre]) { m2[x.nombre] = { nombre: x.nombre, m2: 0, unidades: 0 }; listaM2.push(m2[x.nombre]); }
+        if (!m2[x.nombre]) { m2[x.nombre] = { nombre: x.nombre, m2: 0, unidades: 0, costoM2: x.costoM2 }; listaM2.push(m2[x.nombre]); }
         m2[x.nombre].m2 += x.m2;
         m2[x.nombre].unidades += x.unidades;
       });
@@ -244,8 +247,66 @@ window.Materiales = (function () {
       return (a.linea + a.color + a.perfil).localeCompare(b.linea + b.color + b.perfil, 'es');
     });
 
-    return { perfiles: grupos, vidrios: listaVidrios, m2: listaM2, totales: totales, largoBarra: largoBarra, corte: corte };
+    return { perfiles: grupos, vidrios: listaVidrios, m2: listaM2, totales: totales, largoBarra: largoBarra, corte: corte,
+             resultado: r };
   }
 
-  return { calcular: calcular, enBarras: enBarras, piezasItem: piezasItem };
+  /**
+   * Ganancia aproximada de un presupuesto (uso interno, nunca va al cliente).
+   *
+   *   venta    = total sin IVA (lo que queda para Alumfer)
+   *   costos   = aluminio (kilos de las tiras que hay que comprar × precio del kilo)
+   *            + vidrios y placas (m² × lo que se paga el m²)
+   *            + lo que se compra hecho (rejas, cortinas: m² × costo)
+   *            + herrajes y accesorios + mano de obra (por abertura)
+   *   ganancia = venta − costos
+   *
+   * No inventa ningún costo: todo sale de lo que se carga en Precios. Lo que
+   * no está cargado cuenta como 0 y se avisa en `faltan`, porque una ganancia
+   * con costos en 0 parece más grande de lo que es.
+   *
+   * @param kiloArs  precio del kilo de aluminio en pesos (0 si no se cargó)
+   */
+  function ganancia(presupuesto, precios, kiloArs) {
+    var m = calcular(presupuesto, precios);
+    var r = m.resultado;
+    var g = precios.generales || {};
+    var faltan = [];
+    var costos = { aluminio: 0, vidrio: 0, comprado: 0, herrajes: 0, manoObra: 0 };
+
+    var sinPeso = {};
+    m.perfiles.forEach(function (gr) { if (!gr.kg && gr.linea) sinPeso[gr.linea] = true; });
+    if (m.perfiles.length) {
+      if (!kiloArs) faltan.push('el precio del kilo de aluminio');
+      Object.keys(sinPeso).forEach(function (l) { faltan.push('el peso por metro de la línea ' + l); });
+      costos.aluminio = m.totales.kg * (kiloArs || 0);
+    }
+    m.vidrios.forEach(function (v) {
+      if (num(v.costoM2) > 0) costos.vidrio += v.m2 * num(v.costoM2);
+      else faltan.push('lo que pagás el m² de ' + v.vidrio);
+    });
+    m.m2.forEach(function (x) {
+      if (num(x.costoM2) > 0) costos.comprado += x.m2 * num(x.costoM2);
+      else faltan.push('el costo por m² de ' + x.nombre);
+    });
+    var aberturas = r.unidades;
+    costos.herrajes = aberturas * num(g.costoHerrajes);
+    costos.manoObra = aberturas * num(g.costoManoObra);
+    if (!num(g.costoHerrajes)) faltan.push('herrajes y accesorios por abertura');
+    if (!num(g.costoManoObra)) faltan.push('mano de obra por abertura');
+
+    var venta = r.total - r.iva;
+    var total = costos.aluminio + costos.vidrio + costos.comprado + costos.herrajes + costos.manoObra;
+    return {
+      venta: venta,
+      costos: costos,
+      costoTotal: total,
+      ganancia: venta - total,
+      porcentaje: venta > 0 ? (venta - total) / venta * 100 : 0,
+      faltan: faltan,
+      completa: faltan.length === 0
+    };
+  }
+
+  return { calcular: calcular, enBarras: enBarras, piezasItem: piezasItem, ganancia: ganancia };
 })();
