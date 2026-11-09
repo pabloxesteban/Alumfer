@@ -259,6 +259,38 @@ textarea { resize: vertical; min-height: 4rem; }
 .totales__fila--total span:last-child { font-weight: 700; }
 
 .acciones-finales { display: flex; flex-direction: column; gap: var(--space-3); }
+.acciones-finales__ayuda { margin: calc(var(--space-2) * -1) 0 var(--space-2); }
+
+/* Ventana chica (PDF listo): no ocupa toda la pantalla ni en el celular */
+.modal__caja--chica { width: min(460px, 100%); }
+.modal__caja--chica .modal__cuerpo p { margin: 0 0 var(--space-4); font-size: var(--text-md); }
+
+/* ─── Clientes anteriores ────────────────────────────────── */
+.sugerencias {
+  border: 1.5px solid var(--blue); border-radius: var(--radius-md);
+  background: var(--blue-faint); padding: var(--space-3);
+}
+.sugerencias__titulo { margin: 0 0 var(--space-3); font-size: var(--text-sm); font-weight: 600; color: var(--carbon); }
+.sugerencias__lista { display: flex; flex-direction: column; gap: var(--space-2); }
+.cliente-sugerido {
+  appearance: none; cursor: pointer; font: inherit; text-align: left; width: 100%;
+  display: flex; align-items: center; gap: var(--space-3);
+  min-height: 3.4rem; padding: var(--space-3) var(--space-4);
+  background: #fff; color: var(--text-primary);
+  border: 1.5px solid var(--border-light); border-radius: var(--radius-sm);
+}
+.cliente-sugerido svg { width: 1.6rem; height: 1.6rem; color: var(--blue); }
+.cliente-sugerido:hover, .cliente-sugerido:focus-visible { border-color: var(--blue); }
+.cliente-sugerido strong { display: block; }
+.cliente-sugerido span span { display: block; font-size: var(--text-sm); color: var(--text-secondary); }
+
+/* ─── Tu empresa ─────────────────────────────────────────── */
+.logo-empresa { display: flex; align-items: center; gap: var(--space-4); margin-bottom: var(--space-5); flex-wrap: wrap; }
+.logo-empresa img {
+  width: 96px; height: 96px; object-fit: contain; background: #fff;
+  border: 1.5px solid var(--border-light); border-radius: var(--radius-sm); padding: var(--space-2);
+}
+.logo-empresa__botones { display: flex; flex-direction: column; gap: var(--space-2); }
 
 /* ─── Barra fija de total ────────────────────────────────── */
 .barra-total {
@@ -407,6 +439,8 @@ textarea { resize: vertical; min-height: 4rem; }
   .tipo-tile svg { width: 3.2rem; height: 3.2rem; }
   .modal { padding: 0; }
   .modal__caja { max-height: 100vh; height: 100%; border-radius: 0; }
+  .modal__caja--chica { height: auto; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+  .modal__caja--chica .modal__header { border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
   .modal__header { border-radius: 0; }
   .barra-total { flex-wrap: wrap; }
   .barra-total__monto { flex-basis: 100%; flex-direction: row; justify-content: space-between; align-items: baseline; }

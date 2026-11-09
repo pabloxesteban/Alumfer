@@ -126,7 +126,8 @@ window.PRECIOS_BASE = {
     validezDias: 7,
     anticipoPct: 50,
     redondeo: 1000,           // redondea el total de cada ítem a múltiplos de $1.000
-    plazoEntrega: '20 a 30 días hábiles desde la seña y la toma de medidas definitiva.'
+    plazoEntrega: '20 a 30 días hábiles desde la seña y la toma de medidas definitiva.',
+    formaPago: 'Efectivo o transferencia bancaria.'
   },
 
   empresa: {

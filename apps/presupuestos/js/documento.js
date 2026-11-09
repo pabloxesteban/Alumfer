@@ -16,6 +16,28 @@ window.Documento = (function () {
     return partes.join('<br>');
   }
 
+  /**
+   * Condiciones comerciales en texto, una por renglón. Las usan la hoja
+   * impresa y el PDF, así las dos dicen siempre lo mismo.
+   */
+  function condiciones(presupuesto, r, precios) {
+    var g = precios.generales || {};
+    var a = presupuesto.ajustes || {};
+    var validez = a.validezDias != null ? a.validezDias : g.validezDias;
+    var L = [];
+    L.push('Precios en pesos, válidos por ' + validez + ' días a partir de la fecha.');
+    if (r.anticipoPct > 0) {
+      L.push('Anticipo del ' + F.numero(r.anticipoPct, 0) + ' % (' + F.moneda(r.anticipo) +
+             ') para iniciar la fabricación; saldo de ' + F.moneda(r.saldo) + ' contra entrega.');
+    }
+    if (g.formaPago) L.push('Forma de pago: ' + g.formaPago);
+    if (g.plazoEntrega) L.push('Plazo de entrega: ' + g.plazoEntrega);
+    L.push('Las medidas definitivas se toman en obra antes de fabricar.');
+    L.push(r.colocacion > 0 ? 'Incluye colocación.' : 'No incluye colocación ni trabajos de albañilería.');
+    if (!r.aplicaIva) L.push('Precio final, IVA incluido.');
+    return L;
+  }
+
   /** HTML del presupuesto listo para imprimir. */
   function hoja(presupuesto, r, precios) {
     var e = precios.empresa || {};
@@ -58,7 +80,7 @@ window.Documento = (function () {
     '<article class="hoja-doc">' +
       '<header class="hoja-membrete">' +
         '<div class="hoja-marca">' +
-          '<img src="logo-alumfer.jpg" alt="Alumfer" class="hoja-logo">' +
+          '<img src="' + esc(e.logo || 'logo-alumfer.jpg') + '" alt="' + esc(e.nombre || 'Logo') + '" class="hoja-logo">' +
           '<div>' +
             '<strong>' + esc(e.nombre) + '</strong>' +
             '<span>' + esc(e.slogan) + '</span>' +
@@ -97,16 +119,9 @@ window.Documento = (function () {
       '<div class="hoja-cierre">' +
         '<section class="hoja-condiciones">' +
           '<h2>Condiciones</h2>' +
-          '<ul>' +
-            '<li>Precios en pesos, válidos por ' + esc(validez) + ' días a partir de la fecha.</li>' +
-            (r.anticipoPct > 0
-              ? '<li>Anticipo del ' + F.numero(r.anticipoPct, 0) + ' % (' + esc(F.moneda(r.anticipo)) + ') para iniciar la fabricación; saldo de ' + esc(F.moneda(r.saldo)) + ' contra entrega.</li>'
-              : '') +
-            '<li>Plazo de entrega: ' + esc(g.plazoEntrega || '') + '</li>' +
-            '<li>Las medidas definitivas se toman en obra antes de fabricar.</li>' +
-            (r.colocacion > 0 ? '<li>Incluye colocación.</li>' : '<li>No incluye colocación ni trabajos de albañilería.</li>') +
-            (r.aplicaIva ? '' : '<li>Precio final, IVA incluido.</li>') +
-          '</ul>' +
+          '<ul>' + condiciones(presupuesto, r, precios).map(function (c) {
+            return '<li>' + esc(c) + '</li>';
+          }).join('') + '</ul>' +
           (presupuesto.notas ? '<h2>Observaciones</h2><p>' + esc(presupuesto.notas).replace(/\n/g, '<br>') + '</p>' : '') +
         '</section>' +
         '<section class="hoja-totales">' +
@@ -173,5 +188,32 @@ window.Documento = (function () {
     return 'https://wa.me/' + tel + '?text=' + encodeURIComponent(texto(presupuesto, r, precios));
   }
 
-  return { hoja: hoja, imprimir: imprimir, texto: texto, urlWhatsapp: urlWhatsapp };
+    /** Mensaje corto que acompaña al PDF: el detalle ya va en el archivo. */
+  function mensajeCorto(presupuesto, r, precios) {
+    var e = precios.empresa || {};
+    var cli = presupuesto.cliente || {};
+    var nombre = String(cli.nombre || '').trim().split(/\s+/)[0];
+    return 'Hola' + (nombre ? ' ' + nombre : '') + ', te paso el presupuesto ' + (presupuesto.numero || '') +
+      (e.nombre ? ' de ' + e.nombre : '') + '. Total: ' + F.moneda(r.total) + '.\n' +
+      'Cualquier consulta, quedo a disposición.';
+  }
+
+  function asuntoEmail(presupuesto, precios) {
+    var e = precios.empresa || {};
+    return 'Presupuesto ' + (presupuesto.numero || '') + (e.nombre ? ' — ' + e.nombre : '');
+  }
+
+  /** Asunto y cuerpo para el email (el PDF va aparte: mailto no puede adjuntar). */
+  function urlEmail(presupuesto, r, precios) {
+    var cli = presupuesto.cliente || {};
+    var asunto = asuntoEmail(presupuesto, precios);
+    var cuerpo = texto(presupuesto, r, precios).replace(/\*/g, '');
+    return 'mailto:' + encodeURIComponent(cli.email || '') +
+      '?subject=' + encodeURIComponent(asunto) + '&body=' + encodeURIComponent(cuerpo);
+  }
+
+  return {
+    hoja: hoja, imprimir: imprimir, texto: texto, condiciones: condiciones,
+    urlWhatsapp: urlWhatsapp, urlEmail: urlEmail, mensajeCorto: mensajeCorto, asuntoEmail: asuntoEmail
+  };
 })();

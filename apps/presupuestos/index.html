@@ -76,8 +76,13 @@
       <div class="grilla-campos">
         <label class="campo campo--ancho">
           <span>Nombre del cliente</span>
-          <input type="text" id="cli-nombre" placeholder="Ej.: María Gómez" autocomplete="off">
+          <input type="text" id="cli-nombre" placeholder="Ej.: María Gómez" autocomplete="off"
+                 aria-describedby="ayuda-clientes" aria-controls="sugerencias-clientes">
         </label>
+        <div class="sugerencias campo--ancho" id="sugerencias-clientes" hidden>
+          <p class="sugerencias__titulo" id="ayuda-clientes">¿Es alguno de estos? Tocalo y se completan sus datos.</p>
+          <div class="sugerencias__lista" id="sugerencias-lista"></div>
+        </div>
         <label class="campo">
           <span>Teléfono</span>
           <input type="tel" id="cli-telefono" placeholder="11 5555-5555" autocomplete="off" inputmode="tel">
@@ -144,9 +149,20 @@
 
       <div class="acciones-finales">
         <button class="btn btn--whatsapp btn--grande btn--bloque" id="btn-whatsapp" data-icono="whatsapp">Enviar por WhatsApp</button>
-        <button class="btn btn--primario btn--grande btn--bloque" id="btn-pdf" data-icono="imprimir">Imprimir o guardar PDF</button>
-        <button class="btn btn--fantasma btn--bloque" id="btn-copiar" data-icono="copiar">Copiar el resumen</button>
+        <p class="apunte acciones-finales__ayuda" id="ayuda-whatsapp">Se abre la lista para compartir: elegí <strong>WhatsApp</strong> y después el contacto. El PDF va adjunto.</p>
+        <button class="btn btn--primario btn--grande btn--bloque" id="btn-pdf" data-icono="descargar">Descargar PDF</button>
+        <button class="btn btn--fantasma btn--grande btn--bloque" id="btn-email" data-icono="email">Enviar por email</button>
       </div>
+
+      <details class="desplegable">
+        <summary>Otras formas de entregarlo</summary>
+        <div class="acciones-finales">
+          <button class="btn btn--fantasma btn--bloque" id="btn-whatsapp-texto" data-icono="whatsapp">Mandar solo el mensaje al WhatsApp del cliente</button>
+          <p class="apunte">Sirve si el cliente no está en tus contactos: abre su chat con el número cargado, pero sin el PDF.</p>
+          <button class="btn btn--fantasma btn--bloque" id="btn-imprimir" data-icono="imprimir">Imprimir en papel</button>
+          <button class="btn btn--fantasma btn--bloque" id="btn-copiar" data-icono="copiar">Copiar el resumen</button>
+        </div>
+      </details>
 
       <details class="desplegable">
         <summary>Observaciones y ajustes</summary>
@@ -325,6 +341,38 @@
           <span>Plazo de entrega (sale impreso)</span>
           <input type="text" id="gen-plazo">
         </label>
+        <label class="campo campo--ancho">
+          <span>Forma de pago (sale impresa)</span>
+          <input type="text" id="gen-pago" placeholder="Ej.: Efectivo o transferencia bancaria.">
+        </label>
+      </div>
+    </section>
+
+    <section class="tarjeta" id="tarjeta-empresa">
+      <header class="tarjeta__header">
+        <h2>Tu empresa</h2>
+        <span class="tarjeta__header-acciones">
+          <span class="guardado" id="empresa-guardado" hidden>Guardado</span>
+          <span class="apunte">Sale arriba de cada presupuesto</span>
+        </span>
+      </header>
+
+      <div class="logo-empresa">
+        <img id="logo-vista" src="logo-alumfer.jpg" alt="Logo que sale en el presupuesto" width="96" height="96">
+        <div class="logo-empresa__botones">
+          <button class="btn btn--fantasma btn--sm" id="btn-logo">Cambiar el logo</button>
+          <button class="btn btn--fantasma btn--sm" id="btn-logo-original" hidden>Volver al logo de Alumfer</button>
+          <input type="file" id="archivo-logo" accept="image/png,image/jpeg,image/webp" hidden>
+        </div>
+      </div>
+
+      <div class="grilla-campos">
+        <label class="campo campo--ancho"><span>Nombre</span><input type="text" id="emp-nombre" autocomplete="organization"></label>
+        <label class="campo campo--ancho"><span>Frase debajo del nombre</span><input type="text" id="emp-slogan"></label>
+        <label class="campo"><span>Teléfono / WhatsApp</span><input type="tel" id="emp-telefono" inputmode="tel"></label>
+        <label class="campo"><span>Email</span><input type="email" id="emp-email"></label>
+        <label class="campo campo--ancho"><span>Dirección</span><input type="text" id="emp-direccion"></label>
+        <label class="campo"><span>Página web</span><input type="text" id="emp-web"></label>
       </div>
       <p class="apunte" id="version-app"></p>
     </section>
@@ -339,7 +387,7 @@
     <strong id="barra-total-valor">$ 0</strong>
   </div>
   <button class="btn btn--whatsapp" id="btn-whatsapp-fijo" data-icono="whatsapp">WhatsApp</button>
-  <button class="btn btn--primario" id="btn-pdf-fijo" data-icono="imprimir">PDF</button>
+  <button class="btn btn--primario" id="btn-pdf-fijo" data-icono="descargar">PDF</button>
 </div>
 
 <!-- Elegir el tipo de abertura -->
@@ -350,6 +398,22 @@
       <button class="btn btn--fantasma" id="btn-cerrar-modal" data-icono="cerrar">Cerrar</button>
     </header>
     <div class="modal__cuerpo" id="grilla-tipos"></div>
+  </div>
+</div>
+
+<!-- PDF listo: segundo toque cuando el navegador pide uno nuevo para compartir -->
+<div class="modal" id="modal-listo" hidden>
+  <div class="modal__caja modal__caja--chica" role="dialog" aria-modal="true" aria-labelledby="listo-titulo">
+    <header class="modal__header">
+      <h2 id="listo-titulo">El PDF está listo</h2>
+    </header>
+    <div class="modal__cuerpo">
+      <p id="listo-texto">Tocá el botón para elegir a quién mandarlo.</p>
+      <div class="acciones-finales">
+        <button class="btn btn--whatsapp btn--grande btn--bloque" id="btn-listo" data-icono="whatsapp">Enviar ahora</button>
+        <button class="btn btn--fantasma btn--bloque" id="btn-listo-cancelar">Cancelar</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -365,6 +429,8 @@
 <script src="js/calculo.js"></script>
 <script src="js/almacenamiento.js"></script>
 <script src="js/documento.js"></script>
+<script src="js/vendor/jspdf.umd.min.js"></script>
+<script src="js/pdf.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

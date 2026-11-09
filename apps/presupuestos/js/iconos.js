@@ -82,7 +82,10 @@ window.Iconos = (function () {
     cerrar:      '<path d="M6 6l12 12M18 6 6 18"/>',
     abajo:       '<path d="m6 9 6 6 6-6"/>',
     buscar:      '<circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/>',
-    aviso:       '<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/>'
+    aviso:       '<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/>',
+    descargar:   '<path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5"/><path d="M5 19h14"/>',
+    email:       '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/>',
+    persona:     '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'
   };
 
   function ui(nombre) { return svg(UI[nombre] || '', '24 24'); }

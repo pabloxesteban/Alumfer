@@ -13,6 +13,7 @@ window.Almacenamiento = (function () {
   var K_PRESUPUESTOS = 'alumfer.presupuestos.v1';
   var K_PRECIOS      = 'alumfer.precios.v1';
   var K_CONTADOR     = 'alumfer.contador.v1';
+  var K_LOGO         = 'alumfer.logo.v1';   // aparte: si fuera en precios, se copiaría en cada presupuesto
 
   var memoria = {};
   var disponible = (function () {
@@ -109,6 +110,57 @@ window.Almacenamiento = (function () {
     return 'P-' + anio + '-' + String(c.n).padStart(4, '0');
   }
 
+  /* ── Clientes ────────────────────────────────────────────── */
+
+  function clave(t) {
+    return String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim();
+  }
+
+  /**
+   * Clientes de presupuestos anteriores, sin repetir (mismo nombre y
+   * teléfono = misma persona), con los datos más recientes primero.
+   * No hay una lista aparte que mantener: se cargan una vez, en el
+   * presupuesto, y quedan disponibles para el próximo.
+   */
+  function clientes(excluirId) {
+    var vistos = {}, lista = [];
+    listar().forEach(function (p) {
+      var c = p.cliente || {};
+      if (!c.nombre || p.id === excluirId) return;
+      var k = clave(c.nombre) + '|' + String(c.telefono || '').replace(/\D/g, '');
+      if (vistos[k]) { vistos[k].presupuestos++; return; }
+      vistos[k] = Object.assign({}, c, { presupuestos: 1, ultimo: p.fecha });
+      lista.push(vistos[k]);
+    });
+    return lista;
+  }
+
+  /**
+   * Clientes cuyo nombre, teléfono o localidad contiene lo buscado.
+   * `excluirId`: el presupuesto abierto, que se autoguarda mientras se
+   * tipea y si no aparecería como cliente con el nombre a medio escribir.
+   */
+  function buscarClientes(texto, excluirId) {
+    var q = clave(texto);
+    if (q.length < 2) return [];
+    var digitos = q.replace(/\D/g, '');
+    return clientes(excluirId).filter(function (c) {
+      return clave(c.nombre).indexOf(q) > -1 || clave(c.localidad).indexOf(q) > -1 ||
+             (digitos.length >= 3 && String(c.telefono || '').replace(/\D/g, '').indexOf(digitos) > -1);
+    });
+  }
+
+  /* ── Logo propio ─────────────────────────────────────────── */
+
+  function cargarLogo() { return leer(K_LOGO, ''); }
+  function guardarLogo(dataUrl) {
+    if (!dataUrl) {
+      try { disponible ? window.localStorage.removeItem(K_LOGO) : delete memoria[K_LOGO]; } catch (e) {}
+      return true;
+    }
+    return escribir(K_LOGO, dataUrl);
+  }
+
   /* ── Copia de seguridad ──────────────────────────────────── */
 
   function exportarTodo() {
@@ -118,7 +170,8 @@ window.Almacenamiento = (function () {
       exportado: new Date().toISOString(),
       precios: cargarPrecios(),
       presupuestos: listar(),
-      contador: leer(K_CONTADOR, null)
+      contador: leer(K_CONTADOR, null),
+      logo: cargarLogo()
     };
   }
 
@@ -127,6 +180,7 @@ window.Almacenamiento = (function () {
     if (datos.precios) escribir(K_PRECIOS, datos.precios);
     if (Array.isArray(datos.presupuestos)) escribir(K_PRESUPUESTOS, datos.presupuestos);
     if (datos.contador) escribir(K_CONTADOR, datos.contador);
+    if ('logo' in datos) guardarLogo(datos.logo);
     return true;
   }
 
@@ -135,6 +189,8 @@ window.Almacenamiento = (function () {
     cargarPrecios: cargarPrecios, guardarPrecios: guardarPrecios, restaurarPrecios: restaurarPrecios,
     listar: listar, obtener: obtener, guardar: guardar, borrar: borrar,
     siguienteNumero: siguienteNumero,
+    clientes: clientes, buscarClientes: buscarClientes,
+    cargarLogo: cargarLogo, guardarLogo: guardarLogo,
     exportarTodo: exportarTodo, importarTodo: importarTodo
   };
 })();

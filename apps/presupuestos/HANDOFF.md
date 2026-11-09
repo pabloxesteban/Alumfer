@@ -3,7 +3,7 @@
 Para retomar el trabajo sin tener que reconstruir el contexto: qué hay hecho, qué
 se decidió y por qué, qué falta, y con qué trampas ya chocamos.
 
-Estado al 9 de noviembre de 2026; todo lo descrito está publicado y andando.
+Estado al 9 de noviembre de 2026 (segunda sesión del día); todo lo descrito está publicado y andando.
 **Si trabajás sobre la app, actualizá este archivo antes de cerrar.**
 
 ---
@@ -25,10 +25,10 @@ guarda sus propios datos en `localStorage` — no hay servidor ni sincronizació
 
 ## 2. Estado del repositorio
 
-- `main` = `77ac544` (7/11/2026). Incluye **todo** lo de presupuestos más trabajo
-  del sitio hecho en otras sesiones (PRs #39 a #48).
-- Rama designada: `claude/clever-pasteur-fzem7m`, hoy igual a `main`.
-- Último commit de la app: `fa360d7`. Versión publicada: **2026-09-23.1**.
+- `main` incluye **todo** lo de presupuestos más trabajo del sitio hecho en otras
+  sesiones (PRs #39 a #48).
+- Rama de la última sesión: `claude/intelligent-maxwell-d43hn3`, igual a `main`.
+- Versión publicada: **2026-11-09.1** (PDF real, compartir, clientes, Tu empresa).
 
 **Flujo de publicación (Pablo lo autorizó explícitamente, no hay que preguntar
 cada vez):** commit en la rama → `git checkout main && git merge --ff-only <rama>`
@@ -55,7 +55,9 @@ apps/presupuestos/
     ├── precios-base.js   Lista de fábrica (semilla) + datos de la empresa
     ├── calculo.js        Motor de cálculo puro, sin DOM (se puede probar en Node)
     ├── almacenamiento.js localStorage, numeración anual, export/import
-    ├── documento.js      Hoja imprimible y texto de WhatsApp
+    ├── documento.js      Hoja imprimible, condiciones, textos de WhatsApp y email
+    ├── pdf.js            PDF A4 real (jsPDF), con dibujos, varias páginas
+    ├── vendor/jspdf.umd.min.js   jsPDF 4.2.1 (MIT), copiado tal cual: sin CDN
     └── app.js            Interfaz
 ```
 
@@ -86,6 +88,35 @@ Documentación completa en `apps/presupuestos/README.md`.
    dé, y el precio local del extruido lo pasa el proveedor.
 10. **Las actualizaciones se avisan**: el service worker no hace `skipWaiting`;
     aparece una franja azul "Hay una versión nueva" y recién al tocarla se recarga.
+11. **El PDF se arma en el teléfono con jsPDF** (archivo dentro de `js/vendor/`,
+    sin CDN para que ande sin señal). Texto vectorial con Helvetica estándar:
+    solo admite caracteres WinAnsi, por eso `PDF.limpiar()`. Los dibujos de
+    aberturas se pasan de SVG a PNG con un canvas.
+12. **Compartir:** `wa.me` solo lleva texto, no adjunta. "Enviar por WhatsApp"
+    abre la lista para compartir del teléfono (`navigator.share` con el PDF) y
+    la persona elige WhatsApp y el contacto. Donde no hay `share` con archivos
+    (computadora, Firefox), abre `wa.me` con el resumen y descarga el PDF.
+    "Mandar solo el mensaje…" (plegado) va directo al número del cliente: sirve
+    si no está agendado. En iPhone, "Descargar PDF" también usa la lista para
+    compartir ("Guardar en Archivos"), porque la descarga directa en la app
+    instalada abre un visor del que cuesta volver.
+13. **Si el navegador bloquea `share`** porque armar el PDF tardó y se perdió el
+    toque (`NotAllowedError`), aparece la ventanita "El PDF está listo" con un
+    botón: el segundo toque comparte al instante. El PDF se cachea mientras el
+    presupuesto no cambie.
+14. **Compartir marca el presupuesto como "Enviado"** (solo si estaba en
+    preparación). Consecuencia: al reabrir la app arranca uno nuevo; el enviado
+    está en Anteriores.
+15. **Clientes sin lista aparte:** salen de los presupuestos guardados
+    (`Almacenamiento.clientes()`, mismo nombre + teléfono = misma persona). Al
+    escribir el nombre aparecen hasta 4 coincidencias; tocar una completa todos
+    los datos. Se excluye el presupuesto abierto (se autoguarda mientras se tipea).
+16. **Tu empresa** (pestaña Precios): datos y logo vigentes se usan en todos los
+    PDF, también en presupuestos viejos; precios y condiciones siguen siendo los
+    guardados con cada presupuesto. El logo va en su propia clave
+    (`alumfer.logo.v1`), achicado a 600 px, para no copiarse en cada presupuesto;
+    entra en la copia de seguridad. Editar la empresa no marca precios como viejos.
+    "Volver a los valores originales" de precios conserva los datos de la empresa.
 
 ---
 
@@ -104,6 +135,10 @@ Documentación completa en `apps/presupuestos/README.md`.
 
 ## 6. Pendientes
 
+0. **Probar en los teléfonos reales** (Android del papá y un iPhone): compartir
+   el PDF a WhatsApp y a Gmail, y "Descargar PDF" en iPhone. En la sesión se
+   probó en Chromium con `navigator.share` simulado; la lista para compartir de
+   verdad no se puede abrir en un navegador de prueba.
 1. **Cargar los precios reales.** Es lo único que falta para que la app sirva de
    verdad. Hasta que Pablo entre a Precios y ponga los suyos, los totales no
    significan nada.
@@ -124,8 +159,16 @@ Documentación completa en `apps/presupuestos/README.md`.
 
 ## 7. Cómo probar
 
-No hay suite automatizada. Se probó con Playwright ad hoc; esos scripts vivían en
-el scratchpad de la sesión anterior y se perdieron.
+No hay suite automatizada en el repo. Se probó con Playwright ad hoc (scripts en
+el scratchpad, se pierden con la sesión). Lo que se verificó el 9/11:
+cliente → 3 aberturas → medidas y cantidad → descuento → total de pantalla =
+motor = guardado → PDF descargado → compartir por WhatsApp y email (share
+simulado con `addInitScript`) → reintento con `NotAllowedError` → sugerencia de
+cliente en un presupuesto nuevo → presupuesto de 22 aberturas en 3 páginas →
+logo propio → computadora sin share (abre `wa.me` + descarga) → hoja impresa.
+
+- Para mirar el PDF: `pdftotext -layout x.pdf -` y `pdftoppm -r 80 -png x.pdf p`
+  (están instalados en el entorno).
 
 ```bash
 cd apps/presupuestos && python3 -m http.server 8777
@@ -151,6 +194,10 @@ cd apps/presupuestos && python3 -m http.server 8777
 - `solologo.png` es el logo blanco sobre transparente: invisible sobre papel.
 - `window.print()` en Chromium headless bloquea el render: para capturar la hoja,
   inyectar el HTML y usar `emulateMedia({ media: 'print' })`.
+- Con dos `<details>` en el paso 3, `details:last-of-type` ya no apunta a
+  "Observaciones y ajustes": buscar el `summary` por texto.
+- jsPDF con Helvetica estándar no dibuja `−` (U+2212), espacios finos ni
+  emojis: pasar todo por `PDF.limpiar()`.
 - El deploy FTP del sitio (`deploy.yml`) corre en **cada** push a `main`, aunque
   solo cambie la app. Estuvo fallando con `530 Login authentication failed`
   porque el hosting estaba suspendido; hoy alumfer.com.ar responde 200, así que

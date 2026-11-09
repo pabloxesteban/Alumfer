@@ -1,7 +1,7 @@
 # Presupuestos — Alumfer
 
 App interna para armar presupuestos de aberturas de aluminio y entregarlos
-impresos, en PDF o por WhatsApp. Sin framework, sin build step y sin servidor:
+en PDF (por WhatsApp, email o descargado) o impresos. Sin framework, sin build step y sin servidor:
 unos pocos archivos JS, un HTML y dos hojas de estilo.
 
 Está pensada para usarse sin práctica previa: la pantalla va en tres pasos
@@ -96,6 +96,36 @@ franja amarilla y conviene usar el comando de arriba.
 
 Abajo de todo queda fija una barra con el total y los dos botones que más se
 usan (WhatsApp y PDF), así no hay que buscarlos.
+
+## Entregar el presupuesto
+
+| Botón | En el celular | En la computadora |
+|-------|---------------|-------------------|
+| **Enviar por WhatsApp** | Abre la lista para compartir con el PDF adjunto: se elige WhatsApp y el contacto. | Abre WhatsApp con el resumen y descarga el PDF para adjuntarlo. |
+| **Descargar PDF** | Lo descarga (en iPhone: lista para compartir → *Guardar en Archivos*). | Lo descarga. |
+| **Enviar por email** | Lista para compartir con el PDF: se elige Gmail o Mail. | Abre el correo con el resumen y descarga el PDF. |
+| *Otras formas* (plegado) | Mensaje de WhatsApp directo al número del cliente (sin PDF), imprimir, copiar el resumen. | Igual. |
+
+Un link de WhatsApp no puede adjuntar archivos: por eso el PDF viaja por la
+lista para compartir del teléfono. Al compartir, el presupuesto pasa solo a
+*Enviado al cliente*.
+
+El PDF se arma en el teléfono (jsPDF, en `js/vendor/`), funciona sin internet y
+trae logo, datos de la empresa, dibujo de cada abertura, medidas, cantidades,
+precios, totales, condiciones, forma de pago, plazo y observaciones. Si son
+muchas aberturas sigue en otra página con el encabezado de la tabla repetido.
+
+## Clientes
+
+No hay que cargarlos aparte: cada cliente queda guardado con su presupuesto.
+Al escribir el nombre (o parte del teléfono o la localidad) en un presupuesto
+nuevo aparecen los que coinciden; tocando uno se completan todos sus datos.
+
+## Tu empresa
+
+Al final de *Precios*: nombre, frase, teléfono, email, dirección, web y logo.
+Es lo que sale arriba del PDF. El logo se puede cambiar por una foto o imagen
+del teléfono y volver al de Alumfer cuando se quiera.
 
 ---
 
@@ -206,7 +236,9 @@ apps/presupuestos/
     ├── formato.js        Moneda, fechas, teléfonos, parsing de números
     ├── calculo.js        Motor de cálculo (funciones puras, sin DOM)
     ├── almacenamiento.js localStorage, numeración e import/export
-    ├── documento.js      Hoja imprimible y mensaje de WhatsApp
+    ├── documento.js      Hoja imprimible, condiciones, mensajes de WhatsApp y email
+    ├── pdf.js            PDF del presupuesto (A4, varias páginas)
+    ├── vendor/           jsPDF 4.2.1 (licencia MIT), sin CDN
     └── app.js            Interfaz
 ```
 
@@ -220,6 +252,6 @@ orden (`formato` → `precios-base` → `calculo`).
 | Tecla | Acción |
 |-------|--------|
 | `Ctrl/Cmd + S` | Guardar |
-| `Ctrl/Cmd + P` | Imprimir / PDF |
+| `Ctrl/Cmd + P` | Imprimir |
 
 La numeración (`P-2026-0001`) se asigna al guardar y se reinicia cada año.

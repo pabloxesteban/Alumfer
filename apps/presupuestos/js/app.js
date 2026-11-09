@@ -41,12 +41,25 @@
   /** Precios con los que se calcula el presupuesto abierto. */
   function preciosDelPresupuesto() { return (actual && actual.precios) || precios; }
 
+  /**
+   * Para la hoja y el PDF: precios y condiciones del presupuesto, pero
+   * los datos y el logo de la empresa de hoy (si cambió el teléfono, el
+   * presupuesto viejo que se reenvía tiene que salir con el nuevo).
+   */
+  function preciosParaDocumento() {
+    var p = preciosDelPresupuesto();
+    return Object.assign({}, p, {
+      empresa: Object.assign({}, p.empresa, precios.empresa, { logo: A.cargarLogo() || '' })
+    });
+  }
+
   function avisar(texto, tipo) {
     var nodo = document.createElement('div');
     nodo.className = 'aviso' + (tipo === 'error' ? ' aviso--error' : '');
     nodo.textContent = texto;
     $('avisos').appendChild(nodo);
     setTimeout(function () { nodo.remove(); }, tipo === 'error' ? 5000 : 2600);
+    return nodo;
   }
 
   /** Muestra un "Guardado ✓" que se apaga solo: la app guarda sin botón. */
@@ -93,6 +106,7 @@
 
   function abrir(presupuesto) {
     actual = presupuesto;
+    $('sugerencias-clientes').hidden = true;
     if (!actual.precios) actual.precios = clonar(precios);
     volcarEnFormulario();
     render();
@@ -604,6 +618,8 @@
     $('gen-min-m2').value = precios.generales.minM2Global;
     $('gen-redondeo').value = precios.generales.redondeo;
     $('gen-plazo').value = precios.generales.plazoEntrega || '';
+    $('gen-pago').value = precios.generales.formaPago || '';
+    renderEmpresa();
 
     tablaEditable('tabla-lineas', precios.lineas, [
       { campo: 'nombre', etiqueta: 'Línea', clase: 'col-nombre' },
@@ -792,21 +808,251 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  /* ════════ Acciones finales ════════ */
+  /* ════════ Entregar: PDF, WhatsApp, email ════════ */
 
-  function imprimir() {
-    if (!actual.items.length) return avisar('Agregá al menos una abertura antes de imprimir.', 'error');
+  /*
+   * Un link de WhatsApp (wa.me) solo puede llevar texto: no adjunta archivos.
+   * Para mandar el PDF se usa la lista para compartir del teléfono
+   * (navigator.share con archivos), que existe en Android y en iPhone.
+   * En la computadora no está: ahí se abre el chat con el mensaje y el PDF
+   * queda en Descargas para adjuntarlo.
+   */
+
+  var pdfListo = null;    // último PDF armado, para no rehacerlo si no cambió nada
+  var alTocarListo = null;
+  var ES_IPHONE = /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  function puedeCompartirArchivos() {
+    if (!navigator.share || !navigator.canShare || !window.File) return false;
+    try { return navigator.canShare({ files: [new File(['x'], 'x.pdf', { type: 'application/pdf' })] }); }
+    catch (e) { return false; }
+  }
+
+  function listoParaEntregar(accion) {
+    if (!actual.items.length) {
+      avisar('Agregá al menos una abertura antes de ' + accion + '.', 'error');
+      return false;
+    }
     guardar(true);
-    var p = preciosDelPresupuesto();
-    D.imprimir(actual, C.calcularPresupuesto(actual, p), p);
+    return true;
+  }
+
+  function armarPdf() {
+    var p = preciosParaDocumento();
+    var r = C.calcularPresupuesto(actual, p);
+    var clave = JSON.stringify([actual.numero, actual.fecha, actual.cliente, actual.items, actual.ajustes,
+                                actual.notas, p.revision, p.generales, p.empresa]);
+    if (pdfListo && pdfListo.clave === clave) return Promise.resolve(pdfListo);
+    var preparando = avisar('Preparando el PDF…');
+    return window.PDF.generar(actual, r, p).then(function (blob) {
+      preparando.remove();
+      var nombre = window.PDF.nombreArchivo(actual);
+      pdfListo = {
+        clave: clave, blob: blob, nombre: nombre, r: r, p: p,
+        archivo: new File([blob], nombre, { type: 'application/pdf' })
+      };
+      return pdfListo;
+    });
+  }
+
+  function errorPdf(e) {
+    console.error(e);
+    avisar('No se pudo armar el PDF. Probá con "Imprimir en papel", más abajo.', 'error');
+  }
+
+  function descargarArchivo(listo) {
+    var enlace = document.createElement('a');
+    enlace.href = URL.createObjectURL(listo.blob);
+    enlace.download = listo.nombre;
+    document.body.appendChild(enlace);
+    enlace.click();
+    enlace.remove();
+    setTimeout(function () { URL.revokeObjectURL(enlace.href); }, 60000);
+  }
+
+  /**
+   * Abre la lista para compartir. Si el navegador la bloquea porque armar
+   * el PDF tardó y "se perdió" el toque, pide un toque más con una
+   * ventanita: el PDF ya está hecho, así que ese segundo toque es instantáneo.
+   */
+  function compartir(listo, datos, textoBoton, despues) {
+    var abrir = function () { return navigator.share(Object.assign({ files: [listo.archivo] }, datos)); };
+    var fallo = function (err) {
+      if (err && err.name === 'AbortError') return;       // cerró la lista: no pasa nada
+      avisar('No se pudo abrir la lista para compartir. Probá con "Descargar PDF".', 'error');
+    };
+    abrir().then(despues).catch(function (err) {
+      if (err && err.name === 'NotAllowedError') {
+        return pedirOtroToque(textoBoton, function () { abrir().then(despues).catch(fallo); });
+      }
+      fallo(err);
+    });
+  }
+
+  function pedirOtroToque(textoBoton, accion) {
+    alTocarListo = accion;
+    $('btn-listo').innerHTML = I.ui('whatsapp') + F.escapar(textoBoton);
+    $('modal-listo').hidden = false;
+    $('btn-listo').focus();
+  }
+
+  function cerrarListo() {
+    $('modal-listo').hidden = true;
+    alTocarListo = null;
+  }
+
+  /** Lo enviado deja de estar "en preparación", así se ve en Anteriores. */
+  function marcarEnviado() {
+    if (actual.estado !== 'borrador') return;
+    $('pre-estado').value = 'enviado';
+    guardar(true);
+    avisar('Quedó marcado como "Enviado al cliente"');
   }
 
   function enviarWhatsapp() {
-    if (!actual.items.length) return avisar('Agregá al menos una abertura antes de enviar.', 'error');
-    guardar(true);
-    var p = preciosDelPresupuesto();
+    if (!listoParaEntregar('enviar')) return;
+    if (!puedeCompartirArchivos()) return whatsappConDescarga();
+    armarPdf().then(function (listo) {
+      compartir(listo, { text: D.mensajeCorto(actual, listo.r, listo.p) }, 'Elegir WhatsApp', marcarEnviado);
+    }).catch(errorPdf);
+  }
+
+  /** Computadora: abre el chat con el resumen y deja el PDF en Descargas. */
+  function whatsappConDescarga() {
+    var p = preciosParaDocumento();
     if (!actual.cliente.telefono) avisar('Sin teléfono cargado: WhatsApp te va a pedir el contacto.');
     window.open(D.urlWhatsapp(actual, C.calcularPresupuesto(actual, p), p), '_blank');
+    armarPdf().then(function (listo) {
+      descargarArchivo(listo);
+      avisar('El PDF quedó en Descargas: adjuntalo en el chat con el clip.');
+      marcarEnviado();
+    }).catch(errorPdf);
+  }
+
+  /** Solo el texto, directo al número del cliente (sirve si no está agendado). */
+  function whatsappSoloTexto() {
+    if (!listoParaEntregar('enviar')) return;
+    var p = preciosParaDocumento();
+    if (!actual.cliente.telefono) avisar('Sin teléfono cargado: WhatsApp te va a pedir el contacto.');
+    window.open(D.urlWhatsapp(actual, C.calcularPresupuesto(actual, p), p), '_blank');
+    marcarEnviado();
+  }
+
+  function descargarPdf() {
+    if (!listoParaEntregar('descargar el PDF')) return;
+    armarPdf().then(function (listo) {
+      // En iPhone la descarga directa abre un visor del que cuesta volver:
+      // la lista para compartir ofrece "Guardar en Archivos".
+      if (ES_IPHONE && puedeCompartirArchivos()) {
+        return compartir(listo, {}, 'Guardar el PDF', function () {});
+      }
+      descargarArchivo(listo);
+      avisar('PDF descargado');
+    }).catch(errorPdf);
+  }
+
+  function enviarEmail() {
+    if (!listoParaEntregar('enviar')) return;
+    var p = preciosParaDocumento();
+    if (puedeCompartirArchivos()) {
+      return armarPdf().then(function (listo) {
+        compartir(listo, {
+          title: D.asuntoEmail(actual, listo.p),
+          text: D.mensajeCorto(actual, listo.r, listo.p)
+        }, 'Elegir el correo', marcarEnviado);
+      }).catch(errorPdf);
+    }
+    // Computadora: mailto no puede adjuntar, así que el PDF queda en Descargas.
+    window.location.href = D.urlEmail(actual, C.calcularPresupuesto(actual, p), p);
+    armarPdf().then(function (listo) {
+      descargarArchivo(listo);
+      avisar('El PDF quedó en Descargas: adjuntalo al correo.');
+      marcarEnviado();
+    }).catch(errorPdf);
+  }
+
+  function imprimir() {
+    if (!listoParaEntregar('imprimir')) return;
+    var p = preciosParaDocumento();
+    D.imprimir(actual, C.calcularPresupuesto(actual, p), p);
+  }
+
+  /** El texto de ayuda dice lo que va a pasar en ESTE aparato. */
+  function ayudaEntrega() {
+    $('ayuda-whatsapp').innerHTML = puedeCompartirArchivos()
+      ? 'Se abre la lista para compartir: elegí <strong>WhatsApp</strong> y después el contacto. El PDF va adjunto.'
+      : 'Se abre WhatsApp con el resumen y el PDF queda en <strong>Descargas</strong> para adjuntarlo con el clip.';
+  }
+
+  /* ════════ Clientes anteriores ════════ */
+
+  function sugerirClientes() {
+    var cont = $('sugerencias-clientes');
+    var c = actual.cliente || {};
+    var lista = A.buscarClientes($('cli-nombre').value, actual.id).filter(function (x) {
+      return !(x.nombre === c.nombre && (x.telefono || '') === (c.telefono || ''));   // ya elegido
+    }).slice(0, 4);
+    if (!lista.length) { cont.hidden = true; return; }
+
+    $('sugerencias-lista').innerHTML = lista.map(function (x, i) {
+      var datos = [x.localidad, x.telefono,
+                   x.presupuestos + (x.presupuestos === 1 ? ' presupuesto' : ' presupuestos')].filter(Boolean);
+      return '<button type="button" class="cliente-sugerido" data-indice="' + i + '">' + I.ui('persona') +
+        '<span><strong>' + F.escapar(x.nombre) + '</strong><span>' + F.escapar(datos.join(' · ')) + '</span></span></button>';
+    }).join('');
+    cont._lista = lista;
+    cont.hidden = false;
+  }
+
+  function usarCliente(x) {
+    $('cli-nombre').value = x.nombre || '';
+    $('cli-telefono').value = x.telefono || '';
+    $('cli-email').value = x.email || '';
+    $('cli-direccion').value = x.direccion || '';
+    $('cli-localidad').value = x.localidad || '';
+    $('sugerencias-clientes').hidden = true;
+    hayCambios = true;
+    renderTotales();
+    autoguardar();
+    avisar('Datos de ' + x.nombre + ' cargados');
+  }
+
+  /* ════════ Tu empresa ════════ */
+
+  var CAMPOS_EMPRESA = ['nombre', 'slogan', 'telefono', 'email', 'direccion', 'web'];
+
+  function renderEmpresa() {
+    var e = precios.empresa || {};
+    CAMPOS_EMPRESA.forEach(function (k) { $('emp-' + k).value = e[k] || ''; });
+    var logo = A.cargarLogo();
+    $('logo-vista').src = logo || 'logo-alumfer.jpg';
+    $('btn-logo-original').hidden = !logo;
+  }
+
+  /** Achica la imagen elegida (las fotos del celular pesan varios MB). */
+  function prepararLogo(archivo) {
+    return new Promise(function (resolver, rechazar) {
+      var lector = new FileReader();
+      lector.onerror = rechazar;
+      lector.onload = function () {
+        var img = new Image();
+        img.onerror = function () { rechazar(new Error('No es una imagen que se pueda abrir.')); };
+        img.onload = function () {
+          var escala = Math.min(1, 600 / Math.max(img.naturalWidth, img.naturalHeight));
+          var c = document.createElement('canvas');
+          c.width = Math.round(img.naturalWidth * escala);
+          c.height = Math.round(img.naturalHeight * escala);
+          var ctx = c.getContext('2d');
+          ctx.fillStyle = '#fff';            // sale sobre papel blanco
+          ctx.fillRect(0, 0, c.width, c.height);
+          ctx.drawImage(img, 0, 0, c.width, c.height);
+          resolver(c.toDataURL('image/jpeg', 0.9));
+        };
+        img.src = lector.result;
+      };
+      lector.readAsDataURL(archivo);
+    });
   }
 
   function copiar(texto) {
@@ -858,6 +1104,7 @@
     });
     document.addEventListener('keydown', function (ev) {
       if (ev.key === 'Escape' && !$('modal-tipos').hidden) cerrarSelectorTipo();
+      if (ev.key === 'Escape' && !$('modal-listo').hidden) cerrarListo();
     });
 
     var lista = $('lista-items');
@@ -915,10 +1162,30 @@
       autoguardar();
     });
 
-    $('btn-pdf').addEventListener('click', imprimir);
-    $('btn-pdf-fijo').addEventListener('click', imprimir);
+    $('btn-pdf').addEventListener('click', descargarPdf);
+    $('btn-pdf-fijo').addEventListener('click', descargarPdf);
     $('btn-whatsapp').addEventListener('click', enviarWhatsapp);
     $('btn-whatsapp-fijo').addEventListener('click', enviarWhatsapp);
+    $('btn-email').addEventListener('click', enviarEmail);
+    $('btn-whatsapp-texto').addEventListener('click', whatsappSoloTexto);
+    $('btn-imprimir').addEventListener('click', imprimir);
+
+    $('btn-listo').addEventListener('click', function () {
+      var accion = alTocarListo;
+      cerrarListo();
+      if (accion) accion();
+    });
+    $('btn-listo-cancelar').addEventListener('click', cerrarListo);
+    $('modal-listo').addEventListener('click', function (ev) { if (ev.target === $('modal-listo')) cerrarListo(); });
+
+    // Clientes anteriores
+    $('cli-nombre').addEventListener('input', sugerirClientes);
+    $('cli-telefono').addEventListener('input', function () { if (!$('sugerencias-clientes').hidden) sugerirClientes(); });
+    $('sugerencias-lista').addEventListener('click', function (ev) {
+      var boton = ev.target.closest('.cliente-sugerido');
+      var lista = $('sugerencias-clientes')._lista || [];
+      if (boton && lista[Number(boton.dataset.indice)]) usarCliente(lista[Number(boton.dataset.indice)]);
+    });
 
     $('btn-copiar').addEventListener('click', function () {
       var p = preciosDelPresupuesto();
@@ -1020,18 +1287,51 @@
 
     $('btn-restaurar-precios').addEventListener('click', function () {
       if (!confirm('¿Volver a los precios originales? Se pierden los valores que cargaste.')) return;
+      var empresa = precios.empresa;     // los datos de la empresa no son precios: se conservan
       precios = A.restaurarPrecios();
+      precios.empresa = empresa;
+      A.guardarPrecios(precios);
       renderPrecios();
       avisar('Precios originales restaurados');
     });
 
-    ['gen-min-m2', 'gen-redondeo', 'gen-plazo'].forEach(function (id) {
+    ['gen-min-m2', 'gen-redondeo', 'gen-plazo', 'gen-pago'].forEach(function (id) {
       $(id).addEventListener('input', function () {
         precios.generales.minM2Global = F.aNumero($('gen-min-m2').value);
         precios.generales.redondeo = F.aNumero($('gen-redondeo').value);
         precios.generales.plazoEntrega = $('gen-plazo').value;
+        precios.generales.formaPago = $('gen-pago').value;
         guardarPrecios();
       });
+    });
+
+    // Tu empresa: no son precios, así que no marcan los presupuestos como desactualizados.
+    CAMPOS_EMPRESA.forEach(function (k) {
+      $('emp-' + k).addEventListener('input', function () {
+        precios.empresa[k] = $('emp-' + k).value.trim();
+        if (k === 'telefono') precios.empresa.whatsapp = F.telefonoWhatsapp(precios.empresa.telefono);
+        A.guardarPrecios(precios);
+        marcarGuardado('empresa-guardado');
+      });
+    });
+
+    $('btn-logo').addEventListener('click', function () { $('archivo-logo').click(); });
+    $('archivo-logo').addEventListener('change', function (ev) {
+      var archivo = ev.target.files[0];
+      ev.target.value = '';
+      if (!archivo) return;
+      prepararLogo(archivo).then(function (dataUrl) {
+        if (!A.guardarLogo(dataUrl)) throw new Error('No hay lugar para guardar la imagen en este teléfono.');
+        renderEmpresa();
+        marcarGuardado('empresa-guardado');
+        avisar('Logo cambiado: así va a salir en los presupuestos');
+      }).catch(function (e) { avisar(e.message || 'No se pudo usar esa imagen.', 'error'); });
+    });
+    $('btn-logo-original').addEventListener('click', function () {
+      if (!confirm('¿Volver al logo de Alumfer?')) return;
+      A.guardarLogo('');
+      renderEmpresa();
+      avisar('Logo de Alumfer restaurado');
     });
 
     // Atajos
@@ -1164,6 +1464,7 @@
   function iniciar() {
     if (!A.disponible) $('aviso-almacenamiento').hidden = false;
     ponerIconos();
+    ayudaEntrega();
     configurarActualizaciones();
     configurarInstalacion();
     renderPrecios();
