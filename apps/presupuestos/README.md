@@ -4,10 +4,13 @@ App interna para armar presupuestos de aberturas de aluminio y entregarlos
 en PDF (por WhatsApp, email o descargado) o impresos. Sin framework, sin build step y sin servidor:
 unos pocos archivos JS, un HTML y dos hojas de estilo.
 
-Está pensada para usarse sin práctica previa: la pantalla va en tres pasos
-(para quién es → qué lleva → cómo se entrega), el tipo de abertura se elige
-tocando su dibujo, las medidas van en centímetros y todo lo que se usa poco
-queda plegado.
+Está pensada para usarse sin práctica previa, por alguien mayor que no está
+acostumbrado a la tecnología: la pantalla va en tres pasos (para quién es →
+qué lleva → cómo se manda), cada paso dice en una frase qué hacer, el tipo de
+abertura se elige tocando su dibujo, la línea, el vidrio y el color se eligen
+de una lista de botones grandes, la cantidad va con − y +, las medidas van en
+centímetros y todo lo que se usa poco queda plegado. Letra grande, botones
+grandes y palabras comunes (por ejemplo "vidrio Simple", no "Float").
 
 > Para retomar el trabajo desde cero —decisiones tomadas, pendientes y trampas ya
 > encontradas— está [`HANDOFF.md`](HANDOFF.md).

@@ -51,6 +51,46 @@ window.Almacenamiento = (function () {
 
   /* ── Precios ─────────────────────────────────────────────── */
 
+  /*
+   * Nombres de fábrica que se cambiaron por palabras más claras. Los precios
+   * guardados en el teléfono tienen los nombres viejos: se renombran solo si
+   * siguen exactamente como venían (si alguien les puso otro nombre, se respeta).
+   * No toca ningún precio.
+   */
+  var NOMBRES_VIEJOS = {
+    vidrios: {
+      float3: ['Float 3 mm', 'Simple 3 mm'],
+      float4: ['Float 4 mm', 'Simple 4 mm'],
+      float5: ['Float 5 mm', 'Simple 5 mm', 'para paños grandes', 'para ventanas grandes'],
+      float6: ['Float 6 mm', 'Simple 6 mm', 'para paños muy grandes', 'para ventanas muy grandes'],
+      esmerilado: ['Esmerilado / satinado 4 mm', 'Esmerilado 4 mm', 'no se ve a través (baños)', 'no se ve a través, para baños'],
+      espejado: ['Reflectivo espejado 5 mm', 'Espejado 5 mm', 'espeja de afuera, da sombra', 'de afuera no se ve adentro, da sombra'],
+      lam33: ['Laminado 3+3 (seguridad)', 'De seguridad 3+3', 'no se astilla, antirrobo', 'si se rompe no se cae, antirrobo'],
+      lam44: ['Laminado 4+4 (seguridad)', 'De seguridad 4+4', 'seguridad reforzada', 'más resistente todavía'],
+      dvh494: ['DVH 4/9/4', 'Doble vidrio (DVH)', 'doble vidrio: frío y ruido', 'aísla del frío y del ruido'],
+      'dvh-lam': ['DVH con laminado 3+3', 'Doble vidrio de seguridad', 'doble vidrio + seguridad', 'aísla y además es de seguridad']
+    },
+    colores: {
+      bronce: ['Bronce (anolok)', 'Bronce']
+    },
+    lineas: {
+      a30: ['A30 New', 'A30 New', 'intermedia, acepta DVH', 'intermedia, acepta doble vidrio']
+    }
+  };
+
+  function actualizarNombres(precios) {
+    if (!precios) return precios;
+    Object.keys(NOMBRES_VIEJOS).forEach(function (lista) {
+      (precios[lista] || []).forEach(function (x) {
+        var cambio = NOMBRES_VIEJOS[lista][x.id];
+        if (!cambio) return;
+        if (x.nombre === cambio[0]) x.nombre = cambio[1];
+        if (cambio[2] && x.ayuda === cambio[2]) x.ayuda = cambio[3];
+      });
+    });
+    return precios;
+  }
+
   /** Precios guardados, completados con los de fábrica si falta algo. */
   function cargarPrecios() {
     var base = JSON.parse(JSON.stringify(window.PRECIOS_BASE));
@@ -64,7 +104,7 @@ window.Almacenamiento = (function () {
     ['lineas', 'tipologias', 'vidrios', 'colores', 'adicionales'].forEach(function (k) {
       if (!Array.isArray(p[k]) || !p[k].length) p[k] = base[k];
     });
-    return p;
+    return actualizarNombres(p);
   }
 
   function guardarPrecios(precios) { return escribir(K_PRECIOS, precios); }
@@ -188,7 +228,7 @@ window.Almacenamiento = (function () {
     disponible: disponible,
     cargarPrecios: cargarPrecios, guardarPrecios: guardarPrecios, restaurarPrecios: restaurarPrecios,
     listar: listar, obtener: obtener, guardar: guardar, borrar: borrar,
-    siguienteNumero: siguienteNumero,
+    siguienteNumero: siguienteNumero, actualizarNombres: actualizarNombres,
     clientes: clientes, buscarClientes: buscarClientes,
     cargarLogo: cargarLogo, guardarLogo: guardarLogo,
     exportarTodo: exportarTodo, importarTodo: importarTodo

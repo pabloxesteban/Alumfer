@@ -28,7 +28,7 @@ guarda sus propios datos en `localStorage` — no hay servidor ni sincronizació
 - `main` incluye **todo** lo de presupuestos más trabajo del sitio hecho en otras
   sesiones (PRs #39 a #48).
 - Rama de la última sesión: `claude/intelligent-maxwell-d43hn3`, igual a `main`.
-- Versión publicada: **2026-11-09.1** (PDF real, compartir, clientes, Tu empresa).
+- Versión publicada: **2026-11-09.2** (rediseño más suave y palabras más claras, sobre la .1: PDF real, compartir, clientes, Tu empresa).
 
 **Flujo de publicación (Pablo lo autorizó explícitamente, no hay que preguntar
 cada vez):** commit en la rama → `git checkout main && git merge --ff-only <rama>`
@@ -117,6 +117,28 @@ Documentación completa en `apps/presupuestos/README.md`.
     (`alumfer.logo.v1`), achicado a 600 px, para no copiarse en cada presupuesto;
     entra en la copia de seguridad. Editar la empresa no marca precios como viejos.
     "Volver a los valores originales" de precios conserva los datos de la empresa.
+17. **Pablo pidió una interfaz menos "cuadrada", sin palabras en inglés ni
+    técnicas** (el papá tiene más de 60 y no está familiarizado con la tecnología):
+    - Nombres: "Float" → "Simple" (sale "vidrio Simple 4 mm"), "DVH 4/9/4" →
+      "Doble vidrio (DVH)", "Laminado 3+3 (seguridad)" → "De seguridad 3+3",
+      "Bronce (anolok)" → "Bronce", ayudas en palabras comunes. "A30 New" se dejó:
+      es el nombre comercial de la línea.
+    - `Almacenamiento.actualizarNombres()` renombra lo ya guardado en el teléfono
+      y en las copias de precios de los presupuestos, **solo si el nombre sigue
+      siendo el de fábrica** (si lo cambiaron a mano, se respeta). No toca precios.
+    - Línea, vidrio y color ya no son `<select>` (cortaban el texto en el celular):
+      son botones grandes con lo elegido + "Cambiar", que abren una lista de
+      opciones grandes con "Elegida" marcada. Los colores llevan muestra.
+    - Cantidad con botones − y + (no baja de 1); "cm" adentro del campo de medida.
+    - Textos: una frase de guía bajo cada paso, "Agregar una / otra abertura",
+      "Cambiar tipo", "Otra igual", "Quitar", "Es chica: se cobra el mínimo de
+      X m²", paso 3 "Mandar el presupuesto" oculto hasta que haya aberturas.
+    - Estilo: letra base 18 px y `--text-sm` ≈ 16 px, tarjetas con sombra suave y
+      esquinas de 20 px, controles de 14 px, agregados con tilde grande,
+      desplegables con flecha. En celular las pestañas llevan el ícono arriba del
+      nombre. `scroll-padding` para que el teclado no deje un campo tapado por
+      las barras fijas. Los tokens del sistema de diseño no se tocaron: los
+      valores propios están en `:root` de `estilos.css`.
 
 ---
 
@@ -166,6 +188,10 @@ motor = guardado → PDF descargado → compartir por WhatsApp y email (share
 simulado con `addInitScript`) → reintento con `NotAllowedError` → sugerencia de
 cliente en un presupuesto nuevo → presupuesto de 22 aberturas en 3 páginas →
 logo propio → computadora sin share (abre `wa.me` + descarga) → hoja impresa.
+Y después del rediseño (17 chequeos más): renombre de nombres guardados viejos
+respetando los puestos a mano, paso 3 vacío, − y +, lista de vidrios sin
+"Float", cambio de vidrio recalcula, muestras de color, agregado tildado,
+mínimo explicado, PDF con "vidrio Simple".
 
 - Para mirar el PDF: `pdftotext -layout x.pdf -` y `pdftoppm -r 80 -png x.pdf p`
   (están instalados en el entorno).
@@ -196,6 +222,10 @@ cd apps/presupuestos && python3 -m http.server 8777
   inyectar el HTML y usar `emulateMedia({ media: 'print' })`.
 - Con dos `<details>` en el paso 3, `details:last-of-type` ya no apunta a
   "Observaciones y ajustes": buscar el `summary` por texto.
+- Playwright no tiene en cuenta las barras fijas al llevar un elemento a la
+  vista: hacer `scrollIntoView({ block: 'center' })` antes de tocar.
+- Los precios guardados reemplazan la lista entera de fábrica: si un teléfono
+  tiene 3 vidrios guardados, solo existen esos 3 (no se mezclan con los de fábrica).
 - jsPDF con Helvetica estándar no dibuja `−` (U+2212), espacios finos ni
   emojis: pasar todo por `PDF.limpiar()`.
 - El deploy FTP del sitio (`deploy.yml`) corre en **cada** push a `main`, aunque

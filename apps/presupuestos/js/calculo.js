@@ -107,7 +107,7 @@ window.Calculo = (function () {
     };
   }
 
-  /** Texto de una línea del presupuesto: "Ventana corrediza 2 hojas — Línea Herrero, blanco, DVH 4/9/4". */
+  /** Texto de una línea del presupuesto: "Ventana corrediza 2 hojas — Línea Herrero, blanco, doble vidrio". */
   function descripcionItem(item, precios) {
     var tip    = buscar(precios.tipologias, item.tipologiaId);
     var linea  = buscar(precios.lineas, item.lineaId);

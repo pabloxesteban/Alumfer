@@ -108,6 +108,7 @@
     actual = presupuesto;
     $('sugerencias-clientes').hidden = true;
     if (!actual.precios) actual.precios = clonar(precios);
+    A.actualizarNombres(actual.precios);   // solo nombres más claros; los precios no se tocan
     volcarEnFormulario();
     render();
     hayCambios = false;
@@ -124,7 +125,8 @@
     $('pre-fecha').value = actual.fecha || F.fechaISO();
     $('pre-estado').value = actual.estado || 'borrador';
     $('pre-notas').value = actual.notas || '';
-    $('numero-presupuesto').textContent = actual.numero || 'Nuevo';
+    $('numero-presupuesto').textContent = actual.numero || '';
+    $('numero-presupuesto').hidden = !actual.numero;   // sin número todavía: no mostrar nada que parezca un botón
 
     $('aj-descuento').value = a.descuentoPct;
     $('aj-colocacion-modo').value = a.colocacionModo;
@@ -176,6 +178,7 @@
     A.guardar(actual);
     hayCambios = false;
     $('numero-presupuesto').textContent = actual.numero;
+    $('numero-presupuesto').hidden = false;
     marcarGuardado('presupuesto-guardado');
     renderHistorial();
     if (!silencioso) avisar('Presupuesto ' + actual.numero + ' guardado');
@@ -277,26 +280,57 @@
 
   /* ════════ Ítems ════════ */
 
-  function opciones(lista, seleccion) {
-    return lista.map(function (x) {
-      return '<option value="' + x.id + '"' + (x.id === seleccion ? ' selected' : '') + '>' +
-        F.escapar(x.nombre) + (x.ayuda ? F.escapar(' — ' + x.ayuda) : '') + '</option>';
-    }).join('');
-  }
-
   function chipExtra(ad, item) {
     var activo = (item.adicionales || []).indexOf(ad.id) > -1;
     return '<label class="extra' + (activo ? ' is-activo' : '') + '">' +
-      '<input type="checkbox" data-adicional="' + ad.id + '"' + (activo ? ' checked' : '') + '> ' +
+      '<input type="checkbox" data-adicional="' + ad.id + '"' + (activo ? ' checked' : '') + '>' +
+      '<span class="extra__tilde" aria-hidden="true"></span>' +
       F.escapar(ad.nombre) + '</label>';
+  }
+
+  /* Muestra de color para reconocerlo sin leer (los colores agregados a mano no tienen). */
+  var MUESTRAS = {
+    natural: 'linear-gradient(135deg,#eceef0,#aeb3b8)',
+    blanco: '#ffffff',
+    gris: '#5b6066',
+    bronce: 'linear-gradient(135deg,#8a6440,#5a3c20)',
+    negro: '#1e1e1e',
+    'simil-madera': 'repeating-linear-gradient(100deg,#9a6230 0 6px,#7c4a20 6px 9px)'
+  };
+  function muestra(campo, id) {
+    if (campo !== 'colorId' || !MUESTRAS[id]) return '';
+    return '<span class="muestra" style="background:' + MUESTRAS[id] + '" aria-hidden="true"></span>';
+  }
+
+  var ROTULOS = { lineaId: 'Línea de aluminio', vidrioId: 'Vidrio', colorId: 'Color' };
+
+  /** Botón grande que muestra lo elegido y abre la lista para cambiarlo. */
+  function elegible(campo, lista, item) {
+    var x = C.buscar(lista, item[campo]);
+    return '<button type="button" class="elegible" data-elegir="' + campo + '">' +
+      '<span class="elegible__rotulo">' + ROTULOS[campo] + '</span>' +
+      '<span class="elegible__valor">' + muestra(campo, item[campo]) +
+        '<span><strong>' + F.escapar(x ? x.nombre : 'Elegir') + '</strong>' +
+        (x && x.ayuda ? '<span>' + F.escapar(x.ayuda) + '</span>' : '') + '</span>' +
+      '</span>' +
+      '<span class="elegible__cambiar">Cambiar</span>' +
+    '</button>';
+  }
+
+  /** Opciones válidas de cada campo para este ítem. */
+  function opcionesDe(campo, item) {
+    var p = preciosDelPresupuesto();
+    if (campo === 'lineaId') {
+      var tip = C.buscar(p.tipologias, item.tipologiaId);
+      return p.lineas.filter(function (l) { return !tip || !tip.lineas || tip.lineas.indexOf(l.id) > -1; });
+    }
+    if (campo === 'vidrioId') return p.vidrios.filter(function (v) { return v.id !== 'sin'; });
+    return p.colores;
   }
 
   function nodoItem(item, indice) {
     var p = preciosDelPresupuesto();
     var tip = C.buscar(p.tipologias, item.tipologiaId);
-    var lineasValidas = p.lineas.filter(function (l) {
-      return !tip || !tip.lineas || tip.lineas.indexOf(l.id) > -1;
-    });
     var sinVidrio = !!(tip && tip.sinVidrio);
 
     var frecuentes = [], resto = [], hayElegidoEnElResto = false;
@@ -313,61 +347,62 @@
       '<div class="item__tipo">' +
         '<span class="item__dibujo">' + I.abertura(item.tipologiaId, tip && tip.grupo) + '</span>' +
         '<span class="item__nombre">' +
-          '<strong>' + F.escapar(tip ? tip.nombre : 'Abertura') + '</strong>' +
           '<span>Abertura ' + (indice + 1) + '</span>' +
+          '<strong>' + F.escapar(tip ? tip.nombre : 'Abertura') + '</strong>' +
         '</span>' +
-        '<button class="btn btn--fantasma btn--sm" data-accion="cambiar-tipo" data-icono="cambiar">Cambiar</button>' +
+        '<button class="btn btn--fantasma btn--sm" data-accion="cambiar-tipo" data-icono="cambiar">Cambiar tipo</button>' +
       '</div>' +
 
       '<div class="item__medidas">' +
-        '<label class="campo"><span>Ancho (cm)</span>' +
-          '<input type="number" data-campo="anchoCm" min="0" step="1" inputmode="numeric" value="' + (item.ancho / 10) + '"></label>' +
-        '<label class="campo"><span>Alto (cm)</span>' +
-          '<input type="number" data-campo="altoCm" min="0" step="1" inputmode="numeric" value="' + (item.alto / 10) + '"></label>' +
-        '<label class="campo campo--cantidad"><span>¿Cuántas?</span>' +
-          '<input type="number" data-campo="cantidad" min="1" step="1" inputmode="numeric" value="' + item.cantidad + '"></label>' +
+        '<label class="campo"><span>Ancho</span>' +
+          '<span class="con-unidad"><input type="number" data-campo="anchoCm" min="0" step="1" inputmode="numeric" value="' + (item.ancho / 10) + '"><span>cm</span></span></label>' +
+        '<span class="item__por" aria-hidden="true">×</span>' +
+        '<label class="campo"><span>Alto</span>' +
+          '<span class="con-unidad"><input type="number" data-campo="altoCm" min="0" step="1" inputmode="numeric" value="' + (item.alto / 10) + '"><span>cm</span></span></label>' +
       '</div>' +
       '<p class="item__equivale" data-equivale></p>' +
 
+      '<div class="campo"><span id="cant-' + item.id + '">¿Cuántas iguales?</span>' +
+        '<div class="contador" role="group" aria-labelledby="cant-' + item.id + '">' +
+          '<button type="button" class="contador__btn" data-accion="menos" aria-label="Una menos">−</button>' +
+          '<input type="number" data-campo="cantidad" min="1" step="1" inputmode="numeric" value="' + item.cantidad + '" aria-labelledby="cant-' + item.id + '">' +
+          '<button type="button" class="contador__btn" data-accion="mas" aria-label="Una más">+</button>' +
+        '</div>' +
+      '</div>' +
+
       '<div class="item__opciones">' +
-        '<label class="campo"><span>Línea</span>' +
-          '<select data-campo="lineaId">' + opciones(lineasValidas, item.lineaId) + '</select>' +
-          '<span class="campo__ayuda" data-ayuda="lineaId"></span></label>' +
-        (sinVidrio ? '' :
-        '<label class="campo"><span>Vidrio</span>' +
-          '<select data-campo="vidrioId">' + opciones(p.vidrios, item.vidrioId) + '</select>' +
-          '<span class="campo__ayuda" data-ayuda="vidrioId"></span></label>') +
-        '<label class="campo"><span>Color</span>' +
-          '<select data-campo="colorId">' + opciones(p.colores, item.colorId) + '</select></label>' +
+        elegible('lineaId', p.lineas, item) +
+        (sinVidrio ? '' : elegible('vidrioId', p.vidrios, item)) +
+        elegible('colorId', p.colores, item) +
       '</div>' +
 
       '<div>' +
-        '<p class="extras__titulo">Extras</p>' +
+        '<p class="extras__titulo">¿Lleva algo más? Tocá para agregar</p>' +
         '<div class="extras">' + frecuentes.map(function (ad) { return chipExtra(ad, item); }).join('') + '</div>' +
         (resto.length
-          ? '<details class="desplegable"' + (hayElegidoEnElResto ? ' open' : '') + '>' +
-              '<summary>Más extras</summary>' +
+          ? '<details class="desplegable desplegable--suave"' + (hayElegidoEnElResto ? ' open' : '') + '>' +
+              '<summary>Ver más agregados</summary>' +
               '<div class="extras">' + resto.map(function (ad) { return chipExtra(ad, item); }).join('') + '</div>' +
             '</details>'
           : '') +
       '</div>' +
 
-      '<details class="desplegable"' + ((item.descuentoPct || item.nota) ? ' open' : '') + '>' +
-        '<summary>Descuento y nota</summary>' +
+      '<details class="desplegable desplegable--suave"' + ((item.descuentoPct || item.nota) ? ' open' : '') + '>' +
+        '<summary>Descuento o nota para esta abertura</summary>' +
         '<div class="grilla-campos">' +
-          '<label class="campo"><span>Descuento de esta abertura (%)</span>' +
+          '<label class="campo"><span>Descuento (%)</span>' +
             '<input type="number" data-campo="descuentoPct" min="0" max="100" step="1" inputmode="numeric" value="' + item.descuentoPct + '"></label>' +
-          '<label class="campo campo--ancho"><span>Nota (sale impresa)</span>' +
+          '<label class="campo campo--ancho"><span>Nota (sale en el presupuesto)</span>' +
             '<input type="text" data-campo="nota" value="' + F.escapar(item.nota || '') + '" placeholder="Ej.: hoja derecha corrediza"></label>' +
         '</div>' +
       '</details>' +
 
       '<div class="item__pie">' +
-        '<div class="item__acciones">' +
-          '<button class="btn btn--fantasma btn--sm" data-accion="duplicar" data-icono="duplicar">Repetir</button>' +
-          '<button class="btn btn--fantasma btn--sm btn--peligro" data-accion="borrar" data-icono="borrar">Borrar</button>' +
-        '</div>' +
         '<div class="item__total" data-total></div>' +
+        '<div class="item__acciones">' +
+          '<button class="btn btn--fantasma btn--sm" data-accion="duplicar" data-icono="duplicar">Otra igual</button>' +
+          '<button class="btn btn--fantasma btn--sm btn--peligro" data-accion="borrar" data-icono="borrar">Quitar</button>' +
+        '</div>' +
       '</div>';
 
     ponerIconos(nodo);
@@ -375,24 +410,61 @@
     return nodo;
   }
 
+  /* ════════ Lista de opciones (línea, vidrio, color) ════════ */
+
+  var eligiendo = null;   // { itemId, campo }
+
+  function abrirOpciones(item, campo) {
+    eligiendo = { itemId: item.id, campo: campo };
+    $('opciones-titulo').textContent = campo === 'lineaId' ? '¿Qué línea de aluminio?'
+                                     : campo === 'vidrioId' ? '¿Qué vidrio lleva?' : '¿De qué color?';
+    $('opciones-lista').innerHTML = opcionesDe(campo, item).map(function (x) {
+      var activo = x.id === item[campo];
+      return '<button type="button" class="opcion' + (activo ? ' is-activa' : '') + '" data-opcion="' + F.escapar(x.id) + '"' +
+        (activo ? ' aria-current="true"' : '') + '>' +
+        '<span class="opcion__marca" aria-hidden="true"></span>' +
+        muestra(campo, x.id) +
+        '<span class="opcion__texto"><strong>' + F.escapar(x.nombre) + '</strong>' +
+          (x.ayuda ? '<span>' + F.escapar(x.ayuda) + '</span>' : '') + '</span>' +
+        (activo ? '<span class="opcion__elegida">Elegida</span>' : '') +
+      '</button>';
+    }).join('');
+    $('modal-opciones').hidden = false;
+    document.body.style.overflow = 'hidden';
+    var activa = $('opciones-lista').querySelector('.is-activa') || $('opciones-lista').firstChild;
+    if (activa) { activa.scrollIntoView({ block: 'nearest' }); activa.focus(); }
+  }
+
+  function cerrarOpciones() {
+    $('modal-opciones').hidden = true;
+    document.body.style.overflow = '';
+    eligiendo = null;
+  }
+
+  function elegirOpcion(id) {
+    if (!eligiendo) return;
+    var item = itemPorId(eligiendo.itemId);
+    var campo = eligiendo.campo;
+    cerrarOpciones();
+    if (!item) return;
+    item[campo] = id;
+    hayCambios = true;
+    render();
+    autoguardar();
+    var x = C.buscar(opcionesDe(campo, item), id);
+    avisar(ROTULOS[campo] + ': ' + (x ? x.nombre : ''));
+  }
+
   function pintarPieItem(nodo, item) {
     var r = C.calcularItem(item, preciosDelPresupuesto());
 
     nodo.querySelector('[data-equivale]').innerHTML =
-      F.medidasMetros(r.anchoMm, r.altoMm) + ' · ' + F.numero(r.m2Fact, 2) + ' m²' +
-      (r.aplicaMinimo ? ' <span class="marca-minimo">(mínimo facturable)</span>' : '');
-
-    var p = preciosDelPresupuesto();
-    nodo.querySelectorAll('[data-ayuda]').forEach(function (span) {
-      var campo = span.dataset.ayuda;
-      var lista = campo === 'lineaId' ? p.lineas : p.vidrios;
-      var elegido = C.buscar(lista, item[campo]);
-      span.textContent = (elegido && elegido.ayuda) || '';
-    });
+      'Son ' + F.medidasMetros(r.anchoMm, r.altoMm) + ' (' + F.numero(r.m2Real, 2) + ' m²)' +
+      (r.aplicaMinimo ? '<span class="marca-minimo">Es chica: se cobra el mínimo de ' + F.numero(r.m2Fact, 2) + ' m²</span>' : '');
 
     nodo.querySelector('[data-total]').innerHTML =
-      '<strong>' + F.moneda(r.total) + '</strong>' +
-      (r.cantidad > 1 ? '<span>' + r.cantidad + ' × ' + F.moneda(r.unitario) + '</span>' : '');
+      '<span>' + (r.cantidad > 1 ? r.cantidad + ' × ' + F.moneda(r.unitario) : 'Precio') + '</span>' +
+      '<strong>' + F.moneda(r.total) + '</strong>';
   }
 
   function itemPorId(id) {
@@ -403,7 +475,11 @@
   function render() {
     var lista = $('lista-items');
     lista.replaceChildren.apply(lista, actual.items.map(nodoItem));
-    $('items-vacio').hidden = actual.items.length > 0;
+    var hay = actual.items.length > 0;
+    $('items-vacio').hidden = hay;
+    $('btn-agregar-item').lastChild.textContent = hay ? 'Agregar otra abertura' : 'Agregar una abertura';
+    $('entrega').hidden = !hay;
+    $('entrega-vacia').hidden = hay;
     renderTotales();
   }
 
@@ -1105,6 +1181,7 @@
     document.addEventListener('keydown', function (ev) {
       if (ev.key === 'Escape' && !$('modal-tipos').hidden) cerrarSelectorTipo();
       if (ev.key === 'Escape' && !$('modal-listo').hidden) cerrarListo();
+      if (ev.key === 'Escape' && !$('modal-opciones').hidden) cerrarOpciones();
     });
 
     var lista = $('lista-items');
@@ -1139,6 +1216,12 @@
     });
 
     lista.addEventListener('click', function (ev) {
+      var elegir = ev.target.closest('[data-elegir]');
+      if (elegir) {
+        var it = itemPorId(elegir.closest('.item').dataset.id);
+        if (it) abrirOpciones(it, elegir.dataset.elegir);
+        return;
+      }
       var boton = ev.target.closest('button[data-accion]');
       if (!boton) return;
       var nodo = boton.closest('.item');
@@ -1147,6 +1230,14 @@
 
       if (boton.dataset.accion === 'cambiar-tipo') {
         return abrirSelectorTipo(item.id);
+      }
+      if (boton.dataset.accion === 'mas' || boton.dataset.accion === 'menos') {
+        item.cantidad = Math.max(1, (Math.round(item.cantidad) || 1) + (boton.dataset.accion === 'mas' ? 1 : -1));
+        nodo.querySelector('[data-campo="cantidad"]').value = item.cantidad;
+        hayCambios = true;
+        refrescarCalculos();
+        autoguardar();
+        return;
       }
       if (boton.dataset.accion === 'duplicar') {
         var copia = clonar(item);
@@ -1176,6 +1267,13 @@
       if (accion) accion();
     });
     $('btn-listo-cancelar').addEventListener('click', cerrarListo);
+
+    $('btn-cerrar-opciones').addEventListener('click', cerrarOpciones);
+    $('modal-opciones').addEventListener('click', function (ev) {
+      if (ev.target === $('modal-opciones')) return cerrarOpciones();
+      var op = ev.target.closest('[data-opcion]');
+      if (op) elegirOpcion(op.dataset.opcion);
+    });
     $('modal-listo').addEventListener('click', function (ev) { if (ev.target === $('modal-listo')) cerrarListo(); });
 
     // Clientes anteriores
