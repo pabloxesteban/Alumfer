@@ -61,9 +61,11 @@ window.Calculo = (function () {
   function calcularItem(item, precios) {
     var g = precios.generales || {};
     var tip    = buscar(precios.tipologias, item.tipologiaId);
-    var linea  = buscar(precios.lineas, item.lineaId);
+    // Mosquiteros, rejas, postigones y cortinas no llevan línea de perfil; las
+    // cortinas de PVC tampoco color de aluminio: no multiplican ni recargan.
+    var linea  = tip && tip.sinLinea ? null : buscar(precios.lineas, item.lineaId);
     var vidrio = buscar(precios.vidrios, item.vidrioId);
-    var color  = buscar(precios.colores, item.colorId);
+    var color  = tip && tip.sinColor ? null : buscar(precios.colores, item.colorId);
 
     var forma   = formaDe(item);
     var anchoMm = Math.max(0, num(item.ancho));
@@ -130,15 +132,20 @@ window.Calculo = (function () {
   /** Texto de una línea del presupuesto: "Ventana corrediza 2 hojas — Línea Herrero, blanco, doble vidrio". */
   function descripcionItem(item, precios) {
     var tip    = buscar(precios.tipologias, item.tipologiaId);
-    var linea  = buscar(precios.lineas, item.lineaId);
+    var linea  = tip && tip.sinLinea ? null : buscar(precios.lineas, item.lineaId);
     var vidrio = buscar(precios.vidrios, item.vidrioId);
-    var color  = buscar(precios.colores, item.colorId);
+    var color  = tip && tip.sinColor ? null : buscar(precios.colores, item.colorId);
     var partes = [];
     var forma = formaDe(item);
     if (forma !== 'rect') partes.push('forma ' + NOMBRE_FORMA[forma]);
     if (linea) partes.push('Línea ' + linea.nombre);
     if (color) partes.push(color.nombre.toLowerCase());
-    if (tip && !tip.sinVidrio && vidrio && vidrio.id !== 'sin') partes.push('vidrio ' + vidrio.nombre);
+    if (tip && !tip.sinVidrio && vidrio && vidrio.id !== 'sin') {
+      // "vidrio Simple 4 mm"; los paneles ya dicen qué son ("Poliestireno Bebé", "Policarbonato alveolar 6 mm opal").
+      var panel = /^(poliestireno|policarbonato)/i.test(vidrio.nombre);
+      partes.push((panel ? '' : 'vidrio ') + (panel ? vidrio.nombre.charAt(0).toLowerCase() + vidrio.nombre.slice(1) : vidrio.nombre) +
+                  (item.tono && /^policarb/.test(vidrio.id) ? ' ' + item.tono.toLowerCase() : ''));
+    }
     (item.adicionales || []).forEach(function (aid) {
       var ad = buscar(precios.adicionales, aid);
       if (ad) partes.push('con ' + ad.nombre.toLowerCase());

@@ -110,9 +110,14 @@ usan (WhatsApp y PDF), así no hay que buscarlos.
    Las medidas que se piden cambian con la forma. Se cobra el rectángulo que
    la contiene más el recargo de *Precios → Formas especiales* (0 % de entrada).
 3. **Medidas** en centímetros y **cantidad** con − y +.
-4. **Vidrio:** primero el tipo (Simple, Esmerilado, Espejado, De seguridad,
-   Doble vidrio, Policarbonato) y después, si hace falta, el espesor.
-5. **Línea y color**, **¿Dónde va?** (opcional) y agregados.
+4. **Vidrio:** primero el tipo (Simple, Esmerilado, Espejado, Laminado,
+   Doble vidrio, Poliestireno, Policarbonato alveolar o compacto) y después,
+   si hace falta, el espesor, el diseño (el poliestireno se elige viendo la
+   textura) o el color de la placa (policarbonato: transparente, opal, bronce).
+5. **Línea** (Herrero, Rotonda 640, Módena 1, Módena 2, A30 New) y **color**
+   (pintados y anodizados), **¿Dónde va?** (opcional) y agregados (mosquitero,
+   premarco de aluminio, cortina, reja —pregunta el tipo—, etc.). Mosquiteros,
+   rejas, postigones y cortinas no piden línea; las cortinas de PVC tampoco color.
 6. **Listo:** la abertura queda resumida en un renglón; se toca para cambiarla.
 
 **Un quincho:** cada pieza (corredizas, paños fijos, el triángulo del frontis)

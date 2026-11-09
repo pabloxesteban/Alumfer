@@ -265,6 +265,15 @@ textarea { resize: vertical; min-height: 4rem; }
 .variante small { font-size: .78rem; font-weight: 400; color: var(--text-secondary); }
 .variante.is-activa small { color: #10508f; }
 .espesores { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+/* Poliestireno: el diseño se elige viendo la textura */
+.espesores:has(.espesor--textura) { display: grid; grid-template-columns: repeat(auto-fill, minmax(6.4rem, 1fr)); }
+.espesores .espesor--textura {   /* gana a .espesor (botón redondo) */
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-1);
+  border-radius: 14px; padding: var(--space-2); min-height: 0; font-size: var(--text-sm);
+}
+.espesor--textura img { width: 100%; height: 3.6rem; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-light); }
+.espesor--textura.is-activa { background: var(--blue-faint); color: #10508f; }
+.espesor--textura.is-activa img { outline: 3px solid var(--blue); outline-offset: 1px; }
 .espesor, .lugar {
   appearance: none; cursor: pointer; font: inherit; color: var(--text-primary);
   min-height: 3.2rem; min-width: 4.4rem; padding: var(--space-2) var(--space-4);

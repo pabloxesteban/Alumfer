@@ -28,7 +28,7 @@ guarda sus propios datos en `localStorage` — no hay servidor ni sincronizació
 - `main` incluye **todo** lo de presupuestos más trabajo del sitio hecho en otras
   sesiones (PRs #39 a #48).
 - Rama de la última sesión: `claude/intelligent-maxwell-d43hn3`, igual a `main`.
-- Versión publicada: **2026-11-09.3** (.1: PDF real, compartir, clientes, Tu empresa · .2: rediseño suave y palabras claras · .3: hojas como pregunta y una abertura abierta a la vez · .4: vidrio en dos pasos, formas especiales y ¿Dónde va?).
+- Versión publicada: **2026-11-09.3** (.1: PDF real, compartir, clientes, Tu empresa · .2: rediseño suave y palabras claras · .3: hojas como pregunta y una abertura abierta a la vez · .4: vidrio en dos pasos, formas especiales y ¿Dónde va? · .5: catálogo completo del sitio).
 
 **Flujo de publicación (Pablo lo autorizó explícitamente, no hay que preguntar
 cada vez):** commit en la rama → `git checkout main && git merge --ff-only <rama>`
@@ -181,7 +181,41 @@ Documentación completa en `apps/presupuestos/README.md`.
 23. Solo la abertura recién agregada se anima (`itemQueEntra`): si la animación
     estuviera en `.item`, cada toque (espesor, forma) redibujaría la ficha y
     parpadearía.
-24. Los efectos `:hover` de lo que se toca van dentro de `@media (hover: hover)`:
+24. **Catálogo = lo que Alumfer ofrece en el sitio** (`apps/website/index.html`,
+    `aberturas.js`, páginas de producto). Pablo pidió que esté todo y que no
+    haya nada que no sea aluminio y vidrio:
+    - Líneas: Herrero, Rotonda 640, Módena 1, **Módena 2** (nueva), A30 New.
+    - Colores (16, de `aberturas.js` + marrón de postigones): Pintado (blanco
+      —el estándar, va primero—, negro, bronce colonial, gris, marrón, símil
+      madera, microtexturado, azul, verde, rojo, amarillo) y Anodizado
+      (natural, oro, negro, champagne, peltre). La lista se muestra agrupada.
+    - Vidrios: Simple 3–6 mm, Esmerilado, Espejado, **Laminado** 3+3 / 4+4 (antes
+      "De seguridad"), DVH 4/9/4, 4/12/6 y con laminado, **Poliestireno
+      Fantasía** (15 diseños, se eligen viendo la textura: `texturas/*.webp`,
+      copiadas del sitio), **Policarbonato alveolar** 4/6/8/10 mm y
+      **compacto**. El policarbonato pregunta además el color de la placa
+      (Transparente / Opal / Bronce, `item.tono`), que no cambia el precio.
+    - Agregados: "Premarco de aluminio" (cubre el marco viejo de chapa; antes
+      decía "de chapa"). **Se quitaron** refuerzo de hierro, cierrapuertas
+      hidráulico y zócalo inyectado. La reja es **una sola casilla "Reja"** que
+      al marcarla pregunta el tipo (`familia: 'reja'` en adicionales).
+    - Tipos nuevos en Complementos: **Cortina de enrollar PVC** con o sin cajón
+      (para presupuestar cortinas solas) y **Reja de aluminio** tipo 1 / tipo 2.
+      `sinLinea` (mosquiteros, postigón, rejas, cortinas) no pide línea ni
+      aplica su factor; `sinColor` (cortinas PVC) no pide color ni recarga.
+    - **Los dos tipos de reja se llaman "tipo 1" y "tipo 2" hasta que Pablo pase
+      los nombres.** Se pueden renombrar en Precios (Aberturas y Adicionales):
+      los botones toman el nombre de la lista (`etiquetasDe` / `distintivos`).
+    - Todos los precios nuevos son de referencia, como el resto.
+25. **Migración del catálogo** (`Almacenamiento.actualizarCatalogo`, una vez por
+    `catalogo` de `precios-base.js`, hoy 2): en la lista guardada del teléfono
+    quita lo que se dejó de hacer, suma lo nuevo con precio de referencia (al
+    final de su grupo) y agrega Módena 2 donde estaba Módena 1. Lo ya guardado
+    conserva sus precios; lo que el usuario borre después no vuelve. Los
+    presupuestos viejos solo reciben los renombres (`actualizarNombres`), nunca
+    altas ni bajas, para que sus totales no cambien. **Si se vuelve a cambiar
+    el catálogo, subir `catalogo`.**
+26. Los efectos `:hover` de lo que se toca van dentro de `@media (hover: hover)`:
     en pantallas táctiles el hover queda pegado después del toque.
 
 ---
@@ -205,6 +239,12 @@ Documentación completa en `apps/presupuestos/README.md`.
    el PDF a WhatsApp y a Gmail, y "Descargar PDF" en iPhone. En la sesión se
    probó en Chromium con `navigator.share` simulado; la lista para compartir de
    verdad no se puede abrir en un navegador de prueba.
+1. **Nombres de los dos tipos de reja** (Pablo los va a pasar): cambiar
+   "Reja de aluminio tipo 1/2" en `precios-base.js` (tipologías `reja`,
+   `reja-2` y adicionales `reja-adic`, `reja-adic-2`), sumar los nombres viejos
+   a `RENOMBRES` y subir `catalogo` para que lleguen a los teléfonos.
+1. **Colores de las cortinas de PVC**: el sitio dice "blanco y distintos
+   colores", sin lista. Hoy la cortina no pide color.
 1. **Validar con el papá cómo cobra las formas especiales** (¿rectángulo que
    la contiene + recargo?, ¿cuánto por arco/curvado?) y cargar los recargos en
    Precios → Formas especiales.
@@ -272,6 +312,10 @@ cd apps/presupuestos && python3 -m http.server 8777
   inyectar el HTML y usar `emulateMedia({ media: 'print' })`.
 - Con dos `<details>` en el paso 3, `details:last-of-type` ya no apunta a
   "Observaciones y ajustes": buscar el `summary` por texto.
+- `.espesor` (botón redondo) pisa a `.espesor--textura` si tienen la misma
+  especificidad: las fichas con foto usan `.espesores .espesor--textura`.
+- Una IIFE metida en una concatenación de strings tiene que devolver `''`, si
+  no aparece "undefined" en la pantalla.
 - GitHub a veces marca como fallidos el chequeo de `VERSION` (con 0 trabajos)
   o el despliegue de Pages sin que haya error en el código: pasó con la .2, y
   Pages siguió sirviendo la .1. Se resuelve con el push siguiente. Siempre

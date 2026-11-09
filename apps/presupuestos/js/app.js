@@ -45,26 +45,72 @@
     { nombre: 'Mosquitero', pregunta: '¿Cómo es?', resumen: 'corredizo o fijo',
       variantes: [['mosq-corr', 'Corredizo'], ['mosq-fijo', 'Fijo']] },
     { nombre: 'Portón', pregunta: '¿Cómo abre?', resumen: 'corredizo o levadizo',
-      variantes: [['porton-corr', 'Corredizo'], ['porton-levad', 'Levadizo']] }
+      variantes: [['porton-corr', 'Corredizo'], ['porton-levad', 'Levadizo']] },
+    // Etiqueta null: se toma del nombre en la lista de precios, así al renombrar
+    // los tipos de reja en Precios el botón dice el nombre nuevo.
+    { nombre: 'Reja de aluminio', pregunta: '¿Qué tipo de reja?', resumen: '2 tipos',
+      variantes: [['reja', null], ['reja-2', null]] },
+    { nombre: 'Cortina de enrollar PVC', pregunta: '¿Lleva cajón?', resumen: 'con o sin cajón',
+      variantes: [['cortina-pvc-cajon', 'Con cajón'], ['cortina-pvc-sola', 'Sin cajón']] }
   ];
+
+  /**
+   * Texto del botón de una variante sin etiqueta fija: lo que la distingue de
+   * las otras ("Reja de aluminio tipo 1" y "... tipo 2" → "Tipo 1", "Tipo 2").
+   */
+  function etiquetasDe(vars) {
+    var p = preciosDelPresupuesto();
+    var nombres = vars.map(function (v) {
+      var t = C.buscar(p.tipologias, v[0]) || C.buscar(precios.tipologias, v[0]);
+      return v[1] != null ? v[1] : (t ? t.nombre : v[0]);
+    });
+    var sinFijas = vars.every(function (v) { return v[1] == null; });
+    if (!sinFijas) return nombres;
+    return distintivos(nombres);
+  }
+
+  /** De nombres con el mismo comienzo, lo que los distingue, con mayúscula. */
+  function distintivos(nombres) {
+    if (nombres.length < 2) return nombres;
+    var comun = nombres[0];
+    nombres.forEach(function (n) { while (n.indexOf(comun) !== 0) comun = comun.slice(0, -1); });
+    comun = comun.slice(0, comun.lastIndexOf(' ') + 1);
+    // "tipo 1" / "tipo 2": si solo quedara el número, se conserva la palabra de antes.
+    var soloNumeros = nombres.every(function (n) { return /^\d+$/.test(n.slice(comun.length).trim()); });
+    if (soloNumeros) comun = comun.slice(0, comun.trimEnd().lastIndexOf(' ') + 1);
+    return nombres.map(function (n) {
+      var r = n.slice(comun.length).trim() || n;
+      return r.charAt(0).toUpperCase() + r.slice(1);
+    });
+  }
 
   /*
    * Vidrios agrupados como las hojas: primero el tipo (con dibujo) y, si tiene
    * variantes, el espesor. `defecto` es la variante que se elige al tocar el tipo.
    * Un vidrio agregado a mano en Precios aparece solo, como un tipo más.
    */
+  var TEXTURAS = {
+    'poli-amazonia': 'amazonia', 'poli-agua-viva': 'agua-viva', 'poli-bebe': 'bebe', 'poli-canalado': 'canalado-plus',
+    'poli-niagara': 'niagara', 'poli-diamante': 'diamante', 'poli-espuma': 'espuma', 'poli-foresta': 'foresta',
+    'poli-gaviota': 'gaviota', 'poli-iberia': 'iberia', 'poli-laberinto': 'laberinto', 'poli-monocril': 'monocril',
+    'poli-puntillado': 'puntillado', 'poli-pantanal': 'pantanal', 'poli-pantanal-cristal': 'pantanal-cristal'
+  };
   var VIDRIOS_FAMILIAS = [
     { clave: 'simple', nombre: 'Simple', ayuda: 'transparente, el común', pregunta: '¿Qué espesor?', defecto: 'float4',
       variantes: [['float3', '3 mm'], ['float4', '4 mm'], ['float5', '5 mm'], ['float6', '6 mm']] },
     { clave: 'esmerilado', nombre: 'Esmerilado', ayuda: 'no se ve a través', variantes: [['esmerilado', '4 mm']] },
     { clave: 'espejado', nombre: 'Espejado', ayuda: 'da sombra', variantes: [['espejado', '5 mm']] },
-    { clave: 'seguridad', nombre: 'De seguridad', ayuda: 'si se rompe no se cae', pregunta: '¿Qué espesor?',
+    { clave: 'seguridad', nombre: 'Laminado', ayuda: 'de seguridad: si se rompe no se cae', pregunta: '¿Qué espesor?',
       variantes: [['lam33', '3+3'], ['lam44', '4+4']] },
-    { clave: 'doble', nombre: 'Doble vidrio', ayuda: 'aísla frío y ruido', pregunta: '¿De qué tipo?',
-      variantes: [['dvh494', 'Común'], ['dvh-lam', 'De seguridad']] },
-    { clave: 'policarbonato', nombre: 'Policarbonato', ayuda: 'para techos', pregunta: '¿Cuál?',
-      variantes: [['policarb-alv', 'Alveolar'], ['policarb-comp', 'Compacto']] }
+    { clave: 'doble', nombre: 'Doble vidrio (DVH)', ayuda: 'aísla frío y ruido', pregunta: '¿Cuál?',
+      variantes: [['dvh494', '4/9/4'], ['dvh4126', '4/12/6 (ruido)'], ['dvh-lam', 'Con laminado']] },
+    { clave: 'poliestireno', nombre: 'Poliestireno', ayuda: 'para mamparas y divisiones', pregunta: '¿Qué diseño?',
+      variantes: Object.keys(TEXTURAS).map(function (id) { return [id, null]; }) },   // nombre: el de la lista, sin "Poliestireno"
+    { clave: 'policarbonato', nombre: 'Policarbonato alveolar', ayuda: 'para techos, aísla', pregunta: '¿Qué espesor?', defecto: 'policarb-alv',
+      variantes: [['policarb-alv4', '4 mm'], ['policarb-alv', '6 mm'], ['policarb-alv8', '8 mm'], ['policarb-alv10', '10 mm']] },
+    { clave: 'compacto', nombre: 'Policarbonato compacto', ayuda: 'macizo, resiste golpes', variantes: [['policarb-comp', '4 mm']] }
   ];
+  var TONOS_PLACA = ['Transparente', 'Opal', 'Bronce'];   // color del policarbonato: no cambia el precio
 
   /** Tipos de vidrio que existen en la lista del presupuesto, con sus variantes. */
   function tiposDeVidrio() {
@@ -72,7 +118,10 @@
     var enFamilia = {};
     var tipos = [];
     VIDRIOS_FAMILIAS.forEach(function (f) {
-      var vars = f.variantes.filter(function (v) { enFamilia[v[0]] = true; return C.buscar(p.vidrios, v[0]); });
+      var vars = f.variantes.filter(function (v) { enFamilia[v[0]] = true; return C.buscar(p.vidrios, v[0]); })
+        .map(function (v) {
+          return [v[0], v[1] != null ? v[1] : C.buscar(p.vidrios, v[0]).nombre.replace(/^poliestireno\s*/i, '')];
+        });
       if (vars.length) tipos.push(Object.assign({}, f, { variantes: vars }));
     });
     p.vidrios.forEach(function (v) {
@@ -85,7 +134,7 @@
   /* Formas que no son rectángulo: solo en las aberturas que pueden tenerlas. */
   var FORMAS_UI = [['rect', 'Recta'], ['inclinada', 'Inclinada'], ['triangulo', 'Triangular'],
                    ['arco', 'Con arco'], ['redonda', 'Redonda']];
-  var TIPOS_CON_FORMA = ['pano-fijo', 'banderola', 'vent-abrir-1', 'cerramiento', 'mosq-fijo', 'reja'];
+  var TIPOS_CON_FORMA = ['pano-fijo', 'banderola', 'vent-abrir-1', 'cerramiento', 'mosq-fijo', 'reja', 'reja-2'];
 
   /* ¿Dónde va? Lugares comunes; se suman los que ya se usaron en el presupuesto. */
   var LUGARES = ['Cocina', 'Baño', 'Dormitorio', 'Living', 'Quincho', 'Frente'];
@@ -388,7 +437,16 @@
 
   /* ════════ Ítems ════════ */
 
+  var NOMBRE_FAMILIA_EXTRA = { reja: 'Reja' };
+
   function chipExtra(ad, item) {
+    if (ad.miembros) {   // una casilla para toda la familia; el tipo se pregunta aparte
+      var marcada = ad.miembros.some(function (m) { return (item.adicionales || []).indexOf(m.id) > -1; });
+      return '<label class="extra' + (marcada ? ' is-activo' : '') + '">' +
+        '<input type="checkbox" data-adicional-familia="' + ad.familia + '"' + (marcada ? ' checked' : '') + '>' +
+        '<span class="extra__tilde" aria-hidden="true"></span>' +
+        F.escapar(NOMBRE_FAMILIA_EXTRA[ad.familia] || ad.miembros[0].nombre) + '</label>';
+    }
     var activo = (item.adicionales || []).indexOf(ad.id) > -1;
     return '<label class="extra' + (activo ? ' is-activo' : '') + '">' +
       '<input type="checkbox" data-adicional="' + ad.id + '"' + (activo ? ' checked' : '') + '>' +
@@ -397,13 +455,16 @@
   }
 
   /* Muestra de color para reconocerlo sin leer (los colores agregados a mano no tienen). */
-  var MUESTRAS = {
-    natural: 'linear-gradient(135deg,#eceef0,#aeb3b8)',
-    blanco: '#ffffff',
-    gris: '#5b6066',
-    bronce: 'linear-gradient(135deg,#8a6440,#5a3c20)',
-    negro: '#1e1e1e',
-    'simil-madera': 'repeating-linear-gradient(100deg,#9a6230 0 6px,#7c4a20 6px 9px)'
+  var MUESTRAS = {      // mismos tonos que el diseñador del sitio
+    blanco: '#ffffff', negro: '#1E1F21', bronce: '#4A3B30', gris: '#8A8E94', marron: '#5C3A21',
+    'simil-madera': 'repeating-linear-gradient(100deg,#9a6230 0 6px,#7c4a20 6px 9px)',
+    microtexturado: 'radial-gradient(#bdbdb9 1px, #dcdcd8 1px) 0 0/4px 4px',
+    azul: '#1B4F8A', verde: '#2E7D32', rojo: '#B71C1C', amarillo: '#F9A825',
+    natural: 'linear-gradient(135deg,#B8B8B8,#DADADA,#A8A8A8)',
+    'anod-oro': 'linear-gradient(135deg,#C8A84B,#E8C86A,#B89438)',
+    'anod-negro': 'linear-gradient(135deg,#1A1A1A,#2E2E2E,#111111)',
+    'anod-champagne': 'linear-gradient(135deg,#D4C5A0,#E8DCC0,#C4B590)',
+    'anod-peltre': 'linear-gradient(135deg,#8A8A8A,#A8A8A8,#787878)'
   };
   function muestra(campo, id) {
     if (campo !== 'colorId' || !MUESTRAS[id]) return '';
@@ -500,10 +561,23 @@
         '<div class="espesores" role="radiogroup" aria-labelledby="esp-' + item.id + '">' +
         elegido.variantes.map(function (v) {
           var activa = v[0] === item.vidrioId;
-          return '<button type="button" class="espesor' + (activa ? ' is-activa' : '') + '" role="radio" aria-checked="' + activa +
-            '" data-vidrio="' + F.escapar(v[0]) + '">' + F.escapar(v[1]) + '</button>';
+          var textura = TEXTURAS[v[0]];
+          return '<button type="button" class="espesor' + (textura ? ' espesor--textura' : '') + (activa ? ' is-activa' : '') +
+            '" role="radio" aria-checked="' + activa + '" data-vidrio="' + F.escapar(v[0]) + '">' +
+            (textura ? '<img src="texturas/' + textura + '.webp" alt="" width="72" height="60" loading="lazy">' : '') +
+            '<span>' + F.escapar(v[1]) + '</span></button>';
         }).join('') +
         '</div></div>';
+    }
+    if (/^policarb/.test(item.vidrioId)) {
+      var tono = item.tono || TONOS_PLACA[0];
+      html += '<div class="campo"><span id="tono-' + item.id + '">¿De qué color es la placa?</span>' +
+        '<div class="espesores" role="radiogroup" aria-labelledby="tono-' + item.id + '">' +
+        TONOS_PLACA.map(function (t) {
+          var activa = t === tono;
+          return '<button type="button" class="espesor' + (activa ? ' is-activa' : '') + '" role="radio" aria-checked="' + activa +
+            '" data-tono="' + t + '">' + t + '</button>';
+        }).join('') + '</div></div>';
     }
     return html;
   }
@@ -533,11 +607,29 @@
     var tip = C.buscar(p.tipologias, item.tipologiaId);
     var sinVidrio = !!(tip && tip.sinVidrio);
 
-    var frecuentes = [], resto = [], hayElegidoEnElResto = false;
+    var frecuentes = [], resto = [], hayElegidoEnElResto = false, familiasVistas = {}, preguntasExtra = '';
     p.adicionales.forEach(function (ad) {
-      if (EXTRAS_FRECUENTES.indexOf(ad.id) > -1) return frecuentes.push(ad);
-      resto.push(ad);
-      if ((item.adicionales || []).indexOf(ad.id) > -1) hayElegidoEnElResto = true;
+      var unidad = ad, ids = [ad.id];
+      if (ad.familia) {
+        if (familiasVistas[ad.familia]) return;
+        familiasVistas[ad.familia] = true;
+        var miembros = p.adicionales.filter(function (x) { return x.familia === ad.familia; });
+        unidad = { familia: ad.familia, id: ad.id, miembros: miembros };
+        ids = miembros.map(function (m) { return m.id; });
+        var elegido = miembros.filter(function (m) { return (item.adicionales || []).indexOf(m.id) > -1; })[0];
+        if (elegido && miembros.length > 1) {
+          var et = distintivos(miembros.map(function (m) { return m.nombre; }));
+          preguntasExtra += '<div class="campo"><span>¿Qué tipo de ' + F.escapar((NOMBRE_FAMILIA_EXTRA[ad.familia] || '').toLowerCase()) + '?</span>' +
+            '<div class="espesores">' + miembros.map(function (m, k) {
+              var activa = m === elegido;
+              return '<button type="button" class="espesor' + (activa ? ' is-activa' : '') + '" aria-pressed="' + activa +
+                '" data-adicional-tipo="' + F.escapar(m.id) + '" data-familia="' + F.escapar(ad.familia) + '">' + F.escapar(et[k]) + '</button>';
+            }).join('') + '</div></div>';
+        }
+      }
+      if (EXTRAS_FRECUENTES.indexOf(ad.id) > -1) return frecuentes.push(unidad);
+      resto.push(unidad);
+      if (ids.some(function (id) { return (item.adicionales || []).indexOf(id) > -1; })) hayElegidoEnElResto = true;
     });
 
     var fam = familiaDe(item.tipologiaId);
@@ -559,11 +651,12 @@
       (vars.length > 1
         ? '<div class="campo"><span id="var-' + item.id + '">' + F.escapar(fam.pregunta) + '</span>' +
             '<div class="variantes" role="radiogroup" aria-labelledby="var-' + item.id + '">' +
+            (function () { var et = etiquetasDe(vars); vars.forEach(function (v, k) { v.etiqueta = et[k]; }); return ''; })() +
             vars.map(function (v) {
               var activa = v[0] === item.tipologiaId;
               return '<button type="button" class="variante' + (activa ? ' is-activa' : '') + '" role="radio" ' +
                 'aria-checked="' + activa + '" data-variante="' + v[0] + '">' +
-                I.abertura(v[0], tip && tip.grupo) + '<span>' + F.escapar(v[1]) + '</span></button>';
+                I.abertura(v[0], tip && tip.grupo) + '<span>' + F.escapar(v.etiqueta) + '</span></button>';
             }).join('') +
             '</div></div>'
         : '') +
@@ -582,10 +675,11 @@
 
       (sinVidrio ? '' : bloqueVidrio(item)) +
 
+      ((tip && tip.sinLinea && tip.sinColor) ? '' :
       '<div class="item__opciones">' +
-        elegible('lineaId', p.lineas, item) +
-        elegible('colorId', p.colores, item) +
-      '</div>' +
+        (tip && tip.sinLinea ? '' : elegible('lineaId', p.lineas, item)) +
+        (tip && tip.sinColor ? '' : elegible('colorId', p.colores, item)) +
+      '</div>') +
 
       bloqueLugar(item) +
 
@@ -598,6 +692,7 @@
               '<div class="extras">' + resto.map(function (ad) { return chipExtra(ad, item); }).join('') + '</div>' +
             '</details>'
           : '') +
+        preguntasExtra +
       '</div>' +
 
       '<details class="desplegable desplegable--suave"' + ((item.descuentoPct || item.nota) ? ' open' : '') + '>' +
@@ -664,9 +759,15 @@
     eligiendo = { itemId: item.id, campo: campo };
     $('opciones-titulo').textContent = campo === 'lineaId' ? '¿Qué línea de aluminio?'
                                      : campo === 'vidrioId' ? '¿Qué vidrio lleva?' : '¿De qué color?';
+    var grupoAnterior = null;
     $('opciones-lista').innerHTML = opcionesDe(campo, item).map(function (x) {
       var activo = x.id === item[campo];
-      return '<button type="button" class="opcion' + (activo ? ' is-activa' : '') + '" data-opcion="' + F.escapar(x.id) + '"' +
+      var titulo = '';
+      if (x.grupo && x.grupo !== grupoAnterior) {   // colores: "Pintado" / "Anodizado"
+        grupoAnterior = x.grupo;
+        titulo = '<h3 class="tipos-grupo">' + F.escapar(x.grupo) + '</h3>';
+      }
+      return titulo + '<button type="button" class="opcion' + (activo ? ' is-activa' : '') + '" data-opcion="' + F.escapar(x.id) + '"' +
         (activo ? ' aria-current="true"' : '') + '>' +
         '<span class="opcion__marca" aria-hidden="true"></span>' +
         muestra(campo, x.id) +
@@ -1453,6 +1554,17 @@
       if (!item) return;
       var campo = ev.target.dataset.campo;
 
+      if (ev.target.dataset.adicionalFamilia) {
+        var fam = ev.target.dataset.adicionalFamilia;
+        var miembros = preciosDelPresupuesto().adicionales.filter(function (x) { return x.familia === fam; })
+          .map(function (x) { return x.id; });
+        item.adicionales = (item.adicionales || []).filter(function (id) { return miembros.indexOf(id) === -1; });
+        if (ev.target.checked && miembros.length) item.adicionales.push(miembros[0]);
+        hayCambios = true;
+        render();          // muestra u oculta la pregunta del tipo
+        autoguardar();
+        return;
+      }
       if (ev.target.dataset.adicional) {
         var id = ev.target.dataset.adicional;
         item.adicionales = item.adicionales || [];
@@ -1486,7 +1598,7 @@
     });
 
     lista.addEventListener('click', function (ev) {
-      var tocado = ev.target.closest('[data-forma],[data-vidrio],[data-lugar]');
+      var tocado = ev.target.closest('[data-forma],[data-vidrio],[data-lugar],[data-tono],[data-adicional-tipo]');
       if (tocado) {
         var itx = itemPorId(tocado.closest('.item').dataset.id);
         if (!itx) return;
@@ -1498,6 +1610,15 @@
           if (itx.forma === 'redonda') itx.alto = itx.ancho;
         } else if (tocado.dataset.vidrio) {
           itx.vidrioId = tocado.dataset.vidrio;
+          if (/^policarb/.test(itx.vidrioId) && !itx.tono) itx.tono = TONOS_PLACA[0];
+        } else if (tocado.dataset.tono) {
+          itx.tono = tocado.dataset.tono;
+        } else if (tocado.dataset.adicionalTipo) {
+          var famT = tocado.dataset.familia;
+          var deFam = preciosDelPresupuesto().adicionales.filter(function (x) { return x.familia === famT; })
+            .map(function (x) { return x.id; });
+          itx.adicionales = (itx.adicionales || []).filter(function (id) { return deFam.indexOf(id) === -1; });
+          itx.adicionales.push(tocado.dataset.adicionalTipo);
         } else {
           itx.lugar = itx.lugar === tocado.dataset.lugar ? '' : tocado.dataset.lugar;   // tocar de nuevo lo saca
         }

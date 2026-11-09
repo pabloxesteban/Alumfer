@@ -15,7 +15,7 @@
    Si no, el navegador no se entera de que hay algo nuevo.
    ============================================================ */
 
-var VERSION = '2026-11-09.4';
+var VERSION = '2026-11-09.5';
 var CACHE = 'alumfer-presupuestos-' + VERSION;
 
 var ARCHIVOS = [
@@ -38,7 +38,22 @@ var ARCHIVOS = [
   'js/documento.js',
   'js/vendor/jspdf.umd.min.js',
   'js/pdf.js',
-  'js/app.js'
+  'js/app.js',
+  'texturas/amazonia.webp',
+  'texturas/agua-viva.webp',
+  'texturas/bebe.webp',
+  'texturas/canalado-plus.webp',
+  'texturas/niagara.webp',
+  'texturas/diamante.webp',
+  'texturas/espuma.webp',
+  'texturas/foresta.webp',
+  'texturas/gaviota.webp',
+  'texturas/iberia.webp',
+  'texturas/laberinto.webp',
+  'texturas/monocril.webp',
+  'texturas/puntillado.webp',
+  'texturas/pantanal.webp',
+  'texturas/pantanal-cristal.webp'
 ];
 
 self.addEventListener('install', function (ev) {

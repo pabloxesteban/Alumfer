@@ -52,43 +52,102 @@ window.Almacenamiento = (function () {
   /* ── Precios ─────────────────────────────────────────────── */
 
   /*
-   * Nombres de fábrica que se cambiaron por palabras más claras. Los precios
-   * guardados en el teléfono tienen los nombres viejos: se renombran solo si
-   * siguen exactamente como venían (si alguien les puso otro nombre, se respeta).
-   * No toca ningún precio.
+   * Nombres de fábrica que se cambiaron por palabras más claras o más
+   * exactas. Los precios guardados en el teléfono tienen los nombres viejos:
+   * se renombran solo si siguen siendo uno de los de fábrica (si alguien les
+   * puso otro nombre a mano, se respeta). Nunca toca un precio.
+   *   lista → id → [nombres viejos, nombre nuevo, ayudas viejas, ayuda nueva]
    */
-  var NOMBRES_VIEJOS = {
+  var RENOMBRES = {
+    lineas: {
+      herrero: [[], '', ['la más económica'], 'la más elegida, robusta'],
+      rotonda: [['Rotonda'], 'Rotonda 640', ['económica reforzada'], 'para ventanas y puertas grandes'],
+      modena:  [['Módena'], 'Módena 1', ['premium, la que más aísla'], 'buena relación calidad-precio'],
+      a30:     [[], '', ['intermedia, acepta DVH', 'intermedia, acepta doble vidrio'], 'perfil de 30 mm, de diseño']
+    },
     vidrios: {
-      float3: ['Float 3 mm', 'Simple 3 mm'],
-      float4: ['Float 4 mm', 'Simple 4 mm'],
-      float5: ['Float 5 mm', 'Simple 5 mm', 'para paños grandes', 'para ventanas grandes'],
-      float6: ['Float 6 mm', 'Simple 6 mm', 'para paños muy grandes', 'para ventanas muy grandes'],
-      esmerilado: ['Esmerilado / satinado 4 mm', 'Esmerilado 4 mm', 'no se ve a través (baños)', 'no se ve a través, para baños'],
-      espejado: ['Reflectivo espejado 5 mm', 'Espejado 5 mm', 'espeja de afuera, da sombra', 'de afuera no se ve adentro, da sombra'],
-      lam33: ['Laminado 3+3 (seguridad)', 'De seguridad 3+3', 'no se astilla, antirrobo', 'si se rompe no se cae, antirrobo'],
-      lam44: ['Laminado 4+4 (seguridad)', 'De seguridad 4+4', 'seguridad reforzada', 'más resistente todavía'],
-      dvh494: ['DVH 4/9/4', 'Doble vidrio (DVH)', 'doble vidrio: frío y ruido', 'aísla del frío y del ruido'],
-      'dvh-lam': ['DVH con laminado 3+3', 'Doble vidrio de seguridad', 'doble vidrio + seguridad', 'aísla y además es de seguridad']
+      float3: [['Float 3 mm'], 'Simple 3 mm'],
+      float4: [['Float 4 mm'], 'Simple 4 mm'],
+      float5: [['Float 5 mm'], 'Simple 5 mm', ['para paños grandes'], 'para ventanas grandes'],
+      float6: [['Float 6 mm'], 'Simple 6 mm', ['para paños muy grandes'], 'para ventanas muy grandes'],
+      esmerilado: [['Esmerilado / satinado 4 mm'], 'Esmerilado 4 mm', ['no se ve a través (baños)'], 'no se ve a través, para baños'],
+      espejado: [['Reflectivo espejado 5 mm'], 'Espejado 5 mm', ['espeja de afuera, da sombra'], 'de afuera no se ve adentro, da sombra'],
+      lam33: [['Laminado 3+3 (seguridad)', 'De seguridad 3+3'], 'Laminado 3+3',
+              ['no se astilla, antirrobo', 'si se rompe no se cae, antirrobo'], 'de seguridad: si se rompe no se cae'],
+      lam44: [['Laminado 4+4 (seguridad)', 'De seguridad 4+4'], 'Laminado 4+4',
+              ['seguridad reforzada', 'más resistente todavía'], 'de seguridad, más resistente'],
+      dvh494: [['DVH 4/9/4', 'Doble vidrio (DVH)'], 'Doble vidrio (DVH) 4/9/4', ['doble vidrio: frío y ruido'], 'aísla del frío y del ruido'],
+      'dvh-lam': [['DVH con laminado 3+3', 'Doble vidrio de seguridad'], 'Doble vidrio (DVH) con laminado',
+                  ['doble vidrio + seguridad'], 'aísla y además es de seguridad'],
+      'policarb-alv': [[], '', ['para techos, liviano'], 'el más usado en techos'],
+      'policarb-comp': [[], '', ['para techos, resistente'], 'macizo, muy resistente a golpes']
     },
     colores: {
-      bronce: ['Bronce (anolok)', 'Bronce']
+      natural: [['Aluminio natural'], 'Anodizado natural'],
+      bronce: [['Bronce (anolok)', 'Bronce'], 'Bronce colonial'],
+      gris: [['Gris / grafito'], 'Gris']
     },
-    lineas: {
-      a30: ['A30 New', 'A30 New', 'intermedia, acepta DVH', 'intermedia, acepta doble vidrio']
+    adicionales: {
+      premarco: [['Premarco de chapa'], 'Premarco de aluminio'],
+      'reja-adic': [['Reja de seguridad'], 'Reja de aluminio tipo 1']
+    },
+    tipologias: {
+      reja: [['Reja de seguridad'], 'Reja de aluminio tipo 1']
     }
   };
 
+  /** Solo nombres: se aplica a la lista vigente y a la copia de cada presupuesto. */
   function actualizarNombres(precios) {
     if (!precios) return precios;
-    Object.keys(NOMBRES_VIEJOS).forEach(function (lista) {
+    Object.keys(RENOMBRES).forEach(function (lista) {
       (precios[lista] || []).forEach(function (x) {
-        var cambio = NOMBRES_VIEJOS[lista][x.id];
-        if (!cambio) return;
-        if (x.nombre === cambio[0]) x.nombre = cambio[1];
-        if (cambio[2] && x.ayuda === cambio[2]) x.ayuda = cambio[3];
+        var r = RENOMBRES[lista][x.id];
+        if (!r) return;
+        if (r[1] && r[0].indexOf(x.nombre) > -1) x.nombre = r[1];
+        if (r[2] && r[2].indexOf(x.ayuda) > -1) x.ayuda = r[3];
       });
     });
     return precios;
+  }
+
+  /* Productos de fábrica que se dejaron de ofrecer (Alumfer solo trabaja aluminio y vidrio). */
+  var QUITADOS = { adicionales: ['refuerzo', 'cierrapuertas', 'zocalo'] };
+  /* Datos de cada producto que no son precio y vienen de fábrica: se completan siempre. */
+  var MARCAS = ['grupo', 'sinLinea', 'sinColor', 'sinVidrio', 'familia'];
+
+  /**
+   * Pone al día la lista guardada con el catálogo de fábrica, una sola vez por
+   * versión de catálogo: quita lo que ya no se hace y suma lo nuevo (líneas,
+   * vidrios, colores, tipos, agregados) con sus precios de referencia. Lo que
+   * ya estaba guardado conserva sus precios.
+   */
+  function actualizarCatalogo(p, base) {
+    ['lineas', 'tipologias', 'vidrios', 'colores', 'adicionales', 'formas'].forEach(function (k) {
+      var deFabrica = {};
+      base[k].forEach(function (x) { deFabrica[x.id] = x; });
+      p[k].forEach(function (x) {
+        var b = deFabrica[x.id];
+        if (b) MARCAS.forEach(function (m) { if (b[m] != null && x[m] == null) x[m] = b[m]; });
+      });
+      if ((p.catalogo || 1) >= base.catalogo) return;
+      if (QUITADOS[k]) p[k] = p[k].filter(function (x) { return QUITADOS[k].indexOf(x.id) === -1; });
+      var ids = p[k].map(function (x) { return x.id; });
+      base[k].forEach(function (x) {
+        if (ids.indexOf(x.id) > -1) return;
+        var copia = JSON.parse(JSON.stringify(x));
+        // Al final de su grupo, para que el selector no lo muestre suelto.
+        var ultimo = -1;
+        p[k].forEach(function (y, i) { if (copia.grupo && y.grupo === copia.grupo) ultimo = i; });
+        if (ultimo > -1) p[k].splice(ultimo + 1, 0, copia); else p[k].push(copia);
+      });
+      if (k === 'tipologias') {
+        p[k].forEach(function (t) {
+          if (t.lineas && t.lineas.indexOf('modena') > -1 && t.lineas.indexOf('modena2') === -1) t.lineas.push('modena2');
+        });
+      }
+    });
+    p.catalogo = base.catalogo;
+    return p;
   }
 
   /** Precios guardados, completados con los de fábrica si falta algo. */
@@ -97,6 +156,7 @@ window.Almacenamiento = (function () {
     var guardado = leer(K_PRECIOS, null);
     if (!guardado) return base;
     var p = Object.assign({}, base, guardado);
+    p.catalogo = guardado.catalogo || 1;   // el de fábrica no cuenta: importa hasta dónde llegó este teléfono
     p.generales = Object.assign({}, base.generales, guardado.generales || {});
     p.empresa   = Object.assign({}, base.empresa, guardado.empresa || {});
     p.aluminio  = Object.assign({}, base.aluminio, guardado.aluminio || {});
@@ -104,7 +164,7 @@ window.Almacenamiento = (function () {
     ['lineas', 'tipologias', 'vidrios', 'colores', 'adicionales', 'formas'].forEach(function (k) {
       if (!Array.isArray(p[k]) || !p[k].length) p[k] = base[k];
     });
-    return actualizarNombres(p);
+    return actualizarNombres(actualizarCatalogo(p, base));
   }
 
   function guardarPrecios(precios) { return escribir(K_PRECIOS, precios); }

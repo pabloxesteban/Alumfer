@@ -71,6 +71,8 @@ window.Iconos = (function () {
     seguridad:     PANO + '<path d="M24 14l8 3.2v6.3c0 5.2-3.3 8.6-8 10.5-4.7-1.9-8-5.3-8-10.5v-6.3z"/>',
     doble:         '<rect x="6" y="9" width="26" height="33" rx="2"/><rect x="16" y="5" width="26" height="33" rx="2"/>',
     policarbonato: PANO + '<path d="M15 6v36M21 6v36M27 6v36M33 6v36"/>',
+    compacto:      '<rect x="9" y="6" width="30" height="36" rx="2" stroke-width="3.4"/><path d="M16 18l7-7"/>',
+    poliestireno:  PANO + '<path d="M9 16c5-4 10 4 15 0s10 4 15 0M9 25c5-4 10 4 15 0s10 4 15 0M9 34c5-4 10 4 15 0s10 4 15 0"/>',
     otro:          PANO
   };
 
