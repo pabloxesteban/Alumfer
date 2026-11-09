@@ -201,7 +201,8 @@
     nodo.className = 'aviso' + (tipo === 'error' ? ' aviso--error' : '');
     nodo.textContent = texto;
     $('avisos').appendChild(nodo);
-    setTimeout(function () { nodo.remove(); }, tipo === 'error' ? 5000 : 2600);
+    // Tiempo suficiente para leerlo sin apuro (los mensajes que se van rápido cuestan a quien lee despacio).
+    setTimeout(function () { nodo.remove(); }, tipo === 'error' ? 6000 : 3800);
     return nodo;
   }
 
@@ -258,6 +259,7 @@
     render();
     hayCambios = false;
     mostrarVista('presupuesto');
+    irPaso(presupuesto.items && presupuesto.items.length ? 2 : 1);
   }
 
   function volcarEnFormulario() {
@@ -1109,7 +1111,8 @@
 
     $('barra-total-valor').textContent = F.moneda(r.total);
     renderGanancia();
-    $('barra-total').hidden = !actual.items.length;
+    pintarBarraAbajo();
+    pintarEncabezado();   // el subtítulo muestra el nombre del cliente a medida que se escribe
   }
 
   /* ════════ Copia de seguridad ════════ */
@@ -1286,6 +1289,7 @@
   function renderHistorial() {
     var lista = A.listar();
     $('badge-historial').textContent = lista.length;
+    $('badge-historial').toggleAttribute('data-cero', !lista.length);   // un "0" no aporta nada
     var q = ($('buscar-historial').value || '').toLowerCase().trim();
     if (q) {
       lista = lista.filter(function (p) {
@@ -1645,8 +1649,73 @@
     });
     if (nombre === 'historial') renderHistorial();
     if (nombre === 'presupuesto' && actual) render();   // refleja cambios hechos en la pestaña Precios
-    $('barra-total').hidden = (nombre !== 'presupuesto') || !actual || !actual.items.length;
+    vistaActual = nombre;
+    pintarEncabezado();
+    pintarBarraAbajo();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ════════ Un paso por pantalla ════════ */
+
+  /*
+   * El presupuesto va en tres pantallas: 1 Cliente · 2 Aberturas · 3 Enviar.
+   * El indicador de arriba muestra dónde se está y deja volver a cualquier
+   * paso; abajo, un solo botón grande ("Continuar") lleva al siguiente.
+   * Las secciones se ocultan por CSS según data-paso de la vista (no con
+   * `hidden`, que la tarjeta interna ya usa para otra cosa).
+   */
+  var vistaActual = 'presupuesto';
+  var pasoActual = 1;
+
+  function irPaso(n) {
+    pasoActual = Math.min(3, Math.max(1, n));
+    $('vista-presupuesto').dataset.paso = pasoActual;
+    document.querySelectorAll('#pasos [data-paso]').forEach(function (b) {
+      var k = Number(b.dataset.paso);
+      b.classList.toggle('is-actual', k === pasoActual);
+      b.classList.toggle('is-hecho', k < pasoActual);
+      if (k === pasoActual) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+    });
+    pintarEncabezado();
+    pintarBarraAbajo();
+    window.scrollTo({ top: 0 });
+  }
+
+  function continuar() {
+    if (pasoActual === 1) return irPaso(2);
+    if (pasoActual === 2) {
+      if (!actual.items.length) return avisar('Agregá al menos una abertura para seguir.', 'error');
+      return irPaso(3);
+    }
+  }
+
+  var TITULOS = { presupuesto: 'Presupuesto', historial: 'Guardados', precios: 'Precios' };
+  function pintarEncabezado() {
+    $('titulo-vista').textContent = TITULOS[vistaActual] || 'Presupuestos';
+    var sub = 'Alumfer';
+    if (vistaActual === 'presupuesto' && actual) {
+      var cli = (actual.cliente && actual.cliente.nombre) || '';
+      sub = [actual.numero || 'Nuevo', cli].filter(Boolean).join(' · ');
+    }
+    $('subtitulo-vista').textContent = sub;
+  }
+
+  /**
+   * Barra de abajo, encima de las pestañas, solo en Presupuesto:
+   * paso 1 → Continuar; paso 2 → total + Continuar; paso 3 → total + WhatsApp.
+   */
+  function pintarBarraAbajo() {
+    var enPresupuesto = vistaActual === 'presupuesto' && actual;
+    $('barra-total').hidden = !enPresupuesto;
+    if (!enPresupuesto) return;
+    var hay = actual.items.length > 0;
+    $('barra-total').dataset.paso = pasoActual;
+    $('barra-total-monto').hidden = pasoActual === 1 || !hay;
+    $('btn-continuar').hidden = pasoActual === 3;
+    $('btn-whatsapp-fijo').hidden = pasoActual !== 3 || !hay;
+    // Una sola acción principal abajo: en un teléfono angosto no entran tres cosas.
+    // "Descargar PDF" está en la pantalla, debajo de WhatsApp.
+    $('btn-pdf-fijo').hidden = true;
   }
 
   /* ════════ Entregar: PDF, WhatsApp, email ════════ */
@@ -2452,6 +2521,26 @@
       $('aviso-copia').hidden = true;
     });
     $('btn-guardar').addEventListener('click', guardarConAviso);
+
+    $('pasos').addEventListener('click', function (ev) {
+      var b = ev.target.closest('[data-paso]');
+      if (b) irPaso(Number(b.dataset.paso));
+    });
+    $('btn-continuar').addEventListener('click', continuar);
+
+    // Con el teclado abierto, las barras de abajo se esconden para dejarle lugar.
+    // Se mira el tamaño de la pantalla visible, no el foco: en Android, al
+    // cerrar el teclado el campo sigue con el cursor y "Continuar" quedaría oculto.
+    if (window.visualViewport) {
+      var altoMax = window.visualViewport.height;
+      var revisarTeclado = function () {
+        var alto = window.visualViewport.height;
+        if (alto > altoMax) altoMax = alto;
+        document.body.classList.toggle('escribiendo', altoMax - alto > 150);
+      };
+      window.visualViewport.addEventListener('resize', revisarTeclado);
+      window.addEventListener('orientationchange', function () { altoMax = 0; setTimeout(revisarTeclado, 300); });
+    }
 
     $('btn-importar').addEventListener('click', function () { $('archivo-importar').click(); });
 

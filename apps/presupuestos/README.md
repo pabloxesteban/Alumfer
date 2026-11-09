@@ -89,6 +89,15 @@ franja amarilla y conviene usar el comando de arriba.
 
 ---
 
+## Cómo se ve
+
+Como una app del teléfono: arriba, el nombre de la pantalla y el botón
+**+ Nuevo**; abajo, las pestañas **Presupuesto · Guardados · Precios** con
+ícono y palabra. El presupuesto va **un paso por pantalla** (1 Cliente ·
+2 Aberturas · 3 Enviar): el indicador de arriba muestra dónde se está y deja
+volver a cualquier paso, y el botón grande **Continuar** de abajo lleva al
+siguiente. En el paso 3, abajo quedan el total y **WhatsApp**.
+
 ## Las tres pestañas
 
 | Pestaña | Para qué |
@@ -97,8 +106,8 @@ franja amarilla y conviene usar el comando de arriba.
 | **Guardados** | Buscar por nombre, número o teléfono; reabrir, repetir o borrar. Arriba: el resumen del mes y los presupuestos "para volver a llamar". Copia de seguridad. |
 | **Precios** | Editar la lista y aplicar aumentos por inflación. |
 
-Abajo de todo queda fija una barra con el total y los dos botones que más se
-usan (WhatsApp y PDF), así no hay que buscarlos.
+Encima de las pestañas queda fija una barra con el total y la acción del paso
+(Continuar, o WhatsApp en el último), así no hay que buscarla.
 
 ## Cargar una abertura
 

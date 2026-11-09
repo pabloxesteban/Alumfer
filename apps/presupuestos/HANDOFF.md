@@ -72,7 +72,7 @@ cargan en la app (Precios) o con una copia de seguridad, nunca en el código.
 - `main` incluye **todo** lo de presupuestos más trabajo del sitio hecho en otras
   sesiones (PRs #39 a #48).
 - Rama de la última sesión: `claude/intelligent-maxwell-d43hn3`, igual a `main`.
-- Versión publicada: **2026-11-09.3** (.1: PDF real, compartir, clientes, Tu empresa · .2: rediseño suave y palabras claras · .3: hojas como pregunta y una abertura abierta a la vez · .4: vidrio en dos pasos, formas especiales y ¿Dónde va? · .5: catálogo completo del sitio · .6: obras grandes al estilo OP 2.1, rejas de hierro · .7: lista de materiales para comprar, cortinas blancas · .8: "tiras" en vez de "barras" · .9: botón Guardar, Guardados, copia de seguridad, seguimiento, resumen del mes y ganancia · .10: el dólar muestra solo el blue venta · .11: otro trabajo con precio a mano y precio a mano por abertura).
+- Versión publicada: **2026-11-09.3** (.1: PDF real, compartir, clientes, Tu empresa · .2: rediseño suave y palabras claras · .3: hojas como pregunta y una abertura abierta a la vez · .4: vidrio en dos pasos, formas especiales y ¿Dónde va? · .5: catálogo completo del sitio · .6: obras grandes al estilo OP 2.1, rejas de hierro · .7: lista de materiales para comprar, cortinas blancas · .8: "tiras" en vez de "barras" · .9: botón Guardar, Guardados, copia de seguridad, seguimiento, resumen del mes y ganancia · .10: el dólar muestra solo el blue venta · .11: otro trabajo con precio a mano y precio a mano por abertura · .12: rediseño "app profesional").
 
 **Flujo de publicación (Pablo lo autorizó explícitamente, no hay que preguntar
 cada vez):** commit en la rama → `git checkout main && git merge --ff-only <rama>`
@@ -115,7 +115,8 @@ Documentación completa en `apps/presupuestos/README.md`.
 1. **Sin framework ni build step**, igual que el sitio. Scripts clásicos, sin
    módulos ES, para que también funcione abriendo el archivo con doble clic.
 2. **Interfaz en tres pasos** (para quién es → qué lleva → cómo se entrega), una
-   sola columna, texto y botones grandes.
+   sola columna, texto y botones grandes. **Desde la .12, un paso por pantalla**
+   (ver 35).
 3. **El tipo de abertura se elige por dibujo**, no por lista desplegable.
 4. **Medidas en centímetros** en pantalla; se guardan en milímetros y se imprimen
    en metros (1,50 × 1,10 m).
@@ -374,7 +375,33 @@ Documentación completa en `apps/presupuestos/README.md`.
     puesto a mano · el calculado era $ X" y el renglón dice "Precio a mano";
     **en el PDF y el WhatsApp del cliente solo sale el precio**. Actualizar el
     presupuesto a precios de hoy no lo pisa.
-35. Los efectos `:hover` de lo que se toca van dentro de `@media (hover: hover)`:
+35. **Rediseño "app profesional" (.12)**, pedido por Pablo y basado en una
+    investigación (9/11) de Apple HIG (tab bars), Android/Material 3 y M3
+    Expressive (botones grandes, contención), NN/g (íconos con texto, adultos
+    mayores, wizards, bottom sheets, modo claro), GOV.UK (preguntas por página,
+    "Continuar") y WCAG 2.2 (24/44 px, contraste 3:1 en controles):
+    - **Encabezado claro** (logo, título de la pantalla, subtítulo con número y
+      cliente; botón "+ Nuevo") y **pestañas abajo** con ícono y palabra
+      (`nav.barra__tabs`, fuera del header; mismas clases `.tab[data-vista]`).
+    - **Un paso por pantalla**: `#pasos` (1 Cliente · 2 Aberturas · 3 Enviar,
+      tocables para ir a cualquiera) y `irPaso(n)`. Las secciones llevan
+      `data-paso-seccion` y se ocultan **por CSS** según
+      `#vista-presupuesto[data-paso]` (no con `hidden`: la tarjeta interna ya
+      lo usa). "Continuar" no deja pasar del 2 al 3 sin aberturas. Abrir uno
+      guardado va al paso 2; Nuevo, al 1.
+    - **Barra de abajo** encima de las pestañas, solo en Presupuesto: paso 1
+      "Continuar"; paso 2 total + "Continuar"; paso 3 total + WhatsApp (una sola
+      acción: en 360 px no entraban tres; PDF queda en la pantalla).
+    - Las dos barras se ocultan **con el teclado abierto**, detectado por
+      `visualViewport` (no por foco: en Android, al cerrar el teclado el campo
+      sigue enfocado y "Continuar" quedaba oculto).
+    - Estilo: capa "APARIENCIA 2026" al final de `estilos.css`. Fondo claro,
+      tarjetas blancas con **borde** (al sol las sombras se pierden), un acento
+      azul `#1557a5` (~7:1), texto secundario oscuro, contornos de controles
+      ≥ 3:1, **Inter** (se probó Atkinson Hyperlegible Next, pero tacha el cero
+      y se confundía con el "Ø" de diámetro), controles ≥ 44 px y principales
+      56–58 px, avisos que duran 3,8 s (6 s los errores).
+36. Los efectos `:hover` de lo que se toca van dentro de `@media (hover: hover)`:
     en pantallas táctiles el hover queda pegado después del toque.
 
 ---
@@ -485,6 +512,10 @@ motor = guardado → PDF descargado → compartir por WhatsApp y email (share
 simulado con `addInitScript`) → reintento con `NotAllowedError` → sugerencia de
 cliente en un presupuesto nuevo → presupuesto de 22 aberturas en 3 páginas →
 logo propio → computadora sin share (abre `wa.me` + descarga) → hoja impresa.
+**Desde la .12 las pruebas usan `pasos.mjs`**: antes de tocar o leer un
+elemento, toca el paso donde está (como la persona). Prueba del recorrido por
+pasos (19 chequeos): Continuar, bloqueo sin aberturas, indicador, barra según
+el paso, tamaños de toque, nada cortado ni scroll horizontal en 360 px.
 Prueba de otro trabajo y precio a mano (17 chequeos), incluido el PDF.
 Prueba de guardado, seguimiento, copia, mes y ganancia (22 chequeos), incluido
 que la ganancia no llegue al cliente.
@@ -531,6 +562,9 @@ cd apps/presupuestos && python3 -m http.server 8777
   inyectar el HTML y usar `emulateMedia({ media: 'print' })`.
 - Con dos `<details>` en el paso 3, `details:last-of-type` ya no apunta a
   "Observaciones y ajustes": buscar el `summary` por texto.
+- En Playwright, una ficha recién agregada o un campo con foco escondían la
+  barra de abajo cuando se ocultaba por foco: ahora se oculta por el tamaño
+  de `visualViewport`.
 - `.item__resumen-texto b` pinta de oscuro cualquier `<b>` del renglón: el
   código (`.codigo`) necesita su color con más prioridad.
 - `.espesor` (botón redondo) pisa a `.espesor--textura` si tienen la misma

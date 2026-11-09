@@ -785,3 +785,239 @@ textarea { resize: vertical; min-height: 4rem; }
   .tabla-precios tr.grupo { padding: 0; margin-top: var(--space-5); border: 0; background: transparent; }
   .tabla-precios tr.grupo td { padding: var(--space-2) var(--space-3); }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   APARIENCIA 2026 · "app profesional"
+   Basada en la investigación del 9/11 (Apple HIG, Material 3 y M3
+   Expressive, NN/g sobre adultos mayores, WCAG 2.2, GOV.UK):
+   - Encabezado claro arriba y pestañas abajo con ícono y palabra.
+   - Un paso por pantalla, indicador 1·2·3 y un solo botón "Continuar".
+   - Fondo claro, tarjetas blancas con BORDE (al sol las sombras se
+     pierden), un solo color de acento con contraste ~7:1.
+   - Letra de cuerpo 18 px, nunca menos de 16, en Inter con números
+     tabulares; controles ≥ 48 px, botones principales ≥ 56 px.
+   Esta capa va al final a propósito: pisa la apariencia anterior.
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  color-scheme: light;
+  --fondo: #f1f3f6;
+  --superficie: #ffffff;
+  --texto: #14171a;
+  --texto-2: #474d55;           /* secundario: ~8:1 sobre blanco, nunca gris claro */
+  --borde: #d2d7de;             /* separa tarjetas */
+  --borde-control: #858d97;     /* contorno de campos y botones: ≥ 3:1 */
+  --acento: #1557a5;            /* azul Alumfer más oscuro: ~7:1 con texto blanco */
+  --acento-hover: #0f4686;
+  --acento-suave: #e2ecf8;
+  --acento-texto: #0f4382;
+  --ok: #146c3a;
+  --ok-suave: #e3f4e8;
+  --alerta: #7d5200;
+  --alerta-suave: #fff3d6;
+  --peligro: #a8261e;
+  /* Inter: muy legible y de ceros sin tachar (Atkinson Hyperlegible tacha el 0 y se
+     confundía con el "Ø" de diámetro que usa la app). */
+  --fuente: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --fuente-titulo: 'Montserrat', 'Inter', system-ui, sans-serif;
+  --alto-tabs: 76px;
+  --alto-barra-abajo: 84px;
+  --r-tarjeta: 20px;
+  --r-control: 14px;
+}
+
+body {
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: var(--fuente);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+h1, h2, h3 { font-family: var(--fuente-titulo); color: var(--texto); }
+
+/* ── Encabezado claro ─────────────────────────────────────── */
+.barra {
+  position: sticky; top: 0; z-index: 30;
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+  flex-wrap: nowrap;
+  padding: calc(var(--space-3) + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) var(--space-3) max(16px, env(safe-area-inset-left, 0px));
+  background: var(--superficie); color: var(--texto);
+  border-bottom: 1px solid var(--borde);
+}
+.barra__marca { min-width: 0; gap: var(--space-3); }
+.barra__marca img { width: 40px; height: 40px; border-radius: 10px; flex: none; }
+.barra__marca div { min-width: 0; }
+.barra__marca strong {
+  font-family: var(--fuente-titulo); font-size: 1.3rem; line-height: 1.15; color: var(--texto);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.barra__marca span {
+  display: block !important;   /* la regla vieja de celular lo ocultaba */
+  font-size: 0.9rem; color: var(--texto-2); text-transform: none; letter-spacing: 0;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.btn--nuevo {
+  flex: none; min-height: 48px; padding: var(--space-2) var(--space-4);
+  background: var(--acento-suave); color: var(--acento-texto); border: 0; border-radius: 999px;
+  font-weight: 700; font-size: 1rem;
+}
+@media (hover: hover) { .btn--nuevo:hover { background: #d3e3f5; } }
+
+/* ── Pestañas abajo (como WhatsApp y Android) ─────────────── */
+.barra__tabs {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; margin: 0; width: auto;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-1);
+  padding: 6px max(8px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px));
+  background: var(--superficie); border-top: 1px solid var(--borde);
+}
+.barra__tabs .tab {
+  position: relative; flex-direction: column; justify-content: center; gap: 4px;
+  min-height: 62px; padding: 4px 2px; border-radius: 16px;
+  background: transparent; color: var(--texto-2); font-size: 0.9rem; font-weight: 600;
+}
+.barra__tabs .tab svg {
+  width: 3.4rem; height: 2rem; padding: 4px 16px; border-radius: 999px; box-sizing: border-box;
+  transition: background var(--dur-standard) var(--ease);
+}
+.barra__tabs .tab.is-activa { background: transparent; color: var(--acento-texto); }
+.barra__tabs .tab.is-activa svg { background: var(--acento-suave); color: var(--acento); }
+@media (hover: hover) { .barra__tabs .tab:hover { background: var(--fondo); color: var(--texto); } }
+.barra__tabs .tab__badge {
+  position: absolute; top: 2px; left: calc(50% + 0.9rem);
+  background: var(--texto-2); color: #fff; font-size: 0.72rem; line-height: 1.5; padding: 0 6px;
+}
+.barra__tabs .tab__alerta { top: 4px; left: calc(50% - 1.9rem); box-shadow: 0 0 0 2px var(--superficie); }
+
+/* ── Contenido ────────────────────────────────────────────── */
+.contenido {
+  max-width: 720px;
+  padding: var(--space-4) max(12px, env(safe-area-inset-right, 0px)) calc(var(--alto-tabs) + var(--alto-barra-abajo) + var(--space-8) + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+}
+.vista { gap: var(--space-4); }
+
+/* ── Indicador de pasos 1 · 2 · 3 ─────────────────────────── */
+.pasos { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); }
+.pasos__paso {
+  appearance: none; font: inherit; cursor: pointer; color: var(--texto-2);
+  display: flex; align-items: center; justify-content: center; gap: var(--space-2);
+  min-height: 52px; padding: var(--space-2); border: 0; border-radius: 14px;
+  background: var(--superficie); box-shadow: inset 0 -4px 0 var(--borde);
+  font-size: 0.95rem; font-weight: 700;
+}
+.pasos__num {
+  flex: none; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 999px;
+  border: 2px solid currentColor; font-size: 0.9rem;
+}
+.pasos__paso.is-hecho { color: var(--ok); box-shadow: inset 0 -4px 0 var(--ok); }
+.pasos__paso.is-hecho .pasos__num { background: var(--ok); border-color: var(--ok); color: #fff; }
+.pasos__paso.is-actual { color: var(--acento-texto); background: var(--acento-suave); box-shadow: inset 0 -4px 0 var(--acento); }
+.pasos__paso.is-actual .pasos__num { background: var(--acento); border-color: var(--acento); color: #fff; }
+.pasos__paso:focus-visible { outline: 3px solid var(--acento); outline-offset: 2px; }
+
+/* Un paso por pantalla */
+#vista-presupuesto[data-paso="1"] [data-paso-seccion]:not([data-paso-seccion="1"]),
+#vista-presupuesto[data-paso="2"] [data-paso-seccion]:not([data-paso-seccion="2"]),
+#vista-presupuesto[data-paso="3"] [data-paso-seccion]:not([data-paso-seccion="3"]) { display: none; }
+/* El número del paso ya lo dice el indicador de arriba */
+[data-paso-seccion] .tarjeta__header .paso:not(.paso--interno) { display: none; }
+
+/* ── Tarjetas ─────────────────────────────────────────────── */
+.tarjeta {
+  background: var(--superficie); border: 1px solid var(--borde); box-shadow: none;
+  border-radius: var(--r-tarjeta); padding: var(--space-5) var(--space-4);
+}
+.tarjeta__header h2 { font-size: 1.35rem; line-height: 1.25; }
+.guia { color: var(--texto-2); font-size: 1rem; }
+.apunte, .campo > span, .campo__ayuda, .extras__titulo { color: var(--texto-2); }
+.campo > span { font-size: 0.95rem; font-weight: 600; color: var(--texto); }
+
+/* ── Botones ──────────────────────────────────────────────── */
+.btn { border-radius: var(--r-control); font-weight: 600; min-height: 48px; }
+.btn--sm { min-height: 44px; font-size: 0.95rem; }
+.btn--grande { min-height: 58px; font-size: 1.1rem; border-radius: 16px; }
+.btn--primario { background: var(--acento); color: #fff; box-shadow: none; }
+@media (hover: hover) { .btn--primario:hover { background: var(--acento-hover); } }
+.btn--fantasma { background: var(--superficie); color: var(--texto); border: 1.5px solid var(--borde-control); }
+@media (hover: hover) { .btn--fantasma:hover { border-color: var(--acento); color: var(--acento-texto); } }
+.btn--whatsapp { background: #1fa855; color: #fff; box-shadow: none; font-weight: 700; }   /* blanco sobre verde: ~3:1 en 18 px negrita (texto grande) */
+@media (hover: hover) { .btn--whatsapp:hover { background: #188f47; } }
+.btn--peligro { color: var(--peligro); }
+.btn--guardar { border-color: var(--acento); color: var(--acento-texto); }
+.btn:active { transform: scale(.985); }
+.btn:focus-visible { outline: 3px solid var(--acento); outline-offset: 2px; }
+
+/* ── Campos ───────────────────────────────────────────────── */
+input[type="text"], input[type="tel"], input[type="email"], input[type="number"],
+input[type="date"], input[type="search"], select, textarea {
+  font-family: var(--fuente); font-size: 1.1rem; min-height: 3.5rem;
+  border: 1.5px solid var(--borde-control); border-radius: 12px; background: var(--superficie); color: var(--texto);
+}
+input:focus, select:focus, textarea:focus { border-color: var(--acento); box-shadow: 0 0 0 3px var(--acento-suave); }
+::placeholder { color: #6b727b; opacity: 1; }
+
+/* ── Aberturas ────────────────────────────────────────────── */
+.item { background: var(--superficie); border: 1px solid var(--borde); box-shadow: none; }
+.item--abierto { border: 2px solid var(--acento); box-shadow: none; }
+.item__dibujo { background: var(--acento-suave); color: var(--acento-texto); }
+.item__resumen { border-radius: 18px; }
+.elegible, .opcion, .variante, .extra, .espesor, .lugar, .contador input, .cliente-sugerido {
+  border-color: var(--borde-control);
+}
+.variante.is-activa, .opcion.is-activa, .elegible:focus-visible { border-color: var(--acento); }
+.variante.is-activa { background: var(--acento-suave); color: var(--acento-texto); }
+.espesor.is-activa, .lugar.is-activa { background: var(--acento); border-color: var(--acento); }
+.contador__btn { background: var(--acento-suave); color: var(--acento-texto); }
+.extra.is-activo { background: var(--acento-suave); border-color: var(--acento); color: var(--acento-texto); }
+.extra.is-activo .extra__tilde, .opcion.is-activa .opcion__marca { background: var(--acento); border-color: var(--acento); }
+.codigo { background: var(--texto) !important; }
+.tipo-tile { border-color: var(--borde-control); }
+.tipo-tile.is-activo { border-color: var(--acento); background: var(--acento-suave); }
+.tipo-tile svg { color: var(--texto); }
+
+/* Números de plata: tabulares y en negrita, para leerlos de un vistazo */
+.totales, .item__total strong, .item__resumen-precio strong, .barra-total__monto strong, .historial-fila__total,
+.compras-dato strong, .ganancia__monto strong, .compras-fila__titulo b, .dolar__dato strong {
+  font-family: var(--fuente); font-variant-numeric: tabular-nums; font-weight: 700;
+}
+.totales__fila--total { font-family: var(--fuente-titulo); }
+.totales__fila--total span:last-child { font-family: var(--fuente); }
+
+/* ── Barra de abajo: total + acción del paso ──────────────── */
+.barra-total {
+  bottom: calc(var(--alto-tabs) + env(safe-area-inset-bottom, 0px)); z-index: 35;
+  background: var(--superficie); color: var(--texto); border-top: 1px solid var(--borde);
+  box-shadow: 0 -4px 16px rgba(20, 23, 26, .08);
+  padding: var(--space-3) max(16px, env(safe-area-inset-right, 0px)) var(--space-3) max(16px, env(safe-area-inset-left, 0px));
+  flex-wrap: nowrap; gap: var(--space-3);
+}
+.barra-total__monto span { color: var(--texto-2); font-size: 0.85rem; font-weight: 600; }
+.barra-total__monto strong { font-size: 1.45rem; color: var(--texto); }
+.barra-total .btn { min-height: 56px; }
+.btn--continuar { flex: 1 1 auto; font-size: 1.1rem; }
+.btn--continuar svg { order: 2; }
+.barra-total[data-paso="1"] .btn--continuar,
+.barra-total__monto[hidden] + .btn--continuar { flex: 1 1 100%; }
+body.escribiendo .barra__tabs, body.escribiendo .barra-total { display: none; }
+
+/* Avisos: arriba de las barras y más tiempo en pantalla */
+.avisos { bottom: calc(var(--alto-tabs) + var(--alto-barra-abajo) + var(--space-4) + env(safe-area-inset-bottom, 0px)); z-index: 70; }
+.aviso { border-radius: 14px; font-size: 1rem; padding: var(--space-3) var(--space-5); }
+
+/* ── Guardados ────────────────────────────────────────────── */
+.historial-fila, .llamar-fila { border: 1px solid var(--borde); }
+.tarjeta--interna { background: #fffaf0; border: 2px dashed #d9b85a; }
+.tarjeta--llamar { border: 2px solid #e29b12; }
+
+@media (max-width: 720px) {
+  .barra__tabs .tab { font-size: 0.85rem; }
+  .barra-total { flex-wrap: nowrap; }
+  .barra-total__monto { flex: none; flex-basis: auto; flex-direction: column; align-items: flex-start; }
+  .barra-total[data-paso="3"] .btn { flex: 1; padding-left: var(--space-3); padding-right: var(--space-3); }
+}
+
+.tab__badge:empty, .tab__badge[data-cero] { display: none; }
+
+/* El total grande no se sale en teléfonos angostos */
+.totales__fila--total { flex-wrap: wrap; font-size: clamp(1.6rem, 7.2vw, 2.25rem); }
+.barra-total__monto strong { font-size: clamp(1.2rem, 5.6vw, 1.45rem); white-space: nowrap; }
+.barra-total .btn { min-width: 0; }
+.barra-total[data-paso="3"] .btn--whatsapp { flex: 1 1 auto; }

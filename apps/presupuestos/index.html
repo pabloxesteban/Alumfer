@@ -15,7 +15,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="estilos.css">
 <link rel="stylesheet" href="impresion.css" media="print">
@@ -24,21 +24,21 @@
 
 <header class="barra">
   <div class="barra__marca">
-    <img src="logo-alumfer.jpg" alt="Alumfer" width="48" height="48">
+    <img src="logo-alumfer.jpg" alt="Alumfer" width="40" height="40">
     <div>
-      <strong>Presupuestos</strong>
-      <span>Alumfer</span>
+      <strong id="titulo-vista">Presupuesto</strong>
+      <span id="subtitulo-vista">Alumfer</span>
     </div>
   </div>
-
-  <nav class="barra__tabs" role="tablist">
-    <button class="tab is-activa" data-vista="presupuesto" data-icono="presupuesto" role="tab" aria-selected="true">Presupuesto</button>
-    <button class="tab" data-vista="historial" data-icono="historial" role="tab" aria-selected="false">Guardados <span class="tab__badge" id="badge-historial">0</span><span class="tab__alerta" id="alerta-historial" hidden aria-label="Hay presupuestos para volver a llamar"></span></button>
-    <button class="tab" data-vista="precios" data-icono="precios" role="tab" aria-selected="false">Precios</button>
-  </nav>
-
-  <button class="btn btn--claro" id="btn-nuevo" data-icono="nuevo">Nuevo</button>
+  <button class="btn btn--nuevo" id="btn-nuevo" data-icono="nuevo">Nuevo</button>
 </header>
+
+<!-- Pestañas abajo, al alcance del pulgar, siempre con ícono y palabra -->
+<nav class="barra__tabs" role="tablist" aria-label="Secciones">
+  <button class="tab is-activa" data-vista="presupuesto" data-icono="presupuesto" role="tab" aria-selected="true"><span class="tab__texto">Presupuesto</span></button>
+  <button class="tab" data-vista="historial" data-icono="historial" role="tab" aria-selected="false"><span class="tab__texto">Guardados</span> <span class="tab__badge" id="badge-historial">0</span><span class="tab__alerta" id="alerta-historial" hidden aria-label="Hay presupuestos para volver a llamar"></span></button>
+  <button class="tab" data-vista="precios" data-icono="precios" role="tab" aria-selected="false"><span class="tab__texto">Precios</span></button>
+</nav>
 
 <div class="actualizar-app" id="actualizar-app" hidden>
   <span>Hay una versión nueva de la app.</span>
@@ -71,8 +71,15 @@
   <!-- ════════ PRESUPUESTO ════════ -->
   <section class="vista vista--presupuesto" id="vista-presupuesto">
 
+    <!-- Un paso por pantalla: se puede volver a cualquiera tocándolo -->
+    <nav class="pasos" id="pasos" aria-label="Pasos del presupuesto">
+      <button type="button" class="pasos__paso" data-paso="1"><span class="pasos__num">1</span><span>Cliente</span></button>
+      <button type="button" class="pasos__paso" data-paso="2"><span class="pasos__num">2</span><span>Aberturas</span></button>
+      <button type="button" class="pasos__paso" data-paso="3"><span class="pasos__num">3</span><span>Enviar</span></button>
+    </nav>
+
     <!-- Paso 1 -->
-    <section class="tarjeta">
+    <section class="tarjeta" data-paso-seccion="1">
       <header class="tarjeta__header">
         <h2><span class="paso">1</span> ¿Para quién es?</h2>
         <span class="tarjeta__header-acciones">
@@ -131,7 +138,7 @@
     </section>
 
     <!-- Paso 2 -->
-    <section class="tarjeta">
+    <section class="tarjeta" data-paso-seccion="2">
       <header class="tarjeta__header">
         <h2><span class="paso">2</span> ¿Qué aberturas lleva?</h2>
         <span class="apunte" id="resumen-items"></span>
@@ -151,7 +158,7 @@
     </section>
 
     <!-- Paso 3 -->
-    <section class="tarjeta">
+    <section class="tarjeta" data-paso-seccion="3">
       <header class="tarjeta__header">
         <h2><span class="paso">3</span> Mandar el presupuesto</h2>
       </header>
@@ -235,7 +242,7 @@
     </section>
 
     <!-- Solo para Alumfer: no sale en el PDF ni en el WhatsApp del cliente -->
-    <section class="tarjeta tarjeta--interna" id="tarjeta-compras" hidden>
+    <section class="tarjeta tarjeta--interna" id="tarjeta-compras" data-paso-seccion="3" hidden>
       <header class="tarjeta__header">
         <h2><span class="paso paso--interno" aria-hidden="true">✓</span> Ganancia y compras</h2>
         <span class="etiqueta-interna">Solo para vos</span>
@@ -469,10 +476,11 @@
 
 <!-- Barra fija con el total y las dos acciones principales -->
 <div class="barra-total" id="barra-total" hidden>
-  <div class="barra-total__monto">
+  <div class="barra-total__monto" id="barra-total-monto">
     <span>Total</span>
     <strong id="barra-total-valor">$ 0</strong>
   </div>
+  <button class="btn btn--primario btn--continuar" id="btn-continuar" data-icono="siguiente">Continuar</button>
   <button class="btn btn--whatsapp" id="btn-whatsapp-fijo" data-icono="whatsapp">WhatsApp</button>
   <button class="btn btn--primario" id="btn-pdf-fijo" data-icono="descargar">PDF</button>
 </div>
