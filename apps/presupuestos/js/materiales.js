@@ -11,10 +11,10 @@
    - Cada pieza se toma con la medida de afuera a afuera (sin restar
      los descuentos de la línea): sobra un poco, nunca falta.
    - Las piezas se agrupan por línea + perfil + color, que es como
-     se compran las barras, y se acomodan en barras de 6 m (largo
+     se compran las tiras (en el código, "barras"), y se acomodan en tiras de 6 m (largo
      configurable) dejando el corte de la sierra en cada pieza.
    - Vidrios: un paño por hoja, con la medida de la hoja.
-   - Cortinas de PVC y rejas de hierro van en m² (no son barras de
+   - Cortinas de PVC y rejas de hierro van en m² (no son tiras de
      aluminio).
 
    Funciones puras, sin DOM: se puede probar en Node cargando

@@ -1527,7 +1527,7 @@
   /* ════════ Para hacer las compras (solo para Alumfer) ════════ */
 
   /*
-   * Lista de materiales aproximada: barras de aluminio, vidrios y lo que va
+   * Lista de materiales aproximada: tiras de aluminio, vidrios y lo que va
    * por m². Es de uso interno: no se usa en documento.js ni en pdf.js, así
    * que nunca le llega al cliente.
    */
@@ -1580,7 +1580,7 @@
         (kiloArs ? ' · ≈ ' + F.moneda(t.kg * kiloArs) : '') + '</span></div>';
     }
     h.push('<div class="compras-resumen">' +
-      '<div class="compras-dato"><strong>' + t.barras + (t.barras === 1 ? ' barra' : ' barras') + '</strong><span>de aluminio de ' + barra + '</span></div>' +
+      '<div class="compras-dato"><strong>' + t.barras + (t.barras === 1 ? ' tira' : ' tiras') + '</strong><span>de aluminio de ' + barra + '</span></div>' +
       '<div class="compras-dato"><strong>≈ ' + F.numero(t.metrosSobran, 1) + ' m</strong><span>sobran en retazos</span></div>' +
       (t.m2Vidrio ? '<div class="compras-dato"><strong>' + F.numero(t.m2Vidrio, 2) + ' m²</strong><span>de vidrio o placa</span></div>' : '') +
       kgTxt +
@@ -1589,18 +1589,18 @@
 
     // Aluminio
     if (m.perfiles.length) {
-      h.push('<h3 class="compras-titulo">Aluminio, en barras de ' + barra + '</h3>');
+      h.push('<h3 class="compras-titulo">Aluminio, en tiras de ' + barra + '</h3>');
       var grupoAnterior = '';
       m.perfiles.forEach(function (g) {
         var cab = [g.linea ? 'Línea ' + g.linea : '', g.color].filter(Boolean).join(' · ');
         if (cab !== grupoAnterior) { grupoAnterior = cab; h.push('<p class="compras-grupo">' + F.escapar(cab || 'Sin línea') + '</p>'); }
         h.push('<div class="compras-fila">' +
           '<div class="compras-fila__titulo"><strong>' + F.escapar(g.perfil) + '</strong>' +
-            '<b>' + g.barras + (g.barras === 1 ? ' barra' : ' barras') + '</b></div>' +
+            '<b>' + g.barras + (g.barras === 1 ? ' tira' : ' tiras') + '</b></div>' +
           '<span>' + g.piezas + (g.piezas === 1 ? ' pieza' : ' piezas') + ' · se usan ' + metros(g.usadoMm) + ' · sobran ' + metros(g.sobranteMm) + '</span>' +
           retazosTexto(g.retazos) +
           (g.curvas ? '<span class="compras-ojo">Va curvado: ' + g.curvas + (g.curvas === 1 ? ' pieza' : ' piezas') + ' para curvar.</span>' : '') +
-          (g.empalmes ? '<span class="compras-ojo">' + g.empalmes + (g.empalmes === 1 ? ' pieza es' : ' piezas son') + ' más larga que la barra: lleva empalme.</span>' : '') +
+          (g.empalmes ? '<span class="compras-ojo">' + g.empalmes + (g.empalmes === 1 ? ' pieza es' : ' piezas son') + ' más larga que la tira: lleva empalme.</span>' : '') +
           (g.kg ? '<span>≈ ' + F.numero(g.kg, 1) + ' kg</span>' : '') +
         '</div>');
       });
@@ -1654,12 +1654,12 @@
     var cli = (actual.cliente && actual.cliente.nombre) || '';
     L.push('*Materiales ' + (actual.numero || '') + (cli ? ' — ' + cli : '') + '* (aproximado)');
     if (m.perfiles.length) {
-      L.push('', '*Aluminio (barras de ' + barra + ')*');
+      L.push('', '*Aluminio (tiras de ' + barra + ')*');
       m.perfiles.forEach(function (g) {
         L.push('• ' + [g.linea ? 'Línea ' + g.linea : '', g.perfil, g.color].filter(Boolean).join(' · ') + ': ' +
-          g.barras + (g.barras === 1 ? ' barra' : ' barras') + (g.curvas ? ' (curvado)' : ''));
+          g.barras + (g.barras === 1 ? ' tira' : ' tiras') + (g.curvas ? ' (curvado)' : ''));
       });
-      L.push('Total: ' + m.totales.barras + ' barras' + (m.totales.kg ? ' · ≈ ' + F.numero(m.totales.kg, 0) + ' kg' : ''));
+      L.push('Total: ' + m.totales.barras + ' tiras' + (m.totales.kg ? ' · ≈ ' + F.numero(m.totales.kg, 0) + ' kg' : ''));
     }
     if (m.vidrios.length) {
       L.push('', '*Vidrios y placas*');

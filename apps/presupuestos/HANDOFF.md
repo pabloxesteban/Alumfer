@@ -28,7 +28,7 @@ guarda sus propios datos en `localStorage` — no hay servidor ni sincronizació
 - `main` incluye **todo** lo de presupuestos más trabajo del sitio hecho en otras
   sesiones (PRs #39 a #48).
 - Rama de la última sesión: `claude/intelligent-maxwell-d43hn3`, igual a `main`.
-- Versión publicada: **2026-11-09.3** (.1: PDF real, compartir, clientes, Tu empresa · .2: rediseño suave y palabras claras · .3: hojas como pregunta y una abertura abierta a la vez · .4: vidrio en dos pasos, formas especiales y ¿Dónde va? · .5: catálogo completo del sitio · .6: obras grandes al estilo OP 2.1, rejas de hierro · .7: lista de materiales para comprar, cortinas blancas).
+- Versión publicada: **2026-11-09.3** (.1: PDF real, compartir, clientes, Tu empresa · .2: rediseño suave y palabras claras · .3: hojas como pregunta y una abertura abierta a la vez · .4: vidrio en dos pasos, formas especiales y ¿Dónde va? · .5: catálogo completo del sitio · .6: obras grandes al estilo OP 2.1, rejas de hierro · .7: lista de materiales para comprar, cortinas blancas · .8: "tiras" en vez de "barras").
 
 **Flujo de publicación (Pablo lo autorizó explícitamente, no hay que preguntar
 cada vez):** commit en la rama → `git checkout main && git merge --ff-only <rama>`
@@ -266,6 +266,10 @@ Documentación completa en `apps/presupuestos/README.md`.
       aunque el presupuesto sea viejo (no son precios).
     - La lista se puede mandar por WhatsApp sin número (WhatsApp pregunta a
       quién: el proveedor o uno mismo) o copiar.
+    - **En Alumfer se dicen "tiras" de aluminio, no "barras"**: todo lo que se
+      ve dice "tiras"; en el código las variables siguen como `barras`/`largoBarra`.
+    - **Descuentos de fabricación por línea: pendientes.** Pablo va a consultar
+      los precisos de cada línea; cuando estén, restarlos en `piezasItem()`.
 28. **Cortinas de PVC: solo blancas** (`colorFijo: 'blanca'` en las tipologías
     y en el agregado): no piden color y el presupuesto dice "blanca".
 29. Los efectos `:hover` de lo que se toca van dentro de `@media (hover: hover)`:
@@ -316,6 +320,22 @@ Documentación completa en `apps/presupuestos/README.md`.
    esconderla, la opción gratis es Cloudflare Pages con Access.
 
 ---
+
+### Próximos pasos propuestos (9/11, a elegir con Pablo)
+
+Por valor para el negocio y riesgo, en este orden:
+1. **Que no se pierda nada**: hoy todo vive en un solo teléfono y la copia de
+   seguridad es manual. Primero, un recordatorio y una copia de un toque que
+   se manda por WhatsApp o Drive (sin servidor). Después, si hace falta,
+   sincronizar entre teléfonos (necesita backend, pendiente 5).
+2. **Seguimiento de presupuestos enviados**: los que pasaron N días sin
+   respuesta aparecen como "para volver a llamar", con un botón de WhatsApp
+   con un mensaje preparado; aviso cuando un presupuesto está por vencer.
+3. **Presupuesto aceptado → hoja de taller** (como el "parte de producción"
+   de OP): códigos, medidas, línea, color, vidrio y la lista de materiales,
+   más el registro de la seña cobrada y el saldo.
+4. Fotos de la obra por abertura (con la cámara del teléfono), uso interno.
+5. Resumen del mes: cuánto se presupuestó, cuánto se aceptó.
 
 ## 7. Cómo probar
 

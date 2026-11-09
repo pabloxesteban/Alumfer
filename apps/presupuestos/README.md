@@ -135,7 +135,7 @@ ya cargada. Las medidas son de afuera a afuera del marco.
 Debajo del paso 3 está la tarjeta **Para hacer las compras → Ver los
 materiales**. Con las aberturas del presupuesto calcula, **aproximado**:
 
-- Cuántas **barras de aluminio de 6 m** comprar por línea, perfil y color
+- Cuántas **tiras de aluminio de 6 m** comprar por línea, perfil y color
   (marco, hojas, premarco, tapajuntas, mosquitero), cuánto se usa, cuánto sobra
   y qué retazos quedan. Las piezas curvas (arcos, redondas) se avisan aparte.
 - Los **vidrios**: cada paño con su medida, agrupados por tipo, y los m².
@@ -144,7 +144,7 @@ materiales**. Con las aberturas del presupuesto calcula, **aproximado**:
   línea en *Precios → Líneas* (el precio del kilo ya está arriba en Precios).
 
 Cada pieza se cuenta con la medida de afuera a afuera, sin los descuentos de
-fabricación de cada línea: sobra un poco y nunca falta. El largo de la barra y
+fabricación de cada línea: sobra un poco y nunca falta. El largo de la tira y
 lo que se pierde en cada corte se cambian en *Precios → Valores por defecto*.
 
 **Esto nunca le llega al cliente**: no sale en el PDF ni en el WhatsApp del
