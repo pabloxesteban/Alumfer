@@ -148,6 +148,23 @@ vidrio en las otras*: un cambio de color en toda la obra es un solo toque.
 Cada tipo arranca con su medida típica (puerta 90 × 205) o con la de otra igual
 ya cargada. Las medidas son de afuera a afuera del marco.
 
+## Lo obligatorio y la barra de avance
+
+No se puede seguir de paso, ni mandar el presupuesto, si falta algo importante:
+el **nombre** y el **teléfono** del cliente, al menos una abertura, y en cada
+abertura sus **medidas** (en "Otro trabajo", la descripción y el precio). El
+campo que falta se marca en rojo con una explicación, y la app lleva hasta ahí.
+
+Debajo de los pasos hay una **barra que se va llenando** (cliente → aberturas →
+guardado → enviado) y dice qué falta. Cuando se manda, se pone verde.
+
+## Los estados se ponen solos
+
+No hay que cambiar nada a mano. Al mandarlo por WhatsApp o email queda como
+*Enviado*; en Guardados dice "Enviado hace 4 días" o "Venció sin respuesta".
+Cuando se vuelve a abrir uno enviado, la app pregunta **"¿Aceptó este
+presupuesto?"** con *Sí*, *No* y *Todavía no sé*.
+
 ## Guardar y no perder nada
 
 El botón **Guardar presupuesto** (paso 3) lo guarda y dice con qué número y

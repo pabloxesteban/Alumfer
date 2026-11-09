@@ -71,12 +71,28 @@
   <!-- ════════ PRESUPUESTO ════════ -->
   <section class="vista vista--presupuesto" id="vista-presupuesto">
 
+    <!-- Cuando un presupuesto enviado se vuelve a abrir, la app pregunta si lo aceptaron -->
+    <section class="pregunta-acepto" id="pregunta-acepto" hidden>
+      <p class="pregunta-acepto__texto" id="pregunta-acepto-texto">¿El cliente aceptó el presupuesto?</p>
+      <div class="pregunta-acepto__botones">
+        <button type="button" class="btn btn--primario" data-respuesta="aceptado">Sí, aceptó</button>
+        <button type="button" class="btn btn--fantasma" data-respuesta="rechazado">No aceptó</button>
+        <button type="button" class="btn btn--fantasma" data-respuesta="todavia">Todavía no sé</button>
+      </div>
+    </section>
+
     <!-- Un paso por pantalla: se puede volver a cualquiera tocándolo -->
     <nav class="pasos" id="pasos" aria-label="Pasos del presupuesto">
       <button type="button" class="pasos__paso" data-paso="1"><span class="pasos__num">1</span><span>Cliente</span></button>
       <button type="button" class="pasos__paso" data-paso="2"><span class="pasos__num">2</span><span>Aberturas</span></button>
       <button type="button" class="pasos__paso" data-paso="3"><span class="pasos__num">3</span><span>Enviar</span></button>
     </nav>
+
+    <!-- Barrita de avance: cuánto falta para terminar y qué -->
+    <div class="avance-pres" id="avance-pres" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="avance-texto">
+      <div class="avance-pres__barra"><div class="avance-pres__relleno" id="avance-relleno"></div></div>
+      <p class="avance-pres__texto" id="avance-texto"></p>
+    </div>
 
     <!-- Paso 1 -->
     <section class="tarjeta" data-paso-seccion="1">
@@ -87,21 +103,23 @@
           <span class="etiqueta-numero" id="numero-presupuesto">—</span>
         </span>
       </header>
-      <p class="guia">Escribí el nombre del cliente. Si ya le hiciste un presupuesto antes, aparece abajo para elegirlo.</p>
+      <p class="guia">Escribí el nombre y el teléfono del cliente (son obligatorios). Si ya le hiciste un presupuesto antes, aparece abajo para elegirlo.</p>
 
       <div class="grilla-campos">
-        <label class="campo campo--ancho">
-          <span>Nombre del cliente</span>
-          <input type="text" id="cli-nombre" placeholder="Ej.: María Gómez" autocomplete="off"
-                 aria-describedby="ayuda-clientes" aria-controls="sugerencias-clientes">
+        <label class="campo campo--ancho" id="campo-cli-nombre">
+          <span>Nombre del cliente <em class="obligatorio">obligatorio</em></span>
+          <input type="text" id="cli-nombre" placeholder="Ej.: María Gómez" autocomplete="off" required aria-required="true"
+                 aria-describedby="ayuda-clientes err-cli-nombre" aria-controls="sugerencias-clientes">
+          <span class="campo__error" id="err-cli-nombre" hidden></span>
         </label>
         <div class="sugerencias campo--ancho" id="sugerencias-clientes" hidden>
           <p class="sugerencias__titulo" id="ayuda-clientes">¿Es alguno de estos? Tocalo y se completan sus datos.</p>
           <div class="sugerencias__lista" id="sugerencias-lista"></div>
         </div>
-        <label class="campo">
-          <span>Teléfono</span>
-          <input type="tel" id="cli-telefono" placeholder="11 5555-5555" autocomplete="off" inputmode="tel">
+        <label class="campo" id="campo-cli-telefono">
+          <span>Teléfono <em class="obligatorio">obligatorio</em></span>
+          <input type="tel" id="cli-telefono" placeholder="11 5555-5555" autocomplete="off" inputmode="tel" required aria-required="true" aria-describedby="err-cli-telefono">
+          <span class="campo__error" id="err-cli-telefono" hidden></span>
         </label>
         <label class="campo">
           <span>Localidad</span>
@@ -114,7 +132,7 @@
       </div>
 
       <details class="desplegable">
-        <summary>Más datos (email, fecha, estado)</summary>
+        <summary>Más datos (email, fecha)</summary>
         <div class="grilla-campos">
           <label class="campo">
             <span>Email</span>
@@ -124,7 +142,9 @@
             <span>Fecha</span>
             <input type="date" id="pre-fecha">
           </label>
-          <label class="campo">
+          <!-- El estado ya no se elige a mano: lo pone la app (sin enviar, enviado)
+               y la respuesta del cliente se la pregunta a quien presupuesta. -->
+          <label class="campo" hidden>
             <span>Estado</span>
             <select id="pre-estado">
               <option value="borrador">En preparación</option>

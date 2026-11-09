@@ -1021,3 +1021,46 @@ body.escribiendo .barra__tabs, body.escribiendo .barra-total { display: none; }
 .barra-total__monto strong { font-size: clamp(1.2rem, 5.6vw, 1.45rem); white-space: nowrap; }
 .barra-total .btn { min-width: 0; }
 .barra-total[data-paso="3"] .btn--whatsapp { flex: 1 1 auto; }
+
+/* ── Obligatorios y errores ───────────────────────────────── */
+.obligatorio {
+  font-style: normal; font-size: 0.78rem; font-weight: 700; color: var(--acento-texto);
+  background: var(--acento-suave); border-radius: 999px; padding: 1px 8px; margin-left: 4px; vertical-align: 1px;
+}
+.campo__error {
+  display: flex; gap: 6px; align-items: flex-start;
+  font-size: 0.95rem; font-weight: 600; color: var(--peligro);
+}
+.campo__error::before { content: '!'; flex: none; display: grid; place-items: center; width: 1.25rem; height: 1.25rem; border-radius: 999px; background: var(--peligro); color: #fff; font-size: 0.8rem; margin-top: 2px; }
+.campo__error[hidden] { display: none; }
+.con-error input, .con-error textarea, .con-error select { border-color: var(--peligro); border-width: 2px; background: #fff7f6; }
+
+/* ── Barrita de avance ────────────────────────────────────── */
+.avance-pres { display: flex; flex-direction: column; gap: 6px; padding: 0 var(--space-1); }
+.avance-pres__barra { height: 12px; border-radius: 999px; background: #dfe3e8; overflow: hidden; }
+.avance-pres__relleno {
+  height: 100%; width: 0; border-radius: 999px; background: var(--acento);
+  transition: width .5s var(--ease);
+}
+.avance-pres.completo .avance-pres__relleno { background: var(--ok); }
+.avance-pres__texto { margin: 0; font-size: 0.95rem; color: var(--texto-2); }
+.avance-pres__texto strong { color: var(--texto); }
+.avance-pres.completo .avance-pres__texto strong { color: var(--ok); }
+@media (prefers-reduced-motion: reduce) { .avance-pres__relleno { transition: none; } }
+
+/* ── ¿Aceptó el presupuesto? ──────────────────────────────── */
+.pregunta-acepto {
+  display: flex; flex-direction: column; gap: var(--space-3);
+  padding: var(--space-4); border-radius: var(--r-tarjeta);
+  background: var(--alerta-suave); border: 2px solid #e2b04a;
+}
+.pregunta-acepto__texto { margin: 0; font-family: var(--fuente-titulo); font-size: 1.15rem; font-weight: 700; }
+.pregunta-acepto__botones { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+.pregunta-acepto__botones .btn--primario { grid-column: 1 / -1; min-height: 52px; background: var(--ok); }
+
+/* ── Estados automáticos ──────────────────────────────────── */
+.estado { font-weight: 600; }
+.estado--borrador  { background: #eef0f3; color: var(--texto-2); border-color: #cfd5dc; }
+.estado--vencido   { background: var(--alerta-suave); color: var(--alerta); border-color: #e9c77a; }
+.estado--aceptado  { background: var(--ok-suave); color: var(--ok); }
+.estado--rechazado { background: #fdeeec; color: var(--peligro); }

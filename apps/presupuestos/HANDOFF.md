@@ -3,7 +3,7 @@
 Para retomar el trabajo sin tener que reconstruir el contexto: qué hay hecho, qué
 se decidió y por qué, qué falta, y con qué trampas ya chocamos.
 
-Estado al 9 de noviembre de 2026 (segunda sesión del día); todo lo descrito está publicado y andando.
+Estado al 9 de noviembre de 2026 (versión `2026-11-09.13`); todo lo descrito está publicado y andando.
 **Si trabajás sobre la app, actualizá este archivo antes de cerrar.**
 
 ---
@@ -403,6 +403,35 @@ Documentación completa en `apps/presupuestos/README.md`.
       56–58 px, avisos que duran 3,8 s (6 s los errores).
 36. Los efectos `:hover` de lo que se toca van dentro de `@media (hover: hover)`:
     en pantallas táctiles el hover queda pegado después del toque.
+37. **Campos obligatorios (.13)**, pedido de Pablo "que no se olvide ningún
+    detalle". No se puede pasar de paso (ni con "Continuar" ni tocando el
+    indicador, `irPasoPedido`) ni guardar/mandar (`listoParaEntregar`) si falta:
+    - Paso 1: **nombre** y **teléfono** (al menos 8 números: hace falta para
+      WhatsApp). Llevan la etiqueta "obligatorio". Localidad, dirección, email
+      y fecha **no** son obligatorios (si se quieren, es agregar una línea en
+      `erroresCliente()`).
+    - Paso 2: al menos una abertura y, en cada una, **ancho y alto ≥ 10 cm**
+      (alto 2 en las inclinadas; las redondas solo diámetro). En "Otro
+      trabajo": **descripción y precio** (y medidas si se cobra por m²).
+    Cómo se avisa: borde rojo + mensaje con "!" debajo del campo, aviso rojo
+    arriba de la barra, la app lleva al paso y abre la abertura que falta y
+    pone el foco ahí. El error se borra apenas se escribe. Las aberturas
+    nuevas arrancan con medida típica, así que el bloqueo aparece si las
+    borra o pone algo absurdo.
+38. **Barra de avance (.13)** debajo del indicador de pasos (`#avance-pres`,
+    `pintarAvance()`): 6 hitos — nombre, teléfono, una abertura, todas
+    completas, guardado (tiene número), enviado (estado ≠ borrador). Dice
+    "Vas 67 % · Falta: …" con lo próximo que falta; al 100 % se pone verde:
+    "¡Listo! Presupuesto enviado.". Se repinta en `renderTotales`.
+39. **Estados automáticos (.13)**: el papá no se iba a acordar de cambiarlos.
+    El selector `#pre-estado` sigue en el HTML (lo usa el código y la copia)
+    pero está oculto. Mandar por WhatsApp/email/PDF lo marca Enviado (ya era
+    así, con `enviadoEl`). En Guardados se muestra `estadoVisible(p)`: "Sin
+    enviar", "Enviado hoy / ayer / hace N días", "Venció sin respuesta"
+    (pasó `validezDias`), "Aceptó", "No aceptó". Al abrir uno Enviado aparece
+    arriba **"¿María aceptó este presupuesto?"** con Sí, aceptó / No aceptó /
+    Todavía no sé (esto último lo esconde hasta la próxima vez que se abra).
+    Sigue además "Para volver a llamar" (punto 30).
 
 ---
 
@@ -516,6 +545,11 @@ logo propio → computadora sin share (abre `wa.me` + descarga) → hoja impresa
 elemento, toca el paso donde está (como la persona). Prueba del recorrido por
 pasos (19 chequeos): Continuar, bloqueo sin aberturas, indicador, barra según
 el paso, tamaños de toque, nada cortado ni scroll horizontal en 360 px.
+**Desde la .13, `pasos.mjs` completa solo nombre y teléfono** si un paso no
+deja avanzar (para que las pruebas viejas sigan andando); las aberturas
+"Otro trabajo" sin precio bloquean el PDF, por eso los bucles de 22 aberturas
+excluyen `[data-tipo="libre"]`. Prueba de obligatorios, barra de avance y
+estados (36 chequeos, incluido 360 px).
 Prueba de otro trabajo y precio a mano (17 chequeos), incluido el PDF.
 Prueba de guardado, seguimiento, copia, mes y ganancia (22 chequeos), incluido
 que la ganancia no llegue al cliente.

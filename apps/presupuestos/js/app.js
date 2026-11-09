@@ -260,6 +260,7 @@
     hayCambios = false;
     mostrarVista('presupuesto');
     irPaso(presupuesto.items && presupuesto.items.length ? 2 : 1);
+    pintarPreguntaAcepto();
   }
 
   function volcarEnFormulario() {
@@ -328,6 +329,7 @@
     $('numero-presupuesto').hidden = false;
     marcarGuardado('presupuesto-guardado');
     renderHistorial();
+    if ($('avance-pres')) pintarAvance();
     if (!silencioso) avisar('Presupuesto ' + actual.numero + ' guardado');
   }
 
@@ -1113,6 +1115,7 @@
     renderGanancia();
     pintarBarraAbajo();
     pintarEncabezado();   // el subtítulo muestra el nombre del cliente a medida que se escribe
+    pintarAvance();
   }
 
   /* ════════ Copia de seguridad ════════ */
@@ -1319,7 +1322,7 @@
           '<span>' + F.escapar(p.numero || '') + ' · ' + F.fechaCorta(p.fecha) +
             (cli.localidad ? ' · ' + F.escapar(cli.localidad) : '') + '</span>' +
         '</div>' +
-        '<span class="estado estado--' + F.escapar(estado) + '">' + F.escapar(ESTADOS[estado] || estado) + '</span>' +
+        '<span class="estado estado--' + estadoVisible(p).clase + '">' + F.escapar(estadoVisible(p).texto) + '</span>' +
         '<span class="historial-fila__total">' + F.moneda(p.total || 0) + '</span>' +
         '<span class="historial-fila__acciones">' +
           '<button class="btn btn--primario btn--sm" data-accion="abrir">Abrir</button>' +
@@ -1655,6 +1658,155 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  /* ════════ Datos obligatorios ════════ */
+
+  /*
+   * Para no olvidarse nada importante: sin estos datos no se puede avanzar.
+   * El campo se marca en rojo, dice qué falta y recibe el cursor.
+   *   Paso 1: nombre y teléfono del cliente (sin teléfono no hay WhatsApp).
+   *   Paso 2: al menos una abertura; en cada una, ancho y alto (y el lado bajo
+   *   si es inclinada); en "Otro trabajo", qué es y el precio.
+   */
+  function digitos(t) { return String(t || '').replace(/\D/g, ''); }
+
+  function erroresCliente() {
+    leerFormulario();
+    var c = actual.cliente || {};
+    var e = [];
+    if (!c.nombre) e.push({ campo: 'cli-nombre', mensaje: 'Falta el nombre del cliente.' });
+    if (!c.telefono) e.push({ campo: 'cli-telefono', mensaje: 'Falta el teléfono del cliente.' });
+    else if (digitos(c.telefono).length < 8) e.push({ campo: 'cli-telefono', mensaje: 'El teléfono parece incompleto: tiene que tener al menos 8 números.' });
+    return e;
+  }
+
+  function mostrarErroresCliente(e) {
+    ['cli-nombre', 'cli-telefono'].forEach(function (id) {
+      var err = e.filter(function (x) { return x.campo === id; })[0];
+      $('campo-' + id).classList.toggle('con-error', !!err);
+      $('err-' + id).hidden = !err;
+      $('err-' + id).textContent = err ? err.mensaje : '';
+      $(id).setAttribute('aria-invalid', err ? 'true' : 'false');
+    });
+    if (e.length) { $(e[0].campo).focus(); $(e[0].campo).scrollIntoView({ block: 'center' }); }
+  }
+
+  /** Lo que le falta a una abertura (o null si está completa). */
+  function faltaEnItem(item) {
+    if (item.tipologiaId === 'libre') {
+      if (!String(item.descripcionLibre || '').trim()) return { campo: 'descripcionLibre', mensaje: 'Escribí qué es este trabajo.' };
+      if (!(Number(item.precioLibre) > 0)) return { campo: 'precioLibre', mensaje: 'Falta el precio.' };
+      if (item.modoLibre !== 'm2') return null;
+    }
+    var forma = C.formaDe(item);
+    if (!(Number(item.ancho) >= 100)) return { campo: 'anchoCm', mensaje: forma === 'redonda' ? 'Falta el diámetro (en cm).' : 'Falta el ancho (en cm).' };
+    if (forma !== 'redonda' && !(Number(item.alto) >= 100)) return { campo: 'altoCm', mensaje: 'Falta el alto (en cm).' };
+    if (forma === 'inclinada' && !(Number(item.alto2) >= 100)) return { campo: 'alto2Cm', mensaje: 'Falta el alto del lado bajo (en cm).' };
+    return null;
+  }
+
+  /** Abre la abertura incompleta y marca el campo que falta. */
+  function mostrarFaltaEnItem(item, falta) {
+    if (itemAbierto !== item.id) { itemAbierto = item.id; render(); }
+    var nodo = $('lista-items').querySelector('.item[data-id="' + item.id + '"]');
+    var campo = nodo && nodo.querySelector('[data-campo="' + falta.campo + '"]');
+    if (!campo) return;
+    var envoltura = campo.closest('.campo');
+    envoltura.classList.add('con-error');
+    var msg = envoltura.querySelector('.campo__error');
+    if (!msg) { msg = document.createElement('span'); msg.className = 'campo__error'; envoltura.appendChild(msg); }
+    msg.textContent = falta.mensaje;
+    msg.hidden = false;
+    campo.setAttribute('aria-invalid', 'true');
+    campo.scrollIntoView({ block: 'center' });
+    campo.focus();
+  }
+
+  /** ¿Se puede salir del paso n? Si no, lo muestra y devuelve false. */
+  function pasoCompleto(n) {
+    if (n === 1) {
+      var e = erroresCliente();
+      if (e.length) { if (pasoActual !== 1) irPaso(1); mostrarErroresCliente(e); avisar(e[0].mensaje, 'error'); return false; }
+      return true;
+    }
+    if (n === 2) {
+      if (!actual.items.length) { if (pasoActual !== 2) irPaso(2); avisar('Agregá al menos una abertura para seguir.', 'error'); return false; }
+      for (var i = 0; i < actual.items.length; i++) {
+        var falta = faltaEnItem(actual.items[i]);
+        if (falta) {
+          if (pasoActual !== 2) irPaso(2);
+          mostrarFaltaEnItem(actual.items[i], falta);
+          avisar((codigosActuales[i] || 'Una abertura') + ': ' + falta.mensaje.charAt(0).toLowerCase() + falta.mensaje.slice(1), 'error');
+          return false;
+        }
+      }
+      return true;
+    }
+    return true;
+  }
+
+  /* ════════ Barrita de avance ════════ */
+
+  /** Cuánto falta para terminar el presupuesto y qué es lo siguiente. */
+  function pintarAvance() {
+    if (!actual) return;
+    var c = actual.cliente || {};
+    var hitos = [
+      [!!c.nombre, 'el nombre del cliente'],
+      [digitos(c.telefono).length >= 8, 'el teléfono del cliente'],
+      [actual.items.length > 0, 'agregar las aberturas'],
+      [actual.items.length > 0 && actual.items.every(function (it) { return !faltaEnItem(it); }), 'completar las medidas'],
+      [!!actual.numero, 'guardarlo'],
+      [actual.estado && actual.estado !== 'borrador', 'mandárselo al cliente']
+    ];
+    var hechos = hitos.filter(function (h) { return h[0]; }).length;
+    var pct = Math.round(hechos / hitos.length * 100);
+    var falta = hitos.filter(function (h) { return !h[0]; })[0];
+    $('avance-relleno').style.width = pct + '%';
+    $('avance-pres').setAttribute('aria-valuenow', pct);
+    $('avance-pres').classList.toggle('completo', pct === 100);
+    $('avance-texto').innerHTML = pct === 100
+      ? '<strong>¡Listo! Presupuesto enviado.</strong>'
+      : '<strong>Vas ' + pct + ' %</strong> · Falta: ' + F.escapar(falta[1]);
+  }
+
+  /* ════════ Estados automáticos ════════ */
+
+  /*
+   * Nadie cambia el estado a mano: "Sin enviar" mientras se arma, "Enviado"
+   * al compartirlo, "Venció" cuando pasa la validez sin respuesta. Si lo
+   * aceptaron o no, la app lo pregunta (al reabrirlo y en "Para volver a llamar").
+   */
+  function estadoVisible(p) {
+    var est = p.estado || 'borrador';
+    if (est === 'aceptado') return { clase: 'aceptado', texto: 'Aceptó' };
+    if (est === 'rechazado') return { clase: 'rechazado', texto: 'No aceptó' };
+    if (est === 'enviado') {
+      if (venceEl(p) < F.fechaISO()) return { clase: 'vencido', texto: 'Venció sin respuesta' };
+      var dias = Math.max(0, Math.floor((Date.now() - new Date(p.enviadoEl || p.modificado).getTime()) / 86400000));
+      return { clase: 'enviado', texto: dias === 0 ? 'Enviado hoy' : dias === 1 ? 'Enviado ayer' : 'Enviado hace ' + dias + ' días' };
+    }
+    return { clase: 'borrador', texto: 'Sin enviar' };
+  }
+
+  var preguntaDescartada = {};   // id -> true: "Todavía no sé" en esta visita
+  function pintarPreguntaAcepto() {
+    var mostrar = actual && actual.estado === 'enviado' && !preguntaDescartada[actual.id];
+    $('pregunta-acepto').hidden = !mostrar;
+    if (mostrar) {
+      var nombre = String((actual.cliente && actual.cliente.nombre) || '').trim().split(/\s+/)[0];
+      $('pregunta-acepto-texto').textContent = '¿' + (nombre || 'El cliente') + ' aceptó este presupuesto?';
+    }
+  }
+
+  function responderAcepto(respuesta) {
+    if (respuesta === 'todavia') { preguntaDescartada[actual.id] = true; pintarPreguntaAcepto(); return; }
+    $('pre-estado').value = respuesta;
+    guardar(true);
+    pintarPreguntaAcepto();
+    pintarAvance();
+    avisar(respuesta === 'aceptado' ? '¡Bien! Quedó como aceptado' : 'Quedó como no aceptado');
+  }
+
   /* ════════ Un paso por pantalla ════════ */
 
   /*
@@ -1682,11 +1834,15 @@
   }
 
   function continuar() {
-    if (pasoActual === 1) return irPaso(2);
-    if (pasoActual === 2) {
-      if (!actual.items.length) return avisar('Agregá al menos una abertura para seguir.', 'error');
-      return irPaso(3);
-    }
+    if (pasoActual === 1) { if (pasoCompleto(1)) irPaso(2); return; }
+    if (pasoActual === 2) { if (pasoCompleto(2)) irPaso(3); }
+  }
+
+  /** Volver se puede siempre; para adelantar, los pasos anteriores tienen que estar completos. */
+  function irPasoPedido(n) {
+    for (var k = pasoActual; k < n; k++) { if (!pasoCompleto(k)) return; }
+    if (n > 2 && pasoActual < 2 && !pasoCompleto(2)) return;
+    irPaso(n);
   }
 
   var TITULOS = { presupuesto: 'Presupuesto', historial: 'Guardados', precios: 'Precios' };
@@ -1744,6 +1900,7 @@
       avisar('Agregá al menos una abertura antes de ' + accion + '.', 'error');
       return false;
     }
+    if (!pasoCompleto(1) || !pasoCompleto(2)) return false;   // no se manda nada incompleto
     guardar(true);
     return true;
   }
@@ -2365,6 +2522,8 @@
         return;
       }
       if (boton.dataset.accion === 'listo') {
+        var faltaListo = faltaEnItem(item);
+        if (faltaListo) { mostrarFaltaEnItem(item, faltaListo); avisar(faltaListo.mensaje, 'error'); return; }
         itemAbierto = null;
         render();
         mostrarItem(item.id);
@@ -2524,9 +2683,22 @@
 
     $('pasos').addEventListener('click', function (ev) {
       var b = ev.target.closest('[data-paso]');
-      if (b) irPaso(Number(b.dataset.paso));
+      if (b) irPasoPedido(Number(b.dataset.paso));
     });
     $('btn-continuar').addEventListener('click', continuar);
+    $('pregunta-acepto').addEventListener('click', function (ev) {
+      var b = ev.target.closest('[data-respuesta]');
+      if (b) responderAcepto(b.dataset.respuesta);
+    });
+    // Al escribir en un campo marcado en rojo, se saca la marca.
+    document.addEventListener('input', function (ev) {
+      var envoltura = ev.target.closest && ev.target.closest('.campo.con-error');
+      if (!envoltura) return;
+      envoltura.classList.remove('con-error');
+      var msg = envoltura.querySelector('.campo__error');
+      if (msg) msg.hidden = true;
+      ev.target.removeAttribute('aria-invalid');
+    });
 
     // Con el teclado abierto, las barras de abajo se esconden para dejarle lugar.
     // Se mira el tamaño de la pantalla visible, no el foco: en Android, al
