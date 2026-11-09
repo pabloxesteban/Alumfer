@@ -116,11 +116,13 @@ window.PDF = (function () {
     var items = presupuesto.items || [];
     var I = window.Iconos;
 
-    // Un dibujo por tipología (no por ítem): se repiten mucho.
+    // Un dibujo por tipología y forma (no por ítem): se repiten mucho.
+    // Las formas especiales muestran la forma, que es lo que más la identifica.
     var tipos = {};
     r.lineas.forEach(function (l, i) {
       var it = items[i] || {};
-      if (!(it.tipologiaId in tipos)) tipos[it.tipologiaId] = I.abertura(it.tipologiaId, l.tipologia && l.tipologia.grupo);
+      var k = claveDibujo(it, l);
+      if (!(k in tipos)) tipos[k] = l.forma !== 'rect' ? I.forma(l.forma) : I.abertura(it.tipologiaId, l.tipologia && l.tipologia.grupo);
     });
     var ids = Object.keys(tipos);
 
@@ -130,6 +132,25 @@ window.PDF = (function () {
         ids.forEach(function (id, i) { dibujos[id] = res[i + 1]; });
         return componer(presupuesto, r, precios, res[0], dibujos);
       });
+  }
+
+  function claveDibujo(item, l) { return (item.tipologiaId || '') + '|' + (l.forma || 'rect'); }
+
+  /**
+   * Orden de las filas: si alguna abertura tiene lugar ("Quincho", "Baño"),
+   * se agrupan por lugar en el orden en que aparecen, con su subtotal.
+   */
+  function gruposPorLugar(r) {
+    var hayLugar = r.lineas.some(function (l) { return l.lugar; });
+    if (!hayLugar) return [{ lugar: '', filas: r.lineas.map(function (l, i) { return i; }) }];
+    var grupos = [], porLugar = {};
+    r.lineas.forEach(function (l, i) {
+      var k = l.lugar || '';
+      if (!porLugar[k]) { porLugar[k] = { lugar: k || 'Otras aberturas', filas: [], subtotal: 0 }; grupos.push(porLugar[k]); }
+      porLugar[k].filas.push(i);
+      porLugar[k].subtotal += l.total;
+    });
+    return grupos;
   }
 
   function componer(presupuesto, r, precios, imgLogo, dibujos) {
@@ -254,22 +275,42 @@ window.PDF = (function () {
     encabezadoTabla();
     var anchoDesc = COLS[2][2] - 4;
 
-    r.lineas.forEach(function (l, i) {
+    var numero = 0;
+    var grupos = gruposPorLugar(r);
+
+    function encabezadoGrupo(g) {
+      if (y + 10 + 16 > LIMITE) { nuevaPagina(); encabezadoTabla(); }
+      relleno(FONDO); doc.rect(MARGEN, y, UTIL, 8, 'F');
+      color(AZUL); letra(9, 'bold');
+      texto(g.lugar.toUpperCase(), MARGEN + 2, y + 5.3);
+      color(GRIS); letra(8.5);
+      if (grupos.length > 1) texto('Subtotal ' + F.moneda(g.subtotal), MARGEN + UTIL - 2, y + 5.3, { align: 'right' });
+      y += 8;
+    }
+
+    grupos.forEach(function (g) {
+      if (g.lugar) encabezadoGrupo(g);
+      g.filas.forEach(function (i) { filaItem(r.lineas[i], i); });
+    });
+
+    function filaItem(l, i) {
       var item = items[i] || {};
       var d = l.descripcion;
+      numero++;
       letra(9.5, 'bold'); var tit = partir(d.titulo, anchoDesc);
       letra(8.5);         var det = d.detalle ? partir(d.detalle, anchoDesc) : [];
       letra(8.5, 'italic'); var nota = item.nota ? partir(item.nota, anchoDesc) : [];
+      letra(9);           var med = partir(F.medidasItem(l), COLS[3][2] - 2);
       var altoTexto = tit.length * alturaLinea(9.5) + (det.length + nota.length) * alturaLinea(8.5);
-      var alto = Math.max(16, altoTexto + 6);
+      var alto = Math.max(16, altoTexto + 6, med.length * alturaLinea(9) + 6);
 
       if (y + alto > LIMITE) { nuevaPagina(); encabezadoTabla(); }
 
       var base = y + 5.5;
       color(GRIS); letra(9);
-      texto(String(i + 1), COLS[0].x + COLS[0][2] / 2, base, { align: 'center' });
+      texto(String(numero), COLS[0].x + COLS[0][2] / 2, base, { align: 'center' });
 
-      var png = dibujos[item.tipologiaId];
+      var png = dibujos[claveDibujo(item, l)];
       if (png) doc.addImage(png, 'PNG', COLS[1].x + 1.5, y + 2, 11, 11);
 
       var yy = base;
@@ -281,7 +322,7 @@ window.PDF = (function () {
       nota.forEach(function (t) { texto(t, COLS[2].x + 2, yy); yy += alturaLinea(8.5); });
 
       color(CARBON); letra(9);
-      texto(F.medidasMetros(l.anchoMm, l.altoMm), COLS[3].x + COLS[3][2] / 2, base, { align: 'center' });
+      med.forEach(function (m, j) { texto(m, COLS[3].x + COLS[3][2] / 2, base + j * alturaLinea(9), { align: 'center' }); });
       texto(String(l.cantidad), COLS[4].x + COLS[4][2] / 2, base, { align: 'center' });
       texto(F.moneda(l.unitario), COLS[5].x + COLS[5][2] - 2, base, { align: 'right' });
       letra(9, 'bold');
@@ -289,7 +330,7 @@ window.PDF = (function () {
 
       y += alto;
       trazo(LINEA); doc.setLineWidth(0.3); doc.line(MARGEN, y, MARGEN + UTIL, y);
-    });
+    }
 
     /* ── Totales ── */
     var filas = [['Subtotal', r.subtotal]];

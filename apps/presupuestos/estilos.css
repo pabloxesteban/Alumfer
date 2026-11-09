@@ -194,8 +194,8 @@ textarea { resize: vertical; min-height: 4rem; }
   border: 1.5px solid var(--border-light); border-radius: 20px; padding: var(--space-5);
   background: #fcfcfb; box-shadow: var(--sombra);
   display: flex; flex-direction: column; gap: var(--space-5);
-  animation: aparecer var(--dur-entrance) var(--ease);
 }
+.item--entra { animation: aparecer var(--dur-entrance) var(--ease); }
 
 .item__tipo { display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap; }
 .item__dibujo {
@@ -255,6 +255,35 @@ textarea { resize: vertical; min-height: 4rem; }
 .variante:hover, .variante:focus-visible { border-color: var(--blue-light); outline: none; }
 .variante.is-activa { border-color: var(--blue); background: var(--blue-faint); color: #10508f; }
 .variante.is-activa svg { color: #10508f; }
+
+.variantes--forma .variante { font-size: var(--text-sm); }
+.variantes--forma .variante span { overflow-wrap: anywhere; }
+
+/* Vidrio: tipo con dibujo (2 por fila en el celular) y espesor en botones */
+.variantes--vidrio { grid-template-columns: repeat(auto-fill, minmax(8.6rem, 1fr)); }
+.variante--vidrio { min-height: 6.6rem; text-align: center; line-height: 1.2; }
+.variante small { font-size: .78rem; font-weight: 400; color: var(--text-secondary); }
+.variante.is-activa small { color: #10508f; }
+.espesores { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.espesor, .lugar {
+  appearance: none; cursor: pointer; font: inherit; color: var(--text-primary);
+  min-height: 3.2rem; min-width: 4.4rem; padding: var(--space-2) var(--space-4);
+  background: #fff; border: 2px solid rgba(26,28,30,.14); border-radius: 999px;
+  font-size: var(--text-base); font-weight: 600;
+}
+.espesor.is-activa, .lugar.is-activa { border-color: var(--blue); background: var(--blue); color: #fff; }
+@media (hover: hover) { .espesor:hover, .lugar:hover { border-color: var(--blue-light); } }
+
+/* ¿Dónde va? */
+.lugares { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.lugar { min-width: 0; font-weight: 500; }
+.lugar-otro { margin-top: var(--space-2); }
+.opcional { font-weight: 400; color: var(--text-secondary); }
+
+/* Medidas según la forma */
+.item__medidas--una { grid-template-columns: minmax(0, 14rem); }
+.item__medidas--tres { grid-template-columns: 1fr 1fr; }
+.item__medidas--tres .campo:first-child { grid-column: 1 / -1; max-width: 14rem; }
 
 .campo > span svg { width: 1.15em; height: 1.15em; vertical-align: -.2em; color: var(--blue); }
 .tipo-tile small { font-size: .8rem; color: var(--text-secondary); line-height: 1.2; }

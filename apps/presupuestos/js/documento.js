@@ -11,7 +11,7 @@ window.Documento = (function () {
 
   function lineaDescripcion(l) {
     var d = l.descripcion;
-    var partes = [esc(d.titulo)];
+    var partes = [(l.lugar ? '<span class="hoja-lugar">' + esc(l.lugar) + ':</span> ' : '') + esc(d.titulo)];
     if (d.detalle) partes.push('<span class="hoja-detalle">' + esc(d.detalle) + '</span>');
     return partes.join('<br>');
   }
@@ -55,7 +55,7 @@ window.Documento = (function () {
           '<td>' + lineaDescripcion(l) +
             (item.nota ? '<br><span class="hoja-nota">' + esc(item.nota) + '</span>' : '') +
           '</td>' +
-          '<td class="c">' + esc(F.medidasMetros(l.anchoMm, l.altoMm)) + '</td>' +
+          '<td class="c">' + esc(F.medidasItem(l)) + '</td>' +
           '<td class="c">' + l.cantidad + '</td>' +
           '<td class="d">' + esc(F.moneda(l.unitario)) + '</td>' +
           '<td class="d">' + esc(F.moneda(l.total)) + '</td>' +
@@ -161,7 +161,7 @@ window.Documento = (function () {
 
     r.lineas.forEach(function (l, i) {
       var d = l.descripcion;
-      L.push((i + 1) + '. *' + d.titulo + '* — ' + F.medidasMetros(l.anchoMm, l.altoMm) +
+      L.push((i + 1) + '. *' + (l.lugar ? l.lugar + ': ' : '') + d.titulo + '* — ' + F.medidasItem(l) +
              (l.cantidad > 1 ? ' (x' + l.cantidad + ')' : ''));
       if (d.detalle) L.push('   ' + d.detalle);
       L.push('   ' + F.moneda(l.total));

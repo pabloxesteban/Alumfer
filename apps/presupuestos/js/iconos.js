@@ -62,6 +62,30 @@ window.Iconos = (function () {
     'Complementos': ABERTURAS['mosq-fijo']
   };
 
+  /* Tipos de vidrio: cómo se ve cada uno, de un vistazo */
+  var PANO = '<rect x="9" y="6" width="30" height="36" rx="2"/>';
+  var VIDRIOS = {
+    simple:        PANO + '<path d="M15 20l8-8M15 29l15-15"/>',
+    esmerilado:    PANO + '<g fill="currentColor" stroke="none"><circle cx="15" cy="13" r="1.3"/><circle cx="15" cy="19" r="1.3"/><circle cx="15" cy="25" r="1.3"/><circle cx="15" cy="31" r="1.3"/><circle cx="15" cy="37" r="1.3"/><circle cx="21" cy="13" r="1.3"/><circle cx="21" cy="19" r="1.3"/><circle cx="21" cy="25" r="1.3"/><circle cx="21" cy="31" r="1.3"/><circle cx="21" cy="37" r="1.3"/><circle cx="27" cy="13" r="1.3"/><circle cx="27" cy="19" r="1.3"/><circle cx="27" cy="25" r="1.3"/><circle cx="27" cy="31" r="1.3"/><circle cx="27" cy="37" r="1.3"/><circle cx="33" cy="13" r="1.3"/><circle cx="33" cy="19" r="1.3"/><circle cx="33" cy="25" r="1.3"/><circle cx="33" cy="31" r="1.3"/><circle cx="33" cy="37" r="1.3"/></g>',
+    espejado:      '<rect x="9" y="6" width="30" height="36" rx="2" fill="currentColor" fill-opacity=".22"/><path d="M15 22l9-9M15 31l16-16"/>',
+    seguridad:     PANO + '<path d="M24 14l8 3.2v6.3c0 5.2-3.3 8.6-8 10.5-4.7-1.9-8-5.3-8-10.5v-6.3z"/>',
+    doble:         '<rect x="6" y="9" width="26" height="33" rx="2"/><rect x="16" y="5" width="26" height="33" rx="2"/>',
+    policarbonato: PANO + '<path d="M15 6v36M21 6v36M27 6v36M33 6v36"/>',
+    otro:          PANO
+  };
+
+  /* Formas de abertura */
+  var FORMAS = {
+    rect:      '<rect x="8" y="10" width="32" height="28" rx="1.5"/>',
+    inclinada: '<path d="M8 38V20l32-10v28z"/>',
+    triangulo: '<path d="M6 38 24 10l18 28z"/>',
+    arco:      '<path d="M10 40V24a14 14 0 0 1 28 0v16z"/>',
+    redonda:   '<circle cx="24" cy="24" r="15"/>'
+  };
+
+  function vidrio(clave) { return svg(VIDRIOS[clave] || VIDRIOS.otro); }
+  function forma(id) { return svg(FORMAS[id] || FORMAS.rect); }
+
   function abertura(id, grupo) {
     return svg(ABERTURAS[id] || GRUPOS[grupo] || MARCO_ANCHO);
   }
@@ -92,5 +116,5 @@ window.Iconos = (function () {
 
   function ui(nombre) { return svg(UI[nombre] || '', '24 24'); }
 
-  return { abertura: abertura, ui: ui, ABERTURAS: ABERTURAS };
+  return { abertura: abertura, ui: ui, vidrio: vidrio, forma: forma, ABERTURAS: ABERTURAS };
 })();

@@ -91,6 +91,16 @@ window.PRECIOS_BASE = {
     { id: 'simil-madera', nombre: 'Símil madera',          recargo: 0.38 }
   ],
 
+  /* Formas especiales: se cobra el rectángulo que las contiene más este
+     recargo (tanto por uno) sobre aluminio y vidrio. En 0 hasta que Alumfer
+     defina cómo las cobra. */
+  formas: [
+    { id: 'inclinada', nombre: 'Con un lado inclinado', recargo: 0 },
+    { id: 'triangulo', nombre: 'Triangular',            recargo: 0 },
+    { id: 'arco',      nombre: 'Con arco arriba',       recargo: 0 },
+    { id: 'redonda',   nombre: 'Redonda',               recargo: 0 }
+  ],
+
   /* modo: 'm2' (× m² facturables) | 'ml' (× perímetro) | 'unidad' (× cantidad). */
   adicionales: [
     { id: 'mosquitero',   nombre: 'Mosquitero',                 modo: 'm2',     precio:  95000 },

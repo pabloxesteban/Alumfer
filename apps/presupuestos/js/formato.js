@@ -50,6 +50,18 @@ window.Formato = (function () {
     return numero(anchoMm / 1000, 2) + ' × ' + numero(altoMm / 1000, 2) + ' m';
   }
 
+  /**
+   * Medidas de una línea calculada según su forma:
+   * "1,50 × 1,10 m", inclinada "1,50 × 1,10 / 0,80 m", redonda "Ø 0,80 m".
+   */
+  function medidasItem(l) {
+    if (l.forma === 'redonda') return 'Ø ' + numero(l.anchoMm / 1000, 2) + ' m';
+    if (l.forma === 'inclinada') {
+      return numero(l.anchoMm / 1000, 2) + ' × ' + numero(l.altoMm / 1000, 2) + ' / ' + numero(l.alto2Mm / 1000, 2) + ' m';
+    }
+    return medidasMetros(l.anchoMm, l.altoMm);
+  }
+
   function fechaISO(d) {
     var f = d ? new Date(d) : new Date();
     var mes = String(f.getMonth() + 1).padStart(2, '0');
@@ -111,7 +123,7 @@ window.Formato = (function () {
   }
 
   return {
-    moneda: moneda, numero: numero, aNumero: aNumero, medidas: medidas, medidasMetros: medidasMetros,
+    moneda: moneda, numero: numero, aNumero: aNumero, medidas: medidas, medidasMetros: medidasMetros, medidasItem: medidasItem,
     fechaISO: fechaISO, fechaLarga: fechaLarga, fechaCorta: fechaCorta, fechaHoraRelativa: fechaHoraRelativa,
     sumarDias: sumarDias, telefonoWhatsapp: telefonoWhatsapp, escapar: escapar
   };

@@ -8,6 +8,12 @@
      total ítem = unitario × cantidad − descuento del ítem
 
    m² facturables = máx(ancho × alto, mínimo de la tipología)
+
+   Formas especiales (inclinada, triangular, con arco, redonda): se
+   cobra el rectángulo que las contiene —el vidrio sale de una plancha
+   rectangular— más un recargo configurable por forma (precios.formas)
+   sobre aluminio y vidrio. El recargo arranca en 0: la regla comercial
+   la define Alumfer.
    ============================================================ */
 
 window.Calculo = (function () {
@@ -19,6 +25,13 @@ window.Calculo = (function () {
   }
 
   function num(v) { v = Number(v); return isFinite(v) ? v : 0; }
+
+  var FORMAS = ['rect', 'inclinada', 'triangulo', 'arco', 'redonda'];
+  var NOMBRE_FORMA = {
+    inclinada: 'con un lado inclinado', triangulo: 'triangular',
+    arco: 'con arco arriba', redonda: 'redonda'
+  };
+  function formaDe(item) { return FORMAS.indexOf(item && item.forma) > -1 ? item.forma : 'rect'; }
 
   function redondear(valor, paso) {
     paso = num(paso);
@@ -52,14 +65,20 @@ window.Calculo = (function () {
     var vidrio = buscar(precios.vidrios, item.vidrioId);
     var color  = buscar(precios.colores, item.colorId);
 
+    var forma   = formaDe(item);
     var anchoMm = Math.max(0, num(item.ancho));
-    var altoMm  = Math.max(0, num(item.alto));
+    var altoMm  = forma === 'redonda' ? anchoMm : Math.max(0, num(item.alto));   // redonda: alto = diámetro
+    var alto2Mm = forma === 'inclinada' ? Math.max(0, num(item.alto2)) : 0;      // lado bajo
+    var altoCaja = Math.max(altoMm, alto2Mm);                                     // rectángulo que la contiene
     var cantidad = Math.max(0, Math.round(num(item.cantidad))) || 0;
 
-    var m2Real    = (anchoMm / 1000) * (altoMm / 1000);
+    var m2Real    = (anchoMm / 1000) * (altoCaja / 1000);
     var minM2     = tip && tip.minM2 != null ? num(tip.minM2) : num(g.minM2Global);
     var m2Fact    = Math.max(m2Real, minM2);
-    var perimetro = 2 * (anchoMm + altoMm) / 1000;
+    var perimetro = 2 * (anchoMm + altoCaja) / 1000;
+
+    var datoForma = forma !== 'rect' ? buscar(precios.formas, forma) : null;
+    var recargoForma = datoForma ? num(datoForma.recargo) : 0;
 
     var factorLinea  = linea ? num(linea.factor) : 1;
     var recargoColor = color ? num(color.recargo) : 0;
@@ -68,8 +87,8 @@ window.Calculo = (function () {
     var aluminioM2 = (tip ? num(tip.precioM2) : 0) * factorLinea * (1 + recargoColor);
     var vidrioM2   = sinVidrio ? 0 : (vidrio ? num(vidrio.precioM2) : 0);
 
-    var importeAluminio = aluminioM2 * m2Fact;
-    var importeVidrio   = vidrioM2 * m2Fact;
+    var importeAluminio = aluminioM2 * m2Fact * (1 + recargoForma);
+    var importeVidrio   = vidrioM2 * m2Fact * (1 + recargoForma);
 
     var adicionales = [];
     var importeAdicionales = 0;
@@ -91,7 +110,8 @@ window.Calculo = (function () {
     return {
       tipologia: tip, linea: linea, vidrio: vidrio, color: color,
       sinVidrio: sinVidrio,
-      anchoMm: anchoMm, altoMm: altoMm, cantidad: cantidad,
+      anchoMm: anchoMm, altoMm: altoMm, alto2Mm: alto2Mm, cantidad: cantidad,
+      forma: forma, recargoForma: recargoForma, lugar: String(item.lugar || '').trim(),
       m2Real: m2Real, m2Fact: m2Fact, m2Total: m2Fact * cantidad,
       aplicaMinimo: m2Fact > m2Real + 1e-9,
       perimetro: perimetro,
@@ -114,6 +134,8 @@ window.Calculo = (function () {
     var vidrio = buscar(precios.vidrios, item.vidrioId);
     var color  = buscar(precios.colores, item.colorId);
     var partes = [];
+    var forma = formaDe(item);
+    if (forma !== 'rect') partes.push('forma ' + NOMBRE_FORMA[forma]);
     if (linea) partes.push('Línea ' + linea.nombre);
     if (color) partes.push(color.nombre.toLowerCase());
     if (tip && !tip.sinVidrio && vidrio && vidrio.id !== 'sin') partes.push('vidrio ' + vidrio.nombre);
@@ -207,6 +229,8 @@ window.Calculo = (function () {
     descripcionItem: descripcionItem,
     calcularPresupuesto: calcularPresupuesto,
     ajustarPrecios: ajustarPrecios,
-    redondear: redondear
+    redondear: redondear,
+    formaDe: formaDe,
+    FORMAS: FORMAS
   };
 })();

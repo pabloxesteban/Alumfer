@@ -28,7 +28,7 @@ guarda sus propios datos en `localStorage` — no hay servidor ni sincronizació
 - `main` incluye **todo** lo de presupuestos más trabajo del sitio hecho en otras
   sesiones (PRs #39 a #48).
 - Rama de la última sesión: `claude/intelligent-maxwell-d43hn3`, igual a `main`.
-- Versión publicada: **2026-11-09.3** (.1: PDF real, compartir, clientes, Tu empresa · .2: rediseño suave y palabras claras · .3: hojas como pregunta y una abertura abierta a la vez).
+- Versión publicada: **2026-11-09.3** (.1: PDF real, compartir, clientes, Tu empresa · .2: rediseño suave y palabras claras · .3: hojas como pregunta y una abertura abierta a la vez · .4: vidrio en dos pasos, formas especiales y ¿Dónde va?).
 
 **Flujo de publicación (Pablo lo autorizó explícitamente, no hay que preguntar
 cada vez):** commit en la rama → `git checkout main && git merge --ff-only <rama>`
@@ -156,7 +156,32 @@ Documentación completa en `apps/presupuestos/README.md`.
     con un botón grande "Listo". Al agregar o duplicar, queda abierta la nueva;
     al abrir un presupuesto, todas resumidas. `refrescarCalculos()` saltea las
     resumidas. Ancho y alto llevan flechas ↔ ↕.
-20. Los efectos `:hover` de lo que se toca van dentro de `@media (hover: hover)`:
+20. **Vidrio en dos pasos** (`VIDRIOS_FAMILIAS` en `app.js`): tipo con dibujo
+    (Simple, Esmerilado, Espejado, De seguridad, Doble vidrio, Policarbonato) y,
+    si tiene variantes, "¿Qué espesor?" (3/4/5/6 mm, 3+3/4+4, Común/De
+    seguridad). Al tocar Simple se elige 4 mm. Un vidrio agregado a mano en
+    Precios aparece como un tipo más. Un vidrio de fábrica renombrado sigue
+    dentro de su tipo (el PDF usa su nombre real). Línea y color siguen con la
+    lista de opciones.
+21. **Formas especiales** (`item.forma`: rect, inclinada, triangulo, arco,
+    redonda; `item.alto2` = lado bajo de la inclinada). Solo en
+    `TIPOS_CON_FORMA` (paño fijo, banderola, ventana de abrir 1 hoja,
+    cerramiento, mosquitero fijo, reja). Las medidas que se piden cambian según
+    la forma; redonda = solo diámetro. **Cobro (pendiente de validar con el
+    papá):** el rectángulo que la contiene + `precios.formas[].recargo` sobre
+    aluminio y vidrio, que arranca en 0 % (Precios → Formas especiales). Así no
+    se inventó ninguna regla: con 0 % cuesta lo mismo que hoy. El PDF dibuja la
+    forma y escribe "1,50 × 1,10 / 0,80 m" o "Ø 0,80 m" (`Formato.medidasItem`).
+22. **¿Dónde va?** (`item.lugar`, opcional): botones Cocina, Baño, Dormitorio,
+    Living, Quincho, Frente, más los lugares ya usados y un campo para escribir
+    otro. El PDF agrupa por lugar, en el orden en que aparecen, con título y
+    subtotal; la hoja impresa y el WhatsApp ponen el lugar delante. Así se
+    presupuesta un quincho: cada pieza (corrediza, paño fijo triangular del
+    frontis…) como una abertura marcada "Quincho".
+23. Solo la abertura recién agregada se anima (`itemQueEntra`): si la animación
+    estuviera en `.item`, cada toque (espesor, forma) redibujaría la ficha y
+    parpadearía.
+24. Los efectos `:hover` de lo que se toca van dentro de `@media (hover: hover)`:
     en pantallas táctiles el hover queda pegado después del toque.
 
 ---
@@ -180,6 +205,9 @@ Documentación completa en `apps/presupuestos/README.md`.
    el PDF a WhatsApp y a Gmail, y "Descargar PDF" en iPhone. En la sesión se
    probó en Chromium con `navigator.share` simulado; la lista para compartir de
    verdad no se puede abrir en un navegador de prueba.
+1. **Validar con el papá cómo cobra las formas especiales** (¿rectángulo que
+   la contiene + recargo?, ¿cuánto por arco/curvado?) y cargar los recargos en
+   Precios → Formas especiales.
 1. **Cargar los precios reales.** Es lo único que falta para que la app sirva de
    verdad. Hasta que Pablo entre a Precios y ponga los suyos, los totales no
    significan nada.
@@ -207,7 +235,10 @@ motor = guardado → PDF descargado → compartir por WhatsApp y email (share
 simulado con `addInitScript`) → reintento con `NotAllowedError` → sugerencia de
 cliente en un presupuesto nuevo → presupuesto de 22 aberturas en 3 páginas →
 logo propio → computadora sin share (abre `wa.me` + descarga) → hoja impresa.
-Y después del rediseño (23 chequeos más, incluidas las hojas y el acordeón): renombre de nombres guardados viejos
+Prueba de vidrios, formas y lugares (21 chequeos): tipos y espesores, precio
+que cambia con el espesor, formas con sus medidas, recargo 0 % = rectángulo,
+diámetro, lugares en los renglones, PDF agrupado con subtotales.
+Y después del rediseño (22 chequeos, incluidas las hojas y el acordeón): renombre de nombres guardados viejos
 respetando los puestos a mano, paso 3 vacío, − y +, lista de vidrios sin
 "Float", cambio de vidrio recalcula, muestras de color, agregado tildado,
 mínimo explicado, PDF con "vidrio Simple".

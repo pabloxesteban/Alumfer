@@ -100,6 +100,25 @@ franja amarilla y conviene usar el comando de arriba.
 Abajo de todo queda fija una barra con el total y los dos botones que más se
 usan (WhatsApp y PDF), así no hay que buscarlos.
 
+## Cargar una abertura
+
+1. **Tipo:** se elige por dibujo. Los modelos que vienen en varias hojas
+   (corrediza, de abrir, puerta, puerta balcón) aparecen una vez y en la ficha
+   se pregunta **¿Cuántas hojas?**.
+2. **Forma** (paño fijo, banderola, ventana de abrir de 1 hoja, cerramiento,
+   mosquitero fijo, reja): recta, inclinada, triangular, con arco o redonda.
+   Las medidas que se piden cambian con la forma. Se cobra el rectángulo que
+   la contiene más el recargo de *Precios → Formas especiales* (0 % de entrada).
+3. **Medidas** en centímetros y **cantidad** con − y +.
+4. **Vidrio:** primero el tipo (Simple, Esmerilado, Espejado, De seguridad,
+   Doble vidrio, Policarbonato) y después, si hace falta, el espesor.
+5. **Línea y color**, **¿Dónde va?** (opcional) y agregados.
+6. **Listo:** la abertura queda resumida en un renglón; se toca para cambiarla.
+
+**Un quincho:** cada pieza (corredizas, paños fijos, el triángulo del frontis)
+se carga como una abertura y se marca *¿Dónde va? → Quincho*. En el PDF salen
+juntas bajo el título QUINCHO con su subtotal.
+
 ## Entregar el presupuesto
 
 | Botón | En el celular | En la computadora |

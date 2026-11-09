@@ -25,6 +25,7 @@
   var temporizadorGuardado = null;
   var itemAlQueCambiarTipo = null;   // id del ítem abierto en el selector, o null si es uno nuevo
   var itemAbierto = null;            // la única abertura desplegada; las demás se ven resumidas
+  var itemQueEntra = null;           // solo la recién agregada se anima: si no, cada toque haría parpadear la ficha
 
   /*
    * Tipos que son el mismo modelo con distinta cantidad de hojas (o forma de
@@ -46,6 +47,48 @@
     { nombre: 'Portón', pregunta: '¿Cómo abre?', resumen: 'corredizo o levadizo',
       variantes: [['porton-corr', 'Corredizo'], ['porton-levad', 'Levadizo']] }
   ];
+
+  /*
+   * Vidrios agrupados como las hojas: primero el tipo (con dibujo) y, si tiene
+   * variantes, el espesor. `defecto` es la variante que se elige al tocar el tipo.
+   * Un vidrio agregado a mano en Precios aparece solo, como un tipo más.
+   */
+  var VIDRIOS_FAMILIAS = [
+    { clave: 'simple', nombre: 'Simple', ayuda: 'transparente, el común', pregunta: '¿Qué espesor?', defecto: 'float4',
+      variantes: [['float3', '3 mm'], ['float4', '4 mm'], ['float5', '5 mm'], ['float6', '6 mm']] },
+    { clave: 'esmerilado', nombre: 'Esmerilado', ayuda: 'no se ve a través', variantes: [['esmerilado', '4 mm']] },
+    { clave: 'espejado', nombre: 'Espejado', ayuda: 'da sombra', variantes: [['espejado', '5 mm']] },
+    { clave: 'seguridad', nombre: 'De seguridad', ayuda: 'si se rompe no se cae', pregunta: '¿Qué espesor?',
+      variantes: [['lam33', '3+3'], ['lam44', '4+4']] },
+    { clave: 'doble', nombre: 'Doble vidrio', ayuda: 'aísla frío y ruido', pregunta: '¿De qué tipo?',
+      variantes: [['dvh494', 'Común'], ['dvh-lam', 'De seguridad']] },
+    { clave: 'policarbonato', nombre: 'Policarbonato', ayuda: 'para techos', pregunta: '¿Cuál?',
+      variantes: [['policarb-alv', 'Alveolar'], ['policarb-comp', 'Compacto']] }
+  ];
+
+  /** Tipos de vidrio que existen en la lista del presupuesto, con sus variantes. */
+  function tiposDeVidrio() {
+    var p = preciosDelPresupuesto();
+    var enFamilia = {};
+    var tipos = [];
+    VIDRIOS_FAMILIAS.forEach(function (f) {
+      var vars = f.variantes.filter(function (v) { enFamilia[v[0]] = true; return C.buscar(p.vidrios, v[0]); });
+      if (vars.length) tipos.push(Object.assign({}, f, { variantes: vars }));
+    });
+    p.vidrios.forEach(function (v) {
+      if (v.id === 'sin' || enFamilia[v.id]) return;
+      tipos.push({ clave: 'otro', nombre: v.nombre, ayuda: v.ayuda || '', variantes: [[v.id, '']] });
+    });
+    return tipos;
+  }
+
+  /* Formas que no son rectángulo: solo en las aberturas que pueden tenerlas. */
+  var FORMAS_UI = [['rect', 'Recta'], ['inclinada', 'Inclinada'], ['triangulo', 'Triangular'],
+                   ['arco', 'Con arco'], ['redonda', 'Redonda']];
+  var TIPOS_CON_FORMA = ['pano-fijo', 'banderola', 'vent-abrir-1', 'cerramiento', 'mosq-fijo', 'reja'];
+
+  /* ¿Dónde va? Lugares comunes; se suman los que ya se usaron en el presupuesto. */
+  var LUGARES = ['Cocina', 'Baño', 'Dormitorio', 'Living', 'Quincho', 'Frente'];
 
   function familiaDe(tipoId) {
     for (var i = 0; i < FAMILIAS.length; i++) {
@@ -304,6 +347,7 @@
     var tip = tipologiaParaPresupuesto(tipoId);
     if (!tip) return false;
     item.tipologiaId = tipoId;
+    if (TIPOS_CON_FORMA.indexOf(tipoId) === -1) item.forma = 'rect';   // una corrediza no puede ser redonda
     if (tip.lineas && tip.lineas.indexOf(item.lineaId) === -1) item.lineaId = tip.lineas[0];
     if (tip.sinVidrio) item.vidrioId = 'sin';
     else if (item.vidrioId === 'sin') item.vidrioId = 'float4';
@@ -332,7 +376,7 @@
         if (!tip || !tip.sinVidrio) nuevo.vidrioId = ultimo.vidrioId === 'sin' ? 'float4' : ultimo.vidrioId;
       }
       actual.items.push(nuevo);
-      itemAbierto = nuevo.id;          // la nueva queda abierta; las demás se resumen
+      itemAbierto = itemQueEntra = nuevo.id;   // la nueva queda abierta; las demás se resumen
       cerrarSelectorTipo();
       render();
       mostrarItem(nuevo.id);
@@ -392,6 +436,98 @@
     return p.colores;
   }
 
+  function campoMedida(campo, rotulo, icono, valorMm) {
+    return '<label class="campo"><span>' + (icono ? I.ui(icono) + ' ' : '') + rotulo + '</span>' +
+      '<span class="con-unidad"><input type="number" data-campo="' + campo + '" min="0" step="1" inputmode="numeric" value="' +
+      (valorMm / 10) + '"><span>cm</span></span></label>';
+  }
+
+  /** Las medidas que se piden dependen de la forma. */
+  function bloqueMedidas(item) {
+    var forma = C.formaDe(item);
+    if (forma === 'redonda') {
+      return '<div class="item__medidas item__medidas--una">' + campoMedida('anchoCm', 'Diámetro', 'ancho', item.ancho) + '</div>';
+    }
+    if (forma === 'inclinada') {
+      return '<div class="item__medidas item__medidas--tres">' +
+        campoMedida('anchoCm', 'Ancho', 'ancho', item.ancho) +
+        campoMedida('altoCm', 'Alto del lado alto', 'alto', item.alto) +
+        campoMedida('alto2Cm', 'Alto del lado bajo', 'alto', item.alto2 || 0) +
+      '</div>';
+    }
+    var rotAncho = forma === 'triangulo' ? 'Ancho de abajo' : 'Ancho';
+    var rotAlto = forma === 'triangulo' ? 'Alto en la punta' : forma === 'arco' ? 'Alto total' : 'Alto';
+    return '<div class="item__medidas">' +
+      campoMedida('anchoCm', rotAncho, 'ancho', item.ancho) +
+      '<span class="item__por" aria-hidden="true">×</span>' +
+      campoMedida('altoCm', rotAlto, 'alto', item.alto) +
+    '</div>';
+  }
+
+  function bloqueForma(item) {
+    if (TIPOS_CON_FORMA.indexOf(item.tipologiaId) === -1) return '';
+    var actualForma = C.formaDe(item);
+    return '<div class="campo"><span id="forma-' + item.id + '">¿Qué forma tiene?</span>' +
+      '<div class="variantes variantes--forma" role="radiogroup" aria-labelledby="forma-' + item.id + '">' +
+      FORMAS_UI.map(function (f) {
+        var activa = f[0] === actualForma;
+        return '<button type="button" class="variante' + (activa ? ' is-activa' : '') + '" role="radio" aria-checked="' + activa +
+          '" data-forma="' + f[0] + '">' + I.forma(f[0]) + '<span>' + f[1] + '</span></button>';
+      }).join('') +
+      '</div></div>';
+  }
+
+  /** Vidrio en dos preguntas: el tipo (con dibujo) y, si hace falta, el espesor. */
+  function bloqueVidrio(item) {
+    var tipos = tiposDeVidrio();
+    var elegido = null;
+    tipos.forEach(function (t) {
+      t.variantes.forEach(function (v) { if (v[0] === item.vidrioId) elegido = t; });
+    });
+    var html = '<div class="campo"><span id="vid-' + item.id + '">¿Qué vidrio lleva?</span>' +
+      '<div class="variantes variantes--vidrio" role="radiogroup" aria-labelledby="vid-' + item.id + '">' +
+      tipos.map(function (t) {
+        var activa = t === elegido;
+        var hayDefecto = t.defecto && t.variantes.some(function (v) { return v[0] === t.defecto; });
+        var destino = activa ? item.vidrioId : hayDefecto ? t.defecto : t.variantes[0][0];
+        return '<button type="button" class="variante variante--vidrio' + (activa ? ' is-activa' : '') + '" role="radio" aria-checked="' + activa +
+          '" data-vidrio="' + F.escapar(destino) + '">' + I.vidrio(t.clave) +
+          '<span>' + F.escapar(t.nombre) + '</span>' + (t.ayuda ? '<small>' + F.escapar(t.ayuda) + '</small>' : '') + '</button>';
+      }).join('') +
+      '</div></div>';
+    if (elegido && elegido.variantes.length > 1) {
+      html += '<div class="campo"><span id="esp-' + item.id + '">' + F.escapar(elegido.pregunta || '¿Cuál?') + '</span>' +
+        '<div class="espesores" role="radiogroup" aria-labelledby="esp-' + item.id + '">' +
+        elegido.variantes.map(function (v) {
+          var activa = v[0] === item.vidrioId;
+          return '<button type="button" class="espesor' + (activa ? ' is-activa' : '') + '" role="radio" aria-checked="' + activa +
+            '" data-vidrio="' + F.escapar(v[0]) + '">' + F.escapar(v[1]) + '</button>';
+        }).join('') +
+        '</div></div>';
+    }
+    return html;
+  }
+
+  /** ¿Dónde va? Opcional: sirve para que el cliente reconozca cada abertura y agrupa el PDF. */
+  function bloqueLugar(item) {
+    var lugares = LUGARES.slice();
+    actual.items.forEach(function (it) {
+      var l = String(it.lugar || '').trim();
+      if (l && lugares.indexOf(l) === -1) lugares.push(l);
+    });
+    var propio = item.lugar && lugares.indexOf(item.lugar) === -1 ? item.lugar : '';
+    return '<div class="campo"><span>¿Dónde va? <small class="opcional">(si querés)</small></span>' +
+      '<div class="lugares">' +
+      lugares.map(function (l) {
+        var activa = l === item.lugar;
+        return '<button type="button" class="lugar' + (activa ? ' is-activa' : '') + '" aria-pressed="' + activa +
+          '" data-lugar="' + F.escapar(l) + '">' + F.escapar(l) + '</button>';
+      }).join('') +
+      '</div>' +
+      '<input type="text" class="lugar-otro" data-campo="lugar" value="' + F.escapar(propio) + '" placeholder="Otro lugar: escribilo acá" aria-label="Otro lugar">' +
+    '</div>';
+  }
+
   function nodoItem(item, indice) {
     var p = preciosDelPresupuesto();
     var tip = C.buscar(p.tipologias, item.tipologiaId);
@@ -408,7 +544,7 @@
     var vars = fam ? variantesDe(fam) : [];
 
     var nodo = document.createElement('div');
-    nodo.className = 'item item--abierto';
+    nodo.className = 'item item--abierto' + (item.id === itemQueEntra ? ' item--entra' : '');
     nodo.dataset.id = item.id;
     nodo.innerHTML = '' +
       '<div class="item__tipo">' +
@@ -432,13 +568,8 @@
             '</div></div>'
         : '') +
 
-      '<div class="item__medidas">' +
-        '<label class="campo"><span>' + I.ui('ancho') + ' Ancho</span>' +
-          '<span class="con-unidad"><input type="number" data-campo="anchoCm" min="0" step="1" inputmode="numeric" value="' + (item.ancho / 10) + '"><span>cm</span></span></label>' +
-        '<span class="item__por" aria-hidden="true">×</span>' +
-        '<label class="campo"><span>' + I.ui('alto') + ' Alto</span>' +
-          '<span class="con-unidad"><input type="number" data-campo="altoCm" min="0" step="1" inputmode="numeric" value="' + (item.alto / 10) + '"><span>cm</span></span></label>' +
-      '</div>' +
+      bloqueForma(item) +
+      bloqueMedidas(item) +
       '<p class="item__equivale" data-equivale></p>' +
 
       '<div class="campo"><span id="cant-' + item.id + '">¿Cuántas iguales?</span>' +
@@ -449,11 +580,14 @@
         '</div>' +
       '</div>' +
 
+      (sinVidrio ? '' : bloqueVidrio(item)) +
+
       '<div class="item__opciones">' +
         elegible('lineaId', p.lineas, item) +
-        (sinVidrio ? '' : elegible('vidrioId', p.vidrios, item)) +
         elegible('colorId', p.colores, item) +
       '</div>' +
+
+      bloqueLugar(item) +
 
       '<div>' +
         '<p class="extras__titulo">¿Lleva algo más? Tocá para agregar</p>' +
@@ -500,11 +634,11 @@
     nodo.dataset.id = item.id;
     nodo.innerHTML =
       '<button type="button" class="item__resumen" data-accion="abrir-item">' +
-        '<span class="item__dibujo">' + I.abertura(item.tipologiaId, tip && tip.grupo) + '</span>' +
+        '<span class="item__dibujo">' + (r.forma !== 'rect' ? I.forma(r.forma) : I.abertura(item.tipologiaId, tip && tip.grupo)) + '</span>' +
         '<span class="item__resumen-texto">' +
-          '<span class="item__resumen-n">Abertura ' + (indice + 1) + '</span>' +
+          '<span class="item__resumen-n">Abertura ' + (indice + 1) + (r.lugar ? ' · ' + F.escapar(r.lugar) : '') + '</span>' +
           '<strong>' + F.escapar(tip ? tip.nombre : 'Abertura') + '</strong>' +
-          '<span>' + F.medidasMetros(r.anchoMm, r.altoMm) +
+          '<span>' + F.medidasItem(r) +
             (r.cantidad > 1 ? ' · <b>' + r.cantidad + ' iguales</b>' : '') + '</span>' +
           (r.descripcion.detalle ? '<span class="item__resumen-detalle">' + F.escapar(r.descripcion.detalle) + '</span>' : '') +
           '<span class="item__resumen-precio">' +
@@ -570,8 +704,12 @@
   function pintarPieItem(nodo, item) {
     var r = C.calcularItem(item, preciosDelPresupuesto());
 
+    var caja = F.medidasMetros(r.anchoMm, Math.max(r.altoMm, r.alto2Mm || 0));
     nodo.querySelector('[data-equivale]').innerHTML =
-      'Son ' + F.medidasMetros(r.anchoMm, r.altoMm) + ' (' + F.numero(r.m2Real, 2) + ' m²)' +
+      (r.forma === 'rect'
+        ? 'Son ' + caja + ' (' + F.numero(r.m2Real, 2) + ' m²)'
+        : 'Se cobra como un rectángulo de ' + caja + ' (' + F.numero(r.m2Real, 2) + ' m²)' +
+          (r.recargoForma > 0 ? ', con ' + F.numero(r.recargoForma * 100, 0) + ' % por la forma' : '')) +
       (r.aplicaMinimo ? '<span class="marca-minimo">Es chica: se cobra el mínimo de ' + F.numero(r.m2Fact, 2) + ' m²</span>' : '');
 
     nodo.querySelector('[data-total]').innerHTML =
@@ -589,6 +727,7 @@
     lista.replaceChildren.apply(lista, actual.items.map(function (it, i) {
       return it.id === itemAbierto ? nodoItem(it, i) : nodoResumen(it, i);
     }));
+    itemQueEntra = null;
     var hay = actual.items.length > 0;
     $('items-vacio').hidden = hay;
     $('btn-agregar-item').lastChild.textContent = hay ? 'Agregar otra abertura' : 'Agregar una abertura';
@@ -835,6 +974,12 @@
       { campo: 'nombre', etiqueta: 'Color / terminación', clase: 'col-nombre' },
       { campo: 'recargo', etiqueta: 'Recargo (%)', tipo: 'porcentaje', clase: 'col-min' }
     ], { prefijo: 'cl_', nuevo: { nombre: 'Color nuevo', recargo: 0 } });
+
+    $('tabla-formas').innerHTML = (precios.formas || []).map(function (f, i) {
+      return '<label class="campo"><span>' + I.forma(f.id) + ' ' + F.escapar(f.nombre) + ': recargo (%)</span>' +
+        '<input type="number" min="0" step="1" inputmode="numeric" data-forma-i="' + i + '" value="' +
+        Math.round((Number(f.recargo) || 0) * 100) + '"></label>';
+    }).join('');
 
     tablaEditable('tabla-adicionales', precios.adicionales, [
       { campo: 'nombre', etiqueta: 'Adicional', clase: 'col-nombre' },
@@ -1317,8 +1462,18 @@
         ev.target.closest('.extra').classList.toggle('is-activo', ev.target.checked);
       } else if (campo === 'anchoCm') {
         item.ancho = F.aNumero(ev.target.value) * 10;
+        if (C.formaDe(item) === 'redonda') item.alto = item.ancho;
       } else if (campo === 'altoCm') {
         item.alto = F.aNumero(ev.target.value) * 10;
+      } else if (campo === 'alto2Cm') {
+        item.alto2 = F.aNumero(ev.target.value) * 10;
+      } else if (campo === 'lugar') {
+        item.lugar = ev.target.value.trim();
+        nodo.querySelectorAll('.lugar').forEach(function (b) {
+          var activa = b.dataset.lugar === item.lugar;
+          b.classList.toggle('is-activa', activa);
+          b.setAttribute('aria-pressed', activa);
+        });
       } else if (campo === 'nota') {
         item.nota = ev.target.value;
       } else if (campo) {
@@ -1331,6 +1486,26 @@
     });
 
     lista.addEventListener('click', function (ev) {
+      var tocado = ev.target.closest('[data-forma],[data-vidrio],[data-lugar]');
+      if (tocado) {
+        var itx = itemPorId(tocado.closest('.item').dataset.id);
+        if (!itx) return;
+        if (tocado.dataset.forma) {
+          itx.forma = tocado.dataset.forma;
+          var pp = preciosDelPresupuesto();
+          if (!pp.formas) pp.formas = clonar(precios.formas || []);   // presupuesto anterior a las formas
+          if (itx.forma === 'inclinada' && !itx.alto2) itx.alto2 = Math.round(itx.alto * 0.7 / 10) * 10;
+          if (itx.forma === 'redonda') itx.alto = itx.ancho;
+        } else if (tocado.dataset.vidrio) {
+          itx.vidrioId = tocado.dataset.vidrio;
+        } else {
+          itx.lugar = itx.lugar === tocado.dataset.lugar ? '' : tocado.dataset.lugar;   // tocar de nuevo lo saca
+        }
+        hayCambios = true;
+        render();
+        autoguardar();
+        return;
+      }
       var variante = ev.target.closest('[data-variante]');
       if (variante) {
         var iv = itemPorId(variante.closest('.item').dataset.id);
@@ -1381,7 +1556,7 @@
         var copia = clonar(item);
         copia.id = idUnico('it_');
         actual.items.splice(actual.items.indexOf(item) + 1, 0, copia);
-        itemAbierto = copia.id;        // queda abierta la copia, lista para cambiarle la medida
+        itemAbierto = itemQueEntra = copia.id;   // queda abierta la copia, lista para cambiarle la medida
         render();
         mostrarItem(copia.id);
         avisar('Agregada otra igual: cambiale lo que haga falta');
@@ -1501,6 +1676,13 @@
     });
 
     // Precios
+    $('tabla-formas').addEventListener('input', function (ev) {
+      var i = ev.target.dataset.formaI;
+      if (i == null || !precios.formas[i]) return;
+      precios.formas[i].recargo = F.aNumero(ev.target.value) / 100;
+      guardarPrecios();
+    });
+
     $('btn-aplicar-ajuste').addEventListener('click', function () {
       var pct = F.aNumero($('ajuste-pct').value);
       if (!pct) return avisar('Indicá un porcentaje distinto de cero.', 'error');
