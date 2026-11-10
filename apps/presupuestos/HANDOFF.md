@@ -632,7 +632,9 @@ cd apps/presupuestos && python3 -m http.server 8777
   no aparece "undefined" en la pantalla.
 - GitHub a veces marca como fallidos el chequeo de `VERSION` (con 0 trabajos)
   o el despliegue de Pages sin que haya error en el código: pasó con la .2, y
-  Pages siguió sirviendo la .1. Se resuelve con el push siguiente. Siempre
+  Pages siguió sirviendo la .1. Volvió a pasar con la .14 (10/11). Se resuelve
+  con el push siguiente (desde esta sesión no se puede re-ejecutar: la API
+  devuelve 403); si no hay nada que publicar, un cambio en un `.md` alcanza. Siempre
   verificar con `curl .../sw.js | grep VERSION` que lo publicado es lo nuevo.
 - Con el acordeón, en las pruebas solo la última abertura agregada está
   abierta: tocar `.item__resumen` antes de llenar campos de otra.
