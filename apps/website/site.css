@@ -1051,3 +1051,186 @@ ul, ol { list-style: none; }
 }
 .about__more { display: inline-block; margin-top: 0.5rem; color: var(--blue-light); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 .sec-head .lead a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+
+/* ============================================================
+   Usabilidad en celulares
+   Áreas táctiles de 40 px o más, texto de 12 px como mínimo y
+   nada que se salga de la pantalla en 320 px.
+   ============================================================ */
+html { -webkit-tap-highlight-color: transparent; }
+
+/* Títulos con palabras largas: cortan en vez de empujar el ancho */
+h1, h2, h3, .h2, .display { overflow-wrap: break-word; hyphens: auto; }
+
+/* Cuando las grillas pasan a una columna, la columna no puede crecer
+   más que la pantalla (1fr solo deja que el contenido la ensanche) */
+@media (max-width: 960px) {
+  .hero__side, .hero__grid, .about__grid, .process__grid, .faq__grid, .contact__grid, .textures, .sec-head { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 640px) {
+  /* ── Texto chico: piso de 12 px ── */
+  .topbar .wrap { font-size: 0.75rem; padding-block: 0; }
+  .brand__sub { font-size: 0.7rem; letter-spacing: 0.04em; }
+  .hero__kicker { font-size: 0.75rem; }
+  .stat__l { font-size: 0.7rem; letter-spacing: 0.02em; line-height: 1.25; }
+  .print figcaption, .quote footer, .contact__list .mono, .footer .footer__h, .footer__bottom, .extra__body .mono, .filter sup { font-size: 0.75rem; }
+  .archive__item .figcap { font-size: 0.7rem; }
+  .archive__item .figcap b { font-size: 0.9rem; }
+  .archive__serie { font-size: 0.7rem; }
+  .texture span { font-size: 0.72rem; }
+  .field label { font-size: 0.75rem; }
+  .lightbox__tab { font-size: 0.75rem; }
+
+  /* ── Áreas táctiles ── */
+  .topbar__addr { min-height: 40px; }
+  .footer ul a, .footer details summary { display: inline-flex; align-items: center; min-height: 40px; }
+  .footer li + li { margin-top: 0; }
+  .footer__zones { columns: 2; }
+  .footer .footer__h { margin-bottom: 0.25rem; }
+  .social { gap: 0.6rem; }
+  .social a { width: 44px; height: 44px; }
+  .footer__bottom a { display: inline-flex; align-items: center; min-height: 40px; }
+  .about__more, .reviews__ask a, .sec-head .lead a { display: inline-flex; align-items: center; min-height: 44px; }
+  .contact__list a { display: inline-flex; align-items: center; min-height: 40px; }
+  .contact__list li { padding-block: 0.5rem; }
+}
+
+/* Piso de 12 px también en tablets (el resto de los ajustes de arriba es solo celular) */
+@media (max-width: 960px) {
+  .topbar .wrap { font-size: 0.75rem; }
+  .brand__sub { font-size: 0.7rem; letter-spacing: 0.04em; }
+  .stat__l { font-size: 0.72rem; }
+  .print figcaption, .quote footer, .contact__list .mono, .footer .footer__h, .footer__bottom, .extra__body .mono, .filter sup, .field label, .texture span, .archive__serie, .chat__note, .stage__label, .line-panel__img .mono, .spec dt, .bubble small { font-size: 0.75rem; }
+  .drawer__info { font-size: 0.78rem; }
+}
+
+/* Texturas: los nombres largos cortan línea en vez de ensanchar la grilla */
+@media (max-width: 640px) {
+  .textures__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .texture span { overflow-wrap: anywhere; line-height: 1.25; }
+}
+@media (max-width: 380px) {
+  .brand__sub { letter-spacing: 0; white-space: nowrap; }
+}
+
+/* Dock inferior: en pantallas muy angostas los dos botones entran sin cortarse */
+@media (max-width: 640px) {
+  .mbar { grid-template-columns: auto minmax(0, 1fr); }
+  .mbar .btn { min-width: 0; }
+}
+@media (max-width: 380px) {
+  .mbar { left: 8px; right: 8px; gap: 6px; padding: 6px; }
+  .mbar .btn { font-size: 0.9rem; padding-inline: 0.7rem; gap: 0.45rem; }
+  .mbar .btn--call { padding-inline: 0.8rem; }
+}
+
+/* ============================================================
+   Experiencia al recorrer el sitio
+   ============================================================ */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* Barra de progreso de lectura, en el borde inferior del menú */
+.scroll-prog {
+  position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
+  background: linear-gradient(90deg, var(--blue), var(--blue-light));
+  transform: scaleX(0); transform-origin: left; pointer-events: none;
+}
+
+/* En celulares el menú se corre al bajar y vuelve al subir: más pantalla para las fotos */
+.nav { transition: border-color 200ms var(--ease), transform 300ms var(--ease); }
+.nav.is-oculta { transform: translateY(-100%); }
+
+/* Volver arriba */
+.subir {
+  position: fixed; right: 20px; bottom: 92px; z-index: 39;
+  width: 46px; height: 46px; display: grid; place-items: center; border-radius: 50%;
+  background: rgba(13, 20, 28, 0.88); color: #fff; border: 1px solid rgba(255,255,255,0.16);
+  box-shadow: 0 10px 24px -12px rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  opacity: 0; transform: translateY(12px) scale(0.9); pointer-events: none;
+  transition: opacity 220ms var(--ease), transform 220ms var(--ease), bottom 280ms var(--ease);
+}
+.subir svg { width: 20px; height: 20px; }
+.subir.is-visible { opacity: 1; transform: none; pointer-events: auto; }
+@media (max-width: 640px) {
+  .subir { right: 12px; bottom: calc(84px + env(safe-area-inset-bottom)); }
+  body:has(.mbar.is-hidden) .subir { bottom: calc(16px + env(safe-area-inset-bottom)); }
+}
+body:has(.lightbox:not([hidden])) .subir { display: none; }
+
+/* Puntos de los carruseles */
+.puntos { display: none; }
+@media (max-width: 1100px) {
+  .puntos:not([hidden]) { display: flex; justify-content: center; flex-wrap: wrap; gap: 2px; margin-top: 0.6rem; }
+  .puntos button { width: 22px; height: 22px; display: grid; place-items: center; padding: 0; }
+  .puntos button::before {
+    content: ''; width: 7px; height: 7px; border-radius: 99px; background: currentColor; opacity: 0.28;
+    transition: width 260ms var(--ease), opacity 260ms var(--ease), background-color 260ms;
+  }
+  .puntos button.is-on::before { width: 20px; opacity: 1; background: var(--accent); }
+}
+.reel + .puntos { margin-top: 0.75rem; }
+
+/* Amague: las tarjetas se corren un poco para mostrar que se deslizan */
+.is-amague > * { animation: amague 1.2s var(--ease); }
+@keyframes amague { 0%, 100% { transform: none; } 35% { transform: translateX(-34px); } 60% { transform: translateX(-34px); } }
+
+/* Fotos: aparecen suave al cargar, con un brillo de espera en su lugar */
+.img-carga { opacity: 0; transition: opacity 600ms var(--ease); }
+.img-carga.img-lista { opacity: 1; }
+:is(.archive__frame, .extra__img, .obras-strip__item, .print, .product-row__media):has(> .img-carga:not(.img-lista)) {
+  background-image: linear-gradient(100deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%);
+  background-size: 250% 100%; animation: brillo 1.4s linear infinite;
+}
+@keyframes brillo { from { background-position: 120% 0; } to { background-position: -120% 0; } }
+
+/* Grillas: entran escalonadas */
+.aparece { opacity: 0; transform: translateY(22px) scale(0.97); transition: opacity 650ms var(--ease), transform 750ms var(--ease); }
+.aparece.is-in { opacity: 1; transform: none; }
+
+/* Respuesta al tocar: las tarjetas se hunden un poco, como en una app */
+@media (hover: none) {
+  :is(.svc, .feature > a, .archive__item, .extra, .print, .ampliable, .zonas a, .nearby-link, .filter, .stat, .quote, .review-card, .toc a):active {
+    transform: scale(0.975); transition: transform 120ms var(--ease);
+  }
+  .btn:active { transform: scale(0.97); }
+}
+
+/* Fotos que se pueden ampliar */
+.ampliable { cursor: zoom-in; position: relative; }
+.ampliable::after {
+  content: ''; position: absolute; right: 14px; top: 14px; width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(255,255,255,0.92) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2315171A' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center / 15px no-repeat;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25); pointer-events: none;
+}
+.obras-strip__item.ampliable::after { right: 14px; top: 14px; }
+@media (max-width: 640px) { .ampliable::after { width: 30px; height: 30px; right: 10px; top: 10px; background-size: 13px; } }
+
+/* Visor: el fondo se aclara al deslizar hacia abajo para cerrar */
+.lightbox { background: rgba(12, 14, 17, var(--lb-fondo, 0.94)); }
+.lightbox__stage { overflow: hidden; touch-action: none; }
+.lightbox__img { will-change: transform; user-select: none; -webkit-user-drag: none; }
+.lightbox.is-zoom .lightbox__img { cursor: zoom-out; }
+.lightbox.is-zoom .lightbox__bar, .lightbox.is-zoom .lightbox__btn, .lightbox.is-zoom .lightbox__tabs { opacity: 0; pointer-events: none; }
+.lightbox__bar, .lightbox__btn, .lightbox__tabs { transition: opacity 200ms var(--ease); }
+.lightbox__label:empty, .lightbox__count:empty { display: none; }
+
+/* Preguntas frecuentes: se abren con una animación suave */
+@supports (interpolate-size: allow-keywords) {
+  :root { interpolate-size: allow-keywords; }
+  details.qa::details-content, details.faq-item::details-content {
+    block-size: 0; overflow: hidden;
+    transition: block-size 320ms var(--ease), content-visibility 320ms allow-discrete;
+  }
+  details.qa[open]::details-content, details.faq-item[open]::details-content { block-size: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aparece { opacity: 1; transform: none; }
+  .img-carga { opacity: 1; }
+  .nav.is-oculta { transform: none; }
+  .is-amague > * { animation: none; }
+}

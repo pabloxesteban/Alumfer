@@ -381,3 +381,28 @@ a.nearby-link:hover { background: var(--blue); color: #fff; border-color: var(--
 .section-intro + .zonas { margin-top: 1.5rem; }
 .section .zonas a { color: var(--ink) !important; text-decoration: none !important; }
 .section .zonas a:hover, .section .zonas a:focus-visible { color: var(--accent) !important; }
+
+/* ============================================================
+   Usabilidad en celulares (páginas internas)
+   ============================================================ */
+@media (max-width: 960px) {
+  .phero__grid, .contact-grid, .thanks__grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 960px) {
+  /* Texto chico: piso de 12 px */
+  .form-label { font-size: 0.75rem; }
+  .review-card__location { font-size: 0.75rem; }
+  .review-card__avatar { font-size: 0.75rem; }
+  .obras-strip__item figcaption { font-size: 0.72rem; }
+  .thanks__steps .mono { font-size: 0.75rem; }
+}
+@media (max-width: 640px) {
+
+  /* Áreas táctiles */
+  .crumbs { row-gap: 0; }
+  .crumbs a { display: inline-flex; align-items: center; min-height: 40px; }
+  .crumbs > span { display: inline-flex; align-items: center; min-height: 40px; }
+  .phero__local a { display: inline-flex; align-items: center; min-height: 40px; }
+  .google-badge { min-height: 44px; }
+  .nearby-link { display: inline-flex; align-items: center; min-height: 40px; }
+}
