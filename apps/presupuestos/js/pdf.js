@@ -25,19 +25,18 @@ window.PDF = (function () {
   var PIE = ALTO - 12;            // línea del pie de página
   var LIMITE = PIE - 8;           // de acá para abajo no se escribe contenido
 
-  /* Colores de la marca (tokens.css) */
-  var AZUL = [27, 108, 200], CARBON = [26, 28, 30], GRIS = [90, 90, 85],
-      LINEA = [232, 228, 220], FONDO = [245, 244, 241], BLANCO = [255, 255, 255];
+  /* Los mismos colores de la app (estilos.css): tinta, gris y un solo acento, el azul del logo. */
+  var AZUL = [23, 74, 140], CARBON = [27, 29, 31], GRIS = [83, 87, 92], LINEA = [213, 210, 203];
 
   /* Columnas de la tabla: [clave, título, ancho, alineación] */
   var COLS = [
-    ['n', 'Ítem', 11, 'center'],
+    ['n', 'Ítem', 11, 'left'],
     ['dibujo', '', 14, 'center'],
     ['desc', 'Descripción', 0, 'left'],     // 0 = lo que sobra
-    ['medidas', 'Medidas', 24, 'center'],
-    ['cant', 'Cant.', 12, 'center'],
-    ['unit', 'Unitario', 24, 'right'],
-    ['importe', 'Importe', 26, 'right']
+    ['medidas', 'Medidas', 27, 'left'],
+    ['cant', 'Cant.', 11, 'right'],
+    ['unit', 'Unitario', 25, 'right'],
+    ['importe', 'Importe', 27, 'right']
   ];
   (function () {
     var fijo = 0;
@@ -198,25 +197,45 @@ window.PDF = (function () {
     function relleno(rgb) { doc.setFillColor(rgb[0], rgb[1], rgb[2]); }
     function trazo(rgb) { doc.setDrawColor(rgb[0], rgb[1], rgb[2]); }
     function letra(tam, estilo) { doc.setFont('helvetica', estilo || 'normal'); doc.setFontSize(tam); }
-    function texto(t, x, yy, opts) { doc.text(limpiar(t), x, yy, opts || {}); }
+    function texto(t, x, yy, opts) {
+      var limpio = Array.isArray(t) ? t.map(limpiar) : limpiar(t);
+      // jsPDF mide mal el espacio duro de "$ 1.000" y lo alineado a la derecha quedaba corrido:
+      // ahí va un espacio común (es una sola línea, no se puede partir).
+      if (opts && opts.align === 'right' && typeof limpio === 'string') limpio = limpio.replace(/\u00a0/g, ' ');
+      doc.text(limpio, x, yy, opts || {});
+    }
     function partir(t, ancho) { return doc.splitTextToSize(limpiar(t), ancho); }
     var MM_POR_PT = 0.3528;
     function alturaLinea(tam) { return tam * MM_POR_PT * 1.3; }
 
-    /* ── Membrete ── */
+    /** Rótulo chico en mayúsculas espaciadas: nombra un dato sin competir con él. */
+    function rotulo(t, x, yy, alineado, rgb) {
+      color(rgb || GRIS); letra(6.8, 'bold');
+      if (!alineado && doc.setCharSpace) doc.setCharSpace(0.25);
+      texto(String(t).toUpperCase(), x, yy, alineado ? { align: alineado } : {});
+      if (doc.setCharSpace) doc.setCharSpace(0);
+    }
+    function raya(yy, rgb, grosor, x1, x2) {
+      trazo(rgb || LINEA); doc.setLineWidth(grosor || 0.2);
+      doc.line(x1 == null ? MARGEN : x1, yy, x2 == null ? MARGEN + UTIL : x2, yy);
+    }
+    /** x del texto de una columna según su alineación (los números, a la derecha). */
+    function xCol(c) { return c[3] === 'right' ? c.x + c[2] : c[3] === 'center' ? c.x + c[2] / 2 : c.x; }
+
+    /* ── Membrete: quién lo manda ── */
     var xTexto = MARGEN;
     if (imgLogo) {
-      var lado = 22;
+      var lado = 18;
       var prop = imgLogo.ancho / imgLogo.alto;
       var lw = prop >= 1 ? lado : lado * prop, lh = prop >= 1 ? lado / prop : lado;
       doc.addImage(imgLogo.datos, 'JPEG', MARGEN, y, lw, lh);
       xTexto = MARGEN + lw + 5;
     }
-    color(CARBON); letra(14, 'bold');
-    var nombreLineas = partir(e.nombre || '', 78);
-    texto(nombreLineas, xTexto, y + 6);
-    var yMarca = y + 6 + alturaLinea(14) * nombreLineas.length;
-    if (e.slogan) { color(GRIS); letra(8.5); texto(partir(e.slogan, 78), xTexto, yMarca); }
+    color(CARBON); letra(13, 'bold');
+    var nombreLineas = partir(e.nombre || '', 82);
+    texto(nombreLineas, xTexto, y + 7);
+    var yMarca = y + 7 + alturaLinea(13) * nombreLineas.length;
+    if (e.slogan) { color(GRIS); letra(8.5); texto(partir(e.slogan, 82), xTexto, yMarca - 0.5); }
 
     var contacto = [
       e.direccion,
@@ -224,68 +243,54 @@ window.PDF = (function () {
       e.email, e.web
     ].filter(Boolean);
     color(GRIS); letra(8.5);
-    var yc = y + 3;
+    var yc = y + 3.5;
     contacto.forEach(function (c) {
       partir(c, 72).forEach(function (l) { texto(l, ANCHO - MARGEN, yc, { align: 'right' }); yc += alturaLinea(8.5); });
     });
+    y = Math.max(y + 20, yMarca + 4, yc + 1) + 9;
 
-    y = Math.max(y + 24, yMarca + 6, yc + 1);
-    relleno(AZUL); doc.rect(MARGEN, y, UTIL, 0.9, 'F');
-    y += 9;
-
-    /* ── Título ── */
-    color(AZUL); letra(9, 'bold');
-    texto('PRESUPUESTO', MARGEN, y);
-    color(CARBON); letra(18, 'bold');
-    texto('N.º ' + (presupuesto.numero || 'sin número'), MARGEN, y + 8);
-
-    letra(9); color(GRIS);
-    texto('Fecha', ANCHO - MARGEN - 46, y, { align: 'right' });
-    texto('Válido hasta', ANCHO - MARGEN, y, { align: 'right' });
+    /* ── Título: qué es, qué número y hasta cuándo vale ── */
+    rotulo('Presupuesto', MARGEN, y);
+    color(CARBON); letra(22, 'bold');
+    texto('N.º ' + (presupuesto.numero || 'sin número'), MARGEN, y + 9.5);
+    rotulo('Fecha', ANCHO - MARGEN - 40, y + 2.5, 'right');
+    rotulo('Válido hasta', ANCHO - MARGEN, y + 2.5, 'right');
     color(CARBON); letra(10.5, 'bold');
-    texto(F.fechaCorta(presupuesto.fecha), ANCHO - MARGEN - 46, y + 6, { align: 'right' });
-    texto(F.fechaCorta(vence), ANCHO - MARGEN, y + 6, { align: 'right' });
-    y += 15;
+    texto(F.fechaCorta(presupuesto.fecha), ANCHO - MARGEN - 40, y + 8.5, { align: 'right' });
+    texto(F.fechaCorta(vence), ANCHO - MARGEN, y + 8.5, { align: 'right' });
+    y += 13.5;
+    relleno(AZUL); doc.rect(MARGEN, y, UTIL, 0.9, 'F');     // la raya azul: la firma de Alumfer
+    y += 8.5;
 
-    /* ── Cliente ── */
+    /* ── Cliente: solo los datos que existen, sin guiones de relleno ── */
     var obra = [cli.direccion, cli.localidad].filter(Boolean).join(', ');
-    var datos = [
-      ['Cliente', cli.nombre || '-'],
-      ['Teléfono', cli.telefono || '-'],
-      ['Obra', obra || '-'],
-      ['Email', cli.email || '-']
-    ];
-    var colAncho = (UTIL - 12) / 2;
-    letra(10, 'bold');
-    var filasCli = [
-      Math.max(partir(datos[0][1], colAncho).length, partir(datos[1][1], colAncho).length),
-      Math.max(partir(datos[2][1], colAncho).length, partir(datos[3][1], colAncho).length)
-    ];
-    var altoCli = 8 + filasCli.reduce(function (s, n) { return s + 5 + n * alturaLinea(10) + 2; }, 0);
-    relleno(FONDO); doc.roundedRect(MARGEN, y, UTIL, altoCli, 2, 2, 'F');
-    var ycli = y + 6;
-    [[0, 1], [2, 3]].forEach(function (par, fila) {
-      par.forEach(function (k, col) {
-        var x = MARGEN + 6 + col * (colAncho + 0);
-        color(GRIS); letra(7.5, 'bold');
-        texto(datos[k][0].toUpperCase(), x, ycli);
-        color(CARBON); letra(10, 'bold');
-        texto(partir(datos[k][1], colAncho - 4), x, ycli + 4.6);
-      });
-      ycli += 5 + filasCli[fila] * alturaLinea(10) + 2;
-    });
-    y += altoCli + 7;
+    var datos = [['Para', cli.nombre], ['Teléfono', cli.telefono], ['Obra', obra], ['Email', cli.email]]
+      .filter(function (d) { return d[1]; });
+    if (datos.length) {
+      var porFila = datos.length === 4 ? 2 : Math.min(3, datos.length);
+      var colAncho = UTIL / porFila;
+      for (var fi = 0; fi < datos.length; fi += porFila) {
+        var fila = datos.slice(fi, fi + porFila);
+        letra(10.5, 'bold');
+        var renglones = fila.map(function (d) { return partir(d[1], colAncho - 6); });
+        fila.forEach(function (d, k) {
+          var x = MARGEN + k * colAncho;
+          rotulo(d[0], x, y);
+          color(CARBON); letra(10.5, 'bold');
+          texto(renglones[k], x, y + 5);
+        });
+        y += 5 + Math.max.apply(null, renglones.map(function (r0) { return r0.length; })) * alturaLinea(10.5) + 3;
+      }
+      y += 4;
+    }
 
-    /* ── Tabla ── */
+    /* ── Tabla: títulos chicos, renglones separados por una raya fina ── */
     function encabezadoTabla() {
-      relleno(CARBON); doc.rect(MARGEN, y, UTIL, 8, 'F');
-      color(BLANCO); letra(8.5, 'bold');
       COLS.forEach(function (c) {
-        if (!c[1]) return;
-        var x = c[3] === 'right' ? c.x + c[2] - 2 : c[3] === 'center' ? c.x + c[2] / 2 : c.x + 2;
-        texto(c[1], x, y + 5.3, { align: c[3] });
+        if (c[1]) rotulo(c[1], xCol(c), y + 3.4, c[3] === 'left' ? null : c[3]);
       });
-      y += 8;
+      y += 5.6;
+      raya(y, CARBON, 0.35);
     }
 
     function nuevaPagina() {
@@ -293,7 +298,7 @@ window.PDF = (function () {
       y = MARGEN;
       color(GRIS); letra(8.5);
       texto('Presupuesto N.º ' + (presupuesto.numero || '') + (cli.nombre ? ' · ' + cli.nombre : '') + ' (continuación)', MARGEN, y + 2);
-      y += 7;
+      y += 8;
     }
 
     encabezadoTabla();
@@ -304,12 +309,14 @@ window.PDF = (function () {
 
     function encabezadoGrupo(g) {
       if (y + 10 + 16 > LIMITE) { nuevaPagina(); encabezadoTabla(); }
-      relleno(FONDO); doc.rect(MARGEN, y, UTIL, 8, 'F');
-      color(AZUL); letra(9, 'bold');
-      texto(g.lugar.toUpperCase(), MARGEN + 2, y + 5.3);
-      color(GRIS); letra(8.5);
-      if (grupos.length > 1) texto('Subtotal ' + F.moneda(g.subtotal), MARGEN + UTIL - 2, y + 5.3, { align: 'right' });
-      y += 8;
+      y += 3;
+      rotulo(g.lugar, MARGEN, y + 4.2, null, AZUL);
+      if (grupos.length > 1) {
+        color(GRIS); letra(8.5);
+        texto('Subtotal ' + F.moneda(g.subtotal), MARGEN + UTIL, y + 4.2, { align: 'right' });
+      }
+      y += 6.4;
+      raya(y);
     }
 
     grupos.forEach(function (g) {
@@ -326,37 +333,37 @@ window.PDF = (function () {
       letra(8.5, 'italic'); var nota = item.nota ? partir(item.nota, anchoDesc) : [];
       letra(9);           var med = partir(F.medidasItem(l), COLS[3][2] - 2);
       var altoTexto = tit.length * alturaLinea(9.5) + (det.length + nota.length) * alturaLinea(8.5);
-      var alto = Math.max(16, altoTexto + 6, med.length * alturaLinea(9) + 6);
+      var alto = Math.max(16, altoTexto + 7, med.length * alturaLinea(9) + 7);
 
       if (y + alto > LIMITE) { nuevaPagina(); encabezadoTabla(); }
 
-      var base = y + 5.5;
-      color(CARBON); letra(9, 'bold');
-      texto((r.codigos && r.codigos[i]) || String(numero), COLS[0].x + COLS[0][2] / 2, base, { align: 'center' });
+      var base = y + 6;
+      color(AZUL); letra(9, 'bold');
+      texto((r.codigos && r.codigos[i]) || String(numero), xCol(COLS[0]), base);
 
       var png = dibujos[claveDibujo(item, l)];
-      if (png) doc.addImage(png, 'PNG', COLS[1].x + 1.5, y + 2, 11, 11);
+      if (png) doc.addImage(png, 'PNG', COLS[1].x + 0.5, y + 2.5, 11, 11);
 
       var yy = base;
       color(CARBON); letra(9.5, 'bold');
-      tit.forEach(function (t) { texto(t, COLS[2].x + 2, yy); yy += alturaLinea(9.5); });
+      tit.forEach(function (t) { texto(t, COLS[2].x, yy); yy += alturaLinea(9.5); });
       color(GRIS); letra(8.5);
-      det.forEach(function (t) { texto(t, COLS[2].x + 2, yy); yy += alturaLinea(8.5); });
+      det.forEach(function (t) { texto(t, COLS[2].x, yy); yy += alturaLinea(8.5); });
       letra(8.5, 'italic');
-      nota.forEach(function (t) { texto(t, COLS[2].x + 2, yy); yy += alturaLinea(8.5); });
+      nota.forEach(function (t) { texto(t, COLS[2].x, yy); yy += alturaLinea(8.5); });
 
       color(CARBON); letra(9);
-      med.forEach(function (m, j) { texto(m, COLS[3].x + COLS[3][2] / 2, base + j * alturaLinea(9), { align: 'center' }); });
-      texto(String(l.cantidad), COLS[4].x + COLS[4][2] / 2, base, { align: 'center' });
-      texto(F.moneda(l.unitario), COLS[5].x + COLS[5][2] - 2, base, { align: 'right' });
-      letra(9, 'bold');
-      texto(F.moneda(l.total), COLS[6].x + COLS[6][2] - 2, base, { align: 'right' });
+      med.forEach(function (m, j) { texto(m, xCol(COLS[3]), base + j * alturaLinea(9)); });
+      texto(String(l.cantidad), xCol(COLS[4]), base, { align: 'right' });
+      texto(F.moneda(l.unitario), xCol(COLS[5]), base, { align: 'right' });
+      letra(9.5, 'bold');
+      texto(F.moneda(l.total), xCol(COLS[6]), base, { align: 'right' });
 
       y += alto;
-      trazo(LINEA); doc.setLineWidth(0.3); doc.line(MARGEN, y, MARGEN + UTIL, y);
+      raya(y);
     }
 
-    /* ── Totales ── */
+    /* ── Totales: a la derecha, el total es la cifra más grande de la hoja ── */
     var filas = [['Subtotal', r.subtotal]];
     if (r.descuento > 0) filas.push(['Descuento ' + F.numero(r.descuentoPct, 0) + ' %', -r.descuento]);
     if (r.colocacion > 0) filas.push(['Colocación', r.colocacion]);
@@ -365,52 +372,55 @@ window.PDF = (function () {
       filas.push(['Neto gravado', r.subtotal - r.descuento + r.colocacion + r.flete]);
       filas.push(['IVA ' + F.numero(r.ivaPct, 0) + ' %', r.iva]);
     }
-    var altoTotales = filas.length * 6.5 + 14 + (r.anticipoPct > 0 ? 12 : 0);
-    y += 6;
+    var altoTotales = filas.length * 6.2 + 16 + (r.anticipoPct > 0 ? 12 : 0);
+    y += 7;
     if (y + altoTotales > LIMITE) nuevaPagina();
 
-    var xT = ANCHO - MARGEN - 84;
+    var xT = ANCHO - MARGEN - 86, xD = ANCHO - MARGEN;
     filas.forEach(function (f) {
       color(GRIS); letra(9.5);
-      texto(f[0], xT + 3, y + 4);
+      texto(f[0], xT, y + 4);
       color(CARBON);
-      texto((f[1] < 0 ? '- ' : '') + F.moneda(Math.abs(f[1])), ANCHO - MARGEN - 3, y + 4, { align: 'right' });
-      y += 6.5;
+      texto((f[1] < 0 ? '- ' : '') + F.moneda(Math.abs(f[1])), xD, y + 4, { align: 'right' });
+      y += 6.2;
     });
-    y += 1;
-    relleno(AZUL); doc.roundedRect(xT, y, 84, 11, 1.5, 1.5, 'F');
-    color(BLANCO); letra(10, 'bold');
-    texto('TOTAL', xT + 4, y + 7.2);
-    letra(13, 'bold');
-    texto(F.moneda(r.total), ANCHO - MARGEN - 4, y + 7.6, { align: 'right' });
-    y += 11;
+    y += 1.5;
+    raya(y, CARBON, 0.35, xT, xD);
+    y += 9;
+    color(CARBON); letra(11, 'bold');
+    texto('TOTAL', xT, y);
+    letra(18, 'bold');
+    texto(F.moneda(r.total), xD, y + 0.4, { align: 'right' });
+    y += 2;
     if (r.anticipoPct > 0) {
       color(GRIS); letra(8.5);
-      y += 5;
-      texto('Anticipo ' + F.numero(r.anticipoPct, 0) + ' %: ' + F.moneda(r.anticipo), ANCHO - MARGEN - 3, y, { align: 'right' });
-      y += alturaLinea(8.5);
-      texto('Saldo contra entrega: ' + F.moneda(r.saldo), ANCHO - MARGEN - 3, y, { align: 'right' });
+      y += 5.5;
+      texto('Anticipo ' + F.numero(r.anticipoPct, 0) + ' %', xT, y);
+      texto(F.moneda(r.anticipo), xD, y, { align: 'right' });
+      y += alturaLinea(8.5) + 0.6;
+      texto('Saldo contra entrega', xT, y);
+      texto(F.moneda(r.saldo), xD, y, { align: 'right' });
     }
-    y += 10;
+    y += 12;
 
     /* ── Condiciones y observaciones ── */
     function seccion(titulo, renglones, vinieta) {
       if (!renglones.length) return;
-      if (y + 14 > LIMITE) nuevaPagina();
-      color(AZUL); letra(9, 'bold');
-      texto(titulo.toUpperCase(), MARGEN, y);
-      y += 5.5;
+      if (y + 16 > LIMITE) nuevaPagina();
+      raya(y - 4);
+      rotulo(titulo, MARGEN, y + 1, null, AZUL);
+      y += 6.5;
       color(CARBON); letra(9);
       renglones.forEach(function (r0) {
         partir(r0, UTIL - 6).forEach(function (l, j) {
           if (y > LIMITE) { nuevaPagina(); color(CARBON); letra(9); }
-          if (vinieta && j === 0) texto('•', MARGEN + 1, y);
-          texto(l, MARGEN + (vinieta ? 5 : 0), y);
+          if (vinieta && j === 0) { color(GRIS); texto('•', MARGEN + 0.5, y); color(CARBON); }
+          texto(l, MARGEN + (vinieta ? 4.5 : 0), y);
           y += alturaLinea(9);
         });
-        y += 0.8;
+        y += 1;
       });
-      y += 5;
+      y += 8;
     }
 
     seccion('Condiciones', window.Documento.condiciones(presupuesto, r, precios), true);
@@ -421,7 +431,7 @@ window.PDF = (function () {
     var pie = [e.nombre, e.telefono, e.web].filter(Boolean).join('  ·  ');
     for (var p = 1; p <= total; p++) {
       doc.setPage(p);
-      trazo(LINEA); doc.setLineWidth(0.3); doc.line(MARGEN, PIE - 4, ANCHO - MARGEN, PIE - 4);
+      trazo(LINEA); doc.setLineWidth(0.2); doc.line(MARGEN, PIE - 4, ANCHO - MARGEN, PIE - 4);
       color(GRIS); letra(7.5);
       texto(pie, MARGEN, PIE);
       texto('Página ' + p + ' de ' + total, ANCHO - MARGEN, PIE, { align: 'right' });

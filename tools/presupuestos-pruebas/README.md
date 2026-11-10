@@ -23,7 +23,7 @@ El dólar se simula (`ctx.route(/dolarapi|bluelytics/, …)`), nada sale a inter
 | `prueba7.mjs` | Guardar, Guardados, seguimiento "Para volver a llamar", copia de seguridad, resumen del mes, ganancia. |
 | `prueba8.mjs` | "Otro trabajo" con precio a mano y precio a mano por abertura, también en el PDF. |
 | `prueba9.mjs` | Campos obligatorios, barra de avance, estados automáticos, "¿aceptó?", 360 px. |
-| `prueba10.mjs` | Rediseño .18: letra propia sin pedir nada afuera, abertura a pantalla completa, hoja del vidrio, «Deshacer» al quitar, «Guardado» fijo, un aviso por vez, total de la franja = resumen = motor, contrastes, ninguna pantalla se sale de 360 px, compu con pestañas al costado. |
+| `prueba10.mjs` | Rediseño .18: letra propia sin pedir nada afuera, abertura a pantalla completa, hoja del vidrio, «Deshacer» al quitar, «Guardado» fijo, un aviso por vez, total de la franja = resumen = motor, contrastes, ninguna pantalla se sale de 360 px, compu con pestañas al costado, y el PDF nuevo (.19). |
 | `angosto360.mjs` | Tilde del paso 3 al mandar, botones de Guardados en 360 px, sin scroll horizontal. |
 | `precios-menu.mjs` | Precios como menú: abrir pantallas, editar en el renglón, detalle, atrás del celular, ‹. |
 | `actualiza.mjs` | Actualización: primera instalación sin recarga, versión nueva aplicada sola al abrir, franja si llega en uso. **Cambia `VERSION` de `sw.js` en disco y la restaura al terminar.** |

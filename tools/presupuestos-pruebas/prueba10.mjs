@@ -1,11 +1,12 @@
 // .18 "Hormigón guiado": letra propia, abertura a pantalla completa, hoja del vidrio,
 // "Deshacer" al quitar, "Guardado" fijo, un aviso por vez, contrastes, 360 px y compu.
 import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+import { execSync } from 'node:child_process';
 const OUT = process.argv[2];
 const ok = (c, m) => { console.log((c ? 'OK   ' : 'FALLA') + ' ' + m); if (!c) process.exitCode = 1; };
 const b = await chromium.launch();
 const nuevo = async (w, h, movil) => {
-  const ctx = await b.newContext({ viewport: { width: w, height: h }, deviceScaleFactor: 1, serviceWorkers: 'block', hasTouch: !!movil, isMobile: !!movil });
+  const ctx = await b.newContext({ viewport: { width: w, height: h }, deviceScaleFactor: 1, serviceWorkers: 'block', hasTouch: !!movil, isMobile: !!movil, acceptDownloads: true });
   await ctx.route(/dolarapi|bluelytics/, r => r.fulfill({ json: { compra: 1400, venta: 1450, fechaActualizacion: new Date().toISOString() } }));
   const p = await ctx.newPage(); p.errores = []; p.on('pageerror', e => p.errores.push(e.message));
   await p.goto('http://localhost:8777/'); await p.waitForSelector('#btn-continuar');
@@ -81,6 +82,13 @@ const total = await p.textContent('#barra-total-valor');
 ok(total.trim() === (await p.textContent('.totales__fila--total span:last-child')).trim() && total.trim() === await p.evaluate(() => { const pr = window.Almacenamiento.listar()[0]; return window.Formato.moneda(window.Calculo.calcularPresupuesto(pr, pr.precios).total); }),
    'el total de la franja = el del resumen = el del motor: ' + total);
 await p.screenshot({ path: OUT + '/v18-enviar-360.png', fullPage: true });
+// .19: el PDF con la misma identidad (rótulos chicos, solo los datos del cliente que hay, total)
+const [dl] = await Promise.all([p.waitForEvent('download', { timeout: 30000 }), p.click('#btn-pdf')]);
+await dl.saveAs(OUT + '/v19.pdf');
+const pdf = execSync(`pdftotext -layout ${OUT}/v19.pdf -`).toString();
+ok(/PRESUPUESTO/.test(pdf) && /VÁLIDO HASTA/.test(pdf) && /PARA\s/.test(pdf) && /Rosa Pérez/.test(pdf), 'PDF: número, "Válido hasta" y el cliente arriba');
+ok(!/EMAIL|OBRA/.test(pdf) && !/^\s*-\s*$/m.test(pdf), 'PDF: no rellena con guiones los datos del cliente que faltan');
+ok(pdf.includes('TOTAL') && pdf.replace(/\s+/g, ' ').includes(total.trim().replace(/\s+/g, ' ')), 'PDF: el TOTAL es el mismo de la pantalla');
 await p.click('.tab[data-vista="historial"]'); await p.waitForTimeout(200); await anotar('Guardados');
 ok(await p.locator('.historial-fila__abrir').count() === 1 && await p.isVisible('.historial-fila [data-accion="duplicar"]'), 'Guardados: el renglón entero abre; Repetir y Borrar quedan como texto');
 await p.screenshot({ path: OUT + '/v18-guardados-360.png', fullPage: true });

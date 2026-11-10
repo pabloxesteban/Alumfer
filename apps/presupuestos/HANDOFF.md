@@ -3,7 +3,7 @@
 Para retomar el trabajo sin tener que reconstruir el contexto: qué hay hecho, qué
 se decidió y por qué, qué falta, y con qué trampas ya chocamos.
 
-Estado al 10 de noviembre de 2026 (versión `2026-11-10.18`); todo lo descrito está publicado y andando.
+Estado al 10 de noviembre de 2026 (versión `2026-11-10.19`); todo lo descrito está publicado y andando.
 **Si trabajás sobre la app, actualizá este archivo antes de cerrar.**
 
 ---
@@ -72,7 +72,7 @@ cargan en la app (Precios) o con una copia de seguridad, nunca en el código.
 - `main` incluye **todo** lo de presupuestos más trabajo del sitio hecho en otras
   sesiones (PRs #39 a #48).
 - Rama de la última sesión: `claude/upbeat-clarke-hfpc4w`, igual a `main`.
-- Versión publicada: **2026-11-10.18**. Historia: .1 PDF real, compartir,
+- Versión publicada: **2026-11-10.19**. Historia: .1 PDF real, compartir,
   clientes, Tu empresa · .2 rediseño suave y palabras claras · .3 hojas como
   pregunta · .4 vidrio en dos pasos, formas especiales, ¿Dónde va? · .5 catálogo
   del sitio · .6 obras grandes estilo OP 2.1, rejas · .7 lista de materiales,
@@ -83,10 +83,11 @@ cargan en la app (Precios) o con una copia de seguridad, nunca en el código.
   .15 minimalista y Precios como menú de Ajustes · .16 velocidad (sin Google
   Fonts, jsPDF diferido), arreglo de actualizaciones, plana + transiciones ·
   .17 apariencia tendencia 2026 (vidrio flotante, resorte, efectos) ·
-  .18 **rediseño «Hormigón guiado»** (ver punto 44: reemplaza toda la apariencia anterior).
+  .18 **rediseño «Hormigón guiado»** (ver punto 44: reemplaza toda la apariencia anterior) ·
+  .19 el PDF y la hoja impresa con la misma identidad.
 - **Pruebas en el repo**: `tools/presupuestos-pruebas/` (antes vivían en el
   scratchpad y se perdían). `bash tools/presupuestos-pruebas/correr.sh` corre
-  las 13 (253 chequeos). Ver su README.
+  las 13 (256 chequeos). Ver su README.
 
 **Flujo de publicación (Pablo lo autorizó explícitamente, no hay que preguntar
 cada vez):** commit en la rama → `git checkout main && git merge --ff-only <rama>`
@@ -631,8 +632,15 @@ Documentación completa en `apps/presupuestos/README.md`.
       renglón entero abre; «Repetir» y «Borrar» son texto), el mes y la copia.
     - **Compu (≥ 1024 px)**: pestañas al costado y, en el paso 2, el resumen
       de plata fijo a la derecha. Tablet: una columna centrada.
-    - **Pendiente de este rediseño**: el PDF y la hoja impresa (siguen con el
-      diseño anterior; la propuesta aprobada está dibujada en el artefacto).
+    - **PDF y hoja impresa (.19)**, con la misma identidad: sin encabezado
+      negro ni barra azul ni recuadro gris. Rótulos chicos en mayúsculas
+      (`rotulo()`), «Fecha» y «Válido hasta» arriba junto al número, la raya
+      azul de 0,9 mm debajo del título, del cliente **solo los datos que
+      existen** (antes salían guiones), tabla con rayas finas y los números a
+      la derecha (`xCol()`), el código en azul, y el **TOTAL** como la cifra
+      más grande (18 pt) con anticipo y saldo debajo. Sigue en Helvetica: no
+      se incrustó Inter para no sumar ~300 KB (si Pablo lo pide, se evalúa).
+      Mismos textos que antes («Subtotal», «TOTAL», «Condiciones»…).
 
 ---
 
@@ -657,12 +665,7 @@ Documentación completa en `apps/presupuestos/README.md`.
    papá.** Esta vez hubo propuesta dibujada y aprobada antes de implementar.
    Si algo no cierra, pedir qué pantalla y qué cosa (con captura) y ajustar
    sobre el sistema de `:root`, sin sumar capas.
-2. **Rediseñar el PDF y la hoja impresa** con la misma identidad (dibujado en
-   el artefacto de la propuesta: «Válido hasta» arriba, sin encabezado negro
-   ni barra azul, total como cifra más grande, condiciones en dos columnas,
-   solo los datos del cliente que existen). Decidir con Pablo si se incrusta
-   Inter en jsPDF (pesa unos 300 KB más) o se queda Helvetica.
-   **Probar en el Android real del papá**: el atrás del celular dentro de una
+2. **Probar en el Android real del papá**: el atrás del celular dentro de una
    abertura, la hoja del vidrio, compartir el PDF por WhatsApp y Gmail. En un
    iPhone: "Descargar PDF".
 3. **Cargar los precios reales.** Lo único que falta para que la app sirva de
@@ -735,7 +738,7 @@ motor = guardado → PDF descargado → compartir por WhatsApp y email (share
 simulado con `addInitScript`) → reintento con `NotAllowedError` → sugerencia de
 cliente en un presupuesto nuevo → presupuesto de 22 aberturas en 3 páginas →
 logo propio → computadora sin share (abre `wa.me` + descarga) → hoja impresa.
-**`prueba10.mjs` (.18, 30 chequeos)**: letra propia sin pedir nada afuera,
+**`prueba10.mjs` (.18 y .19, 33 chequeos)**: letra propia sin pedir nada afuera,
 abertura a pantalla completa con sus preguntas, hoja del vidrio, «Deshacer»,
 «Guardado» fijo, un aviso por vez, total de la franja = resumen = motor,
 contrastes de la paleta, ninguna pantalla se sale de 360 px, y la compu.
@@ -827,6 +830,9 @@ cd apps/presupuestos && python3 -m http.server 8777
   tiene 3 vidrios guardados, solo existen esos 3 (no se mezclan con los de fábrica).
 - jsPDF con Helvetica estándar no dibuja `−` (U+2212), espacios finos ni
   emojis: pasar todo por `PDF.limpiar()`.
+- jsPDF mide mal el espacio duro (U+00A0) de «$ 1.000»: lo alineado a la
+  derecha quedaba corrido ~1 mm. `texto()` lo cambia por un espacio común
+  cuando alinea a la derecha.
 - **En 360 px, si algo empuja el ancho** (pasó con los tres pasos), el celular
   agranda la pantalla de trabajo y las barras fijas quedan corridas y tapan
   las pestañas. `prueba10.mjs` recorre todas las pantallas a 360 px y falla si
