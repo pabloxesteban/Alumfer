@@ -9,7 +9,7 @@ let fallas = 0; const ok = (c, m) => { console.log((c ? 'OK   ' : 'FALLA') + ' '
 await p.goto('http://localhost:8777/'); await p.waitForSelector('#btn-continuar');
 await p.fill('#cli-nombre', 'Ana Ruiz'); await p.fill('#cli-telefono', '11 4444-2222');
 await p.click('#btn-continuar'); await p.click('#btn-agregar-item'); await p.click('.tipo-tile[data-tipo="vent-corr-2"]');
-await p.click('#btn-continuar'); await p.waitForTimeout(300);
+await p.click('.item--abierto [data-accion="listo"]'); await p.click('#btn-continuar'); await p.waitForTimeout(300);
 ok(!(await p.locator('#pasos [data-paso="3"]').evaluate(n => n.classList.contains('is-hecho'))), 'paso 3 sin tilde antes de mandarlo');
 await p.click('#btn-whatsapp'); await p.waitForTimeout(800);
 ok(await p.locator('#pasos [data-paso="3"]').evaluate(n => n.classList.contains('is-hecho')), 'paso 3 con tilde después de mandarlo');

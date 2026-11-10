@@ -7,28 +7,38 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#1A1C1E">
+<meta name="theme-color" content="#174A8C">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Presupuestos">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="fuentes/inter.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="estilos.css">
 <link rel="stylesheet" href="impresion.css" media="print">
 </head>
 <body>
 
-<header class="barra">
-  <div class="barra__marca">
-    <button type="button" class="btn-atras" id="btn-atras" data-icono="atras" aria-label="Volver a Precios" hidden></button>
-    <img src="logo-alumfer.jpg" alt="Alumfer" width="40" height="40" id="logo-barra">
-    <div>
-      <strong id="titulo-vista">Presupuesto</strong>
-      <span id="subtitulo-vista">Alumfer</span>
+<header class="barra" id="barra">
+  <div class="barra__fila">
+    <div class="barra__marca">
+      <button type="button" class="btn-atras" id="btn-atras" data-icono="atras" aria-label="Volver" hidden></button>
+      <img src="logo-alumfer.jpg" alt="Alumfer" width="40" height="40" id="logo-barra">
+      <div>
+        <strong id="titulo-vista">Presupuesto</strong>
+        <span id="subtitulo-vista">Alumfer</span>
+      </div>
     </div>
+    <!-- Siempre a la vista: si lo que se cargó ya quedó guardado -->
+    <span class="estado-guardado" id="estado-guardado" role="status" hidden></span>
+    <button class="btn btn--nuevo" id="btn-nuevo" data-icono="nuevo">Nuevo</button>
   </div>
-  <button class="btn btn--nuevo" id="btn-nuevo" data-icono="nuevo">Nuevo</button>
+  <!-- El total, siempre en el mismo lugar mientras se arma el presupuesto -->
+  <div class="barra__total" id="barra-total-monto" hidden>
+    <span>Total</span>
+    <strong id="barra-total-valor">$ 0</strong>
+  </div>
 </header>
 
 <!-- Pestañas abajo, al alcance del pulgar, siempre con ícono y palabra -->
@@ -85,12 +95,6 @@
       <button type="button" class="pasos__paso" data-paso="2"><span class="pasos__num">2</span><span>Aberturas</span></button>
       <button type="button" class="pasos__paso" data-paso="3"><span class="pasos__num">3</span><span>Enviar</span></button>
     </nav>
-
-    <!-- Barrita de avance: cuánto falta para terminar y qué -->
-    <div class="avance-pres" id="avance-pres" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="avance-texto">
-      <div class="avance-pres__barra"><div class="avance-pres__relleno" id="avance-relleno"></div></div>
-      <p class="avance-pres__texto" id="avance-texto"></p>
-    </div>
 
     <!-- Paso 1 -->
     <section class="tarjeta" data-paso-seccion="1">
@@ -161,37 +165,35 @@
         <h2><span class="paso">2</span> ¿Qué aberturas lleva?</h2>
         <span class="apunte" id="resumen-items"></span>
       </header>
-      <p class="guia">Si hay varias iguales, cargá una y poné cuántas son.</p>
+      <p class="guia">Tocá una para cambiarla. Si hay varias iguales, cargá una y poné cuántas son.</p>
 
       <div id="lista-items" class="lista-items"></div>
 
       <div class="vacio" id="items-vacio">
-        <p>Todavía no hay ninguna abertura.<br>Tocá el botón azul para agregar la primera.</p>
+        <p>Todavía no hay ninguna abertura.<br>Tocá el botón de abajo para agregar la primera.</p>
       </div>
 
-      <button class="btn btn--primario btn--grande btn--bloque" id="btn-agregar-item" data-icono="nuevo">
+      <button class="btn btn--fantasma btn--grande btn--bloque" id="btn-agregar-item" data-icono="nuevo">
         Agregar una abertura
       </button>
     </section>
 
-    <!-- Paso 3 -->
+    <!-- Paso 3: primero cómo se manda, después qué le llega -->
     <section class="tarjeta" data-paso-seccion="3">
       <header class="tarjeta__header">
-        <h2><span class="paso">3</span> Mandar el presupuesto</h2>
+        <h2>¿Cómo se lo mandás?</h2>
       </header>
 
       <p class="vacio" id="entrega-vacia">Cuando agregues aberturas, acá vas a ver el total y los botones para mandarlo.</p>
 
       <div id="entrega">
-      <div class="totales" id="totales"></div>
-
       <div class="acciones-finales">
-        <button class="btn btn--guardar btn--grande btn--bloque" id="btn-guardar" data-icono="guardar">Guardar presupuesto</button>
-        <div class="confirmacion-guardado" id="confirmacion-guardado" role="status" hidden></div>
         <button class="btn btn--whatsapp btn--grande btn--bloque" id="btn-whatsapp" data-icono="whatsapp">Enviar por WhatsApp</button>
         <p class="apunte acciones-finales__ayuda" id="ayuda-whatsapp">Se abre la lista para compartir: elegí <strong>WhatsApp</strong> y después el contacto. El PDF va adjunto.</p>
-        <button class="btn btn--primario btn--grande btn--bloque" id="btn-pdf" data-icono="descargar">Descargar PDF</button>
-        <button class="btn btn--fantasma btn--grande btn--bloque" id="btn-email" data-icono="email">Enviar por email</button>
+        <div class="acciones-finales__dos">
+          <button class="btn btn--fantasma btn--bloque" id="btn-pdf" data-icono="descargar">Descargar PDF</button>
+          <button class="btn btn--fantasma btn--bloque" id="btn-email" data-icono="email">Por email</button>
+        </div>
       </div>
 
       <details class="desplegable">
@@ -203,9 +205,17 @@
           <button class="btn btn--fantasma btn--bloque" id="btn-copiar" data-icono="copiar">Copiar el resumen</button>
         </div>
       </details>
+      </div>
+    </section>
+
+    <section class="tarjeta" data-paso-seccion="3" id="tarjeta-resumen">
+      <header class="tarjeta__header">
+        <h2 id="resumen-titulo">Lo que le llega al cliente</h2>
+      </header>
+      <div class="totales" id="totales"></div>
 
       <details class="desplegable">
-        <summary>Descuento, colocación, seña y observaciones</summary>
+        <summary>Cambiar descuento, colocación o seña</summary>
 
         <label class="campo">
           <span>Observaciones (salen impresas)</span>
@@ -255,31 +265,27 @@
           </label>
         </div>
       </details>
+
+      <div class="acciones-finales acciones-finales--guardar">
+        <button class="btn btn--fantasma btn--bloque" id="btn-guardar" data-icono="guardar">Guardar presupuesto</button>
+        <div class="confirmacion-guardado" id="confirmacion-guardado" role="status" hidden></div>
       </div>
     </section>
 
     <!-- Solo para Alumfer: no sale en el PDF ni en el WhatsApp del cliente -->
     <section class="tarjeta tarjeta--interna" id="tarjeta-compras" data-paso-seccion="3" hidden>
       <header class="tarjeta__header">
-        <h2><span class="paso paso--interno" aria-hidden="true">✓</span> Ganancia y compras</h2>
+        <h2>Ganancia y compras</h2>
         <span class="etiqueta-interna">Solo para vos</span>
       </header>
       <p class="guia">Cuánto deja y qué hay que comprar. <strong>No le llega al cliente.</strong></p>
       <div class="ganancia" id="ganancia-resumen"></div>
-      <button class="btn btn--oscuro btn--grande btn--bloque" id="btn-compras" data-icono="lista">Ver el detalle y los materiales</button>
+      <button class="btn btn--fantasma btn--bloque" id="btn-compras" data-icono="lista">Ver el detalle y los materiales</button>
     </section>
   </section>
 
   <!-- ════════ GUARDADOS ════════ -->
   <section class="vista" id="vista-historial" hidden>
-    <section class="tarjeta tarjeta--interna" id="tarjeta-mes" hidden>
-      <header class="tarjeta__header">
-        <h2 id="mes-titulo">Este mes</h2>
-        <span class="etiqueta-interna">Solo para vos</span>
-      </header>
-      <div class="compras-resumen" id="mes-datos"></div>
-    </section>
-
     <section class="tarjeta tarjeta--llamar" id="tarjeta-llamar" hidden>
       <header class="tarjeta__header">
         <h2>Para volver a llamar</h2>
@@ -290,13 +296,21 @@
 
     <section class="tarjeta">
       <header class="tarjeta__header">
-        <h2>Presupuestos guardados</h2>
+        <h2>Tus presupuestos</h2>
       </header>
       <label class="campo">
         <span>Buscar por nombre del cliente o número</span>
         <input type="search" id="buscar-historial" placeholder="Ej.: Gómez o 0012">
       </label>
       <div id="lista-historial" class="lista-historial"></div>
+    </section>
+
+    <section class="tarjeta tarjeta--interna" id="tarjeta-mes" hidden>
+      <header class="tarjeta__header">
+        <h2 id="mes-titulo">Este mes</h2>
+        <span class="etiqueta-interna">Solo para vos</span>
+      </header>
+      <div class="compras-resumen" id="mes-datos"></div>
     </section>
 
     <section class="tarjeta">
@@ -306,7 +320,7 @@
       <p class="guia">Todo vive en este teléfono. Cada tanto mandá una copia por WhatsApp (a Pablo) o a Drive.</p>
       <p class="apunte" id="copia-ultima"></p>
       <div class="acciones-finales">
-        <button class="btn btn--primario btn--grande btn--bloque" id="btn-exportar" data-icono="guardar">Guardar una copia ahora</button>
+        <button class="btn btn--fantasma btn--bloque" id="btn-exportar" data-icono="guardar">Guardar una copia ahora</button>
         <button class="btn btn--fantasma btn--bloque" id="btn-importar">Recuperar una copia</button>
         <input type="file" id="archivo-importar" accept=".json,application/json,text/plain,application/octet-stream" hidden>
       </div>
@@ -484,15 +498,14 @@
 
 </main>
 
-<!-- Barra fija con el total y las dos acciones principales -->
+<!-- Barra de abajo: una línea que dice qué falta y un solo botón -->
 <div class="barra-total" id="barra-total" hidden>
-  <div class="barra-total__monto" id="barra-total-monto">
-    <span>Total</span>
-    <strong id="barra-total-valor">$ 0</strong>
+  <div class="avance-pres" id="avance-pres" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="avance-texto">
+    <p class="avance-pres__texto" id="avance-texto"></p>
   </div>
   <button class="btn btn--primario btn--continuar" id="btn-continuar" data-icono="siguiente">Continuar</button>
-  <button class="btn btn--whatsapp" id="btn-whatsapp-fijo" data-icono="whatsapp">WhatsApp</button>
-  <button class="btn btn--primario" id="btn-pdf-fijo" data-icono="descargar">PDF</button>
+  <button class="btn btn--whatsapp" id="btn-whatsapp-fijo" data-icono="whatsapp" hidden>WhatsApp</button>
+  <button class="btn btn--primario" id="btn-pdf-fijo" data-icono="descargar" hidden>PDF</button>
 </div>
 
 <!-- Elegir el tipo de abertura -->

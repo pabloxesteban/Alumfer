@@ -24,7 +24,8 @@
   var hayCambios = false;
   var temporizadorGuardado = null;
   var itemAlQueCambiarTipo = null;   // id del ítem abierto en el selector, o null si es uno nuevo
-  var itemAbierto = null;            // la única abertura desplegada; las demás se ven resumidas
+  var itemAbierto = null;            // la abertura que se está editando (ocupa toda la pantalla)
+  var vidrioAbierto = null;          // id de la abertura con la hoja "¿Qué vidrio lleva?" abierta
   var itemQueEntra = null;
   var codigosActuales = [];          // V1, PF1, P1… de cada abertura, en el orden de carga           // solo la recién agregada se anima: si no, cada toque haría parpadear la ficha
 
@@ -196,17 +197,49 @@
     });
   }
 
-  function avisar(texto, tipo) {
+  /**
+   * Aviso corto, siempre en el mismo lugar (arriba de la barra de abajo) y de a
+   * uno: el nuevo reemplaza al anterior. `accion` = { texto, hacer } agrega un
+   * botón (por ejemplo "Deshacer") y lo deja más tiempo.
+   */
+  function avisar(texto, tipo, accion) {
+    var cont = $('avisos');
+    while (cont.firstChild) cont.removeChild(cont.firstChild);
     var nodo = document.createElement('div');
     nodo.className = 'aviso' + (tipo === 'error' ? ' aviso--error' : '');
-    nodo.textContent = texto;
-    $('avisos').appendChild(nodo);
+    var span = document.createElement('span');
+    span.textContent = texto;
+    nodo.appendChild(span);
+    if (accion) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'aviso__accion'; b.textContent = accion.texto;
+      b.addEventListener('click', function () { nodo.remove(); accion.hacer(); });
+      nodo.appendChild(b);
+    }
+    cont.appendChild(nodo);
     // Tiempo suficiente para leerlo sin apuro (los mensajes que se van rápido cuestan a quien lee despacio).
     setTimeout(function () {
       nodo.classList.add('aviso--sale');
-      setTimeout(function () { nodo.remove(); }, 260);
-    }, tipo === 'error' ? 6000 : 3800);
+      setTimeout(function () { nodo.remove(); }, 220);
+    }, accion ? 8000 : tipo === 'error' ? 6000 : 3800);
     return nodo;
+  }
+
+  /**
+   * "Guardado 18:52", fijo arriba a la derecha: nunca hay que adivinar si lo
+   * cargado quedó guardado. Mientras espera para guardar dice "Guardando…".
+   */
+  function pintarGuardado(estado) {
+    var nodo = $('estado-guardado');
+    if (!nodo) return;
+    nodo.hidden = !estado;
+    nodo.classList.toggle('estado-guardado--espera', estado === 'espera');
+    if (estado === 'espera') nodo.textContent = 'Guardando…';
+    else if (estado) {
+      var d = new Date(estado === true ? Date.now() : estado);
+      var hoy = new Date().toDateString() === d.toDateString();
+      nodo.textContent = 'Guardado' + (hoy ? ' ' + ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2) : '');
+    }
   }
 
   /** Muestra un "Guardado ✓" que se apaga solo: la app guarda sin botón. */
@@ -255,6 +288,8 @@
     actual = presupuesto;
     $('confirmacion-guardado').hidden = true;
     itemAbierto = null;                      // al abrir se ven todas resumidas
+    vidrioAbierto = null;
+    pintarGuardado(actual.numero ? (actual.modificado || true) : null);
     $('sugerencias-clientes').hidden = true;
     if (!actual.precios) actual.precios = clonar(precios);
     A.actualizarNombres(actual.precios);   // solo nombres más claros; los precios no se tocan
@@ -331,6 +366,7 @@
     $('numero-presupuesto').textContent = actual.numero;
     $('numero-presupuesto').hidden = false;
     marcarGuardado('presupuesto-guardado');
+    pintarGuardado(true);
     renderHistorial();
     if ($('avance-pres')) pintarAvance();
     if (!silencioso) avisar('Presupuesto ' + actual.numero + ' guardado');
@@ -360,10 +396,11 @@
   /** Guarda solo lo que ya vale la pena conservar, sin molestar. */
   function autoguardar() {
     clearTimeout(temporizadorGuardado);
+    if (actual && (actual.items.length || $('cli-nombre').value.trim())) pintarGuardado('espera');
     temporizadorGuardado = setTimeout(function () {
       if (!actual) return;
       leerFormulario();
-      if (!actual.items.length && !actual.cliente.nombre) return;
+      if (!actual.items.length && !actual.cliente.nombre) return pintarGuardado(null);
       guardar(true);
     }, 900);
   }
@@ -414,7 +451,7 @@
         '<span>Otro trabajo</span><small>reparación, vidrio suelto, retiro… con precio a mano</small></button></div>');
 
     $('modal-tipos').hidden = false;
-    document.querySelector('.modal__cuerpo').scrollTop = 0;
+    $('grilla-tipos').scrollTop = 0;
     document.body.style.overflow = 'hidden';
   }
 
@@ -540,19 +577,40 @@
     return '<span class="muestra" style="background:' + MUESTRAS[id] + '" aria-hidden="true"></span>';
   }
 
-  var ROTULOS = { lineaId: 'Línea de aluminio', vidrioId: 'Vidrio', colorId: 'Color' };
+  var ROTULOS = { lineaId: 'Línea', vidrioId: 'Vidrio', colorId: 'Color' };
 
-  /** Botón grande que muestra lo elegido y abre la lista para cambiarlo. */
+  /** Renglón que muestra lo elegido y abre la lista para cambiarlo. */
   function elegible(campo, lista, item) {
     var x = C.buscar(lista, item[campo]);
     return '<button type="button" class="elegible" data-elegir="' + campo + '">' +
       '<span class="elegible__rotulo">' + ROTULOS[campo] + '</span>' +
       '<span class="elegible__valor">' + muestra(campo, item[campo]) +
-        '<span><strong>' + F.escapar(x ? x.nombre : 'Elegir') + '</strong>' +
-        (x && x.ayuda ? '<span>' + F.escapar(x.ayuda) + '</span>' : '') + '</span>' +
+        '<span><strong>' + F.escapar(x ? x.nombre : 'Elegir') + '</strong></span>' +
       '</span>' +
       '<span class="elegible__cambiar">Cambiar</span>' +
     '</button>';
+  }
+
+  /** Renglón del vidrio: dice cuál lleva y abre la hoja con los dibujos. */
+  function renglonVidrio(item) {
+    var v = C.buscar(preciosDelPresupuesto().vidrios, item.vidrioId);
+    var nombre = v ? v.nombre : 'Elegir';
+    if (/^policarb/.test(item.vidrioId) && item.tono) nombre += ', ' + item.tono.toLowerCase();
+    return '<button type="button" class="elegible" data-abrir-vidrio>' +
+      '<span class="elegible__rotulo">Vidrio</span>' +
+      '<span class="elegible__valor"><span><strong>' + F.escapar(nombre) + '</strong></span></span>' +
+      '<span class="elegible__cambiar">Cambiar</span>' +
+    '</button>';
+  }
+
+  /** Hoja "¿Qué vidrio lleva?": vive dentro de la abertura y sube desde abajo. */
+  function hojaVidrio(item) {
+    return '<div class="modal modal--vidrio" data-hoja-vidrio' + (vidrioAbierto === item.id ? '' : ' hidden') + '>' +
+      '<div class="modal__caja modal__caja--chica" role="dialog" aria-modal="true" aria-label="¿Qué vidrio lleva?">' +
+        '<header class="modal__header"><h2>¿Qué vidrio lleva?</h2>' +
+          '<button type="button" class="btn btn--primario" data-accion="cerrar-vidrio">Listo</button></header>' +
+        '<div class="modal__cuerpo">' + bloqueVidrio(item) + '</div>' +
+      '</div></div>';
   }
 
   /** Opciones válidas de cada campo para este ítem. */
@@ -614,8 +672,8 @@
     tipos.forEach(function (t) {
       t.variantes.forEach(function (v) { if (v[0] === item.vidrioId) elegido = t; });
     });
-    var html = '<div class="campo"><span id="vid-' + item.id + '">¿Qué vidrio lleva?</span>' +
-      '<div class="variantes variantes--vidrio" role="radiogroup" aria-labelledby="vid-' + item.id + '">' +
+    var html = '<div class="campo">' +
+      '<div class="variantes variantes--vidrio" role="radiogroup" aria-label="Tipo de vidrio">' +
       tipos.map(function (t) {
         var activa = t === elegido;
         var hayDefecto = t.defecto && t.variantes.some(function (v) { return v[0] === t.defecto; });
@@ -666,7 +724,7 @@
       if (l && lugares.indexOf(l) === -1) lugares.push(l);
     });
     var propio = item.lugar && lugares.indexOf(item.lugar) === -1 ? item.lugar : '';
-    return '<div class="campo"><span>¿Dónde va? <small class="opcional">(si querés)</small></span>' +
+    return '<div class="campo"><span>¿Dónde va? <small class="opcional">si querés</small></span>' +
       '<div class="lugares">' +
       lugares.map(function (l) {
         var activa = l === item.lugar;
@@ -683,16 +741,18 @@
     var nodo = document.createElement('div');
     nodo.className = 'item item--abierto' + (item.id === itemQueEntra ? ' item--entra' : '');
     nodo.dataset.id = item.id;
+    var B = function (html, clase) { return html ? '<section class="bloque' + (clase ? ' ' + clase : '') + '">' + html + '</section>' : ''; };
     nodo.innerHTML = '' +
-      '<div class="item__tipo">' +
+      B('<div class="item__tipo">' +
         '<span class="item__dibujo">' + I.ui('lapiz') + '</span>' +
         '<span class="item__nombre"><span><b class="codigo">' + F.escapar(codigosActuales[indice] || '') + '</b>' +
           (item.lugar ? ' · ' + F.escapar(item.lugar) : '') + '</span><strong>Otro trabajo</strong></span>' +
-      '</div>' +
-      '<label class="campo"><span>¿Qué es? (sale así en el presupuesto)</span>' +
+      '</div>', 'bloque--tipo') +
+      B('<label class="campo"><span>¿Qué es?</span>' +
         '<input type="text" data-campo="descripcionLibre" value="' + F.escapar(item.descripcionLibre || '') + '" ' +
         'placeholder="Ej.: Retiro de las aberturas viejas"></label>' +
-      '<div class="campo"><span id="modo-' + item.id + '">¿Cómo lo cobrás?</span>' +
+        '<p class="item__ayuda-medida">Sale así en el presupuesto.</p>') +
+      B('<div class="campo"><span id="modo-' + item.id + '">¿Cómo lo cobrás?</span>' +
         '<div class="espesores" role="radiogroup" aria-labelledby="modo-' + item.id + '">' +
           [['unidad', 'Precio por unidad'], ['m2', 'Por m²']].map(function (m) {
             var activa = (item.modoLibre || 'unidad') === m[0];
@@ -703,15 +763,15 @@
       (porM2 ? bloqueMedidas(item) + '<p class="item__equivale" data-equivale></p>' : '<p class="item__equivale" data-equivale hidden></p>') +
       '<label class="campo"><span>' + (porM2 ? 'Precio del m²' : 'Precio de cada uno') + '</span>' +
         '<span class="con-unidad con-unidad--pesos"><span class="prefijo">$</span><input type="number" data-campo="precioLibre" min="0" step="1000" inputmode="numeric" value="' +
-        (item.precioLibre || '') + '" placeholder="0"></span></label>' +
-      '<div class="campo"><span id="cant-' + item.id + '">¿Cuántos?</span>' +
+        (item.precioLibre || '') + '" placeholder="0"></span></label>') +
+      B('<div class="campo"><span id="cant-' + item.id + '">¿Cuántos?</span>' +
         '<div class="contador" role="group" aria-labelledby="cant-' + item.id + '">' +
           '<button type="button" class="contador__btn" data-accion="menos" aria-label="Uno menos">−</button>' +
           '<input type="number" data-campo="cantidad" min="1" step="1" inputmode="numeric" value="' + item.cantidad + '" aria-labelledby="cant-' + item.id + '">' +
           '<button type="button" class="contador__btn" data-accion="mas" aria-label="Uno más">+</button>' +
-        '</div></div>' +
-      bloqueLugar(item) +
-      '<details class="desplegable desplegable--suave"' + ((item.costoLibre || item.nota) ? ' open' : '') + '>' +
+        '</div></div>') +
+      B(bloqueLugar(item)) +
+      B('<details class="desplegable desplegable--suave"' + ((item.costoLibre || item.nota) ? ' open' : '') + '>' +
         '<summary>Lo que te cuesta y nota</summary>' +
         '<div class="grilla-campos">' +
           '<label class="campo"><span>Lo que te cuesta a vos, cada uno (solo para vos)</span>' +
@@ -719,14 +779,14 @@
           '<label class="campo campo--ancho"><span>Nota (sale en el presupuesto)</span>' +
             '<input type="text" data-campo="nota" value="' + F.escapar(item.nota || '') + '" placeholder="Opcional"></label>' +
         '</div>' +
-      '</details>' +
+      '</details>', 'bloque--plegado') +
+      '<div class="item__acciones">' +
+        '<button class="btn btn--fantasma" data-accion="duplicar" data-icono="duplicar">Agregar otro igual</button>' +
+        '<button class="btn btn--texto btn--peligro" data-accion="borrar" data-icono="borrar">Quitar</button>' +
+      '</div>' +
       '<div class="item__pie">' +
         '<div class="item__total" data-total></div>' +
-        '<button class="btn btn--primario btn--grande btn--bloque" data-accion="listo" data-icono="guardar">Listo</button>' +
-        '<div class="item__acciones">' +
-          '<button class="btn btn--fantasma btn--sm" data-accion="duplicar" data-icono="duplicar">Agregar otro igual</button>' +
-          '<button class="btn btn--fantasma btn--sm btn--peligro" data-accion="borrar" data-icono="borrar">Quitar</button>' +
-        '</div>' +
+        '<button class="btn btn--primario btn--grande" data-accion="listo" data-icono="guardar">Listo</button>' +
       '</div>';
     ponerIconos(nodo);
     pintarPieItem(nodo, item);
@@ -767,21 +827,23 @@
     var fam = familiaDe(item.tipologiaId);
     var vars = fam ? variantesDe(fam) : [];
 
+    var B = function (html, clase) { return html ? '<section class="bloque' + (clase ? ' ' + clase : '') + '">' + html + '</section>' : ''; };
+    var sinNada = !!(tip && tip.sinLinea && tip.sinColor && sinVidrio);
     var nodo = document.createElement('div');
     nodo.className = 'item item--abierto' + (item.id === itemQueEntra ? ' item--entra' : '');
     nodo.dataset.id = item.id;
     nodo.innerHTML = '' +
-      '<div class="item__tipo">' +
+      B('<div class="item__tipo">' +
         '<span class="item__dibujo">' + I.abertura(item.tipologiaId, tip && tip.grupo) + '</span>' +
         '<span class="item__nombre">' +
           '<span><b class="codigo">' + F.escapar(codigosActuales[indice] || '') + '</b>' +
             (item.lugar ? ' · ' + F.escapar(item.lugar) : '') + '</span>' +
           '<strong>' + F.escapar(fam ? fam.nombre : (tip ? tip.nombre : 'Abertura')) + '</strong>' +
         '</span>' +
-        '<button class="btn btn--fantasma btn--sm" data-accion="cambiar-tipo" data-icono="cambiar">Cambiar tipo</button>' +
-      '</div>' +
+        '<button class="btn btn--texto" data-accion="cambiar-tipo">Cambiar tipo</button>' +
+      '</div>', 'bloque--tipo') +
 
-      (vars.length > 1
+      B(vars.length > 1
         ? '<div class="campo"><span id="var-' + item.id + '">' + F.escapar(fam.pregunta) + '</span>' +
             '<div class="variantes" role="radiogroup" aria-labelledby="var-' + item.id + '">' +
             (function () { var et = etiquetasDe(vars); vars.forEach(function (v, k) { v.etiqueta = et[k]; }); return ''; })() +
@@ -794,31 +856,30 @@
             '</div></div>'
         : '') +
 
-      bloqueForma(item) +
-      bloqueMedidas(item) +
-      '<p class="item__equivale" data-equivale></p>' +
-      '<p class="item__ayuda-medida">Medida de afuera a afuera del marco, en centímetros.</p>' +
+      B(bloqueForma(item)) +
 
-      '<div class="campo"><span id="cant-' + item.id + '">¿Cuántas iguales?</span>' +
+      B('<h3 class="bloque__q">¿Qué medidas tiene?</h3>' +
+        bloqueMedidas(item) +
+        '<p class="item__equivale" data-equivale></p>' +
+        '<p class="item__ayuda-medida">De afuera a afuera del marco, en centímetros.</p>') +
+
+      B('<div class="campo"><span id="cant-' + item.id + '">¿Cuántas iguales?</span>' +
         '<div class="contador" role="group" aria-labelledby="cant-' + item.id + '">' +
           '<button type="button" class="contador__btn" data-accion="menos" aria-label="Una menos">−</button>' +
           '<input type="number" data-campo="cantidad" min="1" step="1" inputmode="numeric" value="' + item.cantidad + '" aria-labelledby="cant-' + item.id + '">' +
           '<button type="button" class="contador__btn" data-accion="mas" aria-label="Una más">+</button>' +
         '</div>' +
-      '</div>' +
-
-      (sinVidrio ? '' : bloqueVidrio(item)) +
-
-      ((tip && tip.sinLinea && tip.sinColor) ? '' :
-      '<div class="item__opciones">' +
-        (tip && tip.sinLinea ? '' : elegible('lineaId', p.lineas, item)) +
-        (tip && tip.sinColor ? '' : elegible('colorId', p.colores, item)) +
       '</div>') +
 
-      bloqueLugar(item) +
+      (sinNada ? '' :
+      B('<h3 class="bloque__q">¿Cómo es?</h3>' +
+      '<div class="item__opciones">' +
+        (sinVidrio ? '' : renglonVidrio(item)) +
+        (tip && tip.sinLinea ? '' : elegible('lineaId', p.lineas, item)) +
+        (tip && tip.sinColor ? '' : elegible('colorId', p.colores, item)) +
+      '</div>')) +
 
-      '<div>' +
-        '<p class="extras__titulo">¿Lleva algo más? Tocá para agregar</p>' +
+      B('<h3 class="bloque__q">¿Lleva algo más?</h3>' +
         '<div class="extras">' + frecuentes.map(function (ad) { return chipExtra(ad, item); }).join('') + '</div>' +
         (resto.length
           ? '<details class="desplegable desplegable--suave"' + (hayElegidoEnElResto ? ' open' : '') + '>' +
@@ -826,10 +887,11 @@
               '<div class="extras">' + resto.map(function (ad) { return chipExtra(ad, item); }).join('') + '</div>' +
             '</details>'
           : '') +
-        preguntasExtra +
-      '</div>' +
+        preguntasExtra) +
 
-      '<details class="desplegable desplegable--suave"' + ((item.descuentoPct || item.nota || item.precioManual) ? ' open' : '') + '>' +
+      B(bloqueLugar(item)) +
+
+      B('<details class="desplegable desplegable--suave"' + ((item.descuentoPct || item.nota || item.precioManual) ? ' open' : '') + '>' +
         '<summary>Precio a mano, descuento o nota</summary>' +
         '<div class="grilla-campos">' +
           '<label class="campo campo--ancho"><span>Precio a mano, de cada una <em class="opcional">(si querés cobrar otro precio)</em></span>' +
@@ -840,16 +902,20 @@
           '<label class="campo campo--ancho"><span>Nota (sale en el presupuesto)</span>' +
             '<input type="text" data-campo="nota" value="' + F.escapar(item.nota || '') + '" placeholder="Ej.: hoja derecha corrediza"></label>' +
         '</div>' +
-      '</details>' +
+      '</details>', 'bloque--plegado') +
 
+      '<div class="item__acciones">' +
+        '<button class="btn btn--fantasma" data-accion="duplicar" data-icono="duplicar">Agregar otra igual</button>' +
+        '<button class="btn btn--texto btn--peligro" data-accion="borrar" data-icono="borrar">Quitar</button>' +
+      '</div>' +
+
+      // Fijo abajo mientras se edita: cuánto sale y el botón para terminar.
       '<div class="item__pie">' +
         '<div class="item__total" data-total></div>' +
-        '<button class="btn btn--primario btn--grande btn--bloque" data-accion="listo" data-icono="guardar">Listo</button>' +
-        '<div class="item__acciones">' +
-          '<button class="btn btn--fantasma btn--sm" data-accion="duplicar" data-icono="duplicar">Agregar otra igual</button>' +
-          '<button class="btn btn--fantasma btn--sm btn--peligro" data-accion="borrar" data-icono="borrar">Quitar</button>' +
-        '</div>' +
-      '</div>';
+        '<button class="btn btn--primario btn--grande" data-accion="listo" data-icono="guardar">Listo</button>' +
+      '</div>' +
+
+      (sinVidrio ? '' : hojaVidrio(item));
 
     ponerIconos(nodo);
     pintarPieItem(nodo, item);
@@ -864,6 +930,8 @@
     var nodo = document.createElement('div');
     nodo.className = 'item item--cerrado';
     nodo.dataset.id = item.id;
+    // Poco y claro: qué es, de cuánto y cuánto sale. El vidrio, la línea y el
+    // color se ven al tocarla.
     nodo.innerHTML =
       '<button type="button" class="item__resumen" data-accion="abrir-item">' +
         '<span class="item__dibujo">' + (r.libre ? I.ui('lapiz') : r.forma !== 'rect' ? I.forma(r.forma) : I.abertura(item.tipologiaId, tip && tip.grupo)) + '</span>' +
@@ -873,12 +941,13 @@
           '<strong>' + F.escapar(r.libre ? r.descripcion.titulo : (tip ? tip.nombre : 'Abertura')) + '</strong>' +
           '<span>' + (r.libre && r.modoLibre !== 'm2' ? (r.cantidad > 1 ? '' : '1 unidad') : F.medidasItem(r)) +
             (r.cantidad > 1 ? ' · <b>' + r.cantidad + ' iguales</b>' : '') + '</span>' +
-          (r.descripcion.detalle ? '<span class="item__resumen-detalle">' + F.escapar(r.descripcion.detalle) + '</span>' : '') +
+          (!r.libre && r.forma !== 'rect' ? '<span>forma ' + F.escapar((FORMAS_UI.filter(function (f) { return f[0] === r.forma; })[0] || ['', ''])[1].toLowerCase()) + '</span>' : '') +
           (r.manual ? '<span class="marca-manual">Precio a mano</span>' : '') +
-          '<span class="item__resumen-precio">' +
-            '<strong>' + F.moneda(r.total) + '</strong>' +
-            '<span class="item__resumen-cambiar">Cambiar</span>' +
-          '</span>' +
+          (faltaEnItem(item) ? '<span class="marca-falta">Falta completar</span>' : '') +
+        '</span>' +
+        '<span class="item__resumen-precio">' +
+          '<strong>' + F.moneda(r.total) + '</strong>' +
+          '<span class="item__resumen-cambiar">Cambiar</span>' +
         '</span>' +
       '</button>';
     return nodo;
@@ -919,8 +988,9 @@
 
   /** Lleva a la vista una abertura, debajo de la barra de arriba. */
   function mostrarItem(id) {
+    if (id === itemAbierto) return window.scrollTo({ top: 0 });
     var nodo = $('lista-items').querySelector('[data-id="' + id + '"]');
-    if (nodo) nodo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (nodo) nodo.scrollIntoView({ block: 'center' });
   }
 
   /* ════════ Lista de opciones (línea, vidrio, color) ════════ */
@@ -1048,7 +1118,14 @@
     var lista = $('lista-items');
     var p = preciosDelPresupuesto();
     codigosActuales = C.codigos(actual.items, p);
+    if (itemAbierto && !itemPorId(itemAbierto)) itemAbierto = null;
+    if (vidrioAbierto !== itemAbierto) vidrioAbierto = null;
+    var cuerpoVidrio = lista.querySelector('[data-hoja-vidrio]:not([hidden]) .modal__cuerpo');
+    var bajada = cuerpoVidrio ? cuerpoVidrio.scrollTop : 0;
     lista.replaceChildren.apply(lista, nodosAgrupados(p));
+    cuerpoVidrio = lista.querySelector('[data-hoja-vidrio]:not([hidden]) .modal__cuerpo');
+    if (cuerpoVidrio) cuerpoVidrio.scrollTop = bajada;
+    document.body.style.overflow = (vidrioAbierto || !$('modal-tipos').hidden || !$('modal-opciones').hidden || !$('modal-compras').hidden) ? 'hidden' : '';
     itemQueEntra = null;
     var hay = actual.items.length > 0;
     $('items-vacio').hidden = hay;
@@ -1056,7 +1133,43 @@
     $('entrega').hidden = !hay;
     $('entrega-vacia').hidden = hay;
     $('tarjeta-compras').hidden = !hay;
+    $('tarjeta-resumen').hidden = !hay;
     renderTotales();
+    sincronizarEdicion();
+  }
+
+  /*
+   * Editar una abertura es una pantalla propia: tapa la lista, arriba va
+   * "‹ Volver" con su nombre y abajo, fijo, el precio y "Listo". El atrás del
+   * celular también vuelve a la lista.
+   */
+  var editandoAntes = null;
+  var volviendoSolo = false;
+  function editando() { return !!(itemAbierto && pasoActual === 2 && vistaActual === 'presupuesto'); }
+  function sincronizarEdicion() {
+    var ed = editando() ? itemAbierto : null;
+    $('vista-presupuesto').toggleAttribute('data-editando', !!ed);
+    document.body.classList.toggle('editando-item', !!ed);
+    try {
+      var enHistoria = !!(history.state && history.state.item);
+      // history.back() no es instantáneo: mientras vuelve no se toca el historial
+      // (el popstate vuelve a llamar acá y lo deja como corresponde).
+      if (!volviendoSolo) {
+        if (ed && !enHistoria) history.pushState({ item: ed }, '');
+        if (!ed && enHistoria) { volviendoSolo = true; history.back(); }
+      }
+    } catch (e) { /* sin historial */ }
+    if (ed && ed !== editandoAntes) window.scrollTo({ top: 0 });
+    editandoAntes = ed;
+    pintarEncabezado();
+    pintarBarraAbajo();
+  }
+
+  function cerrarItem() {
+    var id = itemAbierto;
+    itemAbierto = null; vidrioAbierto = null;
+    render();
+    if (id) mostrarItem(id);
   }
 
   /** Recalcula sin reconstruir los campos, para no perder el foco al tipear. */
@@ -1117,9 +1230,11 @@
     var totalNuevo = F.moneda(r.total);
     if ($('barra-total-valor').textContent !== totalNuevo) {
       $('barra-total-valor').textContent = totalNuevo;
-      var monto = $('barra-total-monto');
+      var monto = $('barra-total-monto');   // se resalta un instante: cambió
       monto.classList.remove('late'); void monto.offsetWidth; monto.classList.add('late');
     }
+    var nombreCli = String((actual.cliente && actual.cliente.nombre) || '').trim().split(/\s+/)[0];
+    $('resumen-titulo').textContent = 'Lo que le llega a ' + (nombreCli || 'tu cliente');
     renderGanancia();
     pintarBarraAbajo();
     pintarEncabezado();   // el subtítulo muestra el nombre del cliente a medida que se escribe
@@ -1324,18 +1439,20 @@
     cont.innerHTML = lista.map(function (p) {
       var cli = p.cliente || {};
       var estado = p.estado || 'borrador';
+      var ev = estadoVisible(p);
       return '<div class="historial-fila" data-id="' + p.id + '">' +
-        '<div class="historial-fila__datos">' +
-          '<strong>' + F.escapar(cli.nombre || 'Sin nombre') + '</strong>' +
-          '<span>' + F.escapar(p.numero || '') + ' · ' + F.fechaCorta(p.fecha) +
-            (cli.localidad ? ' · ' + F.escapar(cli.localidad) : '') + '</span>' +
-        '</div>' +
-        '<span class="estado estado--' + estadoVisible(p).clase + '">' + F.escapar(estadoVisible(p).texto) + '</span>' +
-        '<span class="historial-fila__total">' + F.moneda(p.total || 0) + '</span>' +
+        '<button type="button" class="historial-fila__abrir" data-accion="abrir" aria-label="Abrir el presupuesto de ' + F.escapar(cli.nombre || 'Sin nombre') + '">' +
+          '<span class="historial-fila__datos">' +
+            '<strong>' + F.escapar(cli.nombre || 'Sin nombre') + '</strong>' +
+            '<span>' + F.escapar(p.numero || '') + ' · ' + F.fechaCorta(p.fecha) +
+              (cli.localidad ? ' · ' + F.escapar(cli.localidad) : '') + '</span>' +
+            '<span class="estado estado--' + ev.clase + '">' + F.escapar(ev.texto) + '</span>' +
+          '</span>' +
+          '<span class="historial-fila__total">' + F.moneda(p.total || 0) + '</span>' +
+        '</button>' +
         '<span class="historial-fila__acciones">' +
-          '<button class="btn btn--primario btn--sm" data-accion="abrir">Abrir</button>' +
-          '<button class="btn btn--fantasma btn--sm" data-accion="duplicar" data-icono="duplicar">Repetir</button>' +
-          '<button class="btn btn--fantasma btn--sm btn--peligro" data-accion="borrar" data-icono="borrar">Borrar</button>' +
+          '<button class="btn btn--texto" data-accion="duplicar">Repetir</button>' +
+          '<button class="btn btn--texto btn--peligro" data-accion="borrar">Borrar</button>' +
         '</span>' +
       '</div>';
     }).join('');
@@ -1752,10 +1869,9 @@
     });
     if (nombre === 'historial') renderHistorial();
     if (nombre === 'precios' && ajusteActual()) { $('vista-precios').dataset.sub = ''; pintarMenuPrecios(); }
-    if (nombre === 'presupuesto' && actual) render();   // refleja cambios hechos en la pestaña Precios
     vistaActual = nombre;
-    pintarEncabezado();
-    pintarBarraAbajo();
+    if (nombre === 'presupuesto' && actual) render();   // refleja cambios hechos en la pestaña Precios
+    sincronizarEdicion();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -1877,12 +1993,12 @@
       b.classList.toggle('is-hecho', hecho);
       b.setAttribute('aria-label', b.textContent.replace(/^\d/, '').trim() + (hecho ? ' (completo)' : ''));
     });
-    $('avance-relleno').style.width = pct + '%';
     $('avance-pres').setAttribute('aria-valuenow', pct);
     $('avance-pres').classList.toggle('completo', pct === 100);
-    $('avance-texto').innerHTML = pct === 100
-      ? '<strong>¡Listo! Presupuesto enviado.</strong>'
-      : '<strong>Vas ' + pct + ' %</strong> · Falta: ' + F.escapar(falta[1]);
+    // Una sola línea, encima del botón: lo próximo que falta.
+    var texto = falta ? 'Falta: ' + falta[1] : '';
+    if (falta && pasoActual === 2 && hitos[3][0]) texto = 'Ya están todas. Falta mandárselo al cliente';
+    $('avance-texto').innerHTML = pct === 100 ? '<strong>¡Listo! Presupuesto enviado.</strong>' : F.escapar(texto);
   }
 
   /* ════════ Estados automáticos ════════ */
@@ -1938,6 +2054,7 @@
   function irPaso(n) {
     var antes = pasoActual;
     pasoActual = Math.min(3, Math.max(1, n));
+    if (pasoActual !== 2 && itemAbierto) { itemAbierto = null; vidrioAbierto = null; if (actual) render(); }
     // Para la transición: avanzar entra desde la derecha, volver desde la izquierda.
     $('vista-presupuesto').dataset.dir = pasoActual >= antes ? 'adelante' : 'atras';
     $('vista-presupuesto').dataset.paso = pasoActual;
@@ -1948,8 +2065,7 @@
       if (k === pasoActual) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
     });
     pintarAvance();
-    pintarEncabezado();
-    pintarBarraAbajo();
+    sincronizarEdicion();
     window.scrollTo({ top: 0 });
   }
 
@@ -1968,34 +2084,50 @@
   var TITULOS = { presupuesto: 'Presupuesto', historial: 'Guardados', precios: 'Precios' };
   function pintarEncabezado() {
     var ajuste = vistaActual === 'precios' ? ajusteActual() : '';
-    $('btn-atras').hidden = !ajuste;
-    $('logo-barra').hidden = !!ajuste;
-    document.body.classList.toggle('en-ajuste', !!ajuste);
-    $('titulo-vista').textContent = ajuste ? TITULOS_AJUSTE[ajuste] : (TITULOS[vistaActual] || 'Presupuestos');
-    var sub = ajuste ? 'Precios' : 'Alumfer';
-    if (vistaActual === 'presupuesto' && actual) {
+    var item = editando() ? itemPorId(itemAbierto) : null;
+    var sub = !!(ajuste || item);            // sub-pantalla: arriba va "‹" y su título
+    $('btn-atras').hidden = !sub;
+    $('btn-atras').setAttribute('aria-label', item ? 'Volver a la lista de aberturas' : 'Volver a Precios');
+    $('logo-barra').hidden = sub;
+    document.body.classList.toggle('en-ajuste', sub);
+    var enPresupuesto = vistaActual === 'presupuesto' && !!actual;
+    document.body.classList.toggle('modo-presupuesto', enPresupuesto && !sub);
+    var titulo = ajuste ? TITULOS_AJUSTE[ajuste] : (TITULOS[vistaActual] || 'Presupuestos');
+    var subtitulo = ajuste ? 'Precios' : 'Alumfer';
+    if (enPresupuesto) {
       var cli = (actual.cliente && actual.cliente.nombre) || '';
-      sub = [actual.numero || 'Nuevo', cli].filter(Boolean).join(' · ');
+      subtitulo = [actual.numero || 'Nuevo', cli].filter(Boolean).join(' · ');
     }
-    $('subtitulo-vista').textContent = sub;
+    if (item) {
+      var p = preciosDelPresupuesto();
+      var tip = C.buscar(p.tipologias, item.tipologiaId);
+      var fam = familiaDe(item.tipologiaId);
+      titulo = item.tipologiaId === 'libre' ? 'Otro trabajo' : (fam ? fam.nombre : (tip ? tip.nombre : 'Abertura'));
+      subtitulo = 'Volver a la lista';
+    }
+    $('titulo-vista').textContent = titulo;
+    $('subtitulo-vista').textContent = subtitulo;
+    var hay = enPresupuesto && actual.items.length > 0;
+    $('barra-total-monto').hidden = !hay || pasoActual === 1 || sub;
+    $('estado-guardado').classList.toggle('fuera', !enPresupuesto || sub);
   }
 
   /**
-   * Barra de abajo, encima de las pestañas, solo en Presupuesto:
-   * paso 1 → Continuar; paso 2 → total + Continuar; paso 3 → total + WhatsApp.
+   * Barra de abajo, encima de las pestañas, solo en los pasos 1 y 2: una línea
+   * que dice qué falta y el botón "Continuar". En el paso 3 los botones para
+   * mandarlo están en la pantalla; editando una abertura, abajo va su "Listo".
    */
   function pintarBarraAbajo() {
-    var enPresupuesto = vistaActual === 'presupuesto' && actual;
-    $('barra-total').hidden = !enPresupuesto;
-    if (!enPresupuesto) return;
-    var hay = actual.items.length > 0;
+    var enPresupuesto = vistaActual === 'presupuesto' && !!actual;
+    var hay = enPresupuesto && actual.items.length > 0;
+    // Paso 2 sin aberturas: el único botón es "Agregar una abertura" (el principal).
+    var visible = enPresupuesto && pasoActual !== 3 && !editando() && !(pasoActual === 2 && !hay);
+    $('btn-agregar-item').classList.toggle('btn--primario', enPresupuesto && !hay);
+    $('btn-agregar-item').classList.toggle('btn--fantasma', !enPresupuesto || hay);
+    $('barra-total').hidden = !visible;
+    document.body.classList.toggle('con-accion', visible);
+    if (!visible) return;
     $('barra-total').dataset.paso = pasoActual;
-    $('barra-total-monto').hidden = pasoActual === 1 || !hay;
-    $('btn-continuar').hidden = pasoActual === 3;
-    $('btn-whatsapp-fijo').hidden = pasoActual !== 3 || !hay;
-    // Una sola acción principal abajo: en un teléfono angosto no entran tres cosas.
-    // "Descargar PDF" está en la pantalla, debajo de WhatsApp.
-    $('btn-pdf-fijo').hidden = true;
   }
 
   /* ════════ Entregar: PDF, WhatsApp, email ════════ */
@@ -2516,6 +2648,7 @@
       if (ev.key === 'Escape' && !$('modal-listo').hidden) cerrarListo();
       if (ev.key === 'Escape' && !$('modal-opciones').hidden) cerrarOpciones();
       if (ev.key === 'Escape' && !$('modal-compras').hidden) cerrarCompras();
+      if (ev.key === 'Escape' && vidrioAbierto) { vidrioAbierto = null; render(); }
     });
 
     var lista = $('lista-items');
@@ -2581,6 +2714,7 @@
       if (tocado) {
         var itx = itemPorId(tocado.closest('.item').dataset.id);
         if (!itx) return;
+        var eraTipoDeVidrio = tocado.classList.contains('variante--vidrio');
         if (tocado.dataset.forma) {
           itx.forma = tocado.dataset.forma;
           var pp = preciosDelPresupuesto();
@@ -2604,6 +2738,21 @@
         hayCambios = true;
         render();
         autoguardar();
+        if (eraTipoDeVidrio) {   // si el tipo tiene espesores, quedan a la vista
+          var esp = lista.querySelector('[data-hoja-vidrio]:not([hidden]) .espesores');
+          if (esp) esp.scrollIntoView({ block: 'nearest' });
+        }
+        return;
+      }
+      var abreVidrio = ev.target.closest('[data-abrir-vidrio]');
+      if (abreVidrio) {
+        vidrioAbierto = abreVidrio.closest('.item').dataset.id;
+        render();
+        return;
+      }
+      if (ev.target.hasAttribute && ev.target.hasAttribute('data-hoja-vidrio')) {   // toque afuera de la hoja
+        vidrioAbierto = null;
+        render();
         return;
       }
       var variante = ev.target.closest('[data-variante]');
@@ -2634,7 +2783,11 @@
       if (boton.dataset.accion === 'abrir-item') {
         itemAbierto = item.id;
         render();
-        mostrarItem(item.id);
+        return;
+      }
+      if (boton.dataset.accion === 'cerrar-vidrio') {
+        vidrioAbierto = null;
+        render();
         return;
       }
       if (boton.dataset.accion === 'vidrio-a-todas') {
@@ -2648,9 +2801,7 @@
       if (boton.dataset.accion === 'listo') {
         var faltaListo = faltaEnItem(item);
         if (faltaListo) { mostrarFaltaEnItem(item, faltaListo); avisar(faltaListo.mensaje, 'error'); return; }
-        itemAbierto = null;
-        render();
-        mostrarItem(item.id);
+        cerrarItem();
         avisar((codigosActuales[actual.items.indexOf(item)] || 'Abertura') + ' lista');
         return;
       }
@@ -2671,12 +2822,21 @@
         mostrarItem(copia.id);
         avisar('Agregada otra igual: cambiale lo que haga falta');
       } else if (boton.dataset.accion === 'borrar') {
-        var tip = C.buscar(preciosDelPresupuesto().tipologias, item.tipologiaId);
-        if (!confirm('¿Quitar "' + (tip ? tip.nombre : 'esta abertura') + '" del presupuesto?')) return;
-        actual.items.splice(actual.items.indexOf(item), 1);
+        // Se quita sin preguntar y se puede deshacer: es más claro que una ventana de "¿Seguro?".
+        var lugarQuitada = actual.items.indexOf(item);
+        var codigoQuitada = codigosActuales[lugarQuitada] || 'Abertura';
+        var presupuestoQuitada = actual;
+        actual.items.splice(lugarQuitada, 1);
         if (itemAbierto === item.id) itemAbierto = null;
         render();
-        avisar('Abertura quitada');
+        avisar(codigoQuitada + ' quitada', null, { texto: 'Deshacer', hacer: function () {
+          if (actual !== presupuestoQuitada) return;
+          actual.items.splice(Math.min(lugarQuitada, actual.items.length), 0, item);
+          hayCambios = true;
+          render();
+          autoguardar();
+          avisar(codigoQuitada + ' de vuelta en la lista');
+        } });
       }
       hayCambios = true;
       autoguardar();
@@ -2893,7 +3053,7 @@
       var b = ev.target.closest('[data-abrir]');
       if (b) abrirAjuste(b.dataset.abrir);
     });
-    $('btn-atras').addEventListener('click', cerrarAjuste);
+    $('btn-atras').addEventListener('click', function () { if (editando()) cerrarItem(); else cerrarAjuste(); });
     // Un toque se "siente": vibración muy corta en botones principales,
     // pestañas, pasos y opciones (en iPhone el navegador no vibra; no pasa nada).
     document.addEventListener('click', function (ev) {
@@ -2910,6 +3070,9 @@
     window.addEventListener('popstate', function () {
       var id = (history.state && history.state.ajuste) || '';
       if (vistaActual === 'precios') abrirAjuste(id, true);
+      if (volviendoSolo) { volviendoSolo = false; sincronizarEdicion(); return; }
+      // Atrás del celular mientras se edita una abertura: vuelve a la lista.
+      if (itemAbierto && !(history.state && history.state.item)) cerrarItem();
     });
 
     ['alu-precio', 'alu-moneda'].forEach(function (id) {

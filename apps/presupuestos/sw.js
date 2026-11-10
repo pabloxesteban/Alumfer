@@ -15,7 +15,7 @@
    Si no, el navegador no se entera de que hay algo nuevo.
    ============================================================ */
 
-var VERSION = '2026-11-10.17';
+var VERSION = '2026-11-10.18';
 var CACHE = 'alumfer-presupuestos-' + VERSION;
 
 var ARCHIVOS = [
@@ -27,6 +27,8 @@ var ARCHIVOS = [
   'manifest.webmanifest',
   'logo-alumfer.jpg',
   'favicon.png',
+  'fuentes/inter.woff2',
+  'fuentes/newsreader.woff2',
   'icono-192.png',
   'icono-512.png',
   'js/formato.js',

@@ -30,6 +30,7 @@ await p.fill('#cli-nombre', 'Ana Ruiz');
 await p.click('#btn-agregar-item'); await p.click('.tipo-tile[data-tipo="vent-corr-2"]');
 ok(await p.isVisible('#entrega'), 'con una abertura aparece el total y los botones');
 ok((await p.textContent('#btn-agregar-item')).includes('Agregar otra abertura'), 'el botón pasa a decir "Agregar otra abertura"');
+await p.click('.item__resumen');   // .18: la abertura se edita en su propia pantalla
 const desc0 = await p.textContent('.variante--vidrio.is-activa');
 ok(/Simple/.test(desc0), 'el vidrio por defecto es Simple');
 
@@ -48,6 +49,7 @@ const nombresTiles = await p.$$eval('#grilla-tipos .tipo-tile span', ns => ns.ma
 ok(nombresTiles.filter(n => /Ventana corrediza/.test(n)).length === 1 && !nombresTiles.some(n => /3 hojas|4 hojas/.test(n)),
    'en el selector hay un solo "Ventana corrediza" (' + nombresTiles.length + ' dibujos en total)');
 await p.click('#btn-cerrar-modal');
+await p.click('.item__resumen');
 
 // cantidad con + y −
 const tot1 = await p.textContent('.item [data-total] strong');
@@ -79,7 +81,7 @@ ok(await p.locator('.extra:has-text("Mosquitero")').evaluate(n => n.classList.co
 
 // banderola chica: mínimo
 await p.click('#btn-agregar-item'); await p.click('.tipo-tile[data-tipo="banderola"]');
-const it2 = p.locator('.item').nth(1);
+const it2 = p.locator('.item--abierto');   // .18: la que se edita ocupa la pantalla
 await it2.locator('[data-campo="anchoCm"]').fill('50'); await it2.locator('[data-campo="altoCm"]').fill('40');
 ok(/se cobra el mínimo/.test(await it2.locator('[data-equivale]').textContent()), 'una abertura chica explica que se cobra el mínimo');
 

@@ -23,6 +23,7 @@ El dólar se simula (`ctx.route(/dolarapi|bluelytics/, …)`), nada sale a inter
 | `prueba7.mjs` | Guardar, Guardados, seguimiento "Para volver a llamar", copia de seguridad, resumen del mes, ganancia. |
 | `prueba8.mjs` | "Otro trabajo" con precio a mano y precio a mano por abertura, también en el PDF. |
 | `prueba9.mjs` | Campos obligatorios, barra de avance, estados automáticos, "¿aceptó?", 360 px. |
+| `prueba10.mjs` | Rediseño .18: letra propia sin pedir nada afuera, abertura a pantalla completa, hoja del vidrio, «Deshacer» al quitar, «Guardado» fijo, un aviso por vez, total de la franja = resumen = motor, contrastes, ninguna pantalla se sale de 360 px, compu con pestañas al costado. |
 | `angosto360.mjs` | Tilde del paso 3 al mandar, botones de Guardados en 360 px, sin scroll horizontal. |
 | `precios-menu.mjs` | Precios como menú: abrir pantallas, editar en el renglón, detalle, atrás del celular, ‹. |
 | `actualiza.mjs` | Actualización: primera instalación sin recarga, versión nueva aplicada sola al abrir, franja si llega en uso. **Cambia `VERSION` de `sw.js` en disco y la restaura al terminar.** |
@@ -37,5 +38,8 @@ Herramientas sueltas (no van en `correr.sh`):
 `pasos.mjs` es el ayudante: antes de tocar un elemento va al paso del
 presupuesto o a la pantalla de Precios (y abre el renglón) donde está, como lo
 haría la persona; si un paso no deja avanzar, completa nombre y teléfono.
+Desde la .18 también sale de la abertura que se está editando (toca «‹») cuando
+se toca algo de afuera, y abre o cierra la hoja del vidrio. Para escribir en la
+abertura abierta usar `.item--abierto …`.
 Con locators encadenados ve el primero, no el campo final: escribir el
 selector entero en un solo string.

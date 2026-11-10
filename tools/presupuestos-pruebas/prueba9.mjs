@@ -12,7 +12,8 @@ ok(await paso() === '1', 'arranca en el paso 1 (Cliente)');
 ok(await p.isVisible('#btn-continuar') && await p.isHidden('#barra-total-monto'), 'paso 1: solo "Continuar" abajo');
 ok(await p.isVisible('.barra__tabs .tab[data-vista="historial"]'), 'pestañas abajo visibles');
 ok(await p.isHidden('#btn-agregar-item'), 'el paso 2 no se ve en el paso 1');
-ok(/Vas 0 %/.test(await p.textContent('#avance-texto')), 'la barrita arranca en 0 %: ' + await p.textContent('#avance-texto'));
+const avance = () => p.getAttribute('#avance-pres', 'aria-valuenow');
+ok(await avance() === '0' && /Falta: el nombre del cliente/.test(await p.textContent('#avance-texto')), 'arriba del botón dice lo primero que falta: ' + await p.textContent('#avance-texto'));
 // Obligatorios del paso 1
 await p.click('#btn-continuar');
 ok(await paso() === '1' && await p.locator('#campo-cli-nombre.con-error').count() === 1 && /Falta el nombre/.test(await p.textContent('#err-cli-nombre')), 'sin nombre no avanza y marca el campo');
@@ -28,14 +29,18 @@ ok(await paso() === '1' && /incompleto/.test(await p.textContent('#err-cli-telef
 await p.click('#pasos [data-paso="3"]');
 ok(await paso() === '1', 'tampoco se puede saltar al paso 3 desde el indicador');
 await p.fill('#cli-telefono', '11 5555-1234');
-ok(/Vas 33 %/.test(await p.textContent('#avance-texto')) && /agregar las aberturas/.test(await p.textContent('#avance-texto')), 'con nombre y teléfono la barrita va 33 % y dice qué falta: ' + await p.textContent('#avance-texto'));
+ok(await avance() === '33' && /agregar las aberturas/.test(await p.textContent('#avance-texto')), 'con nombre y teléfono va 33 % y dice qué falta: ' + await p.textContent('#avance-texto'));
 await p.evaluate(() => document.activeElement.blur());
 await p.click('#btn-continuar');
 ok(await paso() === '2', 'Continuar → paso 2');
-await p.click('#btn-continuar');
+ok(await p.isHidden('#btn-continuar') && await p.locator('#btn-agregar-item.btn--primario').count() === 1, 'paso 2 sin aberturas: el único botón es "Agregar una abertura"');
+await p.click('#pasos [data-paso="3"]');
 ok(await paso() === '2' && /Agregá al menos una abertura/.test(await p.textContent('#avisos')), 'sin aberturas no deja pasar al paso 3 y explica por qué');
 await p.click('#btn-agregar-item'); await p.click('.tipo-tile[data-tipo="vent-corr-2"]'); await p.waitForTimeout(300);
-ok(await p.isVisible('#barra-total-monto'), 'paso 2 con aberturas: total + Continuar');
+// .18: editar una abertura es una pantalla propia
+ok(await p.isVisible('#btn-atras') && await p.isHidden('#pasos') && await p.isHidden('.barra__tabs') && await p.isHidden('#btn-continuar') && /Ventana corrediza/.test(await p.textContent('#titulo-vista')),
+   'la abertura ocupa la pantalla: arriba "‹" y su nombre, sin pasos ni pestañas');
+ok(await p.isVisible('.item--abierto .item__pie [data-accion="listo"]') && (await p.locator('.item--abierto .item__pie').evaluate(n => getComputedStyle(n).position)) === 'fixed', 'abajo, fijo: el precio y "Listo"');
 // Medidas obligatorias
 await p.locator('.item--abierto [data-campo="altoCm"]').fill('');
 await p.click('.item--abierto [data-accion="listo"]');
@@ -43,16 +48,26 @@ ok(await p.locator('.item--abierto').count() === 1 && /Falta el alto/.test(await
 await p.locator('.item--abierto [data-campo="altoCm"]').fill('110');
 await p.evaluate(() => document.activeElement.blur());
 await p.click('.item--abierto [data-accion="listo"]');
+ok(await p.isVisible('#barra-total-monto') && await p.isVisible('#btn-continuar') && await p.isVisible('#pasos'), 'paso 2 con aberturas: total arriba + Continuar abajo');
+ok((await p.locator('#barra-total-monto').evaluate(n => getComputedStyle(n.closest('.barra')).backgroundColor)) === 'rgb(23, 74, 140)', 'el total va en la franja azul de arriba');
+// Atrás del celular: vuelve de la abertura a la lista
+await p.click('.item__resumen'); await p.waitForTimeout(200);
+await p.goBack(); await p.waitForTimeout(300);
+ok(await p.locator('.item--abierto').count() === 0 && await paso() === '2', 'el atrás del celular cierra la abertura y deja la lista');
 // Otro trabajo sin precio frena el Continuar y se abre solo
 await p.click('#btn-agregar-item'); await p.click('.tipo-tile[data-tipo="libre"]'); await p.waitForTimeout(300);
 await p.locator('.item--abierto [data-campo="descripcionLibre"]').fill('Retiro de las viejas');
 await p.evaluate(() => document.activeElement.blur());
+await p.click('#btn-atras');   // vuelve a la lista sin terminarlo
+ok(/Falta completar/.test(await p.textContent('#lista-items')), 'el renglón avisa "Falta completar"');
 await p.click('#btn-continuar');
-ok(await paso() === '2' && /Falta el precio/.test(await p.textContent('.item--abierto .con-error')), 'Continuar con un trabajo sin precio frena y lo marca');
+ok(await paso() === '2' && /Falta el precio/.test(await p.textContent('.item--abierto .con-error')), 'Continuar con un trabajo sin precio frena, lo abre y lo marca');
 await p.locator('.item--abierto [data-campo="precioLibre"]').fill('20000');
 await p.evaluate(() => document.activeElement.blur());
+await p.click('.item--abierto [data-accion="listo"]');
 await p.click('#btn-continuar');
-ok(await paso() === '3' && await p.isVisible('#btn-whatsapp-fijo') && await p.isHidden('#btn-continuar') && await p.isVisible('#btn-pdf'), 'paso 3: total + WhatsApp abajo, PDF en la pantalla');
+ok(await paso() === '3' && await p.isHidden('#barra-total') && await p.isVisible('#btn-whatsapp') && await p.locator('.btn--whatsapp:visible').count() === 1 && await p.isVisible('#btn-pdf'),
+   'paso 3: un solo botón de WhatsApp, en la pantalla, y el PDF al lado');
 ok(await p.locator('#pasos [data-paso="1"].is-hecho').count() === 1 && await p.locator('#pasos [data-paso="3"][aria-current="step"]').count() === 1, 'el indicador marca hechos y actual');
 await p.click('#pasos [data-paso="1"]');
 ok(await paso() === '1', 'tocando el indicador se vuelve al paso 1');
@@ -67,7 +82,8 @@ const alto = await p.evaluate(() => document.getElementById('btn-continuar').get
 ok(alto >= 56, 'Continuar mide ' + Math.round(alto) + ' px (≥ 56)');
 // Guardar y enviar completan la barrita; el estado se pone solo
 await p.click('#pasos [data-paso="3"]'); await p.click('#btn-guardar');
-ok(/Vas 83 %/.test(await p.textContent('#avance-texto')) && /mandárselo al cliente/.test(await p.textContent('#avance-texto')), 'guardado: 83 % · falta mandarlo: ' + await p.textContent('#avance-texto'));
+ok(await avance() === '83' && /mandárselo al cliente/.test(await p.textContent('#avance-texto')), 'guardado: 83 % · falta mandarlo: ' + await p.textContent('#avance-texto'));
+ok(/^Guardado \d\d:\d\d$/.test((await p.textContent('#estado-guardado')).trim()) && await p.isVisible('#estado-guardado'), 'arriba queda fijo "Guardado" con la hora: ' + await p.textContent('#estado-guardado'));
 await p.evaluate(() => { window.open = () => null; });
 await p.click('#btn-whatsapp');
 await p.waitForTimeout(1500);

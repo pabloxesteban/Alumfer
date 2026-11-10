@@ -12,6 +12,7 @@ await p.click('#btn-continuar'); await pausa(900);
 await p.click('#btn-agregar-item'); await pausa(900);
 await p.click('.tipo-tile[data-tipo="vent-corr-2"]'); await pausa(900);
 await p.click('.variante >> nth=1'); await pausa(700);
+await p.click('.item--abierto [data-accion="listo"]'); await pausa(900);
 await p.click('#btn-continuar'); await pausa(1100);
 await p.click('#pasos [data-paso="1"]'); await pausa(900);
 await p.click('#pasos [data-paso="3"]'); await pausa(1000);

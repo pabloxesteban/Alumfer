@@ -1,0 +1,4 @@
+Inter (c) The Inter Project Authors — https://github.com/rsms/inter
+Newsreader (c) The Newsreader Project Authors — https://github.com/productiontype/Newsreader
+Las dos bajo SIL Open Font License 1.1 (https://openfontlicense.org).
+Archivos: subconjunto latino, eje de peso, tomados de @fontsource-variable 5.3.0.

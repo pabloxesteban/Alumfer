@@ -15,7 +15,7 @@ if ! curl -s -o /dev/null http://localhost:8777/; then
   sleep 1
 fi
 fallas=0
-for t in prueba prueba2 prueba3 prueba4 prueba5 prueba6 prueba7 prueba8 prueba9 angosto360 precios-menu actualiza; do
+for t in prueba prueba2 prueba3 prueba4 prueba5 prueba6 prueba7 prueba8 prueba9 prueba10 angosto360 precios-menu actualiza; do
   r=$(cd "$AQUI" && node "$t.mjs" "$SALIDA" 2>&1)
   ok=$(echo "$r" | grep -c '^OK'); mal=$(echo "$r" | grep -c '^FALLA')
   echo "$t: $ok OK, $mal FALLA"

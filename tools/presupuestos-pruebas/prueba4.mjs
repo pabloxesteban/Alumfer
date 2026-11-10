@@ -65,8 +65,10 @@ await centro(abierta + '.extra:has-text("Reja")');
 await p.screenshot({ path: OUT + '/c3-reja.png' });
 await p.click(abierta + '.extra:has-text("Reja")');
 ok(await p.locator(abierta + '[data-adicional-tipo]').count() === 0, 'al desmarcar Reja se va la pregunta');
+// .18: el renglón es corto (qué es, medida, precio); el color se ve al abrir la abertura.
+ok(/Anodizado champagne/i.test(await p.locator(abierta + '[data-elegir="colorId"]').textContent()), 'la abertura dice anodizado champagne');
 await p.click(abierta + '[data-accion="listo"]');
-ok(/Anodizado champagne/i.test(await p.locator('.item').first().textContent()), 'el renglón dice anodizado champagne');
+ok(!/champagne/i.test(await p.locator('.item').first().textContent()), 'el renglón resumido no repite el color');
 
 // cortina sola
 await p.click('#btn-agregar-item');

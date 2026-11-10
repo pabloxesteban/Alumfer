@@ -89,12 +89,24 @@ franja amarilla y conviene usar el comando de arriba.
 
 ## Cómo se ve
 
-Como una app del teléfono: arriba, el nombre de la pantalla y el botón
-**+ Nuevo**; abajo, las pestañas **Presupuesto · Guardados · Precios** con
-ícono y palabra. El presupuesto va **un paso por pantalla** (1 Cliente ·
-2 Aberturas · 3 Enviar): el indicador de arriba muestra dónde se está y deja
-volver a cualquier paso, y el botón grande **Continuar** de abajo lleva al
-siguiente. En el paso 3, abajo quedan el total y **WhatsApp**.
+Papel color hormigón, tarjetas blancas y un solo color de acento: el azul del
+logo. Cada tarjeta hace **una sola pregunta** («¿Para quién es?», «¿Qué medidas
+tiene?», «¿Cómo se lo mandás?»). Abajo, las pestañas **Presupuesto · Guardados
+· Precios** con ícono y palabra.
+
+Mientras se arma un presupuesto, arriba hay una **franja azul** con el número,
+el cliente, si ya quedó **guardado** (con la hora) y el **total**, siempre en
+el mismo lugar. El presupuesto va **un paso por pantalla** (1 Cliente ·
+2 Aberturas · 3 Enviar). Abajo hay una sola línea que dice qué falta y un solo
+botón, **Continuar**.
+
+Cada abertura se edita en **su propia pantalla**: arriba «‹» para volver a la
+lista (también sirve el atrás del celular) y abajo, fijo, el precio y
+**Listo**. En la compu las pestañas van al costado y el resumen de plata queda
+a la vista a la derecha.
+
+La letra (Inter y Newsreader) viene dentro de la app, en `fuentes/`: no se
+baja nada de otro servidor y funciona sin señal.
 
 ## Las tres pestañas
 
@@ -104,8 +116,8 @@ siguiente. En el paso 3, abajo quedan el total y **WhatsApp**.
 | **Guardados** | Buscar por nombre, número o teléfono; reabrir, repetir o borrar. Arriba: el resumen del mes y los presupuestos "para volver a llamar". Copia de seguridad. |
 | **Precios** | Un menú como el de *Ajustes* del celular: Aberturas, Vidrios, Agregados, Líneas, Colores, Formas, Aumentar precios, Kilo de aluminio, Costos, Condiciones y Tu empresa. Cada renglón abre su pantalla (se vuelve con ‹ o con el atrás del celular). En las listas se ve el nombre y el precio; tocando el nombre aparece el resto. |
 
-Encima de las pestañas queda fija una barra con el total y la acción del paso
-(Continuar, o WhatsApp en el último), así no hay que buscarla.
+Encima de las pestañas queda fija una barra con lo que falta y el botón
+**Continuar**. El total está siempre arriba, en la franja azul.
 
 ## Cargar una abertura
 
@@ -117,7 +129,8 @@ Encima de las pestañas queda fija una barra con el total y la acción del paso
    Las medidas que se piden cambian con la forma. Se cobra el rectángulo que
    la contiene más el recargo de *Precios → Formas especiales* (0 % de entrada).
 3. **Medidas** en centímetros y **cantidad** con − y +.
-4. **Vidrio:** primero el tipo (Simple, Esmerilado, Espejado, Laminado,
+4. **Vidrio:** un renglón dice cuál lleva («Simple 4 mm») y *Cambiar* abre la
+   lista con dibujos: primero el tipo (Simple, Esmerilado, Espejado, Laminado,
    Doble vidrio, Poliestireno, Policarbonato alveolar o compacto) y después,
    si hace falta, el espesor, el diseño (el poliestireno se elige viendo la
    textura) o el color de la placa (policarbonato: transparente, opal, bronce).
@@ -125,7 +138,9 @@ Encima de las pestañas queda fija una barra con el total y la acción del paso
    (pintados y anodizados), **¿Dónde va?** (opcional) y agregados (mosquitero,
    premarco de aluminio, cortina, reja —pregunta el tipo—, etc.). Mosquiteros,
    rejas, postigones y cortinas no piden línea; las cortinas de PVC tampoco color.
-6. **Listo:** la abertura queda resumida en un renglón; se toca para cambiarla.
+6. **Listo:** la abertura queda resumida en un renglón (qué es, medida y
+   precio); se toca para cambiarla. **Quitar** la saca sin preguntar y el aviso
+   ofrece *Deshacer*.
 
 **Lo que no está en el catálogo:** al final del selector está **Otro trabajo**
 (una reparación, un vidrio suelto, retirar las aberturas viejas…): se escribe
@@ -153,8 +168,9 @@ el **nombre** y el **teléfono** del cliente, al menos una abertura, y en cada
 abertura sus **medidas** (en "Otro trabajo", la descripción y el precio). El
 campo que falta se marca en rojo con una explicación, y la app lleva hasta ahí.
 
-Debajo de los pasos hay una **barra que se va llenando** (cliente → aberturas →
-guardado → enviado) y dice qué falta. Cuando se manda, se pone verde.
+Arriba del botón de abajo hay **una línea que dice lo próximo que falta**
+(«Falta: agregar las aberturas»). Los pasos se tildan en verde a medida que
+quedan completos; el 3, cuando se manda.
 
 ## Los estados se ponen solos
 
@@ -345,6 +361,7 @@ apps/presupuestos/
 ├── sw.js                 Modo sin internet y aviso de versión nueva
 │                         (subir VERSION al publicar cualquier cambio)
 ├── icono-*.png           Íconos de la app
+├── fuentes/              Inter y Newsreader (licencia OFL), sin CDN
 └── js/
     ├── precios-base.js   Lista de precios de fábrica (semilla editable)
     ├── iconos.js         Dibujo de cada tipo de abertura y de la interfaz

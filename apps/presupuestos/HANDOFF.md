@@ -3,7 +3,7 @@
 Para retomar el trabajo sin tener que reconstruir el contexto: qué hay hecho, qué
 se decidió y por qué, qué falta, y con qué trampas ya chocamos.
 
-Estado al 10 de noviembre de 2026 (versión `2026-11-10.17`); todo lo descrito está publicado y andando.
+Estado al 10 de noviembre de 2026 (versión `2026-11-10.18`); todo lo descrito está publicado y andando.
 **Si trabajás sobre la app, actualizá este archivo antes de cerrar.**
 
 ---
@@ -71,8 +71,8 @@ cargan en la app (Precios) o con una copia de seguridad, nunca en el código.
 
 - `main` incluye **todo** lo de presupuestos más trabajo del sitio hecho en otras
   sesiones (PRs #39 a #48).
-- Rama de la última sesión: `claude/intelligent-maxwell-d43hn3`, igual a `main`.
-- Versión publicada: **2026-11-10.17**. Historia: .1 PDF real, compartir,
+- Rama de la última sesión: `claude/upbeat-clarke-hfpc4w`, igual a `main`.
+- Versión publicada: **2026-11-10.18**. Historia: .1 PDF real, compartir,
   clientes, Tu empresa · .2 rediseño suave y palabras claras · .3 hojas como
   pregunta · .4 vidrio en dos pasos, formas especiales, ¿Dónde va? · .5 catálogo
   del sitio · .6 obras grandes estilo OP 2.1, rejas · .7 lista de materiales,
@@ -82,10 +82,11 @@ cargan en la app (Precios) o con una copia de seguridad, nunca en el código.
   obligatorios, barra de avance, estados automáticos · .14 apariencia sobria ·
   .15 minimalista y Precios como menú de Ajustes · .16 velocidad (sin Google
   Fonts, jsPDF diferido), arreglo de actualizaciones, plana + transiciones ·
-  .17 **apariencia tendencia 2026** (vidrio flotante, resorte, efectos).
+  .17 apariencia tendencia 2026 (vidrio flotante, resorte, efectos) ·
+  .18 **rediseño «Hormigón guiado»** (ver punto 44: reemplaza toda la apariencia anterior).
 - **Pruebas en el repo**: `tools/presupuestos-pruebas/` (antes vivían en el
   scratchpad y se perdían). `bash tools/presupuestos-pruebas/correr.sh` corre
-  las 12 (215 chequeos). Ver su README.
+  las 13 (253 chequeos). Ver su README.
 
 **Flujo de publicación (Pablo lo autorizó explícitamente, no hay que preguntar
 cada vez):** commit en la rama → `git checkout main && git merge --ff-only <rama>`
@@ -98,13 +99,14 @@ cada vez):** commit en la rama → `git checkout main && git merge --ff-only <ra
 ```
 apps/presupuestos/
 ├── index.html            Las tres vistas: Presupuesto, Anteriores, Precios
-├── estilos.css           Pantalla (todo grande; fichas apiladas en celular)
+├── estilos.css           Pantalla: una sola hoja, valores en :root (punto 44)
 ├── impresion.css         Hoja A4 del presupuesto impreso
 ├── tokens.css            Copia de shared/design-system/tokens.css
 ├── sw.js                 Offline + aviso de versión nueva  ← subir VERSION
 ├── manifest.webmanifest  Instalación como app
 ├── logo-alumfer.jpg      Membrete (NO usar solologo.png: es blanco sobre transparente)
 ├── icono-*.png
+├── fuentes/              Inter y Newsreader (.woff2, licencia OFL): la letra viene en la app
 └── js/
     ├── formato.js        Moneda, fechas, teléfonos, parseo de números es-AR
     ├── iconos.js         24 pictogramas de aberturas + íconos de interfaz
@@ -565,6 +567,73 @@ Documentación completa en `apps/presupuestos/README.md`.
       pestañas, pasos y opciones (solo Android; iPhone no vibra desde la web).
     - Se mantiene el mínimo de 56 px del botón principal (lo chequea prueba9).
 
+44. **«Hormigón guiado» (.18): rediseño completo, con proceso de aprobación.**
+    Pablo pidió un rediseño de nivel profesional (auditoría → investigación →
+    tres conceptos → aprobación → implementación). La propuesta, con las
+    capturas de la auditoría, la investigación, los tres conceptos (Hormigón,
+    Plano, Bosque) y el sistema de diseño está en
+    <https://claude.ai/artifact/PoQvxXaoCz5kDwXAwz6MRa> (privada, de Pablo).
+    **Lo que Pablo dijo y aprobó (no deshacer sin preguntar):** colores y
+    letra de Hormigón; de Bosque, la estructura (bloques bien separados y el
+    total arriba), pero en el azul de Alumfer; «menos información, cortes
+    claros, que la app lo vaya guiando, botones claros pero nada exagerado».
+    Aprobó además: letra propia, ficha corta con el vidrio en una hoja, sacar
+    vidrio flotante/rebote/brillo y la barra «Vas 83 %», y editar la abertura
+    en pantalla propia. **Esto reemplaza las decisiones de apariencia de los
+    puntos 35 y 40 a 43** (lo de comportamiento de esos puntos sigue).
+    - **`estilos.css` se reescribió entero** (una sola hoja, ~560 líneas, sin
+      capas apiladas). Los valores están en `:root`: papel `#F3F1EC`, tarjetas
+      blancas, tinta `#1B1D1F`, un solo acento `#174A8C` (el azul del logo);
+      verde solo WhatsApp y guardado/completo; cobre para lo que falta; rojo
+      para errores y quitar. Radios 10 (controles) y 16 (tarjetas). Toque 48 px
+      mínimo, 56 el principal. Movimiento 120/200/260 ms, sin rebote.
+    - **Letra propia**: Inter (todo) y Newsreader (títulos y la pregunta de
+      cada tarjeta), en `fuentes/*.woff2` (106 KB, licencia OFL), con
+      `font-display: swap`, en la lista del service worker. No es Google
+      Fonts: se sirve desde la app, así que no vuelve el problema del punto 42.
+      El cero de las dos es liso (no se confunde con «Ø»).
+    - **Cada bloque es una tarjeta con una sola pregunta** («¿Para quién es?»,
+      «¿Qué medidas tiene?», «¿Cómo se lo mandás?»).
+    - **Encabezado**: en Presupuesto es una **franja azul** con número ·
+      cliente, «Guardado 18:52» (`#estado-guardado`, `pintarGuardado()`:
+      «Guardando…» mientras espera el guardado automático) y, con aberturas, el
+      **Total** (`#barra-total-valor` se mudó acá). En Guardados y Precios, el
+      encabezado es papel con el título en serif.
+    - **Barra de abajo**: sólida, pegada a las pestañas (también sólidas). Una
+      línea «Falta: …» (`#avance-texto`; la barra de % se sacó, queda
+      `aria-valuenow`) y un solo botón «Continuar». En el paso 2 sin aberturas
+      no hay barra: el único botón es «Agregar una abertura» (principal). En
+      el paso 3 tampoco: WhatsApp está una sola vez, en la pantalla.
+    - **Renglón de abertura corto**: dibujo, código, nombre, medida (+ «N
+      iguales», «forma triangular», «Precio a mano», «Falta completar») y
+      precio. El vidrio, la línea y el color ya **no** van en el renglón.
+    - **Editar una abertura es una pantalla propia** (`editando()`,
+      `sincronizarEdicion()`, `cerrarItem()`): `#vista-presupuesto[data-editando]`
+      y `body.editando-item` esconden pasos, lista y pestañas por CSS; arriba
+      «‹» + el nombre (`#btn-atras`, el mismo de Precios), abajo fijo
+      `.item__pie` con el precio y «Listo». El **atrás del celular** vuelve a
+      la lista (`history.pushState({ item })`; `volviendoSolo` evita la
+      carrera con `history.back()`). La ficha va en `<section class="bloque">`.
+    - **Vidrio**: renglón «Vidrio · Simple 4 mm · Cambiar» (`renglonVidrio`,
+      `[data-abrir-vidrio]`) que abre una hoja (`hojaVidrio`,
+      `[data-hoja-vidrio]`, estado `vidrioAbierto`) con los mismos dibujos y
+      espesores de siempre. La hoja vive **dentro** de la abertura (así el
+      manejador de clics de la lista sigue sirviendo) y se cierra con «Listo»,
+      tocando afuera o Escape. La pantalla de una ventana pasó de 3.100 px a
+      menos de 2.200.
+    - **Quitar una abertura no pregunta**: la quita y el aviso trae
+      «Deshacer» (8 s). `avisar(texto, tipo, accion)` muestra **un aviso por
+      vez**, siempre arriba de la barra de abajo.
+    - **Paso 3**: primero «¿Cómo se lo mandás?» (WhatsApp, PDF y email),
+      después «Lo que le llega a {nombre}» (`#tarjeta-resumen`: totales,
+      ajustes plegados y «Guardar presupuesto»).
+    - **Guardados**: primero «Para volver a llamar», después la lista (el
+      renglón entero abre; «Repetir» y «Borrar» son texto), el mes y la copia.
+    - **Compu (≥ 1024 px)**: pestañas al costado y, en el paso 2, el resumen
+      de plata fijo a la derecha. Tablet: una columna centrada.
+    - **Pendiente de este rediseño**: el PDF y la hoja impresa (siguen con el
+      diseño anterior; la propuesta aprobada está dibujada en el artefacto).
+
 ---
 
 ## 5. Reglas duras
@@ -584,15 +653,18 @@ Documentación completa en `apps/presupuestos/README.md`.
 
 **Lo que sigue (10/11), en orden de importancia:**
 
-1. **Ver cómo le cae el diseño .17 a Pablo y a su papá.** Es la cuarta vuelta
-   de apariencia en dos días (.14 sobria → .15 minimalista → .16 plana → .17
-   tendencia 2026). Antes de otra vuelta, preguntar QUÉ no gusta en concreto
-   (con captura). Posibles ajustes si lo pide: bajar rebotes/brillo/vibración,
-   modo oscuro opcional (se descartó por el sol en obra), otro color de acento.
-2. **Probar en el Android real del papá**: que el vidrio (`backdrop-filter`)
-   no ande lento en un celular de gama baja (si anda lento: subir la opacidad
-   de `--vidrio` a .97 y sacar el blur), la vibración, compartir el PDF por
-   WhatsApp y Gmail. En un iPhone: "Descargar PDF".
+1. **Ver cómo le cae la .18 («Hormigón guiado», punto 44) a Pablo y a su
+   papá.** Esta vez hubo propuesta dibujada y aprobada antes de implementar.
+   Si algo no cierra, pedir qué pantalla y qué cosa (con captura) y ajustar
+   sobre el sistema de `:root`, sin sumar capas.
+2. **Rediseñar el PDF y la hoja impresa** con la misma identidad (dibujado en
+   el artefacto de la propuesta: «Válido hasta» arriba, sin encabezado negro
+   ni barra azul, total como cifra más grande, condiciones en dos columnas,
+   solo los datos del cliente que existen). Decidir con Pablo si se incrusta
+   Inter en jsPDF (pesa unos 300 KB más) o se queda Helvetica.
+   **Probar en el Android real del papá**: el atrás del celular dentro de una
+   abertura, la hoja del vidrio, compartir el PDF por WhatsApp y Gmail. En un
+   iPhone: "Descargar PDF".
 3. **Cargar los precios reales.** Lo único que falta para que la app sirva de
    verdad. Se cargan desde la app (Precios), **nunca en `precios-base.js`**
    (repo público). La planilla para completar con el papá está en
@@ -663,6 +735,10 @@ motor = guardado → PDF descargado → compartir por WhatsApp y email (share
 simulado con `addInitScript`) → reintento con `NotAllowedError` → sugerencia de
 cliente en un presupuesto nuevo → presupuesto de 22 aberturas en 3 páginas →
 logo propio → computadora sin share (abre `wa.me` + descarga) → hoja impresa.
+**`prueba10.mjs` (.18, 30 chequeos)**: letra propia sin pedir nada afuera,
+abertura a pantalla completa con sus preguntas, hoja del vidrio, «Deshacer»,
+«Guardado» fijo, un aviso por vez, total de la franja = resumen = motor,
+contrastes de la paleta, ninguna pantalla se sale de 360 px, y la compu.
 **Desde la .12 las pruebas usan `pasos.mjs`**: antes de tocar o leer un
 elemento, toca el paso donde está (como la persona). Prueba del recorrido por
 pasos (19 chequeos): Continuar, bloqueo sin aberturas, indicador, barra según
@@ -751,6 +827,18 @@ cd apps/presupuestos && python3 -m http.server 8777
   tiene 3 vidrios guardados, solo existen esos 3 (no se mezclan con los de fábrica).
 - jsPDF con Helvetica estándar no dibuja `−` (U+2212), espacios finos ni
   emojis: pasar todo por `PDF.limpiar()`.
+- **En 360 px, si algo empuja el ancho** (pasó con los tres pasos), el celular
+  agranda la pantalla de trabajo y las barras fijas quedan corridas y tapan
+  las pestañas. `prueba10.mjs` recorre todas las pantallas a 360 px y falla si
+  alguna se sale.
+- Un elemento `position: fixed` (el pie de la abertura, la hoja del vidrio)
+  deja de ser fijo si algún antecesor tiene `transform`: por eso los pasos
+  entran con fundido (opacidad), no deslizándose.
+- `history.back()` no es instantáneo: si se abre otra abertura antes de que
+  vuelva, el `popstate` la cerraba. Ver `volviendoSolo` en `sincronizarEdicion`.
+- En las pruebas, lo que está fuera de la abertura abierta no se puede tocar:
+  `pasos.mjs` sale solo (toca «‹») y abre la hoja del vidrio si hace falta.
+  Para escribir en la abertura usar `.item--abierto …`, no `.item >> nth=1`.
 - El deploy FTP del sitio (`deploy.yml`) corre en **cada** push a `main`, aunque
   solo cambie la app. Estuvo fallando con `530 Login authentication failed`
   porque el hosting estaba suspendido; hoy alumfer.com.ar responde 200, así que

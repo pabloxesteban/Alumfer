@@ -11,6 +11,6 @@ await p.waitForTimeout(400);
 await p.evaluate(() => { const h = [...document.querySelectorAll('.item--abierto h3, .item--abierto .extras__titulo, .item--abierto span')].find(n => /Qué vidrio/.test(n.textContent) && n.children.length === 0); (h || document.body).scrollIntoView({ block: 'start' }); window.scrollBy(0, -90); });
 await p.waitForTimeout(300);
 await p.screenshot({ path: OUT + '/despues-aberturas.png' });
-await p.click('#btn-continuar'); await p.waitForTimeout(500);
+await p.click('.item--abierto [data-accion="listo"]'); await p.click('#btn-continuar'); await p.waitForTimeout(500);
 await p.screenshot({ path: OUT + '/despues-enviar.png' });
 await b.close();
