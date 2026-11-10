@@ -213,11 +213,12 @@
     const alternarZoom = (x, y) => (lb.classList.contains('is-zoom') ? quitarZoom(lb, img) : zoomEn(x, y));
     img.addEventListener('dblclick', (e) => alternarZoom(e.clientX, e.clientY));
     lb.addEventListener('touchstart', (e) => {
+      if (e.target.closest('.comparar')) { eje = 'comparar'; return; }
       if (e.touches.length > 1) { eje = 'pinza'; return; }
       x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; dx = dy = 0; eje = null; bx = zx; by = zy;
     }, { passive: true });
     lb.addEventListener('touchmove', (e) => {
-      if (eje === 'pinza' || e.touches.length > 1) return;
+      if (eje === 'pinza' || eje === 'comparar' || e.touches.length > 1) return;
       dx = e.touches[0].clientX - x0; dy = e.touches[0].clientY - y0;
       img.style.transition = 'none';
       if (lb.classList.contains('is-zoom')) {
@@ -233,6 +234,7 @@
       }
     }, { passive: true });
     lb.addEventListener('touchend', (e) => {
+      if (eje === 'comparar') { eje = null; return; }
       if (lb.classList.contains('is-zoom') && Math.hypot(dx, dy) > 8) return;
       lb.style.removeProperty('--lb-fondo');
       if (eje === 'x' && Math.abs(dx) > 60) {
@@ -256,6 +258,79 @@
       }
       eje = null;
     }, { passive: true });
+  };
+
+  // ─── Comparador: dos fotos encimadas y una barra que se arrastra ──
+  const crearComparador = () => {
+    const el = document.createElement('div');
+    el.className = 'comparar';
+    el.hidden = true;
+    el.innerHTML = `
+      <img class="comparar__b" alt="">
+      <img class="comparar__a" alt="">
+      <span class="comparar__et comparar__et--a mono"></span>
+      <span class="comparar__et comparar__et--b mono"></span>
+      <span class="comparar__mano" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-label="Deslizá para comparar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6-6 6 6 6M15 6l6 6-6 6"/></svg>
+      </span>`;
+    const [imgB, imgA] = $$('img', el);
+    const mano = $('.comparar__mano', el);
+    const poner = (pct) => {
+      pct = Math.max(0, Math.min(100, pct));
+      el.style.setProperty('--pos', `${pct}%`);
+      mano.setAttribute('aria-valuenow', String(Math.round(pct)));
+    };
+    const desdePuntero = (x) => { const r = el.getBoundingClientRect(); poner(((x - r.left) / r.width) * 100); };
+    let arrastrando = false;
+    el.addEventListener('pointerdown', (e) => {
+      arrastrando = true;
+      el.classList.remove('is-amague');
+      el.setPointerCapture(e.pointerId);
+      desdePuntero(e.clientX);
+    });
+    el.addEventListener('pointermove', (e) => { if (arrastrando) desdePuntero(e.clientX); });
+    el.addEventListener('pointerup', () => { arrastrando = false; });
+    el.addEventListener('pointercancel', () => { arrastrando = false; });
+    el.addEventListener('click', (e) => e.stopPropagation());
+    mano.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault();
+      e.stopPropagation();
+      el.classList.remove('is-amague');
+      poner(parseFloat(mano.getAttribute('aria-valuenow')) + (e.key === 'ArrowRight' ? 5 : -5));
+    });
+    // Tamaño: lo más grande que entre en el espacio libre del visor, con la proporción de la foto
+    const ajustar = () => {
+      if (el.hidden || !el.parentElement) return;
+      if (!imgB.naturalWidth) return;
+      const ratio = imgB.naturalWidth / imgB.naturalHeight;
+      const st = el.parentElement, cs = getComputedStyle(st);
+      const libreW = st.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      const libreH = st.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+      const w = Math.max(0, Math.min(libreW, libreH * ratio));
+      el.style.width = `${w}px`;
+      el.style.height = `${w / ratio}px`;
+    };
+    window.addEventListener('resize', ajustar);
+    // el rótulo de abajo puede ocupar una o dos líneas: se recalcula cuando cambia el espacio libre
+    let observado = false;
+    return {
+      el,
+      mostrar(a, b) {
+        imgA.src = a.src; imgA.alt = a.alt;
+        imgB.src = b.src; imgB.alt = b.alt;
+        $('.comparar__et--a', el).textContent = a.tag;
+        $('.comparar__et--b', el).textContent = b.tag;
+        imgB.onload = ajustar;
+        poner(50);
+        el.hidden = false;
+        if (imgB.complete && imgB.naturalWidth) requestAnimationFrame(ajustar);
+        if (!observado && 'ResizeObserver' in window && el.parentElement) { observado = true; new ResizeObserver(() => ajustar()).observe(el.parentElement); }
+        el.classList.remove('is-amague');
+        if (!reduceMotion) { void el.offsetWidth; el.classList.add('is-amague'); }
+      },
+      ocultar() { el.hidden = true; el.classList.remove('is-amague'); },
+    };
   };
 
   // ─── Galería: filtros, "ver más" y lightbox ─────────────
@@ -332,16 +407,39 @@
       try { return JSON.parse(it.dataset.fotos); } catch (e) { return null; }
     };
 
+    // Si la serie tiene un par para comparar (antes / después, cerrada / abierta),
+    // se suma un primer paso "Comparar" con la barra deslizable.
+    const PARES = [[/antes/i, /despu/i], [/cerrad/i, /abiert/i]];
+    const serie = (it) => {
+      const fotos = fotosDe(it);
+      if (!fotos) return null;
+      for (const [ra, rb] of PARES) {
+        const a = fotos.find(x => ra.test(x.tag)), b = fotos.find(x => rb.test(x.tag));
+        if (a && b) return [{ comparar: true, tag: 'Comparar', a, b }, ...fotos];
+      }
+      return fotos;
+    };
+    const comp = crearComparador();
+    $('.lightbox__stage', lb)?.appendChild(comp.el);
+
     const paint = () => {
       const it = lbList[lbIdx];
       const img = $('img', it);
-      const fotos = fotosDe(it);
+      const fotos = serie(it);
       const f = fotos ? fotos[lbSub] : null;
-      const src = f ? f.src : (img.currentSrc || img.src);
-      const alt = f ? f.alt : img.alt;
-      mostrarFoto(lb, lbImg, src, alt, lbDir);
+      if (f && f.comparar) {
+        quitarZoom(lb, lbImg);
+        lbImg.hidden = true;
+        comp.mostrar(f.a, f.b);
+      } else {
+        comp.ocultar();
+        lbImg.hidden = false;
+        const src = f ? f.src : (img.currentSrc || img.src);
+        const alt = f ? f.alt : img.alt;
+        mostrarFoto(lb, lbImg, src, alt, lbDir);
+      }
       lbDir = 0;
-      lbLabel.textContent = (it.dataset.label || '') + (f ? ` · ${f.tag}` : '');
+      lbLabel.textContent = (it.dataset.label || '') + (f ? ` · ${f.comparar ? `${f.a.tag} / ${f.b.tag}` : f.tag}` : '');
       lbCount.textContent = `${lbIdx + 1} / ${lbList.length}`;
       if (lbTabs) {
         lbTabs.hidden = !fotos;
@@ -357,7 +455,7 @@
           lbTabs.appendChild(b);
         });
         // precargar el resto de la serie para que el cambio sea instantáneo
-        (fotos || []).forEach(x => { new Image().src = x.src; });
+        (fotos || []).forEach(x => { if (x.src) new Image().src = x.src; });
       }
       // precargar los trabajos vecinos para que deslizar sea inmediato
       [-1, 1].forEach(d => { const v = $('img', lbList[(lbIdx + d + lbList.length) % lbList.length]); if (v) new Image().src = v.currentSrc || v.src; });
@@ -381,10 +479,10 @@
     // Flechas / deslizar: primero recorren las fotos de la serie, después pasan al otro trabajo
     const go = (d) => {
       lbDir = d;
-      const fotos = fotosDe(lbList[lbIdx]);
+      const fotos = serie(lbList[lbIdx]);
       if (fotos && lbSub + d >= 0 && lbSub + d < fotos.length) { lbSub += d; paint(); return; }
       lbIdx = (lbIdx + d + lbList.length) % lbList.length;
-      const sig = fotosDe(lbList[lbIdx]);
+      const sig = serie(lbList[lbIdx]);
       lbSub = sig && d < 0 ? sig.length - 1 : 0;
       paint();
     };
@@ -592,7 +690,7 @@
   // ─── Carruseles deslizables: puntos que muestran cuántas hay ──
   // y un pequeño "amague" la primera vez que se ven, para invitar a deslizar.
   const tocable = window.matchMedia('(hover: none)').matches;
-  $$('.extras, .quotes, .features-grid, .product-list, .reviews-grid, .reel').forEach(sc => {
+  $$('.extras, .quotes, .features-grid, .product-list, .reviews-grid, .reel, .seguir__grid').forEach(sc => {
     const tarjetas = () => $$(':scope > *, :scope > .reel__track > *', sc)
       .filter(x => !x.classList.contains('reel__track') && x.getAttribute('aria-hidden') !== 'true' && x.getClientRects().length);
     const puntos = document.createElement('div');
@@ -703,5 +801,44 @@
       cifras.forEach(contar);
     }, { threshold: 0.4 });
     ioC.observe(caja);
+  }
+
+  // ─── Guías: tiempo de lectura e índice que marca dónde estás ──
+  const indice = $('.toc');
+  if (indice) {
+    // Minutos de lectura: el texto de la guía, sin formulario ni pie (unas 200 palabras por minuto)
+    const cuerpo = $$('main section').filter(sec => !sec.matches('#presupuesto, .seguir') && !sec.querySelector('form'));
+    const palabras = cuerpo.reduce((n, sec) => n + (sec.innerText || sec.textContent).split(/\s+/).filter(Boolean).length, 0);
+    const minutos = Math.max(1, Math.round(palabras / 200));
+    const destino = $('.phero .crumbs') || $('.phero__text');
+    if (destino) {
+      const p = document.createElement('p');
+      p.className = 'lectura mono';
+      p.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>${minutos} min de lectura`;
+      destino.insertAdjacentElement(destino.classList.contains('crumbs') ? 'afterend' : 'afterbegin', p);
+    }
+
+    // Índice: resalta la sección que estás leyendo y la mantiene a la vista en la fila
+    const enlaces = $$('a[href^="#"]', indice);
+    const secciones = enlaces.map(a => document.getElementById(a.getAttribute('href').slice(1))).map(h => h && (h.closest('section') || h));
+    let actual = -1;
+    const marcarIndice = () => {
+      const corte = indice.getBoundingClientRect().bottom + window.innerHeight * 0.25;
+      let i = -1;
+      secciones.forEach((sec, n) => { if (sec && sec.getBoundingClientRect().top < corte) i = n; });
+      // pasada la última sección del índice (formulario, pie), no queda nada marcado
+      const ult = secciones[secciones.length - 1];
+      if (ult && ult.getBoundingClientRect().bottom < indice.getBoundingClientRect().bottom) i = -1;
+      indice.classList.toggle('is-pegado', indice.getBoundingClientRect().top <= (nav?.getBoundingClientRect().bottom || 0) + 1);
+      if (i === actual) return;
+      actual = i;
+      enlaces.forEach((a, n) => (n === i ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')));
+      const a = enlaces[i];
+      const fila = $('ol', indice);
+      if (a && fila) fila.scrollTo({ left: a.parentElement.offsetLeft - fila.clientWidth / 2 + a.offsetWidth / 2, behavior: reduceMotion ? 'auto' : 'smooth' });
+    };
+    let rafI = 0;
+    window.addEventListener('scroll', () => { cancelAnimationFrame(rafI); rafI = requestAnimationFrame(marcarIndice); }, { passive: true });
+    marcarIndice();
   }
 })();
