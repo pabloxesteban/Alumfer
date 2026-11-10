@@ -1201,3 +1201,166 @@ input[type="date"], input[type="search"], select, textarea {
 .item__medidas + .campo__error { margin-top: calc(-1 * var(--space-2)); }
 /* El paso en el que estás sigue azul aunque ya esté completo (con la tilde) */
 .pasos__paso.is-actual.is-hecho .pasos__num { background: var(--acento); border-color: var(--acento); }
+
+/* ═══════════════════════════════════════════════════════════════
+   MINIMALISTA (.15) · pedido de Pablo: "más minimalista, como app de
+   tendencia". Pisa a las capas anteriores.
+   - Fondo gris claro y tarjetas blancas SIN borde (como iOS / Material 3);
+     el encabezado se funde con el fondo y marca una línea solo al bajar.
+   - Indicador de pasos como control segmentado (un solo bloque).
+   - Precios como el menú "Ajustes" del celular: renglones con ícono y
+     flecha; cada uno abre su pantalla. Las listas de precios son renglones
+     compactos (nombre + precio) que se abren al tocar el nombre.
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  --fondo: #eef0f3;
+  --r-tarjeta: 20px;
+  --sombra-suave: 0 1px 2px rgba(16, 24, 40, .05);
+}
+body { background: var(--fondo); }
+
+/* Encabezado fundido con el fondo */
+.barra { background: var(--fondo); border-bottom: 1px solid transparent; transition: border-color .2s, background .2s; }
+.barra.con-linea { background: rgba(238, 240, 243, .92); border-bottom-color: #dcdfe4; backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px); }
+.barra__marca strong { font-size: 1.45rem; }
+.barra__marca img { width: 36px; height: 36px; }
+.btn--nuevo { background: var(--superficie); box-shadow: var(--sombra-suave); }
+.btn-atras {
+  flex: none; display: grid; place-items: center; width: 44px; height: 44px; margin-left: -8px;
+  border: 0; border-radius: 12px; background: transparent; color: var(--acento); cursor: pointer;
+}
+.btn-atras svg { width: 28px; height: 28px; }
+.btn-atras:focus-visible { outline: 3px solid var(--acento); outline-offset: 2px; }
+@media (hover: hover) { .btn-atras:hover { background: var(--relleno-hover); } }
+
+/* Tarjetas sin borde */
+.tarjeta, .tarjeta--interna, .tarjeta--llamar, .item, .pregunta-acepto {
+  border: 0; box-shadow: var(--sombra-suave); border-radius: var(--r-tarjeta);
+}
+.tarjeta { padding: var(--space-5); }
+.item { box-shadow: 0 0 0 1px #e6e8ec; }
+.item--abierto { box-shadow: 0 0 0 2px var(--acento); border: 0; }
+.historial-fila, .llamar-fila { border: 0; background: var(--fondo); }
+.barra-total { box-shadow: none; border-top: 1px solid #e3e6ea; }
+.barra__tabs { border-top: 1px solid #e3e6ea; }
+
+/* Pasos: control segmentado */
+.pasos { background: #e1e4e8; padding: 4px; border-radius: 14px; gap: 2px; }
+.pasos__paso, .pasos__paso.is-hecho, .pasos__paso.is-actual {
+  min-height: 44px; border-radius: 10px; font-size: 0.95rem; gap: 6px;
+}
+.pasos__paso.is-actual { background: var(--superficie); box-shadow: 0 1px 3px rgba(16, 24, 40, .14); }
+.pasos__num { width: 1.35rem; height: 1.35rem; border: 0; font-size: 0.8rem; background: transparent; }
+.pasos__paso.is-actual .pasos__num { background: var(--acento); color: #fff; }
+.pasos__paso:not(.is-actual):not(.is-hecho) .pasos__num { background: #c9ced5; color: var(--texto); }
+@media (hover: hover) { .pasos__paso:not(.is-actual):hover { background: rgba(255, 255, 255, .5); } }
+.avance-pres__barra { height: 6px; }
+
+/* ── Precios: menú tipo "Ajustes" ─────────────────────────── */
+#vista-precios:not([data-sub=""]) [data-menu] { display: none; }
+#vista-precios .ajuste { display: none; }
+#vista-precios[data-sub="aberturas"] [data-ajuste="aberturas"],
+#vista-precios[data-sub="vidrios"] [data-ajuste="vidrios"],
+#vista-precios[data-sub="agregados"] [data-ajuste="agregados"],
+#vista-precios[data-sub="lineas"] [data-ajuste="lineas"],
+#vista-precios[data-sub="colores"] [data-ajuste="colores"],
+#vista-precios[data-sub="formas"] [data-ajuste="formas"],
+#vista-precios[data-sub="aumento"] [data-ajuste="aumento"],
+#vista-precios[data-sub="aluminio"] [data-ajuste="aluminio"],
+#vista-precios[data-sub="costos"] [data-ajuste="costos"],
+#vista-precios[data-sub="condiciones"] [data-ajuste="condiciones"],
+#vista-precios[data-sub="empresa"] [data-ajuste="empresa"] { display: block; }
+.ajuste > .guia:first-child { margin-top: 0; }
+
+.dolar-mini {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+  padding: var(--space-4) var(--space-5); background: var(--superficie); border-radius: var(--r-tarjeta); box-shadow: var(--sombra-suave);
+}
+.dolar-mini .dolar { display: flex; flex-direction: column; gap: 0; }
+.dolar-mini .dolar__dato { flex-direction: row; align-items: baseline; gap: var(--space-2); }
+.dolar-mini .dolar__dato span { font-size: 1rem; color: var(--texto-2); }
+.dolar-mini .dolar__dato strong { font-size: 1.5rem; }
+.dolar-mini .dolar__pie { font-size: 0.85rem; margin: 0; }
+
+.menu-ajustes { display: flex; flex-direction: column; }
+.menu-ajustes__titulo {
+  margin: var(--space-5) var(--space-4) var(--space-2); font-size: 0.85rem; font-weight: 600;
+  color: var(--texto-2); text-transform: uppercase; letter-spacing: .04em;
+}
+.menu-ajustes__titulo:first-child { margin-top: var(--space-2); }
+.menu-ajustes__grupo { background: var(--superficie); border-radius: var(--r-tarjeta); box-shadow: var(--sombra-suave); overflow: hidden; }
+.menu-ajustes__fila {
+  appearance: none; font: inherit; color: var(--texto); background: transparent; border: 0; cursor: pointer;
+  display: flex; align-items: center; gap: var(--space-3); width: 100%; min-height: 60px;
+  padding: var(--space-2) var(--space-4); text-align: left; position: relative;
+}
+.menu-ajustes__fila + .menu-ajustes__fila::before {
+  content: ''; position: absolute; top: 0; right: 0; left: calc(var(--space-4) + 36px + var(--space-3)); border-top: 1px solid #eceef1;
+}
+.menu-ajustes__fila svg {
+  flex: none; width: 36px; height: 36px; padding: 7px; border-radius: 10px; box-sizing: border-box;
+  background: var(--acento-suave); color: var(--acento);
+}
+.menu-ajustes__fila span { flex: 1; font-size: 1.05rem; font-weight: 500; }
+.menu-ajustes__fila em { font-style: normal; font-size: 0.9rem; color: var(--texto-2); white-space: nowrap; }
+.menu-ajustes__fila::after {
+  content: ''; flex: none; width: 8px; height: 8px; margin-left: 2px; margin-right: 4px;
+  border: solid #9aa1aa; border-width: 2px 2px 0 0; transform: rotate(45deg);
+}
+.menu-ajustes__fila:active { background: var(--relleno); }
+@media (hover: hover) { .menu-ajustes__fila:hover { background: var(--fondo); } }
+.menu-ajustes__fila:focus-visible { outline: 3px solid var(--acento); outline-offset: -3px; }
+.menu-ajustes__pie { margin: var(--space-4) var(--space-4) 0; font-size: 0.9rem; color: var(--texto-2); }
+.menu-ajustes__pie span { display: block; }
+
+/* ── Listas de precios: renglones compactos ───────────────── */
+.grupo-precios__titulo {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-2);
+  margin: var(--space-5) 0 var(--space-2); font-size: 0.85rem; font-weight: 600;
+  color: var(--texto-2); text-transform: uppercase; letter-spacing: .04em;
+}
+.grupo-precios__titulo:first-child { margin-top: 0; }
+.btn-texto {
+  appearance: none; font: inherit; text-transform: none; letter-spacing: 0; font-size: 0.95rem; font-weight: 600;
+  background: none; border: 0; color: var(--acento); min-height: 44px; padding: 0 var(--space-2); cursor: pointer; border-radius: 10px;
+}
+.btn-texto:focus-visible { outline: 3px solid var(--acento); }
+.lista-precios { display: flex; flex-direction: column; margin-bottom: var(--space-3); }
+.fila-precio { border-top: 1px solid #eceef1; }
+.lista-precios .fila-precio:first-child { border-top: 0; }
+.fila-precio__linea { display: flex; align-items: center; gap: var(--space-2); min-height: 60px; }
+.fila-precio__nombre {
+  appearance: none; font: inherit; flex: 1; min-width: 0; text-align: left; cursor: pointer;
+  display: flex; align-items: center; gap: var(--space-2); min-height: 52px; padding: var(--space-2) 0;
+  background: none; border: 0; color: var(--texto); font-size: 1rem; font-weight: 500; line-height: 1.25;
+}
+.fila-precio__nombre::after {
+  content: ''; flex: none; width: 7px; height: 7px; margin-left: auto; margin-right: 6px;
+  border: solid #9aa1aa; border-width: 0 2px 2px 0; transform: rotate(45deg) translateY(-2px); transition: transform .2s;
+}
+.fila-precio.is-abierta .fila-precio__nombre::after { transform: rotate(-135deg) translateY(-2px); }
+.fila-precio__nombre:focus-visible { outline: 3px solid var(--acento); outline-offset: 2px; border-radius: 6px; }
+.fila-precio__principal {
+  flex: none; display: flex; align-items: center; gap: 4px; width: 9.5rem;
+  padding: 0 var(--space-3); min-height: 48px; border-radius: var(--r-control); background: var(--relleno);
+  color: var(--texto-2); font-weight: 600;
+}
+.fila-precio__principal:focus-within { box-shadow: 0 0 0 2px var(--acento); background: var(--superficie); }
+.fila-precio__principal input {
+  flex: 1; min-width: 0; width: 100%; min-height: 46px; padding: 0; border: 0; background: transparent; box-shadow: none !important;
+  font-size: 1.05rem; font-weight: 600; text-align: right; color: var(--texto); font-variant-numeric: tabular-nums;
+}
+.fila-precio__principal input:focus { outline: none; }
+.fila-precio__detalle {
+  display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-2) 0 var(--space-4);
+}
+.fila-precio__detalle[hidden] { display: none; }
+.fila-precio__detalle .btn--peligro { align-self: flex-start; }
+.fila-precio__check { display: flex; align-items: center; gap: var(--space-2); min-height: 44px; font-weight: 500; }
+.fila-precio__check input { width: 1.4rem; height: 1.4rem; accent-color: var(--acento); }
+@media (max-width: 380px) { .fila-precio__principal { width: 8.2rem; } }
+.fila-precio__nombre::after { transform: rotate(45deg); margin-top: -4px; }
+.fila-precio.is-abierta .fila-precio__nombre::after { transform: rotate(225deg); margin-top: 4px; }
+/* Dentro de una pantalla de Precios, arriba solo va "‹" y el título */
+body.en-ajuste .btn--nuevo { display: none; }
+.fila-precio__nombre::after { transition: none; }

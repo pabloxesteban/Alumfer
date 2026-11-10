@@ -116,7 +116,22 @@ window.Iconos = (function () {
     lapiz:       '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
     lista:       '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 11h6M9 15h4"/>',
     ancho:       '<path d="M3 12h18M3 12l3.5-3.5M3 12l3.5 3.5M21 12l-3.5-3.5M21 12l-3.5 3.5"/>',
-    alto:        '<path d="M12 3v18M12 3 8.5 6.5M12 3l3.5 3.5M12 21l-3.5-3.5M12 21l3.5-3.5"/>'
+    alto:        '<path d="M12 3v18M12 3 8.5 6.5M12 3l3.5 3.5M12 21l-3.5-3.5M12 21l3.5-3.5"/>',
+    /* Menú de Precios */
+    ventana:     '<rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M12 3v18M4 12h16"/>',
+    vidrio:      '<rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="m8.5 10 4-4M8.5 15l7-7"/>',
+    perfil:      '<path d="M4 6h16v4H4zM4 14h16v4H4z"/><path d="M8 10v4M16 10v4"/>',
+    color:       '<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/>',
+    forma:       '<path d="M5 20V11a7 7 0 0 1 14 0v9z"/>',
+    agregado:    '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 8v8M8 12h8"/>',
+    subir:       '<path d="M4 17 10 11l4 4 6-7"/><path d="M15 8h5v5"/>',
+    kilo:        '<path d="M7 8h10l2 12H5z"/><circle cx="12" cy="5.5" r="2.5"/>',
+    ganancia:    '<circle cx="12" cy="12" r="9"/><path d="M14.8 9.2c-.5-.9-1.6-1.4-2.8-1.4-1.6 0-2.8.8-2.8 2.1 0 3 5.6 1.4 5.6 4.3 0 1.3-1.3 2.1-2.8 2.1-1.3 0-2.4-.6-2.9-1.6M12 6v1.8M12 16.3V18"/>',
+    ajustes:     '<path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/>',
+    empresa:     '<path d="M4 20V8l8-4 8 4v12"/><path d="M9 20v-5h6v5M3 20h18"/>',
+    atras:       '<path d="m15 5-7 7 7 7"/>',
+    flecha:      '<path d="m9 5 7 7-7 7"/>',
+    dolar:       '<circle cx="12" cy="12" r="9"/><path d="M15 9c-.6-1-1.7-1.5-3-1.5-1.7 0-3 .9-3 2.2 0 3.1 6 1.5 6 4.6 0 1.3-1.3 2.2-3 2.2-1.4 0-2.6-.6-3.1-1.6M12 5.5v2M12 16.5v2"/>'
   };
 
   function ui(nombre) { return svg(UI[nombre] || '', '24 24'); }

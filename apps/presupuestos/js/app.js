@@ -1349,11 +1349,20 @@
    */
   var CAMPOS_DE_COSTO = ['costoM2', 'costo', 'kgMetro'];
 
+  /*
+   * Lista de precios editable (desde la .15): un renglón por elemento con el
+   * nombre y el precio principal a la vista; el resto de los datos (nombre,
+   * descripción, mínimos, costos, borrar) aparece al tocar el nombre. Antes era
+   * una tabla que en el celular ponía cada fila como una ficha enorme.
+   * La columna con `principal: true` es la que queda en el renglón.
+   */
   function tablaEditable(contenedorId, lista, columnas, opts) {
     opts = opts || {};
     var cont = $(contenedorId);
+    var principal = columnas.filter(function (c) { return c.principal; })[0];
+    var abiertos = {};   // id -> true: renglones con el detalle a la vista
 
-    function celda(x, col) {
+    function control(x, col) {
       var v = x[col.campo];
       if (col.tipo === 'check') {
         return '<input type="checkbox" data-campo="' + col.campo + '"' + (v ? ' checked' : '') + '>';
@@ -1364,62 +1373,100 @@
         }).join('') + '</select>';
       }
       if (col.tipo === 'porcentaje') {
-        return '<input type="number" step="1" data-campo="' + col.campo + '" data-porcentaje="1" value="' + Math.round((v || 0) * 100) + '">';
+        return '<input type="number" step="1" inputmode="numeric" data-campo="' + col.campo + '" data-porcentaje="1" value="' + Math.round((v || 0) * 100) + '">';
+      }
+      if (col.tipo === 'numero' && col.prefijo === '$') {
+        // Pesos con punto de miles ("240.000"), que se lee mejor que "240000".
+        return '<input type="text" inputmode="numeric" data-numero="1" data-campo="' + col.campo + '" value="' + (v == null || v === '' ? '' : F.numero(Number(v))) + '">';
       }
       if (col.tipo === 'numero') {
-        return '<input type="number" step="' + (col.paso || 1) + '" min="0" data-campo="' + col.campo + '" value="' + (v == null ? '' : v) + '">';
+        return '<input type="number" step="' + (col.paso || 1) + '" min="0" inputmode="decimal" data-campo="' + col.campo + '" value="' + (v == null ? '' : v) + '">';
       }
       return '<input type="text" data-campo="' + col.campo + '" value="' + F.escapar(v || '') + '">';
     }
 
+    function renglon(x, i) {
+      var abierto = !!abiertos[x.id];
+      var detalle = columnas.filter(function (c) { return c !== principal; }).map(function (c) {
+        if (c.tipo === 'check') {
+          return '<label class="fila-precio__check">' + control(x, c) + ' ' + F.escapar(c.etiqueta) + '</label>';
+        }
+        return '<label class="campo"><span>' + F.escapar(c.etiqueta) + '</span>' + control(x, c) + '</label>';
+      }).join('');
+      return '<div class="fila-precio' + (abierto ? ' is-abierta' : '') + '" data-indice="' + i + '">' +
+        '<div class="fila-precio__linea">' +
+          '<button type="button" class="fila-precio__nombre" data-accion="detalle" aria-expanded="' + abierto + '">' +
+            '<span data-nombre>' + F.escapar(x.nombre || 'Sin nombre') + '</span>' +
+          '</button>' +
+          (principal ?
+            '<label class="fila-precio__principal" aria-label="' + F.escapar(principal.etiqueta + ' de ' + (x.nombre || '')) + '">' +
+              (principal.prefijo ? '<span>' + principal.prefijo + '</span>' : '') +
+              control(x, principal) +
+              (principal.sufijo ? '<span>' + principal.sufijo + '</span>' : '') +
+            '</label>' : '') +
+        '</div>' +
+        '<div class="fila-precio__detalle"' + (abierto ? '' : ' hidden') + '>' +
+          detalle +
+          '<button type="button" class="btn btn--fantasma btn--sm btn--peligro" data-accion="borrar" data-icono="borrar">Borrar</button>' +
+        '</div>' +
+      '</div>';
+    }
+
     function pintar() {
-      var filas = '', grupoActual = null;
+      var html = '', grupoActual = null, abierto = false;
       lista.forEach(function (x, i) {
         if (opts.agrupar && x[opts.agrupar] !== grupoActual) {
+          if (abierto) html += '</div>';
           grupoActual = x[opts.agrupar] || 'Otros';
-          // El grupo se dice una sola vez, arriba, y trae su propio botón:
-          // así no hace falta repetirlo como columna en cada fila.
-          filas += '<tr class="grupo"><td colspan="' + (columnas.length + 1) + '">' +
-            '<div class="grupo__fila">' +
-              '<span>' + F.escapar(grupoActual) + '</span>' +
-              '<button class="btn btn--fantasma btn--sm" data-accion="agregar" data-grupo="' +
-                F.escapar(grupoActual) + '">+ Agregar</button>' +
-            '</div>' +
-          '</td></tr>';
+          // El grupo se dice una sola vez, arriba, con su propio botón para agregar.
+          html += '<div class="grupo-precios__titulo"><span>' + F.escapar(grupoActual) + '</span>' +
+            '<button type="button" class="btn-texto" data-accion="agregar" data-grupo="' + F.escapar(grupoActual) + '">+ Agregar</button></div>' +
+            '<div class="lista-precios">';
+          abierto = true;
         }
-        filas += '<tr data-indice="' + i + '">' +
-          columnas.map(function (c) {
-            return '<td class="' + (c.clase || '') + '" data-rotulo="' + F.escapar(c.etiqueta) + '">' + celda(x, c) + '</td>';
-          }).join('') +
-          '<td class="alineado-der"><button class="btn btn--fantasma btn--sm btn--peligro" data-accion="borrar">Borrar</button></td>' +
-        '</tr>';
+        html += renglon(x, i);
       });
-
-      cont.innerHTML = '<table class="tabla-precios"><thead><tr>' +
-        columnas.map(function (c) { return '<th class="' + (c.clase || '') + '">' + F.escapar(c.etiqueta) + '</th>'; }).join('') +
-        '<th></th></tr></thead><tbody>' + filas + '</tbody></table>' +
-        (opts.agrupar ? '' : '<p><button class="btn btn--fantasma btn--sm" data-accion="agregar">+ Agregar fila</button></p>');
+      if (abierto) html += '</div>';
+      cont.innerHTML = opts.agrupar ? html :
+        '<div class="lista-precios">' + lista.map(renglon).join('') + '</div>' +
+        '<button type="button" class="btn btn--fantasma btn--bloque" data-accion="agregar" data-icono="nuevo">Agregar</button>';
+      ponerIconos(cont);
     }
 
     cont.addEventListener('input', function (ev) {
       var campo = ev.target.dataset.campo;
-      var fila = ev.target.closest('tr');
+      var fila = ev.target.closest('[data-indice]');
       if (!campo || !fila) return;
       var x = lista[Number(fila.dataset.indice)];
       if (!x) return;
       if (ev.target.type === 'checkbox') x[campo] = ev.target.checked;
       else if (ev.target.dataset.porcentaje) x[campo] = F.aNumero(ev.target.value) / 100;
-      else if (ev.target.type === 'number') x[campo] = F.aNumero(ev.target.value);
+      else if (ev.target.type === 'number' || ev.target.dataset.numero) x[campo] = F.aNumero(ev.target.value);
       else x[campo] = ev.target.value;
+      if (campo === 'nombre') fila.querySelector('[data-nombre]').textContent = ev.target.value || 'Sin nombre';
       // Costos y peso por metro no son precios de venta: no marcan los presupuestos como desactualizados.
       if (CAMPOS_DE_COSTO.indexOf(campo) > -1) { A.guardarPrecios(precios); marcarGuardado('precios-guardado'); }
       else guardarPrecios();
+      pintarMenuPrecios();
+    });
+
+    cont.addEventListener('focusout', function (ev) {
+      if (!ev.target.dataset || !ev.target.dataset.numero) return;
+      var n = F.aNumero(ev.target.value);
+      ev.target.value = ev.target.value.trim() === '' ? '' : F.numero(n);
     });
 
     cont.addEventListener('click', function (ev) {
       var boton = ev.target.closest('button');
       if (!boton) return;
-      if (boton.dataset.accion === 'agregar') {
+      var filaNodo = boton.closest('[data-indice]');
+      if (boton.dataset.accion === 'detalle') {
+        var x = lista[Number(filaNodo.dataset.indice)];
+        abiertos[x.id] = !abiertos[x.id];
+        filaNodo.classList.toggle('is-abierta', abiertos[x.id]);
+        filaNodo.querySelector('.fila-precio__detalle').hidden = !abiertos[x.id];
+        boton.setAttribute('aria-expanded', abiertos[x.id]);
+      } else if (boton.dataset.accion === 'agregar') {
         var fila = Object.assign({ id: idUnico(opts.prefijo || 'x_') }, opts.nuevo || {});
         var grupo = boton.dataset.grupo;
         if (opts.agrupar && grupo) {
@@ -1428,16 +1475,60 @@
         } else {
           lista.push(fila);
         }
-        guardarPrecios(); pintar();
+        abiertos[fila.id] = true;   // la nueva aparece abierta, lista para ponerle nombre
+        guardarPrecios(); pintar(); pintarMenuPrecios();
+        var filas = cont.querySelectorAll('.fila-precio');
+        filas.forEach(function (f) {
+          if (lista[Number(f.dataset.indice)] === fila) {
+            f.scrollIntoView({ block: 'center' });
+            var n = f.querySelector('[data-campo="nombre"]'); if (n) { n.focus(); n.select(); }
+          }
+        });
       } else if (boton.dataset.accion === 'borrar') {
-        var i = Number(boton.closest('tr').dataset.indice);
+        var i = Number(filaNodo.dataset.indice);
         if (!confirm('¿Eliminar "' + (lista[i].nombre || 'esta fila') + '" de la lista?')) return;
         lista.splice(i, 1);
-        guardarPrecios(); pintar();
+        guardarPrecios(); pintar(); pintarMenuPrecios();
       }
     });
 
     pintar();
+  }
+
+  /* ════════ Precios: menú y pantallas ════════ */
+
+  var TITULOS_AJUSTE = {
+    aberturas: 'Aberturas', vidrios: 'Vidrios', agregados: 'Agregados', lineas: 'Líneas de aluminio',
+    colores: 'Colores', formas: 'Formas especiales', aumento: 'Aumentar precios',
+    aluminio: 'Kilo de aluminio', costos: 'Costos y ganancia', condiciones: 'Condiciones', empresa: 'Tu empresa'
+  };
+
+  function ajusteActual() { return $('vista-precios').dataset.sub || ''; }
+
+  function abrirAjuste(id, sinHistoria) {
+    $('vista-precios').dataset.sub = id || '';
+    // Así el botón "atrás" del celular vuelve al menú en vez de salir de la app.
+    if (id && !sinHistoria) { try { history.pushState({ ajuste: id }, ''); } catch (e) { /* sin historial */ } }
+    if (!id) pintarMenuPrecios();
+    pintarEncabezado();
+    window.scrollTo({ top: 0 });
+  }
+
+  function cerrarAjuste() {
+    if (history.state && history.state.ajuste) history.back();   // popstate cierra
+    else abrirAjuste('');
+  }
+
+  function pintarMenuPrecios() {
+    function n(id, lista, palabra) { var e = $(id); if (e) e.textContent = (lista || []).length + ' ' + palabra; }
+    n('menu-n-aberturas', precios.tipologias, 'tipos');
+    n('menu-n-vidrios', precios.vidrios, 'tipos');
+    n('menu-n-agregados', precios.adicionales, 'tipos');
+    n('menu-n-lineas', precios.lineas, 'líneas');
+    n('menu-n-colores', precios.colores, 'colores');
+    $('menu-actualizado').textContent = precios.actualizado ? F.fechaCorta(precios.actualizado) : '';
+    var alu = precios.aluminio || {};
+    $('menu-kilo').textContent = num(alu.precio) ? (alu.moneda === 'ars' ? F.moneda(alu.precio) : 'US$ ' + F.numero(alu.precio, 2)) : 'Sin cargar';
   }
 
   function renderPrecios() {
@@ -1455,32 +1546,33 @@
     $('gen-dias-llamar').value = precios.generales.diasSeguimiento || 3;
     $('gen-corte').value = precios.generales.corteSierra != null ? precios.generales.corteSierra : 5;
     renderEmpresa();
+    pintarMenuPrecios();
 
     tablaEditable('tabla-lineas', precios.lineas, [
-      { campo: 'nombre', etiqueta: 'Línea', clase: 'col-nombre' },
+      { campo: 'nombre', etiqueta: 'Nombre' },
       { campo: 'ayuda', etiqueta: 'Descripción' },
-      { campo: 'factor', etiqueta: 'Multiplicador', tipo: 'numero', paso: 0.01, clase: 'col-min' },
+      { campo: 'factor', etiqueta: 'Multiplicador', tipo: 'numero', paso: 0.01, principal: true, prefijo: '×' },
       { campo: 'kgMetro', etiqueta: 'Peso (kg por metro)', tipo: 'numero', paso: 0.01, clase: 'col-min' }
     ], { prefijo: 'ln_', nuevo: { nombre: 'Línea nueva', factor: 1 } });
 
     tablaEditable('tabla-tipologias', precios.tipologias, [
-      { campo: 'nombre', etiqueta: 'Abertura', clase: 'col-nombre' },
-      { campo: 'precioM2', etiqueta: '$ / m²', tipo: 'numero', paso: 1000, clase: 'col-num' },
-      { campo: 'minM2', etiqueta: 'm² mínimos', tipo: 'numero', paso: 0.05, clase: 'col-min' },
+      { campo: 'nombre', etiqueta: 'Nombre' },
+      { campo: 'precioM2', etiqueta: 'Precio por m²', tipo: 'numero', paso: 1000, principal: true, prefijo: '$', sufijo: '/m²' },
+      { campo: 'minM2', etiqueta: 'm² mínimos que se cobran', tipo: 'numero', paso: 0.05 },
       { campo: 'costoM2', etiqueta: 'Costo $/m² (si lo comprás hecho)', tipo: 'numero', paso: 1000, clase: 'col-num' },
-      { campo: 'sinVidrio', etiqueta: 'Sin vidrio', tipo: 'check', clase: 'col-min' }
+      { campo: 'sinVidrio', etiqueta: 'Va sin vidrio', tipo: 'check' }
     ], { agrupar: 'grupo', prefijo: 'tp_', nuevo: { grupo: 'Otros', nombre: 'Abertura nueva', precioM2: 0, minM2: 0.5 } });
 
     tablaEditable('tabla-vidrios', precios.vidrios, [
-      { campo: 'nombre', etiqueta: 'Vidrio', clase: 'col-nombre' },
+      { campo: 'nombre', etiqueta: 'Nombre' },
       { campo: 'ayuda', etiqueta: 'Descripción' },
-      { campo: 'precioM2', etiqueta: '$ / m²', tipo: 'numero', paso: 1000, clase: 'col-num' },
+      { campo: 'precioM2', etiqueta: 'Precio por m²', tipo: 'numero', paso: 1000, principal: true, prefijo: '$', sufijo: '/m²' },
       { campo: 'costoM2', etiqueta: 'Lo que pagás $/m²', tipo: 'numero', paso: 1000, clase: 'col-num' }
     ], { prefijo: 'vd_', nuevo: { nombre: 'Vidrio nuevo', precioM2: 0 } });
 
     tablaEditable('tabla-colores', precios.colores, [
-      { campo: 'nombre', etiqueta: 'Color / terminación', clase: 'col-nombre' },
-      { campo: 'recargo', etiqueta: 'Recargo (%)', tipo: 'porcentaje', clase: 'col-min' }
+      { campo: 'nombre', etiqueta: 'Nombre' },
+      { campo: 'recargo', etiqueta: 'Recargo', tipo: 'porcentaje', principal: true, sufijo: '%' }
     ], { prefijo: 'cl_', nuevo: { nombre: 'Color nuevo', recargo: 0 } });
 
     $('tabla-formas').innerHTML = (precios.formas || []).map(function (f, i) {
@@ -1490,11 +1582,11 @@
     }).join('');
 
     tablaEditable('tabla-adicionales', precios.adicionales, [
-      { campo: 'nombre', etiqueta: 'Adicional', clase: 'col-nombre' },
+      { campo: 'nombre', etiqueta: 'Nombre' },
       { campo: 'modo', etiqueta: 'Se cobra', tipo: 'select', clase: 'col-min', opciones: [
         { valor: 'm2', texto: 'Por m²' }, { valor: 'ml', texto: 'Por metro lineal' }, { valor: 'unidad', texto: 'Por unidad' }
       ] },
-      { campo: 'precio', etiqueta: 'Precio', tipo: 'numero', paso: 1000, clase: 'col-num' },
+      { campo: 'precio', etiqueta: 'Precio', tipo: 'numero', paso: 1000, principal: true, prefijo: '$' },
       { campo: 'costo', etiqueta: 'Lo que te cuesta', tipo: 'numero', paso: 1000, clase: 'col-num' }
     ], { prefijo: 'ad_', nuevo: { nombre: 'Adicional nuevo', modo: 'unidad', precio: 0 } });
   }
@@ -1521,12 +1613,10 @@
       '<div class="dolar">' +
         // Un solo número: el blue al que se compran los dólares (la "venta" de la casa
         // de cambio, el más caro). El "compra" (lo que te pagan si vendés) confundía.
-        '<span class="dolar__dato"><span>Dólar blue (lo que pagás por cada dólar)</span><strong>' + F.moneda(valor.venta) + '</strong></span>' +
-        '<p class="dolar__pie">Es el que usa la app para todas las cuentas. No se usa el dólar oficial.</p>' +
+        '<span class="dolar__dato"><span>Dólar blue</span><strong>' + F.moneda(valor.venta) + '</strong></span>' +
         '<p class="dolar__pie' + (delDia ? '' : ' dolar__pie--viejo') + '">' +
-          (estado === 'sin-conexion' ? 'Sin conexión, último valor guardado: ' : 'Actualizado ') +
+          (estado === 'sin-conexion' ? 'Sin conexión, último valor: ' : 'Actualizado ') +
           F.escapar(F.fechaHoraRelativa(valor.consultado)) +
-          ' · fuente ' + F.escapar(valor.fuente || '') +
         '</p>' +
       '</div>';
   }
@@ -1651,6 +1741,7 @@
       t.setAttribute('aria-selected', activa ? 'true' : 'false');
     });
     if (nombre === 'historial') renderHistorial();
+    if (nombre === 'precios' && ajusteActual()) { $('vista-precios').dataset.sub = ''; pintarMenuPrecios(); }
     if (nombre === 'presupuesto' && actual) render();   // refleja cambios hechos en la pestaña Precios
     vistaActual = nombre;
     pintarEncabezado();
@@ -1862,8 +1953,12 @@
 
   var TITULOS = { presupuesto: 'Presupuesto', historial: 'Guardados', precios: 'Precios' };
   function pintarEncabezado() {
-    $('titulo-vista').textContent = TITULOS[vistaActual] || 'Presupuestos';
-    var sub = 'Alumfer';
+    var ajuste = vistaActual === 'precios' ? ajusteActual() : '';
+    $('btn-atras').hidden = !ajuste;
+    $('logo-barra').hidden = !!ajuste;
+    document.body.classList.toggle('en-ajuste', !!ajuste);
+    $('titulo-vista').textContent = ajuste ? TITULOS_AJUSTE[ajuste] : (TITULOS[vistaActual] || 'Presupuestos');
+    var sub = ajuste ? 'Precios' : 'Alumfer';
     if (vistaActual === 'presupuesto' && actual) {
       var cli = (actual.cliente && actual.cliente.nombre) || '';
       sub = [actual.numero || 'Nuevo', cli].filter(Boolean).join(' · ');
@@ -2780,6 +2875,19 @@
     });
 
     $('btn-dolar').addEventListener('click', function () { cargarDolar(true); });
+    $('menu-precios').addEventListener('click', function (ev) {
+      var b = ev.target.closest('[data-abrir]');
+      if (b) abrirAjuste(b.dataset.abrir);
+    });
+    $('btn-atras').addEventListener('click', cerrarAjuste);
+    // El encabezado se funde con el fondo y marca una línea recién al bajar.
+    window.addEventListener('scroll', function () {
+      document.querySelector('.barra').classList.toggle('con-linea', window.scrollY > 4);
+    }, { passive: true });
+    window.addEventListener('popstate', function () {
+      var id = (history.state && history.state.ajuste) || '';
+      if (vistaActual === 'precios') abrirAjuste(id, true);
+    });
 
     ['alu-precio', 'alu-moneda'].forEach(function (id) {
       $(id).addEventListener('input', function () {

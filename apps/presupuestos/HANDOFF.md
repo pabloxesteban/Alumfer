@@ -3,7 +3,7 @@
 Para retomar el trabajo sin tener que reconstruir el contexto: qué hay hecho, qué
 se decidió y por qué, qué falta, y con qué trampas ya chocamos.
 
-Estado al 9 de noviembre de 2026 (versión `2026-11-10.14`); todo lo descrito está publicado y andando.
+Estado al 9 de noviembre de 2026 (versión `2026-11-10.15`); todo lo descrito está publicado y andando.
 **Si trabajás sobre la app, actualizá este archivo antes de cerrar.**
 
 ---
@@ -337,7 +337,7 @@ Documentación completa en `apps/presupuestos/README.md`.
     naranja en la pestaña): presupuestos en estado Enviado cuya fecha de envío
     (`enviadoEl`, se anota al compartir) o último seguimiento
     (`ultimoSeguimiento`) tiene `generales.diasSeguimiento` días o más (3,
-    configurable en Precios → Costos). Botones: "Preguntarle por WhatsApp"
+    configurable en Precios → Costos y ganancia). Botones: "Preguntarle por WhatsApp"
     (mensaje armado al número del cliente; anota el seguimiento), "Aceptó",
     "No aceptó", "Más tarde" (`llamarDesde` = +2 días). Muestra la fecha de
     vencimiento y avisa si ya venció. Si el presupuesto está abierto en la
@@ -454,6 +454,36 @@ Documentación completa en `apps/presupuestos/README.md`.
       del campo dejaba la columna angosta).
     - Guardados: los tres botones de cada fila en una grilla de 3 (en 360 px
       "Borrar" se salía de la pantalla).
+41. **Minimalista + Precios como "Ajustes" (.15)**, Pablo: "más minimalista,
+    como app de tendencia" y "simplificá Precios" (medía 46.000 px de alto en
+    el celular: cada fila de precios era una ficha con 5 campos). Capa
+    "MINIMALISTA" al final de `estilos.css`:
+    - Fondo `#eef0f3`, tarjetas blancas **sin borde** (sombra mínima, radio
+      20), encabezado del mismo color que el fondo que muestra una línea
+      solo al bajar (`.barra.con-linea`, listener de scroll).
+    - Pasos 1·2·3 como **control segmentado** (bloque gris, el actual blanco).
+    - Textos de ayuda acortados a una línea.
+    - **Precios**: `#vista-precios[data-sub]`. Con `data-sub=""` se ve el
+      dólar compacto y el menú `#menu-precios` (grupos "Lo que cobrás",
+      "Solo para vos", "El presupuesto"; renglones `[data-abrir]` con ícono,
+      dato a la derecha y flecha). Cada pantalla es una
+      `section.ajuste[data-ajuste]`, mostrada por CSS. `abrirAjuste(id)` hace
+      `history.pushState` para que **el atrás del celular** vuelva al menú
+      (`popstate`); en el encabezado aparecen "‹" (`#btn-atras`) y el título
+      de la pantalla, y se ocultan el logo y "+ Nuevo". Tocar la pestaña
+      Precios siempre vuelve al menú. Los conteos del menú los pinta
+      `pintarMenuPrecios()`.
+    - `tablaEditable` ya no es una tabla: renglones `.fila-precio`
+      (`[data-indice]`) con el nombre (botón que abre el detalle) y la
+      columna `principal: true` editable ahí mismo (`prefijo`/`sufijo`:
+      "$ … /m²", "× 1,00", "… %"). Los precios en pesos son `type=text` con
+      punto de miles (`data-numero`, se reformatea al salir). El resto de los
+      campos y "Borrar" van en `.fila-precio__detalle`. Lo nuevo que se
+      agrega aparece abierto con el cursor en el nombre.
+    - Las pruebas: `pasos.mjs` también abre la pantalla de Precios y el
+      renglón donde está el elemento; los selectores pasaron de
+      `tr:has(...)` a `.fila-precio:has(...)` y tienen que ir en un solo
+      string (si se encadenan locators, el ayudante ve la fila y no el campo).
 
 ---
 
@@ -571,7 +601,9 @@ el paso, tamaños de toque, nada cortado ni scroll horizontal en 360 px.
 deja avanzar (para que las pruebas viejas sigan andando); las aberturas
 "Otro trabajo" sin precio bloquean el PDF, por eso los bucles de 22 aberturas
 excluyen `[data-tipo="libre"]`. Prueba de obligatorios, barra de avance y
-estados (36 chequeos, incluido 360 px). Desde la .14 el mensaje de
+estados (36 chequeos, incluido 360 px). Prueba del menú de Precios
+(10 chequeos: menú corto, abrir, editar precio en el renglón, detalle,
+atrás del celular, ‹, pestaña vuelve al menú, agregar con foco). Desde la .14 el mensaje de
 medida se busca con `.campo__error:not([hidden])` dentro de la abertura.
 Prueba de otro trabajo y precio a mano (17 chequeos), incluido el PDF.
 Prueba de guardado, seguimiento, copia, mes y ganancia (22 chequeos), incluido

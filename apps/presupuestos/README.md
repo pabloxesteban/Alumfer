@@ -104,7 +104,7 @@ siguiente. En el paso 3, abajo quedan el total y **WhatsApp**.
 |---------|----------|
 | **Presupuesto** | Cargar cliente, aberturas y ajustes. Es la pantalla de trabajo. |
 | **Guardados** | Buscar por nombre, número o teléfono; reabrir, repetir o borrar. Arriba: el resumen del mes y los presupuestos "para volver a llamar". Copia de seguridad. |
-| **Precios** | Editar la lista y aplicar aumentos por inflación. |
+| **Precios** | Un menú como el de *Ajustes* del celular: Aberturas, Vidrios, Agregados, Líneas, Colores, Formas, Aumentar precios, Kilo de aluminio, Costos, Condiciones y Tu empresa. Cada renglón abre su pantalla (se vuelve con ‹ o con el atrás del celular). En las listas se ve el nombre y el precio; tocando el nombre aparece el resto. |
 
 Encima de las pestañas queda fija una barra con el total y la acción del paso
 (Continuar, o WhatsApp en el último), así no hay que buscarla.
@@ -178,7 +178,7 @@ una copia*.
 ## Para volver a llamar
 
 Los presupuestos enviados que pasaron 3 días sin respuesta (se cambia en
-*Precios → Costos*) aparecen arriba en Guardados, y la pestaña muestra un punto
+*Precios → Costos y ganancia*) aparecen arriba en Guardados, y la pestaña muestra un punto
 naranja. **Preguntarle por WhatsApp** abre el chat del cliente con un mensaje
 listo; también están **Aceptó**, **No aceptó** y **Más tarde**.
 
@@ -207,7 +207,7 @@ materiales**. Con las aberturas del presupuesto calcula, **aproximado**:
 
 Cada pieza se cuenta con la medida de afuera a afuera, sin los descuentos de
 fabricación de cada línea: sobra un poco y nunca falta. El largo de la tira y
-lo que se pierde en cada corte se cambian en *Precios → Valores por defecto*.
+lo que se pierde en cada corte se cambian en *Precios → Condiciones y mínimos*.
 
 **Esto nunca le llega al cliente**: no sale en el PDF ni en el WhatsApp del
 presupuesto. La lista se puede mandar por WhatsApp (al proveedor o a uno mismo)
@@ -239,7 +239,7 @@ nuevo aparecen los que coinciden; tocando uno se completan todos sus datos.
 
 ## Tu empresa
 
-Al final de *Precios*: nombre, frase, teléfono, email, dirección, web y logo.
+*Precios → Tu empresa y logo*: nombre, frase, teléfono, email, dirección, web y logo.
 Es lo que sale arriba del PDF. El logo se puede cambiar por una foto o imagen
 del teléfono y volver al de Alumfer cuando se quiera.
 
@@ -261,7 +261,7 @@ total ítem = unitario × cantidad
 - **El color recarga solo el aluminio**, no el vidrio.
 - **Los adicionales** se cobran por m² (mosquitero, cortina), por metro lineal de
   perímetro (premarco, contramarco) o por unidad (cierre multipunto).
-- **Cada ítem se redondea** al múltiplo configurado en *Precios → Valores por
+- **Cada ítem se redondea** al múltiplo configurado en *Precios → Condiciones y
   defecto* (por defecto, $1.000).
 
 Al total se le aplican, en este orden: descuento general, colocación

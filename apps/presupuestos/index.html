@@ -24,7 +24,8 @@
 
 <header class="barra">
   <div class="barra__marca">
-    <img src="logo-alumfer.jpg" alt="Alumfer" width="40" height="40">
+    <button type="button" class="btn-atras" id="btn-atras" data-icono="atras" aria-label="Volver a Precios" hidden></button>
+    <img src="logo-alumfer.jpg" alt="Alumfer" width="40" height="40" id="logo-barra">
     <div>
       <strong id="titulo-vista">Presupuesto</strong>
       <span id="subtitulo-vista">Alumfer</span>
@@ -103,7 +104,7 @@
           <span class="etiqueta-numero" id="numero-presupuesto">—</span>
         </span>
       </header>
-      <p class="guia">Escribí el nombre y el teléfono del cliente (son obligatorios). Si ya le hiciste un presupuesto antes, aparece abajo para elegirlo.</p>
+      <p class="guia">Si ya le hiciste un presupuesto antes, aparece abajo para elegirlo.</p>
 
       <div class="grilla-campos">
         <label class="campo campo--ancho" id="campo-cli-nombre">
@@ -163,8 +164,7 @@
         <h2><span class="paso">2</span> ¿Qué aberturas lleva?</h2>
         <span class="apunte" id="resumen-items"></span>
       </header>
-      <p class="guia">Agregá una por una. Si hay varias iguales, cargala una vez y poné cuántas son.
-        En una obra grande, marcá en cada una dónde va (Quincho, Baño…) y quedan agrupadas.</p>
+      <p class="guia">Si hay varias iguales, cargá una y poné cuántas son.</p>
 
       <div id="lista-items" class="lista-items"></div>
 
@@ -267,8 +267,7 @@
         <h2><span class="paso paso--interno" aria-hidden="true">✓</span> Ganancia y compras</h2>
         <span class="etiqueta-interna">Solo para vos</span>
       </header>
-      <p class="guia">Cuánto deja este presupuesto, cuántas tiras de aluminio de 6 m hay que comprar,
-        qué vidrios y cuánto sobra. <strong>Esto no le llega al cliente.</strong></p>
+      <p class="guia">Cuánto deja y qué hay que comprar. <strong>No le llega al cliente.</strong></p>
       <div class="ganancia" id="ganancia-resumen"></div>
       <button class="btn btn--oscuro btn--grande btn--bloque" id="btn-compras" data-icono="lista">Ver el detalle y los materiales</button>
     </section>
@@ -307,8 +306,7 @@
       <header class="tarjeta__header">
         <h2>Copia de seguridad</h2>
       </header>
-      <p class="guia">Los presupuestos se guardan en este teléfono. Si se rompe o se pierde, se pierden con él.
-        Cada tanto guardá una copia: se manda por WhatsApp (por ejemplo, a Pablo) o a Drive.</p>
+      <p class="guia">Todo vive en este teléfono. Cada tanto mandá una copia por WhatsApp (a Pablo) o a Drive.</p>
       <p class="apunte" id="copia-ultima"></p>
       <div class="acciones-finales">
         <button class="btn btn--primario btn--grande btn--bloque" id="btn-exportar" data-icono="guardar">Guardar una copia ahora</button>
@@ -319,21 +317,95 @@
   </section>
 
   <!-- ════════ PRECIOS ════════ -->
-  <section class="vista" id="vista-precios" hidden>
+  <section class="vista" id="vista-precios" data-sub="" hidden>
 
-    <section class="tarjeta tarjeta--dolar">
-      <header class="tarjeta__header">
-        <h2>Dólar blue</h2>
-        <button class="btn btn--fantasma btn--sm" id="btn-dolar">Actualizar</button>
-      </header>
+    <!-- Menú (como "Ajustes" del celular): cada renglón abre su pantalla -->
+    <section class="dolar-mini" id="dolar-mini" data-menu>
       <div id="dolar"></div>
+      <button class="btn btn--fantasma btn--sm" id="btn-dolar">Actualizar</button>
     </section>
 
-    <section class="tarjeta">
-      <header class="tarjeta__header">
-        <h2>Aluminio · precio del kilo</h2>
-        <span class="guardado" id="aluminio-guardado" hidden>Guardado</span>
-      </header>
+    <nav class="menu-ajustes" id="menu-precios" data-menu aria-label="Precios y ajustes">
+      <p class="menu-ajustes__titulo">Lo que cobrás</p>
+      <div class="menu-ajustes__grupo">
+        <button type="button" class="menu-ajustes__fila" data-abrir="aberturas" data-icono="ventana"><span>Aberturas</span><em id="menu-n-aberturas"></em></button>
+        <button type="button" class="menu-ajustes__fila" data-abrir="vidrios" data-icono="vidrio"><span>Vidrios</span><em id="menu-n-vidrios"></em></button>
+        <button type="button" class="menu-ajustes__fila" data-abrir="agregados" data-icono="agregado"><span>Agregados</span><em id="menu-n-agregados"></em></button>
+        <button type="button" class="menu-ajustes__fila" data-abrir="lineas" data-icono="perfil"><span>Líneas de aluminio</span><em id="menu-n-lineas"></em></button>
+        <button type="button" class="menu-ajustes__fila" data-abrir="colores" data-icono="color"><span>Colores</span><em id="menu-n-colores"></em></button>
+        <button type="button" class="menu-ajustes__fila" data-abrir="formas" data-icono="forma"><span>Formas especiales</span><em></em></button>
+        <button type="button" class="menu-ajustes__fila" data-abrir="aumento" data-icono="subir"><span>Aumentar todos los precios</span><em id="menu-actualizado"></em></button>
+      </div>
+
+      <p class="menu-ajustes__titulo">Solo para vos</p>
+      <div class="menu-ajustes__grupo">
+        <button type="button" class="menu-ajustes__fila" data-abrir="aluminio" data-icono="kilo"><span>Precio del kilo de aluminio</span><em id="menu-kilo"></em></button>
+        <button type="button" class="menu-ajustes__fila" data-abrir="costos" data-icono="ganancia"><span>Costos y ganancia</span><em></em></button>
+      </div>
+
+      <p class="menu-ajustes__titulo">El presupuesto</p>
+      <div class="menu-ajustes__grupo">
+        <button type="button" class="menu-ajustes__fila" data-abrir="condiciones" data-icono="ajustes"><span>Condiciones y mínimos</span><em></em></button>
+        <button type="button" class="menu-ajustes__fila" data-abrir="empresa" data-icono="empresa"><span>Tu empresa y logo</span><em></em></button>
+      </div>
+
+      <p class="menu-ajustes__pie">Todo se guarda solo. <span id="version-app"></span></p>
+    </nav>
+
+    <section class="tarjeta ajuste" data-ajuste="aberturas">
+      <p class="guia">Precio por m², sin vidrio. Tocá un nombre para ver el resto.</p>
+      <div id="tabla-tipologias"></div>
+    </section>
+
+    <section class="tarjeta ajuste" data-ajuste="vidrios">
+      <p class="guia">Precio por m². Tocá un nombre para ver el resto.</p>
+      <div id="tabla-vidrios"></div>
+    </section>
+
+    <section class="tarjeta ajuste" data-ajuste="agregados">
+      <p class="guia">Tocá un nombre para ver cómo se cobra y lo que te cuesta.</p>
+      <div id="tabla-adicionales"></div>
+    </section>
+
+    <section class="tarjeta ajuste" data-ajuste="lineas">
+      <p class="guia">El multiplicador sube o baja el precio de cada abertura según la línea (Herrero = × 1).</p>
+      <div id="tabla-lineas"></div>
+    </section>
+
+    <section class="tarjeta ajuste" data-ajuste="colores">
+      <p class="guia">Recargo sobre el aluminio. Blanco = 0 %.</p>
+      <div id="tabla-colores"></div>
+    </section>
+
+    <section class="tarjeta ajuste" data-ajuste="formas">
+      <p class="guia">Las aberturas inclinadas, triangulares, con arco o redondas se cobran como el
+        rectángulo que las contiene, más este recargo. En 0 % se cobran igual que una rectangular.</p>
+      <div class="grilla-campos" id="tabla-formas"></div>
+    </section>
+
+    <section class="tarjeta ajuste" data-ajuste="aumento">
+      <p class="apunte">Última actualización: <strong id="precios-actualizado">—</strong>
+        <span class="guardado" id="precios-guardado" hidden>Guardado</span></p>
+      <div class="actualizacion">
+        <label class="campo campo--chico">
+          <span>Aumentar un</span>
+          <div class="campo-sufijo">
+            <input type="number" id="ajuste-pct" value="10" step="0.5" inputmode="decimal">
+            <span>%</span>
+          </div>
+        </label>
+        <div class="checks">
+          <label><input type="checkbox" id="ajuste-tipologias" checked> Aberturas</label>
+          <label><input type="checkbox" id="ajuste-vidrios" checked> Vidrios</label>
+          <label><input type="checkbox" id="ajuste-adicionales" checked> Agregados</label>
+        </div>
+        <button class="btn btn--primario btn--bloque" id="btn-aplicar-ajuste">Aplicar aumento</button>
+        <button class="btn btn--fantasma btn--bloque" id="btn-restaurar-precios">Volver a los valores originales</button>
+      </div>
+    </section>
+
+    <section class="tarjeta ajuste" data-ajuste="aluminio">
+      <span class="guardado" id="aluminio-guardado" hidden>Guardado</span>
       <div class="grilla-campos">
         <label class="campo">
           <span>Precio del kilo</span>
@@ -350,108 +422,9 @@
       <div id="aluminio-resumen"></div>
     </section>
 
-    <p class="nota-guardado">
-      Los cambios de precios se guardan solos: no hay botón de guardar.
-    </p>
-
-    <section class="tarjeta">
-      <header class="tarjeta__header">
-        <h2>Aumentar todos los precios</h2>
-        <span class="apunte">Última actualización: <strong id="precios-actualizado">—</strong>
-          <span class="guardado" id="precios-guardado" hidden>Guardado</span></span>
-      </header>
-      <div class="actualizacion">
-        <label class="campo campo--chico">
-          <span>Aumentar un</span>
-          <div class="campo-sufijo">
-            <input type="number" id="ajuste-pct" value="10" step="0.5" inputmode="decimal">
-            <span>%</span>
-          </div>
-        </label>
-        <div class="checks">
-          <label><input type="checkbox" id="ajuste-tipologias" checked> Aberturas</label>
-          <label><input type="checkbox" id="ajuste-vidrios" checked> Vidrios</label>
-          <label><input type="checkbox" id="ajuste-adicionales" checked> Adicionales</label>
-        </div>
-        <button class="btn btn--primario" id="btn-aplicar-ajuste">Aplicar aumento</button>
-        <button class="btn btn--fantasma" id="btn-restaurar-precios">Volver a los valores originales</button>
-      </div>
-      <p class="apunte">
-        Los precios son por m² de aluminio terminado (perfil, herrajes y mano de obra), sin vidrio.
-        El vidrio, el color y los adicionales se suman aparte.
-      </p>
-    </section>
-
-    <section class="tarjeta">
-      <header class="tarjeta__header"><h2>Líneas</h2><span class="apunte">Multiplican el precio de cada abertura</span></header>
-      <div id="tabla-lineas"></div>
-    </section>
-
-    <section class="tarjeta">
-      <header class="tarjeta__header"><h2>Aberturas ($/m² sin vidrio)</h2></header>
-      <div id="tabla-tipologias"></div>
-    </section>
-
-    <section class="tarjeta">
-      <header class="tarjeta__header"><h2>Vidrios ($/m²)</h2></header>
-      <div id="tabla-vidrios"></div>
-    </section>
-
-    <section class="tarjeta">
-      <header class="tarjeta__header"><h2>Colores (recargo sobre el aluminio)</h2></header>
-      <div id="tabla-colores"></div>
-    </section>
-
-    <section class="tarjeta">
-      <header class="tarjeta__header"><h2>Formas especiales</h2></header>
-      <p class="guia">Las aberturas inclinadas, triangulares, con arco o redondas se cobran como el
-        rectángulo que las contiene, más este recargo sobre aluminio y vidrio. En 0 % se cobran igual que una rectangular.</p>
-      <div class="grilla-campos" id="tabla-formas"></div>
-    </section>
-
-    <section class="tarjeta">
-      <header class="tarjeta__header"><h2>Adicionales</h2></header>
-      <div id="tabla-adicionales"></div>
-    </section>
-
-    <section class="tarjeta">
-      <header class="tarjeta__header"><h2>Valores por defecto</h2></header>
-      <div class="grilla-campos">
-        <label class="campo">
-          <span>m² mínimos facturables</span>
-          <input type="number" id="gen-min-m2" step="0.05" min="0" inputmode="decimal">
-        </label>
-        <label class="campo">
-          <span>Redondeo del ítem ($)</span>
-          <input type="number" id="gen-redondeo" step="100" min="0" inputmode="numeric">
-        </label>
-        <label class="campo campo--ancho">
-          <span>Plazo de entrega (sale impreso)</span>
-          <input type="text" id="gen-plazo">
-        </label>
-        <label class="campo">
-          <span>Largo de la tira de aluminio (m)</span>
-          <input type="number" id="gen-barra" step="0.1" min="1" inputmode="decimal">
-        </label>
-        <label class="campo">
-          <span>Lo que se pierde en cada corte (mm)</span>
-          <input type="number" id="gen-corte" step="1" min="0" inputmode="numeric">
-        </label>
-        <label class="campo campo--ancho">
-          <span>Forma de pago (sale impresa)</span>
-          <input type="text" id="gen-pago" placeholder="Ej.: Efectivo o transferencia bancaria.">
-        </label>
-      </div>
-    </section>
-
-    <section class="tarjeta tarjeta--interna">
-      <header class="tarjeta__header">
-        <h2>Costos, para calcular la ganancia</h2>
-        <span class="etiqueta-interna">Solo para vos</span>
-      </header>
-      <p class="guia">La ganancia de cada presupuesto se calcula con lo que pagás: el kilo de aluminio (arriba),
-        el peso por metro de cada línea (en Líneas), lo que pagás el m² de cada vidrio (en Vidrios) y estos dos valores.
-        Lo que no cargues cuenta como cero y la app te avisa.</p>
+    <section class="tarjeta ajuste" data-ajuste="costos">
+      <p class="guia">La ganancia se calcula con lo que pagás: el kilo de aluminio, el peso por metro de cada
+        línea, lo que pagás el m² de cada vidrio y estos valores. Lo que no cargues cuenta como cero.</p>
       <div class="grilla-campos">
         <label class="campo"><span>Herrajes y accesorios, por abertura ($)</span>
           <input type="number" id="gen-herrajes" min="0" step="1000" inputmode="numeric"></label>
@@ -462,15 +435,37 @@
       </div>
     </section>
 
-    <section class="tarjeta" id="tarjeta-empresa">
-      <header class="tarjeta__header">
-        <h2>Tu empresa</h2>
-        <span class="tarjeta__header-acciones">
-          <span class="guardado" id="empresa-guardado" hidden>Guardado</span>
-          <span class="apunte">Sale arriba de cada presupuesto</span>
-        </span>
-      </header>
+    <section class="tarjeta ajuste" data-ajuste="condiciones">
+      <div class="grilla-campos">
+        <label class="campo campo--ancho">
+          <span>Plazo de entrega (sale impreso)</span>
+          <input type="text" id="gen-plazo">
+        </label>
+        <label class="campo campo--ancho">
+          <span>Forma de pago (sale impresa)</span>
+          <input type="text" id="gen-pago" placeholder="Ej.: Efectivo o transferencia bancaria.">
+        </label>
+        <label class="campo">
+          <span>m² mínimos que se cobran</span>
+          <input type="number" id="gen-min-m2" step="0.05" min="0" inputmode="decimal">
+        </label>
+        <label class="campo">
+          <span>Redondear cada precio a ($)</span>
+          <input type="number" id="gen-redondeo" step="100" min="0" inputmode="numeric">
+        </label>
+        <label class="campo">
+          <span>Largo de la tira de aluminio (m)</span>
+          <input type="number" id="gen-barra" step="0.1" min="1" inputmode="decimal">
+        </label>
+        <label class="campo">
+          <span>Lo que se pierde en cada corte (mm)</span>
+          <input type="number" id="gen-corte" step="1" min="0" inputmode="numeric">
+        </label>
+      </div>
+    </section>
 
+    <section class="tarjeta ajuste" data-ajuste="empresa" id="tarjeta-empresa">
+      <p class="guia">Sale arriba de cada presupuesto. <span class="guardado" id="empresa-guardado" hidden>Guardado</span></p>
       <div class="logo-empresa">
         <img id="logo-vista" src="logo-alumfer.jpg" alt="Logo que sale en el presupuesto" width="96" height="96">
         <div class="logo-empresa__botones">
@@ -479,7 +474,6 @@
           <input type="file" id="archivo-logo" accept="image/png,image/jpeg,image/webp" hidden>
         </div>
       </div>
-
       <div class="grilla-campos">
         <label class="campo campo--ancho"><span>Nombre</span><input type="text" id="emp-nombre" autocomplete="organization"></label>
         <label class="campo campo--ancho"><span>Frase debajo del nombre</span><input type="text" id="emp-slogan"></label>
@@ -488,7 +482,6 @@
         <label class="campo campo--ancho"><span>Dirección</span><input type="text" id="emp-direccion"></label>
         <label class="campo"><span>Página web</span><input type="text" id="emp-web"></label>
       </div>
-      <p class="apunte" id="version-app"></p>
     </section>
   </section>
 
