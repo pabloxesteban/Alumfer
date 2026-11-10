@@ -3,7 +3,7 @@
 Para retomar el trabajo sin tener que reconstruir el contexto: qué hay hecho, qué
 se decidió y por qué, qué falta, y con qué trampas ya chocamos.
 
-Estado al 9 de noviembre de 2026 (versión `2026-11-10.16`); todo lo descrito está publicado y andando.
+Estado al 9 de noviembre de 2026 (versión `2026-11-10.17`); todo lo descrito está publicado y andando.
 **Si trabajás sobre la app, actualizá este archivo antes de cerrar.**
 
 ---
@@ -522,6 +522,35 @@ Documentación completa en `apps/presupuestos/README.md`.
       botones y opciones se achican apenas al tocarlos. Con
       `prefers-reduced-motion` se apaga todo. **No animar las aberturas**: la
       lista se vuelve a dibujar con cada toque y parpadearía.
+43. **Tendencia 2026 (.17)**. Pablo: la plana "sigue sin gustarme", buscar
+    tendencias 2026/27 con efectos. Referencias: Liquid Glass de iOS 26 y
+    Material 3 Expressive. Capa "TENDENCIA 2026" al final de `estilos.css`
+    (la plana de la .16 quedó como base: campos y botones secundarios tonales):
+    - **Barra de pestañas flotante de vidrio** (despegada de los bordes, blur,
+      radio 30) con una **cápsula que se desliza** a la pestaña activa
+      (`.barra__tabs::before`, `--tab-i` lo pone `mostrarVista`). La barra del
+      total + acción también flota, encima. Vidrio al 86 % de opacidad: con
+      menos se leía el texto de atrás y confundía. Sin `backdrop-filter`, casi
+      opaco. En pantallas anchas no pasan de 640 px.
+    - **Pasos con bloque blanco que se desliza** (`.pasos::before`,
+      `--paso-i` lo pone `irPaso`).
+    - **Movimiento con resorte**: `--resorte` es una curva `linear()` con ~8 %
+      de rebote (con `cubic-bezier` de respaldo); botones y opciones se achican
+      al tocar y vuelven rebotando.
+    - **Título grande** (1,75 rem, 800) que se achica al bajar, con el
+      encabezado que pasa a vidrio (`.barra.con-linea`).
+    - Tarjetas radio 24 con sombra suave en capas; botón principal y de
+      WhatsApp con degradé y relieve; dólar como tarjeta destacada azul.
+    - Barra de avance en degradé con un brillo que la recorre mientras falta
+      algo; verde al completar.
+    - Ventanas como **hojas que suben desde abajo** con manija y fondo
+      desenfocado; avisos como píldora oscura de vidrio que entra rebotando.
+    - Tarjetas que entran **escalonadas** (40 ms entre una y otra).
+    - El total de abajo **late** cuando cambia (clase `late`; no se anima el
+      número porque las pruebas leen el texto enseguida).
+    - **Vibración** de 8 ms (`navigator.vibrate`) al tocar botones principales,
+      pestañas, pasos y opciones (solo Android; iPhone no vibra desde la web).
+    - Se mantiene el mínimo de 56 px del botón principal (lo chequea prueba9).
 
 ---
 

@@ -1114,7 +1114,12 @@
       ? actual.items.length + (actual.items.length === 1 ? ' abertura · ' : ' aberturas · ') + F.numero(r.m2Total, 2) + ' m²'
       : '';
 
-    $('barra-total-valor').textContent = F.moneda(r.total);
+    var totalNuevo = F.moneda(r.total);
+    if ($('barra-total-valor').textContent !== totalNuevo) {
+      $('barra-total-valor').textContent = totalNuevo;
+      var monto = $('barra-total-monto');
+      monto.classList.remove('late'); void monto.offsetWidth; monto.classList.add('late');
+    }
     renderGanancia();
     pintarBarraAbajo();
     pintarEncabezado();   // el subtítulo muestra el nombre del cliente a medida que se escribe
@@ -1739,6 +1744,7 @@
     ['presupuesto', 'historial', 'precios'].forEach(function (v) {
       $('vista-' + v).hidden = (v !== nombre);
     });
+    document.querySelector('.barra__tabs').style.setProperty('--tab-i', ['presupuesto', 'historial', 'precios'].indexOf(nombre));
     document.querySelectorAll('.tab').forEach(function (t) {
       var activa = t.dataset.vista === nombre;
       t.classList.toggle('is-activa', activa);
@@ -1935,6 +1941,7 @@
     // Para la transición: avanzar entra desde la derecha, volver desde la izquierda.
     $('vista-presupuesto').dataset.dir = pasoActual >= antes ? 'adelante' : 'atras';
     $('vista-presupuesto').dataset.paso = pasoActual;
+    $('pasos').style.setProperty('--paso-i', pasoActual - 1);
     document.querySelectorAll('#pasos [data-paso]').forEach(function (b) {
       var k = Number(b.dataset.paso);
       b.classList.toggle('is-actual', k === pasoActual);
@@ -2887,6 +2894,15 @@
       if (b) abrirAjuste(b.dataset.abrir);
     });
     $('btn-atras').addEventListener('click', cerrarAjuste);
+    // Un toque se "siente": vibración muy corta en botones principales,
+    // pestañas, pasos y opciones (en iPhone el navegador no vibra; no pasa nada).
+    document.addEventListener('click', function (ev) {
+      if (!navigator.vibrate) return;
+      if (ev.target.closest('.btn--primario, .btn--whatsapp, .btn--continuar, .tab, .pasos__paso, .variante, .tipo-tile, ' +
+                            '.espesor, .lugar, .extra, .opcion, .menu-ajustes__fila, .contador__btn, .btn--nuevo')) {
+        try { navigator.vibrate(8); } catch (e) { /* sin vibración */ }
+      }
+    });
     // El encabezado se funde con el fondo y marca una línea recién al bajar.
     window.addEventListener('scroll', function () {
       document.querySelector('.barra').classList.toggle('con-linea', window.scrollY > 4);
