@@ -3,7 +3,7 @@
 Para retomar el trabajo sin tener que reconstruir el contexto: qué hay hecho, qué
 se decidió y por qué, qué falta, y con qué trampas ya chocamos.
 
-Estado al 9 de noviembre de 2026 (versión `2026-11-09.13`); todo lo descrito está publicado y andando.
+Estado al 9 de noviembre de 2026 (versión `2026-11-10.14`); todo lo descrito está publicado y andando.
 **Si trabajás sobre la app, actualizá este archivo antes de cerrar.**
 
 ---
@@ -432,6 +432,28 @@ Documentación completa en `apps/presupuestos/README.md`.
     arriba **"¿María aceptó este presupuesto?"** con Sí, aceptó / No aceptó /
     Todavía no sé (esto último lo esconde hasta la próxima vez que se abra).
     Sigue además "Para volver a llamar" (punto 30).
+40. **Apariencia sobria (.14)**, Pablo: "medio loco, muchos colores y formas".
+    Capa "APARIENCIA SOBRIA" al final de `estilos.css` (pisa a la de 2026):
+    - Una sola letra, **Inter** (se sacó Montserrat también de Google Fonts).
+    - Neutros + un acento azul. Verde solo para WhatsApp y lo completo; rojo
+      solo para errores y borrar. **Sin amarillo ni bordes punteados**: las
+      tarjetas "Solo para vos" son blancas con una etiqueta gris chica.
+    - Una sola forma: rectángulo redondeado (16 px tarjetas, 12 px el resto;
+      chips de estado 6 px). Nada de píldoras ni círculos en las opciones.
+    - Opciones para tocar (tipos, hojas, formas, vidrios, espesores, lugares,
+      agregados, línea/color, − y +): fichas **grises sin borde**; la elegida,
+      azul claro con borde azul. Los campos para escribir sí tienen borde.
+    - Un solo botón lleno por pantalla (Continuar o WhatsApp); "Descargar
+      PDF", "Guardar", email y "Ver el detalle" son blancos con borde fino.
+    - Indicador de pasos plano: círculo con número; azul el paso actual,
+      verde con tilde el que está **completo** (`is-hecho` se calcula en
+      `pintarAvance()` con lo que está hecho, no con "pasos anteriores": el 3
+      se tilda al mandarlo). Barra de avance de 8 px.
+    - Pregunta "¿aceptó?" en azul claro, "Sí, aceptó" azul.
+    - El error de ancho/alto va **debajo de la fila** `.item__medidas` (adentro
+      del campo dejaba la columna angosta).
+    - Guardados: los tres botones de cada fila en una grilla de 3 (en 360 px
+      "Borrar" se salía de la pantalla).
 
 ---
 
@@ -549,7 +571,8 @@ el paso, tamaños de toque, nada cortado ni scroll horizontal en 360 px.
 deja avanzar (para que las pruebas viejas sigan andando); las aberturas
 "Otro trabajo" sin precio bloquean el PDF, por eso los bucles de 22 aberturas
 excluyen `[data-tipo="libre"]`. Prueba de obligatorios, barra de avance y
-estados (36 chequeos, incluido 360 px).
+estados (36 chequeos, incluido 360 px). Desde la .14 el mensaje de
+medida se busca con `.campo__error:not([hidden])` dentro de la abertura.
 Prueba de otro trabajo y precio a mano (17 chequeos), incluido el PDF.
 Prueba de guardado, seguimiento, copia, mes y ganancia (22 chequeos), incluido
 que la ganancia no llegue al cliente.
@@ -601,6 +624,8 @@ cd apps/presupuestos && python3 -m http.server 8777
   de `visualViewport`.
 - `.item__resumen-texto b` pinta de oscuro cualquier `<b>` del renglón: el
   código (`.codigo`) necesita su color con más prioridad.
+- `.item .codigo` (base) tiene `color: #fff !important`: para pisarlo hay que
+  repetir el mismo selector, si no el "V1" queda blanco sobre gris.
 - `.espesor` (botón redondo) pisa a `.espesor--textura` si tienen la misma
   especificidad: las fichas con foto usan `.espesores .espesor--textura`.
 - Una IIFE metida en una concatenación de strings tiene que devolver `''`, si

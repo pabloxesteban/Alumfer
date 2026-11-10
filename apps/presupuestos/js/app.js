@@ -1712,8 +1712,16 @@
     if (!campo) return;
     var envoltura = campo.closest('.campo');
     envoltura.classList.add('con-error');
-    var msg = envoltura.querySelector('.campo__error');
-    if (!msg) { msg = document.createElement('span'); msg.className = 'campo__error'; envoltura.appendChild(msg); }
+    // En la fila "ancho × alto" el mensaje va debajo de toda la fila: adentro
+    // del campo lo dejaba angosto y empujaba al otro.
+    var fila = campo.closest('.item__medidas');
+    var dueno = fila ? fila.parentNode : envoltura;
+    var msg = fila ? (fila.nextElementSibling && fila.nextElementSibling.classList.contains('campo__error') ? fila.nextElementSibling : null)
+                   : envoltura.querySelector('.campo__error');
+    if (!msg) {
+      msg = document.createElement('span'); msg.className = 'campo__error';
+      if (fila) dueno.insertBefore(msg, fila.nextSibling); else envoltura.appendChild(msg);
+    }
     msg.textContent = falta.mensaje;
     msg.hidden = false;
     campo.setAttribute('aria-invalid', 'true');
@@ -1761,6 +1769,13 @@
     var hechos = hitos.filter(function (h) { return h[0]; }).length;
     var pct = Math.round(hechos / hitos.length * 100);
     var falta = hitos.filter(function (h) { return !h[0]; })[0];
+    // Tilde en cada paso que ya está completo (el 3, cuando ya se mandó).
+    var hechoPaso = { 1: hitos[0][0] && hitos[1][0], 2: hitos[3][0], 3: hitos[5][0] };
+    document.querySelectorAll('#pasos [data-paso]').forEach(function (b) {
+      var hecho = !!hechoPaso[b.dataset.paso];
+      b.classList.toggle('is-hecho', hecho);
+      b.setAttribute('aria-label', b.textContent.replace(/^\d/, '').trim() + (hecho ? ' (completo)' : ''));
+    });
     $('avance-relleno').style.width = pct + '%';
     $('avance-pres').setAttribute('aria-valuenow', pct);
     $('avance-pres').classList.toggle('completo', pct === 100);
@@ -1825,9 +1840,9 @@
     document.querySelectorAll('#pasos [data-paso]').forEach(function (b) {
       var k = Number(b.dataset.paso);
       b.classList.toggle('is-actual', k === pasoActual);
-      b.classList.toggle('is-hecho', k < pasoActual);
       if (k === pasoActual) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
     });
+    pintarAvance();
     pintarEncabezado();
     pintarBarraAbajo();
     window.scrollTo({ top: 0 });
@@ -2696,6 +2711,8 @@
       if (!envoltura) return;
       envoltura.classList.remove('con-error');
       var msg = envoltura.querySelector('.campo__error');
+      var fila = envoltura.closest('.item__medidas');
+      if (fila && fila.nextElementSibling && fila.nextElementSibling.classList.contains('campo__error')) msg = fila.nextElementSibling;
       if (msg) msg.hidden = true;
       ev.target.removeAttribute('aria-invalid');
     });
