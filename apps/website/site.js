@@ -234,24 +234,52 @@
     const lbImg   = $('#lightbox-img');
     const lbLabel = $('#lightbox-label');
     const lbCount = $('#lightbox-counter');
+    const lbTabs  = $('#lightbox-tabs');
     let lbList = [];
     let lbIdx = 0;
+    let lbSub = 0; // foto dentro de una serie (antes / después, cerrada / abierta…)
     let lastFocus = null;
+
+    // Un trabajo puede traer varias fotos en data-fotos: [{src, tag, alt}]
+    const fotosDe = (it) => {
+      if (!('fotos' in it.dataset)) return null;
+      try { return JSON.parse(it.dataset.fotos); } catch (e) { return null; }
+    };
 
     const paint = () => {
       const it = lbList[lbIdx];
       const img = $('img', it);
+      const fotos = fotosDe(it);
+      const f = fotos ? fotos[lbSub] : null;
+      const src = f ? f.src : (img.currentSrc || img.src);
+      const alt = f ? f.alt : img.alt;
       lbImg.style.opacity = '0';
-      const src = img.currentSrc || img.src;
       const tmp = new Image();
-      tmp.onload = () => { lbImg.src = src; lbImg.alt = img.alt; lbImg.style.opacity = '1'; };
+      tmp.onload = () => { lbImg.src = src; lbImg.alt = alt; lbImg.style.opacity = '1'; };
       tmp.src = src;
-      lbLabel.textContent = it.dataset.label || '';
+      lbLabel.textContent = (it.dataset.label || '') + (f ? ` · ${f.tag}` : '');
       lbCount.textContent = `${lbIdx + 1} / ${lbList.length}`;
+      if (lbTabs) {
+        lbTabs.hidden = !fotos;
+        lbTabs.textContent = '';
+        (fotos || []).forEach((x, i) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'lightbox__tab mono';
+          b.setAttribute('role', 'tab');
+          b.setAttribute('aria-selected', String(i === lbSub));
+          b.textContent = x.tag;
+          b.addEventListener('click', () => { if (i !== lbSub) { lbSub = i; paint(); } });
+          lbTabs.appendChild(b);
+        });
+        // precargar el resto de la serie para que el cambio sea instantáneo
+        (fotos || []).forEach(x => { new Image().src = x.src; });
+      }
     };
     const open = (it) => {
       lbList = visible();
       lbIdx = Math.max(0, lbList.indexOf(it));
+      lbSub = 0;
       lastFocus = document.activeElement;
       lb.hidden = false;
       document.body.style.overflow = 'hidden';
@@ -263,7 +291,15 @@
       lb.classList.remove('is-open');
       setTimeout(() => { lb.hidden = true; document.body.style.overflow = ''; lastFocus?.focus(); }, 200);
     };
-    const go = (d) => { lbIdx = (lbIdx + d + lbList.length) % lbList.length; paint(); };
+    // Flechas / deslizar: primero recorren las fotos de la serie, después pasan al otro trabajo
+    const go = (d) => {
+      const fotos = fotosDe(lbList[lbIdx]);
+      if (fotos && lbSub + d >= 0 && lbSub + d < fotos.length) { lbSub += d; paint(); return; }
+      lbIdx = (lbIdx + d + lbList.length) % lbList.length;
+      const sig = fotosDe(lbList[lbIdx]);
+      lbSub = sig && d < 0 ? sig.length - 1 : 0;
+      paint();
+    };
 
     items.forEach(it => it.addEventListener('click', () => open(it)));
     $('.lightbox__close', lb)?.addEventListener('click', close);

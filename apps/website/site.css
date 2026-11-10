@@ -616,6 +616,8 @@ ul, ol { list-style: none; }
 .zoom { position: absolute; right: 10px; top: 10px; z-index: 1; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: rgba(255,255,255,0.92); color: var(--black); opacity: 0; transform: scale(0.9); transition: opacity 200ms var(--ease), transform 200ms var(--ease); }
 .archive__item:hover .zoom, .archive__item:focus-visible .zoom { opacity: 1; transform: scale(1); }
 .zoom svg { width: 16px; height: 16px; }
+/* trabajo con varias fotos (antes / después…) */
+.archive__serie { position: absolute; left: 10px; top: 10px; z-index: 1; padding: 0.35rem 0.6rem; border-radius: var(--r); background: var(--blue); color: #fff; font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; box-shadow: 0 2px 8px rgba(0,0,0,0.25); }
 .works__foot { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
 .works__foot .btns { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
@@ -801,6 +803,11 @@ ul, ol { list-style: none; }
 .lightbox__btn--next { right: 1rem; }
 .lightbox__close { position: absolute; top: 1rem; right: 1rem; width: 44px; height: 44px; display: grid; place-items: center; color: #fff; }
 .lightbox svg { width: 22px; height: 22px; }
+.lightbox__tabs { position: absolute; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 1; display: flex; gap: 0.25rem; padding: 0.25rem; border-radius: 999px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); max-width: calc(100% - 7rem); overflow-x: auto; }
+.lightbox__tabs[hidden] { display: none; }
+.lightbox__tab { padding: 0.5rem 1rem; border-radius: 999px; color: rgba(255,255,255,0.75); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; transition: background 200ms var(--ease), color 200ms var(--ease); }
+.lightbox__tab:hover { color: #fff; }
+.lightbox__tab[aria-selected="true"] { background: #fff; color: var(--black); }
 
 /* ─── Dibujos animados de aberturas (fichas) ─────────────── */
 .fx-ico { width: 72px; height: 54px; color: var(--accent); overflow: visible; margin-bottom: 0.4rem; flex-shrink: 0; }
@@ -981,6 +988,8 @@ ul, ol { list-style: none; }
   .footer { padding-bottom: 7rem; }
   .lightbox__stage { padding: 3.5rem 0.5rem 0.5rem; }
   .lightbox__btn { display: none; }
+  .lightbox__tabs { left: 0.75rem; transform: none; max-width: calc(100% - 4.5rem); }
+  .lightbox__tab { padding: 0.5rem 0.8rem; font-size: 0.66rem; }
   .lightbox__bar .btn { width: 100%; justify-content: center; }
 
   /* Dock inferior flotante: llamar + WhatsApp */
