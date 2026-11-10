@@ -173,6 +173,91 @@
     new IntersectionObserver((es) => es.forEach((e) => ens.classList.toggle('is-pausado', !e.isIntersecting)), { threshold: 0.15 }).observe(ens);
   }
 
+  // ─── Visor de fotos: animación y gestos (home y páginas internas) ──
+  // Cambia la foto entrando desde el costado hacia el que se deslizó.
+  const mostrarFoto = (lb, img, src, alt, dir = 0) => {
+    quitarZoom(lb, img);
+    img.style.transition = 'opacity 140ms';
+    img.style.opacity = '0';
+    const tmp = new Image();
+    tmp.onload = tmp.onerror = () => {
+      img.src = src; img.alt = alt;
+      img.style.transition = 'none';
+      img.style.transform = reduceMotion ? '' : (dir ? `translateX(${dir * 56}px)` : 'scale(0.96)');
+      void img.offsetWidth;
+      img.style.transition = 'transform 360ms var(--ease), opacity 260ms var(--ease)';
+      img.style.transform = '';
+      img.style.opacity = '1';
+    };
+    tmp.src = src;
+  };
+  const quitarZoom = (lb, img) => {
+    if (!lb.classList.contains('is-zoom')) return;
+    lb.classList.remove('is-zoom');
+    img.style.transition = 'transform 260ms var(--ease)';
+    img.style.transform = '';
+  };
+  // Deslizar a los costados: la foto sigue al dedo y pasa a la siguiente.
+  // Deslizar hacia abajo: cierra. Doble toque (o doble clic): zoom.
+  const gestosVisor = (lb, img, go, close) => {
+    const ZOOM = 2.2;
+    let x0 = 0, y0 = 0, dx = 0, dy = 0, eje = null, ultimoToque = 0, zx = 0, zy = 0, bx = 0, by = 0;
+    const zoomEn = (x, y) => {
+      const r = img.getBoundingClientRect();
+      img.style.transformOrigin = `${((x - r.left) / r.width) * 100}% ${((y - r.top) / r.height) * 100}%`;
+      zx = zy = 0;
+      img.style.transition = 'transform 280ms var(--ease)';
+      img.style.transform = `scale(${ZOOM})`;
+      lb.classList.add('is-zoom');
+    };
+    const alternarZoom = (x, y) => (lb.classList.contains('is-zoom') ? quitarZoom(lb, img) : zoomEn(x, y));
+    img.addEventListener('dblclick', (e) => alternarZoom(e.clientX, e.clientY));
+    lb.addEventListener('touchstart', (e) => {
+      if (e.touches.length > 1) { eje = 'pinza'; return; }
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; dx = dy = 0; eje = null; bx = zx; by = zy;
+    }, { passive: true });
+    lb.addEventListener('touchmove', (e) => {
+      if (eje === 'pinza' || e.touches.length > 1) return;
+      dx = e.touches[0].clientX - x0; dy = e.touches[0].clientY - y0;
+      img.style.transition = 'none';
+      if (lb.classList.contains('is-zoom')) {
+        zx = bx + dx; zy = by + dy;
+        img.style.transform = `translate(${zx}px, ${zy}px) scale(${ZOOM})`;
+        return;
+      }
+      if (!eje && Math.hypot(dx, dy) > 8) eje = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      if (eje === 'x') img.style.transform = `translateX(${dx}px) rotate(${dx / 60}deg)`;
+      if (eje === 'y' && dy > 0) {
+        img.style.transform = `translateY(${dy}px) scale(${1 - Math.min(dy, 320) / 1400})`;
+        lb.style.setProperty('--lb-fondo', String(Math.max(0.3, 0.94 - dy / 500)));
+      }
+    }, { passive: true });
+    lb.addEventListener('touchend', (e) => {
+      if (lb.classList.contains('is-zoom') && Math.hypot(dx, dy) > 8) return;
+      lb.style.removeProperty('--lb-fondo');
+      if (eje === 'x' && Math.abs(dx) > 60) {
+        img.style.transition = 'transform 180ms ease-in, opacity 180ms';
+        img.style.transform = `translateX(${dx > 0 ? 40 : -40}vw)`;
+        img.style.opacity = '0';
+        setTimeout(() => go(dx > 0 ? -1 : 1), 120);
+      } else if (eje === 'y' && dy > 110) {
+        img.style.transition = 'transform 220ms ease-in, opacity 220ms';
+        img.style.transform = `translateY(${dy + 160}px) scale(0.9)`;
+        img.style.opacity = '0';
+        close();
+        setTimeout(() => { img.style.transform = ''; img.style.opacity = '1'; }, 300);
+      } else if (eje) {
+        img.style.transition = 'transform 260ms var(--ease)';
+        img.style.transform = '';
+      } else if (e.target === img && e.changedTouches.length) {
+        const ahora = Date.now();
+        if (ahora - ultimoToque < 300) { alternarZoom(e.changedTouches[0].clientX, e.changedTouches[0].clientY); ultimoToque = 0; }
+        else ultimoToque = ahora;
+      }
+      eje = null;
+    }, { passive: true });
+  };
+
   // ─── Galería: filtros, "ver más" y lightbox ─────────────
   const archive = $('.archive');
   if (archive) {
@@ -237,6 +322,7 @@
     const lbTabs  = $('#lightbox-tabs');
     let lbList = [];
     let lbIdx = 0;
+    let lbDir = 0; // dirección de la animación al cambiar de foto
     let lbSub = 0; // foto dentro de una serie (antes / después, cerrada / abierta…)
     let lastFocus = null;
 
@@ -253,10 +339,8 @@
       const f = fotos ? fotos[lbSub] : null;
       const src = f ? f.src : (img.currentSrc || img.src);
       const alt = f ? f.alt : img.alt;
-      lbImg.style.opacity = '0';
-      const tmp = new Image();
-      tmp.onload = () => { lbImg.src = src; lbImg.alt = alt; lbImg.style.opacity = '1'; };
-      tmp.src = src;
+      mostrarFoto(lb, lbImg, src, alt, lbDir);
+      lbDir = 0;
       lbLabel.textContent = (it.dataset.label || '') + (f ? ` · ${f.tag}` : '');
       lbCount.textContent = `${lbIdx + 1} / ${lbList.length}`;
       if (lbTabs) {
@@ -269,12 +353,14 @@
           b.setAttribute('role', 'tab');
           b.setAttribute('aria-selected', String(i === lbSub));
           b.textContent = x.tag;
-          b.addEventListener('click', () => { if (i !== lbSub) { lbSub = i; paint(); } });
+          b.addEventListener('click', () => { if (i !== lbSub) { lbDir = i > lbSub ? 1 : -1; lbSub = i; paint(); } });
           lbTabs.appendChild(b);
         });
         // precargar el resto de la serie para que el cambio sea instantáneo
         (fotos || []).forEach(x => { new Image().src = x.src; });
       }
+      // precargar los trabajos vecinos para que deslizar sea inmediato
+      [-1, 1].forEach(d => { const v = $('img', lbList[(lbIdx + d + lbList.length) % lbList.length]); if (v) new Image().src = v.currentSrc || v.src; });
     };
     const open = (it) => {
       lbList = visible();
@@ -289,10 +375,12 @@
     };
     const close = () => {
       lb.classList.remove('is-open');
+      quitarZoom(lb, lbImg);
       setTimeout(() => { lb.hidden = true; document.body.style.overflow = ''; lastFocus?.focus(); }, 200);
     };
     // Flechas / deslizar: primero recorren las fotos de la serie, después pasan al otro trabajo
     const go = (d) => {
+      lbDir = d;
       const fotos = fotosDe(lbList[lbIdx]);
       if (fotos && lbSub + d >= 0 && lbSub + d < fotos.length) { lbSub += d; paint(); return; }
       lbIdx = (lbIdx + d + lbList.length) % lbList.length;
@@ -312,12 +400,7 @@
       if (e.key === 'ArrowLeft') go(-1);
       if (e.key === 'ArrowRight') go(1);
     });
-    let x0 = 0;
-    lb?.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
-    lb?.addEventListener('touchend', (e) => {
-      const dx = x0 - e.changedTouches[0].clientX;
-      if (Math.abs(dx) > 50) go(dx > 0 ? 1 : -1);
-    }, { passive: true });
+    if (lb) gestosVisor(lb, lbImg, go, close);
   }
 
   // ─── Líneas: selector ───────────────────────────────────
@@ -398,4 +481,227 @@
   $$('a[href^="tel:"]').forEach(el => el.addEventListener('click', () => {
     if (typeof gtag !== 'undefined') gtag('event', 'phone_click', { event_category: 'Contact', event_label: 'tel_link' });
   }));
+
+  // ─── Visor en páginas internas: tocar una foto la abre en grande ──
+  const fotosSueltas = $$('.obras-strip__item img, .phero__photo img');
+  if (!$('#lightbox') && fotosSueltas.length) {
+    const waHref = $('.mbar .btn--wa')?.href || waLink('Hola, quiero pedir un presupuesto');
+    const v = document.createElement('div');
+    v.className = 'lightbox';
+    v.id = 'visor';
+    v.hidden = true;
+    v.setAttribute('role', 'dialog');
+    v.setAttribute('aria-modal', 'true');
+    v.setAttribute('aria-label', 'Foto ampliada');
+    v.innerHTML = `
+      <div class="lightbox__stage"><img class="lightbox__img" alt=""></div>
+      <button type="button" class="lightbox__close" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      <button type="button" class="lightbox__btn lightbox__btn--prev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m15 18-6-6 6-6"/></svg></button>
+      <button type="button" class="lightbox__btn lightbox__btn--next" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m9 18 6-6-6-6"/></svg></button>
+      <div class="lightbox__bar">
+        <span class="mono lightbox__label"></span>
+        <span class="mono lightbox__count"></span>
+        <a class="btn btn--wa" target="_blank" rel="noopener">Consultar por un trabajo así</a>
+      </div>`;
+    document.body.appendChild(v);
+    const vImg = $('.lightbox__img', v);
+    const vLabel = $('.lightbox__label', v);
+    const vCount = $('.lightbox__count', v);
+    $('.btn--wa', v).href = waHref;
+    if (fotosSueltas.length < 2) $$('.lightbox__btn', v).forEach(b => b.remove());
+    let vi = 0;
+    let vFoco = null;
+    const pintar = (dir = 0) => {
+      const img = fotosSueltas[vi];
+      const fc = img.closest('figure')?.querySelector('figcaption');
+      const cap = fc ? (fc.children.length ? [...fc.children].map(x => x.textContent.trim()).filter(Boolean).join(' · ') : fc.textContent.trim()) : '';
+      mostrarFoto(v, vImg, img.currentSrc || img.src, img.alt, dir);
+      vLabel.textContent = cap || '';
+      vCount.textContent = fotosSueltas.length > 1 ? `${vi + 1} / ${fotosSueltas.length}` : '';
+      [-1, 1].forEach(d => { const s = fotosSueltas[(vi + d + fotosSueltas.length) % fotosSueltas.length]; new Image().src = s.currentSrc || s.src; });
+    };
+    const ir = (d) => { vi = (vi + d + fotosSueltas.length) % fotosSueltas.length; pintar(d); };
+    const abrir = (i) => {
+      vi = i; vFoco = document.activeElement;
+      v.hidden = false;
+      document.body.style.overflow = 'hidden';
+      requestAnimationFrame(() => v.classList.add('is-open'));
+      pintar();
+      $('.lightbox__close', v).focus();
+    };
+    const cerrar = () => {
+      v.classList.remove('is-open');
+      quitarZoom(v, vImg);
+      setTimeout(() => { v.hidden = true; document.body.style.overflow = ''; vFoco?.focus(); }, 200);
+    };
+    fotosSueltas.forEach((img, i) => {
+      const t = img.closest('figure') || img;
+      t.classList.add('ampliable');
+      t.tabIndex = 0;
+      t.setAttribute('role', 'button');
+      t.setAttribute('aria-label', `Ampliar foto: ${img.alt}`);
+      t.addEventListener('click', () => abrir(i));
+      t.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(i); } });
+    });
+    $('.lightbox__close', v).addEventListener('click', cerrar);
+    $('.lightbox__btn--prev', v)?.addEventListener('click', () => ir(-1));
+    $('.lightbox__btn--next', v)?.addEventListener('click', () => ir(1));
+    v.addEventListener('click', (e) => { if (e.target === v || e.target.classList.contains('lightbox__stage')) cerrar(); });
+    document.addEventListener('keydown', (e) => {
+      if (v.hidden) return;
+      if (e.key === 'Escape') cerrar();
+      if (e.key === 'ArrowLeft' && fotosSueltas.length > 1) ir(-1);
+      if (e.key === 'ArrowRight' && fotosSueltas.length > 1) ir(1);
+    });
+    gestosVisor(v, vImg, (d) => (fotosSueltas.length > 1 ? ir(d) : pintar()), cerrar);
+  }
+
+  // ─── Scroll: barra de progreso, menú que se esconde y "volver arriba" ──
+  const progreso = document.createElement('div');
+  progreso.className = 'scroll-prog';
+  progreso.setAttribute('aria-hidden', 'true');
+  nav?.appendChild(progreso);
+
+  const subir = document.createElement('button');
+  subir.type = 'button';
+  subir.className = 'subir';
+  subir.setAttribute('aria-label', 'Volver arriba');
+  subir.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+  subir.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }));
+  document.body.appendChild(subir);
+
+  const navMovil = window.matchMedia('(max-width: 960px)');
+  let yPrevia = window.scrollY;
+  let pendiente = false;
+  const alScrollear = () => {
+    pendiente = false;
+    const y = window.scrollY;
+    const max = doc.scrollHeight - window.innerHeight;
+    progreso.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
+    const delta = y - yPrevia;
+    if (Math.abs(delta) < 6) return;
+    const bajando = delta > 0;
+    const menuAbierto = burger?.getAttribute('aria-expanded') === 'true';
+    nav?.classList.toggle('is-oculta', navMovil.matches && bajando && y > 220 && !menuAbierto);
+    subir.classList.toggle('is-visible', !bajando && y > window.innerHeight * 1.5);
+    yPrevia = y;
+  };
+  window.addEventListener('scroll', () => { if (!pendiente) { pendiente = true; requestAnimationFrame(alScrollear); } }, { passive: true });
+  alScrollear();
+
+  // ─── Carruseles deslizables: puntos que muestran cuántas hay ──
+  // y un pequeño "amague" la primera vez que se ven, para invitar a deslizar.
+  const tocable = window.matchMedia('(hover: none)').matches;
+  $$('.extras, .quotes, .features-grid, .product-list, .reviews-grid, .reel').forEach(sc => {
+    const tarjetas = () => $$(':scope > *, :scope > .reel__track > *', sc)
+      .filter(x => !x.classList.contains('reel__track') && x.getAttribute('aria-hidden') !== 'true' && x.getClientRects().length);
+    const puntos = document.createElement('div');
+    puntos.className = 'puntos';
+    puntos.setAttribute('aria-hidden', 'true');
+    sc.insertAdjacentElement('afterend', puntos);
+    let lista = [];
+    const ir = (el) => {
+      const pad = parseFloat(getComputedStyle(sc).scrollPaddingLeft) || 0;
+      sc.scrollBy({ left: el.getBoundingClientRect().left - sc.getBoundingClientRect().left - pad, behavior: reduceMotion ? 'auto' : 'smooth' });
+    };
+    const armar = () => {
+      lista = tarjetas();
+      const desborda = sc.scrollWidth > sc.clientWidth + 4 && lista.length > 1;
+      puntos.hidden = !desborda;
+      if (!desborda) return;
+      puntos.textContent = '';
+      lista.forEach((el) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.tabIndex = -1;
+        b.addEventListener('click', () => ir(el));
+        puntos.appendChild(b);
+      });
+      marcar();
+    };
+    const marcar = () => {
+      if (puntos.hidden) return;
+      const izq = sc.getBoundingClientRect().left + (parseFloat(getComputedStyle(sc).scrollPaddingLeft) || 0);
+      let activo = 0, mejor = Infinity;
+      lista.forEach((el, i) => { const d = Math.abs(el.getBoundingClientRect().left - izq); if (d < mejor) { mejor = d; activo = i; } });
+      if (sc.scrollLeft >= sc.scrollWidth - sc.clientWidth - 4) activo = lista.length - 1;
+      $$('button', puntos).forEach((b, i) => b.classList.toggle('is-on', i === activo));
+    };
+    let rafP = 0;
+    sc.addEventListener('scroll', () => { cancelAnimationFrame(rafP); rafP = requestAnimationFrame(marcar); }, { passive: true });
+    window.addEventListener('resize', armar);
+    armar();
+
+    if (tocable && !reduceMotion && 'IntersectionObserver' in window) {
+      const amague = new IntersectionObserver(([en]) => {
+        if (!en.isIntersecting || puntos.hidden || sc.scrollLeft > 4) return;
+        amague.disconnect();
+        sc.classList.add('is-amague');
+        setTimeout(() => sc.classList.remove('is-amague'), 1300);
+      }, { threshold: 0.6 });
+      amague.observe(sc);
+      sc.addEventListener('touchstart', () => { amague.disconnect(); sc.classList.remove('is-amague'); }, { passive: true, once: true });
+    }
+  });
+
+  // ─── Fotos: aparecen suaves cuando terminan de cargar ──
+  $$('img[loading="lazy"]').forEach(img => {
+    if (img.complete && img.naturalWidth) return;
+    img.classList.add('img-carga');
+    const lista = () => img.classList.add('img-lista');
+    img.addEventListener('load', lista, { once: true });
+    img.addEventListener('error', lista, { once: true });
+  });
+
+  // ─── Grillas de fotos y servicios: entran escalonadas ──
+  if ('IntersectionObserver' in window && !reduceMotion) {
+    const escalonados = $$('.archive__item, .obras-strip__item, .svc');
+    const io2 = new IntersectionObserver((entries) => {
+      let n = 0;
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        const el = en.target;
+        el.style.transitionDelay = `${Math.min(n++, 6) * 70}ms`;
+        el.classList.add('is-in');
+        io2.unobserve(el);
+        // al terminar, se sacan las clases para no pisar el efecto al pasar el mouse
+        setTimeout(() => { el.classList.remove('aparece', 'is-in'); el.style.transitionDelay = ''; }, 1300);
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -4% 0px' });
+    escalonados.forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) return; // lo que ya se ve, queda quieto
+      el.classList.add('aparece');
+      io2.observe(el);
+    });
+  }
+
+  // ─── Cifras del inicio: cuentan hasta su valor al verse ──
+  const cifras = $$('.stat__n').map(n => {
+    const t = n.firstChild;
+    if (!t || t.nodeType !== 3) return null;
+    const final = t.textContent.trim();
+    const valor = parseFloat(final.replace(',', '.'));
+    return isNaN(valor) ? null : { t, final, valor, dec: final.includes(',') ? 1 : 0 };
+  }).filter(Boolean);
+  if (cifras.length && 'IntersectionObserver' in window && !reduceMotion) {
+    const contar = (c) => {
+      const t0 = performance.now(), dur = 1400;
+      const paso = (ahora) => {
+        const p = Math.min(1, (ahora - t0) / dur);
+        const v = c.valor * (1 - Math.pow(1 - p, 3));
+        c.t.textContent = p < 1 ? v.toFixed(c.dec).replace('.', ',') : c.final;
+        if (p < 1) requestAnimationFrame(paso);
+      };
+      requestAnimationFrame(paso);
+    };
+    const caja = cifras[0].t.parentElement.closest('.hero__stats') || cifras[0].t.parentElement;
+    cifras.forEach(c => { c.t.textContent = (0).toFixed(c.dec).replace('.', ','); });
+    const ioC = new IntersectionObserver(([en]) => {
+      if (!en.isIntersecting) return;
+      ioC.disconnect();
+      cifras.forEach(contar);
+    }, { threshold: 0.4 });
+    ioC.observe(caja);
+  }
 })();
