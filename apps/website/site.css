@@ -77,7 +77,7 @@
 .light, #trabajos, #faq, .obras-strip, .nearby-section,
 .print, .stage, .lines, .extra, .textures, .form, .contact-form,
 .product-row, .obras-strip__item, .thanks__steps li, .section--mid .feature,
-.section--mid .point, .toc a {
+.section--mid .point, .toc a, .seguir__card {
   --paper:     #F2EFEA;
   --paper-2:   #E8E3DA;
   --ink:       #15171A;
@@ -1060,7 +1060,7 @@ ul, ol { list-style: none; }
 html { -webkit-tap-highlight-color: transparent; }
 
 /* Títulos con palabras largas: cortan en vez de empujar el ancho */
-h1, h2, h3, .h2, .display { overflow-wrap: break-word; hyphens: auto; }
+h1, h2, h3, .h2, .display { overflow-wrap: break-word; }
 
 /* Cuando las grillas pasan a una columna, la columna no puede crecer
    más que la pantalla (1fr solo deja que el contenido la ensanche) */
@@ -1233,4 +1233,39 @@ body:has(.lightbox:not([hidden])) .subir { display: none; }
   .img-carga { opacity: 1; }
   .nav.is-oculta { transform: none; }
   .is-amague > * { animation: none; }
+}
+
+/* ─── Comparador antes / después en el visor ─────────────── */
+@property --pos { syntax: '<percentage>'; inherits: true; initial-value: 50%; }
+.comparar {
+  --pos: 50%;
+  position: relative; max-width: 100%;
+  border-radius: 4px; overflow: hidden; touch-action: none; user-select: none; cursor: ew-resize;
+  background: #1B2633;
+}
+.comparar[hidden] { display: none; }
+.comparar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; -webkit-user-drag: none; }
+.comparar__a { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
+.comparar__mano {
+  position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; margin-left: -1px;
+  background: #fff; box-shadow: 0 0 12px rgba(0,0,0,0.45);
+}
+.comparar__mano svg {
+  position: absolute; top: 50%; left: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; padding: 11px;
+  border-radius: 50%; background: #fff; color: var(--black); box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+.comparar__mano:focus-visible { outline: none; }
+.comparar__mano:focus-visible svg { outline: 2px solid var(--blue-light); outline-offset: 3px; }
+.comparar__et {
+  position: absolute; bottom: 12px; padding: 0.35rem 0.6rem; border-radius: var(--r);
+  background: rgba(13, 20, 28, 0.78); color: #fff; font-size: 0.75rem; pointer-events: none;
+}
+.comparar__et--a { left: 12px; }
+.comparar__et--b { right: 12px; }
+.comparar.is-amague { animation: comparar-amague 1.8s var(--ease) 0.35s; }
+@keyframes comparar-amague { 0% { --pos: 50%; } 35% { --pos: 22%; } 70% { --pos: 78%; } 100% { --pos: 50%; } }
+@media (prefers-reduced-motion: reduce) { .comparar.is-amague { animation: none; } }
+
+@media (hover: none) {
+  .seguir__card:active { transform: scale(0.975); transition: transform 120ms var(--ease); }
 }
