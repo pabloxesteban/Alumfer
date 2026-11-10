@@ -817,8 +817,8 @@ textarea { resize: vertical; min-height: 4rem; }
   --peligro: #a8261e;
   /* Inter: muy legible y de ceros sin tachar (Atkinson Hyperlegible tacha el 0 y se
      confundía con el "Ø" de diámetro que usa la app). */
-  --fuente: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --fuente-titulo: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --fuente: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --fuente-titulo: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --alto-tabs: 76px;
   --alto-barra-abajo: 84px;
   --r-tarjeta: 20px;
@@ -1364,3 +1364,101 @@ body { background: var(--fondo); }
 /* Dentro de una pantalla de Precios, arriba solo va "‹" y el título */
 body.en-ajuste .btn--nuevo { display: none; }
 .fila-precio__nombre::after { transition: none; }
+
+/* ═══════════════════════════════════════════════════════════════
+   PLANA + TRANSICIONES (.16) · pedido de Pablo: "más plana, como las
+   apps modernas, con transiciones smooth". Pisa a las capas anteriores.
+   - Letra del sistema (Roboto en Android, San Francisco en iPhone): no se
+     baja nada y abre al instante (Google Fonts demoraba cada apertura).
+   - Sin sombras ni contornos: las superficies se separan por color.
+     Campos para escribir y botones secundarios con relleno gris (tonal);
+     el borde aparece solo al escribir (azul) o con error (rojo).
+   - Listas con separadores finos en vez de cajitas.
+   - Cada pantalla, paso y sub-pantalla entra deslizándose (hacia
+     adelante desde la derecha, hacia atrás desde la izquierda).
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  --sombra-suave: none;
+  --relleno: #eceff3;
+  --relleno-hover: #e2e6eb;
+  --mov: 280ms;
+  --curva: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+h1, h2, h3, .tarjeta__header h2, .barra__marca strong { letter-spacing: -0.02em; }
+
+/* Sin sombras en ningún lado */
+.tarjeta, .tarjeta--interna, .tarjeta--llamar, .pregunta-acepto, .dolar-mini, .menu-ajustes__grupo,
+.btn--nuevo, .barra-total, .compras-dato { box-shadow: none; }
+.btn--nuevo { background: var(--acento-suave); }
+.pasos__paso.is-actual { box-shadow: none; }
+.item { box-shadow: none; background: var(--fondo); }
+.item--abierto { background: var(--superficie); box-shadow: 0 0 0 2px var(--acento); }
+.totales__fila--total { border-top-width: 1px !important; border-top-color: #dfe2e6 !important; }
+
+/* Botones: el principal lleno; los demás, tonales (gris, sin borde) */
+.btn { transition: background-color var(--mov) var(--curva), color var(--mov) var(--curva), transform 120ms var(--curva); }
+.btn:active { transform: scale(.97); }
+.btn--fantasma, .btn--guardar, .btn--oscuro, #btn-pdf {
+  background: var(--relleno); border: 1px solid transparent; color: var(--texto);
+}
+@media (hover: hover) {
+  .btn--fantasma:hover, .btn--guardar:hover, .btn--oscuro:hover, #btn-pdf:hover { background: var(--relleno-hover); border-color: transparent; }
+}
+.btn--fantasma.btn--peligro, .btn--peligro { background: #fbeceb; color: var(--peligro); border-color: transparent; }
+.pregunta-acepto .btn--fantasma { background: var(--superficie); }
+.aviso-copia .btn--fantasma { background: rgba(255, 255, 255, .15); color: #fff; }
+
+/* Campos: relleno gris, borde solo al escribir o con error */
+input[type="text"], input[type="tel"], input[type="email"], input[type="number"],
+input[type="date"], input[type="search"], select, textarea {
+  background: var(--relleno); border: 1.5px solid transparent;
+  transition: background-color var(--mov) var(--curva), border-color var(--mov) var(--curva), box-shadow var(--mov) var(--curva);
+}
+input:focus, select:focus, textarea:focus { background: var(--superficie); border-color: var(--acento); box-shadow: 0 0 0 4px var(--acento-suave); }
+.con-error input, .con-error textarea, .con-error select { border-color: var(--peligro); border-width: 1.5px; background: #fff1f0; }
+.contador input { background: var(--relleno); }
+.fila-precio__principal input { background: transparent; border: 0; }
+
+/* Opciones: misma superficie tonal, la elegida en azul */
+.variante, .opcion, .elegible, .extra, .espesor, .lugar, .tipo-tile, .cliente-sugerido, .contador__btn {
+  transition: background-color var(--mov) var(--curva), border-color var(--mov) var(--curva), color var(--mov) var(--curva), transform 120ms var(--curva);
+}
+.variante:active, .opcion:active, .elegible:active, .espesor:active, .lugar:active, .tipo-tile:active, .contador__btn:active { transform: scale(.97); }
+
+/* Listas con separadores en vez de cajas */
+.historial-fila, .llamar-fila {
+  background: transparent; border-radius: 0; padding-left: 0; padding-right: 0;
+  border-top: 1px solid #e6e9ed;
+}
+.lista-historial > :first-child { border-top: 0; }
+
+/* Pasos: el bloque blanco se desliza al cambiar */
+.pasos__paso { transition: background-color var(--mov) var(--curva), color var(--mov) var(--curva); }
+.pasos__num { transition: background-color var(--mov) var(--curva); }
+.avance-pres__relleno { transition: width 600ms var(--curva), background-color var(--mov) var(--curva); }
+
+/* Pestañas de abajo: el fondo del ícono activo aparece suave */
+.barra__tabs .tab, .barra__tabs .tab svg { transition: background-color var(--mov) var(--curva), color var(--mov) var(--curva); }
+
+/* ── Transiciones entre pantallas ─────────────────────────── */
+@keyframes entrar-der { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
+@keyframes entrar-izq { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }
+@keyframes entrar-suave { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes desplegar { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+@keyframes aviso-sale { to { opacity: 0; transform: translateY(12px); } }
+
+/* Pestañas (Presupuesto · Guardados · Precios): aparecen suave */
+.vista:not([hidden]) { animation: entrar-suave var(--mov) var(--curva); }
+/* Pasos y sub-pantallas de Precios: deslizan según la dirección */
+#vista-presupuesto[data-dir="adelante"] [data-paso-seccion],
+#vista-precios[data-dir="adelante"] .ajuste { animation: entrar-der var(--mov) var(--curva); }
+#vista-presupuesto[data-dir="atras"] [data-paso-seccion],
+#vista-precios[data-dir="atras"] [data-menu] { animation: entrar-izq var(--mov) var(--curva); }
+/* Lo que se abre adentro de una pantalla */
+.fila-precio__detalle:not([hidden]), .desplegable[open] > :not(summary), .campo__error:not([hidden]),
+.pregunta-acepto:not([hidden]), .confirmacion-guardado:not([hidden]) { animation: desplegar 220ms var(--curva); }
+.aviso--sale { animation: aviso-sale 240ms var(--curva) forwards; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+}

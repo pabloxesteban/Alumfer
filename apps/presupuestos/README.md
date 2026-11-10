@@ -43,14 +43,12 @@ guardada en el teléfono, así que en una obra sin señal abre igual.
 
 ### Cómo se actualiza
 
-Sola, pero avisando. Cada vez que se abre la app (y cada vez que se vuelve a
-ella), el navegador se fija si hay una versión nueva publicada. Si la hay, la
-baja en segundo plano **sin pisar la que se está usando** y aparece una franja
-azul arriba: *"Hay una versión nueva de la app"* con el botón **Actualizar
-ahora**. Recién al tocarlo se activa y se recarga la pantalla.
-
-Así nunca cambia la app por debajo mientras se está cargando un presupuesto, y
-lo que había a medio cargar sigue ahí después de actualizar. La versión que está
+Sola. Cada vez que se abre la app (y cada vez que se vuelve a ella), el
+navegador se fija si hay una versión nueva publicada y la baja en segundo plano.
+Si llega **al abrir, antes de tocar nada**, se aplica sola (la pantalla se
+recarga una vez). Si llega **mientras se está usando**, no pisa nada: aparece una
+franja azul arriba, *"Hay una versión nueva de la app"*, con el botón
+**Actualizar ahora**. Lo que había a medio cargar sigue ahí después de actualizar. La versión que está
 corriendo se ve al final de la pestaña *Precios*.
 
 > **Al publicar hay que subir `VERSION` en `sw.js`.** Es lo que le avisa al

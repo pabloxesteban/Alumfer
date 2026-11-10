@@ -44,7 +44,7 @@
 
 /* ─── Tipografía ─────────────────────────────────────────── */
 :root {
-  --font:           'Inter', system-ui, sans-serif;
+  --font:           system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
   /* Escala */
   --text-xs:   0.6875rem;   /* 11px */

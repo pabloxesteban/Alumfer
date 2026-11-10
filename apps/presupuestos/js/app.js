@@ -202,7 +202,10 @@
     nodo.textContent = texto;
     $('avisos').appendChild(nodo);
     // Tiempo suficiente para leerlo sin apuro (los mensajes que se van rápido cuestan a quien lee despacio).
-    setTimeout(function () { nodo.remove(); }, tipo === 'error' ? 6000 : 3800);
+    setTimeout(function () {
+      nodo.classList.add('aviso--sale');
+      setTimeout(function () { nodo.remove(); }, 260);
+    }, tipo === 'error' ? 6000 : 3800);
     return nodo;
   }
 
@@ -1506,6 +1509,7 @@
   function ajusteActual() { return $('vista-precios').dataset.sub || ''; }
 
   function abrirAjuste(id, sinHistoria) {
+    $('vista-precios').dataset.dir = id ? 'adelante' : 'atras';
     $('vista-precios').dataset.sub = id || '';
     // Así el botón "atrás" del celular vuelve al menú en vez de salir de la app.
     if (id && !sinHistoria) { try { history.pushState({ ajuste: id }, ''); } catch (e) { /* sin historial */ } }
@@ -1926,7 +1930,10 @@
   var pasoActual = 1;
 
   function irPaso(n) {
+    var antes = pasoActual;
     pasoActual = Math.min(3, Math.max(1, n));
+    // Para la transición: avanzar entra desde la derecha, volver desde la izquierda.
+    $('vista-presupuesto').dataset.dir = pasoActual >= antes ? 'adelante' : 'atras';
     $('vista-presupuesto').dataset.paso = pasoActual;
     document.querySelectorAll('#pasos [data-paso]').forEach(function (b) {
       var k = Number(b.dataset.paso);
@@ -2991,8 +2998,17 @@
     var enEspera = null;
     var recargando = false;
 
+    // Desde la .16: si la versión nueva llega al abrir la app (antes de que se
+    // toque nada), se aplica sola. Pablo no veía los cambios porque nadie
+    // tocaba la franja. Si llega a mitad de un presupuesto, sigue la franja.
+    var huboToque = false;
+    ['pointerdown', 'keydown'].forEach(function (t) {
+      window.addEventListener(t, function () { huboToque = true; }, { once: true, capture: true });
+    });
+
     function avisarVersionNueva(worker) {
       enEspera = worker;
+      if (!huboToque) { worker.postMessage({ tipo: 'ACTUALIZAR' }); return; }
       $('actualizar-app').hidden = false;
     }
 
@@ -3010,14 +3026,19 @@
       // Ya había una versión nueva esperando de una visita anterior.
       if (registro.waiting && navigator.serviceWorker.controller) avisarVersionNueva(registro.waiting);
 
-      registro.addEventListener('updatefound', function () {
-        var nuevo = registro.installing;
+      function vigilar(nuevo) {
         if (!nuevo) return;
         nuevo.addEventListener('statechange', function () {
           // Sin controller es la primera instalación, no una actualización.
           if (nuevo.state === 'installed' && navigator.serviceWorker.controller) avisarVersionNueva(nuevo);
         });
-      });
+      }
+      // Al abrir, el navegador suele empezar a bajar la versión nueva ANTES de
+      // que la app llegue a escuchar "updatefound": esa descarga quedaba sin
+      // vigilar y la versión nueva no aparecía nunca (bug hasta la .15).
+      vigilar(registro.installing);
+      registro.addEventListener('updatefound', function () { vigilar(registro.installing); });
+      registro.update().catch(function () {});
 
       // Buscar novedades al abrir y cada vez que se vuelve a la app.
       document.addEventListener('visibilitychange', function () {
@@ -3027,7 +3048,11 @@
       console.warn('Sin modo offline:', e);
     });
 
+    // En la primera instalación el service worker toma el control sin que haya
+    // nada nuevo que mostrar: recargar ahí solo demoraba la primera apertura.
+    var habiaControlador = !!navigator.serviceWorker.controller;
     navigator.serviceWorker.addEventListener('controllerchange', function () {
+      if (!habiaControlador) { habiaControlador = true; return; }
       if (recargando) return;
       recargando = true;
       window.location.reload();
@@ -3106,6 +3131,8 @@
     abrir(ultimos.length && ultimos[0].estado === 'borrador' ? ultimos[0] : presupuestoNuevo());
     conectarEventos();
     revisarCopia();
+    // El generador de PDF se baja en segundo plano, cuando la app ya se ve.
+    setTimeout(function () { window.PDF.precargar().catch(function () {}); }, 3000);
   }
 
   document.addEventListener('DOMContentLoaded', iniciar);

@@ -110,7 +110,31 @@ window.PDF = (function () {
    * @param precios      precios con los que se calculó (empresa = la vigente)
    * @returns Promise<Blob>
    */
+  /*
+   * jsPDF pesa 420 KB: ya no se carga al abrir la app (la demoraba en
+   * celulares lentos). Se pide en segundo plano unos segundos después de
+   * abrir (precargar) y, si todavía no llegó, al generar el primer PDF.
+   */
+  var cargandoJsPDF = null;
+  function cargarJsPDF() {
+    if (window.jspdf && window.jspdf.jsPDF) return Promise.resolve();
+    if (!cargandoJsPDF) {
+      cargandoJsPDF = new Promise(function (ok, mal) {
+        var s = document.createElement('script');
+        s.src = 'js/vendor/jspdf.umd.min.js';
+        s.onload = function () { ok(); };
+        s.onerror = function () { cargandoJsPDF = null; mal(new Error('No se pudo cargar jsPDF')); };
+        document.head.appendChild(s);
+      });
+    }
+    return cargandoJsPDF;
+  }
+
   function generar(presupuesto, r, precios) {
+    return cargarJsPDF().then(function () { return armar(presupuesto, r, precios); });
+  }
+
+  function armar(presupuesto, r, precios) {
     if (!window.jspdf || !window.jspdf.jsPDF) return Promise.reject(new Error('Falta jsPDF'));
     var e = precios.empresa || {};
     var items = presupuesto.items || [];
@@ -414,5 +438,5 @@ window.PDF = (function () {
     return base + '.pdf';
   }
 
-  return { generar: generar, nombreArchivo: nombreArchivo, limpiar: limpiar };
+  return { generar: generar, nombreArchivo: nombreArchivo, limpiar: limpiar, precargar: cargarJsPDF };
 })();

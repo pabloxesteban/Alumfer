@@ -3,7 +3,7 @@
 Para retomar el trabajo sin tener que reconstruir el contexto: qué hay hecho, qué
 se decidió y por qué, qué falta, y con qué trampas ya chocamos.
 
-Estado al 9 de noviembre de 2026 (versión `2026-11-10.15`); todo lo descrito está publicado y andando.
+Estado al 9 de noviembre de 2026 (versión `2026-11-10.16`); todo lo descrito está publicado y andando.
 **Si trabajás sobre la app, actualizá este archivo antes de cerrar.**
 
 ---
@@ -139,8 +139,11 @@ Documentación completa en `apps/presupuestos/README.md`.
    **solo en pantalla**: no sale en el PDF ni en el WhatsApp del cliente.
 9. **El kilo de aluminio se carga a mano**: no hay API gratis y con CORS que lo
    dé, y el precio local del extruido lo pasa el proveedor.
-10. **Las actualizaciones se avisan**: el service worker no hace `skipWaiting`;
-    aparece una franja azul "Hay una versión nueva" y recién al tocarla se recarga.
+10. **Las actualizaciones**: el service worker no hace `skipWaiting` solo. Desde
+    la .16, si la versión nueva queda lista antes de que se toque la pantalla
+    (lo normal: llega al abrir) la app le pide `ACTUALIZAR` y se recarga sola;
+    si llega con la app en uso, aparece la franja azul y espera el toque
+    (ver punto 42).
 11. **El PDF se arma en el teléfono con jsPDF** (archivo dentro de `js/vendor/`,
     sin CDN para que ande sin señal). Texto vectorial con Helvetica estándar:
     solo admite caracteres WinAnsi, por eso `PDF.limpiar()`. Los dibujos de
@@ -484,6 +487,41 @@ Documentación completa en `apps/presupuestos/README.md`.
       renglón donde está el elemento; los selectores pasaron de
       `tr:has(...)` a `.fila-precio:has(...)` y tienen que ir en un solo
       string (si se encadenan locators, el ayudante ve la fila y no el campo).
+42. **Velocidad, plana y transiciones (.16)**. Pablo: "tarda muchísimo en
+    cargar" y "más plana, con transiciones smooth". Medido con 3G y CPU ×4
+    (`carga.mjs`): al abrir ya instalada, primer dibujo de 1,3 s a 0,15 s;
+    primera visita, de 6,2 s a 2,2 s.
+    - **Sin Google Fonts**: la hoja de estilos de Google bloqueaba el dibujo en
+      CADA apertura (es una respuesta "opaca" que el service worker no guarda)
+      y en obra con mala señal podía colgar la app. Ahora la letra es la del
+      sistema (`system-ui`: Roboto en Android, San Francisco en iPhone). Esto
+      reemplaza la elección de Inter del punto 35.
+    - **jsPDF se carga después** (`PDF.precargar()` a los 3 s de abrir, y
+      `PDF.generar()` lo pide si todavía no llegó). Sigue en la lista del
+      service worker, así anda sin señal.
+    - La **primera instalación ya no recarga** la pantalla (`controllerchange`
+      solo recarga si antes había otro service worker).
+    - **Bug de actualizaciones (hasta la .15)**: al abrir, el navegador empieza
+      a bajar la versión nueva antes de que la app escuche `updatefound`; esa
+      descarga quedaba sin vigilar y ni se aplicaba ni aparecía la franja
+      hasta otra apertura con suerte. Ahora se vigila también
+      `registro.installing` y se llama `registro.update()` al arrancar.
+      Prueba `actualiza.mjs` (5 chequeos, cambia `VERSION` en disco y la
+      restaura): primera instalación sin recarga, versión nueva aplicada sola
+      al abrir, franja si llega en uso sin perder lo escrito.
+    - **Plana** (capa "PLANA + TRANSICIONES" al final de `estilos.css`): sin
+      sombras; campos y botones secundarios con relleno gris, sin borde (el
+      borde aparece al escribir —azul— o con error —rojo—); peligro en rojo
+      tonal; listas de Guardados con separadores en vez de cajas.
+    - **Transiciones**: las pestañas aparecen con un fundido; los pasos y las
+      pantallas de Precios se deslizan según la dirección
+      (`data-dir="adelante|atras"` que ponen `irPaso` y `abrirAjuste`; las
+      animaciones arrancan solas porque las secciones pasan de `display:none`
+      a verse). Lo que se despliega (detalle de un precio, desplegables,
+      errores, "¿aceptó?") baja suave; los avisos salen con `aviso--sale`;
+      botones y opciones se achican apenas al tocarlos. Con
+      `prefers-reduced-motion` se apaga todo. **No animar las aberturas**: la
+      lista se vuelve a dibujar con cada toque y parpadearía.
 
 ---
 
@@ -656,6 +694,11 @@ cd apps/presupuestos && python3 -m http.server 8777
   de `visualViewport`.
 - `.item__resumen-texto b` pinta de oscuro cualquier `<b>` del renglón: el
   código (`.codigo`) necesita su color con más prioridad.
+- Al abrir la app, el service worker nuevo puede estar instalándose ANTES de
+  que `register().then` agregue el listener de `updatefound`: hay que mirar
+  también `registro.installing` (ver punto 42).
+- Una hoja de estilos de otro dominio sin CORS (Google Fonts) es "opaca": el
+  service worker no la guarda y bloquea el dibujo en cada apertura.
 - `.item .codigo` (base) tiene `color: #fff !important`: para pisarlo hay que
   repetir el mismo selector, si no el "V1" queda blanco sobre gris.
 - `.espesor` (botón redondo) pisa a `.espesor--textura` si tienen la misma
