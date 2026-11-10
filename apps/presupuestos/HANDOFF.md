@@ -3,7 +3,7 @@
 Para retomar el trabajo sin tener que reconstruir el contexto: qué hay hecho, qué
 se decidió y por qué, qué falta, y con qué trampas ya chocamos.
 
-Estado al 9 de noviembre de 2026 (versión `2026-11-10.17`); todo lo descrito está publicado y andando.
+Estado al 10 de noviembre de 2026 (versión `2026-11-10.17`); todo lo descrito está publicado y andando.
 **Si trabajás sobre la app, actualizá este archivo antes de cerrar.**
 
 ---
@@ -72,7 +72,20 @@ cargan en la app (Precios) o con una copia de seguridad, nunca en el código.
 - `main` incluye **todo** lo de presupuestos más trabajo del sitio hecho en otras
   sesiones (PRs #39 a #48).
 - Rama de la última sesión: `claude/intelligent-maxwell-d43hn3`, igual a `main`.
-- Versión publicada: **2026-11-09.3** (.1: PDF real, compartir, clientes, Tu empresa · .2: rediseño suave y palabras claras · .3: hojas como pregunta y una abertura abierta a la vez · .4: vidrio en dos pasos, formas especiales y ¿Dónde va? · .5: catálogo completo del sitio · .6: obras grandes al estilo OP 2.1, rejas de hierro · .7: lista de materiales para comprar, cortinas blancas · .8: "tiras" en vez de "barras" · .9: botón Guardar, Guardados, copia de seguridad, seguimiento, resumen del mes y ganancia · .10: el dólar muestra solo el blue venta · .11: otro trabajo con precio a mano y precio a mano por abertura · .12: rediseño "app profesional").
+- Versión publicada: **2026-11-10.17**. Historia: .1 PDF real, compartir,
+  clientes, Tu empresa · .2 rediseño suave y palabras claras · .3 hojas como
+  pregunta · .4 vidrio en dos pasos, formas especiales, ¿Dónde va? · .5 catálogo
+  del sitio · .6 obras grandes estilo OP 2.1, rejas · .7 lista de materiales,
+  cortinas blancas · .8 "tiras" · .9 Guardar, Guardados, copia, seguimiento,
+  resumen del mes, ganancia · .10 solo dólar blue venta · .11 otro trabajo y
+  precio a mano · .12 rediseño "app profesional" (un paso por pantalla) · .13
+  obligatorios, barra de avance, estados automáticos · .14 apariencia sobria ·
+  .15 minimalista y Precios como menú de Ajustes · .16 velocidad (sin Google
+  Fonts, jsPDF diferido), arreglo de actualizaciones, plana + transiciones ·
+  .17 **apariencia tendencia 2026** (vidrio flotante, resorte, efectos).
+- **Pruebas en el repo**: `tools/presupuestos-pruebas/` (antes vivían en el
+  scratchpad y se perdían). `bash tools/presupuestos-pruebas/correr.sh` corre
+  las 12 (215 chequeos). Ver su README.
 
 **Flujo de publicación (Pablo lo autorizó explícitamente, no hay que preguntar
 cada vez):** commit en la rama → `git checkout main && git merge --ff-only <rama>`
@@ -569,54 +582,37 @@ Documentación completa en `apps/presupuestos/README.md`.
 
 ## 6. Pendientes
 
-0. **Probar en los teléfonos reales** (Android del papá y un iPhone): compartir
-   el PDF a WhatsApp y a Gmail, y "Descargar PDF" en iPhone. En la sesión se
-   probó en Chromium con `navigator.share` simulado; la lista para compartir de
-   verdad no se puede abrir en un navegador de prueba.
-1. **Afinar la lista de materiales con los datos reales de cada línea**: peso
-   por metro (para los kilos y el costo) y, si se quiere precisión de taller,
-   los descuentos de fabricación de cada perfil y qué perfiles lleva cada
-   tipología. Hoy es una estimación del lado seguro.
-1. **Validar con el papá cómo cobra las formas especiales** (¿rectángulo que
-   la contiene + recargo?, ¿cuánto por arco/curvado?) y cargar los recargos en
-   Precios → Formas especiales.
-1. **Cargar los precios reales.** Es lo único que falta para que la app sirva de
-   verdad. Hasta que Pablo entre a Precios y ponga los suyos, los totales no
-   significan nada.
-2. Simplificar la pestaña Precios si el papá también la va a tocar (hoy son
-   tablas; en celular se ven como fichas, pero siguen siendo tablas).
-3. Recalcular los $/m² a partir del kilo de aluminio + los kilos por m² de cada
-   tipología, en vez de aplicar un porcentaje a ojo. Necesita que el papá pase los
-   kilos por metro de cada línea.
-4. Cotizador público simplificado en el sitio, con el mismo motor de cálculo.
-5. Sincronizar presupuestos entre dispositivos (hoy cada teléfono es
-   independiente; requiere backend).
-6. Sacar la línea del total en dólares, si molesta.
-7. Clave de acceso: el repositorio es público y el link lo abre cualquiera que lo
-   tenga. Los precios reales no están en el código, pero si hiciera falta
-   esconderla, la opción gratis es Cloudflare Pages con Access.
+**Lo que sigue (10/11), en orden de importancia:**
 
----
+1. **Ver cómo le cae el diseño .17 a Pablo y a su papá.** Es la cuarta vuelta
+   de apariencia en dos días (.14 sobria → .15 minimalista → .16 plana → .17
+   tendencia 2026). Antes de otra vuelta, preguntar QUÉ no gusta en concreto
+   (con captura). Posibles ajustes si lo pide: bajar rebotes/brillo/vibración,
+   modo oscuro opcional (se descartó por el sol en obra), otro color de acento.
+2. **Probar en el Android real del papá**: que el vidrio (`backdrop-filter`)
+   no ande lento en un celular de gama baja (si anda lento: subir la opacidad
+   de `--vidrio` a .97 y sacar el blur), la vibración, compartir el PDF por
+   WhatsApp y Gmail. En un iPhone: "Descargar PDF".
+3. **Cargar los precios reales.** Lo único que falta para que la app sirva de
+   verdad. Se cargan desde la app (Precios), **nunca en `precios-base.js`**
+   (repo público). La planilla para completar con el papá está en
+   <https://claude.ai/artifact/3YUMhr9X1whec6JXeDTVWj> (ver 1 bis); cuando
+   Pablo avise que está completa, leerla con `ArtifactData` y, según
+   `metodo.forma`, ajustar el motor de `calculo.js`.
+4. **Formas especiales**: validar con el papá cómo las cobra y cargar los
+   recargos (Precios → Formas especiales).
+5. **Lista de materiales precisa**: peso por metro de cada línea y descuentos
+   de fabricación por perfil.
+6. **Firebase** (en pausa, ver abajo): sincronizar entre teléfonos y no perder
+   nada. Necesita `firebaseConfig` y los dos emails.
+7. Presupuesto aceptado → **hoja de taller** (como el parte de producción de
+   OP): códigos, medidas, línea, color, vidrio, materiales, seña y saldo.
+8. Más adelante: cotizador público en el sitio con el mismo motor; clave de
+   acceso (Cloudflare Pages + Access) si hiciera falta esconder el link.
 
-### Próximos pasos propuestos (9/11, a elegir con Pablo)
-
-Hechos en la .9: 1 (botón Guardar, copia de seguridad), 2 (seguimiento) y 5
-(resumen del mes + ganancia). Siguen pendientes:
-
-Por valor para el negocio y riesgo, en este orden:
-1. **Que no se pierda nada**: hoy todo vive en un solo teléfono y la copia de
-   seguridad es manual. Primero, un recordatorio y una copia de un toque que
-   se manda por WhatsApp o Drive (sin servidor). Después, si hace falta,
-   sincronizar entre teléfonos (necesita backend, pendiente 5).
-2. **Seguimiento de presupuestos enviados**: los que pasaron N días sin
-   respuesta aparecen como "para volver a llamar", con un botón de WhatsApp
-   con un mensaje preparado; aviso cuando un presupuesto está por vencer.
-3. **Presupuesto aceptado → hoja de taller** (como el "parte de producción"
-   de OP): códigos, medidas, línea, color, vidrio y la lista de materiales,
-   más el registro de la seña cobrada y el saldo.
-4. ~~Fotos de la obra por abertura~~: **descartado por Pablo** (9/11). Pesan
-   mucho, no entrarían en la copia de seguridad y no compensaba.
-5. Resumen del mes: cuánto se presupuestó, cuánto se aceptó.
+Descartado por Pablo: fotos de la obra por abertura (9/11).
+Hecho y sacado de esta lista: botón Guardar, copia de seguridad, seguimiento,
+resumen del mes, ganancia, simplificar Precios (.15), estados automáticos (.13).
 
 ### Base de datos en la nube: **Firebase elegido, en pausa** (9/11)
 
@@ -653,8 +649,15 @@ y mantener un Worker y armar el login aparte); Google Sheets con Apps Script
 
 ## 7. Cómo probar
 
-No hay suite automatizada en el repo. Se probó con Playwright ad hoc (scripts en
-el scratchpad, se pierden con la sesión). Lo que se verificó el 9/11:
+**Desde el 10/11 las pruebas están en el repo**: `tools/presupuestos-pruebas/`
+(Playwright, sin dependencias nuevas). Correr todas antes de publicar:
+
+```bash
+bash tools/presupuestos-pruebas/correr.sh
+```
+
+Si se agrega algo, sumar una prueba ahí (y al `README.md` de esa carpeta).
+Lo que cubren, en la historia de las versiones:
 cliente → 3 aberturas → medidas y cantidad → descuento → total de pantalla =
 motor = guardado → PDF descargado → compartir por WhatsApp y email (share
 simulado con `addInitScript`) → reintento con `NotAllowedError` → sugerencia de

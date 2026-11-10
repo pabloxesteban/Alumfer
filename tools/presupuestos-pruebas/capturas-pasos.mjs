@@ -1,0 +1,16 @@
+import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
+const OUT = process.argv[2];
+const b = await chromium.launch();
+const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, serviceWorkers: 'block' });
+await ctx.route(/dolarapi|bluelytics/, r => r.fulfill({ json: { compra: 1400, venta: 1450, fechaActualizacion: new Date().toISOString() } }));
+const p = await ctx.newPage();
+await p.goto('http://localhost:8777/'); await p.waitForSelector('#btn-continuar');
+await p.fill('#cli-nombre', 'María Gómez'); await p.fill('#cli-telefono', '11 5555-1234');
+await p.click('#btn-continuar'); await p.click('#btn-agregar-item'); await p.click('.tipo-tile[data-tipo="vent-corr-2"]');
+await p.waitForTimeout(400);
+await p.evaluate(() => { const h = [...document.querySelectorAll('.item--abierto h3, .item--abierto .extras__titulo, .item--abierto span')].find(n => /Qué vidrio/.test(n.textContent) && n.children.length === 0); (h || document.body).scrollIntoView({ block: 'start' }); window.scrollBy(0, -90); });
+await p.waitForTimeout(300);
+await p.screenshot({ path: OUT + '/despues-aberturas.png' });
+await p.click('#btn-continuar'); await p.waitForTimeout(500);
+await p.screenshot({ path: OUT + '/despues-enviar.png' });
+await b.close();
