@@ -18,6 +18,8 @@ Exportar CSV) y los gráficos que salen de ellas. Esta carpeta no se publica en 
 
 ## Cambios para medir en el próximo corte
 
+Línea de base, cambios con fecha y cómo comparar en diciembre: [`HANDOFF-2026-12.md`](HANDOFF-2026-12.md).
+
 **12 nov 2026: Burzaco y Berazategui.** Son las dos búsquedas locales con muchas
 apariciones y casi ningún clic ("aberturas burzaco": 628 apariciones y 6 clics;
 "aberturas berazategui", "aberturas en berazategui" y "casa de aberturas en berazategui":
