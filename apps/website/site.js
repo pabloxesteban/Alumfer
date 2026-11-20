@@ -1,7 +1,7 @@
 // ============================================================
 // ALUMFER — site.js
 // Interacciones de todo el sitio (cada bloque se activa sólo si su sección existe): navegación, revelado, tira de obras,
-// proceso, galería + lightbox, líneas, formulario
+// proceso, galería + visor de fotos, líneas, formulario
 // y medición GA4. Sin librerías.
 // ============================================================
 
@@ -173,171 +173,284 @@
     new IntersectionObserver((es) => es.forEach((e) => ens.classList.toggle('is-pausado', !e.isIntersecting)), { threshold: 0.15 }).observe(ens);
   }
 
-  // ─── Visor de fotos: animación y gestos (home y páginas internas) ──
-  // Cambia la foto entrando desde el costado hacia el que se deslizó.
-  const mostrarFoto = (lb, img, src, alt, dir = 0) => {
-    quitarZoom(lb, img);
-    img.style.transition = 'opacity 140ms';
-    img.style.opacity = '0';
-    const tmp = new Image();
-    tmp.onload = tmp.onerror = () => {
-      img.src = src; img.alt = alt;
-      img.style.transition = 'none';
-      img.style.transform = reduceMotion ? '' : (dir ? `translateX(${dir * 56}px)` : 'scale(0.96)');
-      void img.offsetWidth;
-      img.style.transition = 'transform 360ms var(--ease), opacity 260ms var(--ease)';
-      img.style.transform = '';
-      img.style.opacity = '1';
+  // ─── Visor de fotos (galería del inicio y fotos de las páginas internas) ──
+  // Una obra = { titulo, fotos: [{ src, alt, tag, mini }], wa, cap }.
+  // Se recorre foto por foto; al terminar las fotos de una obra pasa a la siguiente.
+  // Gestos: deslizar a los costados (la foto sigue al dedo), deslizar hacia abajo
+  // para cerrar, pellizcar o doble toque para ampliar. El botón "atrás" del
+  // celular cierra el visor en vez de salir de la página.
+  const ICO_CERRAR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
+  const ICO_ANT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>';
+  const ICO_SIG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>';
+  const ICO_WA = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>';
+
+  const crearVisor = () => {
+    const v = document.createElement('div');
+    v.className = 'visor';
+    v.hidden = true;
+    v.setAttribute('role', 'dialog');
+    v.setAttribute('aria-modal', 'true');
+    v.setAttribute('aria-labelledby', 'visor-titulo');
+    v.innerHTML = `
+      <div class="visor__top">
+        <div class="visor__head"><h2 class="visor__title" id="visor-titulo"></h2><p class="visor__count" aria-live="polite"></p></div>
+        <button type="button" class="visor__close" aria-label="Cerrar">${ICO_CERRAR}</button>
+      </div>
+      <div class="visor__stage">
+        <img class="visor__img" alt="" draggable="false">
+        <button type="button" class="visor__nav visor__nav--prev" aria-label="Foto anterior">${ICO_ANT}</button>
+        <button type="button" class="visor__nav visor__nav--next" aria-label="Foto siguiente">${ICO_SIG}</button>
+      </div>
+      <div class="visor__bottom">
+        <div class="visor__thumbs" role="group" aria-label="Fotos de este trabajo" hidden></div>
+        <p class="visor__cap"></p>
+        <a class="btn btn--wa visor__cta" href="${waLink('Hola, quiero pedir un presupuesto')}" target="_blank" rel="noopener">${ICO_WA}<span>Consultar por este trabajo</span></a>
+      </div>`;
+    document.body.appendChild(v);
+    const titulo = $('.visor__title', v), cuenta = $('.visor__count', v), cap = $('.visor__cap', v);
+    const stage = $('.visor__stage', v), img = $('.visor__img', v), thumbs = $('.visor__thumbs', v);
+    const cta = $('.visor__cta', v), btnAnt = $('.visor__nav--prev', v), btnSig = $('.visor__nav--next', v);
+
+    let obras = [], io = 0, fo = 0, abierto = false, enHistoria = false, alCerrar = null, thumbsDe = -1, pedido = 0;
+    let esperandoAtras = false, tragarAtras = false;
+    let fondos = []; // elementos de la página que quedan inertes mientras el visor está abierto
+
+    // ── Zoom y arrastre ──
+    let esc = 1, tx = 0, ty = 0;
+    const aplicar = (anim) => {
+      img.style.transition = anim && !reduceMotion ? 'transform 200ms var(--ease)' : 'none';
+      img.style.transform = esc === 1 && !tx && !ty ? '' : `translate(${tx}px, ${ty}px) scale(${esc})`;
+      v.classList.toggle('is-zoom', esc > 1);
     };
-    tmp.src = src;
-  };
-  const quitarZoom = (lb, img) => {
-    if (!lb.classList.contains('is-zoom')) return;
-    lb.classList.remove('is-zoom');
-    img.style.transition = 'transform 260ms var(--ease)';
-    img.style.transform = '';
-  };
-  // Deslizar a los costados: la foto sigue al dedo y pasa a la siguiente.
-  // Deslizar hacia abajo: cierra. Doble toque (o doble clic): zoom.
-  const gestosVisor = (lb, img, go, close) => {
-    const ZOOM = 2.2;
-    let x0 = 0, y0 = 0, dx = 0, dy = 0, eje = null, ultimoToque = 0, zx = 0, zy = 0, bx = 0, by = 0;
-    const zoomEn = (x, y) => {
+    const limitar = () => {
+      const mx = (img.clientWidth * (esc - 1)) / 2, my = (img.clientHeight * (esc - 1)) / 2;
+      tx = Math.max(-mx, Math.min(mx, tx));
+      ty = Math.max(-my, Math.min(my, ty));
+    };
+    const sinZoom = (anim) => { esc = 1; tx = ty = 0; aplicar(anim); };
+    const zoomEn = (x, y, s = 2.5) => {
       const r = img.getBoundingClientRect();
-      img.style.transformOrigin = `${((x - r.left) / r.width) * 100}% ${((y - r.top) / r.height) * 100}%`;
-      zx = zy = 0;
-      img.style.transition = 'transform 280ms var(--ease)';
-      img.style.transform = `scale(${ZOOM})`;
-      lb.classList.add('is-zoom');
+      const ox = x - (r.left + r.width / 2), oy = y - (r.top + r.height / 2);
+      esc = s; tx = -ox * (s - 1); ty = -oy * (s - 1);
+      limitar(); aplicar(true);
     };
-    const alternarZoom = (x, y) => (lb.classList.contains('is-zoom') ? quitarZoom(lb, img) : zoomEn(x, y));
-    img.addEventListener('dblclick', (e) => alternarZoom(e.clientX, e.clientY));
-    lb.addEventListener('touchstart', (e) => {
-      if (e.target.closest('.comparar')) { eje = 'comparar'; return; }
-      if (e.touches.length > 1) { eje = 'pinza'; return; }
-      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; dx = dy = 0; eje = null; bx = zx; by = zy;
-    }, { passive: true });
-    lb.addEventListener('touchmove', (e) => {
-      if (eje === 'pinza' || eje === 'comparar' || e.touches.length > 1) return;
-      dx = e.touches[0].clientX - x0; dy = e.touches[0].clientY - y0;
-      img.style.transition = 'none';
-      if (lb.classList.contains('is-zoom')) {
-        zx = bx + dx; zy = by + dy;
-        img.style.transform = `translate(${zx}px, ${zy}px) scale(${ZOOM})`;
+
+    const total = () => obras.reduce((n, o) => n + o.fotos.length, 0);
+
+    const pintar = (dir = 0) => {
+      const o = obras[io], f = o.fotos[fo], varias = o.fotos.length > 1;
+      sinZoom(false);
+      titulo.textContent = o.titulo;
+      cuenta.textContent = varias ? `Foto ${fo + 1} de ${o.fotos.length}` : (obras.length > 1 ? `Trabajo ${io + 1} de ${obras.length}` : '');
+      cap.textContent = varias ? (f.tag || '') : (o.cap || '');
+      cta.href = o.href || waLink(o.wa || 'Hola, quiero pedir un presupuesto');
+      btnAnt.hidden = btnSig.hidden = total() < 2;
+
+      // foto: si ya está en caché se cambia al instante; si no, aparece al cargar
+      const n = ++pedido;
+      const tmp = new Image();
+      const poner = () => {
+        if (n !== pedido) return;
+        img.src = f.src; img.alt = f.alt || o.titulo;
+        img.classList.remove('is-cargando');
+        esc = 1; tx = ty = 0; v.classList.remove('is-zoom'); // la foto nueva siempre arranca sin zoom
+        if (dir && !reduceMotion) {
+          img.style.transition = 'none';
+          img.style.transform = `translateX(${dir * 24}px)`;
+          void img.offsetWidth;
+          img.style.transition = 'transform 200ms var(--ease), opacity 150ms linear';
+          img.style.transform = '';
+        } else { img.style.transition = ''; img.style.transform = ''; }
+      };
+      tmp.src = f.src;
+      if (tmp.complete && tmp.naturalWidth) poner();
+      else { img.classList.add('is-cargando'); tmp.onload = tmp.onerror = poner; }
+
+      // miniaturas: se arman una vez por obra (así no se pierde el foco al tocarlas)
+      if (thumbsDe !== io) {
+        thumbsDe = io;
+        thumbs.textContent = '';
+        thumbs.hidden = !varias;
+        if (varias) o.fotos.forEach((x, i) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'visor__thumb';
+          b.setAttribute('aria-label', `Foto ${i + 1}${x.tag ? `: ${x.tag}` : ''}`);
+          b.innerHTML = `<img src="${x.mini || x.src}" alt="" loading="lazy" decoding="async">`;
+          b.addEventListener('click', () => { if (i !== fo) { const d = i > fo ? 1 : -1; fo = i; pintar(d); } });
+          thumbs.appendChild(b);
+        });
+      }
+      $$('.visor__thumb', thumbs).forEach((b, i) => b.setAttribute('aria-current', String(i === fo)));
+      const act = thumbs.children[fo];
+      if (act) thumbs.scrollLeft = act.offsetLeft - (thumbs.clientWidth - act.offsetWidth) / 2;
+
+      // precargar la foto anterior y la siguiente
+      [vecina(-1), vecina(1)].forEach(x => { if (x) new Image().src = x.src; });
+    };
+    const vecina = (d) => {
+      const o = obras[io];
+      if (fo + d >= 0 && fo + d < o.fotos.length) return o.fotos[fo + d];
+      if (obras.length < 2) return null;
+      const p = obras[(io + d + obras.length) % obras.length];
+      return d < 0 ? p.fotos[p.fotos.length - 1] : p.fotos[0];
+    };
+    const ir = (d) => {
+      if (total() < 2) return;
+      const o = obras[io];
+      if (fo + d >= 0 && fo + d < o.fotos.length) fo += d;
+      else if (obras.length > 1) {
+        io = (io + d + obras.length) % obras.length;
+        fo = d < 0 ? obras[io].fotos.length - 1 : 0;
+      } else fo = d < 0 ? o.fotos.length - 1 : 0;
+      pintar(d);
+    };
+
+    const abrir = (lista, i = 0, j = 0, cb = null) => {
+      obras = lista; io = i; fo = j; alCerrar = cb; thumbsDe = -1; abierto = true;
+      v.hidden = false;
+      doc.classList.add('visor-abierto');
+      fondos = Array.from(document.body.children).filter(el => el !== v && !el.inert);
+      fondos.forEach(el => { el.inert = true; });
+      // el navegador no debe devolver el scroll a donde estaba al abrir: al cerrar
+      // se va a la obra que se estaba mirando
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      if (esperandoAtras) tragarAtras = true; // el "atrás" del cierre anterior todavía no llegó
+      else if (!enHistoria) { history.pushState({ visor: 1 }, ''); enHistoria = true; }
+      requestAnimationFrame(() => v.classList.add('is-open'));
+      pintar();
+      $('.visor__close', v).focus();
+    };
+    // volver a la tarjeta de la obra que se estaba mirando (cuando el historial ya se acomodó)
+    const volver = () => {
+      const destino = alCerrar ? alCerrar(io) : null;
+      destino?.focus({ preventScroll: true });
+      if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
+    };
+    const cerrar = (desdeAtras = false) => {
+      if (!abierto) return;
+      abierto = false;
+      v.classList.remove('is-open');
+      fondos.forEach(el => { el.inert = false; });
+      doc.classList.remove('visor-abierto');
+      v.style.removeProperty('background-color');
+      setTimeout(() => { if (!abierto) v.hidden = true; }, reduceMotion ? 0 : 180);
+      if (enHistoria && !desdeAtras) { enHistoria = false; esperandoAtras = true; history.back(); }
+      else { enHistoria = false; volver(); }
+    };
+    window.addEventListener('popstate', () => {
+      if (esperandoAtras) {
+        // llegó el "atrás" que pidió el cierre
+        esperandoAtras = false;
+        if (tragarAtras) { tragarAtras = false; history.pushState({ visor: 1 }, ''); enHistoria = true; return; }
+        volver();
         return;
       }
-      if (!eje && Math.hypot(dx, dy) > 8) eje = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
-      if (eje === 'x') img.style.transform = `translateX(${dx}px) rotate(${dx / 60}deg)`;
+      if (abierto) { enHistoria = false; cerrar(true); return; }
+      // se llegó a una entrada vieja del visor (por "adelante" o al recargar): se limpia
+      if (history.state && history.state.visor) history.replaceState(null, '');
+    });
+    if (history.state && history.state.visor) history.replaceState(null, '');
+
+    $('.visor__close', v).addEventListener('click', () => cerrar());
+    btnAnt.addEventListener('click', () => ir(-1));
+    btnSig.addEventListener('click', () => ir(1));
+    // en computadora, un clic fuera de la foto cierra
+    stage.addEventListener('click', (e) => {
+      if (recienArrastre) { recienArrastre = false; return; } // soltar después de mover la foto ampliada no cierra
+      if (e.target === stage && matchMedia('(hover: hover)').matches) cerrar();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!abierto) return;
+      if (e.key === 'Escape') { e.preventDefault(); cerrar(); }
+      else if (e.key === 'ArrowLeft') ir(-1);
+      else if (e.key === 'ArrowRight') ir(1);
+      else if (e.key === 'Tab') {
+        // el foco no sale del visor
+        const f = $$('button:not([hidden]), a[href]', v).filter(x => x.offsetParent !== null);
+        if (!f.length) return;
+        const pri = f[0], ult = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === pri) { e.preventDefault(); ult.focus(); }
+        else if (!e.shiftKey && document.activeElement === ult) { e.preventDefault(); pri.focus(); }
+      }
+    });
+
+    // ── Gestos táctiles ──
+    let x0 = 0, y0 = 0, dx = 0, dy = 0, eje = null, bx = 0, by = 0, d0 = 0, s0 = 1, ultimoToque = 0, tocoHace = 0;
+    const dist = (t) => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+    stage.addEventListener('touchstart', (e) => {
+      tocoHace = Date.now();
+      if (e.target.closest('.visor__nav')) { eje = 'boton'; return; }
+      if (e.touches.length === 2) { eje = 'pinza'; d0 = dist(e.touches); s0 = esc; return; }
+      if (e.touches.length > 2) return;
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; dx = dy = 0; eje = null; bx = tx; by = ty;
+    }, { passive: true });
+    stage.addEventListener('touchmove', (e) => {
+      if (eje === 'boton') return;
+      if (eje === 'pinza' && e.touches.length === 2) {
+        esc = Math.max(1, Math.min(4, s0 * (dist(e.touches) / d0)));
+        limitar(); aplicar(false);
+        return;
+      }
+      if (e.touches.length !== 1 || eje === 'pinza') return;
+      dx = e.touches[0].clientX - x0; dy = e.touches[0].clientY - y0;
+      if (esc > 1) { tx = bx + dx; ty = by + dy; limitar(); aplicar(false); return; }
+      if (!eje && Math.hypot(dx, dy) > 10) eje = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      img.style.transition = 'none';
+      if (eje === 'x') img.style.transform = `translateX(${dx}px)`;
       if (eje === 'y' && dy > 0) {
-        img.style.transform = `translateY(${dy}px) scale(${1 - Math.min(dy, 320) / 1400})`;
-        lb.style.setProperty('--lb-fondo', String(Math.max(0.3, 0.94 - dy / 500)));
+        img.style.transform = `translateY(${dy}px)`;
+        v.style.backgroundColor = `rgba(12, 14, 17, ${Math.max(0.35, 1 - dy / 400)})`;
       }
     }, { passive: true });
-    lb.addEventListener('touchend', (e) => {
-      if (eje === 'comparar') { eje = null; return; }
-      if (lb.classList.contains('is-zoom') && Math.hypot(dx, dy) > 8) return;
-      lb.style.removeProperty('--lb-fondo');
-      if (eje === 'x' && Math.abs(dx) > 60) {
-        img.style.transition = 'transform 180ms ease-in, opacity 180ms';
-        img.style.transform = `translateX(${dx > 0 ? 40 : -40}vw)`;
-        img.style.opacity = '0';
-        setTimeout(() => go(dx > 0 ? -1 : 1), 120);
-      } else if (eje === 'y' && dy > 110) {
-        img.style.transition = 'transform 220ms ease-in, opacity 220ms';
-        img.style.transform = `translateY(${dy + 160}px) scale(0.9)`;
-        img.style.opacity = '0';
-        close();
-        setTimeout(() => { img.style.transform = ''; img.style.opacity = '1'; }, 300);
+    stage.addEventListener('touchend', (e) => {
+      if (eje === 'boton') { eje = null; return; }
+      if (eje === 'pinza') {
+        if (e.touches.length === 0) { if (esc < 1.08) sinZoom(true); eje = null; }
+        return;
+      }
+      const movio = Math.hypot(dx, dy) > 10;
+      if (esc > 1 && movio) { eje = null; return; }
+      if (eje === 'x' && Math.abs(dx) > 50 && total() > 1) {
+        ir(dx > 0 ? -1 : 1);
+      } else if (eje === 'y' && dy > 100) {
+        cerrar();
       } else if (eje) {
-        img.style.transition = 'transform 260ms var(--ease)';
+        img.style.transition = reduceMotion ? 'none' : 'transform 200ms var(--ease)';
         img.style.transform = '';
-      } else if (e.target === img && e.changedTouches.length) {
-        const ahora = Date.now();
-        if (ahora - ultimoToque < 300) { alternarZoom(e.changedTouches[0].clientX, e.changedTouches[0].clientY); ultimoToque = 0; }
+        v.style.removeProperty('background-color');
+      } else if (!movio && e.target === img && e.changedTouches.length) {
+        const ahora = Date.now(), t = e.changedTouches[0];
+        if (ahora - ultimoToque < 300) { esc > 1 ? sinZoom(true) : zoomEn(t.clientX, t.clientY); ultimoToque = 0; }
         else ultimoToque = ahora;
       }
-      eje = null;
+      eje = null; dx = dy = 0;
     }, { passive: true });
-  };
-
-  // ─── Comparador: dos fotos encimadas y una barra que se arrastra ──
-  const crearComparador = () => {
-    const el = document.createElement('div');
-    el.className = 'comparar';
-    el.hidden = true;
-    el.innerHTML = `
-      <img class="comparar__b" alt="">
-      <img class="comparar__a" alt="">
-      <span class="comparar__et comparar__et--a mono"></span>
-      <span class="comparar__et comparar__et--b mono"></span>
-      <span class="comparar__mano" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-label="Deslizá para comparar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6-6 6 6 6M15 6l6 6-6 6"/></svg>
-      </span>`;
-    const [imgB, imgA] = $$('img', el);
-    const mano = $('.comparar__mano', el);
-    const poner = (pct) => {
-      pct = Math.max(0, Math.min(100, pct));
-      el.style.setProperty('--pos', `${pct}%`);
-      mano.setAttribute('aria-valuenow', String(Math.round(pct)));
-    };
-    const desdePuntero = (x) => { const r = el.getBoundingClientRect(); poner(((x - r.left) / r.width) * 100); };
-    let arrastrando = false;
-    el.addEventListener('pointerdown', (e) => {
-      arrastrando = true;
-      el.classList.remove('is-amague');
-      el.setPointerCapture(e.pointerId);
-      desdePuntero(e.clientX);
+    // con mouse: doble clic amplía y se arrastra para mirar
+    img.addEventListener('dblclick', (e) => {
+      if (Date.now() - tocoHace < 800) return; // ya lo resolvió el doble toque
+      esc > 1 ? sinZoom(true) : zoomEn(e.clientX, e.clientY);
     });
-    el.addEventListener('pointermove', (e) => { if (arrastrando) desdePuntero(e.clientX); });
-    el.addEventListener('pointerup', () => { arrastrando = false; });
-    el.addEventListener('pointercancel', () => { arrastrando = false; });
-    el.addEventListener('click', (e) => e.stopPropagation());
-    mano.addEventListener('keydown', (e) => {
-      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
-      e.preventDefault();
-      e.stopPropagation();
-      el.classList.remove('is-amague');
-      poner(parseFloat(mano.getAttribute('aria-valuenow')) + (e.key === 'ArrowRight' ? 5 : -5));
-    });
-    // Tamaño: lo más grande que entre en el espacio libre del visor, con la proporción de la foto
-    const ajustar = () => {
-      if (el.hidden || !el.parentElement) return;
-      if (!imgB.naturalWidth) return;
-      const ratio = imgB.naturalWidth / imgB.naturalHeight;
-      const st = el.parentElement, cs = getComputedStyle(st);
-      const libreW = st.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-      const libreH = st.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
-      const w = Math.max(0, Math.min(libreW, libreH * ratio));
-      el.style.width = `${w}px`;
-      el.style.height = `${w / ratio}px`;
-    };
-    window.addEventListener('resize', ajustar);
-    // el rótulo de abajo puede ocupar una o dos líneas: se recalcula cuando cambia el espacio libre
-    let observado = false;
-    return {
-      el,
-      mostrar(a, b) {
-        imgA.src = a.src; imgA.alt = a.alt;
-        imgB.src = b.src; imgB.alt = b.alt;
-        $('.comparar__et--a', el).textContent = a.tag;
-        $('.comparar__et--b', el).textContent = b.tag;
-        imgB.onload = ajustar;
-        poner(50);
-        el.hidden = false;
-        if (imgB.complete && imgB.naturalWidth) requestAnimationFrame(ajustar);
-        if (!observado && 'ResizeObserver' in window && el.parentElement) { observado = true; new ResizeObserver(() => ajustar()).observe(el.parentElement); }
-        el.classList.remove('is-amague');
-        if (!reduceMotion) { void el.offsetWidth; el.classList.add('is-amague'); }
-      },
-      ocultar() { el.hidden = true; el.classList.remove('is-amague'); },
-    };
-  };
+    let arrastre = null, recienArrastre = false;
+    img.addEventListener('mousedown', (e) => { if (esc > 1) { e.preventDefault(); arrastre = { x: e.clientX - tx, y: e.clientY - ty, movio: false }; } });
+    window.addEventListener('mousemove', (e) => { if (arrastre) { arrastre.movio = true; tx = e.clientX - arrastre.x; ty = e.clientY - arrastre.y; limitar(); aplicar(false); } });
+    window.addEventListener('mouseup', () => { if (arrastre?.movio) { recienArrastre = true; setTimeout(() => { recienArrastre = false; }, 0); } arrastre = null; });
+    window.addEventListener('resize', () => { if (abierto && esc > 1) { limitar(); aplicar(false); } });
 
-  // ─── Galería: filtros, "ver más" y lightbox ─────────────
+    return { abrir };
+  };
+  let visorUnico = null;
+  const visor = () => (visorUnico ||= crearVisor());
+
+  // ─── Galería: filtros, "ver más" y visor ────────────────
   const archive = $('.archive');
   if (archive) {
+    visor(); // se crea ya, así la medición de WhatsApp también toma su botón
     const items   = $$('.archive__item', archive);
     const filters = $$('.filter');
+    const barra   = $('.filters');
+    const estado  = $('#works-status');
     const moreBtn = $('#works-more');
     const waBtn   = $('#works-wa');
     const PAGE = 12;
@@ -354,154 +467,97 @@
       mosquiteros: 'Hola, quiero consultar por mosquiteros a medida',
     };
 
-    const matching = () => items.filter(it => cat === 'todos' || it.dataset.cat === cat);
-    const visible  = () => items.filter(it => !it.hidden);
+    // los números de cada filtro salen de la grilla (no hay que actualizarlos a mano)
+    filters.forEach(f => {
+      const n = f.dataset.cat === 'todos' ? items.length : items.filter(it => it.dataset.cat === f.dataset.cat).length;
+      const s = $('.filter__n', f);
+      if (s) s.textContent = String(n);
+      if (!n) f.hidden = true;
+    });
 
-    // fotos apaisadas a doble ancho
-    items.forEach(it => { const img = $('img', it); if (img && +img.getAttribute('width') > +img.getAttribute('height') * 1.2) it.classList.add('is-ancho'); });
+    const matching = () => items.filter(it => cat === 'todos' || it.dataset.cat === cat);
+
     const render = () => {
       const list = matching();
-      items.forEach(it => { it.hidden = true; it.classList.remove('is-grande'); });
-      // la primera vertical de cada filtro, destacada en grande
-      const destacada = list.slice(0, limit).find(it => !it.classList.contains('is-ancho'));
-      if (destacada) destacada.classList.add('is-grande');
-      // completar la última fila de la grilla (sin huecos)
-      const cols = getComputedStyle(archive).gridTemplateColumns.split(' ').length;
-      const celdas = (it) => (it.classList.contains('is-grande') ? (cols > 2 ? 4 : 2) : it.classList.contains('is-ancho') ? 2 : 1);
-      let n = Math.min(limit, list.length), total = list.slice(0, n).reduce((t, it) => t + celdas(it), 0);
-      while (total % cols && n < list.length) { total += celdas(list[n]); n++; }
-      list.slice(0, n).forEach(it => { it.hidden = false; });
-      limit = Math.max(limit, n);
+      items.forEach(it => { it.hidden = true; });
+      list.slice(0, limit).forEach(it => { it.hidden = false; });
+      const rest = list.length - limit;
       if (moreBtn) {
-        const rest = list.length - limit;
         moreBtn.hidden = rest <= 0;
         moreBtn.querySelector('span').textContent = `Ver ${Math.min(rest, PAGE)} más`;
       }
       if (waBtn) waBtn.href = waLink(WA_BY_CAT[cat] || 'Hola, quiero pedir un presupuesto');
     };
 
+    const finBarra = () => barra?.classList.toggle('is-fin', barra.scrollLeft >= barra.scrollWidth - barra.clientWidth - 4);
+    barra?.addEventListener('scroll', finBarra, { passive: true });
+    window.addEventListener('resize', finBarra);
+    finBarra();
+
     filters.forEach(f => f.addEventListener('click', () => {
-      filters.forEach(x => x.setAttribute('aria-selected', String(x === f)));
+      filters.forEach(x => x.setAttribute('aria-pressed', String(x === f)));
       cat = f.dataset.cat;
       limit = PAGE;
       render();
+      // el filtro elegido queda a la vista
+      if (barra) barra.scrollTo({ left: f.offsetLeft - (barra.clientWidth - f.offsetWidth) / 2, behavior: reduceMotion ? 'auto' : 'smooth' });
+      if (estado) { const n = matching().length; estado.textContent = `${n} ${n === 1 ? 'trabajo' : 'trabajos'}`; }
     }));
-    moreBtn?.addEventListener('click', () => { limit += PAGE; render(); });
+    moreBtn?.addEventListener('click', () => {
+      const primero = matching()[limit];
+      limit += PAGE;
+      render();
+      primero?.focus({ preventScroll: true });
+    });
     render();
 
-    // Lightbox
-    const lb      = $('#lightbox');
-    const lbImg   = $('#lightbox-img');
-    const lbLabel = $('#lightbox-label');
-    const lbCount = $('#lightbox-counter');
-    const lbTabs  = $('#lightbox-tabs');
-    let lbList = [];
-    let lbIdx = 0;
-    let lbDir = 0; // dirección de la animación al cambiar de foto
-    let lbSub = 0; // foto dentro de una serie (antes / después, cerrada / abierta…)
-    let lastFocus = null;
-
-    // Un trabajo puede traer varias fotos en data-fotos: [{src, tag, alt}]
-    const fotosDe = (it) => {
-      if (!('fotos' in it.dataset)) return null;
-      try { return JSON.parse(it.dataset.fotos); } catch (e) { return null; }
-    };
-
-    // Si la serie tiene un par para comparar (antes / después, cerrada / abierta),
-    // se suma un primer paso "Comparar" con la barra deslizable.
-    const PARES = [[/antes/i, /despu/i], [/cerrad/i, /abiert/i]];
-    const serie = (it) => {
-      const fotos = fotosDe(it);
-      if (!fotos) return null;
-      for (const [ra, rb] of PARES) {
-        const a = fotos.find(x => ra.test(x.tag)), b = fotos.find(x => rb.test(x.tag));
-        if (a && b) return [{ comparar: true, tag: 'Comparar', a, b }, ...fotos];
-      }
-      return fotos;
-    };
-    const comp = crearComparador();
-    $('.lightbox__stage', lb)?.appendChild(comp.el);
-
-    const paint = () => {
-      const it = lbList[lbIdx];
+    // cada tarjeta es una obra: una o varias fotos
+    const mini = (src) => `fotos-grilla/${src.replace(/\.[a-z]+$/i, '')}.webp`;
+    const obraDe = (it) => {
       const img = $('img', it);
-      const fotos = serie(it);
-      const f = fotos ? fotos[lbSub] : null;
-      if (f && f.comparar) {
-        quitarZoom(lb, lbImg);
-        lbImg.hidden = true;
-        comp.mostrar(f.a, f.b);
-      } else {
-        comp.ocultar();
-        lbImg.hidden = false;
-        const src = f ? f.src : (img.currentSrc || img.src);
-        const alt = f ? f.alt : img.alt;
-        mostrarFoto(lb, lbImg, src, alt, lbDir);
-      }
-      lbDir = 0;
-      lbLabel.textContent = (it.dataset.label || '') + (f ? ` · ${f.comparar ? `${f.a.tag} / ${f.b.tag}` : f.tag}` : '');
-      lbCount.textContent = `${lbIdx + 1} / ${lbList.length}`;
-      if (lbTabs) {
-        lbTabs.hidden = !fotos;
-        lbTabs.textContent = '';
-        (fotos || []).forEach((x, i) => {
-          const b = document.createElement('button');
-          b.type = 'button';
-          b.className = 'lightbox__tab mono';
-          b.setAttribute('role', 'tab');
-          b.setAttribute('aria-selected', String(i === lbSub));
-          b.textContent = x.tag;
-          b.addEventListener('click', () => { if (i !== lbSub) { lbDir = i > lbSub ? 1 : -1; lbSub = i; paint(); } });
-          lbTabs.appendChild(b);
-        });
-        // series largas: que la pestaña activa quede a la vista (en el celular no entran todas)
-        const act = lbTabs.children[lbSub];
-        if (act) lbTabs.scrollLeft = act.offsetLeft - (lbTabs.clientWidth - act.offsetWidth) / 2;
-        // precargar el resto de la serie para que el cambio sea instantáneo
-        (fotos || []).forEach(x => { if (x.src) new Image().src = x.src; });
-      }
-      // precargar los trabajos vecinos para que deslizar sea inmediato
-      [-1, 1].forEach(d => { const v = $('img', lbList[(lbIdx + d + lbList.length) % lbList.length]); if (v) new Image().src = v.currentSrc || v.src; });
+      let fotos = null;
+      if ('fotos' in it.dataset) { try { fotos = JSON.parse(it.dataset.fotos); } catch (e) { fotos = null; } }
+      if (!fotos) fotos = [{ src: it.dataset.full || img.src, alt: img.alt, tag: '' }];
+      const tit = it.dataset.titulo || 'Trabajo';
+      return {
+        titulo: tit,
+        fotos: fotos.map(f => ({ ...f, mini: mini(f.src) })),
+        wa: `Hola, vi en la web el trabajo ${it.dataset.num || ''} (${tit}) y quiero pedir un presupuesto`.replace(/\s+/g, ' '),
+      };
     };
-    const open = (it) => {
-      lbList = visible();
-      lbIdx = Math.max(0, lbList.indexOf(it));
-      lbSub = 0;
-      lastFocus = document.activeElement;
-      lb.hidden = false;
-      document.body.style.overflow = 'hidden';
-      requestAnimationFrame(() => lb.classList.add('is-open'));
-      paint();
-      $('.lightbox__close', lb).focus();
-    };
-    const close = () => {
-      lb.classList.remove('is-open');
-      quitarZoom(lb, lbImg);
-      setTimeout(() => { lb.hidden = true; document.body.style.overflow = ''; lastFocus?.focus(); }, 200);
-    };
-    // Flechas / deslizar: primero recorren las fotos de la serie, después pasan al otro trabajo
-    const go = (d) => {
-      lbDir = d;
-      const fotos = serie(lbList[lbIdx]);
-      if (fotos && lbSub + d >= 0 && lbSub + d < fotos.length) { lbSub += d; paint(); return; }
-      lbIdx = (lbIdx + d + lbList.length) % lbList.length;
-      const sig = serie(lbList[lbIdx]);
-      lbSub = sig && d < 0 ? sig.length - 1 : 0;
-      paint();
-    };
+    items.forEach(it => it.addEventListener('click', () => {
+      const lista = matching();
+      visor().abrir(lista.map(obraDe), Math.max(0, lista.indexOf(it)), 0, (i) => {
+        // al cerrar, volver a la tarjeta de la obra que se estaba mirando
+        const destino = lista[i];
+        if (destino.hidden) { limit = Math.ceil((i + 1) / PAGE) * PAGE; render(); }
+        const r = destino.getBoundingClientRect();
+        if (r.top < 0 || r.bottom > window.innerHeight) destino.scrollIntoView({ block: 'center', behavior: 'instant' });
+        return destino;
+      });
+    }));
+  }
 
-    items.forEach(it => it.addEventListener('click', () => open(it)));
-    $('.lightbox__close', lb)?.addEventListener('click', close);
-    $('.lightbox__btn--prev', lb)?.addEventListener('click', () => go(-1));
-    $('.lightbox__btn--next', lb)?.addEventListener('click', () => go(1));
-    lb?.addEventListener('click', (e) => { if (e.target === lb || e.target.classList.contains('lightbox__stage')) close(); });
-    document.addEventListener('keydown', (e) => {
-      if (!lb || lb.hidden) return;
-      if (e.key === 'Escape') close();
-      if (e.key === 'ArrowLeft') go(-1);
-      if (e.key === 'ArrowRight') go(1);
+  // ─── Fotos de las páginas internas: tocar una la abre en grande ──
+  const fotosSueltas = $$('.obras-strip__item img, .phero__photo img');
+  if (!archive && fotosSueltas.length) {
+    visor();
+    const waHref = $('.mbar .btn--wa')?.href || waLink('Hola, quiero pedir un presupuesto');
+    const obras = fotosSueltas.map(img => {
+      const fc = img.closest('figure')?.querySelector('figcaption');
+      const texto = fc ? (fc.children.length ? [...fc.children].map(x => x.textContent.trim()).filter(Boolean).join(' · ') : fc.textContent.trim()) : '';
+      return { titulo: texto || 'Trabajo de Alumfer', fotos: [{ src: img.currentSrc || img.src, alt: img.alt }], href: waHref };
     });
-    if (lb) gestosVisor(lb, lbImg, go, close);
+    fotosSueltas.forEach((img, i) => {
+      const t = img.closest('figure') || img;
+      t.classList.add('ampliable');
+      t.tabIndex = 0;
+      t.setAttribute('role', 'button');
+      t.setAttribute('aria-label', `Ampliar foto: ${img.alt}`);
+      const abrir = () => visor().abrir(obras, i, 0, (k) => fotosSueltas[k].closest('figure') || fotosSueltas[k]);
+      t.addEventListener('click', abrir);
+      t.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(); } });
+    });
   }
 
   // ─── Líneas: selector ───────────────────────────────────
@@ -573,7 +629,7 @@
     const section = el.closest('section')?.id
       || (el.closest('.nav, .drawer') ? 'navbar' : null)
       || (el.closest('.mbar') ? 'mobile-bar' : null)
-      || (el.closest('.lightbox') ? 'lightbox' : null)
+      || (el.closest('.visor') ? 'lightbox' : null)
       || (el.classList.contains('wa-float') ? 'float-button' : null)
       || 'other';
     // el origen queda en GA4; el mensaje que ve el cliente va limpio
@@ -582,80 +638,6 @@
   $$('a[href^="tel:"]').forEach(el => el.addEventListener('click', () => {
     if (typeof gtag !== 'undefined') gtag('event', 'phone_click', { event_category: 'Contact', event_label: 'tel_link' });
   }));
-
-  // ─── Visor en páginas internas: tocar una foto la abre en grande ──
-  const fotosSueltas = $$('.obras-strip__item img, .phero__photo img');
-  if (!$('#lightbox') && fotosSueltas.length) {
-    const waHref = $('.mbar .btn--wa')?.href || waLink('Hola, quiero pedir un presupuesto');
-    const v = document.createElement('div');
-    v.className = 'lightbox';
-    v.id = 'visor';
-    v.hidden = true;
-    v.setAttribute('role', 'dialog');
-    v.setAttribute('aria-modal', 'true');
-    v.setAttribute('aria-label', 'Foto ampliada');
-    v.innerHTML = `
-      <div class="lightbox__stage"><img class="lightbox__img" alt=""></div>
-      <button type="button" class="lightbox__close" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-      <button type="button" class="lightbox__btn lightbox__btn--prev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m15 18-6-6 6-6"/></svg></button>
-      <button type="button" class="lightbox__btn lightbox__btn--next" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m9 18 6-6-6-6"/></svg></button>
-      <div class="lightbox__bar">
-        <span class="mono lightbox__label"></span>
-        <span class="mono lightbox__count"></span>
-        <a class="btn btn--wa" target="_blank" rel="noopener">Consultar por un trabajo así</a>
-      </div>`;
-    document.body.appendChild(v);
-    const vImg = $('.lightbox__img', v);
-    const vLabel = $('.lightbox__label', v);
-    const vCount = $('.lightbox__count', v);
-    $('.btn--wa', v).href = waHref;
-    if (fotosSueltas.length < 2) $$('.lightbox__btn', v).forEach(b => b.remove());
-    let vi = 0;
-    let vFoco = null;
-    const pintar = (dir = 0) => {
-      const img = fotosSueltas[vi];
-      const fc = img.closest('figure')?.querySelector('figcaption');
-      const cap = fc ? (fc.children.length ? [...fc.children].map(x => x.textContent.trim()).filter(Boolean).join(' · ') : fc.textContent.trim()) : '';
-      mostrarFoto(v, vImg, img.currentSrc || img.src, img.alt, dir);
-      vLabel.textContent = cap || '';
-      vCount.textContent = fotosSueltas.length > 1 ? `${vi + 1} / ${fotosSueltas.length}` : '';
-      [-1, 1].forEach(d => { const s = fotosSueltas[(vi + d + fotosSueltas.length) % fotosSueltas.length]; new Image().src = s.currentSrc || s.src; });
-    };
-    const ir = (d) => { vi = (vi + d + fotosSueltas.length) % fotosSueltas.length; pintar(d); };
-    const abrir = (i) => {
-      vi = i; vFoco = document.activeElement;
-      v.hidden = false;
-      document.body.style.overflow = 'hidden';
-      requestAnimationFrame(() => v.classList.add('is-open'));
-      pintar();
-      $('.lightbox__close', v).focus();
-    };
-    const cerrar = () => {
-      v.classList.remove('is-open');
-      quitarZoom(v, vImg);
-      setTimeout(() => { v.hidden = true; document.body.style.overflow = ''; vFoco?.focus(); }, 200);
-    };
-    fotosSueltas.forEach((img, i) => {
-      const t = img.closest('figure') || img;
-      t.classList.add('ampliable');
-      t.tabIndex = 0;
-      t.setAttribute('role', 'button');
-      t.setAttribute('aria-label', `Ampliar foto: ${img.alt}`);
-      t.addEventListener('click', () => abrir(i));
-      t.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(i); } });
-    });
-    $('.lightbox__close', v).addEventListener('click', cerrar);
-    $('.lightbox__btn--prev', v)?.addEventListener('click', () => ir(-1));
-    $('.lightbox__btn--next', v)?.addEventListener('click', () => ir(1));
-    v.addEventListener('click', (e) => { if (e.target === v || e.target.classList.contains('lightbox__stage')) cerrar(); });
-    document.addEventListener('keydown', (e) => {
-      if (v.hidden) return;
-      if (e.key === 'Escape') cerrar();
-      if (e.key === 'ArrowLeft' && fotosSueltas.length > 1) ir(-1);
-      if (e.key === 'ArrowRight' && fotosSueltas.length > 1) ir(1);
-    });
-    gestosVisor(v, vImg, (d) => (fotosSueltas.length > 1 ? ir(d) : pintar()), cerrar);
-  }
 
   // ─── Scroll: barra de progreso, menú que se esconde y "volver arriba" ──
   const progreso = document.createElement('div');
@@ -756,7 +738,7 @@
 
   // ─── Grillas de fotos y servicios: entran escalonadas ──
   if ('IntersectionObserver' in window && !reduceMotion) {
-    const escalonados = $$('.archive__item, .obras-strip__item, .svc');
+    const escalonados = $$('.svc');
     const io2 = new IntersectionObserver((entries) => {
       let n = 0;
       entries.forEach(en => {
