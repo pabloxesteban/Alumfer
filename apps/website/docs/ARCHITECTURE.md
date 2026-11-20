@@ -45,7 +45,7 @@ Tres archivos, sin framework ni build:
 1. **`site.css`** — Todo el sistema visual: fuentes (`fonts/`, Archivo + IBM
    Plex Mono, alojadas en el sitio), tokens de color/tipo/espaciado en `:root`,
    navegación, hero, galería, líneas, configurador, footer, dock mobile y
-   lightbox. La usan **todas** las páginas.
+   visor de fotos. La usan **todas** las páginas.
 2. **`pages.css`** — Lo propio de las páginas internas (productos, zonas,
    guías, gracias): hero de página, fichas numeradas, proceso, FAQ, reseñas,
    zonas cercanas y formulario. Estila las clases que ya tenía el contenido
@@ -53,9 +53,18 @@ Tres archivos, sin framework ni build:
    cada página no se tocó.
 3. **`site.js`** — Una sola IIFE. Cada bloque se activa sólo si su sección
    existe: navegación y menú mobile, revelado al scrollear, tira de obras,
-   proceso por pasos, galería con filtros + lightbox, selector de líneas,
+   proceso por pasos, galería con filtros + visor de fotos, selector de líneas,
    configurador de vidrio y color, dock mobile que se esconde sobre el
    formulario, envío de cualquier `form[action$="enviar.php"]` y medición GA4.
+
+   **Galería de trabajos (inicio):** una tarjeta = una obra. Cada
+   `button.archive__item` lleva `data-cat` (filtro), `data-titulo`, `data-num`
+   y `data-full` (la foto grande). La foto de la tarjeta es la versión liviana
+   de `fotos-grilla/` (600×750, recortada 4:5). Si la obra tiene varias fotos,
+   van en `data-fotos='[{"src": "…webp", "tag": "Por fuera", "alt": "…"}]'`
+   (la primera es la que se ve primero) y cada una necesita también su copia
+   en `fotos-grilla/` para las miniaturas del visor. Los números de los
+   filtros se cuentan solos.
 
 4. **Diseñá tu proyecto (`/disena-tu-abertura/`)** — la única herramienta
    para clientes: `proyecto.js` + `proyecto.css`, a pantalla completa (sin el

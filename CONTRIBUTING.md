@@ -25,7 +25,7 @@ php -S localhost:8000      # o: python3 -m http.server 8000
 Revisá en el navegador (desktop **y** mobile, con DevTools):
 
 - [ ] El hero anima y se ve bien; el fondo no genera saltos de layout.
-- [ ] La galería de "Trabajos" filtra por categoría y el lightbox abre/cierra.
+- [ ] La galería de "Trabajos" filtra por categoría y el visor de fotos abre/cierra (también con el botón "atrás" del celular).
 - [ ] Las tabs del catálogo cambian de panel.
 - [ ] El formulario valida y envía (si probás con PHP, revisá que llegue el mail).
 - [ ] Los botones de WhatsApp y teléfono funcionan.
