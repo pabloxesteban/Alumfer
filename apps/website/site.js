@@ -454,6 +454,9 @@
           b.addEventListener('click', () => { if (i !== lbSub) { lbDir = i > lbSub ? 1 : -1; lbSub = i; paint(); } });
           lbTabs.appendChild(b);
         });
+        // series largas: que la pestaña activa quede a la vista (en el celular no entran todas)
+        const act = lbTabs.children[lbSub];
+        if (act) lbTabs.scrollLeft = act.offsetLeft - (lbTabs.clientWidth - act.offsetWidth) / 2;
         // precargar el resto de la serie para que el cambio sea instantáneo
         (fotos || []).forEach(x => { if (x.src) new Image().src = x.src; });
       }
